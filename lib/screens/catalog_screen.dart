@@ -4,10 +4,12 @@ import '../models/channel.dart';
 import '../services/content_store.dart';
 import '../services/device_type.dart';
 import '../services/storage_service.dart';
+import '../services/xtream_service.dart';
 import '../theme/app_theme.dart';
 import '../widgets/tv_focusable.dart';
 import 'player_screen.dart';
 import 'search_screen.dart';
+import 'series_detail_screen.dart';
 
 /// Pestaña INICIO: catálogo de VIDEO BAJO DEMANDA (películas y series) estilo
 /// Netflix/Stremio. NO muestra canales en vivo (eso vive en la pestaña En Vivo).
@@ -266,24 +268,28 @@ class _CatalogScreenState extends State<CatalogScreen> {
     );
   }
 
-  Widget _seriesCard(dynamic s) => Padding(
+  Widget _seriesCard(XtreamSeries s) => Padding(
     padding: const EdgeInsets.symmetric(horizontal: 5),
-    child: SizedBox(
-      width: 118 * _s,
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(12),
-          child: Container(
-            width: 118 * _s, height: 165 * _s,
-            color: AppColors.cardElevated,
-            child: s.cover != null && (s.cover as String).isNotEmpty
-                ? CachedNetworkImage(imageUrl: s.cover, fit: BoxFit.cover, errorWidget: (_, _, _) => _seriesPh(s.name))
-                : _seriesPh(s.name),
+    child: TvFocusable(
+      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => SeriesDetailScreen(series: s))),
+      borderRadius: BorderRadius.circular(12),
+      child: SizedBox(
+        width: 118 * _s,
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(12),
+            child: Container(
+              width: 118 * _s, height: 165 * _s,
+              color: AppColors.cardElevated,
+              child: s.cover != null && s.cover!.isNotEmpty
+                  ? CachedNetworkImage(imageUrl: s.cover!, fit: BoxFit.cover, errorWidget: (_, _, _) => _seriesPh(s.name))
+                  : _seriesPh(s.name),
+            ),
           ),
-        ),
-        const SizedBox(height: 6),
-        Text(s.name, maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(color: AppColors.textPrimary, fontSize: 12 * _s, fontWeight: FontWeight.w600)),
-      ]),
+          const SizedBox(height: 6),
+          Text(s.name, maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(color: AppColors.textPrimary, fontSize: 12 * _s, fontWeight: FontWeight.w600)),
+        ]),
+      ),
     ),
   );
 

@@ -15,7 +15,26 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   Future<void> _open(Widget screen) async {
-    await Navigator.push(context, MaterialPageRoute(builder: (_) => Scaffold(body: Container(decoration: AppTheme.gradientBackground, child: screen))));
+    final tv = DeviceProfile.isTv(context);
+    await Navigator.push(context, MaterialPageRoute(builder: (_) => Scaffold(
+      body: Container(
+        decoration: AppTheme.gradientBackground,
+        // En TV: texto más grande y columna centrada (diseño 10 pies) sin
+        // tocar las pantallas hijas; en móvil/tablet quedan tal cual.
+        child: tv
+            ? MediaQuery.withClampedTextScaling(
+                minScaleFactor: 1.3,
+                maxScaleFactor: 1.3,
+                child: Center(
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 900),
+                    child: screen,
+                  ),
+                ),
+              )
+            : screen,
+      ),
+    )));
     if (mounted) { ContentStore.instance.reload(); setState(() {}); }
   }
 

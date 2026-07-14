@@ -4,13 +4,25 @@ import 'package:http/http.dart' as http;
 import '../models/channel.dart';
 
 /// Una serie del catalogo Xtream (con su caratula). Los episodios se piden
-/// aparte (bajo demanda) con [XtreamService.fetchEpisodes].
+/// aparte (bajo demanda) con [XtreamService.fetchEpisodes], usando las
+/// credenciales de la cuenta de la que vino esta serie.
 class XtreamSeries {
   final String seriesId;
   final String name;
   final String? cover;
   final String? plot;
-  XtreamSeries({required this.seriesId, required this.name, this.cover, this.plot});
+  final String host;
+  final String username;
+  final String password;
+  XtreamSeries({
+    required this.seriesId,
+    required this.name,
+    this.cover,
+    this.plot,
+    required this.host,
+    required this.username,
+    required this.password,
+  });
 }
 
 /// Resultado de validar una cuenta Xtream Codes.
@@ -164,6 +176,9 @@ class XtreamService {
         name: (s['name'] ?? 'Serie').toString(),
         cover: cover.isEmpty ? null : cover,
         plot: (s['plot'] ?? '').toString(),
+        host: host,
+        username: user,
+        password: pass,
       ));
     }
     return out;
