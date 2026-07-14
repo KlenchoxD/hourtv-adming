@@ -53,13 +53,14 @@ class ArchiveService {
       if (d is! Map) continue;
       final id = (d['identifier'] ?? '').toString();
       if (id.isEmpty) continue;
-      var title = (d['title'] ?? id).toString();
-      final year = d['year'];
-      if (year != null && year.toString().isNotEmpty && !title.contains(year.toString())) {
-        title = '$title ($year)';
+      final title = (d['title'] ?? id).toString();
+      var rawYear = d['year'];
+      if (rawYear is List) {
+        rawYear = rawYear.isNotEmpty ? rawYear.first : null;
       }
-      // Sinopsis (puede llegar como String o List). Se guarda en `group` para
-      // tenerla disponible (sin tocar el modelo) en una futura ficha de detalle.
+      final year = (rawYear ?? '').toString().trim();
+      // Sinopsis y año ya vienen en advancedsearch; no se hacen peticiones
+      // adicionales por película.
       var desc = d['description'];
       if (desc is List) desc = desc.isNotEmpty ? desc.first.toString() : '';
       var synopsis = (desc ?? '').toString().replaceAll(RegExp(r'<[^>]*>'), ' ').replaceAll(RegExp(r'\s+'), ' ').trim();
@@ -68,7 +69,8 @@ class ArchiveService {
         name: title,
         url: 'archive:$id',
         logo: '$_img$id',
-        group: synopsis.isEmpty ? null : synopsis,
+        plot: synopsis.isEmpty ? null : synopsis,
+        year: year.isEmpty ? null : year,
         genre: label,
         category: 'peliculas',
         forcedType: 'movie',

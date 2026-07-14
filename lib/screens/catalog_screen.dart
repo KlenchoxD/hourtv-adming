@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../models/channel.dart';
@@ -28,6 +29,8 @@ class _CatalogScreenState extends State<CatalogScreen> {
   /// Contenido que muestra el billboard en TV: el último póster enfocado
   /// con D-pad (estilo Netflix). Null = la primera película destacada.
   Channel? _spotlight;
+  Timer? _spotlightDebounce;
+  int _spotlightRequest = 0;
 
   @override
   void initState() {
@@ -38,11 +41,35 @@ class _CatalogScreenState extends State<CatalogScreen> {
 
   @override
   void dispose() {
+    _spotlightDebounce?.cancel();
+    _spotlightRequest++;
     _store.removeListener(_onChange);
     super.dispose();
   }
 
   void _onChange() { if (mounted) setState(() {}); }
+
+  void _onPosterFocus(Channel channel, bool focused) {
+    if (!DeviceProfile.isTv(context)) return;
+
+    _spotlightDebounce?.cancel();
+    final request = ++_spotlightRequest;
+    if (!focused) return;
+
+    if (!identical(_spotlight, channel)) {
+      setState(() => _spotlight = channel);
+    }
+
+    _spotlightDebounce = Timer(const Duration(milliseconds: 400), () async {
+      final changed = await XtreamService.enrichMovieMetadata(channel);
+      if (!mounted ||
+          request != _spotlightRequest ||
+          !identical(_spotlight, channel)) {
+        return;
+      }
+      if (changed) setState(() {});
+    });
+  }
 
   void _play(Channel ch, List<Channel> ctx) {
     Navigator.push(context, MaterialPageRoute(builder: (_) => PlayerScreen(channel: ch, allChannels: ctx.isEmpty ? [ch] : ctx)));
@@ -228,11 +255,21 @@ class _CatalogScreenState extends State<CatalogScreen> {
                   style: const TextStyle(color: Colors.white, fontSize: 34, fontWeight: FontWeight.w800, height: 1.1),
                 ),
               ),
-              if (f.genre != null) ...[
+              _billboardMetadata(f),
+              if (f.plot?.trim().isNotEmpty == true) ...[
                 const SizedBox(height: 8),
-                Text(
-                  f.genre!.toUpperCase(),
-                  style: TextStyle(color: AppColors.textSecondary, fontSize: 12 * _s, fontWeight: FontWeight.w600, letterSpacing: 1.1),
+                SizedBox(
+                  width: MediaQuery.sizeOf(context).width * 0.45,
+                  child: Text(
+                    f.plot!,
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      color: AppColors.textSecondary,
+                      fontSize: 12.5 * _s,
+                      height: 1.3,
+                    ),
+                  ),
                 ),
               ],
               const SizedBox(height: 14),
@@ -241,6 +278,35 @@ class _CatalogScreenState extends State<CatalogScreen> {
           ),
         ),
       ]),
+    );
+  }
+
+  Widget _billboardMetadata(Channel content) {
+    final parts = <String>[];
+    final year = content.year?.trim();
+    final duration = content.duration?.trim();
+    final rating = content.rating?.trim();
+    final genre = content.genre?.trim();
+
+    if (year?.isNotEmpty == true) parts.add(year!);
+    if (duration?.isNotEmpty == true) parts.add(duration!);
+    if (rating?.isNotEmpty == true) parts.add('★ $rating');
+    if (genre?.isNotEmpty == true) parts.add(genre!.toUpperCase());
+    if (parts.isEmpty) return const SizedBox.shrink();
+
+    return Padding(
+      padding: const EdgeInsets.only(top: 8),
+      child: Text(
+        parts.join('  •  '),
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+        style: TextStyle(
+          color: AppColors.accentLight,
+          fontSize: 12 * _s,
+          fontWeight: FontWeight.w700,
+          letterSpacing: 0.35,
+        ),
+      ),
     );
   }
 
@@ -292,12 +358,7 @@ class _CatalogScreenState extends State<CatalogScreen> {
     padding: const EdgeInsets.symmetric(horizontal: 5),
     child: TvFocusable(
       onTap: () => _play(ch, ctx),
-      onFocusChange: (f) {
-        // Estilo Netflix TV: el billboard muestra el contenido enfocado.
-        if (f && DeviceProfile.isTv(context) && _spotlight != ch) {
-          setState(() => _spotlight = ch);
-        }
-      },
+      onFocusChange: (focused) => _onPosterFocus(ch, focused),
       borderRadius: BorderRadius.circular(12),
       child: SizedBox(
         width: 118 * _s,

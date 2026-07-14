@@ -102,6 +102,10 @@ class Channel {
   DateTime? lastWatched;
   EpgProgram? currentProgram;
   EpgProgram? nextProgram;
+  String? plot;
+  String? year;
+  String? rating;
+  String? duration;
 
   Channel({
     required this.name,
@@ -118,6 +122,10 @@ class Channel {
     this.lastWatched,
     this.currentProgram,
     this.nextProgram,
+    this.plot,
+    this.year,
+    this.rating,
+    this.duration,
   });
 
   factory Channel.fromM3U(
@@ -178,6 +186,10 @@ class Channel {
     'forcedType': forcedType,
     'isFavorite': isFavorite,
     'lastWatched': lastWatched?.toIso8601String(),
+    'plot': plot,
+    'year': year,
+    'rating': rating,
+    'duration': duration,
   };
 
   factory Channel.fromJson(Map<String, dynamic> json) => Channel(
@@ -195,6 +207,10 @@ class Channel {
     lastWatched: json['lastWatched'] != null
         ? DateTime.tryParse(json['lastWatched'])
         : null,
+    plot: json['plot']?.toString(),
+    year: json['year']?.toString(),
+    rating: json['rating']?.toString(),
+    duration: json['duration']?.toString(),
   );
 
   Channel copyWith({
@@ -212,6 +228,10 @@ class Channel {
     DateTime? lastWatched,
     EpgProgram? currentProgram,
     EpgProgram? nextProgram,
+    String? plot,
+    String? year,
+    String? rating,
+    String? duration,
   }) {
     return Channel(
       name: name ?? this.name,
@@ -228,6 +248,10 @@ class Channel {
       lastWatched: lastWatched ?? this.lastWatched,
       currentProgram: currentProgram ?? this.currentProgram,
       nextProgram: nextProgram ?? this.nextProgram,
+      plot: plot ?? this.plot,
+      year: year ?? this.year,
+      rating: rating ?? this.rating,
+      duration: duration ?? this.duration,
     );
   }
 

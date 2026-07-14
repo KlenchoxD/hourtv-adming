@@ -42,11 +42,27 @@ class XtreamAccount {
   });
 }
 
+class _VodMetadata {
+  final String? plot;
+  final String? year;
+  final String? rating;
+  final String? duration;
+
+  const _VodMetadata({
+    this.plot,
+    this.year,
+    this.rating,
+    this.duration,
+  });
+}
+
 /// Cliente para paneles Xtream Codes (el backend tipo MagisTV).
 /// Construye la URL M3U "m3u_plus" (que entrega EN VIVO + PELICULAS + SERIES
 /// en un solo archivo, reutilizable por el parser M3U existente) y valida
 /// credenciales contra player_api.php.
 class XtreamService {
+  static final Map<String, Future<_VodMetadata?>> _vodMetadataCache = {};
+
   /// Normaliza el host: asegura esquema http://, sin barra final.
   static String normalizeHost(String host) {
     var h = host.trim();
@@ -136,6 +152,168 @@ class XtreamService {
     return jsonDecode(res.body);
   }
 
+  /// Completa metadata VOD solo cuando una película enfocada la necesita.
+  /// Las solicitudes y sus resultados se comparten por URL durante la sesión.
+  static Future<bool> enrichMovieMetadata(Channel channel) async {
+    final target = _vodTarget(channel.url);
+    if (target == null) return false;
+
+    final needsMetadata = [
+      channel.plot,
+      channel.year,
+      channel.rating,
+      channel.duration,
+    ].any(_isBlank);
+    if (!needsMetadata) return false;
+
+    final metadata = await _vodMetadataCache.putIfAbsent(
+      channel.url,
+      () => _fetchVodMetadata(target),
+    );
+    if (metadata == null) return false;
+
+    var changed = false;
+    if (_isBlank(channel.plot) && !_isBlank(metadata.plot)) {
+      channel.plot = metadata.plot;
+      changed = true;
+    }
+    if (_isBlank(channel.year) && !_isBlank(metadata.year)) {
+      channel.year = metadata.year;
+      changed = true;
+    }
+    if (_isBlank(channel.rating) && !_isBlank(metadata.rating)) {
+      channel.rating = metadata.rating;
+      changed = true;
+    }
+    if (_isBlank(channel.duration) && !_isBlank(metadata.duration)) {
+      channel.duration = metadata.duration;
+      changed = true;
+    }
+    return changed;
+  }
+
+  static Future<_VodMetadata?> _fetchVodMetadata(
+    ({String host, String user, String pass, String vodId}) target,
+  ) async {
+    try {
+      final data = await _api(
+        target.host,
+        target.user,
+        target.pass,
+        'get_vod_info',
+        extra: '&vod_id=${Uri.encodeQueryComponent(target.vodId)}',
+      );
+      if (data is! Map) return null;
+
+      final combined = <String, dynamic>{};
+      void addSource(dynamic source) {
+        if (source is! Map) return;
+        for (final entry in source.entries) {
+          combined[entry.key.toString()] = entry.value;
+        }
+      }
+
+      addSource(data['movie_data']);
+      addSource(data);
+      addSource(data['info']);
+
+      return _VodMetadata(
+        plot: _cleanText(combined['plot'] ?? combined['description']),
+        year: _yearText(
+          combined['year'] ??
+              combined['releasedate'] ??
+              combined['releaseDate'],
+        ),
+        rating: _ratingText(
+          combined['rating'] ?? combined['rating_5based'],
+        ),
+        duration: _durationText(combined),
+      );
+    } catch (_) {
+      return null;
+    }
+  }
+
+  static ({String host, String user, String pass, String vodId})? _vodTarget(
+    String url,
+  ) {
+    final uri = Uri.tryParse(url);
+    if (uri == null || !uri.hasAuthority) return null;
+    final segments = uri.pathSegments;
+    final marker = segments.lastIndexOf('movie');
+    if (marker < 0 || marker + 3 >= segments.length) return null;
+
+    final file = segments[marker + 3];
+    final dot = file.lastIndexOf('.');
+    final vodId = dot > 0 ? file.substring(0, dot) : file;
+    if (vodId.isEmpty) return null;
+
+    final prefix = segments.take(marker).join('/');
+    final host = normalizeHost(
+      uri
+          .replace(
+            path: prefix.isEmpty ? '' : '/$prefix',
+            query: null,
+            fragment: null,
+          )
+          .toString(),
+    );
+    return (
+      host: host,
+      user: segments[marker + 1],
+      pass: segments[marker + 2],
+      vodId: vodId,
+    );
+  }
+
+  static bool _isBlank(String? value) =>
+      value == null || value.trim().isEmpty;
+
+  static String? _cleanText(dynamic value) {
+    if (value is List) value = value.isEmpty ? null : value.first;
+    if (value == null || value is Map) return null;
+    final text = value
+        .toString()
+        .replaceAll(RegExp(r'<[^>]*>'), ' ')
+        .replaceAll(RegExp(r'\s+'), ' ')
+        .trim();
+    if (text.isEmpty || text.toLowerCase() == 'null') return null;
+    return text;
+  }
+
+  static String? _yearText(dynamic value) {
+    final text = _cleanText(value);
+    if (text == null) return null;
+    return RegExp(r'(?:19|20)\d{2}').firstMatch(text)?.group(0) ?? text;
+  }
+
+  static String? _ratingText(dynamic value) {
+    final text = _cleanText(value);
+    if (text == null || text == '0' || text == '0.0') return null;
+    return text;
+  }
+
+  static String? _durationText(Map<dynamic, dynamic> data) {
+    final raw = _cleanText(data['duration']);
+    if (raw != null && raw != '0') {
+      final parts = raw.split(':').map(int.tryParse).toList();
+      if (parts.length >= 2 && parts.every((part) => part != null)) {
+        final hours = parts.length == 3 ? parts[0]! : 0;
+        final minutes = parts.length == 3 ? parts[1]! : parts[0]!;
+        return hours > 0 ? '$hours h $minutes min' : '$minutes min';
+      }
+      return raw;
+    }
+
+    final seconds = int.tryParse(
+      (data['duration_secs'] ?? data['duration_seconds'] ?? '').toString(),
+    );
+    if (seconds == null || seconds <= 0) return null;
+    final hours = seconds ~/ 3600;
+    final minutes = (seconds % 3600) ~/ 60;
+    return hours > 0 ? '$hours h $minutes min' : '$minutes min';
+  }
+
   /// Peliculas (VOD). Devuelve Channels con URL .../movie/... (tipo pelicula).
   static Future<List<Channel>> fetchMovies(String host, String user, String pass) async {
     final h = normalizeHost(host);
@@ -156,6 +334,12 @@ class XtreamService {
         logo: icon.isEmpty ? null : icon,
         category: 'peliculas',
         group: (m['category_id'] ?? '').toString(),
+        plot: _cleanText(m['plot'] ?? m['description']),
+        year: _yearText(
+          m['year'] ?? m['releasedate'] ?? m['releaseDate'],
+        ),
+        rating: _ratingText(m['rating'] ?? m['rating_5based']),
+        duration: _durationText(m),
       ));
     }
     return out;
