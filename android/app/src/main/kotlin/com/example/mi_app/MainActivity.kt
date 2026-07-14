@@ -1,5 +1,9 @@
 package com.example.mi_app
 
+import android.app.PictureInPictureParams
+import android.content.pm.PackageManager
+import android.os.Build
+import android.util.Rational
 import android.app.UiModeManager
 import android.content.Context
 import android.content.res.Configuration
@@ -13,10 +17,33 @@ class MainActivity : FlutterActivity() {
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, channel).setMethodCallHandler { call, result ->
-            if (call.method == "isTv") {
-                result.success(isTelevision())
-            } else {
-                result.notImplemented()
+            when (call.method) {
+                "isTv" -> result.success(isTelevision())
+                "enterPictureInPicture" -> {
+                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N ||
+                        !packageManager.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE)
+                    ) {
+                        result.success(false)
+                        return@setMethodCallHandler
+                    }
+                    try {
+                        val width = (call.argument<Number>("width")?.toInt() ?: 16).coerceAtLeast(1)
+                        val height = (call.argument<Number>("height")?.toInt() ?: 9).coerceAtLeast(1)
+                        val entered = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            val params = PictureInPictureParams.Builder()
+                                .setAspectRatio(Rational(width, height))
+                                .build()
+                            enterPictureInPictureMode(params)
+                        } else {
+                            @Suppress("DEPRECATION")
+                            enterPictureInPictureMode()
+                        }
+                        result.success(entered)
+                    } catch (error: Exception) {
+                        result.error("pip_failed", error.message, null)
+                    }
+                }
+                else -> result.notImplemented()
             }
         }
     }

@@ -41,6 +41,28 @@ class _TvFocusableState extends State<TvFocusable> {
     super.dispose();
   }
 
+  @override
+  void didUpdateWidget(covariant TvFocusable oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.focusNode == widget.focusNode) return;
+    if (oldWidget.focusNode == null) _node.dispose();
+    _node = widget.focusNode ?? FocusNode();
+  }
+
+  void _handleFocusChange(bool focused) {
+    if (mounted) setState(() => _focused = focused);
+    if (!focused) return;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted || !_node.hasFocus) return;
+      Scrollable.ensureVisible(
+        context,
+        alignment: 0.5,
+        duration: const Duration(milliseconds: 180),
+        curve: Curves.easeOutCubic,
+      );
+    });
+  }
+
   KeyEventResult _onKey(FocusNode node, KeyEvent event) {
     if (event is! KeyDownEvent) return KeyEventResult.ignored;
     final activate = {
@@ -64,7 +86,7 @@ class _TvFocusableState extends State<TvFocusable> {
       focusNode: _node,
       autofocus: widget.autofocus,
       onKeyEvent: _onKey,
-      onFocusChange: (f) => setState(() => _focused = f),
+      onFocusChange: _handleFocusChange,
       child: GestureDetector(
         onTap: widget.onTap,
         child: AnimatedScale(
@@ -74,9 +96,18 @@ class _TvFocusableState extends State<TvFocusable> {
             duration: const Duration(milliseconds: 120),
             decoration: BoxDecoration(
               borderRadius: radius,
-              border: Border.all(color: _focused ? AppColors.accent : Colors.transparent, width: 3),
+              border: Border.all(
+                color: _focused ? AppColors.accent : Colors.transparent,
+                width: 3,
+              ),
               boxShadow: _focused
-                  ? [BoxShadow(color: AppColors.accent.withValues(alpha: 0.5), blurRadius: 12, spreadRadius: 1)]
+                  ? [
+                      BoxShadow(
+                        color: AppColors.accent.withValues(alpha: 0.5),
+                        blurRadius: 12,
+                        spreadRadius: 1,
+                      ),
+                    ]
                   : null,
             ),
             child: widget.child,

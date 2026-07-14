@@ -10,6 +10,7 @@ import '../theme/app_theme.dart';
 import '../widgets/tv_focusable.dart';
 import 'search_screen.dart';
 import 'player_screen.dart';
+import 'epg_screen.dart';
 
 /// Pestaña EN VIVO: solo canales. El canal se reproduce a pantalla completa de
 /// fondo y por encima van el menú de categorías (izquierda), la lista de
@@ -662,6 +663,7 @@ class _LiveTvScreenState extends State<LiveTvScreen> {
           ),
           const Spacer(),
           _barIcon(Icons.search_rounded, _openSearch),
+          _barIcon(Icons.calendar_month_rounded, _openEpg),
           _barIcon(Icons.refresh_rounded, () => _store.reload()),
           const SizedBox(width: 8),
           const Icon(
@@ -693,6 +695,17 @@ class _LiveTvScreenState extends State<LiveTvScreen> {
       onPressed: onTap,
     ),
   );
+
+  Future<void> _openEpg() async {
+    _hideTimer?.cancel();
+    await Navigator.push<void>(
+      context,
+      MaterialPageRoute(builder: (_) => EpgScreen(channels: _all)),
+    );
+    if (!mounted) return;
+    _root.requestFocus();
+    _showOverlays();
+  }
 
   Future<void> _openSearch() async {
     _hideTimer?.cancel();

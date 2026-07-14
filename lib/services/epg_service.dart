@@ -8,6 +8,7 @@ import '../models/epg_program.dart';
 
 class EpgService {
   static const int maxSourcesPerLoad = 24;
+  static final Map<String, List<EpgProgram>> _guide = {};
 
   static Future<void> attachNowNext(
     List<Channel> channels,
@@ -29,12 +30,47 @@ class EpgService {
         final xml = await _fetchXml(url);
         final programs = _parsePrograms(xml, wanted, now);
         if (programs.isEmpty) continue;
+        _mergeGuide(programs);
         _attach(channels, programs, now);
         if (_allMatched(channels)) return;
       } catch (_) {
         // Una guia EPG publica puede fallar o estar temporalmente vacia.
         // Seguimos con las demas para no bloquear la carga de canales.
       }
+    }
+  }
+
+  static List<EpgProgram> programsFor(Channel channel) {
+    final merged = <EpgProgram>[];
+    for (final key in _keysForChannel(channel)) {
+      final programs = _guide[key];
+      if (programs != null) merged.addAll(programs);
+    }
+    if (merged.isEmpty) {
+      if (channel.currentProgram != null) merged.add(channel.currentProgram!);
+      if (channel.nextProgram != null) merged.add(channel.nextProgram!);
+    }
+    final unique = <String, EpgProgram>{};
+    for (final program in merged) {
+      unique['${program.start.microsecondsSinceEpoch}:${program.title}'] =
+          program;
+    }
+    final result = unique.values.toList()
+      ..sort((a, b) => a.start.compareTo(b.start));
+    return result;
+  }
+
+  static void _mergeGuide(Map<String, List<EpgProgram>> incoming) {
+    for (final entry in incoming.entries) {
+      final existing = _guide.putIfAbsent(entry.key, () => <EpgProgram>[]);
+      final seen = existing
+          .map((p) => '${p.start.microsecondsSinceEpoch}:${p.title}')
+          .toSet();
+      for (final program in entry.value) {
+        final key = '${program.start.microsecondsSinceEpoch}:${program.title}';
+        if (seen.add(key)) existing.add(program);
+      }
+      existing.sort((a, b) => a.start.compareTo(b.start));
     }
   }
 
