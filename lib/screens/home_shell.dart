@@ -105,16 +105,18 @@ class _HomeShellState extends State<HomeShell> {
     );
   }
 
+  /// Barra inferior solo iconos, estilo UltraPelis: el activo en rojo.
   Widget _bottomBar() {
     return Container(
       decoration: BoxDecoration(
-        color: const Color(0xFF141414),
-        border: Border(top: BorderSide(color: Colors.white.withValues(alpha: 0.06))),
+        color: const Color(0xFF1B1B1C),
+        border: Border(top: BorderSide(color: Colors.white.withValues(alpha: 0.1))),
+        boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.3), blurRadius: 10, offset: const Offset(0, -2))],
       ),
       child: SafeArea(
         top: false,
         child: SizedBox(
-          height: 60,
+          height: 54,
           child: Row(children: [
             for (var i = 0; i < _items.length; i++) Expanded(child: _tab(i)),
           ]),
@@ -128,19 +130,11 @@ class _HomeShellState extends State<HomeShell> {
     final it = _items[i];
     return InkWell(
       onTap: () => setState(() => _index = i),
-      child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-        AnimatedContainer(
-          duration: const Duration(milliseconds: 160),
-          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 5),
-          decoration: BoxDecoration(
-            color: sel ? AppColors.accent.withValues(alpha: 0.16) : Colors.transparent,
-            borderRadius: BorderRadius.circular(14),
-          ),
-          child: Icon(it.icon, size: 24, color: sel ? AppColors.accent : AppColors.textMuted),
-        ),
-        const SizedBox(height: 3),
-        Text(it.label, style: TextStyle(color: sel ? AppColors.accent : AppColors.textMuted, fontSize: 11, fontWeight: sel ? FontWeight.w700 : FontWeight.w500)),
-      ]),
+      child: AnimatedScale(
+        scale: sel ? 1.0 : 0.95,
+        duration: const Duration(milliseconds: 160),
+        child: Icon(it.icon, size: 24, color: sel ? AppColors.accent : Colors.white.withValues(alpha: 0.6)),
+      ),
     );
   }
 }

@@ -84,6 +84,7 @@ class ContentStore extends ChangeNotifier {
                 ? l.name
                 : l.category,
             mediaType: l.mediaType,
+            userAgent: l.userAgent,
           ).catchError((_) => <Channel>[]),
         ),
       );
@@ -194,6 +195,7 @@ class ContentStore extends ChangeNotifier {
               .toString()
               .trim()
               .toLowerCase();
+          final ua = (e['userAgent'] ?? e['user_agent'] ?? '').toString().trim();
           out.add(
             M3UList(
               name: name,
@@ -204,6 +206,7 @@ class ContentStore extends ChangeNotifier {
                         ? 'live'
                         : (mt == 'movie' ? 'peliculas' : 'series')),
               mediaType: mt,
+              userAgent: ua.isEmpty ? null : ua,
             ),
           );
         }

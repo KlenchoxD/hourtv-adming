@@ -5,6 +5,7 @@ import '../models/channel.dart';
 import '../services/content_store.dart';
 import '../services/device_type.dart';
 import '../services/storage_service.dart';
+import '../services/tmdb_service.dart';
 import '../services/xtream_service.dart';
 import '../theme/app_theme.dart';
 import '../widgets/tv_focusable.dart';
@@ -73,7 +74,8 @@ class _CatalogScreenState extends State<CatalogScreen> {
     }
 
     _spotlightDebounce = Timer(const Duration(milliseconds: 400), () async {
-      final changed = await XtreamService.enrichMovieMetadata(channel);
+      var changed = await XtreamService.enrichMovieMetadata(channel);
+      changed = await TmdbService.enrich(channel) || changed;
       if (!mounted ||
           request != _spotlightRequest ||
           !identical(_spotlight, channel)) {
@@ -305,7 +307,7 @@ class _CatalogScreenState extends State<CatalogScreen> {
                 key: ValueKey(f.url),
                 fit: StackFit.expand,
                 children: [
-                  CachedNetworkImage(imageUrl: f.logo!, fit: BoxFit.cover, errorWidget: (_, _, _) => Container(color: AppColors.cardDark)),
+                  CachedNetworkImage(imageUrl: f.backdrop ?? f.logo!, fit: BoxFit.cover, errorWidget: (_, _, _) => Container(color: AppColors.cardDark)),
                   // Franja inferior con el título, legible sobre la imagen
                   Align(
                     alignment: Alignment.bottomCenter,
@@ -344,9 +346,9 @@ class _CatalogScreenState extends State<CatalogScreen> {
           alignment: Alignment.centerRight,
           child: SizedBox(
             width: MediaQuery.sizeOf(context).width * 0.62,
-            child: f.logo != null
+            child: (f.backdrop ?? f.logo) != null
                 ? CachedNetworkImage(
-                    imageUrl: f.logo!,
+                    imageUrl: (f.backdrop ?? f.logo)!,
                     fit: BoxFit.cover,
                     fadeInDuration: const Duration(milliseconds: 220),
                     errorWidget: (_, _, _) => const SizedBox(),

@@ -166,7 +166,12 @@ class _LiveTvScreenState extends State<LiveTvScreen> {
       _videoError = false;
     });
     final old = _vc;
-    final vc = VideoPlayerController.networkUrl(Uri.parse(ch.url));
+    final vc = VideoPlayerController.networkUrl(
+      Uri.parse(ch.url),
+      httpHeaders: ch.userAgent?.isNotEmpty == true
+          ? {'User-Agent': ch.userAgent!}
+          : const {},
+    );
     _vc = vc;
     await old?.dispose();
     try {

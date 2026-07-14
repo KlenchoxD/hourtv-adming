@@ -4,7 +4,7 @@ import '../models/channel.dart';
 import '../models/m3u_list.dart';
 
 class M3UParserService {
-  static List<Channel> parseM3U(String content, {String? listName, String? genre, String? mediaType}) {
+  static List<Channel> parseM3U(String content, {String? listName, String? genre, String? mediaType, String? userAgent}) {
     final List<Channel> channels = [];
     final lines = content.split('\n');
     String? currentName;
@@ -25,6 +25,7 @@ class M3UParserService {
           if (listName != null) channel.category = listName;
           if (genre != null) channel.genre = genre;
           if (mediaType == 'movie' || mediaType == 'series') channel.forcedType = mediaType;
+          if (userAgent != null && userAgent.isNotEmpty) channel.userAgent = userAgent;
           channels.add(channel);
         }
         currentName = null;
@@ -48,11 +49,12 @@ class M3UParserService {
     return attrs;
   }
 
-  static Future<List<Channel>> fetchAndParse(String url, {String? listName, String? genre, String? mediaType}) async {
+  static Future<List<Channel>> fetchAndParse(String url, {String? listName, String? genre, String? mediaType, String? userAgent}) async {
     try {
-      final response = await http.get(Uri.parse(url), headers: {'User-Agent': 'Mozilla/5.0'})
+      final ua = (userAgent != null && userAgent.isNotEmpty) ? userAgent : 'Mozilla/5.0';
+      final response = await http.get(Uri.parse(url), headers: {'User-Agent': ua})
           .timeout(const Duration(seconds: 30), onTimeout: () => throw Exception('Tiempo de espera agotado'));
-      if (response.statusCode == 200) return parseM3U(_decode(response), listName: listName, genre: genre, mediaType: mediaType);
+      if (response.statusCode == 200) return parseM3U(_decode(response), listName: listName, genre: genre, mediaType: mediaType, userAgent: userAgent);
       throw Exception('HTTP ${response.statusCode}');
     } catch (e) { throw Exception('Error cargando M3U: $e'); }
   }

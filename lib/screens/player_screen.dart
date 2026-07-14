@@ -81,7 +81,12 @@ class _PlayerScreenState extends State<PlayerScreen> {
         }
         playUrl = resolved;
       }
-      _vc = VideoPlayerController.networkUrl(Uri.parse(playUrl));
+      _vc = VideoPlayerController.networkUrl(
+        Uri.parse(playUrl),
+        httpHeaders: ch.userAgent?.isNotEmpty == true
+            ? {'User-Agent': ch.userAgent!}
+            : const {},
+      );
       await _vc!.initialize();
       final autoPlay =
           StorageService.getSetting('autoPlay', defaultValue: true) == true;

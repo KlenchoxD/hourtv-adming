@@ -16,6 +16,8 @@ class M3UList {
   // Tipo de contenido de la lista: 'live' (canales), 'movie' (películas) o
   // 'series'. Fuerza la clasificación al parsear (para M3U que no traen /movie/).
   final String? mediaType;
+  // User-Agent personalizado: algunos servidores rechazan el UA por defecto.
+  final String? userAgent;
 
   M3UList({
     required this.name,
@@ -29,6 +31,7 @@ class M3UList {
     this.username,
     this.password,
     this.mediaType,
+    this.userAgent,
   });
 
   bool get isXtream => category == 'xtream' && username != null && password != null && host != null;
@@ -48,6 +51,7 @@ class M3UList {
       username: json['username'],
       password: json['password'],
       mediaType: json['mediaType'],
+      userAgent: json['userAgent'],
     );
   }
 
@@ -64,6 +68,7 @@ class M3UList {
       'username': username,
       'password': password,
       'mediaType': mediaType,
+      'userAgent': userAgent,
     };
   }
 

@@ -81,6 +81,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
               onTap: _clearCache,
             ),
           ]),
+          _section('Metadata', [
+            _choice(
+              icon: Icons.movie_filter_outlined,
+              title: 'API Key de TMDB',
+              subtitle: (StorageService.getSetting('tmdbApiKey', defaultValue: '') ?? '').toString().isEmpty
+                  ? 'Sin configurar — sinopsis y reparto automáticos'
+                  : 'Configurada — sinopsis y reparto activos',
+              onTap: _editTmdbKey,
+            ),
+          ]),
           _section('Información', [
             _choice(
               icon: Icons.info_outline,
@@ -234,6 +244,38 @@ class _SettingsScreenState extends State<SettingsScreen> {
     await StorageService.clearCache();
     if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Caché limpiada correctamente')));
+  }
+
+  Future<void> _editTmdbKey() async {
+    final controller = TextEditingController(
+      text: (StorageService.getSetting('tmdbApiKey', defaultValue: '') ?? '').toString(),
+    );
+    final saved = await showDialog<String>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        backgroundColor: AppColors.surfaceDark,
+        title: const Text('API Key de TMDB', style: TextStyle(color: AppColors.textPrimary)),
+        content: Column(mainAxisSize: MainAxisSize.min, children: [
+          const Text(
+            'Con una key gratuita de themoviedb.org la app completa sinopsis, reparto, director y calificación de las películas automáticamente.',
+            style: TextStyle(color: AppColors.textSecondary, fontSize: 13),
+          ),
+          const SizedBox(height: 14),
+          TextField(
+            controller: controller,
+            autofocus: true,
+            decoration: const InputDecoration(hintText: 'Pega aquí tu API key'),
+          ),
+        ]),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Cancelar')),
+          ElevatedButton(onPressed: () => Navigator.pop(ctx, controller.text.trim()), child: const Text('Guardar')),
+        ],
+      ),
+    );
+    if (saved == null) return;
+    await _set('tmdbApiKey', saved);
+    if (mounted) setState(() {});
   }
 
   void _showAbout() {

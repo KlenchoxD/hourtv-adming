@@ -4,11 +4,15 @@ import 'package:flutter/material.dart';
 import '../models/channel.dart';
 import '../services/content_store.dart';
 import '../services/device_type.dart';
+import '../services/tmdb_service.dart';
 import '../services/xtream_service.dart';
 import '../theme/app_theme.dart';
 import '../widgets/tv_focusable.dart';
 import 'player_screen.dart';
 
+/// Detalle de película, fiel al diseño UltraPelis: media 16:9 arriba con
+/// botón de reproducción, título + corazón, meta "año — categorías",
+/// descripción con "Ver más...", Director/Actores y recomendaciones.
 class MovieDetailScreen extends StatefulWidget {
   final Channel channel;
   final List<Channel> allChannels;
@@ -29,7 +33,6 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
   late bool _favorite;
 
   double get _s => DeviceProfile.uiScale(context);
-  bool get _isTv => DeviceProfile.isTv(context);
 
   @override
   void initState() {
@@ -45,9 +48,13 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
     super.dispose();
   }
 
+  /// Xtream primero (metadata del panel) y TMDB después para rellenar lo que
+  /// falte (sinopsis, reparto, director, backdrop...).
   Future<void> _loadMetadata() async {
-    final changed = await XtreamService.enrichMovieMetadata(widget.channel);
-    if (changed && mounted) setState(() {});
+    var changed = await XtreamService.enrichMovieMetadata(widget.channel);
+    if (mounted && changed) setState(() {});
+    changed = await TmdbService.enrich(widget.channel);
+    if (mounted && changed) setState(() {});
   }
 
   void _onStoreChanged() {
@@ -90,6 +97,7 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
     );
   }
 
+  /// Meta estilo UltraPelis: "año — categoría" en gris pequeño.
   List<String> get _metadataParts {
     final channel = widget.channel;
     final parts = <String>[];
@@ -146,316 +154,317 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
     return Scaffold(
       backgroundColor: AppColors.primaryDark,
       body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.fromLTRB(18 + overscan, 12, 18 + overscan, 32),
-          child: CustomScrollView(
-            slivers: [
-              SliverToBoxAdapter(child: _topBar()),
-              SliverToBoxAdapter(child: SizedBox(height: 18 * _s)),
-              SliverToBoxAdapter(child: _movieHeader()),
-              if (recommendations.isNotEmpty) ...[
-                SliverToBoxAdapter(child: SizedBox(height: 30 * _s)),
-                SliverToBoxAdapter(
-                  child: Text(
-                    'También podría gustarte',
-                    style: TextStyle(
-                      color: AppColors.textPrimary,
-                      fontSize: 19 * _s,
-                      fontWeight: FontWeight.w800,
-                    ),
+        child: ListView(
+          padding: EdgeInsets.fromLTRB(overscan, 0, overscan, 32),
+          children: [
+            _mediaHeader(),
+            _titleRow(),
+            _metaLine(),
+            _description(),
+            _castSection(),
+            if (recommendations.isNotEmpty) ...[
+              SizedBox(height: 26 * _s),
+              Container(
+                height: 1,
+                margin: const EdgeInsets.symmetric(horizontal: 20),
+                color: Colors.white.withValues(alpha: 0.2),
+              ),
+              Padding(
+                padding: EdgeInsets.fromLTRB(20, 18 * _s, 20, 14 * _s),
+                child: Text(
+                  'También podría gustarte',
+                  style: TextStyle(
+                    color: AppColors.textPrimary.withValues(alpha: 0.9),
+                    fontSize: 16 * _s,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
-                SliverToBoxAdapter(child: SizedBox(height: 14 * _s)),
-                SliverToBoxAdapter(
-                  child: _recommendationsGrid(recommendations),
-                ),
-              ],
+              ),
+              _recommendationsGrid(recommendations),
             ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _topBar() => Row(
-    children: [
-      TvFocusable(
-        onTap: () => Navigator.maybePop(context),
-        borderRadius: BorderRadius.circular(10),
-        child: Container(
-          width: 42 * _s,
-          height: 42 * _s,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: AppColors.cardDark,
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Icon(
-            Icons.arrow_back_rounded,
-            color: AppColors.textPrimary,
-            size: 24 * _s,
-          ),
-        ),
-      ),
-      const SizedBox(width: 12),
-      Text(
-        'Detalles',
-        style: TextStyle(
-          color: AppColors.textPrimary,
-          fontSize: 16 * _s,
-          fontWeight: FontWeight.w700,
-        ),
-      ),
-    ],
-  );
-
-  Widget _movieHeader() => LayoutBuilder(
-    builder: (context, constraints) {
-      final wide = constraints.maxWidth >= 720;
-      final poster = _poster(wide);
-      final details = _details();
-
-      if (wide) {
-        return Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            poster,
-            SizedBox(width: 28 * _s),
-            Expanded(child: details),
           ],
-        );
-      }
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Center(child: poster),
-          SizedBox(height: 22 * _s),
-          details,
-        ],
-      );
-    },
-  );
-
-  Widget _poster(bool wide) {
-    final height = (wide ? 270 : 250) * _s;
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(12),
-      child: Container(
-        width: height / 1.45,
-        height: height,
-        color: AppColors.cardElevated,
-        child:
-            widget.channel.logo != null &&
-                widget.channel.logo!.trim().isNotEmpty
-            ? CachedNetworkImage(
-                imageUrl: widget.channel.logo!,
-                fit: BoxFit.cover,
-                errorWidget: (_, _, _) => _posterPlaceholder(),
-              )
-            : _posterPlaceholder(),
+        ),
       ),
     );
   }
 
-  Widget _posterPlaceholder() => Container(
-    color: AppColors.cardElevated,
-    alignment: Alignment.center,
-    padding: const EdgeInsets.all(20),
-    child: Text(
-      widget.channel.displayName,
-      maxLines: 5,
-      textAlign: TextAlign.center,
-      overflow: TextOverflow.ellipsis,
-      style: TextStyle(
-        color: AppColors.accentLight,
-        fontSize: 14 * _s,
-        fontWeight: FontWeight.w700,
-      ),
-    ),
-  );
-
-  Widget _details() {
-    final plot = widget.channel.plot?.trim();
-    final metadata = _metadataParts;
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: Text(
-                widget.channel.displayName,
-                maxLines: 3,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  color: AppColors.textPrimary,
-                  fontSize: 27 * _s,
-                  height: 1.08,
-                  fontWeight: FontWeight.w900,
-                ),
+  /// Media 16:9 arriba (como el video del index): backdrop de TMDB si existe,
+  /// si no el póster recortado; botón rojo de reproducción centrado y botón
+  /// Atrás flotante.
+  Widget _mediaHeader() {
+    final img = widget.channel.backdrop ?? widget.channel.logo;
+    return AspectRatio(
+      aspectRatio: 16 / 9,
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          ColoredBox(
+            color: Colors.black,
+            child: img != null && img.trim().isNotEmpty
+                ? CachedNetworkImage(
+                    imageUrl: img,
+                    fit: BoxFit.cover,
+                    errorWidget: (_, _, _) => const SizedBox(),
+                  )
+                : const SizedBox(),
+          ),
+          DecoratedBox(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Colors.black.withValues(alpha: 0.35),
+                  Colors.transparent,
+                  Colors.black.withValues(alpha: 0.55),
+                ],
               ),
             ),
-            SizedBox(width: 12 * _s),
-            TvFocusable(
-              onTap: _toggleFavorite,
-              borderRadius: BorderRadius.circular(12),
+          ),
+          Center(
+            child: TvFocusable(
+              autofocus: true,
+              onTap: _play,
+              borderRadius: BorderRadius.circular(40 * _s),
               child: Container(
-                width: 46 * _s,
-                height: 46 * _s,
-                alignment: Alignment.center,
+                width: 64 * _s,
+                height: 64 * _s,
                 decoration: BoxDecoration(
-                  color: AppColors.cardDark,
-                  borderRadius: BorderRadius.circular(12),
+                  color: AppColors.accent,
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.5),
+                      blurRadius: 18,
+                    ),
+                  ],
                 ),
                 child: Icon(
-                  _favorite
-                      ? Icons.favorite_rounded
-                      : Icons.favorite_border_rounded,
-                  color: _favorite ? AppColors.accent : AppColors.textPrimary,
-                  size: 26 * _s,
-                ),
-              ),
-            ),
-          ],
-        ),
-        if (metadata.isNotEmpty) ...[
-          SizedBox(height: 10 * _s),
-          Text(
-            metadata.join('  ·  '),
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-              color: AppColors.textSecondary,
-              fontSize: 13 * _s,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        ],
-        SizedBox(height: 18 * _s),
-        Text(
-          plot?.isNotEmpty == true ? plot! : 'Sin descripción disponible.',
-          maxLines: _expanded ? null : 3,
-          overflow: _expanded ? TextOverflow.visible : TextOverflow.ellipsis,
-          style: TextStyle(
-            color: AppColors.textSecondary,
-            fontSize: 14 * _s,
-            height: 1.45,
-          ),
-        ),
-        if (plot?.isNotEmpty == true) ...[
-          SizedBox(height: 5 * _s),
-          TvFocusable(
-            onTap: () => setState(() => _expanded = !_expanded),
-            borderRadius: BorderRadius.circular(8),
-            child: Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: 2 * _s,
-                vertical: 6 * _s,
-              ),
-              child: Text(
-                _expanded ? 'Ver menos' : 'Ver más...',
-                style: TextStyle(
-                  color: AppColors.accent,
-                  fontSize: 13 * _s,
-                  fontWeight: FontWeight.w800,
-                ),
-              ),
-            ),
-          ),
-        ],
-        SizedBox(height: 22 * _s),
-        TvFocusable(
-          autofocus: _isTv,
-          onTap: _play,
-          borderRadius: BorderRadius.circular(10),
-          child: Container(
-            constraints: BoxConstraints(minWidth: 230 * _s),
-            padding: EdgeInsets.symmetric(
-              horizontal: 24 * _s,
-              vertical: 13 * _s,
-            ),
-            decoration: BoxDecoration(
-              color: AppColors.accent,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
                   Icons.play_arrow_rounded,
-                  color: AppColors.textPrimary,
-                  size: 25 * _s,
+                  color: Colors.white,
+                  size: 38 * _s,
                 ),
-                SizedBox(width: 8 * _s),
-                Text(
-                  'Reproducir',
-                  style: TextStyle(
-                    color: AppColors.textPrimary,
-                    fontSize: 15 * _s,
-                    fontWeight: FontWeight.w800,
-                  ),
+              ),
+            ),
+          ),
+          Positioned(
+            top: 8,
+            left: 8,
+            child: TvFocusable(
+              onTap: () => Navigator.maybePop(context),
+              borderRadius: BorderRadius.circular(21),
+              child: Container(
+                width: 40 * _s,
+                height: 40 * _s,
+                alignment: Alignment.center,
+                decoration: const BoxDecoration(
+                  color: Colors.black54,
+                  shape: BoxShape.circle,
                 ),
-              ],
+                child: Icon(
+                  Icons.arrow_back_rounded,
+                  color: Colors.white,
+                  size: 22 * _s,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// Título + corazón de favorito (como .title-row del index).
+  Widget _titleRow() => Padding(
+    padding: EdgeInsets.fromLTRB(12, 14 * _s, 14, 0),
+    child: Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(
+          child: Text(
+            widget.channel.displayName,
+            maxLines: 3,
+            style: TextStyle(
+              color: AppColors.textPrimary,
+              fontSize: 18 * _s,
+              fontWeight: FontWeight.w500,
+              height: 1.2,
+            ),
+          ),
+        ),
+        const SizedBox(width: 10),
+        TvFocusable(
+          onTap: _toggleFavorite,
+          borderRadius: BorderRadius.circular(20),
+          child: Padding(
+            padding: const EdgeInsets.all(5),
+            child: Icon(
+              _favorite
+                  ? Icons.favorite_rounded
+                  : Icons.favorite_border_rounded,
+              color: _favorite ? AppColors.accent : AppColors.textSecondary,
+              size: 22 * _s,
             ),
           ),
         ),
       ],
+    ),
+  );
+
+  /// Meta gris pequeña "año — duración — ★rating — categoría".
+  Widget _metaLine() {
+    final parts = _metadataParts;
+    if (parts.isEmpty) return const SizedBox.shrink();
+    return Padding(
+      padding: EdgeInsets.fromLTRB(12, 6 * _s, 14, 0),
+      child: Text(
+        parts.join('  —  '),
+        maxLines: 2,
+        overflow: TextOverflow.ellipsis,
+        style: TextStyle(
+          color: AppColors.textSecondary.withValues(alpha: 0.8),
+          fontSize: 12 * _s,
+        ),
+      ),
     );
   }
 
-  Widget _recommendationsGrid(List<Channel> movies) => GridView.builder(
-    shrinkWrap: true,
-    physics: const NeverScrollableScrollPhysics(),
-    itemCount: movies.length,
-    gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-      maxCrossAxisExtent: 150 * _s,
-      childAspectRatio: 0.59,
-      crossAxisSpacing: 12 * _s,
-      mainAxisSpacing: 14 * _s,
-    ),
-    itemBuilder: (context, index) {
-      final movie = movies[index];
-      return TvFocusable(
-        onTap: () => _openRecommendation(movie),
-        borderRadius: BorderRadius.circular(9),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(9),
-                child: Container(
-                  width: double.infinity,
-                  color: AppColors.cardElevated,
-                  child: movie.logo != null && movie.logo!.trim().isNotEmpty
-                      ? CachedNetworkImage(
-                          imageUrl: movie.logo!,
-                          fit: BoxFit.cover,
-                          errorWidget: (_, _, _) =>
-                              _recommendationPlaceholder(movie),
-                        )
-                      : _recommendationPlaceholder(movie),
+  /// Descripción colapsada a 3 líneas con "Ver más..." (rojo, pequeño).
+  Widget _description() {
+    final plot = widget.channel.plot?.trim();
+    if (plot == null || plot.isEmpty) return const SizedBox.shrink();
+    return Padding(
+      padding: EdgeInsets.fromLTRB(12, 12 * _s, 14, 0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            plot,
+            maxLines: _expanded ? null : 3,
+            overflow: _expanded ? TextOverflow.visible : TextOverflow.ellipsis,
+            style: TextStyle(
+              color: AppColors.textPrimary.withValues(alpha: 0.92),
+              fontSize: 13 * _s,
+              height: 1.6,
+            ),
+          ),
+          TvFocusable(
+            onTap: () => setState(() => _expanded = !_expanded),
+            borderRadius: BorderRadius.circular(6),
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 5 * _s, horizontal: 2),
+              child: Text(
+                _expanded ? 'Ver menos' : 'Ver más...',
+                style: TextStyle(
+                  color: AppColors.accent,
+                  fontSize: 11 * _s,
+                  fontWeight: FontWeight.w400,
                 ),
               ),
             ),
-            SizedBox(height: 6 * _s),
-            Text(
-              movie.displayName,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                color: AppColors.textPrimary,
-                fontSize: 11.5 * _s,
-                fontWeight: FontWeight.w600,
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// Director y Actores (como .detail-cast del index).
+  Widget _castSection() {
+    final director = widget.channel.director?.trim();
+    final cast = widget.channel.cast?.trim();
+    if ((director == null || director.isEmpty) &&
+        (cast == null || cast.isEmpty)) {
+      return const SizedBox.shrink();
+    }
+    TextStyle label() => TextStyle(
+      color: AppColors.textSecondary.withValues(alpha: 0.75),
+      fontSize: 13 * _s,
+    );
+    TextStyle value() => TextStyle(
+      color: AppColors.textPrimary.withValues(alpha: 0.9),
+      fontSize: 13 * _s,
+      height: 1.45,
+    );
+    return Padding(
+      padding: EdgeInsets.fromLTRB(12, 10 * _s, 14, 0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (director != null && director.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.only(bottom: 8),
+              child: Text.rich(
+                TextSpan(children: [
+                  TextSpan(text: 'Director:  ', style: label()),
+                  TextSpan(text: director, style: value()),
+                ]),
               ),
             ),
-          ],
-        ),
-      );
-    },
+          if (cast != null && cast.isNotEmpty)
+            Text.rich(
+              TextSpan(children: [
+                TextSpan(text: 'Actores:  ', style: label()),
+                TextSpan(text: cast, style: value()),
+              ]),
+            ),
+        ],
+      ),
+    );
+  }
+
+  Widget _recommendationsGrid(List<Channel> movies) => Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 14),
+    child: GridView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: movies.length,
+      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+        maxCrossAxisExtent: 150 * _s,
+        childAspectRatio: 0.59,
+        crossAxisSpacing: 12 * _s,
+        mainAxisSpacing: 14 * _s,
+      ),
+      itemBuilder: (context, index) {
+        final movie = movies[index];
+        return TvFocusable(
+          onTap: () => _openRecommendation(movie),
+          borderRadius: BorderRadius.circular(9),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(9),
+                  child: Container(
+                    width: double.infinity,
+                    color: AppColors.cardElevated,
+                    child: movie.logo != null && movie.logo!.trim().isNotEmpty
+                        ? CachedNetworkImage(
+                            imageUrl: movie.logo!,
+                            fit: BoxFit.cover,
+                            errorWidget: (_, _, _) =>
+                                _recommendationPlaceholder(movie),
+                          )
+                        : _recommendationPlaceholder(movie),
+                  ),
+                ),
+              ),
+              SizedBox(height: 6 * _s),
+              Text(
+                movie.displayName,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  color: AppColors.textPrimary,
+                  fontSize: 11.5 * _s,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    ),
   );
 
   Widget _recommendationPlaceholder(Channel movie) => Container(

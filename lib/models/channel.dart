@@ -106,6 +106,10 @@ class Channel {
   String? year;
   String? rating;
   String? duration;
+  String? cast; // actores principales, separados por coma (TMDB/Xtream)
+  String? director;
+  String? backdrop; // imagen horizontal 16:9 para cabeceras (TMDB)
+  String? userAgent; // User-Agent de la fuente (streams que rechazan el UA por defecto)
 
   Channel({
     required this.name,
@@ -126,6 +130,10 @@ class Channel {
     this.year,
     this.rating,
     this.duration,
+    this.cast,
+    this.director,
+    this.backdrop,
+    this.userAgent,
   });
 
   factory Channel.fromM3U(
@@ -190,6 +198,10 @@ class Channel {
     'year': year,
     'rating': rating,
     'duration': duration,
+    'cast': cast,
+    'director': director,
+    'backdrop': backdrop,
+    'userAgent': userAgent,
   };
 
   factory Channel.fromJson(Map<String, dynamic> json) => Channel(
@@ -211,6 +223,10 @@ class Channel {
     year: json['year']?.toString(),
     rating: json['rating']?.toString(),
     duration: json['duration']?.toString(),
+    cast: json['cast']?.toString(),
+    director: json['director']?.toString(),
+    backdrop: json['backdrop']?.toString(),
+    userAgent: json['userAgent']?.toString(),
   );
 
   Channel copyWith({
@@ -232,6 +248,10 @@ class Channel {
     String? year,
     String? rating,
     String? duration,
+    String? cast,
+    String? director,
+    String? backdrop,
+    String? userAgent,
   }) {
     return Channel(
       name: name ?? this.name,
@@ -252,6 +272,10 @@ class Channel {
       year: year ?? this.year,
       rating: rating ?? this.rating,
       duration: duration ?? this.duration,
+      cast: cast ?? this.cast,
+      director: director ?? this.director,
+      backdrop: backdrop ?? this.backdrop,
+      userAgent: userAgent ?? this.userAgent,
     );
   }
 
