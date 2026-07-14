@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -20,12 +22,18 @@ class _SearchScreenState extends State<SearchScreen> {
   final _ctrl = TextEditingController();
   final _focus = FocusNode();
   List<Channel> _results = const [];
+  late final List<Channel> _popular;
 
   List<String> _history = const [];
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => _focus.requestFocus());
+    _popular = _buildPopular();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted && !DeviceProfile.isTv(context)) {
+        _focus.requestFocus();
+      }
+    });
     final saved = StorageService.getSetting(
       'searchHistory',
       defaultValue: const [],
@@ -33,6 +41,17 @@ class _SearchScreenState extends State<SearchScreen> {
     if (saved is List) {
       _history = saved.map((item) => item.toString()).take(8).toList();
     }
+  }
+
+  List<Channel> _buildPopular() {
+    final unique = <String, Channel>{};
+    for (final channel in widget.all) {
+      final title = channel.displayName.trim();
+      if (title.isEmpty) continue;
+      unique.putIfAbsent(title.toLowerCase(), () => channel);
+    }
+    final items = unique.values.toList()..shuffle(Random());
+    return items.take(10).toList();
   }
 
   @override
@@ -300,31 +319,32 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   Widget _historyView() {
-    if (_history.isEmpty) {
+    if (_history.isEmpty && _popular.isEmpty) {
       return _hint(
         'Escribe o usa la voz del sistema para buscar en todo tu contenido',
         Icons.search_rounded,
       );
     }
+
     final isTv = DeviceProfile.isTv(context);
-    return Center(
+    final scale = DeviceProfile.uiScale(context);
+    return Align(
+      alignment: Alignment.topCenter,
       child: ConstrainedBox(
-        constraints: BoxConstraints(maxWidth: isTv ? 900 : 520),
-        child: Padding(
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
+        constraints: BoxConstraints(maxWidth: isTv ? 900 : 620),
+        child: ListView(
+          padding: EdgeInsets.fromLTRB(24, 16 * scale, 24, 32),
+          children: [
+            if (_history.isNotEmpty) ...[
+              Text(
                 'Búsquedas recientes',
                 style: TextStyle(
                   color: AppColors.textPrimary,
-                  fontSize: 18,
+                  fontSize: 18 * scale,
                   fontWeight: FontWeight.w700,
                 ),
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 14 * scale),
               Wrap(
                 spacing: 10,
                 runSpacing: 10,
@@ -333,6 +353,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     TvFocusable(
                       autofocus: isTv && index == 0,
                       onTap: () => _useHistory(_history[index]),
+                      borderRadius: BorderRadius.circular(18),
                       child: Chip(
                         avatar: const Icon(Icons.history_rounded, size: 18),
                         label: Text(_history[index]),
@@ -344,11 +365,82 @@ class _SearchScreenState extends State<SearchScreen> {
                     ),
                 ],
               ),
+              SizedBox(height: 28 * scale),
             ],
-          ),
+            Text(
+              'Búsquedas populares',
+              style: TextStyle(
+                color: AppColors.textPrimary,
+                fontSize: 20 * scale,
+                fontWeight: FontWeight.w800,
+              ),
+            ),
+            SizedBox(height: 12 * scale),
+            for (var index = 0; index < _popular.length; index++)
+              Padding(
+                padding: EdgeInsets.only(bottom: 8 * scale),
+                child: TvFocusable(
+                  autofocus: isTv && _history.isEmpty && index == 0,
+                  onTap: () => _useHistory(_popular[index].displayName),
+                  borderRadius: BorderRadius.circular(10),
+                  child: Container(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 14 * scale,
+                      vertical: 10 * scale,
+                    ),
+                    decoration: BoxDecoration(
+                      color: AppColors.surfaceDark,
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(color: AppColors.cardElevated),
+                    ),
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          width: 42 * scale,
+                          child: Text(
+                            (index + 1).toString(),
+                            style: TextStyle(
+                              color: _rankColor(index),
+                              fontSize: 27 * scale,
+                              height: 1,
+                              fontWeight: FontWeight.w900,
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 8 * scale),
+                        Expanded(
+                          child: Text(
+                            _popular[index].displayName,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              color: AppColors.textPrimary,
+                              fontSize: 15 * scale,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                        Icon(
+                          Icons.north_west_rounded,
+                          color: AppColors.textMuted,
+                          size: 19 * scale,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+          ],
         ),
       ),
     );
+  }
+
+  Color _rankColor(int index) {
+    if (index == 0) return AppColors.accent;
+    if (index == 1) return AppColors.warning;
+    if (index == 2) return AppColors.success;
+    return AppColors.textMuted;
   }
 
   Widget _initial(Channel c) => Center(

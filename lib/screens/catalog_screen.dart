@@ -8,6 +8,7 @@ import '../services/storage_service.dart';
 import '../services/xtream_service.dart';
 import '../theme/app_theme.dart';
 import '../widgets/tv_focusable.dart';
+import 'movie_detail_screen.dart';
 import 'player_screen.dart';
 import 'search_screen.dart';
 import 'series_detail_screen.dart';
@@ -84,6 +85,15 @@ class _CatalogScreenState extends State<CatalogScreen> {
 
   void _play(Channel ch, List<Channel> ctx) {
     Navigator.push(context, MaterialPageRoute(builder: (_) => PlayerScreen(channel: ch, allChannels: ctx.isEmpty ? [ch] : ctx)));
+  }
+
+  void _openDetails(Channel ch, List<Channel> ctx) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => MovieDetailScreen(channel: ch, allChannels: ctx),
+      ),
+    );
   }
 
   Future<void> _openSearch() async {
@@ -281,7 +291,7 @@ class _CatalogScreenState extends State<CatalogScreen> {
     return Padding(
       padding: const EdgeInsets.fromLTRB(15, 8, 15, 6),
       child: TvFocusable(
-        onTap: () => _play(f, movies),
+        onTap: () => _openDetails(f, movies),
         borderRadius: BorderRadius.circular(6),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(6),
@@ -484,7 +494,7 @@ class _CatalogScreenState extends State<CatalogScreen> {
   Widget _posterCard(Channel ch, List<Channel> ctx) => Padding(
     padding: const EdgeInsets.symmetric(horizontal: 5),
     child: TvFocusable(
-      onTap: () => _play(ch, ctx),
+      onTap: () => _openDetails(ch, ctx),
       onFocusChange: (focused) => _onPosterFocus(ch, focused),
       borderRadius: BorderRadius.circular(12),
       child: SizedBox(

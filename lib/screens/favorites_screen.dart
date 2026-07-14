@@ -5,6 +5,7 @@ import '../services/content_store.dart';
 import '../services/device_type.dart';
 import '../theme/app_theme.dart';
 import '../widgets/tv_focusable.dart';
+import 'movie_detail_screen.dart';
 import 'player_screen.dart';
 
 /// Pestaña FAVORITOS: grilla de películas/canales marcados con corazón
@@ -39,6 +40,22 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
     Navigator.push(context, MaterialPageRoute(
       builder: (_) => PlayerScreen(channel: ch, allChannels: favs.isEmpty ? [ch] : favs),
     ));
+  }
+
+  void _open(Channel ch) {
+    if (ch.type == MediaType.movie) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => MovieDetailScreen(
+            channel: ch,
+            allChannels: _store.movies,
+          ),
+        ),
+      );
+      return;
+    }
+    _play(ch);
   }
 
   @override
@@ -82,7 +99,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
   }
 
   Widget _card(Channel ch, int index) => TvFocusable(
-    onTap: () => _play(ch),
+    onTap: () => _open(ch),
     autofocus: index == 0 && DeviceProfile.isTv(context),
     borderRadius: BorderRadius.circular(8),
     child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
