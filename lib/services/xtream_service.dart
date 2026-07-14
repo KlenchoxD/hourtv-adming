@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../models/channel.dart';
+import '../models/epg_program.dart';
 
 /// Una serie del catalogo Xtream (con su caratula). Los episodios se piden
 /// aparte (bajo demanda) con [XtreamService.fetchEpisodes], usando las
@@ -312,6 +313,92 @@ class XtreamService {
     final hours = seconds ~/ 3600;
     final minutes = (seconds % 3600) ~/ 60;
     return hours > 0 ? '$hours h $minutes min' : '$minutes min';
+  }
+
+  /// Canales en vivo con el indicador tv_archive que habilita catch-up.
+  static Future<List<Channel>> fetchLiveStreams(
+    String host,
+    String user,
+    String pass, {
+    String? userAgent,
+  }) async {
+    final h = normalizeHost(host);
+    final u = user.trim();
+    final p = pass.trim();
+    final data = await _api(h, u, p, 'get_live_streams');
+    if (data is! List) return [];
+    final out = <Channel>[];
+    for (final item in data) {
+      if (item is! Map) continue;
+      final id = item['stream_id'];
+      if (id == null) continue;
+      final ext = (item['container_extension'] ?? 'ts').toString();
+      final icon = (item['stream_icon'] ?? '').toString();
+      final archive = item['tv_archive'];
+      out.add(
+        Channel(
+          name: (item['name'] ?? 'Canal').toString(),
+          url: '$h/live/$u/$p/$id.$ext',
+          logo: icon.isEmpty ? null : icon,
+          group: (item['category_id'] ?? '').toString(),
+          category: 'live',
+          userAgent: userAgent,
+          hasCatchup: archive == 1 || archive == '1' || archive == true,
+        ),
+      );
+    }
+    return out;
+  }
+
+  /// Construye la URL Xtream timeshift para un programa ya emitido.
+  static String? buildTimeshiftUrl(Channel channel, EpgProgram program) {
+    if (!channel.hasCatchup || !program.stop.isBefore(DateTime.now())) {
+      return null;
+    }
+    final target = _liveTarget(channel.url);
+    if (target == null) return null;
+    final seconds = program.stop.difference(program.start).inSeconds;
+    if (seconds <= 0) return null;
+    final durationMinutes = (seconds + 59) ~/ 60;
+    final start = program.start.toUtc();
+    String two(int value) => value.toString().padLeft(2, '0');
+    final startText =
+        '${start.year}-${two(start.month)}-${two(start.day)}:'
+        '${two(start.hour)}-${two(start.minute)}';
+    final u = Uri.encodeComponent(target.user);
+    final p = Uri.encodeComponent(target.pass);
+    final id = Uri.encodeComponent(target.streamId);
+    return '${target.host}/timeshift/$u/$p/$durationMinutes/$startText/$id.ts';
+  }
+
+  static ({String host, String user, String pass, String streamId})? _liveTarget(
+    String url,
+  ) {
+    final uri = Uri.tryParse(url);
+    if (uri == null || !uri.hasAuthority) return null;
+    final segments = uri.pathSegments;
+    final marker = segments.lastIndexOf('live');
+    if (marker < 0 || marker + 3 >= segments.length) return null;
+    final file = segments[marker + 3];
+    final dot = file.lastIndexOf('.');
+    final streamId = dot > 0 ? file.substring(0, dot) : file;
+    if (streamId.isEmpty) return null;
+    final prefix = segments.take(marker).join('/');
+    final host = normalizeHost(
+      uri
+          .replace(
+            path: prefix.isEmpty ? '' : '/$prefix',
+            query: null,
+            fragment: null,
+          )
+          .toString(),
+    );
+    return (
+      host: host,
+      user: segments[marker + 1],
+      pass: segments[marker + 2],
+      streamId: streamId,
+    );
   }
 
   /// Peliculas (VOD). Devuelve Channels con URL .../movie/... (tipo pelicula).

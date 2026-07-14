@@ -307,7 +307,30 @@ class _CatalogScreenState extends State<CatalogScreen> {
                 key: ValueKey(f.url),
                 fit: StackFit.expand,
                 children: [
-                  CachedNetworkImage(imageUrl: f.backdrop ?? f.logo!, fit: BoxFit.cover, errorWidget: (_, _, _) => Container(color: AppColors.cardDark)),
+                  CachedNetworkImage(
+                    imageUrl: f.backdrop ?? f.logo!,
+                    fit: BoxFit.cover,
+                    // Si la imagen falla, un gradiente de marca en vez de un
+                    // rectangulo negro que parece roto.
+                    errorWidget: (_, _, _) => Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [AppColors.accent.withValues(alpha: 0.55), AppColors.cardDark, AppColors.primaryDark],
+                        ),
+                      ),
+                      alignment: Alignment.center,
+                      padding: const EdgeInsets.symmetric(horizontal: 24),
+                      child: Text(
+                        f.displayName,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: Colors.white, fontSize: 20 * _s, fontWeight: FontWeight.w800),
+                      ),
+                    ),
+                  ),
                   // Franja inferior con el título, legible sobre la imagen
                   Align(
                     alignment: Alignment.bottomCenter,

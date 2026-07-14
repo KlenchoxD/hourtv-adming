@@ -35,6 +35,7 @@ class M3UList {
   });
 
   bool get isXtream => category == 'xtream' && username != null && password != null && host != null;
+  bool get isStalker => category == 'stalker' && username != null && host != null;
 
   factory M3UList.fromJson(Map<String, dynamic> json) {
     return M3UList(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../models/m3u_list.dart';
 import '../services/storage_service.dart';
 import '../services/xtream_service.dart';
+import '../services/stalker_service.dart';
 import '../theme/app_theme.dart';
 import '../widgets/common_widgets.dart';
 import '../widgets/tv_focusable.dart';
@@ -159,6 +160,149 @@ class _ListsScreenState extends State<ListsScreen> {
     }
   }
 
+  // ---------------- Agregar portal Stalker/Ministra ----------------
+  Future<void> _addStalker() async {
+    final nameCtrl = TextEditingController();
+    final hostCtrl = TextEditingController();
+    final macCtrl = TextEditingController(text: '00:1A:79:');
+    bool checking = false;
+    String? status;
+    bool ok = false;
+
+    final added = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => StatefulBuilder(
+        builder: (ctx, setLocal) {
+          Future<void> validate() async {
+            final host = hostCtrl.text.trim();
+            final mac = macCtrl.text.trim();
+            if (host.isEmpty || mac.isEmpty) {
+              setLocal(() => status = 'Completa la URL del portal y la MAC.');
+              return;
+            }
+            if (!StalkerService.isValidMac(mac)) {
+              setLocal(
+                () => status = 'Usa el formato 00:1A:79:XX:XX:XX.',
+              );
+              return;
+            }
+            setLocal(() {
+              checking = true;
+              status = 'Conectando...';
+              ok = false;
+            });
+            final result = await StalkerService.validate(host, mac);
+            if (!ctx.mounted) return;
+            setLocal(() {
+              checking = false;
+              ok = result.authenticated;
+              status = result.message;
+            });
+          }
+
+          return AlertDialog(
+            title: const Text('Portal Stalker / Ministra'),
+            content: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TextField(
+                    controller: nameCtrl,
+                    decoration: const InputDecoration(
+                      labelText: 'Nombre (opcional)',
+                      hintText: 'ej: Portal de casa',
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  TextField(
+                    controller: hostCtrl,
+                    decoration: const InputDecoration(
+                      labelText: 'URL del portal',
+                      hintText: 'http://servidor.com/stalker_portal/c',
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  TextField(
+                    controller: macCtrl,
+                    textCapitalization: TextCapitalization.characters,
+                    decoration: const InputDecoration(
+                      labelText: 'Dirección MAC',
+                      hintText: '00:1A:79:XX:XX:XX',
+                    ),
+                  ),
+                  const SizedBox(height: 14),
+                  if (status != null)
+                    Text(
+                      status!,
+                      style: TextStyle(
+                        color: ok
+                            ? AppColors.success
+                            : (checking
+                                  ? AppColors.textSecondary
+                                  : AppColors.error),
+                        fontSize: 12.5,
+                      ),
+                    ),
+                ],
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(ctx, false),
+                child: const Text('Cancelar'),
+              ),
+              OutlinedButton(
+                onPressed: checking ? null : validate,
+                child: const Text('Probar'),
+              ),
+              ElevatedButton(
+                onPressed: checking
+                    ? null
+                    : () {
+                        final host = hostCtrl.text.trim();
+                        final mac = macCtrl.text.trim();
+                        if (host.isEmpty ||
+                            !StalkerService.isValidMac(mac)) {
+                          setLocal(
+                            () => status =
+                                'Completa una URL y una MAC válidas.',
+                          );
+                          return;
+                        }
+                        final normalizedHost =
+                            StalkerService.normalizePortal(host);
+                        _lists.add(
+                          M3UList(
+                            name: nameCtrl.text.trim().isEmpty
+                                ? 'Stalker ${_lists.length + 1}'
+                                : nameCtrl.text.trim(),
+                            url: normalizedHost,
+                            description: 'Portal Stalker · $normalizedHost',
+                            category: 'stalker',
+                            host: normalizedHost,
+                            username: StalkerService.normalizeMac(mac),
+                            userAgent: StalkerService.magUserAgent,
+                          ),
+                        );
+                        Navigator.pop(ctx, true);
+                      },
+                child: const Text('Guardar'),
+              ),
+            ],
+          );
+        },
+      ),
+    );
+
+    nameCtrl.dispose();
+    hostCtrl.dispose();
+    macCtrl.dispose();
+    if (added == true) {
+      await _save();
+      _toast('Portal agregado. Vuelve a Canales para cargarlo.');
+    }
+  }
+
   Future<void> _delList(int i) async {
     final confirm = await showDialog<bool>(
       context: context,
@@ -189,6 +333,8 @@ class _ListsScreenState extends State<ListsScreen> {
           child: Row(children: [
             Expanded(child: _addCard(Icons.dns_rounded, 'Cuenta Xtream', 'Servidor · usuario · clave', _addXtream, primary: true)),
             const SizedBox(width: 12),
+            Expanded(child: _addCard(Icons.router_rounded, 'Portal Stalker', 'URL · dirección MAC', _addStalker, primary: false)),
+            const SizedBox(width: 12),
             Expanded(child: _addCard(Icons.link_rounded, 'Lista M3U', 'Pega una URL .m3u', _addM3u, primary: false)),
           ]),
         ),
@@ -207,7 +353,7 @@ class _ListsScreenState extends State<ListsScreen> {
           child: _loading
               ? const LoadingIndicator()
               : _lists.isEmpty
-                  ? const EmptyState(icon: Icons.playlist_add, title: 'Sin fuentes', subtitle: 'Agrega tu cuenta Xtream o una lista M3U')
+                  ? const EmptyState(icon: Icons.playlist_add, title: 'Sin fuentes', subtitle: 'Agrega Xtream, Stalker o una lista M3U')
                   : ListView.builder(padding: const EdgeInsets.fromLTRB(20, 0, 20, 24), itemCount: _lists.length, itemBuilder: (ctx, i) => _listTile(_lists[i], i)),
         ),
       ]),
@@ -255,8 +401,9 @@ class _ListsScreenState extends State<ListsScreen> {
 
   Widget _listTile(M3UList list, int i) {
     final isXtream = list.category == 'xtream';
-    final badge = isXtream ? 'XTREAM' : (list.isDefault ? 'INCLUIDA' : 'M3U');
-    final badgeColor = isXtream ? AppColors.success : (list.isDefault ? AppColors.textMuted : AppColors.accent);
+    final isStalker = list.category == 'stalker';
+    final badge = isStalker ? 'STALKER' : (isXtream ? 'XTREAM' : (list.isDefault ? 'INCLUIDA' : 'M3U'));
+    final badgeColor = (isXtream || isStalker) ? AppColors.success : (list.isDefault ? AppColors.textMuted : AppColors.accent);
     return TvFocusable(
       onTap: () {},
       borderRadius: BorderRadius.circular(14),
@@ -275,7 +422,7 @@ class _ListsScreenState extends State<ListsScreen> {
               color: badgeColor.withValues(alpha: 0.12),
               borderRadius: BorderRadius.circular(12),
             ),
-            child: Icon(isXtream ? Icons.dns_rounded : (list.isDefault ? Icons.public_rounded : Icons.playlist_play_rounded), color: badgeColor, size: 24),
+            child: Icon(isStalker ? Icons.router_rounded : (isXtream ? Icons.dns_rounded : (list.isDefault ? Icons.public_rounded : Icons.playlist_play_rounded)), color: badgeColor, size: 24),
           ),
           const SizedBox(width: 12),
           Expanded(

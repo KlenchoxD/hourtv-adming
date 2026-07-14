@@ -5,6 +5,7 @@ import '../models/epg_program.dart';
 import '../services/content_store.dart';
 import '../services/device_type.dart';
 import '../services/epg_service.dart';
+import '../services/xtream_service.dart';
 import '../theme/app_theme.dart';
 import '../widgets/tv_focusable.dart';
 import 'player_screen.dart';
@@ -72,16 +73,23 @@ class _EpgScreenState extends State<EpgScreen> {
     );
   }
 
-  Future<void> _play(Channel channel) async {
+  Future<void> _play(
+    Channel channel, {
+    List<Channel>? allChannels,
+  }) async {
     await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (_) => PlayerScreen(channel: channel, allChannels: _channels),
+        builder: (_) => PlayerScreen(
+          channel: channel,
+          allChannels: allChannels ?? _channels,
+        ),
       ),
     );
   }
 
   Future<void> _showProgram(Channel channel, EpgProgram program) async {
+    final catchupUrl = XtreamService.buildTimeshiftUrl(channel, program);
     await showDialog<void>(
       context: context,
       builder: (dialogContext) => AlertDialog(
@@ -113,8 +121,23 @@ class _EpgScreenState extends State<EpgScreen> {
             onPressed: () => Navigator.pop(dialogContext),
             child: const Text('Cerrar'),
           ),
+          if (catchupUrl != null)
+            OutlinedButton.icon(
+              autofocus: true,
+              onPressed: () {
+                final catchupChannel = channel.copyWith(
+                  name: '${channel.displayName} — ${program.title}',
+                  url: catchupUrl,
+                  hasCatchup: false,
+                );
+                Navigator.pop(dialogContext);
+                _play(catchupChannel, allChannels: [catchupChannel]);
+              },
+              icon: const Icon(Icons.history_rounded),
+              label: const Text('Ver desde el inicio'),
+            ),
           FilledButton.icon(
-            autofocus: true,
+            autofocus: catchupUrl == null,
             onPressed: () {
               Navigator.pop(dialogContext);
               _play(channel);

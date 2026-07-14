@@ -7,6 +7,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import '../models/channel.dart';
 import '../services/storage_service.dart';
 import '../services/archive_service.dart';
+import '../services/stalker_service.dart';
 import '../services/device_type.dart';
 import '../theme/app_theme.dart';
 import '../widgets/tv_focusable.dart';
@@ -75,6 +76,16 @@ class _PlayerScreenState extends State<PlayerScreen> {
         if (resolved == null) {
           setState(() {
             _err = 'No se pudo obtener el vídeo de esta película.';
+            _loading = false;
+          });
+          return;
+        }
+        playUrl = resolved;
+      } else if (playUrl.startsWith('stalker:')) {
+        final resolved = await StalkerService.resolveStream(playUrl);
+        if (resolved == null) {
+          setState(() {
+            _err = 'No se pudo crear el enlace temporal de este canal.';
             _loading = false;
           });
           return;

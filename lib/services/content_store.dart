@@ -6,6 +6,7 @@ import '../models/m3u_list.dart';
 import 'storage_service.dart';
 import 'm3u_parser_service.dart';
 import 'xtream_service.dart';
+import 'stalker_service.dart';
 import 'archive_service.dart';
 import 'epg_service.dart';
 
@@ -71,12 +72,12 @@ class ContentStore extends ChangeNotifier {
       final assetLists = assetSources.lists;
       final byUrl = <String, M3UList>{};
       for (final l in [...lists, ...assetLists]) {
-        byUrl[l.url] = l;
+        byUrl[l.isStalker ? '${l.url}|${l.username}' : l.url] = l;
       }
       lists = byUrl.values.toList();
 
       final results = await Future.wait(
-        lists.map(
+        lists.where((l) => !l.isStalker).map(
           (l) => M3UParserService.fetchAndParse(
             l.url,
             listName: l.name,
@@ -120,15 +121,28 @@ class ContentStore extends ChangeNotifier {
 
   Future<void> _loadVod(List<M3UList> lists) async {
     final accounts = lists.where((l) => l.isXtream).toList();
-    if (accounts.isEmpty) return;
+    final portals = lists.where((l) => l.isStalker).toList();
+    if (accounts.isEmpty && portals.isEmpty) return;
     vodLoading = true;
     notifyListeners();
     final movies = <Channel>[];
+    final liveMetadata = <Channel>[];
+    final stalkerChannels = <Channel>[];
     final ser = <XtreamSeries>[];
     for (final a in accounts) {
       try {
         movies.addAll(
           await XtreamService.fetchMovies(a.host!, a.username!, a.password!),
+        );
+      } catch (_) {}
+      try {
+        liveMetadata.addAll(
+          await XtreamService.fetchLiveStreams(
+            a.host!,
+            a.username!,
+            a.password!,
+            userAgent: a.userAgent,
+          ),
         );
       } catch (_) {}
       try {
@@ -141,9 +155,35 @@ class ContentStore extends ChangeNotifier {
         );
       } catch (_) {}
     }
-    final seen = all.map((c) => c.url).toSet();
-    for (final m in movies) {
-      if (seen.add(m.url)) all.add(m);
+    for (final portal in portals) {
+      try {
+        stalkerChannels.addAll(
+          await StalkerService.fetchChannels(
+            portal.host!,
+            portal.username!,
+            sourceName: portal.name,
+          ),
+        );
+      } catch (_) {}
+    }
+
+    final byUrl = {for (final channel in all) channel.url: channel};
+    for (final metadata in liveMetadata) {
+      final existing = byUrl[metadata.url];
+      if (existing != null) {
+        existing.hasCatchup = metadata.hasCatchup;
+        existing.userAgent ??= metadata.userAgent;
+      } else {
+        all.add(metadata);
+        byUrl[metadata.url] = metadata;
+      }
+    }
+    final favorites = StorageService.loadFavorites().map((c) => c.url).toSet();
+    for (final channel in [...movies, ...stalkerChannels]) {
+      if (byUrl.containsKey(channel.url)) continue;
+      channel.isFavorite = favorites.contains(channel.url);
+      all.add(channel);
+      byUrl[channel.url] = channel;
     }
     series = ser;
     vodLoading = false;
@@ -153,7 +193,7 @@ class ContentStore extends ChangeNotifier {
 
   /// Lee las fuentes que el usuario agrega desde el script de PC
   /// (assets/data/sources.json). Formato: lista de objetos con
-  /// { name, url, type: live|movie|series|xtream, host, username, password }.
+  /// { name, url, type: live|movie|series|xtream|stalker, host, mac }.
   Future<_AssetSources> _loadAssetSources() async {
     try {
       final raw = await rootBundle.loadString('assets/data/sources.json');
@@ -165,7 +205,23 @@ class ContentStore extends ChangeNotifier {
         if (e is! Map) continue;
         final name = (e['name'] ?? 'Fuente').toString();
         final type = (e['type'] ?? 'live').toString().toLowerCase();
-        if (type == 'xtream') {
+        if (type == 'stalker') {
+          final host = (e['host'] ?? e['url'] ?? '').toString();
+          final mac = (e['mac'] ?? e['username'] ?? '').toString();
+          if (host.isEmpty || !StalkerService.isValidMac(mac)) continue;
+          final normalizedHost = StalkerService.normalizePortal(host);
+          out.add(
+            M3UList(
+              name: name,
+              url: normalizedHost,
+              description: 'Portal Stalker · $normalizedHost',
+              category: 'stalker',
+              host: normalizedHost,
+              username: StalkerService.normalizeMac(mac),
+              userAgent: StalkerService.magUserAgent,
+            ),
+          );
+        } else if (type == 'xtream') {
           final host = (e['host'] ?? '').toString();
           final user = (e['username'] ?? '').toString();
           final pass = (e['password'] ?? '').toString();

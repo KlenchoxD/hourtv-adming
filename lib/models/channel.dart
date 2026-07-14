@@ -110,6 +110,7 @@ class Channel {
   String? director;
   String? backdrop; // imagen horizontal 16:9 para cabeceras (TMDB)
   String? userAgent; // User-Agent de la fuente (streams que rechazan el UA por defecto)
+  bool hasCatchup; // El canal Xtream permite reproducir programas ya emitidos.
 
   Channel({
     required this.name,
@@ -134,6 +135,7 @@ class Channel {
     this.director,
     this.backdrop,
     this.userAgent,
+    this.hasCatchup = false,
   });
 
   factory Channel.fromM3U(
@@ -202,6 +204,7 @@ class Channel {
     'director': director,
     'backdrop': backdrop,
     'userAgent': userAgent,
+    'hasCatchup': hasCatchup,
   };
 
   factory Channel.fromJson(Map<String, dynamic> json) => Channel(
@@ -227,6 +230,7 @@ class Channel {
     director: json['director']?.toString(),
     backdrop: json['backdrop']?.toString(),
     userAgent: json['userAgent']?.toString(),
+    hasCatchup: json['hasCatchup'] == true,
   );
 
   Channel copyWith({
@@ -252,6 +256,7 @@ class Channel {
     String? director,
     String? backdrop,
     String? userAgent,
+    bool? hasCatchup,
   }) {
     return Channel(
       name: name ?? this.name,
@@ -276,6 +281,7 @@ class Channel {
       director: director ?? this.director,
       backdrop: backdrop ?? this.backdrop,
       userAgent: userAgent ?? this.userAgent,
+      hasCatchup: hasCatchup ?? this.hasCatchup,
     );
   }
 
