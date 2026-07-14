@@ -6,6 +6,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import '../models/channel.dart';
 import '../services/storage_service.dart';
 import '../services/content_store.dart';
+import '../services/device_type.dart';
 import '../theme/app_theme.dart';
 import '../widgets/tv_focusable.dart';
 import 'search_screen.dart';
@@ -73,7 +74,11 @@ class _LiveTvScreenState extends State<LiveTvScreen> {
   late Timer _clock;
   DateTime _now = DateTime.now();
 
-  static const double _chItemH = 76;
+  /// Altura de cada canal en la lista: mayor en TV (diseño 10 pies).
+  double get _chItemH => DeviceProfile.isTv(context) ? 96 : 76;
+
+  /// Escala 10 pies: 1.0 en móvil/tablet, 1.5 en TV.
+  double get _s => DeviceProfile.uiScale(context);
 
   List<Channel> get _all => _store.all;
   bool get _loading => _store.loading;
@@ -347,8 +352,9 @@ class _LiveTvScreenState extends State<LiveTvScreen> {
 
   // ---------- Layout horizontal / TV ----------
   Widget _immersiveBody(double w) {
-    final catW = (w * 0.24).clamp(150.0, 230.0);
-    final chW = (w * 0.30).clamp(240.0, 360.0);
+    final tv = DeviceProfile.isTv(context);
+    final catW = (w * 0.24).clamp(150.0, tv ? 330.0 : 230.0);
+    final chW = (w * 0.30).clamp(240.0, tv ? 500.0 : 360.0);
     return Stack(
       children: [
         Positioned.fill(
@@ -393,7 +399,7 @@ class _LiveTvScreenState extends State<LiveTvScreen> {
                     child: _categoryRail(),
                   ),
                   Positioned(
-                    top: 56,
+                    top: 56 * _s,
                     bottom: 0,
                     right: 0,
                     width: chW,
@@ -627,7 +633,7 @@ class _LiveTvScreenState extends State<LiveTvScreen> {
   // ---------- Barra de estado superior ----------
   Widget _statusBar() {
     return Container(
-      height: 56,
+      height: 56 * _s,
       padding: const EdgeInsets.symmetric(horizontal: 18),
       decoration: BoxDecoration(
         gradient: LinearGradient(
@@ -639,24 +645,24 @@ class _LiveTvScreenState extends State<LiveTvScreen> {
       child: Row(
         children: [
           Container(
-            width: 30,
-            height: 30,
+            width: 30 * _s,
+            height: 30 * _s,
             decoration: BoxDecoration(
               gradient: AppTheme.accentGradient,
               borderRadius: BorderRadius.circular(8),
             ),
-            child: const Icon(
+            child: Icon(
               Icons.live_tv_rounded,
               color: Colors.white,
-              size: 18,
+              size: 18 * _s,
             ),
           ),
           const SizedBox(width: 10),
-          const Text(
+          Text(
             'EN VIVO',
             style: TextStyle(
               color: AppColors.textPrimary,
-              fontSize: 16,
+              fontSize: 16 * _s,
               fontWeight: FontWeight.w800,
               letterSpacing: 0.5,
             ),
@@ -666,19 +672,19 @@ class _LiveTvScreenState extends State<LiveTvScreen> {
           _barIcon(Icons.calendar_month_rounded, _openEpg),
           _barIcon(Icons.refresh_rounded, () => _store.reload()),
           const SizedBox(width: 8),
-          const Icon(
+          Icon(
             Icons.wifi_rounded,
             color: AppColors.textSecondary,
-            size: 18,
+            size: 18 * _s,
           ),
           const SizedBox(width: 12),
           Container(width: 1, height: 18, color: Colors.white24),
           const SizedBox(width: 12),
           Text(
             _clockText,
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.textPrimary,
-              fontSize: 14,
+              fontSize: 14 * _s,
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -690,7 +696,7 @@ class _LiveTvScreenState extends State<LiveTvScreen> {
   Widget _barIcon(IconData ic, VoidCallback onTap) => Padding(
     padding: const EdgeInsets.symmetric(horizontal: 4),
     child: IconButton(
-      icon: Icon(ic, color: AppColors.textSecondary, size: 20),
+      icon: Icon(ic, color: AppColors.textSecondary, size: 20 * _s),
       visualDensity: VisualDensity.compact,
       onPressed: onTap,
     ),
@@ -735,7 +741,7 @@ class _LiveTvScreenState extends State<LiveTvScreen> {
   // ---------- Menu de categorias (izquierda) ----------
   Widget _categoryRail() {
     return Container(
-      padding: const EdgeInsets.only(top: 64, left: 6, bottom: 16),
+      padding: EdgeInsets.only(top: 64 * _s, left: 6, bottom: 16),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.centerLeft,
@@ -772,7 +778,7 @@ class _LiveTvScreenState extends State<LiveTvScreen> {
                 children: [
                   Icon(
                     c.icon,
-                    size: 22,
+                    size: 22 * _s,
                     color: selected ? AppColors.accent : Colors.white70,
                   ),
                   const SizedBox(width: 14),
@@ -783,7 +789,7 @@ class _LiveTvScreenState extends State<LiveTvScreen> {
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         color: selected ? Colors.white : Colors.white70,
-                        fontSize: 14,
+                        fontSize: 14 * _s,
                         fontWeight: selected
                             ? FontWeight.w700
                             : FontWeight.w500,
@@ -803,7 +809,7 @@ class _LiveTvScreenState extends State<LiveTvScreen> {
   // ---------- Selector de país (EN VIVO) ----------
   Widget _countryBar() {
     return SizedBox(
-      height: 38,
+      height: 38 * _s,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -837,13 +843,13 @@ class _LiveTvScreenState extends State<LiveTvScreen> {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(flag, style: const TextStyle(fontSize: 13)),
+                    Text(flag, style: TextStyle(fontSize: 13 * _s)),
                     const SizedBox(width: 6),
                     Text(
                       b.name,
                       style: TextStyle(
                         color: sel ? Colors.white : AppColors.textSecondary,
-                        fontSize: 12,
+                        fontSize: 12 * _s,
                         fontWeight: sel ? FontWeight.w700 : FontWeight.w500,
                       ),
                     ),
@@ -852,7 +858,7 @@ class _LiveTvScreenState extends State<LiveTvScreen> {
                       '${b.count}',
                       style: TextStyle(
                         color: sel ? Colors.white70 : AppColors.textMuted,
-                        fontSize: 11,
+                        fontSize: 11 * _s,
                       ),
                     ),
                   ],
@@ -885,7 +891,7 @@ class _LiveTvScreenState extends State<LiveTvScreen> {
                 Icon(
                   _categories[_catIdx].icon,
                   color: AppColors.accent,
-                  size: 18,
+                  size: 18 * _s,
                 ),
                 const SizedBox(width: 8),
                 Expanded(
@@ -893,9 +899,9 @@ class _LiveTvScreenState extends State<LiveTvScreen> {
                     _categories[_catIdx].label,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: AppColors.textPrimary,
-                      fontSize: 15,
+                      fontSize: 15 * _s,
                       fontWeight: FontWeight.w800,
                       letterSpacing: 0.3,
                     ),
@@ -903,9 +909,9 @@ class _LiveTvScreenState extends State<LiveTvScreen> {
                 ),
                 Text(
                   '${_list.length}',
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: AppColors.textMuted,
-                    fontSize: 12,
+                    fontSize: 12 * _s,
                   ),
                 ),
               ],
@@ -1002,7 +1008,7 @@ class _LiveTvScreenState extends State<LiveTvScreen> {
                                           color: playing
                                               ? AppColors.accentLight
                                               : AppColors.textPrimary,
-                                          fontSize: 13,
+                                          fontSize: 13 * _s,
                                           fontWeight: playing
                                               ? FontWeight.w700
                                               : FontWeight.w500,
@@ -1014,9 +1020,9 @@ class _LiveTvScreenState extends State<LiveTvScreen> {
                                           ch.epgLine!,
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
-                                          style: const TextStyle(
+                                          style: TextStyle(
                                             color: AppColors.textMuted,
-                                            fontSize: 10.5,
+                                            fontSize: 10.5 * _s,
                                           ),
                                         ),
                                       ],
@@ -1053,8 +1059,8 @@ class _LiveTvScreenState extends State<LiveTvScreen> {
 
   Widget _channelLogo(Channel ch) {
     return Container(
-      width: 46,
-      height: 46,
+      width: 46 * _s,
+      height: 46 * _s,
       decoration: BoxDecoration(
         color: Colors.white.withValues(alpha: 0.06),
         borderRadius: BorderRadius.circular(10),
@@ -1077,9 +1083,9 @@ class _LiveTvScreenState extends State<LiveTvScreen> {
   Widget _logoInitial(Channel ch) => Center(
     child: Text(
       ch.displayName.isNotEmpty ? ch.displayName[0].toUpperCase() : '?',
-      style: const TextStyle(
+      style: TextStyle(
         color: AppColors.accentLight,
-        fontSize: 18,
+        fontSize: 18 * _s,
         fontWeight: FontWeight.w800,
       ),
     ),

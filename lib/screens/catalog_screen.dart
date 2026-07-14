@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../models/channel.dart';
 import '../services/content_store.dart';
+import '../services/device_type.dart';
 import '../services/storage_service.dart';
 import '../theme/app_theme.dart';
 import '../widgets/tv_focusable.dart';
@@ -48,37 +49,44 @@ class _CatalogScreenState extends State<CatalogScreen> {
 
   bool get _vodLoading => _store.moviesLoading || _store.vodLoading;
 
+  /// Escala 10 pies (1.0 en móvil/tablet, 1.5 en TV) y margen de overscan.
+  double get _s => DeviceProfile.uiScale(context);
+  double get _pad => DeviceProfile.overscan(context);
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       bottom: false,
-      child: Column(children: [
-        _topBar(),
-        _tabsRow(),
-        Expanded(child: _content()),
-      ]),
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: _pad),
+        child: Column(children: [
+          _topBar(),
+          _tabsRow(),
+          Expanded(child: _content()),
+        ]),
+      ),
     );
   }
 
   Widget _topBar() => Padding(
-    padding: const EdgeInsets.fromLTRB(18, 12, 12, 6),
+    padding: EdgeInsets.fromLTRB(18, 12 * _s, 12, 6),
     child: Row(children: [
       Container(
-        width: 30, height: 30,
-        decoration: BoxDecoration(gradient: AppTheme.accentGradient, borderRadius: BorderRadius.circular(8)),
-        child: const Icon(Icons.play_arrow_rounded, color: Colors.white, size: 20),
+        width: 30 * _s, height: 30 * _s,
+        decoration: BoxDecoration(gradient: AppTheme.accentGradient, borderRadius: BorderRadius.circular(8 * _s)),
+        child: Icon(Icons.play_arrow_rounded, color: Colors.white, size: 20 * _s),
       ),
       const SizedBox(width: 9),
-      ShaderMask(shaderCallback: (b) => AppTheme.accentGradient.createShader(b), child: const Text('Hour', style: TextStyle(color: Colors.white, fontSize: 19, fontWeight: FontWeight.w800))),
-      const Text('TV', style: TextStyle(color: AppColors.textPrimary, fontSize: 19, fontWeight: FontWeight.w300)),
+      ShaderMask(shaderCallback: (b) => AppTheme.accentGradient.createShader(b), child: Text('Hour', style: TextStyle(color: Colors.white, fontSize: 19 * _s, fontWeight: FontWeight.w800))),
+      Text('TV', style: TextStyle(color: AppColors.textPrimary, fontSize: 19 * _s, fontWeight: FontWeight.w300)),
       const Spacer(),
       if (_vodLoading) const Padding(padding: EdgeInsets.only(right: 6), child: SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.accent))),
-      IconButton(icon: const Icon(Icons.search_rounded, color: AppColors.textPrimary), onPressed: _openSearch),
+      IconButton(icon: Icon(Icons.search_rounded, color: AppColors.textPrimary, size: 24 * _s), onPressed: _openSearch),
     ]),
   );
 
   Widget _tabsRow() => SizedBox(
-    height: 44,
+    height: 44 * _s,
     child: ListView.builder(
       scrollDirection: Axis.horizontal,
       padding: const EdgeInsets.symmetric(horizontal: 14),
@@ -91,12 +99,12 @@ class _CatalogScreenState extends State<CatalogScreen> {
             onTap: () => setState(() => _tab = i),
             borderRadius: BorderRadius.circular(10),
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 14),
+              padding: EdgeInsets.symmetric(horizontal: 14 * _s),
               alignment: Alignment.center,
               child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-                Text(_tabs[i], style: TextStyle(color: sel ? AppColors.textPrimary : AppColors.textMuted, fontSize: 15, fontWeight: sel ? FontWeight.w800 : FontWeight.w500)),
+                Text(_tabs[i], style: TextStyle(color: sel ? AppColors.textPrimary : AppColors.textMuted, fontSize: 15 * _s, fontWeight: sel ? FontWeight.w800 : FontWeight.w500)),
                 const SizedBox(height: 4),
-                AnimatedContainer(duration: const Duration(milliseconds: 160), height: 3, width: sel ? 22 : 0, decoration: BoxDecoration(gradient: AppTheme.accentGradient, borderRadius: BorderRadius.circular(2))),
+                AnimatedContainer(duration: const Duration(milliseconds: 160), height: 3, width: sel ? 22 * _s : 0, decoration: BoxDecoration(gradient: AppTheme.accentGradient, borderRadius: BorderRadius.circular(2))),
               ]),
             ),
           ),
@@ -132,7 +140,7 @@ class _CatalogScreenState extends State<CatalogScreen> {
     final f = movies.first;
     return Container(
       margin: const EdgeInsets.fromLTRB(16, 6, 16, 4),
-      height: 190,
+      height: 190 * _s,
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: AppColors.cardDark, border: Border.all(color: Colors.white.withValues(alpha: 0.06))),
       clipBehavior: Clip.antiAlias,
       child: Stack(fit: StackFit.expand, children: [
@@ -144,21 +152,21 @@ class _CatalogScreenState extends State<CatalogScreen> {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
               decoration: BoxDecoration(color: AppColors.accent, borderRadius: BorderRadius.circular(6)),
-              child: const Text('DESTACADA', style: TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.w800, letterSpacing: 0.5)),
+              child: Text('DESTACADA', style: TextStyle(color: Colors.white, fontSize: 10 * _s, fontWeight: FontWeight.w800, letterSpacing: 0.5)),
             ),
             const SizedBox(height: 10),
-            Text(f.displayName, maxLines: 2, overflow: TextOverflow.ellipsis, style: const TextStyle(color: Colors.white, fontSize: 21, fontWeight: FontWeight.w800)),
+            Text(f.displayName, maxLines: 2, overflow: TextOverflow.ellipsis, style: TextStyle(color: Colors.white, fontSize: 21 * _s, fontWeight: FontWeight.w800)),
             const SizedBox(height: 10),
             TvFocusable(
               onTap: () => _play(f, _store.movies),
               borderRadius: BorderRadius.circular(10),
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 9),
+                padding: EdgeInsets.symmetric(horizontal: 18 * _s, vertical: 9 * _s),
                 decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
-                child: const Row(mainAxisSize: MainAxisSize.min, children: [
-                  Icon(Icons.play_arrow_rounded, color: Colors.black, size: 20),
-                  SizedBox(width: 6),
-                  Text('Reproducir', style: TextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.w700)),
+                child: Row(mainAxisSize: MainAxisSize.min, children: [
+                  Icon(Icons.play_arrow_rounded, color: Colors.black, size: 20 * _s),
+                  const SizedBox(width: 6),
+                  Text('Reproducir', style: TextStyle(color: Colors.black, fontSize: 14 * _s, fontWeight: FontWeight.w700)),
                 ]),
               ),
             ),
@@ -175,13 +183,13 @@ class _CatalogScreenState extends State<CatalogScreen> {
       Padding(
         padding: const EdgeInsets.fromLTRB(18, 18, 18, 10),
         child: Row(children: [
-          Text(title, style: const TextStyle(color: AppColors.textPrimary, fontSize: 16, fontWeight: FontWeight.w800)),
+          Text(title, style: TextStyle(color: AppColors.textPrimary, fontSize: 16 * _s, fontWeight: FontWeight.w800)),
           const SizedBox(width: 8),
-          Text('${items.length}', style: const TextStyle(color: AppColors.textMuted, fontSize: 12)),
+          Text('${items.length}', style: TextStyle(color: AppColors.textMuted, fontSize: 12 * _s)),
         ]),
       ),
       SizedBox(
-        height: 198,
+        height: 198 * _s,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
           padding: const EdgeInsets.symmetric(horizontal: 14),
@@ -198,12 +206,12 @@ class _CatalogScreenState extends State<CatalogScreen> {
       onTap: () => _play(ch, ctx),
       borderRadius: BorderRadius.circular(12),
       child: SizedBox(
-        width: 118,
+        width: 118 * _s,
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(12),
             child: Container(
-              width: 118, height: 165,
+              width: 118 * _s, height: 165 * _s,
               color: AppColors.cardElevated,
               child: ch.logo != null && ch.logo!.isNotEmpty
                   ? CachedNetworkImage(imageUrl: ch.logo!, fit: BoxFit.cover, placeholder: (_, _) => _posterPh(ch), errorWidget: (_, _, _) => _posterPh(ch))
@@ -211,7 +219,7 @@ class _CatalogScreenState extends State<CatalogScreen> {
             ),
           ),
           const SizedBox(height: 6),
-          Text(ch.displayName, maxLines: 1, overflow: TextOverflow.ellipsis, style: const TextStyle(color: AppColors.textPrimary, fontSize: 12, fontWeight: FontWeight.w600)),
+          Text(ch.displayName, maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(color: AppColors.textPrimary, fontSize: 12 * _s, fontWeight: FontWeight.w600)),
         ]),
       ),
     ),
@@ -221,19 +229,19 @@ class _CatalogScreenState extends State<CatalogScreen> {
     alignment: Alignment.center,
     decoration: const BoxDecoration(gradient: LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: [AppColors.cardElevated, AppColors.cardDark])),
     padding: const EdgeInsets.all(8),
-    child: Text(ch.displayName, maxLines: 4, overflow: TextOverflow.ellipsis, textAlign: TextAlign.center, style: const TextStyle(color: AppColors.accentLight, fontSize: 12, fontWeight: FontWeight.w700)),
+    child: Text(ch.displayName, maxLines: 4, overflow: TextOverflow.ellipsis, textAlign: TextAlign.center, style: TextStyle(color: AppColors.accentLight, fontSize: 12 * _s, fontWeight: FontWeight.w700)),
   );
 
   // --------- Series ---------
   Widget _seriesRow() {
     final series = _store.series;
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      const Padding(
-        padding: EdgeInsets.fromLTRB(18, 18, 18, 10),
-        child: Text('Series', style: TextStyle(color: AppColors.textPrimary, fontSize: 16, fontWeight: FontWeight.w800)),
+      Padding(
+        padding: const EdgeInsets.fromLTRB(18, 18, 18, 10),
+        child: Text('Series', style: TextStyle(color: AppColors.textPrimary, fontSize: 16 * _s, fontWeight: FontWeight.w800)),
       ),
       SizedBox(
-        height: 198,
+        height: 198 * _s,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
           padding: const EdgeInsets.symmetric(horizontal: 14),
@@ -252,7 +260,7 @@ class _CatalogScreenState extends State<CatalogScreen> {
     }
     return GridView.builder(
       padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
-      gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 124, childAspectRatio: 0.56, crossAxisSpacing: 12, mainAxisSpacing: 16),
+      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 124 * _s, childAspectRatio: 0.56, crossAxisSpacing: 12, mainAxisSpacing: 16),
       itemCount: series.length,
       itemBuilder: (ctx, i) => _seriesCard(series[i]),
     );
@@ -261,12 +269,12 @@ class _CatalogScreenState extends State<CatalogScreen> {
   Widget _seriesCard(dynamic s) => Padding(
     padding: const EdgeInsets.symmetric(horizontal: 5),
     child: SizedBox(
-      width: 118,
+      width: 118 * _s,
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         ClipRRect(
           borderRadius: BorderRadius.circular(12),
           child: Container(
-            width: 118, height: 165,
+            width: 118 * _s, height: 165 * _s,
             color: AppColors.cardElevated,
             child: s.cover != null && (s.cover as String).isNotEmpty
                 ? CachedNetworkImage(imageUrl: s.cover, fit: BoxFit.cover, errorWidget: (_, _, _) => _seriesPh(s.name))
@@ -274,7 +282,7 @@ class _CatalogScreenState extends State<CatalogScreen> {
           ),
         ),
         const SizedBox(height: 6),
-        Text(s.name, maxLines: 1, overflow: TextOverflow.ellipsis, style: const TextStyle(color: AppColors.textPrimary, fontSize: 12, fontWeight: FontWeight.w600)),
+        Text(s.name, maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(color: AppColors.textPrimary, fontSize: 12 * _s, fontWeight: FontWeight.w600)),
       ]),
     ),
   );
@@ -283,7 +291,7 @@ class _CatalogScreenState extends State<CatalogScreen> {
     alignment: Alignment.center,
     padding: const EdgeInsets.all(8),
     decoration: const BoxDecoration(gradient: LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: [AppColors.cardElevated, AppColors.cardDark])),
-    child: Text(name, maxLines: 4, textAlign: TextAlign.center, overflow: TextOverflow.ellipsis, style: const TextStyle(color: AppColors.accentLight, fontSize: 11, fontWeight: FontWeight.w700)),
+    child: Text(name, maxLines: 4, textAlign: TextAlign.center, overflow: TextOverflow.ellipsis, style: TextStyle(color: AppColors.accentLight, fontSize: 11 * _s, fontWeight: FontWeight.w700)),
   );
 
   // --------- Estados ---------

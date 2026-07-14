@@ -44,4 +44,12 @@ class DeviceProfile {
   /// confiable): hoy coincide con TV, pero se deja separado por si en el
   /// futuro se detecta táctil ausente por otra vía.
   static bool isRemoteOnly(BuildContext context) => isTv(context);
+
+  /// Escala de interfaz "10 pies": tarjetas, tipografía y espaciados se
+  /// multiplican por esto para verse a 3 metros. 1.0 en móvil/tablet.
+  static double uiScale(BuildContext context) => isTv(context) ? 1.5 : 1.0;
+
+  /// Margen seguro (overscan) para que el contenido no quede cortado en los
+  /// bordes de televisores. Cero en móvil/tablet.
+  static double overscan(BuildContext context) => isTv(context) ? 24.0 : 0.0;
 }

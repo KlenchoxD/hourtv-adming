@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../services/content_store.dart';
+import '../services/device_type.dart';
 import '../theme/app_theme.dart';
 import '../widgets/tv_focusable.dart';
 import 'lists_screen.dart';
@@ -18,53 +19,62 @@ class _ProfileScreenState extends State<ProfileScreen> {
     if (mounted) { ContentStore.instance.reload(); setState(() {}); }
   }
 
+  /// Escala 10 pies: 1.0 en móvil/tablet, 1.5 en TV.
+  double get _s => DeviceProfile.uiScale(context);
+
   @override
   Widget build(BuildContext context) {
     final store = ContentStore.instance;
     final liveCount = store.all.where((c) => c.type.index == 0).length;
     return SafeArea(
-      child: ListView(padding: const EdgeInsets.fromLTRB(20, 18, 20, 24), children: [
-        // Cabecera de marca
-        Row(children: [
-          Container(
-            width: 56, height: 56,
-            decoration: BoxDecoration(gradient: AppTheme.accentGradient, borderRadius: BorderRadius.circular(16)),
-            child: const Icon(Icons.play_circle_fill_rounded, color: Colors.white, size: 34),
-          ),
-          const SizedBox(width: 14),
-          Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisSize: MainAxisSize.min, children: const [
-            Text('HourTV', style: TextStyle(color: AppColors.textPrimary, fontSize: 22, fontWeight: FontWeight.w800)),
-            SizedBox(height: 2),
-            Text('Tu televisión, en todas partes', style: TextStyle(color: AppColors.textSecondary, fontSize: 12.5)),
-          ]),
-        ]),
-        const SizedBox(height: 18),
-        // Resumen
-        Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(color: AppColors.cardDark, borderRadius: BorderRadius.circular(16), border: Border.all(color: Colors.white.withValues(alpha: 0.05))),
-          child: Row(children: [
-            Expanded(child: _stat('${store.all.length}', 'Total')),
-            Container(width: 1, height: 34, color: Colors.white12),
-            Expanded(child: _stat('$liveCount', 'En vivo')),
-            Container(width: 1, height: 34, color: Colors.white12),
-            Expanded(child: _stat('${store.movies.length}', 'Películas')),
+      child: Center(
+        child: ConstrainedBox(
+          // En TV el contenido no se estira a todo el ancho: columna centrada.
+          constraints: BoxConstraints(maxWidth: DeviceProfile.isTv(context) ? 860 : double.infinity),
+          child: ListView(padding: const EdgeInsets.fromLTRB(20, 18, 20, 24), children: [
+            // Cabecera de marca
+            Row(children: [
+              Container(
+                width: 56 * _s, height: 56 * _s,
+                decoration: BoxDecoration(gradient: AppTheme.accentGradient, borderRadius: BorderRadius.circular(16)),
+                child: Icon(Icons.play_circle_fill_rounded, color: Colors.white, size: 34 * _s),
+              ),
+              const SizedBox(width: 14),
+              Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisSize: MainAxisSize.min, children: [
+                Text('HourTV', style: TextStyle(color: AppColors.textPrimary, fontSize: 22 * _s, fontWeight: FontWeight.w800)),
+                const SizedBox(height: 2),
+                Text('Tu televisión, en todas partes', style: TextStyle(color: AppColors.textSecondary, fontSize: 12.5 * _s)),
+              ]),
+            ]),
+            const SizedBox(height: 18),
+            // Resumen
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(color: AppColors.cardDark, borderRadius: BorderRadius.circular(16), border: Border.all(color: Colors.white.withValues(alpha: 0.05))),
+              child: Row(children: [
+                Expanded(child: _stat('${store.all.length}', 'Total')),
+                Container(width: 1, height: 34 * _s, color: Colors.white12),
+                Expanded(child: _stat('$liveCount', 'En vivo')),
+                Container(width: 1, height: 34 * _s, color: Colors.white12),
+                Expanded(child: _stat('${store.movies.length}', 'Películas')),
+              ]),
+            ),
+            const SizedBox(height: 22),
+            _item(Icons.dns_rounded, 'Mis Fuentes', 'Cuentas Xtream y listas M3U', () => _open(const ListsScreen())),
+            _item(Icons.tune_rounded, 'Ajustes', 'Reproducción, red y caché', () => _open(const SettingsScreen())),
+            _item(Icons.refresh_rounded, 'Recargar contenido', 'Vuelve a descargar canales y catálogo', () { ContentStore.instance.reload(); setState(() {}); }),
+            const SizedBox(height: 24),
+            Center(child: Text('HourTV v1.0.0', style: TextStyle(color: AppColors.textMuted, fontSize: 12 * _s))),
           ]),
         ),
-        const SizedBox(height: 22),
-        _item(Icons.dns_rounded, 'Mis Fuentes', 'Cuentas Xtream y listas M3U', () => _open(const ListsScreen())),
-        _item(Icons.tune_rounded, 'Ajustes', 'Reproducción, red y caché', () => _open(const SettingsScreen())),
-        _item(Icons.refresh_rounded, 'Recargar contenido', 'Vuelve a descargar canales y catálogo', () { ContentStore.instance.reload(); setState(() {}); }),
-        const SizedBox(height: 24),
-        Center(child: Text('HourTV v1.0.0', style: TextStyle(color: AppColors.textMuted, fontSize: 12))),
-      ]),
+      ),
     );
   }
 
   Widget _stat(String value, String label) => Column(children: [
-    Text(value, style: const TextStyle(color: AppColors.textPrimary, fontSize: 20, fontWeight: FontWeight.w800)),
+    Text(value, style: TextStyle(color: AppColors.textPrimary, fontSize: 20 * _s, fontWeight: FontWeight.w800)),
     const SizedBox(height: 2),
-    Text(label, style: const TextStyle(color: AppColors.textMuted, fontSize: 12)),
+    Text(label, style: TextStyle(color: AppColors.textMuted, fontSize: 12 * _s)),
   ]);
 
   Widget _item(IconData icon, String title, String subtitle, VoidCallback onTap) => Padding(
@@ -73,17 +83,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
       onTap: onTap,
       borderRadius: BorderRadius.circular(14),
       child: Container(
-        padding: const EdgeInsets.all(14),
+        padding: EdgeInsets.all(14 * _s),
         decoration: BoxDecoration(color: AppColors.cardDark, borderRadius: BorderRadius.circular(14), border: Border.all(color: Colors.white.withValues(alpha: 0.05))),
         child: Row(children: [
-          Container(width: 40, height: 40, decoration: BoxDecoration(color: AppColors.accent.withValues(alpha: 0.12), borderRadius: BorderRadius.circular(11)), child: Icon(icon, color: AppColors.accent, size: 21)),
+          Container(width: 40 * _s, height: 40 * _s, decoration: BoxDecoration(color: AppColors.accent.withValues(alpha: 0.12), borderRadius: BorderRadius.circular(11)), child: Icon(icon, color: AppColors.accent, size: 21 * _s)),
           const SizedBox(width: 14),
           Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text(title, style: const TextStyle(color: AppColors.textPrimary, fontSize: 15, fontWeight: FontWeight.w700)),
+            Text(title, style: TextStyle(color: AppColors.textPrimary, fontSize: 15 * _s, fontWeight: FontWeight.w700)),
             const SizedBox(height: 2),
-            Text(subtitle, style: const TextStyle(color: AppColors.textMuted, fontSize: 12)),
+            Text(subtitle, style: TextStyle(color: AppColors.textMuted, fontSize: 12 * _s)),
           ])),
-          const Icon(Icons.chevron_right_rounded, color: AppColors.textMuted, size: 22),
+          Icon(Icons.chevron_right_rounded, color: AppColors.textMuted, size: 22 * _s),
         ]),
       ),
     ),
