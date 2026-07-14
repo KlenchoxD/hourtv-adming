@@ -20,11 +20,15 @@ class CatalogScreen extends StatefulWidget {
   State<CatalogScreen> createState() => _CatalogScreenState();
 }
 
-const _tabs = ['Para ti', 'Películas', 'Series'];
-
 class _CatalogScreenState extends State<CatalogScreen> {
   final _store = ContentStore.instance;
-  int _tab = 0;
+
+  /// Categoría activa: 'all' (Recomendado), un género de película, o 'series'.
+  String _cat = 'all';
+
+  /// Banner rotativo del Inicio en móvil/tablet (estilo UltraPelis).
+  Timer? _bannerTimer;
+  int _bannerIdx = 0;
 
   /// Contenido que muestra el billboard en TV: el último póster enfocado
   /// con D-pad (estilo Netflix). Null = la primera película destacada.
@@ -37,10 +41,17 @@ class _CatalogScreenState extends State<CatalogScreen> {
     super.initState();
     _store.addListener(_onChange);
     _store.ensureLoaded();
+    _bannerTimer = Timer.periodic(const Duration(seconds: 5), (_) {
+      if (!mounted || _cat == 'series') return;
+      if (DeviceProfile.isTv(context)) return; // en TV el billboard sigue al foco
+      final n = _store.movies.where((m) => m.logo != null).length;
+      if (n > 1) setState(() => _bannerIdx = (_bannerIdx + 1) % n);
+    });
   }
 
   @override
   void dispose() {
+    _bannerTimer?.cancel();
     _spotlightDebounce?.cancel();
     _spotlightRequest++;
     _store.removeListener(_onChange);
@@ -94,7 +105,7 @@ class _CatalogScreenState extends State<CatalogScreen> {
         padding: EdgeInsets.symmetric(horizontal: _pad),
         child: Column(children: [
           _topBar(),
-          _tabsRow(),
+          _categoryChips(),
           Expanded(child: _content()),
         ]),
       ),
@@ -114,83 +125,199 @@ class _CatalogScreenState extends State<CatalogScreen> {
       Text('TV', style: TextStyle(color: AppColors.textPrimary, fontSize: 19 * _s, fontWeight: FontWeight.w300)),
       const Spacer(),
       if (_vodLoading) const Padding(padding: EdgeInsets.only(right: 6), child: SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.accent))),
+      IconButton(icon: Icon(Icons.filter_list_rounded, color: AppColors.textPrimary, size: 24 * _s), onPressed: _openFilter),
       IconButton(icon: Icon(Icons.search_rounded, color: AppColors.textPrimary, size: 24 * _s), onPressed: _openSearch),
     ]),
   );
 
-  Widget _tabsRow() => SizedBox(
-    height: 44 * _s,
-    child: ListView.builder(
-      scrollDirection: Axis.horizontal,
-      padding: const EdgeInsets.symmetric(horizontal: 14),
-      itemCount: _tabs.length,
-      itemBuilder: (ctx, i) {
-        final sel = i == _tab;
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 6),
-          child: TvFocusable(
-            onTap: () => setState(() => _tab = i),
-            borderRadius: BorderRadius.circular(10),
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 14 * _s),
-              alignment: Alignment.center,
-              child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-                Text(_tabs[i], style: TextStyle(color: sel ? AppColors.textPrimary : AppColors.textMuted, fontSize: 15 * _s, fontWeight: sel ? FontWeight.w800 : FontWeight.w500)),
-                const SizedBox(height: 4),
-                AnimatedContainer(duration: const Duration(milliseconds: 160), height: 3, width: sel ? 22 * _s : 0, decoration: BoxDecoration(gradient: AppTheme.accentGradient, borderRadius: BorderRadius.circular(2))),
+  /// Panel de filtros estilo UltraPelis: lista de categorías a pantalla.
+  Future<void> _openFilter() async {
+    final cats = _cats;
+    final picked = await showModalBottomSheet<String>(
+      context: context,
+      backgroundColor: AppColors.surfaceDark,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(18))),
+      builder: (ctx) => SafeArea(
+        child: ConstrainedBox(
+          constraints: BoxConstraints(maxHeight: MediaQuery.sizeOf(ctx).height * 0.75),
+          child: Column(mainAxisSize: MainAxisSize.min, children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 16, 8, 4),
+              child: Row(children: [
+                Text('Categorías', style: TextStyle(color: AppColors.textPrimary, fontSize: 18 * _s, fontWeight: FontWeight.w800)),
+                const Spacer(),
+                IconButton(icon: const Icon(Icons.close_rounded, color: AppColors.textPrimary), onPressed: () => Navigator.pop(ctx)),
               ]),
             ),
-          ),
-        );
-      },
-    ),
-  );
+            Flexible(
+              child: ListView(shrinkWrap: true, children: [
+                for (final c in cats)
+                  ListTile(
+                    autofocus: c.id == _cat && DeviceProfile.isTv(context),
+                    leading: Icon(_catIcon(c.id), color: c.id == _cat ? AppColors.accent : AppColors.textSecondary, size: 20 * _s),
+                    title: Text(c.label, style: TextStyle(color: c.id == _cat ? AppColors.accent : AppColors.textPrimary, fontSize: 15 * _s)),
+                    onTap: () => Navigator.pop(ctx, c.id),
+                  ),
+              ]),
+            ),
+          ]),
+        ),
+      ),
+    );
+    if (picked != null && mounted) setState(() => _cat = picked);
+  }
+
+  IconData _catIcon(String id) {
+    final k = id.toLowerCase();
+    if (id == 'all') return Icons.recommend_rounded;
+    if (id == 'series') return Icons.tv_rounded;
+    if (k.contains('terror')) return Icons.dark_mode_rounded;
+    if (k.contains('acci')) return Icons.local_fire_department_rounded;
+    if (k.contains('comedia')) return Icons.sentiment_very_satisfied_rounded;
+    if (k.contains('roman')) return Icons.favorite_rounded;
+    if (k.contains('aventura')) return Icons.terrain_rounded;
+    if (k.contains('infantil') || k.contains('anima') || k.contains('familia')) return Icons.child_care_rounded;
+    if (k.contains('documental')) return Icons.video_library_rounded;
+    if (k.contains('cienc')) return Icons.rocket_launch_rounded;
+    return Icons.local_movies_rounded;
+  }
+
+  /// Categorías disponibles: Recomendado + géneros reales + Series.
+  List<({String id, String label})> get _cats => [
+    (id: 'all', label: 'Recomendado'),
+    for (final g in _store.movieGenres) (id: g, label: g),
+    if (_store.series.isNotEmpty) (id: 'series', label: 'Series'),
+  ];
+
+  /// Fila de categorías estilo UltraPelis: texto plano, la activa en rojo.
+  Widget _categoryChips() {
+    final cats = _cats;
+    return SizedBox(
+      height: 40 * _s,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        padding: const EdgeInsets.symmetric(horizontal: 14),
+        itemCount: cats.length,
+        itemBuilder: (ctx, i) {
+          final c = cats[i];
+          final sel = c.id == _cat;
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 5),
+            child: TvFocusable(
+              onTap: () => setState(() => _cat = c.id),
+              borderRadius: BorderRadius.circular(8),
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 10 * _s),
+                alignment: Alignment.center,
+                child: Text(
+                  c.label,
+                  style: TextStyle(
+                    color: sel ? AppColors.accent : AppColors.textSecondary,
+                    fontSize: 14 * _s,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  // --------- Filtros por año/calificación (usa metadata cuando existe) ---------
+
+  List<Channel> _byYear(List<Channel> src, {int? min, int? max}) => src.where((m) {
+    final y = int.tryParse(m.year?.trim() ?? '');
+    if (y == null) return false;
+    if (min != null && y < min) return false;
+    if (max != null && y > max) return false;
+    return true;
+  }).toList();
+
+  List<Channel> _byRating(List<Channel> src, double min) =>
+      src.where((m) => (double.tryParse(m.rating?.trim() ?? '') ?? 0) >= min).toList();
 
   Widget _content() {
-    if (_tab == 2) return _seriesTab();
+    if (_cat == 'series') return _seriesTab();
     final genres = _store.movieGenres;
     if (genres.isEmpty) {
       if (_vodLoading) return _loading('Cargando películas...');
       return _vodEmpty('películas');
     }
-    final showHero = _tab == 0;
-    final recent = showHero ? StorageService.loadRecent() : const <Channel>[];
+    final all = _cat == 'all';
+    final catMovies = all ? _store.movies : _store.moviesByGenre(_cat);
+    final recent = all ? StorageService.loadRecent() : const <Channel>[];
+    final year = DateTime.now().year;
+    final terror = all
+        ? _store.movies.where((m) => (m.genre ?? '').toLowerCase().contains('terror')).toList()
+        : const <Channel>[];
     return ListView(
       padding: const EdgeInsets.only(bottom: 24),
       children: [
-        if (showHero) _hero(),
+        _hero(),
+        if (!all) _movieRow('Todo en $_cat', catMovies),
         if (recent.isNotEmpty) _movieRow('Continuar viendo', recent),
-        for (final g in genres) _movieRow(g, _store.moviesByGenre(g)),
-        if (showHero && _store.series.isNotEmpty) _seriesRow(),
+        _movieRow('Estrenos $year', _byYear(catMovies, min: year - 1)),
+        _movieRow('Películas Más Populares', _byRating(catMovies, 7.5)),
+        _movieRow('Películas Antiguas', _byYear(catMovies, max: 2010)),
+        if (all) _movieRow('Para No Dormir', terror),
+        if (all) for (final g in genres) _movieRow(g, _store.moviesByGenre(g)),
+        if (all && _store.series.isNotEmpty) _seriesRow(),
       ],
     );
   }
 
-  // --------- Hero destacado ---------
+  // --------- Hero: banner rotativo (móvil/tablet) o billboard (TV) ---------
   Widget _hero() {
     final movies = _store.movies.where((m) => m.logo != null).toList();
     if (movies.isEmpty) return const SizedBox.shrink();
-    final f = (DeviceProfile.isTv(context) ? _spotlight : null) ?? movies.first;
-    if (DeviceProfile.isTv(context)) return _tvBillboard(f);
-    return Container(
-      margin: const EdgeInsets.fromLTRB(16, 6, 16, 4),
-      height: 190 * _s,
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: AppColors.cardDark, border: Border.all(color: Colors.white.withValues(alpha: 0.06))),
-      clipBehavior: Clip.antiAlias,
-      child: Stack(fit: StackFit.expand, children: [
-        if (f.logo != null) CachedNetworkImage(imageUrl: f.logo!, fit: BoxFit.cover, errorWidget: (_, _, _) => const SizedBox()),
-        DecoratedBox(decoration: BoxDecoration(gradient: LinearGradient(begin: Alignment.bottomCenter, end: Alignment.topCenter, colors: [Colors.black.withValues(alpha: 0.92), Colors.black.withValues(alpha: 0.15)]))),
-        Padding(
-          padding: const EdgeInsets.all(18),
-          child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.end, children: [
-            _heroBadge(),
-            const SizedBox(height: 10),
-            Text(f.displayName, maxLines: 2, overflow: TextOverflow.ellipsis, style: TextStyle(color: Colors.white, fontSize: 21 * _s, fontWeight: FontWeight.w800)),
-            const SizedBox(height: 10),
-            _heroPlayButton(f),
-          ]),
+    if (DeviceProfile.isTv(context)) {
+      return _tvBillboard(_spotlight ?? movies.first);
+    }
+    // Banner estilo UltraPelis: imagen a lo ancho, rota sola y es clickeable.
+    final f = movies[_bannerIdx % movies.length];
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(15, 8, 15, 6),
+      child: TvFocusable(
+        onTap: () => _play(f, movies),
+        borderRadius: BorderRadius.circular(6),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(6),
+          child: SizedBox(
+            height: 220 * _s,
+            width: double.infinity,
+            child: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 700),
+              switchInCurve: Curves.easeOut,
+              child: Stack(
+                key: ValueKey(f.url),
+                fit: StackFit.expand,
+                children: [
+                  CachedNetworkImage(imageUrl: f.logo!, fit: BoxFit.cover, errorWidget: (_, _, _) => Container(color: AppColors.cardDark)),
+                  // Franja inferior con el título, legible sobre la imagen
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.fromLTRB(14, 26, 14, 10),
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.bottomCenter,
+                          end: Alignment.topCenter,
+                          colors: [Colors.black.withValues(alpha: 0.85), Colors.transparent],
+                        ),
+                      ),
+                      child: Text(f.displayName, maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(color: Colors.white, fontSize: 16 * _s, fontWeight: FontWeight.w700)),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
         ),
-      ]),
+      ),
     );
   }
 

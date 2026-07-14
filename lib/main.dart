@@ -32,7 +32,7 @@ class _FatalError extends StatelessWidget {
   Widget build(BuildContext context) => Directionality(
     textDirection: TextDirection.ltr,
     child: Container(
-      color: const Color(0xFF04060C),
+      color: const Color(0xFF0B0B0B),
       alignment: Alignment.center,
       padding: const EdgeInsets.all(24),
       child: SingleChildScrollView(

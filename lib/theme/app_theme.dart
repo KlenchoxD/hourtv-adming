@@ -2,27 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AppColors {
-  // Fondos: negro con leve tinte azul
-  static const Color primaryDark = Color(0xFF04060C);
-  static const Color surfaceDark = Color(0xFF0A0F1A);
-  static const Color cardDark = Color(0xFF101725);
-  static const Color cardElevated = Color(0xFF182236);
+  // Fondos: negro neutro (estilo Netflix)
+  static const Color primaryDark = Color(0xFF0B0B0B);
+  static const Color surfaceDark = Color(0xFF141414);
+  static const Color cardDark = Color(0xFF1F1F1F);
+  static const Color cardElevated = Color(0xFF2B2B2B);
 
-  // Acento de marca: gradiente azul electrico
-  static const Color accent = Color(0xFF2E7BFF);
-  static const Color accentSecondary = Color(0xFF00C2FF);
-  static const Color accentLight = Color(0xFF6FA8FF);
+  // Acento de marca: rojo
+  static const Color accent = Color(0xFFE50914);
+  static const Color accentSecondary = Color(0xFFFF3341);
+  static const Color accentLight = Color(0xFFFF6B74);
 
-  // Texto (blanco)
-  static const Color textPrimary = Color(0xFFF6F8FC);
-  static const Color textSecondary = Color(0xFFAEB6C6);
-  static const Color textMuted = Color(0xFF6B7384);
+  // Texto (blanco/gris neutro)
+  static const Color textPrimary = Color(0xFFF5F5F5);
+  static const Color textSecondary = Color(0xFFB3B3B3);
+  static const Color textMuted = Color(0xFF6F6F6F);
 
   // Estados
   static const Color success = Color(0xFF2DD4A8);
   static const Color error = Color(0xFFFF3B5C);
   static const Color warning = Color(0xFFFFB23E);
-  static const Color live = Color(0xFFFF2E5B); // "LIVE" se mantiene rojo (convencion)
+  static const Color live = Color(0xFFE50914); // "LIVE" rojo (misma familia que el acento)
 }
 
 class AppTheme {
@@ -33,12 +33,12 @@ class AppTheme {
     colors: [AppColors.accent, AppColors.accentSecondary],
   );
 
-  /// Fondo de la app: negro con un sutil halo azul arriba.
+  /// Fondo de la app: negro plano con una sutil elevación arriba.
   static const BoxDecoration gradientBackground = BoxDecoration(
     gradient: LinearGradient(
       begin: Alignment.topCenter,
       end: Alignment.bottomCenter,
-      colors: [Color(0xFF0B1730), AppColors.primaryDark],
+      colors: [Color(0xFF181818), AppColors.primaryDark],
       stops: [0.0, 0.45],
     ),
   );

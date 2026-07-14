@@ -560,7 +560,7 @@ class _LiveTvScreenState extends State<LiveTvScreen> {
         gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
-          colors: [Color(0xFF0B1730), Colors.black],
+          colors: [Color(0xFF1F1F1F), Colors.black],
         ),
       ),
       child: Center(

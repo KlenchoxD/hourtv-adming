@@ -4,6 +4,7 @@ import '../services/device_type.dart';
 import '../widgets/tv_focusable.dart';
 import 'catalog_screen.dart';
 import 'live_tv_screen.dart';
+import 'favorites_screen.dart';
 import 'profile_screen.dart';
 
 /// Estructura principal: Inicio (catálogo), En Vivo (solo canales) y Perfil.
@@ -21,6 +22,7 @@ class _HomeShellState extends State<HomeShell> {
   static const _items = [
     (icon: Icons.home_rounded, label: 'Inicio'),
     (icon: Icons.live_tv_rounded, label: 'En Vivo'),
+    (icon: Icons.favorite_rounded, label: 'Favoritos'),
     (icon: Icons.person_rounded, label: 'Perfil'),
   ];
 
@@ -34,6 +36,7 @@ class _HomeShellState extends State<HomeShell> {
       children: [
         const CatalogScreen(),
         LiveTvScreen(active: _index == 1),
+        const FavoritesScreen(),
         const ProfileScreen(),
       ],
     );
@@ -51,7 +54,7 @@ class _HomeShellState extends State<HomeShell> {
     return Container(
       width: 88,
       decoration: BoxDecoration(
-        color: const Color(0xFF080C14),
+        color: const Color(0xFF141414),
         border: Border(right: BorderSide(color: Colors.white.withValues(alpha: 0.06))),
       ),
       child: SafeArea(
@@ -105,7 +108,7 @@ class _HomeShellState extends State<HomeShell> {
   Widget _bottomBar() {
     return Container(
       decoration: BoxDecoration(
-        color: const Color(0xFF080C14),
+        color: const Color(0xFF141414),
         border: Border(top: BorderSide(color: Colors.white.withValues(alpha: 0.06))),
       ),
       child: SafeArea(
