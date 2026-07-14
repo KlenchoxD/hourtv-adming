@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HourTV — Panel de administración</title>
+<style>
+  :root{
+    --bg:#0b0b0b; --surface:#141414; --card:#1f1f1f; --elev:#2b2b2b;
+    --accent:#e50914; --accent2:#ff3341; --text:#f5f5f5; --muted:#b3b3b3; --dim:#6f6f6f;
+    --ok:#2dd4a8; --warn:#ffb23e; --line:rgba(255,255,255,.08);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);font-size:14px}
+  header{position:sticky;top:0;z-index:10;background:#0d0d0d;border-bottom:1px solid var(--line);padding:12px 18px;display:flex;align-items:center;gap:14px}
+  .logo{display:flex;align-items:center;gap:8px;font-weight:800;font-size:18px}
+  .logo .dot{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center}
+  .logo .dot::after{content:'▶';font-size:13px;color:#fff}
+  header .spacer{flex:1}
+  button{font-family:inherit;font-size:14px;border:none;border-radius:8px;padding:9px 16px;cursor:pointer;font-weight:600;transition:.15s}
+  button:active{transform:scale(.97)}
+  .btn-primary{background:var(--accent);color:#fff}
+  .btn-primary:hover{background:var(--accent2)}
+  .btn-ghost{background:transparent;color:var(--muted);border:1px solid var(--line)}
+  .btn-ghost:hover{color:var(--text);border-color:var(--muted)}
+  .btn-sm{padding:6px 11px;font-size:12px}
+  .tabs{display:flex;gap:6px;padding:10px 18px 0;background:#0d0d0d;border-bottom:1px solid var(--line);overflow-x:auto}
+  .tab{background:none;color:var(--muted);border-radius:8px 8px 0 0;padding:10px 16px;font-weight:600;white-space:nowrap;border-bottom:2px solid transparent}
+  .tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+  main{max-width:1100px;margin:0 auto;padding:20px}
+  .toolbar{display:flex;gap:10px;align-items:center;margin-bottom:16px;flex-wrap:wrap}
+  .toolbar input[type=search]{flex:1;min-width:180px}
+  input,textarea,select{width:100%;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:10px 12px;color:var(--text);font-family:inherit;font-size:14px;outline:none}
+  input:focus,textarea:focus,select:focus{border-color:var(--accent)}
+  label{display:block;color:var(--muted);font-size:12px;margin:0 0 5px;font-weight:600}
+  textarea{resize:vertical;min-height:70px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px}
+  .item{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden;cursor:pointer;transition:.15s}
+  .item:hover{border-color:var(--accent);transform:translateY(-2px)}
+  .item .thumb{width:100%;aspect-ratio:2/3;object-fit:cover;background:var(--elev);display:block}
+  .item .thumb.ch{aspect-ratio:16/9;object-fit:contain;padding:8px}
+  .item .cap{padding:8px 10px}
+  .item .cap b{display:block;font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .item .cap span{color:var(--dim);font-size:11px}
+  .badge{display:inline-block;background:var(--accent);color:#fff;font-size:9px;font-weight:800;padding:2px 6px;border-radius:4px;letter-spacing:.4px;vertical-align:middle}
+  .empty{text-align:center;color:var(--dim);padding:60px 20px}
+  /* Modal */
+  .overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:50;display:none;align-items:flex-start;justify-content:center;overflow-y:auto;padding:30px 16px}
+  .overlay.open{display:flex}
+  .modal{background:var(--surface);border:1px solid var(--line);border-radius:14px;width:100%;max-width:640px;margin:auto}
+  .modal-head{display:flex;align-items:center;padding:16px 18px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--surface);border-radius:14px 14px 0 0}
+  .modal-head h3{margin:0;font-size:17px;flex:1}
+  .modal-body{padding:18px}
+  .row{margin-bottom:14px}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+  .modal-foot{display:flex;gap:10px;justify-content:space-between;padding:16px 18px;border-top:1px solid var(--line);position:sticky;bottom:0;background:var(--surface)}
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chip{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:6px 12px;font-size:12px;cursor:pointer;user-select:none}
+  .chip.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .servers .srv,.seasons .ep{display:flex;gap:8px;align-items:center;margin-bottom:8px}
+  .servers .srv input{flex:1}
+  .servers .srv input.nm{max-width:150px}
+  .season{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px;margin-bottom:12px}
+  .season .sh{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+  .season .sh input{max-width:80px}
+  .ep .nm{max-width:60px}
+  .ep input.t{flex:1}
+  .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--elev);border:1px solid var(--line);border-radius:10px;padding:12px 20px;z-index:100;opacity:0;transition:.3s;pointer-events:none}
+  .toast.show{opacity:1}
+  .toast.ok{border-color:var(--ok)}
+  .toast.err{border-color:var(--accent)}
+  .thumbprev{width:60px;height:90px;object-fit:cover;border-radius:6px;background:var(--elev);flex-shrink:0}
+  .hint{color:var(--dim);font-size:12px;line-height:1.5}
+  a{color:var(--accent2)}
+  .status{font-size:12px;color:var(--muted)}
+  .status b{color:var(--ok)}
+  .del{color:var(--accent);background:none;border:none}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo"><div class="dot"></div>HourTV <span style="color:var(--muted);font-weight:400">Admin</span></div>
+  <div class="spacer"></div>
+  <span class="status" id="status">Sin conectar</span>
+  <button class="btn-ghost btn-sm" onclick="openConfig()">⚙ GitHub</button>
+  <button class="btn-ghost btn-sm" onclick="loadFromGitHub()">↻ Cargar</button>
+  <button class="btn-primary btn-sm" onclick="publish()">⬆ Publicar</button>
+</header>
+
+<div class="tabs" id="tabs"></div>
+<main>
+  <div class="toolbar">
+    <input type="search" id="search" placeholder="Buscar…" oninput="render()">
+    <button class="btn-primary" onclick="openEditor()">+ Añadir</button>
+    <button class="btn-ghost" onclick="exportJson()">Descargar JSON</button>
+    <label class="btn-ghost" style="cursor:pointer;padding:9px 16px">Importar JSON<input type="file" accept=".json" onchange="importJson(event)" style="display:none"></label>
+  </div>
+  <div id="list"></div>
+</main>
+
+<div class="overlay" id="overlay"><div class="modal" id="modal"></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+// ---------- Estado ----------
+const TABS = [
+  {id:'movies', label:'Películas', kind:'vod'},
+  {id:'series', label:'Series', kind:'series'},
+  {id:'liveChannels', label:'Canales en vivo', kind:'live'},
+  {id:'sources', label:'Fuentes IPTV', kind:'source'},
+];
+const CATEGORIES = ['estrenos','populares','antiguas','recomendado','terror','accion','comedia','romance','aventura','infantil'];
+let catalog = {version:1, movies:[], series:[], liveChannels:[], sources:[]};
+let activeTab = 'movies';
+let cfg = JSON.parse(localStorage.getItem('hourtv_admin_cfg')||'{}');
+
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7)}
+function esc(s){return (s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+function toast(msg,type){const t=document.getElementById('toast');t.textContent=msg;t.className='toast show '+(type||'');setTimeout(()=>t.className='toast',2600)}
+function save(){localStorage.setItem('hourtv_admin_catalog',JSON.stringify(catalog))}
+
+// ---------- Tabs ----------
+function renderTabs(){
+  document.getElementById('tabs').innerHTML = TABS.map(t=>
+    `<button class="tab ${t.id===activeTab?'active':''}" onclick="setTab('${t.id}')">${t.label} <span style="color:var(--dim)">${(catalog[t.id]||[]).length}</span></button>`
+  ).join('');
+}
+function setTab(id){activeTab=id;document.getElementById('search').value='';renderTabs();render()}
+
+// ---------- Listado ----------
+function render(){
+  renderTabs();
+  const q = document.getElementById('search').value.toLowerCase().trim();
+  const items = (catalog[activeTab]||[]).filter(it=>!(q) || (it.title||it.name||'').toLowerCase().includes(q));
+  const list = document.getElementById('list');
+  if(!items.length){list.innerHTML=`<div class="empty">Sin elementos. Pulsa “+ Añadir”.</div>`;return}
+  const tab = TABS.find(t=>t.id===activeTab);
+  if(tab.kind==='source'){
+    list.innerHTML = items.map((it,i)=>`
+      <div class="item" style="display:flex;align-items:center;gap:12px;padding:12px" onclick="openEditor(${realIndex(it)})">
+        <div style="flex:1"><b>${esc(it.name)}</b> <span class="badge">${esc(it.type||'m3u')}</span><br><span style="color:var(--dim);font-size:12px">${esc(it.url||it.host||'')}</span></div>
+      </div>`).join('');
+    list.className='';
+    return;
+  }
+  list.className='grid';
+  list.innerHTML = items.map(it=>{
+    const idx = realIndex(it);
+    const img = it.poster||it.logo||it.backdrop||'';
+    const chClass = tab.kind==='live'?' ch':'';
+    const sub = tab.kind==='live' ? esc(it.group||'') :
+      (tab.kind==='series' ? `${(it.seasons||[]).length} temp.` : (it.year||''));
+    const feat = it.featured?'<span class="badge">DESTACADO</span> ':'';
+    return `<div class="item" onclick="openEditor(${idx})">
+      <img class="thumb${chClass}" src="${esc(img)}" onerror="this.style.visibility='hidden'">
+      <div class="cap"><b>${feat}${esc(it.title||it.name)}</b><span>${sub}</span></div>
+    </div>`;
+  }).join('');
+}
+function realIndex(it){return (catalog[activeTab]||[]).indexOf(it)}
+
+// ---------- Editor ----------
+function serverRows(servers){
+  return (servers&&servers.length?servers:[{name:'Servidor 1',url:''}]).map((s,i)=>`
+    <div class="srv">
+      <input class="nm" value="${esc(s.name||'')}" placeholder="Nombre">
+      <input value="${esc(s.url||'')}" placeholder="URL del video / iframe">
+      <button class="del btn-sm" onclick="this.closest('.srv').remove()">✕</button>
+    </div>`).join('');
+}
+function collectServers(scope){
+  return [...scope.querySelectorAll('.srv')].map(r=>{
+    const [nm,url]=r.querySelectorAll('input');
+    return {name:nm.value.trim()||'Servidor', url:url.value.trim()};
+  }).filter(s=>s.url);
+}
+
+function openEditor(idx){
+  const tab = TABS.find(t=>t.id===activeTab);
+  const editing = idx!=null;
+  const it = editing ? JSON.parse(JSON.stringify(catalog[activeTab][idx])) : {};
+  let body;
+  if(tab.kind==='source'){
+    body = sourceForm(it);
+  } else if(tab.kind==='live'){
+    body = liveForm(it);
+  } else {
+    body = vodForm(it, tab.kind==='series');
+  }
+  document.getElementById('modal').innerHTML = `
+    <div class="modal-head"><h3>${editing?'Editar':'Nuevo'} · ${tab.label}</h3>
+      <button class="btn-ghost btn-sm" onclick="closeModal()">✕</button></div>
+    <div class="modal-body" id="mbody">${body}</div>
+    <div class="modal-foot">
+      ${editing?`<button class="btn-ghost" onclick="removeItem(${idx})" style="color:var(--accent)">Eliminar</button>`:'<span></span>'}
+      <button class="btn-primary" onclick="saveItem(${editing?idx:'null'})">Guardar</button>
+    </div>`;
+  document.getElementById('overlay').classList.add('open');
+  if(tab.kind==='source') toggleSrc(it.type||'m3u');
+}
+function closeModal(){document.getElementById('overlay').classList.remove('open')}
+
+function vodForm(it, isSeries){
+  return `
+  <div class="row2">
+    <div class="row"><label>Título</label><input id="f_title" value="${esc(it.title)}"></div>
+    <div class="row"><label>Género</label><input id="f_genre" value="${esc(it.genre)}" placeholder="Acción, Terror…"></div>
+  </div>
+  <div class="row3">
+    <div class="row"><label>Año</label><input id="f_year" value="${esc(it.year)}"></div>
+    <div class="row"><label>Calificación</label><input id="f_rating" value="${esc(it.rating)}" placeholder="7.5"></div>
+    <div class="row"><label>Duración</label><input id="f_duration" value="${esc(it.duration)}" placeholder="120 min"></div>
+  </div>
+  <div class="row2">
+    <div class="row"><label>Miniatura (póster vertical)</label><input id="f_poster" value="${esc(it.poster)}" oninput="document.getElementById('pv').src=this.value"></div>
+    <div class="row"><label>Imagen de fondo (16:9, opcional)</label><input id="f_backdrop" value="${esc(it.backdrop)}"></div>
+  </div>
+  <div class="row" style="display:flex;gap:14px;align-items:flex-start">
+    <img id="pv" class="thumbprev" src="${esc(it.poster)}" onerror="this.style.visibility='hidden'">
+    <div style="flex:1">
+      <label>Sinopsis</label><textarea id="f_plot">${esc(it.plot)}</textarea>
+    </div>
+  </div>
+  <div class="row2">
+    <div class="row"><label>Reparto (separado por comas)</label><input id="f_cast" value="${esc(it.cast)}"></div>
+    <div class="row"><label>Director</label><input id="f_director" value="${esc(it.director)}"></div>
+  </div>
+  <div class="row"><label>Categorías / filas</label>
+    <div class="chips" id="f_cats">${CATEGORIES.map(c=>`<span class="chip ${(it.categories||[]).includes(c)?'on':''}" onclick="this.classList.toggle('on')">${c}</span>`).join('')}</div>
+  </div>
+  <div class="row"><label><input type="checkbox" id="f_featured" ${it.featured?'checked':''} style="width:auto;vertical-align:middle"> Destacado (banner de Inicio)</label></div>
+  ${isSeries ? seasonsBlock(it) : `
+    <div class="row"><label>Servidores (dónde se ve)</label>
+      <div class="servers" id="f_servers">${serverRows(it.servers)}</div>
+      <button class="btn-ghost btn-sm" onclick="document.getElementById('f_servers').insertAdjacentHTML('beforeend', window._srvRow())">+ Servidor</button>
+    </div>`}
+  `;
+}
+window._srvRow = ()=>`<div class="srv"><input class="nm" placeholder="Nombre"><input placeholder="URL del video / iframe"><button class="del btn-sm" onclick="this.closest('.srv').remove()">✕</button></div>`;
+
+function seasonsBlock(it){
+  const seasons = it.seasons||[];
+  return `<div class="row"><label>Temporadas y episodios</label>
+    <div class="seasons" id="f_seasons">${seasons.map(seasonHtml).join('')}</div>
+    <button class="btn-ghost btn-sm" onclick="addSeason()">+ Temporada</button></div>`;
+}
+function seasonHtml(s){
+  return `<div class="season" data-season>
+    <div class="sh"><label style="margin:0">Temporada</label><input class="snum" type="number" value="${s.number||1}">
+      <div style="flex:1"></div><button class="del btn-sm" onclick="this.closest('.season').remove()">Quitar temporada</button></div>
+    <div class="eps">${(s.episodes||[]).map(epHtml).join('')}</div>
+    <button class="btn-ghost btn-sm" onclick="this.previousElementSibling.insertAdjacentHTML('beforeend', window._epRow())">+ Episodio</button>
+  </div>`;
+}
+function epHtml(e){
+  const srv = (e.servers&&e.servers[0])?e.servers[0].url:'';
+  return `<div class="ep" data-ep>
+    <input class="nm" type="number" value="${e.number||1}" title="Nº">
+    <input class="t" value="${esc(e.title)}" placeholder="Título del episodio">
+    <input class="u" value="${esc(srv)}" placeholder="URL del video">
+    <button class="del btn-sm" onclick="this.closest('.ep').remove()">✕</button></div>`;
+}
+window._epRow = ()=>epHtml({});
+function addSeason(){const n=document.querySelectorAll('#f_seasons .season').length+1;document.getElementById('f_seasons').insertAdjacentHTML('beforeend', seasonHtml({number:n,episodes:[{number:1}]}))}
+
+function liveForm(it){
+  return `
+  <div class="row"><label>Nombre del canal</label><input id="f_name" value="${esc(it.name)}"></div>
+  <div class="row2">
+    <div class="row"><label>Logo (URL)</label><input id="f_logo" value="${esc(it.logo)}"></div>
+    <div class="row"><label>Grupo / categoría</label><input id="f_group" value="${esc(it.group)}" placeholder="deportes, noticias…"></div>
+  </div>
+  <div class="row"><label>URL del stream (.m3u8 / .ts)</label><input id="f_url" value="${esc(it.url)}"></div>
+  <div class="row"><label>User-Agent (opcional)</label><input id="f_ua" value="${esc(it.userAgent)}" placeholder="Déjalo vacío salvo que la fuente lo exija"></div>`;
+}
+function sourceForm(it){
+  const t = it.type||'m3u';
+  return `
+  <div class="row"><label>Tipo de fuente</label>
+    <select id="f_type" onchange="toggleSrc(this.value)">
+      ${['m3u','xtream','stalker','movie','series'].map(o=>`<option ${t===o?'selected':''}>${o}</option>`).join('')}
+    </select></div>
+  <div class="row"><label>Nombre</label><input id="f_name" value="${esc(it.name)}"></div>
+  <div id="src_m3u"><div class="row"><label>URL (.m3u / .m3u8)</label><input id="f_url" value="${esc(it.url)}"></div></div>
+  <div id="src_xtream" style="display:none">
+    <div class="row"><label>Host (http://servidor:puerto)</label><input id="f_host" value="${esc(it.host)}"></div>
+    <div class="row2"><div class="row"><label>Usuario</label><input id="f_user" value="${esc(it.username)}"></div>
+      <div class="row"><label>Contraseña</label><input id="f_pass" value="${esc(it.password)}"></div></div>
+  </div>
+  <div id="src_stalker" style="display:none">
+    <div class="row"><label>URL del portal</label><input id="f_host2" value="${esc(it.host)}" placeholder="http://portal/stalker_portal/c"></div>
+    <div class="row"><label>MAC</label><input id="f_mac" value="${esc(it.mac||it.username)}" placeholder="00:1A:79:XX:XX:XX"></div>
+  </div>
+  <div class="row"><label>User-Agent (opcional)</label><input id="f_ua" value="${esc(it.userAgent)}"></div>`;
+}
+function toggleSrc(t){
+  const map={m3u:'src_m3u',movie:'src_m3u',series:'src_m3u',xtream:'src_xtream',stalker:'src_stalker'};
+  ['src_m3u','src_xtream','src_stalker'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='none'});
+  const show=map[t]; const el=document.getElementById(show); if(el)el.style.display='';
+}
+
+function val(id){const el=document.getElementById(id);return el?el.value.trim():''}
+function saveItem(idx){
+  const tab = TABS.find(t=>t.id===activeTab);
+  let obj;
+  if(tab.kind==='source'){
+    const type=val('f_type');
+    obj={type, name:val('f_name')||'Fuente', userAgent:val('f_ua')||undefined};
+    if(type==='xtream'){obj.host=val('f_host');obj.username=val('f_user');obj.password=val('f_pass');}
+    else if(type==='stalker'){obj.host=val('f_host2');obj.mac=val('f_mac');}
+    else{obj.url=val('f_url');}
+  } else if(tab.kind==='live'){
+    obj={name:val('f_name'),logo:val('f_logo')||undefined,group:val('f_group')||undefined,url:val('f_url'),userAgent:val('f_ua')||undefined};
+    if(!obj.name||!obj.url){toast('Nombre y URL son obligatorios','err');return}
+  } else {
+    const cats=[...document.querySelectorAll('#f_cats .chip.on')].map(c=>c.textContent);
+    obj={
+      id: (idx!=null?catalog[activeTab][idx].id:null)||uid(),
+      title:val('f_title'), genre:val('f_genre')||undefined, year:val('f_year')||undefined,
+      rating:val('f_rating')||undefined, duration:val('f_duration')||undefined,
+      poster:val('f_poster')||undefined, backdrop:val('f_backdrop')||undefined,
+      plot:val('f_plot')||undefined, cast:val('f_cast')||undefined, director:val('f_director')||undefined,
+      categories:cats.length?cats:undefined, featured:document.getElementById('f_featured').checked||undefined,
+    };
+    if(!obj.title){toast('El título es obligatorio','err');return}
+    if(tab.kind==='series'){
+      obj.seasons=[...document.querySelectorAll('#f_seasons .season')].map(sec=>({
+        number:parseInt(sec.querySelector('.snum').value)||1,
+        episodes:[...sec.querySelectorAll('.ep')].map(ep=>({
+          number:parseInt(ep.querySelector('.nm').value)||1,
+          title:ep.querySelector('.t').value.trim()||undefined,
+          servers:ep.querySelector('.u').value.trim()?[{name:'Servidor 1',url:ep.querySelector('.u').value.trim()}]:[],
+        })).filter(e=>e.servers.length),
+      })).filter(s=>s.episodes.length);
+    } else {
+      obj.servers=collectServers(document.getElementById('f_servers'));
+      if(!obj.servers.length){toast('Añade al menos un servidor','err');return}
+    }
+  }
+  if(idx!=null) catalog[activeTab][idx]=obj; else (catalog[activeTab]=catalog[activeTab]||[]).push(obj);
+  save();closeModal();render();toast('Guardado localmente. Pulsa “Publicar” para subirlo.','ok');
+}
+function removeItem(idx){if(!confirm('¿Eliminar este elemento?'))return;catalog[activeTab].splice(idx,1);save();closeModal();render()}
+
+// ---------- Import / export ----------
+function exportJson(){
+  const blob=new Blob([JSON.stringify(catalog,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='catalog.json';a.click();
+}
+function importJson(ev){
+  const f=ev.target.files[0];if(!f)return;
+  const r=new FileReader();r.onload=()=>{try{catalog=normalize(JSON.parse(r.result));save();render();toast('Importado','ok')}catch(e){toast('JSON inválido','err')}};r.readAsText(f);
+}
+function normalize(c){
+  c=c||{};return {version:c.version||1, movies:c.movies||[], series:c.series||[], liveChannels:c.liveChannels||[], sources:c.sources||[]};
+}
+
+// ---------- GitHub ----------
+function openConfig(){
+  document.getElementById('modal').innerHTML=`
+    <div class="modal-head"><h3>Conexión con GitHub</h3><button class="btn-ghost btn-sm" onclick="closeModal()">✕</button></div>
+    <div class="modal-body">
+      <p class="hint">El panel guarda el catálogo directamente en tu repositorio. El token se queda solo en este navegador (localStorage), nunca se envía a otro sitio.</p>
+      <div class="row"><label>Usuario / organización</label><input id="c_owner" value="${esc(cfg.owner)}" placeholder="tu-usuario"></div>
+      <div class="row"><label>Repositorio</label><input id="c_repo" value="${esc(cfg.repo)}" placeholder="hourtv-catalogo"></div>
+      <div class="row2">
+        <div class="row"><label>Rama</label><input id="c_branch" value="${esc(cfg.branch||'main')}"></div>
+        <div class="row"><label>Ruta del archivo</label><input id="c_path" value="${esc(cfg.path||'catalog.json')}"></div>
+      </div>
+      <div class="row"><label>Token de acceso (fine-grained, permiso Contents: Read & Write)</label>
+        <input id="c_token" type="password" value="${esc(cfg.token)}" placeholder="github_pat_…"></div>
+      <p class="hint">Crea el token en <a href="https://github.com/settings/tokens?type=beta" target="_blank">github.com/settings/tokens</a> con acceso solo a ese repositorio.<br>
+      URL para pegar en la app (Ajustes → catálogo remoto):<br>
+      <b id="rawurl" style="color:var(--ok);word-break:break-all"></b></p>
+    </div>
+    <div class="modal-foot"><span></span><button class="btn-primary" onclick="saveConfig()">Guardar conexión</button></div>`;
+  document.getElementById('overlay').classList.add('open');
+  updateRawUrl();
+  ['c_owner','c_repo','c_branch','c_path'].forEach(id=>document.getElementById(id).oninput=updateRawUrl);
+}
+function updateRawUrl(){
+  const o=val('c_owner'),r=val('c_repo'),b=val('c_branch')||'main',p=val('c_path')||'catalog.json';
+  const el=document.getElementById('rawurl');
+  if(el)el.textContent = (o&&r)?`https://raw.githubusercontent.com/${o}/${r}/${b}/${p}`:'(completa usuario y repo)';
+}
+function saveConfig(){
+  cfg={owner:val('c_owner'),repo:val('c_repo'),branch:val('c_branch')||'main',path:val('c_path')||'catalog.json',token:val('c_token')};
+  localStorage.setItem('hourtv_admin_cfg',JSON.stringify(cfg));closeModal();refreshStatus();toast('Conexión guardada','ok');
+}
+function refreshStatus(){
+  const s=document.getElementById('status');
+  s.innerHTML = cfg.owner&&cfg.repo ? `Repo: <b>${esc(cfg.owner)}/${esc(cfg.repo)}</b>` : 'Sin conectar';
+}
+async function ghApi(method,extra){
+  if(!cfg.token||!cfg.owner||!cfg.repo){toast('Configura GitHub primero','err');openConfig();throw new Error('no cfg')}
+  const url=`https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${encodeURIComponent(cfg.path).replace(/%2F/g,'/')}`;
+  return fetch(url+(method==='GET'?`?ref=${cfg.branch}`:''),{
+    method, headers:{Authorization:`Bearer ${cfg.token}`,Accept:'application/vnd.github+json'},
+    ...(extra||{})
+  });
+}
+async function loadFromGitHub(){
+  try{
+    const res=await ghApi('GET');
+    if(res.status===404){toast('El archivo no existe aún — se creará al publicar','warn');return}
+    if(!res.ok){toast('Error '+res.status+' al cargar','err');return}
+    const data=await res.json();
+    const content=decodeURIComponent(escape(atob(data.content.replace(/\n/g,''))));
+    catalog=normalize(JSON.parse(content));window._sha=data.sha;save();render();
+    toast('Catálogo cargado desde GitHub','ok');
+  }catch(e){toast('No se pudo cargar','err')}
+}
+async function publish(){
+  if(!cfg.token){toast('Configura GitHub primero','err');openConfig();return}
+  try{
+    // Obtener sha actual (si existe)
+    let sha;
+    try{const g=await ghApi('GET');if(g.ok){sha=(await g.json()).sha}}catch(e){}
+    const content=btoa(unescape(encodeURIComponent(JSON.stringify(catalog,null,2))));
+    const res=await ghApi('PUT',{body:JSON.stringify({
+      message:'Actualizar catálogo desde el panel HourTV',
+      content, branch:cfg.branch, ...(sha?{sha}:{})
+    })});
+    if(res.ok){toast('¡Publicado! La app lo verá al recargar.','ok')}
+    else{const e=await res.json();toast('Error: '+(e.message||res.status),'err')}
+  }catch(e){toast('Fallo al publicar','err')}
+}
+
+// ---------- Init ----------
+(function(){
+  const local=localStorage.getItem('hourtv_admin_catalog');
+  if(local){try{catalog=normalize(JSON.parse(local))}catch(e){}}
+  refreshStatus();render();
+})();
+</script>
+</body>
+</html>
