@@ -283,7 +283,11 @@ class _CatalogScreenState extends State<CatalogScreen> {
 
   // --------- Hero: banner rotativo (móvil/tablet) o billboard (TV) ---------
   Widget _hero() {
-    final movies = _store.movies.where((m) => m.logo != null).toList();
+    final candidates = _store.movies.where((m) => m.logo != null).toList();
+    final movies = [
+      ...candidates.where((movie) => movie.isFeatured),
+      ...candidates.where((movie) => !movie.isFeatured),
+    ];
     if (movies.isEmpty) return const SizedBox.shrink();
     if (DeviceProfile.isTv(context)) {
       return _tvBillboard(_spotlight ?? movies.first);

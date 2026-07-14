@@ -87,6 +87,20 @@ String countryFlag(String? code) {
       String.fromCharCode(0x1F1E6 + b - 65);
 }
 
+class ChannelServer {
+  final String name;
+  final String url;
+
+  const ChannelServer({required this.name, required this.url});
+
+  Map<String, dynamic> toJson() => {'name': name, 'url': url};
+
+  factory ChannelServer.fromJson(Map<String, dynamic> json) => ChannelServer(
+    name: json['name']?.toString() ?? '',
+    url: json['url']?.toString() ?? '',
+  );
+}
+
 class Channel {
   final String name;
   final String url;
@@ -111,6 +125,9 @@ class Channel {
   String? backdrop; // imagen horizontal 16:9 para cabeceras (TMDB)
   String? userAgent; // User-Agent de la fuente (streams que rechazan el UA por defecto)
   bool hasCatchup; // El canal Xtream permite reproducir programas ya emitidos.
+  final List<ChannelServer> servers;
+  final List<String> categories;
+  final bool isFeatured;
 
   Channel({
     required this.name,
@@ -136,6 +153,9 @@ class Channel {
     this.backdrop,
     this.userAgent,
     this.hasCatchup = false,
+    this.servers = const [],
+    this.categories = const [],
+    this.isFeatured = false,
   });
 
   factory Channel.fromM3U(
@@ -205,6 +225,9 @@ class Channel {
     'backdrop': backdrop,
     'userAgent': userAgent,
     'hasCatchup': hasCatchup,
+    'servers': servers.map((server) => server.toJson()).toList(),
+    'categories': categories,
+    'isFeatured': isFeatured,
   };
 
   factory Channel.fromJson(Map<String, dynamic> json) => Channel(
@@ -231,6 +254,19 @@ class Channel {
     backdrop: json['backdrop']?.toString(),
     userAgent: json['userAgent']?.toString(),
     hasCatchup: json['hasCatchup'] == true,
+    servers: (json['servers'] as List<dynamic>? ?? const [])
+        .whereType<Map>()
+        .map(
+          (server) =>
+              ChannelServer.fromJson(Map<String, dynamic>.from(server)),
+        )
+        .where((server) => server.url.isNotEmpty)
+        .toList(),
+    categories: (json['categories'] as List<dynamic>? ?? const [])
+        .map((category) => category.toString())
+        .where((category) => category.isNotEmpty)
+        .toList(),
+    isFeatured: json['isFeatured'] == true || json['featured'] == true,
   );
 
   Channel copyWith({
@@ -257,6 +293,9 @@ class Channel {
     String? backdrop,
     String? userAgent,
     bool? hasCatchup,
+    List<ChannelServer>? servers,
+    List<String>? categories,
+    bool? isFeatured,
   }) {
     return Channel(
       name: name ?? this.name,
@@ -282,6 +321,9 @@ class Channel {
       backdrop: backdrop ?? this.backdrop,
       userAgent: userAgent ?? this.userAgent,
       hasCatchup: hasCatchup ?? this.hasCatchup,
+      servers: servers ?? this.servers,
+      categories: categories ?? this.categories,
+      isFeatured: isFeatured ?? this.isFeatured,
     );
   }
 

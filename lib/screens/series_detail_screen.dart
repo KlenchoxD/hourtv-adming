@@ -36,12 +36,13 @@ class _SeriesDetailScreenState extends State<SeriesDetailScreen> {
       _error = null;
     });
     try {
-      final eps = await XtreamService.fetchEpisodes(
-        widget.series.host,
-        widget.series.username,
-        widget.series.password,
-        widget.series.seriesId,
-      );
+      final eps = widget.series.episodes ??
+          await XtreamService.fetchEpisodes(
+            widget.series.host,
+            widget.series.username,
+            widget.series.password,
+            widget.series.seriesId,
+          );
       if (!mounted) return;
       setState(() {
         _episodes = eps;

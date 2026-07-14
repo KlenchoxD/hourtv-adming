@@ -15,6 +15,16 @@ class XtreamSeries {
   final String host;
   final String username;
   final String password;
+  final List<Channel>? episodes;
+  final String? year;
+  final String? rating;
+  final String? duration;
+  final String? genre;
+  final String? cast;
+  final String? director;
+  final String? backdrop;
+  final List<String> categories;
+  final bool isFeatured;
   XtreamSeries({
     required this.seriesId,
     required this.name,
@@ -23,6 +33,16 @@ class XtreamSeries {
     required this.host,
     required this.username,
     required this.password,
+    this.episodes,
+    this.year,
+    this.rating,
+    this.duration,
+    this.genre,
+    this.cast,
+    this.director,
+    this.backdrop,
+    this.categories = const [],
+    this.isFeatured = false,
   });
 }
 

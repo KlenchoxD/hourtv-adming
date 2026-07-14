@@ -82,7 +82,35 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
     });
   }
 
-  void _play() {
+  Future<void> _play() async {
+    String? initialUrl;
+    final servers = widget.channel.servers;
+    if (servers.length > 1) {
+      final selected = await showDialog<ChannelServer>(
+        context: context,
+        builder: (dialogContext) => SimpleDialog(
+          title: const Text('Seleccionar servidor'),
+          children: [
+            for (var index = 0; index < servers.length; index++)
+              SimpleDialogOption(
+                onPressed: () =>
+                    Navigator.pop(dialogContext, servers[index]),
+                child: ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  leading: const Icon(Icons.dns_rounded),
+                  title: Text(
+                    servers[index].name.trim().isEmpty
+                        ? 'Servidor ${index + 1}'
+                        : servers[index].name,
+                  ),
+                ),
+              ),
+          ],
+        ),
+      );
+      if (!mounted || selected == null) return;
+      initialUrl = selected.url;
+    }
     final channels = widget.allChannels.isNotEmpty
         ? widget.allChannels
         : _store.movies;
@@ -92,6 +120,7 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
         builder: (_) => PlayerScreen(
           channel: widget.channel,
           allChannels: channels.isEmpty ? [widget.channel] : channels,
+          initialUrl: initialUrl,
         ),
       ),
     );

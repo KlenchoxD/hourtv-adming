@@ -15,10 +15,12 @@ import '../widgets/tv_focusable.dart';
 class PlayerScreen extends StatefulWidget {
   final Channel channel;
   final List<Channel> allChannels;
+  final String? initialUrl;
   const PlayerScreen({
     super.key,
     required this.channel,
     required this.allChannels,
+    this.initialUrl,
   });
   @override
   State<PlayerScreen> createState() => _PlayerScreenState();
@@ -42,13 +44,14 @@ class _PlayerScreenState extends State<PlayerScreen> {
   double _videoScale = 1;
   bool _verticalGestureOnRight = true;
   String? _gestureLabel;
+  String? _activeServerUrl;
 
   @override
   void initState() {
     super.initState();
     _idx = widget.allChannels.indexWhere((c) => c.url == widget.channel.url);
     if (_idx < 0) _idx = 0;
-    _init(widget.allChannels[_idx]);
+    _init(widget.allChannels[_idx], streamUrl: widget.initialUrl);
     StorageService.saveRecent(widget.allChannels[_idx]);
     if (StorageService.getSetting('forceLandscape', defaultValue: false) ==
         true) {
@@ -60,17 +63,19 @@ class _PlayerScreenState extends State<PlayerScreen> {
     }
   }
 
-  Future<void> _init(Channel ch) async {
+  Future<void> _init(Channel ch, {String? streamUrl}) async {
+    final targetUrl = streamUrl ?? ch.url;
     setState(() {
       _loading = true;
       _err = null;
+      _activeServerUrl = targetUrl;
     });
     _cc?.dispose();
     _vc?.dispose();
     _cc = null;
     _vc = null;
     try {
-      var playUrl = ch.url;
+      var playUrl = targetUrl;
       if (playUrl.startsWith('archive:')) {
         final resolved = await ArchiveService.resolveStream(playUrl);
         if (resolved == null) {
@@ -380,12 +385,58 @@ class _PlayerScreenState extends State<PlayerScreen> {
     if (mounted) _screenFocus.requestFocus();
   }
 
+  Future<void> _showServerSelector() async {
+    final channel = widget.allChannels[_idx];
+    final servers = channel.servers;
+    if (servers.length < 2) return;
+    final selected = await showDialog<ChannelServer>(
+      context: context,
+      builder: (dialogContext) => SimpleDialog(
+        title: const Text('Seleccionar servidor'),
+        children: [
+          for (var index = 0; index < servers.length; index++)
+            SimpleDialogOption(
+              onPressed: () => Navigator.pop(dialogContext, servers[index]),
+              child: ListTile(
+                contentPadding: EdgeInsets.zero,
+                leading: Icon(
+                  _activeServerUrl == servers[index].url
+                      ? Icons.radio_button_checked
+                      : Icons.radio_button_off,
+                ),
+                title: Text(
+                  servers[index].name.trim().isEmpty
+                      ? 'Servidor ${index + 1}'
+                      : servers[index].name,
+                ),
+              ),
+            ),
+        ],
+      ),
+    );
+    if (!mounted || selected == null) return;
+    await _init(channel, streamUrl: selected.url);
+    if (mounted) _screenFocus.requestFocus();
+  }
+
   Future<void> _showPlayerOptions() async {
     await showDialog<void>(
       context: context,
       builder: (dialogContext) => SimpleDialog(
         title: const Text('Opciones de reproducción'),
         children: [
+          if (widget.allChannels[_idx].servers.length > 1)
+            SimpleDialogOption(
+              onPressed: () {
+                Navigator.pop(dialogContext);
+                unawaited(_showServerSelector());
+              },
+              child: const ListTile(
+                contentPadding: EdgeInsets.zero,
+                leading: Icon(Icons.dns_rounded),
+                title: Text('Servidor'),
+              ),
+            ),
           SimpleDialogOption(
             onPressed: () {
               Navigator.pop(dialogContext);
@@ -627,7 +678,10 @@ class _PlayerScreenState extends State<PlayerScreen> {
       ),
       const SizedBox(height: 24),
       ElevatedButton.icon(
-        onPressed: () => _init(widget.allChannels[_idx]),
+        onPressed: () => _init(
+          widget.allChannels[_idx],
+          streamUrl: _activeServerUrl,
+        ),
         icon: const Icon(Icons.refresh),
         label: const Text('Reintentar'),
       ),

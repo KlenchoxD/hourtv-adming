@@ -9,6 +9,7 @@ import 'm3u_parser_service.dart';
 import 'xtream_service.dart';
 import 'stalker_service.dart';
 import 'archive_service.dart';
+import 'catalog_parser.dart';
 import 'epg_service.dart';
 
 /// Agrupacion de canales por país (para el selector EN VIVO).
@@ -93,6 +94,9 @@ class ContentStore extends ChangeNotifier {
 
       final seen = <String>{};
       final deduped = <Channel>[];
+      for (final channel in assetSources.channels) {
+        if (seen.add(channel.url)) deduped.add(channel);
+      }
       for (final r in results) {
         for (final ch in r) {
           if (seen.add(ch.url)) deduped.add(ch);
@@ -104,13 +108,14 @@ class ContentStore extends ChangeNotifier {
         if (favs.contains(ch.url)) ch.isFavorite = true;
       }
       all = deduped;
+      series = assetSources.series;
       _recomputeCountries();
       loading = false;
       notifyListeners();
 
       _loadEpg(assetSources.epgUrls); // guia EPG/XMLTV, en segundo plano
       _loadVod(
-        lists,
+        lists, assetSources.series,
       ); // peliculas y series desde la API Xtream, en segundo plano
       _loadArchive(); // peliculas de dominio publico (Internet Archive)
     } catch (e) {
@@ -120,7 +125,10 @@ class ContentStore extends ChangeNotifier {
     }
   }
 
-  Future<void> _loadVod(List<M3UList> lists) async {
+  Future<void> _loadVod(
+    List<M3UList> lists,
+    List<XtreamSeries> catalogSeries,
+  ) async {
     final accounts = lists.where((l) => l.isXtream).toList();
     final portals = lists.where((l) => l.isStalker).toList();
     if (accounts.isEmpty && portals.isEmpty) return;
@@ -186,7 +194,11 @@ class ContentStore extends ChangeNotifier {
       all.add(channel);
       byUrl[channel.url] = channel;
     }
-    series = ser;
+    final seenSeries = <String>{};
+    series = [
+      for (final item in [...catalogSeries, ...ser])
+        if (seenSeries.add(item.name.trim().toLowerCase())) item,
+    ];
     vodLoading = false;
     _recomputeCountries();
     notifyListeners();
@@ -223,7 +235,16 @@ class ContentStore extends ChangeNotifier {
       final raw = await _fetchRemoteSources() ??
           await rootBundle.loadString('assets/data/sources.json');
       final data = jsonDecode(raw);
-      if (data is! List) return const _AssetSources([], []);
+      if (data is Map) {
+        final parsed = CatalogParser.parse(data);
+        return _AssetSources(
+          parsed.lists,
+          parsed.epgUrls,
+          parsed.channels,
+          parsed.series,
+        );
+      }
+      if (data is! List) return const _AssetSources([], [], [], []);
       final out = <M3UList>[];
       final epgUrls = <String>[];
       for (final e in data) {
@@ -292,9 +313,9 @@ class ContentStore extends ChangeNotifier {
           );
         }
       }
-      return _AssetSources(out, epgUrls);
+      return _AssetSources(out, epgUrls, const [], const []);
     } catch (_) {
-      return const _AssetSources([], []);
+      return const _AssetSources([], [], [], []);
     }
   }
 
@@ -373,6 +394,9 @@ class ContentStore extends ChangeNotifier {
     final seen = <String>{};
     final out = <String>[];
     for (final m in movies) {
+      for (final category in m.categories) {
+        if (seen.add(category)) out.add(category);
+      }
       final g = m.genre ?? 'Películas';
       if (seen.add(g)) out.add(g);
     }
@@ -380,7 +404,11 @@ class ContentStore extends ChangeNotifier {
   }
 
   List<Channel> moviesByGenre(String g) =>
-      movies.where((m) => (m.genre ?? 'Películas') == g).toList();
+      movies
+          .where(
+            (m) => (m.genre ?? 'Películas') == g || m.categories.contains(g),
+          )
+          .toList();
   List<Channel> live(String genre) =>
       all.where((c) => c.type == MediaType.live && c.genre == genre).toList();
   List<Channel> liveByCountry(String code) => all
@@ -399,5 +427,7 @@ class ContentStore extends ChangeNotifier {
 class _AssetSources {
   final List<M3UList> lists;
   final List<String> epgUrls;
-  const _AssetSources(this.lists, this.epgUrls);
+  final List<Channel> channels;
+  final List<XtreamSeries> series;
+  const _AssetSources(this.lists, this.epgUrls, this.channels, this.series);
 }
