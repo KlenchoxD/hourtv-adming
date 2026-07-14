@@ -25,6 +25,10 @@ class _CatalogScreenState extends State<CatalogScreen> {
   final _store = ContentStore.instance;
   int _tab = 0;
 
+  /// Contenido que muestra el billboard en TV: el último póster enfocado
+  /// con D-pad (estilo Netflix). Null = la primera película destacada.
+  Channel? _spotlight;
+
   @override
   void initState() {
     super.initState();
@@ -139,7 +143,8 @@ class _CatalogScreenState extends State<CatalogScreen> {
   Widget _hero() {
     final movies = _store.movies.where((m) => m.logo != null).toList();
     if (movies.isEmpty) return const SizedBox.shrink();
-    final f = movies.first;
+    final f = (DeviceProfile.isTv(context) ? _spotlight : null) ?? movies.first;
+    if (DeviceProfile.isTv(context)) return _tvBillboard(f);
     return Container(
       margin: const EdgeInsets.fromLTRB(16, 6, 16, 4),
       height: 190 * _s,
@@ -151,32 +156,113 @@ class _CatalogScreenState extends State<CatalogScreen> {
         Padding(
           padding: const EdgeInsets.all(18),
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.end, children: [
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-              decoration: BoxDecoration(color: AppColors.accent, borderRadius: BorderRadius.circular(6)),
-              child: Text('DESTACADA', style: TextStyle(color: Colors.white, fontSize: 10 * _s, fontWeight: FontWeight.w800, letterSpacing: 0.5)),
-            ),
+            _heroBadge(),
             const SizedBox(height: 10),
             Text(f.displayName, maxLines: 2, overflow: TextOverflow.ellipsis, style: TextStyle(color: Colors.white, fontSize: 21 * _s, fontWeight: FontWeight.w800)),
             const SizedBox(height: 10),
-            TvFocusable(
-              onTap: () => _play(f, _store.movies),
-              borderRadius: BorderRadius.circular(10),
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 18 * _s, vertical: 9 * _s),
-                decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
-                child: Row(mainAxisSize: MainAxisSize.min, children: [
-                  Icon(Icons.play_arrow_rounded, color: Colors.black, size: 20 * _s),
-                  const SizedBox(width: 6),
-                  Text('Reproducir', style: TextStyle(color: Colors.black, fontSize: 14 * _s, fontWeight: FontWeight.w700)),
-                ]),
-              ),
-            ),
+            _heroPlayButton(f),
           ]),
         ),
       ]),
     );
   }
+
+  /// Billboard de TV a sangre completa (estilo Netflix): la imagen del
+  /// contenido enfocado ocupa el ancho, con degradado hacia el fondo y el
+  /// texto a la izquierda. Cambia al mover el foco por los pósters.
+  Widget _tvBillboard(Channel f) {
+    final h = MediaQuery.sizeOf(context).height * 0.42;
+    return SizedBox(
+      height: h,
+      child: Stack(fit: StackFit.expand, children: [
+        // Imagen alineada a la derecha (el póster no se estira de más)
+        Align(
+          alignment: Alignment.centerRight,
+          child: SizedBox(
+            width: MediaQuery.sizeOf(context).width * 0.62,
+            child: f.logo != null
+                ? CachedNetworkImage(
+                    imageUrl: f.logo!,
+                    fit: BoxFit.cover,
+                    fadeInDuration: const Duration(milliseconds: 220),
+                    errorWidget: (_, _, _) => const SizedBox(),
+                  )
+                : const SizedBox(),
+          ),
+        ),
+        // Degradado horizontal (texto legible) y vertical (funde con el fondo)
+        const DecoratedBox(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+              colors: [AppColors.primaryDark, AppColors.primaryDark, Colors.transparent],
+              stops: [0.0, 0.38, 0.75],
+            ),
+          ),
+        ),
+        DecoratedBox(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.bottomCenter,
+              end: Alignment.topCenter,
+              colors: [AppColors.primaryDark, AppColors.primaryDark.withValues(alpha: 0.0)],
+              stops: const [0.0, 0.45],
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(24, 12, 24, 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              _heroBadge(),
+              const SizedBox(height: 12),
+              SizedBox(
+                width: MediaQuery.sizeOf(context).width * 0.45,
+                child: Text(
+                  f.displayName,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(color: Colors.white, fontSize: 34, fontWeight: FontWeight.w800, height: 1.1),
+                ),
+              ),
+              if (f.genre != null) ...[
+                const SizedBox(height: 8),
+                Text(
+                  f.genre!.toUpperCase(),
+                  style: TextStyle(color: AppColors.textSecondary, fontSize: 12 * _s, fontWeight: FontWeight.w600, letterSpacing: 1.1),
+                ),
+              ],
+              const SizedBox(height: 14),
+              _heroPlayButton(f),
+            ],
+          ),
+        ),
+      ]),
+    );
+  }
+
+  Widget _heroBadge() => Container(
+    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+    decoration: BoxDecoration(color: AppColors.accent, borderRadius: BorderRadius.circular(6)),
+    child: Text('DESTACADA', style: TextStyle(color: Colors.white, fontSize: 10 * _s, fontWeight: FontWeight.w800, letterSpacing: 0.5)),
+  );
+
+  Widget _heroPlayButton(Channel f) => TvFocusable(
+    onTap: () => _play(f, _store.movies),
+    borderRadius: BorderRadius.circular(10),
+    child: Container(
+      padding: EdgeInsets.symmetric(horizontal: 18 * _s, vertical: 9 * _s),
+      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
+      child: Row(mainAxisSize: MainAxisSize.min, children: [
+        Icon(Icons.play_arrow_rounded, color: Colors.black, size: 20 * _s),
+        const SizedBox(width: 6),
+        Text('Reproducir', style: TextStyle(color: Colors.black, fontSize: 14 * _s, fontWeight: FontWeight.w700)),
+      ]),
+    ),
+  );
 
   // --------- Fila de películas ---------
   Widget _movieRow(String title, List<Channel> items) {
@@ -206,6 +292,12 @@ class _CatalogScreenState extends State<CatalogScreen> {
     padding: const EdgeInsets.symmetric(horizontal: 5),
     child: TvFocusable(
       onTap: () => _play(ch, ctx),
+      onFocusChange: (f) {
+        // Estilo Netflix TV: el billboard muestra el contenido enfocado.
+        if (f && DeviceProfile.isTv(context) && _spotlight != ch) {
+          setState(() => _spotlight = ch);
+        }
+      },
       borderRadius: BorderRadius.circular(12),
       child: SizedBox(
         width: 118 * _s,

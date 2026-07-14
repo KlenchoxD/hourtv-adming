@@ -12,6 +12,10 @@ class TvFocusable extends StatefulWidget {
   final bool autofocus;
   final FocusNode? focusNode;
 
+  /// Avisa cuando este elemento gana/pierde el foco (p. ej. para que el
+  /// billboard de Inicio muestre el contenido enfocado, estilo Netflix TV).
+  final ValueChanged<bool>? onFocusChange;
+
   const TvFocusable({
     super.key,
     required this.child,
@@ -19,6 +23,7 @@ class TvFocusable extends StatefulWidget {
     this.borderRadius,
     this.autofocus = false,
     this.focusNode,
+    this.onFocusChange,
   });
 
   @override
@@ -51,6 +56,7 @@ class _TvFocusableState extends State<TvFocusable> {
 
   void _handleFocusChange(bool focused) {
     if (mounted) setState(() => _focused = focused);
+    widget.onFocusChange?.call(focused);
     if (!focused) return;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted || !_node.hasFocus) return;

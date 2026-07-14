@@ -45,9 +45,13 @@ class DeviceProfile {
   /// futuro se detecta táctil ausente por otra vía.
   static bool isRemoteOnly(BuildContext context) => isTv(context);
 
-  /// Escala de interfaz "10 pies": tarjetas, tipografía y espaciados se
-  /// multiplican por esto para verse a 3 metros. 1.0 en móvil/tablet.
-  static double uiScale(BuildContext context) => isTv(context) ? 1.5 : 1.0;
+  /// Escala de interfaz por dispositivo (estilo Netflix): teléfono 1.0,
+  /// tablet 1.15 (se mira un poco más lejos), TV 1.5 (diseño 10 pies).
+  static double uiScale(BuildContext context) => switch (of(context)) {
+    DeviceType.tv => 1.5,
+    DeviceType.tablet => 1.15,
+    DeviceType.phone => 1.0,
+  };
 
   /// Margen seguro (overscan) para que el contenido no quede cortado en los
   /// bordes de televisores. Cero en móvil/tablet.
