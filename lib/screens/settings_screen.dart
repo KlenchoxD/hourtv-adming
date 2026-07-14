@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../services/content_store.dart';
 import '../services/storage_service.dart';
 import '../theme/app_theme.dart';
 
@@ -89,6 +90,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ? 'Sin configurar — sinopsis y reparto automáticos'
                   : 'Configurada — sinopsis y reparto activos',
               onTap: _editTmdbKey,
+            ),
+            _choice(
+              icon: Icons.cloud_sync_outlined,
+              title: 'URL del catálogo remoto',
+              subtitle: (StorageService.getSetting('remoteSourcesUrl', defaultValue: '') ?? '').toString().trim().isEmpty
+                  ? 'Sin configurar — usa el catálogo del APK'
+                  : 'Configurada — el catálogo se actualiza desde tu servidor',
+              onTap: _editRemoteSourcesUrl,
             ),
           ]),
           _section('Información', [
@@ -276,6 +285,41 @@ class _SettingsScreenState extends State<SettingsScreen> {
     if (saved == null) return;
     await _set('tmdbApiKey', saved);
     if (mounted) setState(() {});
+  }
+
+  Future<void> _editRemoteSourcesUrl() async {
+    final controller = TextEditingController(
+      text: (StorageService.getSetting('remoteSourcesUrl', defaultValue: '') ?? '').toString(),
+    );
+    final saved = await showDialog<String>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        backgroundColor: AppColors.surfaceDark,
+        title: const Text('URL del catálogo remoto', style: TextStyle(color: AppColors.textPrimary)),
+        content: Column(mainAxisSize: MainAxisSize.min, children: [
+          const Text(
+            'Pega la URL pública de sources.json. Déjala vacía para usar el catálogo incluido en el APK.',
+            style: TextStyle(color: AppColors.textSecondary, fontSize: 13),
+          ),
+          const SizedBox(height: 14),
+          TextField(
+            controller: controller,
+            autofocus: true,
+            keyboardType: TextInputType.url,
+            autocorrect: false,
+            decoration: const InputDecoration(hintText: 'https://servidor/sources.json'),
+          ),
+        ]),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Cancelar')),
+          ElevatedButton(onPressed: () => Navigator.pop(ctx, controller.text.trim()), child: const Text('Guardar')),
+        ],
+      ),
+    );
+    if (saved == null) return;
+    await _set('remoteSourcesUrl', saved);
+    if (mounted) setState(() {});
+    await ContentStore.instance.reload();
   }
 
   void _showAbout() {

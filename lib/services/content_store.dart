@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:http/http.dart' as http;
 import '../models/channel.dart';
 import '../models/m3u_list.dart';
 import 'storage_service.dart';
@@ -191,12 +192,36 @@ class ContentStore extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Lee las fuentes que el usuario agrega desde el script de PC
-  /// (assets/data/sources.json). Formato: lista de objetos con
+  /// Catálogo remoto: mismo formato que sources.json pero hospedado en un
+  /// servidor del dueño de la app (ej. GitHub raw). Permite actualizar
+  /// fuentes y catálogo sin recompilar. Devuelve null si no hay URL
+  /// configurada o no se pudo descargar (y no hay copia cacheada).
+  Future<String?> _fetchRemoteSources() async {
+    final url = (StorageService.getSetting('remoteSourcesUrl', defaultValue: '') ?? '')
+        .toString()
+        .trim();
+    if (url.isEmpty) return null;
+    try {
+      final res = await http
+          .get(Uri.parse(url), headers: {'User-Agent': 'Mozilla/5.0'})
+          .timeout(const Duration(seconds: 12));
+      if (res.statusCode == 200 && res.body.trim().isNotEmpty) {
+        // Guardar la última copia buena para arrancar sin internet.
+        await StorageService.saveSetting('remoteSourcesCache', res.body);
+        return res.body;
+      }
+    } catch (_) {}
+    final cached = StorageService.getSetting('remoteSourcesCache');
+    return cached is String && cached.trim().isNotEmpty ? cached : null;
+  }
+
+  /// Lee las fuentes del catálogo remoto (si está configurado) o del archivo
+  /// empaquetado (assets/data/sources.json). Formato: lista de objetos con
   /// { name, url, type: live|movie|series|xtream|stalker, host, mac }.
   Future<_AssetSources> _loadAssetSources() async {
     try {
-      final raw = await rootBundle.loadString('assets/data/sources.json');
+      final raw = await _fetchRemoteSources() ??
+          await rootBundle.loadString('assets/data/sources.json');
       final data = jsonDecode(raw);
       if (data is! List) return const _AssetSources([], []);
       final out = <M3UList>[];

@@ -36,6 +36,16 @@ flutter build appbundle --release
 `android.hardware.touchscreen` como opcional, así que la app aparece en el
 launcher de TV sin necesidad de una compilación aparte.
 
+## Catálogo remoto
+
+Puedes hospedar `sources.json` en GitHub Raw o en cualquier hosting estático y
+pegar su URL en **Ajustes → Metadata → URL del catálogo remoto**. Usa el mismo
+formato de `assets/data/sources.json`, generado por `agregar_fuentes.py`.
+
+El servidor publica el catálogo —nombres, carátulas y URLs de las fuentes—,
+no los videos. Si la descarga falla, la app usa la última copia válida guardada
+y, si no existe, vuelve al catálogo incluido en el APK.
+
 ## Instalar por ADB
 
 ```bash
