@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
+import '../services/device_type.dart';
+import '../widgets/tv_focusable.dart';
 import 'catalog_screen.dart';
 import 'live_tv_screen.dart';
 import 'profile_screen.dart';
 
-/// Estructura principal con barra inferior: Inicio (catálogo), En Vivo
-/// (solo canales) y Perfil. Estilo MagisTV/Xuper, sin ser copia calcada.
+/// Estructura principal: Inicio (catálogo), En Vivo (solo canales) y Perfil.
+/// En móvil/tablet usa barra inferior; en Android TV/Google TV usa un riel
+/// lateral navegable con D-pad (nunca requiere pantalla táctil).
 class HomeShell extends StatefulWidget {
   const HomeShell({super.key});
   @override
@@ -23,22 +26,79 @@ class _HomeShellState extends State<HomeShell> {
 
   @override
   Widget build(BuildContext context) {
+    final isTv = DeviceProfile.isTv(context);
     // En horizontal (viendo a pantalla completa) ocultamos la barra inferior.
     final landscape = MediaQuery.of(context).orientation == Orientation.landscape;
+    final content = IndexedStack(
+      index: _index,
+      children: [
+        const CatalogScreen(),
+        LiveTvScreen(active: _index == 1),
+        const ProfileScreen(),
+      ],
+    );
     return Scaffold(
       backgroundColor: AppColors.primaryDark,
       body: Container(
         decoration: AppTheme.gradientBackground,
-        child: IndexedStack(
-          index: _index,
+        child: isTv ? Row(children: [_sideRail(), Expanded(child: content)]) : content,
+      ),
+      bottomNavigationBar: (!isTv && !landscape) ? _bottomBar() : null,
+    );
+  }
+
+  Widget _sideRail() {
+    return Container(
+      width: 88,
+      decoration: BoxDecoration(
+        color: const Color(0xFF080C14),
+        border: Border(right: BorderSide(color: Colors.white.withValues(alpha: 0.06))),
+      ),
+      child: SafeArea(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const CatalogScreen(),
-            LiveTvScreen(active: _index == 1),
-            const ProfileScreen(),
+            for (var i = 0; i < _items.length; i++) _railTab(i),
           ],
         ),
       ),
-      bottomNavigationBar: landscape ? null : _bottomBar(),
+    );
+  }
+
+  Widget _railTab(int i) {
+    final sel = i == _index;
+    final it = _items[i];
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10),
+      child: TvFocusable(
+        onTap: () => setState(() => _index = i),
+        autofocus: i == 0,
+        borderRadius: BorderRadius.circular(14),
+        child: Container(
+          width: 64,
+          height: 64,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: sel ? AppColors.accent.withValues(alpha: 0.16) : Colors.transparent,
+            borderRadius: BorderRadius.circular(14),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(it.icon, size: 22, color: sel ? AppColors.accent : AppColors.textMuted),
+              const SizedBox(height: 3),
+              Text(
+                it.label,
+                textAlign: TextAlign.center,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(color: sel ? AppColors.accent : AppColors.textMuted, fontSize: 9, fontWeight: sel ? FontWeight.w700 : FontWeight.w500),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 

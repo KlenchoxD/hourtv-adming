@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../models/channel.dart';
 import '../services/content_store.dart';
+import '../services/storage_service.dart';
 import '../theme/app_theme.dart';
 import '../widgets/tv_focusable.dart';
 import 'player_screen.dart';
@@ -112,10 +113,12 @@ class _CatalogScreenState extends State<CatalogScreen> {
       return _vodEmpty('películas');
     }
     final showHero = _tab == 0;
+    final recent = showHero ? StorageService.loadRecent() : const <Channel>[];
     return ListView(
       padding: const EdgeInsets.only(bottom: 24),
       children: [
         if (showHero) _hero(),
+        if (recent.isNotEmpty) _movieRow('Continuar viendo', recent),
         for (final g in genres) _movieRow(g, _store.moviesByGenre(g)),
         if (showHero && _store.series.isNotEmpty) _seriesRow(),
       ],

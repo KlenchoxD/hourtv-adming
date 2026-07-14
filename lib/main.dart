@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'services/storage_service.dart';
+import 'services/device_type.dart';
 import 'theme/app_theme.dart';
 import 'screens/home_shell.dart';
 
@@ -14,6 +15,7 @@ void main() {
     try {
       await StorageService.init();
     } catch (_) {}
+    await DeviceProfile.warmUp();
     await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight]);
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(statusBarColor: Colors.transparent, statusBarIconBrightness: Brightness.light, systemNavigationBarColor: AppColors.surfaceDark, systemNavigationBarIconBrightness: Brightness.light));
     runApp(const HourTVApp());
