@@ -4,7 +4,33 @@ import '../models/channel.dart';
 import '../models/m3u_list.dart';
 
 class M3UParserService {
-  static List<Channel> parseM3U(String content, {String? listName, String? genre, String? mediaType, String? userAgent}) {
+  /// Las listas categories/* de iptv-org son canales lineales temáticos,
+  /// aunque la categoría se llame movies o series. Nunca deben forzarse a VOD.
+  static bool isLinearCategoryPlaylist(String url) {
+    final lower = url.toLowerCase();
+    return lower.contains('iptv-org.github.io/iptv/categories/') ||
+        lower.contains('raw.githubusercontent.com/iptv-org/iptv/') &&
+            lower.contains('/streams/');
+  }
+
+  static String? linearPlaylistCategory(String url) {
+    final lower = url.toLowerCase();
+    if (lower.contains('/animation.')) return 'anime';
+    if (lower.contains('/kids.')) return 'infantiles';
+    if (lower.contains('/movies.')) return 'cine';
+    if (lower.contains('/series.')) return 'series';
+    if (lower.contains('/comedy.')) return 'comedia';
+    if (lower.contains('/documentary.')) return 'documentales';
+    return null;
+  }
+
+  static List<Channel> parseM3U(
+    String content, {
+    String? listName,
+    String? genre,
+    String? mediaType,
+    String? userAgent,
+  }) {
     final List<Channel> channels = [];
     final lines = content.split('\n');
     String? currentName;
@@ -17,15 +43,21 @@ class M3UParserService {
         // El nombre real esta despues de la coma en el #EXTINF (o en tvg-name),
         // NUNCA es la linea siguiente (esa es la URL del stream).
         final extName = currentAttributes['_name'] ?? '';
-        currentName = extName.isNotEmpty ? extName : (currentAttributes['tvg-name'] ?? '');
+        currentName = extName.isNotEmpty
+            ? extName
+            : (currentAttributes['tvg-name'] ?? '');
       } else if (line.isNotEmpty && !line.startsWith('#')) {
         if (currentName != null) {
           final name = currentName.isNotEmpty ? currentName : 'Canal';
           final channel = Channel.fromM3U(name, line, currentAttributes);
           if (listName != null) channel.category = listName;
           if (genre != null) channel.genre = genre;
-          if (mediaType == 'movie' || mediaType == 'series') channel.forcedType = mediaType;
-          if (userAgent != null && userAgent.isNotEmpty) channel.userAgent = userAgent;
+          if (mediaType == 'movie' || mediaType == 'series') {
+            channel.forcedType = mediaType;
+          }
+          if (userAgent != null && userAgent.isNotEmpty) {
+            channel.userAgent = userAgent;
+          }
           channels.add(channel);
         }
         currentName = null;
@@ -49,18 +81,44 @@ class M3UParserService {
     return attrs;
   }
 
-  static Future<List<Channel>> fetchAndParse(String url, {String? listName, String? genre, String? mediaType, String? userAgent}) async {
+  static Future<List<Channel>> fetchAndParse(
+    String url, {
+    String? listName,
+    String? genre,
+    String? mediaType,
+    String? userAgent,
+  }) async {
     try {
-      final ua = (userAgent != null && userAgent.isNotEmpty) ? userAgent : 'Mozilla/5.0';
-      final response = await http.get(Uri.parse(url), headers: {'User-Agent': ua})
-          .timeout(const Duration(seconds: 30), onTimeout: () => throw Exception('Tiempo de espera agotado'));
-      if (response.statusCode == 200) return parseM3U(_decode(response), listName: listName, genre: genre, mediaType: mediaType, userAgent: userAgent);
+      final ua = (userAgent != null && userAgent.isNotEmpty)
+          ? userAgent
+          : 'Mozilla/5.0';
+      final response = await http
+          .get(Uri.parse(url), headers: {'User-Agent': ua})
+          .timeout(
+            const Duration(seconds: 30),
+            onTimeout: () => throw Exception('Tiempo de espera agotado'),
+          );
+      if (response.statusCode == 200) {
+        return parseM3U(
+          _decode(response),
+          listName: listName,
+          genre: genre,
+          mediaType: mediaType,
+          userAgent: userAgent,
+        );
+      }
       throw Exception('HTTP ${response.statusCode}');
-    } catch (e) { throw Exception('Error cargando M3U: $e'); }
+    } catch (e) {
+      throw Exception('Error cargando M3U: $e');
+    }
   }
 
   static String _decode(http.Response r) {
-    try { return utf8.decode(r.bodyBytes, allowMalformed: true); } catch (_) { return latin1.decode(r.bodyBytes); }
+    try {
+      return utf8.decode(r.bodyBytes, allowMalformed: true);
+    } catch (_) {
+      return latin1.decode(r.bodyBytes);
+    }
   }
 
   /// Listas por defecto (fuente: iptv-org, senales publicas de TV abierta).
@@ -82,26 +140,93 @@ class M3UParserService {
   /// Países (código ISO -> nombre) cuyas listas oficiales de iptv-org se cargan
   /// para EN VIVO. Cada lista trae solo canales de ese país.
   static const Map<String, String> _countries = {
-    'co': 'Colombia', 'mx': 'México', 'ar': 'Argentina', 'cl': 'Chile',
-    'pe': 'Perú', 've': 'Venezuela', 'es': 'España', 'ec': 'Ecuador',
-    'uy': 'Uruguay', 'py': 'Paraguay', 'bo': 'Bolivia', 'cr': 'Costa Rica',
-    'pa': 'Panamá', 'do': 'Rep. Dominicana', 'gt': 'Guatemala', 'pr': 'Puerto Rico',
+    'co': 'Colombia',
+    'mx': 'México',
+    'ar': 'Argentina',
+    'cl': 'Chile',
+    'pe': 'Perú',
+    've': 'Venezuela',
+    'es': 'España',
+    'ec': 'Ecuador',
+    'uy': 'Uruguay',
+    'py': 'Paraguay',
+    'bo': 'Bolivia',
+    'cr': 'Costa Rica',
+    'pa': 'Panamá',
+    'do': 'Rep. Dominicana',
+    'gt': 'Guatemala',
+    'pr': 'Puerto Rico',
     'us': 'Estados Unidos',
   };
 
   static List<M3UList> getDefaultLists() => [
     // --- Generos (categorías) primero, para que conserven su etiqueta ---
-    M3UList(name: 'Deportes', url: '$_io/categories/sports.m3u', description: 'Canales deportivos', category: 'deportes', isDefault: true),
-    M3UList(name: 'Noticias', url: '$_io/categories/news.m3u', description: 'Canales de noticias', category: 'noticias', isDefault: true),
-    M3UList(name: 'Infantiles', url: '$_io/categories/kids.m3u', description: 'Canales para niños', category: 'infantiles', isDefault: true),
-    M3UList(name: 'Anime', url: '$_io/categories/animation.m3u', description: 'Anime y animación', category: 'anime', isDefault: true),
-    M3UList(name: 'Documentales', url: '$_io/categories/documentary.m3u', description: 'Documentales', category: 'documentales', isDefault: true),
-    M3UList(name: 'Música', url: '$_io/categories/music.m3u', description: 'Canales musicales', category: 'musica', isDefault: true),
+    M3UList(
+      name: 'Deportes',
+      url: '$_io/categories/sports.m3u',
+      description: 'Canales deportivos',
+      category: 'deportes',
+      isDefault: true,
+    ),
+    M3UList(
+      name: 'Noticias',
+      url: '$_io/categories/news.m3u',
+      description: 'Canales de noticias',
+      category: 'noticias',
+      isDefault: true,
+    ),
+    M3UList(
+      name: 'Infantiles',
+      url: '$_io/categories/kids.m3u',
+      description: 'Canales para niños',
+      category: 'infantiles',
+      isDefault: true,
+    ),
+    M3UList(
+      name: 'Anime',
+      url: '$_io/categories/animation.m3u',
+      description: 'Anime y animación',
+      category: 'anime',
+      isDefault: true,
+    ),
+    M3UList(
+      name: 'Documentales',
+      url: '$_io/categories/documentary.m3u',
+      description: 'Documentales',
+      category: 'documentales',
+      isDefault: true,
+    ),
+    M3UList(
+      name: 'Música',
+      url: '$_io/categories/music.m3u',
+      description: 'Canales musicales',
+      category: 'musica',
+      isDefault: true,
+    ),
     // --- EN VIVO por PAÍS: lista oficial de cada país (iptv-org/countries) ---
     for (final e in _countries.entries)
-      M3UList(name: e.value, url: '$_io/countries/${e.key}.m3u', description: 'Canales de ${e.value}', category: 'live', isDefault: true),
+      M3UList(
+        name: e.value,
+        url: '$_io/countries/${e.key}.m3u',
+        description: 'Canales de ${e.value}',
+        category: 'live',
+        isDefault: true,
+      ),
     // --- Refuerzo: agregados grandes (rellenan lo que falte) ---
-    M3UList(name: 'Latinos', url: '$_io/languages/spa.m3u', description: 'Canales en español', category: 'live', isDefault: true),
-    M3UList(name: 'Free-TV', url: 'https://raw.githubusercontent.com/Free-TV/IPTV/master/playlist.m3u8', description: 'Canales por país (Free-TV)', category: 'live', isDefault: true),
+    M3UList(
+      name: 'Latinos',
+      url: '$_io/languages/spa.m3u',
+      description: 'Canales en español',
+      category: 'live',
+      isDefault: true,
+    ),
+    M3UList(
+      name: 'Free-TV',
+      url:
+          'https://raw.githubusercontent.com/Free-TV/IPTV/master/playlist.m3u8',
+      description: 'Canales por país (Free-TV)',
+      category: 'live',
+      isDefault: true,
+    ),
   ];
 }

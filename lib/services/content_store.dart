@@ -102,17 +102,19 @@ class ContentStore extends ChangeNotifier {
       lists = byUrl.values.toList();
 
       final results = await Future.wait(
-        lists.where((l) => !l.isStalker).map(
-          (l) => M3UParserService.fetchAndParse(
-            l.url,
-            listName: l.name,
-            genre: (l.mediaType == 'movie' || l.mediaType == 'series')
-                ? l.name
-                : l.category,
-            mediaType: l.mediaType,
-            userAgent: l.userAgent,
-          ).catchError((_) => <Channel>[]),
-        ),
+        lists
+            .where((l) => !l.isStalker)
+            .map(
+              (l) => M3UParserService.fetchAndParse(
+                l.url,
+                listName: l.name,
+                genre: (l.mediaType == 'movie' || l.mediaType == 'series')
+                    ? l.name
+                    : l.category,
+                mediaType: l.mediaType,
+                userAgent: l.userAgent,
+              ).catchError((_) => <Channel>[]),
+            ),
       );
 
       final seen = <String>{};
@@ -138,7 +140,8 @@ class ContentStore extends ChangeNotifier {
 
       _loadEpg(assetSources.epgUrls); // guia EPG/XMLTV, en segundo plano
       _loadVod(
-        lists, assetSources.series,
+        lists,
+        assetSources.series,
       ); // peliculas y series desde la API Xtream, en segundo plano
       _loadArchive(); // peliculas de dominio publico (Internet Archive)
     } catch (e) {
@@ -232,9 +235,10 @@ class ContentStore extends ChangeNotifier {
   /// fuentes y catálogo sin recompilar. Devuelve null si no hay URL
   /// configurada o no se pudo descargar (y no hay copia cacheada).
   Future<String?> _fetchRemoteSources() async {
-    final url = (StorageService.getSetting('remoteSourcesUrl', defaultValue: '') ?? '')
-        .toString()
-        .trim();
+    final url =
+        (StorageService.getSetting('remoteSourcesUrl', defaultValue: '') ?? '')
+            .toString()
+            .trim();
     if (url.isEmpty) return null;
     try {
       final res = await http
@@ -255,7 +259,8 @@ class ContentStore extends ChangeNotifier {
   /// { name, url, type: live|movie|series|xtream|stalker, host, mac }.
   Future<_AssetSources> _loadAssetSources() async {
     try {
-      final raw = await _fetchRemoteSources() ??
+      final raw =
+          await _fetchRemoteSources() ??
           await rootBundle.loadString('assets/data/sources.json');
       final data = jsonDecode(raw);
       if (data is Map) {
@@ -312,24 +317,30 @@ class ContentStore extends ChangeNotifier {
             if (!epgUrls.contains(url)) epgUrls.add(url);
             continue;
           }
+          final linearPlaylist = M3UParserService.isLinearCategoryPlaylist(url);
           final mt =
-              (type == 'movie' || type == 'movies' || type == 'peliculas')
+              !linearPlaylist &&
+                  (type == 'movie' || type == 'movies' || type == 'peliculas')
               ? 'movie'
-              : (type == 'series' ? 'series' : null);
+              : (!linearPlaylist && type == 'series' ? 'series' : null);
           final category = (e['category'] ?? '')
               .toString()
               .trim()
               .toLowerCase();
-          final ua = (e['userAgent'] ?? e['user_agent'] ?? '').toString().trim();
+          final linearCategory = M3UParserService.linearPlaylistCategory(url);
+          final ua = (e['userAgent'] ?? e['user_agent'] ?? '')
+              .toString()
+              .trim();
           out.add(
             M3UList(
               name: name,
               url: url,
               category: category.isNotEmpty
                   ? category
-                  : (mt == null
-                        ? 'live'
-                        : (mt == 'movie' ? 'peliculas' : 'series')),
+                  : (linearCategory ??
+                        (mt == null
+                            ? 'live'
+                            : (mt == 'movie' ? 'peliculas' : 'series'))),
               mediaType: mt,
               userAgent: ua.isEmpty ? null : ua,
             ),
@@ -412,26 +423,120 @@ class ContentStore extends ChangeNotifier {
   List<Channel> get movies =>
       all.where((c) => c.type == MediaType.movie).toList();
 
-  /// Géneros de película en orden de aparición (para las filas de Inicio).
-  List<String> get movieGenres {
-    final seen = <String>{};
-    final out = <String>[];
-    for (final m in movies) {
-      for (final category in m.categories) {
-        if (seen.add(category)) out.add(category);
-      }
-      final g = m.genre ?? 'Películas';
-      if (seen.add(g)) out.add(g);
+  /// Géneros canónicos de películas. Los nombres de fuentes y filas editoriales
+  /// se agrupan como "Películas" para no contaminar los chips de Inicio.
+  static const List<String> _movieGenreOrder = [
+    'Infantil',
+    'Anime',
+    'Acción',
+    'Aventura',
+    'Comedia',
+    'Drama',
+    'Terror',
+    'Suspenso',
+    'Romance',
+    'Ciencia ficción',
+    'Crimen',
+    'Documental',
+    'Fantasía',
+    'Historia',
+    'Música',
+    'Guerra',
+    'Western',
+  ];
+
+  String? _canonicalMovieGenre(String raw) {
+    final value = raw.trim().toLowerCase();
+    if (value.isEmpty) return null;
+    if (value.contains('anime')) return 'Anime';
+    if (value.contains('infantil') ||
+        value.contains('family') ||
+        value.contains('familia') ||
+        value.contains('kids') ||
+        value.contains('children') ||
+        value.contains('animaci') ||
+        value.contains('animation')) {
+      return 'Infantil';
     }
-    return out;
+    if (value.contains('ciencia') ||
+        value.contains('science fiction') ||
+        value.contains('sci-fi')) {
+      return 'Ciencia ficción';
+    }
+    if (value.contains('acci') || value == 'action') return 'Acción';
+    if (value.contains('aventura') || value == 'adventure') {
+      return 'Aventura';
+    }
+    if (value.contains('comedia') || value == 'comedy') return 'Comedia';
+    if (value.contains('drama')) return 'Drama';
+    if (value.contains('terror') || value.contains('horror')) return 'Terror';
+    if (value.contains('suspenso') || value.contains('thriller')) {
+      return 'Suspenso';
+    }
+    if (value.contains('romance')) return 'Romance';
+    if (value.contains('crimen') || value.contains('crime')) return 'Crimen';
+    if (value.contains('documental') || value.contains('documentary')) {
+      return 'Documental';
+    }
+    if (value.contains('fantas') || value.contains('fantasy')) {
+      return 'Fantasía';
+    }
+    if (value.contains('historia') || value == 'history') return 'Historia';
+    if (value.contains('música') ||
+        value.contains('musica') ||
+        value == 'music') {
+      return 'Música';
+    }
+    if (value.contains('guerra') || value == 'war') return 'Guerra';
+    if (value.contains('western')) return 'Western';
+    if (value.contains('película') ||
+        value.contains('pelicula') ||
+        value.contains('movie') ||
+        value.contains('vod') ||
+        value.contains('iptv') ||
+        value.contains('archive')) {
+      return 'Películas';
+    }
+    return null;
   }
 
-  List<Channel> moviesByGenre(String g) =>
-      movies
-          .where(
-            (m) => (m.genre ?? 'Películas') == g || m.categories.contains(g),
-          )
-          .toList();
+  Set<String> _genresForMovie(Channel movie) {
+    final genres = <String>{};
+    final values = <String>[
+      if (movie.genre != null) movie.genre!,
+      ...movie.categories,
+    ];
+    for (final value in values) {
+      for (final part in value.split(RegExp(r'[,/|]'))) {
+        final genre = _canonicalMovieGenre(part);
+        if (genre != null) genres.add(genre);
+      }
+    }
+    if (genres.isEmpty) genres.add('Películas');
+    return genres;
+  }
+
+  List<String> get movieGenres {
+    final available = <String>{};
+    for (final movie in movies) {
+      available.addAll(_genresForMovie(movie));
+    }
+    return [
+      'Películas',
+      for (final genre in _movieGenreOrder)
+        if (available.contains(genre)) genre,
+    ];
+  }
+
+  List<Channel> moviesByGenre(String genre) {
+    if (genre == 'Películas') return movies;
+    final canonical = _canonicalMovieGenre(genre);
+    if (canonical == null || canonical == 'Películas') return movies;
+    return movies
+        .where((movie) => _genresForMovie(movie).contains(canonical))
+        .toList();
+  }
+
   List<Channel> live(String genre) =>
       all.where((c) => c.type == MediaType.live && c.genre == genre).toList();
   List<Channel> liveByCountry(String code) => all

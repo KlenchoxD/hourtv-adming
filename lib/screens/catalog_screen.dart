@@ -45,7 +45,9 @@ class _CatalogScreenState extends State<CatalogScreen> {
     _store.ensureLoaded();
     _bannerTimer = Timer.periodic(const Duration(seconds: 5), (_) {
       if (!mounted || _cat == 'series') return;
-      if (DeviceProfile.isTv(context)) return; // en TV el billboard sigue al foco
+      if (DeviceProfile.isTv(context)) {
+        return; // en TV el billboard sigue al foco
+      }
       final n = _store.movies.where((m) => m.logo != null).length;
       if (n > 1) setState(() => _bannerIdx = (_bannerIdx + 1) % n);
     });
@@ -60,7 +62,9 @@ class _CatalogScreenState extends State<CatalogScreen> {
     super.dispose();
   }
 
-  void _onChange() { if (mounted) setState(() {}); }
+  void _onChange() {
+    if (mounted) setState(() {});
+  }
 
   void _onPosterFocus(Channel channel, bool focused) {
     if (!DeviceProfile.isTv(context)) return;
@@ -86,7 +90,13 @@ class _CatalogScreenState extends State<CatalogScreen> {
   }
 
   void _play(Channel ch, List<Channel> ctx) {
-    Navigator.push(context, MaterialPageRoute(builder: (_) => PlayerScreen(channel: ch, allChannels: ctx.isEmpty ? [ch] : ctx)));
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) =>
+            PlayerScreen(channel: ch, allChannels: ctx.isEmpty ? [ch] : ctx),
+      ),
+    );
   }
 
   void _openDetails(Channel ch, List<Channel> ctx) {
@@ -99,8 +109,42 @@ class _CatalogScreenState extends State<CatalogScreen> {
   }
 
   Future<void> _openSearch() async {
-    final picked = await Navigator.push<Channel>(context, MaterialPageRoute(builder: (_) => SearchScreen(all: _store.all)));
-    if (picked != null && mounted) _play(picked, _store.movies);
+    final seriesByUrl = <String, XtreamSeries>{
+      for (final item in _store.series) 'hourtv-series:${item.seriesId}': item,
+    };
+    final searchItems = <Channel>[
+      ..._store.movies,
+      for (final item in _store.series)
+        Channel(
+          name: item.name,
+          url: 'hourtv-series:${item.seriesId}',
+          logo: item.cover,
+          backdrop: item.backdrop,
+          forcedType: 'series',
+          plot: item.plot,
+          year: item.year,
+          rating: item.rating,
+          duration: item.duration,
+          genre: item.genre,
+          categories: item.categories,
+        ),
+    ];
+    final picked = await Navigator.push<Channel>(
+      context,
+      MaterialPageRoute(builder: (_) => SearchScreen(all: searchItems)),
+    );
+    if (picked == null || !mounted) return;
+    final selectedSeries = seriesByUrl[picked.url];
+    if (selectedSeries != null) {
+      await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => SeriesDetailScreen(series: selectedSeries),
+        ),
+      );
+      return;
+    }
+    _openDetails(picked, _store.movies);
   }
 
   bool get _vodLoading => _store.moviesLoading || _store.vodLoading;
@@ -115,31 +159,85 @@ class _CatalogScreenState extends State<CatalogScreen> {
       bottom: false,
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: _pad),
-        child: Column(children: [
-          _topBar(),
-          _categoryChips(),
-          Expanded(child: _content()),
-        ]),
+        child: Column(
+          children: [
+            _topBar(),
+            _categoryChips(),
+            Expanded(child: _content()),
+          ],
+        ),
       ),
     );
   }
 
   Widget _topBar() => Padding(
     padding: EdgeInsets.fromLTRB(18, 12 * _s, 12, 6),
-    child: Row(children: [
-      Container(
-        width: 30 * _s, height: 30 * _s,
-        decoration: BoxDecoration(gradient: AppTheme.accentGradient, borderRadius: BorderRadius.circular(8 * _s)),
-        child: Icon(Icons.play_arrow_rounded, color: Colors.white, size: 20 * _s),
-      ),
-      const SizedBox(width: 9),
-      ShaderMask(shaderCallback: (b) => AppTheme.accentGradient.createShader(b), child: Text('Hour', style: TextStyle(color: Colors.white, fontSize: 19 * _s, fontWeight: FontWeight.w800))),
-      Text('TV', style: TextStyle(color: AppColors.textPrimary, fontSize: 19 * _s, fontWeight: FontWeight.w300)),
-      const Spacer(),
-      if (_vodLoading) const Padding(padding: EdgeInsets.only(right: 6), child: SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.accent))),
-      IconButton(icon: Icon(Icons.filter_list_rounded, color: AppColors.textPrimary, size: 24 * _s), onPressed: _openFilter),
-      IconButton(icon: Icon(Icons.search_rounded, color: AppColors.textPrimary, size: 24 * _s), onPressed: _openSearch),
-    ]),
+    child: Row(
+      children: [
+        Container(
+          width: 30 * _s,
+          height: 30 * _s,
+          decoration: BoxDecoration(
+            gradient: AppTheme.accentGradient,
+            borderRadius: BorderRadius.circular(8 * _s),
+          ),
+          child: Icon(
+            Icons.play_arrow_rounded,
+            color: Colors.white,
+            size: 20 * _s,
+          ),
+        ),
+        const SizedBox(width: 9),
+        ShaderMask(
+          shaderCallback: (b) => AppTheme.accentGradient.createShader(b),
+          child: Text(
+            'Hour',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 19 * _s,
+              fontWeight: FontWeight.w800,
+            ),
+          ),
+        ),
+        Text(
+          'TV',
+          style: TextStyle(
+            color: AppColors.textPrimary,
+            fontSize: 19 * _s,
+            fontWeight: FontWeight.w300,
+          ),
+        ),
+        const Spacer(),
+        if (_vodLoading)
+          const Padding(
+            padding: EdgeInsets.only(right: 6),
+            child: SizedBox(
+              width: 16,
+              height: 16,
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+                color: AppColors.accent,
+              ),
+            ),
+          ),
+        IconButton(
+          icon: Icon(
+            Icons.filter_list_rounded,
+            color: AppColors.textPrimary,
+            size: 24 * _s,
+          ),
+          onPressed: _openFilter,
+        ),
+        IconButton(
+          icon: Icon(
+            Icons.search_rounded,
+            color: AppColors.textPrimary,
+            size: 24 * _s,
+          ),
+          onPressed: _openSearch,
+        ),
+      ],
+    ),
   );
 
   /// Panel de filtros estilo UltraPelis: lista de categorías a pantalla.
@@ -149,31 +247,70 @@ class _CatalogScreenState extends State<CatalogScreen> {
       context: context,
       backgroundColor: AppColors.surfaceDark,
       isScrollControlled: true,
-      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(18))),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(18)),
+      ),
       builder: (ctx) => SafeArea(
         child: ConstrainedBox(
-          constraints: BoxConstraints(maxHeight: MediaQuery.sizeOf(ctx).height * 0.75),
-          child: Column(mainAxisSize: MainAxisSize.min, children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(20, 16, 8, 4),
-              child: Row(children: [
-                Text('Categorías', style: TextStyle(color: AppColors.textPrimary, fontSize: 18 * _s, fontWeight: FontWeight.w800)),
-                const Spacer(),
-                IconButton(icon: const Icon(Icons.close_rounded, color: AppColors.textPrimary), onPressed: () => Navigator.pop(ctx)),
-              ]),
-            ),
-            Flexible(
-              child: ListView(shrinkWrap: true, children: [
-                for (final c in cats)
-                  ListTile(
-                    autofocus: c.id == _cat && DeviceProfile.isTv(context),
-                    leading: Icon(_catIcon(c.id), color: c.id == _cat ? AppColors.accent : AppColors.textSecondary, size: 20 * _s),
-                    title: Text(c.label, style: TextStyle(color: c.id == _cat ? AppColors.accent : AppColors.textPrimary, fontSize: 15 * _s)),
-                    onTap: () => Navigator.pop(ctx, c.id),
-                  ),
-              ]),
-            ),
-          ]),
+          constraints: BoxConstraints(
+            maxHeight: MediaQuery.sizeOf(ctx).height * 0.75,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 16, 8, 4),
+                child: Row(
+                  children: [
+                    Text(
+                      'Categorías',
+                      style: TextStyle(
+                        color: AppColors.textPrimary,
+                        fontSize: 18 * _s,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                    const Spacer(),
+                    IconButton(
+                      icon: const Icon(
+                        Icons.close_rounded,
+                        color: AppColors.textPrimary,
+                      ),
+                      onPressed: () => Navigator.pop(ctx),
+                    ),
+                  ],
+                ),
+              ),
+              Flexible(
+                child: ListView(
+                  shrinkWrap: true,
+                  children: [
+                    for (final c in cats)
+                      ListTile(
+                        autofocus: c.id == _cat && DeviceProfile.isTv(context),
+                        leading: Icon(
+                          _catIcon(c.id),
+                          color: c.id == _cat
+                              ? AppColors.accent
+                              : AppColors.textSecondary,
+                          size: 20 * _s,
+                        ),
+                        title: Text(
+                          c.label,
+                          style: TextStyle(
+                            color: c.id == _cat
+                                ? AppColors.accent
+                                : AppColors.textPrimary,
+                            fontSize: 15 * _s,
+                          ),
+                        ),
+                        onTap: () => Navigator.pop(ctx, c.id),
+                      ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -183,23 +320,30 @@ class _CatalogScreenState extends State<CatalogScreen> {
   IconData _catIcon(String id) {
     final k = id.toLowerCase();
     if (id == 'all') return Icons.recommend_rounded;
+    if (id == 'movies') return Icons.local_movies_rounded;
     if (id == 'series') return Icons.tv_rounded;
     if (k.contains('terror')) return Icons.dark_mode_rounded;
     if (k.contains('acci')) return Icons.local_fire_department_rounded;
     if (k.contains('comedia')) return Icons.sentiment_very_satisfied_rounded;
     if (k.contains('roman')) return Icons.favorite_rounded;
     if (k.contains('aventura')) return Icons.terrain_rounded;
-    if (k.contains('infantil') || k.contains('anima') || k.contains('familia')) return Icons.child_care_rounded;
+    if (k.contains('infantil') ||
+        k.contains('anima') ||
+        k.contains('familia')) {
+      return Icons.child_care_rounded;
+    }
     if (k.contains('documental')) return Icons.video_library_rounded;
     if (k.contains('cienc')) return Icons.rocket_launch_rounded;
     return Icons.local_movies_rounded;
   }
 
-  /// Categorías disponibles: Recomendado + géneros reales + Series.
-  List<({String id, String label})> get _cats => [
+  /// Inicio conserva cinco destinos editoriales, sin categorías de fuentes.
+  List<({String id, String label})> get _cats => const [
     (id: 'all', label: 'Recomendado'),
-    for (final g in _store.movieGenres) (id: g, label: g),
-    if (_store.series.isNotEmpty) (id: 'series', label: 'Series'),
+    (id: 'movies', label: 'Películas'),
+    (id: 'series', label: 'Series'),
+    (id: 'Infantil', label: 'Infantil'),
+    (id: 'Anime', label: 'Anime'),
   ];
 
   /// Fila de categorías estilo UltraPelis: texto plano, la activa en rojo.
@@ -240,43 +384,91 @@ class _CatalogScreenState extends State<CatalogScreen> {
 
   // --------- Filtros por año/calificación (usa metadata cuando existe) ---------
 
-  List<Channel> _byYear(List<Channel> src, {int? min, int? max}) => src.where((m) {
-    final y = int.tryParse(m.year?.trim() ?? '');
-    if (y == null) return false;
-    if (min != null && y < min) return false;
-    if (max != null && y > max) return false;
-    return true;
-  }).toList();
+  List<Channel> _byYear(List<Channel> src, {int? min, int? max}) =>
+      src.where((m) {
+        final y = int.tryParse(m.year?.trim() ?? '');
+        if (y == null) return false;
+        if (min != null && y < min) return false;
+        if (max != null && y > max) return false;
+        return true;
+      }).toList();
 
-  List<Channel> _byRating(List<Channel> src, double min) =>
-      src.where((m) => (double.tryParse(m.rating?.trim() ?? '') ?? 0) >= min).toList();
+  List<Channel> _byRating(List<Channel> src, double min) => src
+      .where((m) => (double.tryParse(m.rating?.trim() ?? '') ?? 0) >= min)
+      .toList();
+
+  List<XtreamSeries> _seriesForCategory(String category) {
+    final target = category.toLowerCase();
+    return _store.series
+        .where((item) {
+          final values = [
+            item.genre ?? '',
+            ...item.categories,
+          ].join(' ').toLowerCase();
+          if (target == 'anime') return values.contains('anime');
+          if (target == 'infantil') {
+            return values.contains('infantil') ||
+                values.contains('kids') ||
+                values.contains('children') ||
+                values.contains('famil');
+          }
+          return false;
+        })
+        .toList(growable: false);
+  }
 
   Widget _content() {
     if (_cat == 'series') return _seriesTab();
-    final genres = _store.movieGenres;
-    if (genres.isEmpty) {
-      if (_vodLoading) return _loading('Cargando películas...');
-      return _vodEmpty('películas');
+    final movies = _store.movies;
+    if (movies.isEmpty && _store.series.isEmpty) {
+      if (_vodLoading) return _loading('Cargando catálogo...');
+      return _vodEmpty('contenido');
     }
-    final all = _cat == 'all';
-    final catMovies = all ? _store.movies : _store.moviesByGenre(_cat);
-    final recent = all ? StorageService.loadRecent() : const <Channel>[];
-    final year = DateTime.now().year;
-    final terror = all
-        ? _store.movies.where((m) => (m.genre ?? '').toLowerCase().contains('terror')).toList()
+
+    final recommended = _cat == 'all';
+    final moviesTab = _cat == 'movies';
+    final editorialCategory = _cat == 'Infantil' || _cat == 'Anime';
+    final catMovies = editorialCategory ? _store.moviesByGenre(_cat) : movies;
+    final catSeries = editorialCategory
+        ? _seriesForCategory(_cat)
+        : const <XtreamSeries>[];
+    if (editorialCategory && catMovies.isEmpty && catSeries.isEmpty) {
+      if (_vodLoading) return _loading('Cargando $_cat...');
+      return _vodEmpty(_cat.toLowerCase());
+    }
+
+    final recent = recommended
+        ? StorageService.loadRecent()
+              .where((channel) => channel.type != MediaType.live)
+              .toList(growable: false)
         : const <Channel>[];
+    final year = DateTime.now().year;
+    final terror = recommended
+        ? _store.moviesByGenre('Terror')
+        : const <Channel>[];
+
     return ListView(
       padding: const EdgeInsets.only(bottom: 24),
       children: [
-        _hero(),
-        if (!all) _movieRow('Todo en $_cat', catMovies),
+        if (recommended || moviesTab) _hero(),
+        if (editorialCategory && catMovies.isNotEmpty)
+          _movieRow(
+            _cat == 'Anime' ? 'Películas de anime' : 'Películas infantiles',
+            catMovies,
+          ),
+        if (editorialCategory && catSeries.isNotEmpty)
+          _seriesRow(
+            title: _cat == 'Anime' ? 'Series de anime' : 'Series infantiles',
+            items: catSeries,
+          ),
         if (recent.isNotEmpty) _movieRow('Continuar viendo', recent),
-        _movieRow('Estrenos $year', _byYear(catMovies, min: year - 1)),
-        _movieRow('Películas Más Populares', _byRating(catMovies, 7.5)),
-        _movieRow('Películas Antiguas', _byYear(catMovies, max: 2010)),
-        if (all) _movieRow('Para No Dormir', terror),
-        if (all) for (final g in genres) _movieRow(g, _store.moviesByGenre(g)),
-        if (all && _store.series.isNotEmpty) _seriesRow(),
+        if (recommended || moviesTab) ...[
+          _movieRow('Estrenos $year', _byYear(movies, min: year - 1)),
+          _movieRow('Películas Más Populares', _byRating(movies, 7.5)),
+          _movieRow('Películas Antiguas', _byYear(movies, max: 2010)),
+        ],
+        if (terror.isNotEmpty) _movieRow('Para No Dormir', terror),
+        if (recommended && _store.series.isNotEmpty) _seriesRow(),
       ],
     );
   }
@@ -321,7 +513,11 @@ class _CatalogScreenState extends State<CatalogScreen> {
                         gradient: LinearGradient(
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
-                          colors: [AppColors.accent.withValues(alpha: 0.55), AppColors.cardDark, AppColors.primaryDark],
+                          colors: [
+                            AppColors.accent.withValues(alpha: 0.55),
+                            AppColors.cardDark,
+                            AppColors.primaryDark,
+                          ],
                         ),
                       ),
                       alignment: Alignment.center,
@@ -331,7 +527,11 @@ class _CatalogScreenState extends State<CatalogScreen> {
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.center,
-                        style: TextStyle(color: Colors.white, fontSize: 20 * _s, fontWeight: FontWeight.w800),
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20 * _s,
+                          fontWeight: FontWeight.w800,
+                        ),
                       ),
                     ),
                   ),
@@ -345,10 +545,22 @@ class _CatalogScreenState extends State<CatalogScreen> {
                         gradient: LinearGradient(
                           begin: Alignment.bottomCenter,
                           end: Alignment.topCenter,
-                          colors: [Colors.black.withValues(alpha: 0.85), Colors.transparent],
+                          colors: [
+                            Colors.black.withValues(alpha: 0.85),
+                            Colors.transparent,
+                          ],
                         ),
                       ),
-                      child: Text(f.displayName, maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(color: Colors.white, fontSize: 16 * _s, fontWeight: FontWeight.w700)),
+                      child: Text(
+                        f.displayName,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16 * _s,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
                     ),
                   ),
                 ],
@@ -367,83 +579,98 @@ class _CatalogScreenState extends State<CatalogScreen> {
     final h = MediaQuery.sizeOf(context).height * 0.42;
     return SizedBox(
       height: h,
-      child: Stack(fit: StackFit.expand, children: [
-        // Imagen alineada a la derecha (el póster no se estira de más)
-        Align(
-          alignment: Alignment.centerRight,
-          child: SizedBox(
-            width: MediaQuery.sizeOf(context).width * 0.62,
-            child: (f.backdrop ?? f.logo) != null
-                ? CachedNetworkImage(
-                    imageUrl: (f.backdrop ?? f.logo)!,
-                    fit: BoxFit.cover,
-                    fadeInDuration: const Duration(milliseconds: 220),
-                    errorWidget: (_, _, _) => const SizedBox(),
-                  )
-                : const SizedBox(),
-          ),
-        ),
-        // Degradado horizontal (texto legible) y vertical (funde con el fondo)
-        const DecoratedBox(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight,
-              colors: [AppColors.primaryDark, AppColors.primaryDark, Colors.transparent],
-              stops: [0.0, 0.38, 0.75],
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          // Imagen alineada a la derecha (el póster no se estira de más)
+          Align(
+            alignment: Alignment.centerRight,
+            child: SizedBox(
+              width: MediaQuery.sizeOf(context).width * 0.62,
+              child: (f.backdrop ?? f.logo) != null
+                  ? CachedNetworkImage(
+                      imageUrl: (f.backdrop ?? f.logo)!,
+                      fit: BoxFit.cover,
+                      fadeInDuration: const Duration(milliseconds: 220),
+                      errorWidget: (_, _, _) => const SizedBox(),
+                    )
+                  : const SizedBox(),
             ),
           ),
-        ),
-        DecoratedBox(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.bottomCenter,
-              end: Alignment.topCenter,
-              colors: [AppColors.primaryDark, AppColors.primaryDark.withValues(alpha: 0.0)],
-              stops: const [0.0, 0.45],
-            ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(24, 12, 24, 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              _heroBadge(),
-              const SizedBox(height: 12),
-              SizedBox(
-                width: MediaQuery.sizeOf(context).width * 0.45,
-                child: Text(
-                  f.displayName,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(color: Colors.white, fontSize: 34, fontWeight: FontWeight.w800, height: 1.1),
-                ),
+          // Degradado horizontal (texto legible) y vertical (funde con el fondo)
+          const DecoratedBox(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+                colors: [
+                  AppColors.primaryDark,
+                  AppColors.primaryDark,
+                  Colors.transparent,
+                ],
+                stops: [0.0, 0.38, 0.75],
               ),
-              _billboardMetadata(f),
-              if (f.plot?.trim().isNotEmpty == true) ...[
-                const SizedBox(height: 8),
+            ),
+          ),
+          DecoratedBox(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.bottomCenter,
+                end: Alignment.topCenter,
+                colors: [
+                  AppColors.primaryDark,
+                  AppColors.primaryDark.withValues(alpha: 0.0),
+                ],
+                stops: const [0.0, 0.45],
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(24, 12, 24, 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                _heroBadge(),
+                const SizedBox(height: 12),
                 SizedBox(
                   width: MediaQuery.sizeOf(context).width * 0.45,
                   child: Text(
-                    f.plot!,
-                    maxLines: 3,
+                    f.displayName,
+                    maxLines: 2,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      color: AppColors.textSecondary,
-                      fontSize: 12.5 * _s,
-                      height: 1.3,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 34,
+                      fontWeight: FontWeight.w800,
+                      height: 1.1,
                     ),
                   ),
                 ),
+                _billboardMetadata(f),
+                if (f.plot?.trim().isNotEmpty == true) ...[
+                  const SizedBox(height: 8),
+                  SizedBox(
+                    width: MediaQuery.sizeOf(context).width * 0.45,
+                    child: Text(
+                      f.plot!,
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        color: AppColors.textSecondary,
+                        fontSize: 12.5 * _s,
+                        height: 1.3,
+                      ),
+                    ),
+                  ),
+                ],
+                const SizedBox(height: 14),
+                _heroPlayButton(f),
               ],
-              const SizedBox(height: 14),
-              _heroPlayButton(f),
-            ],
+            ),
           ),
-        ),
-      ]),
+        ],
+      ),
     );
   }
 
@@ -478,8 +705,19 @@ class _CatalogScreenState extends State<CatalogScreen> {
 
   Widget _heroBadge() => Container(
     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-    decoration: BoxDecoration(color: AppColors.accent, borderRadius: BorderRadius.circular(6)),
-    child: Text('DESTACADA', style: TextStyle(color: Colors.white, fontSize: 10 * _s, fontWeight: FontWeight.w800, letterSpacing: 0.5)),
+    decoration: BoxDecoration(
+      color: AppColors.accent,
+      borderRadius: BorderRadius.circular(6),
+    ),
+    child: Text(
+      'DESTACADA',
+      style: TextStyle(
+        color: Colors.white,
+        fontSize: 10 * _s,
+        fontWeight: FontWeight.w800,
+        letterSpacing: 0.5,
+      ),
+    ),
   );
 
   Widget _heroPlayButton(Channel f) => TvFocusable(
@@ -487,37 +725,65 @@ class _CatalogScreenState extends State<CatalogScreen> {
     borderRadius: BorderRadius.circular(10),
     child: Container(
       padding: EdgeInsets.symmetric(horizontal: 18 * _s, vertical: 9 * _s),
-      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
-      child: Row(mainAxisSize: MainAxisSize.min, children: [
-        Icon(Icons.play_arrow_rounded, color: Colors.black, size: 20 * _s),
-        const SizedBox(width: 6),
-        Text('Reproducir', style: TextStyle(color: Colors.black, fontSize: 14 * _s, fontWeight: FontWeight.w700)),
-      ]),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(Icons.play_arrow_rounded, color: Colors.black, size: 20 * _s),
+          const SizedBox(width: 6),
+          Text(
+            'Reproducir',
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 14 * _s,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ],
+      ),
     ),
   );
 
   // --------- Fila de películas ---------
   Widget _movieRow(String title, List<Channel> items) {
     if (items.isEmpty) return const SizedBox.shrink();
-    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Padding(
-        padding: const EdgeInsets.fromLTRB(18, 18, 18, 10),
-        child: Row(children: [
-          Text(title, style: TextStyle(color: AppColors.textPrimary, fontSize: 16 * _s, fontWeight: FontWeight.w800)),
-          const SizedBox(width: 8),
-          Text('${items.length}', style: TextStyle(color: AppColors.textMuted, fontSize: 12 * _s)),
-        ]),
-      ),
-      SizedBox(
-        height: 198 * _s,
-        child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          padding: const EdgeInsets.symmetric(horizontal: 14),
-          itemCount: items.length > 40 ? 40 : items.length,
-          itemBuilder: (ctx, i) => _posterCard(items[i], items),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(18, 18, 18, 10),
+          child: Row(
+            children: [
+              Text(
+                title,
+                style: TextStyle(
+                  color: AppColors.textPrimary,
+                  fontSize: 16 * _s,
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
+              const SizedBox(width: 8),
+              Text(
+                '${items.length}',
+                style: TextStyle(color: AppColors.textMuted, fontSize: 12 * _s),
+              ),
+            ],
+          ),
         ),
-      ),
-    ]);
+        SizedBox(
+          height: 198 * _s,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            padding: const EdgeInsets.symmetric(horizontal: 14),
+            itemCount: items.length > 40 ? 40 : items.length,
+            itemBuilder: (ctx, i) => _posterCard(items[i], items),
+          ),
+        ),
+      ],
+    );
   }
 
   Widget _posterCard(Channel ch, List<Channel> ctx) => Padding(
@@ -528,49 +794,94 @@ class _CatalogScreenState extends State<CatalogScreen> {
       borderRadius: BorderRadius.circular(12),
       child: SizedBox(
         width: 118 * _s,
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(12),
-            child: Container(
-              width: 118 * _s, height: 165 * _s,
-              color: AppColors.cardElevated,
-              child: ch.logo != null && ch.logo!.isNotEmpty
-                  ? CachedNetworkImage(imageUrl: ch.logo!, fit: BoxFit.cover, placeholder: (_, _) => _posterPh(ch), errorWidget: (_, _, _) => _posterPh(ch))
-                  : _posterPh(ch),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: Container(
+                width: 118 * _s,
+                height: 165 * _s,
+                color: AppColors.cardElevated,
+                child: ch.logo != null && ch.logo!.isNotEmpty
+                    ? CachedNetworkImage(
+                        imageUrl: ch.logo!,
+                        fit: BoxFit.cover,
+                        placeholder: (_, _) => _posterPh(ch),
+                        errorWidget: (_, _, _) => _posterPh(ch),
+                      )
+                    : _posterPh(ch),
+              ),
             ),
-          ),
-          const SizedBox(height: 6),
-          Text(ch.displayName, maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(color: AppColors.textPrimary, fontSize: 12 * _s, fontWeight: FontWeight.w600)),
-        ]),
+            const SizedBox(height: 6),
+            Text(
+              ch.displayName,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                color: AppColors.textPrimary,
+                fontSize: 12 * _s,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
+        ),
       ),
     ),
   );
 
   Widget _posterPh(Channel ch) => Container(
     alignment: Alignment.center,
-    decoration: const BoxDecoration(gradient: LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: [AppColors.cardElevated, AppColors.cardDark])),
+    decoration: const BoxDecoration(
+      gradient: LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [AppColors.cardElevated, AppColors.cardDark],
+      ),
+    ),
     padding: const EdgeInsets.all(8),
-    child: Text(ch.displayName, maxLines: 4, overflow: TextOverflow.ellipsis, textAlign: TextAlign.center, style: TextStyle(color: AppColors.accentLight, fontSize: 12 * _s, fontWeight: FontWeight.w700)),
+    child: Text(
+      ch.displayName,
+      maxLines: 4,
+      overflow: TextOverflow.ellipsis,
+      textAlign: TextAlign.center,
+      style: TextStyle(
+        color: AppColors.accentLight,
+        fontSize: 12 * _s,
+        fontWeight: FontWeight.w700,
+      ),
+    ),
   );
 
   // --------- Series ---------
-  Widget _seriesRow() {
-    final series = _store.series;
-    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Padding(
-        padding: const EdgeInsets.fromLTRB(18, 18, 18, 10),
-        child: Text('Series', style: TextStyle(color: AppColors.textPrimary, fontSize: 16 * _s, fontWeight: FontWeight.w800)),
-      ),
-      SizedBox(
-        height: 198 * _s,
-        child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          padding: const EdgeInsets.symmetric(horizontal: 14),
-          itemCount: series.length > 40 ? 40 : series.length,
-          itemBuilder: (ctx, i) => _seriesCard(series[i]),
+  Widget _seriesRow({String title = 'Series', List<XtreamSeries>? items}) {
+    final series = items ?? _store.series;
+    if (series.isEmpty) return const SizedBox.shrink();
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(18, 18, 18, 10),
+          child: Text(
+            title,
+            style: TextStyle(
+              color: AppColors.textPrimary,
+              fontSize: 16 * _s,
+              fontWeight: FontWeight.w800,
+            ),
+          ),
         ),
-      ),
-    ]);
+        SizedBox(
+          height: 198 * _s,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            padding: const EdgeInsets.symmetric(horizontal: 14),
+            itemCount: series.length > 40 ? 40 : series.length,
+            itemBuilder: (ctx, i) => _seriesCard(series[i]),
+          ),
+        ),
+      ],
+    );
   }
 
   Widget _seriesTab() {
@@ -581,7 +892,12 @@ class _CatalogScreenState extends State<CatalogScreen> {
     }
     return GridView.builder(
       padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
-      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 124 * _s, childAspectRatio: 0.56, crossAxisSpacing: 12, mainAxisSpacing: 16),
+      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+        maxCrossAxisExtent: 124 * _s,
+        childAspectRatio: 0.56,
+        crossAxisSpacing: 12,
+        mainAxisSpacing: 16,
+      ),
       itemCount: series.length,
       itemBuilder: (ctx, i) => _seriesCard(series[i]),
     );
@@ -590,24 +906,44 @@ class _CatalogScreenState extends State<CatalogScreen> {
   Widget _seriesCard(XtreamSeries s) => Padding(
     padding: const EdgeInsets.symmetric(horizontal: 5),
     child: TvFocusable(
-      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => SeriesDetailScreen(series: s))),
+      onTap: () => Navigator.push(
+        context,
+        MaterialPageRoute(builder: (_) => SeriesDetailScreen(series: s)),
+      ),
       borderRadius: BorderRadius.circular(12),
       child: SizedBox(
         width: 118 * _s,
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(12),
-            child: Container(
-              width: 118 * _s, height: 165 * _s,
-              color: AppColors.cardElevated,
-              child: s.cover != null && s.cover!.isNotEmpty
-                  ? CachedNetworkImage(imageUrl: s.cover!, fit: BoxFit.cover, errorWidget: (_, _, _) => _seriesPh(s.name))
-                  : _seriesPh(s.name),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: Container(
+                width: 118 * _s,
+                height: 165 * _s,
+                color: AppColors.cardElevated,
+                child: s.cover != null && s.cover!.isNotEmpty
+                    ? CachedNetworkImage(
+                        imageUrl: s.cover!,
+                        fit: BoxFit.cover,
+                        errorWidget: (_, _, _) => _seriesPh(s.name),
+                      )
+                    : _seriesPh(s.name),
+              ),
             ),
-          ),
-          const SizedBox(height: 6),
-          Text(s.name, maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(color: AppColors.textPrimary, fontSize: 12 * _s, fontWeight: FontWeight.w600)),
-        ]),
+            const SizedBox(height: 6),
+            Text(
+              s.name,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                color: AppColors.textPrimary,
+                fontSize: 12 * _s,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
+        ),
       ),
     ),
   );
@@ -615,31 +951,81 @@ class _CatalogScreenState extends State<CatalogScreen> {
   Widget _seriesPh(String name) => Container(
     alignment: Alignment.center,
     padding: const EdgeInsets.all(8),
-    decoration: const BoxDecoration(gradient: LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: [AppColors.cardElevated, AppColors.cardDark])),
-    child: Text(name, maxLines: 4, textAlign: TextAlign.center, overflow: TextOverflow.ellipsis, style: TextStyle(color: AppColors.accentLight, fontSize: 11 * _s, fontWeight: FontWeight.w700)),
+    decoration: const BoxDecoration(
+      gradient: LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [AppColors.cardElevated, AppColors.cardDark],
+      ),
+    ),
+    child: Text(
+      name,
+      maxLines: 4,
+      textAlign: TextAlign.center,
+      overflow: TextOverflow.ellipsis,
+      style: TextStyle(
+        color: AppColors.accentLight,
+        fontSize: 11 * _s,
+        fontWeight: FontWeight.w700,
+      ),
+    ),
   );
 
   // --------- Estados ---------
-  Widget _loading(String msg) => Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
-    const SizedBox(width: 30, height: 30, child: CircularProgressIndicator(strokeWidth: 2.4, color: AppColors.accent)),
-    const SizedBox(height: 16),
-    Text(msg, style: const TextStyle(color: AppColors.textSecondary, fontSize: 14)),
-  ]));
+  Widget _loading(String msg) => Center(
+    child: Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        const SizedBox(
+          width: 30,
+          height: 30,
+          child: CircularProgressIndicator(
+            strokeWidth: 2.4,
+            color: AppColors.accent,
+          ),
+        ),
+        const SizedBox(height: 16),
+        Text(
+          msg,
+          style: const TextStyle(color: AppColors.textSecondary, fontSize: 14),
+        ),
+      ],
+    ),
+  );
 
-  Widget _vodEmpty(String tipo) => Center(child: Padding(
-    padding: const EdgeInsets.all(32),
-    child: Column(mainAxisSize: MainAxisSize.min, children: [
-      Icon(tipo == 'series' ? Icons.tv_rounded : Icons.movie_rounded, color: AppColors.textMuted, size: 56),
-      const SizedBox(height: 16),
-      Text('Aún no hay $tipo', style: const TextStyle(color: AppColors.textPrimary, fontSize: 16, fontWeight: FontWeight.w700)),
-      const SizedBox(height: 8),
-      Text(
-        tipo == 'series'
-            ? 'Las series bajo demanda vienen de una cuenta Xtream.\nConéctala desde Perfil → Mis Fuentes.'
-            : 'Conéctate a internet para cargar el catálogo,\no agrega una cuenta Xtream en Perfil → Mis Fuentes.',
-        textAlign: TextAlign.center,
-        style: const TextStyle(color: AppColors.textSecondary, fontSize: 13),
+  Widget _vodEmpty(String tipo) => Center(
+    child: Padding(
+      padding: const EdgeInsets.all(32),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            tipo == 'series' ? Icons.tv_rounded : Icons.movie_rounded,
+            color: AppColors.textMuted,
+            size: 56,
+          ),
+          const SizedBox(height: 16),
+          Text(
+            'Aún no hay $tipo',
+            style: const TextStyle(
+              color: AppColors.textPrimary,
+              fontSize: 16,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            tipo == 'series'
+                ? 'Las series bajo demanda vienen de una cuenta Xtream.\nConéctala desde Perfil → Mis Fuentes.'
+                : 'Conéctate a internet para cargar el catálogo,\no agrega una cuenta Xtream en Perfil → Mis Fuentes.',
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              color: AppColors.textSecondary,
+              fontSize: 13,
+            ),
+          ),
+        ],
       ),
-    ]),
-  ));
+    ),
+  );
 }

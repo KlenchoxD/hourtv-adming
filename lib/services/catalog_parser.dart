@@ -1,5 +1,6 @@
 import '../models/channel.dart';
 import '../models/m3u_list.dart';
+import 'm3u_parser_service.dart';
 import 'stalker_service.dart';
 import 'xtream_service.dart';
 
@@ -103,17 +104,21 @@ class CatalogParser {
         continue;
       }
 
+      final linearPlaylist = M3UParserService.isLinearCategoryPlaylist(url);
       final mediaType =
-          type == 'movie' || type == 'movies' || type == 'peliculas'
+          !linearPlaylist &&
+              (type == 'movie' || type == 'movies' || type == 'peliculas')
           ? 'movie'
-          : (type == 'series' ? 'series' : null);
+          : (!linearPlaylist && type == 'series' ? 'series' : null);
       final category = _text(source['category'])?.toLowerCase();
+      final linearCategory = M3UParserService.linearPlaylistCategory(url);
       lists.add(
         M3UList(
           name: name,
           url: url,
           category:
               category ??
+              linearCategory ??
               (mediaType == null
                   ? 'live'
                   : (mediaType == 'movie' ? 'peliculas' : 'series')),
