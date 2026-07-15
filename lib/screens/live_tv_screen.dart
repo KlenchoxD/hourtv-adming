@@ -10,7 +10,6 @@ import '../services/device_type.dart';
 import '../theme/app_theme.dart';
 import '../widgets/tv_focusable.dart';
 import 'search_screen.dart';
-import 'player_screen.dart';
 import 'epg_screen.dart';
 
 /// Pestaña EN VIVO: solo canales. El canal se reproduce a pantalla completa de
@@ -27,7 +26,7 @@ class LiveTvScreen extends StatefulWidget {
 class _NavCat {
   final String label;
   final IconData icon;
-  final String mode; // 'live' | 'fav' | 'genre'
+  final String mode; // 'live' | 'genre'
   final String? genre; // id de genero cuando mode == 'genre'
   const _NavCat(this.label, this.icon, this.mode, [this.genre]);
 }
@@ -41,13 +40,15 @@ const List<_NavCat> _categories = [
   _NavCat('DOCUMENTALES', Icons.video_library_rounded, 'genre', 'documentales'),
   _NavCat('COMEDIA', Icons.theater_comedy_rounded, 'genre', 'comedia'),
   _NavCat('MÚSICA', Icons.music_note_rounded, 'genre', 'musica'),
-  _NavCat('FAVORITOS', Icons.favorite_rounded, 'fav'),
 ];
 
 class _LiveTvScreenState extends State<LiveTvScreen> {
   final _store = ContentStore.instance;
 
   List<Channel> _list = []; // canales de la categoria/pais actual
+  static const int _pageSize = 40;
+  int _visibleCount = _pageSize;
+  bool _favoritesOnly = false;
   bool _autoPlayed = false;
 
   // Reproductor
@@ -93,6 +94,7 @@ class _LiveTvScreenState extends State<LiveTvScreen> {
       if (mounted) setState(() => _now = DateTime.now());
     });
     _store.addListener(_onStore);
+    _chScroll.addListener(_loadMoreOnScroll);
     _store.ensureLoaded();
     _applyFilter();
   }
@@ -138,14 +140,15 @@ class _LiveTvScreenState extends State<LiveTvScreen> {
   }
 
   bool _matches(Channel ch, _NavCat cat) {
+    if (ch.type != MediaType.live) return false;
+    if (_favoritesOnly) return ch.isFavorite;
+    if (_country != 'all' && (ch.countryCode ?? 'zz') != _country) {
+      return false;
+    }
     switch (cat.mode) {
-      case 'fav':
-        return ch.isFavorite;
       case 'genre':
-        return ch.type == MediaType.live && ch.genre == cat.genre;
+        return ch.genre == cat.genre;
       case 'live':
-        if (ch.type != MediaType.live) return false;
-        if (_country != 'all') return (ch.countryCode ?? 'zz') == _country;
         return true;
     }
     return false;
@@ -154,9 +157,36 @@ class _LiveTvScreenState extends State<LiveTvScreen> {
   void _applyFilter({bool resetSelection = false}) {
     final cat = _categories[_catIdx];
     _list = _all.where((ch) => _matches(ch, cat)).toList();
-    if (resetSelection) _chIdx = 0;
+    if (resetSelection) {
+      _chIdx = 0;
+      _visibleCount = _pageSize;
+      if (_chScroll.hasClients) _chScroll.jumpTo(0);
+    }
     if (_chIdx >= _list.length) _chIdx = _list.isEmpty ? 0 : _list.length - 1;
     if (mounted) setState(() {});
+  }
+
+  List<Channel> get _visibleChannels =>
+      _list.take(_visibleCount.clamp(0, _list.length)).toList(growable: false);
+
+  void _loadMoreOnScroll() {
+    if (!_chScroll.hasClients || _visibleCount >= _list.length) return;
+    if (_chScroll.position.extentAfter < _chItemH * 5) {
+      setState(() {
+        _visibleCount = (_visibleCount + _pageSize).clamp(0, _list.length);
+      });
+    }
+  }
+
+  void _selectTab({required bool favorites}) {
+    if (_favoritesOnly == favorites) return;
+    setState(() {
+      _favoritesOnly = favorites;
+      _country = 'all';
+      _zone = 1;
+    });
+    _applyFilter(resetSelection: true);
+    _showOverlays();
   }
 
   Future<void> _play(Channel ch) async {
@@ -192,13 +222,14 @@ class _LiveTvScreenState extends State<LiveTvScreen> {
 
   Future<void> _toggleFav(Channel ch) async {
     await _store.toggleFavorite(ch);
-    if (_categories[_catIdx].mode == 'fav') _applyFilter();
+    if (_favoritesOnly) _applyFilter();
     if (mounted) setState(() {});
   }
 
   void _selectCategory(int i) {
     setState(() {
       _catIdx = i;
+      _favoritesOnly = false;
       _zone = 0;
       _country = 'all';
     });
@@ -251,6 +282,9 @@ class _LiveTvScreenState extends State<LiveTvScreen> {
     setState(() {
       _chIdx = i.clamp(0, _list.length - 1);
       _zone = 1;
+      if (_chIdx >= _visibleCount - 5 && _visibleCount < _list.length) {
+        _visibleCount = (_visibleCount + _pageSize).clamp(0, _list.length);
+      }
     });
     final target = (_chIdx * _chItemH) - _chItemH;
     if (_chScroll.hasClients) {
@@ -408,7 +442,7 @@ class _LiveTvScreenState extends State<LiveTvScreen> {
                     bottom: 0,
                     right: 0,
                     width: chW,
-                    child: _channelRail(),
+                    child: _channelRail(showTabs: true),
                   ),
                   Positioned(top: 0, left: 0, right: 0, child: _statusBar()),
                 ],
@@ -479,6 +513,7 @@ class _LiveTvScreenState extends State<LiveTvScreen> {
               ),
             ),
           ),
+          _liveTabs(),
           _categoryChipsRow(),
           Expanded(child: _channelRail()),
         ],
@@ -486,7 +521,63 @@ class _LiveTvScreenState extends State<LiveTvScreen> {
     );
   }
 
+  Widget _liveTabs({bool compact = false}) {
+    return Container(
+      height: compact ? 44 * _s : 48,
+      color: AppColors.primaryDark,
+      padding: const EdgeInsets.symmetric(horizontal: 12),
+      child: Row(
+        children: [
+          _liveTab(label: 'Categoría', favorites: false),
+          _liveTab(label: 'Favoritos', favorites: true),
+        ],
+      ),
+    );
+  }
+
+  Widget _liveTab({required String label, required bool favorites}) {
+    final selected = _favoritesOnly == favorites;
+    return Expanded(
+      child: TvFocusable(
+        onTap: () => _selectTab(favorites: favorites),
+        borderRadius: BorderRadius.zero,
+        child: InkWell(
+          onTap: () => _selectTab(favorites: favorites),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Expanded(
+                child: Center(
+                  child: Text(
+                    label,
+                    style: TextStyle(
+                      color: selected
+                          ? AppColors.textPrimary
+                          : AppColors.textMuted,
+                      fontSize: 14 * _s,
+                      fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
+                    ),
+                  ),
+                ),
+              ),
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 180),
+                height: 3,
+                width: selected ? 54 * _s : 0,
+                decoration: BoxDecoration(
+                  color: AppColors.accent,
+                  borderRadius: BorderRadius.circular(3),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget _categoryChipsRow() {
+    if (_favoritesOnly) return const SizedBox.shrink();
     return Container(
       height: 46,
       color: Colors.black.withValues(alpha: 0.3),
@@ -711,7 +802,11 @@ class _LiveTvScreenState extends State<LiveTvScreen> {
     _hideTimer?.cancel();
     await Navigator.push<void>(
       context,
-      MaterialPageRoute(builder: (_) => EpgScreen(channels: _all)),
+      MaterialPageRoute(
+        builder: (_) => EpgScreen(
+          channels: _all.where((ch) => ch.type == MediaType.live).toList(),
+        ),
+      ),
     );
     if (!mounted) return;
     _root.requestFocus();
@@ -720,25 +815,17 @@ class _LiveTvScreenState extends State<LiveTvScreen> {
 
   Future<void> _openSearch() async {
     _hideTimer?.cancel();
+    final liveChannels = _all
+        .where((ch) => ch.type == MediaType.live)
+        .toList(growable: false);
     final picked = await Navigator.push<Channel>(
       context,
-      MaterialPageRoute(builder: (_) => SearchScreen(all: _all)),
+      MaterialPageRoute(builder: (_) => SearchScreen(all: liveChannels)),
     );
     if (!mounted) return;
     _root.requestFocus();
-    if (picked != null) {
-      if (picked.type == MediaType.live) {
-        _play(picked);
-      } else {
-        // Película/serie: reproductor a pantalla completa (resuelve VOD/archive).
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (_) =>
-                PlayerScreen(channel: picked, allChannels: [picked]),
-          ),
-        );
-      }
+    if (picked != null && picked.type == MediaType.live) {
+      _play(picked);
     }
     _showOverlays();
   }
@@ -877,7 +964,7 @@ class _LiveTvScreenState extends State<LiveTvScreen> {
   }
 
   // ---------- Lista de canales (derecha) ----------
-  Widget _channelRail() {
+  Widget _channelRail({bool showTabs = false}) {
     return Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(
@@ -889,19 +976,22 @@ class _LiveTvScreenState extends State<LiveTvScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          if (showTabs) _liveTabs(compact: true),
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 10, 16, 6),
             child: Row(
               children: [
                 Icon(
-                  _categories[_catIdx].icon,
+                  _favoritesOnly
+                      ? Icons.favorite_rounded
+                      : _categories[_catIdx].icon,
                   color: AppColors.accent,
                   size: 18 * _s,
                 ),
                 const SizedBox(width: 8),
                 Expanded(
                   child: Text(
-                    _categories[_catIdx].label,
+                    _favoritesOnly ? 'FAVORITOS' : _categories[_catIdx].label,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
@@ -922,7 +1012,8 @@ class _LiveTvScreenState extends State<LiveTvScreen> {
               ],
             ),
           ),
-          if (_liveMode && _countries.length > 1) _countryBar(),
+          if (!_favoritesOnly && _liveMode && _countries.length > 1)
+            _countryBar(),
           Expanded(
             child: _list.isEmpty
                 ? Center(
@@ -931,7 +1022,7 @@ class _LiveTvScreenState extends State<LiveTvScreen> {
                       child: Text(
                         _loading
                             ? 'Cargando canales...'
-                            : (_categories[_catIdx].mode == 'fav'
+                            : (_favoritesOnly
                                   ? 'Sin favoritos todavía'
                                   : 'Sin contenido en esta sección'),
                         textAlign: TextAlign.center,
@@ -942,117 +1033,159 @@ class _LiveTvScreenState extends State<LiveTvScreen> {
                       ),
                     ),
                   )
-                : ListView.builder(
-                    controller: _chScroll,
-                    padding: const EdgeInsets.fromLTRB(8, 0, 12, 16),
-                    itemExtent: _chItemH,
-                    itemCount: _list.length,
-                    itemBuilder: (ctx, i) {
-                      final ch = _list[i];
-                      final playing = _current?.url == ch.url;
-                      final focused = _zone == 1 && i == _chIdx;
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 3),
-                        child: GestureDetector(
-                          onTap: () {
-                            _focusChannel(i);
-                            _play(ch);
-                            _showOverlays();
-                          },
-                          child: AnimatedContainer(
-                            duration: const Duration(milliseconds: 160),
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 8,
-                              vertical: 6,
-                            ),
-                            decoration: BoxDecoration(
-                              color: playing
-                                  ? AppColors.accent.withValues(alpha: 0.18)
-                                  : (focused
-                                        ? Colors.white.withValues(alpha: 0.08)
-                                        : Colors.transparent),
-                              borderRadius: BorderRadius.circular(12),
-                              border: Border.all(
-                                color: focused
-                                    ? AppColors.accent
-                                    : Colors.transparent,
-                                width: 1.5,
+                : Builder(
+                    builder: (context) {
+                      final visible = _visibleChannels;
+                      final hasMore = visible.length < _list.length;
+                      return ListView.builder(
+                        controller: _chScroll,
+                        padding: const EdgeInsets.fromLTRB(8, 0, 12, 16),
+                        itemExtent: _chItemH,
+                        itemCount: visible.length + (hasMore ? 1 : 0),
+                        itemBuilder: (ctx, i) {
+                          if (i == visible.length) {
+                            return const Center(
+                              child: SizedBox(
+                                width: 22,
+                                height: 22,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  color: AppColors.accent,
+                                ),
                               ),
-                            ),
-                            child: Row(
-                              children: [
-                                _channelLogo(ch),
-                                const SizedBox(width: 12),
-                                if (playing) ...[
-                                  const Icon(
-                                    Icons.play_arrow_rounded,
-                                    color: AppColors.accent,
-                                    size: 18,
+                            );
+                          }
+                          final ch = visible[i];
+                          final playing = _current?.url == ch.url;
+                          final focused = _zone == 1 && i == _chIdx;
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 3),
+                            child: GestureDetector(
+                              onTap: () {
+                                _focusChannel(i);
+                                _play(ch);
+                                _showOverlays();
+                              },
+                              child: AnimatedContainer(
+                                duration: const Duration(milliseconds: 160),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 8,
+                                  vertical: 6,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: playing
+                                      ? AppColors.accent.withValues(alpha: 0.18)
+                                      : (focused
+                                            ? Colors.white.withValues(
+                                                alpha: 0.08,
+                                              )
+                                            : Colors.transparent),
+                                  borderRadius: BorderRadius.circular(12),
+                                  border: Border.all(
+                                    color: focused
+                                        ? AppColors.accent
+                                        : Colors.transparent,
+                                    width: 1.5,
                                   ),
-                                  const SizedBox(width: 2),
-                                ] else if (_liveMode &&
-                                    _country == 'all' &&
-                                    ch.countryCode != null) ...[
-                                  Text(
-                                    ch.countryFlagEmoji,
-                                    style: const TextStyle(fontSize: 14),
-                                  ),
-                                  const SizedBox(width: 6),
-                                ],
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        ch.displayName,
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
+                                ),
+                                child: Row(
+                                  children: [
+                                    SizedBox(
+                                      width: 30 * _s,
+                                      child: Text(
+                                        (i + 1).toString().padLeft(2, '0'),
+                                        textAlign: TextAlign.center,
                                         style: TextStyle(
                                           color: playing
-                                              ? AppColors.accentLight
-                                              : AppColors.textPrimary,
-                                          fontSize: 13 * _s,
-                                          fontWeight: playing
-                                              ? FontWeight.w700
-                                              : FontWeight.w500,
+                                              ? AppColors.accent
+                                              : AppColors.textMuted,
+                                          fontSize: 11 * _s,
+                                          fontWeight: FontWeight.w700,
                                         ),
                                       ),
-                                      if (ch.epgLine != null) ...[
-                                        const SizedBox(height: 3),
-                                        Text(
-                                          ch.epgLine!,
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                            color: AppColors.textMuted,
-                                            fontSize: 10.5 * _s,
-                                          ),
-                                        ),
-                                      ],
-                                    ],
-                                  ),
-                                ),
-                                GestureDetector(
-                                  onTap: () => _toggleFav(ch),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(4),
-                                    child: Icon(
-                                      ch.isFavorite
-                                          ? Icons.favorite
-                                          : Icons.favorite_border,
-                                      size: 16,
-                                      color: ch.isFavorite
-                                          ? AppColors.accent
-                                          : Colors.white38,
                                     ),
-                                  ),
+                                    const SizedBox(width: 6),
+                                    _channelLogo(ch),
+                                    const SizedBox(width: 10),
+                                    if (playing) ...[
+                                      const Icon(
+                                        Icons.play_arrow_rounded,
+                                        color: AppColors.accent,
+                                        size: 18,
+                                      ),
+                                      const SizedBox(width: 2),
+                                    ] else if (_liveMode &&
+                                        _country == 'all' &&
+                                        ch.countryCode != null) ...[
+                                      Text(
+                                        ch.countryFlagEmoji,
+                                        style: const TextStyle(fontSize: 14),
+                                      ),
+                                      const SizedBox(width: 6),
+                                    ],
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            ch.displayName,
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                              color: playing
+                                                  ? AppColors.accentLight
+                                                  : AppColors.textPrimary,
+                                              fontSize: 13 * _s,
+                                              fontWeight: playing
+                                                  ? FontWeight.w700
+                                                  : FontWeight.w500,
+                                            ),
+                                          ),
+                                          if (ch.epgLine != null) ...[
+                                            const SizedBox(height: 3),
+                                            Text(
+                                              ch.epgLine!,
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                color: AppColors.textMuted,
+                                                fontSize: 10.5 * _s,
+                                              ),
+                                            ),
+                                          ],
+                                        ],
+                                      ),
+                                    ),
+                                    GestureDetector(
+                                      onTap: () => _toggleFav(ch),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(4),
+                                        child: Icon(
+                                          ch.isFavorite
+                                              ? Icons.favorite
+                                              : Icons.favorite_border,
+                                          size: 16,
+                                          color: ch.isFavorite
+                                              ? AppColors.accent
+                                              : Colors.white38,
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(width: 4),
+                                    const Icon(
+                                      Icons.chevron_right_rounded,
+                                      color: AppColors.textMuted,
+                                      size: 20,
+                                    ),
+                                  ],
                                 ),
-                              ],
+                              ),
                             ),
-                          ),
-                        ),
+                          );
+                        },
                       );
                     },
                   ),
