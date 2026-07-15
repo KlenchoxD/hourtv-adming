@@ -103,6 +103,11 @@ class _SearchScreenState extends State<SearchScreen> {
     if (mounted) Navigator.pop(context, channel);
   }
 
+  Future<void> _clearHistory() async {
+    setState(() => _history = const []);
+    await StorageService.saveSetting('searchHistory', const <String>[]);
+  }
+
   void _useHistory(String query) {
     _ctrl.text = query;
     _ctrl.selection = TextSelection.collapsed(offset: query.length);
@@ -148,16 +153,12 @@ class _SearchScreenState extends State<SearchScreen> {
                       decoration: BoxDecoration(
                         color: AppColors.cardDark,
                         borderRadius: BorderRadius.circular(14),
-                        border: Border.all(
-                          color: AppColors.accent.withValues(alpha: 0.35),
-                          width: 1.4,
-                        ),
                       ),
                       child: Row(
                         children: [
                           const Icon(
                             Icons.search_rounded,
-                            color: AppColors.accent,
+                            color: AppColors.textSecondary,
                             size: 22,
                           ),
                           const SizedBox(width: 10),
@@ -176,8 +177,7 @@ class _SearchScreenState extends State<SearchScreen> {
                               decoration: const InputDecoration(
                                 isCollapsed: true,
                                 border: InputBorder.none,
-                                hintText:
-                                    'Buscar canales, películas o series...',
+                                hintText: 'Buscar contenido...',
                                 hintStyle: TextStyle(
                                   color: AppColors.textMuted,
                                   fontSize: 15,
@@ -190,7 +190,7 @@ class _SearchScreenState extends State<SearchScreen> {
                             onPressed: _showSystemVoiceInput,
                             icon: const Icon(
                               Icons.mic_rounded,
-                              color: AppColors.accent,
+                              color: AppColors.textSecondary,
                             ),
                           ),
 
@@ -336,13 +336,28 @@ class _SearchScreenState extends State<SearchScreen> {
           padding: EdgeInsets.fromLTRB(24, 16 * scale, 24, 32),
           children: [
             if (_history.isNotEmpty) ...[
-              Text(
-                'Búsquedas recientes',
-                style: TextStyle(
-                  color: AppColors.textPrimary,
-                  fontSize: 18 * scale,
-                  fontWeight: FontWeight.w700,
-                ),
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      'Búsquedas recientes',
+                      style: TextStyle(
+                        color: AppColors.textPrimary,
+                        fontSize: 18 * scale,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
+                  IconButton(
+                    tooltip: 'Borrar historial',
+                    onPressed: _clearHistory,
+                    icon: Icon(
+                      Icons.delete_outline_rounded,
+                      color: AppColors.textMuted,
+                      size: 21 * scale,
+                    ),
+                  ),
+                ],
               ),
               SizedBox(height: 14 * scale),
               Wrap(
@@ -439,7 +454,7 @@ class _SearchScreenState extends State<SearchScreen> {
   Color _rankColor(int index) {
     if (index == 0) return AppColors.accent;
     if (index == 1) return AppColors.warning;
-    if (index == 2) return AppColors.success;
+    if (index == 2) return const Color(0xFFFFD54F);
     return AppColors.textMuted;
   }
 
