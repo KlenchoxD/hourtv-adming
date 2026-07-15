@@ -25,6 +25,15 @@ class CatalogScreen extends StatefulWidget {
 class _CatalogScreenState extends State<CatalogScreen> {
   final _store = ContentStore.instance;
 
+  double get _posterWidth {
+    if (DeviceProfile.isTv(context)) return 118 * _s;
+    final available = MediaQuery.sizeOf(context).width - 28;
+    return (available / 3.2).clamp(96.0, 132.0);
+  }
+
+  double get _posterHeight => _posterWidth * 1.5;
+  double get _posterRowHeight => _posterHeight + 30 * _s;
+
   /// Categoría activa: 'all' (Recomendado), un género de película, o 'series'.
   String _cat = 'all';
 
@@ -774,7 +783,7 @@ class _CatalogScreenState extends State<CatalogScreen> {
           ),
         ),
         SizedBox(
-          height: 198 * _s,
+          height: _posterRowHeight,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             padding: const EdgeInsets.symmetric(horizontal: 14),
@@ -793,24 +802,37 @@ class _CatalogScreenState extends State<CatalogScreen> {
       onFocusChange: (focused) => _onPosterFocus(ch, focused),
       borderRadius: BorderRadius.circular(12),
       child: SizedBox(
-        width: 118 * _s,
+        width: _posterWidth,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(12),
-              child: Container(
-                width: 118 * _s,
-                height: 165 * _s,
-                color: AppColors.cardElevated,
-                child: ch.logo != null && ch.logo!.isNotEmpty
-                    ? CachedNetworkImage(
-                        imageUrl: ch.logo!,
-                        fit: BoxFit.cover,
-                        placeholder: (_, _) => _posterPh(ch),
-                        errorWidget: (_, _, _) => _posterPh(ch),
-                      )
-                    : _posterPh(ch),
+              child: SizedBox(
+                width: _posterWidth,
+                height: _posterHeight,
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    ColoredBox(
+                      color: AppColors.cardElevated,
+                      child: ch.logo != null && ch.logo!.isNotEmpty
+                          ? CachedNetworkImage(
+                              imageUrl: ch.logo!,
+                              fit: BoxFit.cover,
+                              placeholder: (_, _) => _posterPh(ch),
+                              errorWidget: (_, _, _) => _posterPh(ch),
+                            )
+                          : _posterPh(ch),
+                    ),
+                    if (_isAnimeMovie(ch))
+                      Positioned(
+                        left: 6,
+                        bottom: 6,
+                        child: _posterBadge('ANIME'),
+                      ),
+                  ],
+                ),
               ),
             ),
             const SizedBox(height: 6),
@@ -830,6 +852,32 @@ class _CatalogScreenState extends State<CatalogScreen> {
     ),
   );
 
+  bool _isAnimeMovie(Channel channel) {
+    final metadata = <String>[
+      channel.genre ?? '',
+      channel.category ?? '',
+      ...channel.categories,
+    ].join(' ').toLowerCase();
+    return metadata.contains('anime') || metadata.contains('animación');
+  }
+
+  Widget _posterBadge(String label) => Container(
+    padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
+    decoration: BoxDecoration(
+      color: AppColors.accent.withValues(alpha: 0.94),
+      borderRadius: BorderRadius.circular(5),
+      boxShadow: const [BoxShadow(color: Colors.black54, blurRadius: 6)],
+    ),
+    child: Text(
+      label,
+      style: TextStyle(
+        color: Colors.white,
+        fontSize: 8.5 * _s,
+        fontWeight: FontWeight.w800,
+        letterSpacing: 0.25,
+      ),
+    ),
+  );
   Widget _posterPh(Channel ch) => Container(
     alignment: Alignment.center,
     decoration: const BoxDecoration(
@@ -872,7 +920,7 @@ class _CatalogScreenState extends State<CatalogScreen> {
           ),
         ),
         SizedBox(
-          height: 198 * _s,
+          height: _posterRowHeight,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             padding: const EdgeInsets.symmetric(horizontal: 14),
@@ -893,8 +941,8 @@ class _CatalogScreenState extends State<CatalogScreen> {
     return GridView.builder(
       padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
       gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-        maxCrossAxisExtent: 124 * _s,
-        childAspectRatio: 0.56,
+        maxCrossAxisExtent: _posterWidth + 12,
+        childAspectRatio: _posterWidth / (_posterHeight + 28 * _s),
         crossAxisSpacing: 12,
         mainAxisSpacing: 16,
       ),
@@ -912,23 +960,35 @@ class _CatalogScreenState extends State<CatalogScreen> {
       ),
       borderRadius: BorderRadius.circular(12),
       child: SizedBox(
-        width: 118 * _s,
+        width: _posterWidth,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(12),
-              child: Container(
-                width: 118 * _s,
-                height: 165 * _s,
-                color: AppColors.cardElevated,
-                child: s.cover != null && s.cover!.isNotEmpty
-                    ? CachedNetworkImage(
-                        imageUrl: s.cover!,
-                        fit: BoxFit.cover,
-                        errorWidget: (_, _, _) => _seriesPh(s.name),
-                      )
-                    : _seriesPh(s.name),
+              child: SizedBox(
+                width: _posterWidth,
+                height: _posterHeight,
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    ColoredBox(
+                      color: AppColors.cardElevated,
+                      child: s.cover != null && s.cover!.isNotEmpty
+                          ? CachedNetworkImage(
+                              imageUrl: s.cover!,
+                              fit: BoxFit.cover,
+                              errorWidget: (_, _, _) => _seriesPh(s.name),
+                            )
+                          : _seriesPh(s.name),
+                    ),
+                    Positioned(
+                      left: 6,
+                      bottom: 6,
+                      child: _posterBadge(_seriesBadge(s)),
+                    ),
+                  ],
+                ),
               ),
             ),
             const SizedBox(height: 6),
@@ -947,6 +1007,22 @@ class _CatalogScreenState extends State<CatalogScreen> {
       ),
     ),
   );
+
+  String _seriesBadge(XtreamSeries series) {
+    final episodeCount = series.episodes?.length ?? 0;
+    if (episodeCount > 0) return '$episodeCount CAP.';
+    final metadata = <String>[
+      series.genre ?? '',
+      ...series.categories,
+    ].join(' ').toLowerCase();
+    if (metadata.contains('finalizada') ||
+        metadata.contains('completa') ||
+        metadata.contains('completed')) {
+      return 'COMPLETA';
+    }
+    if (metadata.contains('anime')) return 'ANIME';
+    return 'SERIE';
+  }
 
   Widget _seriesPh(String name) => Container(
     alignment: Alignment.center,
