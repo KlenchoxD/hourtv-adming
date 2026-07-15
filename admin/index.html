@@ -176,6 +176,20 @@ function collectServers(scope){
   }).filter(s=>s.url);
 }
 
+// Campo de imagen: URL a mano o subir un archivo local (se sube a GitHub y
+// autocompleta la URL). previewId es opcional (id de un <img> a refrescar).
+function imageField(id, label, value, previewId){
+  const previewAttr = previewId ? ` oninput="document.getElementById('${previewId}').src=this.value"` : '';
+  const fileId = id+'_file';
+  return `<div class="row"><label>${label}</label>
+    <div style="display:flex;gap:8px">
+      <input id="${id}" value="${esc(value)}" placeholder="Pega una URL o sube un archivo →"${previewAttr} style="flex:1">
+      <label class="btn-ghost btn-sm" style="cursor:pointer;white-space:nowrap;display:flex;align-items:center;flex-shrink:0">Subir…
+        <input type="file" accept="image/*" id="${fileId}" style="display:none" onchange="if(this.files[0])uploadImage(this.files[0],'${id}'${previewId?`,'${previewId}'`:''});this.value=''">
+      </label>
+    </div></div>`;
+}
+
 function openEditor(idx){
   const tab = TABS.find(t=>t.id===activeTab);
   const editing = idx!=null;
@@ -213,8 +227,8 @@ function vodForm(it, isSeries){
     <div class="row"><label>Duración</label><input id="f_duration" value="${esc(it.duration)}" placeholder="120 min"></div>
   </div>
   <div class="row2">
-    <div class="row"><label>Miniatura (póster vertical)</label><input id="f_poster" value="${esc(it.poster)}" oninput="document.getElementById('pv').src=this.value"></div>
-    <div class="row"><label>Imagen de fondo (16:9, opcional)</label><input id="f_backdrop" value="${esc(it.backdrop)}"></div>
+    ${imageField('f_poster', 'Miniatura (póster vertical)', it.poster, 'pv')}
+    ${imageField('f_backdrop', 'Imagen de fondo (16:9, opcional)', it.backdrop)}
   </div>
   <div class="row" style="display:flex;gap:14px;align-items:flex-start">
     <img id="pv" class="thumbprev" src="${esc(it.poster)}" onerror="this.style.visibility='hidden'">
@@ -268,7 +282,7 @@ function liveForm(it){
   return `
   <div class="row"><label>Nombre del canal</label><input id="f_name" value="${esc(it.name)}"></div>
   <div class="row2">
-    <div class="row"><label>Logo (URL)</label><input id="f_logo" value="${esc(it.logo)}"></div>
+    ${imageField('f_logo', 'Logo', it.logo)}
     <div class="row"><label>Grupo / categoría</label><input id="f_group" value="${esc(it.group)}" placeholder="deportes, noticias…"></div>
   </div>
   <div class="row"><label>URL del stream (.m3u8 / .ts)</label><input id="f_url" value="${esc(it.url)}"></div>
@@ -400,6 +414,40 @@ async function ghApi(method,extra){
     ...(extra||{})
   });
 }
+// ---------- Subida de imágenes (archivo local -> GitHub -> URL) ----------
+function fileToBase64(file){
+  return new Promise((resolve,reject)=>{
+    const r=new FileReader();
+    r.onload=()=>resolve(r.result.split(',')[1]);
+    r.onerror=reject;
+    r.readAsDataURL(file);
+  });
+}
+async function uploadImage(file, targetInputId, previewId){
+  if(!cfg.token||!cfg.owner||!cfg.repo){toast('Configura GitHub primero','err');openConfig();return}
+  if(file.size > 8*1024*1024){toast('Imagen muy pesada (máx. 8 MB)','err');return}
+  toast('Subiendo imagen…');
+  try{
+    const ext = (file.name.split('.').pop()||'jpg').toLowerCase().replace(/[^a-z0-9]/g,'')||'jpg';
+    const path = `images/${uid()}.${ext}`;
+    const content = await fileToBase64(file);
+    const url = `https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${path}`;
+    const res = await fetch(url,{
+      method:'PUT',
+      headers:{Authorization:`Bearer ${cfg.token}`,Accept:'application/vnd.github+json'},
+      body:JSON.stringify({message:'Subir imagen desde el panel HourTV', content, branch:cfg.branch}),
+    });
+    if(!res.ok){const e=await res.json().catch(()=>({}));toast('Error al subir: '+(e.message||res.status),'err');return}
+    // jsdelivr sirve el repo publico como CDN: mas rapido y sin los limites
+    // de hotlinking de raw.githubusercontent.com para muchas imagenes.
+    const cdnUrl = `https://cdn.jsdelivr.net/gh/${cfg.owner}/${cfg.repo}@${cfg.branch}/${path}`;
+    const input = document.getElementById(targetInputId);
+    if(input){input.value=cdnUrl; input.dispatchEvent(new Event('input'))}
+    if(previewId){const pv=document.getElementById(previewId); if(pv){pv.src=cdnUrl; pv.style.visibility=''}}
+    toast('Imagen subida','ok');
+  }catch(e){toast('Fallo al subir la imagen','err')}
+}
+
 async function loadFromGitHub(){
   try{
     const res=await ghApi('GET');
