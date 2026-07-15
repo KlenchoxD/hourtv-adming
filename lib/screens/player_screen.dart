@@ -6,6 +6,7 @@ import 'package:chewie/chewie.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../models/channel.dart';
 import '../services/storage_service.dart';
+import '../services/ad_service.dart';
 import '../services/archive_service.dart';
 import '../services/stalker_service.dart';
 import '../services/device_type.dart';
@@ -69,6 +70,8 @@ class _PlayerScreenState extends State<PlayerScreen> {
   }
 
   Future<void> _playChannel(Channel channel, {String? streamUrl}) async {
+    await AdService.showPreroll(context, channel);
+    if (!mounted) return;
     await StorageService.saveRecent(channel);
     if (!mounted) return;
     await _init(channel, streamUrl: streamUrl);

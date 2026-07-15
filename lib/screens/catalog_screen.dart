@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../models/channel.dart';
 import '../services/content_store.dart';
+import '../services/ad_service.dart';
 import '../services/device_type.dart';
 import '../services/storage_service.dart';
 import '../services/tmdb_service.dart';
@@ -471,6 +472,7 @@ class _CatalogScreenState extends State<CatalogScreen> {
             items: catSeries,
           ),
         if (recent.isNotEmpty) _movieRow('Continuar viendo', recent),
+        if (recommended && movies.isNotEmpty) const InlineAdBanner(),
         if (recommended || moviesTab) ...[
           _movieRow('Estrenos $year', _byYear(movies, min: year - 1)),
           _movieRow('Películas Más Populares', _byRating(movies, 7.5)),
