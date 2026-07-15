@@ -18,6 +18,7 @@ class HomeShell extends StatefulWidget {
 
 class _HomeShellState extends State<HomeShell> with WidgetsBindingObserver {
   int _index = 0;
+  bool _railExpanded = false;
 
   static const _items = [
     (icon: Icons.home_rounded, label: 'Inicio'),
@@ -78,63 +79,169 @@ class _HomeShellState extends State<HomeShell> with WidgetsBindingObserver {
   }
 
   Widget _sideRail() {
-    return Container(
-      width: 88,
-      decoration: BoxDecoration(
-        color: const Color(0xFF141414),
-        border: Border(
-          right: BorderSide(color: Colors.white.withValues(alpha: 0.06)),
+    return Focus(
+      onFocusChange: (focused) {
+        if (_railExpanded != focused) {
+          setState(() => _railExpanded = focused);
+        }
+      },
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 180),
+        curve: Curves.easeOut,
+        width: _railExpanded ? 214 : 84,
+        decoration: BoxDecoration(
+          color: const Color(0xF2141414),
+          border: Border(
+            right: BorderSide(color: Colors.white.withValues(alpha: 0.06)),
+          ),
+          boxShadow: const [
+            BoxShadow(
+              color: Colors.black45,
+              blurRadius: 18,
+              offset: Offset(8, 0),
+            ),
+          ],
         ),
-      ),
-      child: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [for (var i = 0; i < _items.length; i++) _railTab(i)],
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 18),
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  child: Row(
+                    mainAxisAlignment: _railExpanded
+                        ? MainAxisAlignment.start
+                        : MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: 42,
+                        height: 42,
+                        decoration: BoxDecoration(
+                          gradient: AppTheme.accentGradient,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: const Icon(
+                          Icons.play_arrow_rounded,
+                          color: Colors.white,
+                          size: 28,
+                        ),
+                      ),
+                      if (_railExpanded) ...[
+                        const SizedBox(width: 11),
+                        const Expanded(
+                          child: Text.rich(
+                            TextSpan(
+                              children: [
+                                TextSpan(text: 'Hour'),
+                                TextSpan(
+                                  text: 'TV',
+                                  style: TextStyle(color: AppColors.accent),
+                                ),
+                              ],
+                            ),
+                            maxLines: 1,
+                            style: TextStyle(
+                              color: AppColors.textPrimary,
+                              fontSize: 19,
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ],
+                  ),
+                ),
+                const Spacer(),
+                if (_railExpanded)
+                  const Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: EdgeInsets.fromLTRB(18, 0, 12, 8),
+                      child: Text(
+                        'EXPLORAR',
+                        style: TextStyle(
+                          color: AppColors.textMuted,
+                          fontSize: 10,
+                          fontWeight: FontWeight.w800,
+                          letterSpacing: 1.2,
+                        ),
+                      ),
+                    ),
+                  ),
+                for (var i = 0; i < _items.length; i++) _railTab(i),
+                const Spacer(),
+                AnimatedOpacity(
+                  opacity: _railExpanded ? 1 : 0,
+                  duration: const Duration(milliseconds: 140),
+                  child: const Text(
+                    'Usa el D-pad para navegar',
+                    maxLines: 1,
+                    style: TextStyle(color: AppColors.textMuted, fontSize: 10),
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );
   }
 
   Widget _railTab(int i) {
-    final sel = i == _index;
-    final it = _items[i];
+    final selected = i == _index;
+    final item = _items[i];
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       child: TvFocusable(
         onTap: () => setState(() => _index = i),
         autofocus: i == 0,
         borderRadius: BorderRadius.circular(14),
-        child: Container(
-          width: 64,
-          height: 64,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 160),
+          width: double.infinity,
+          height: 58,
+          padding: EdgeInsets.symmetric(horizontal: _railExpanded ? 14 : 0),
           alignment: Alignment.center,
           decoration: BoxDecoration(
-            color: sel
-                ? AppColors.accent.withValues(alpha: 0.16)
+            color: selected
+                ? AppColors.accent.withValues(alpha: 0.17)
                 : Colors.transparent,
             borderRadius: BorderRadius.circular(14),
+            border: Border(
+              left: BorderSide(
+                color: selected ? AppColors.accent : Colors.transparent,
+                width: 3,
+              ),
+            ),
           ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
+          child: Row(
+            mainAxisAlignment: _railExpanded
+                ? MainAxisAlignment.start
+                : MainAxisAlignment.center,
             children: [
               Icon(
-                it.icon,
-                size: 22,
-                color: sel ? AppColors.accent : AppColors.textMuted,
+                item.icon,
+                size: 24,
+                color: selected ? AppColors.accent : AppColors.textSecondary,
               ),
-              const SizedBox(height: 3),
-              Text(
-                it.label,
-                textAlign: TextAlign.center,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  color: sel ? AppColors.accent : AppColors.textMuted,
-                  fontSize: 9,
-                  fontWeight: sel ? FontWeight.w700 : FontWeight.w500,
+              if (_railExpanded) ...[
+                const SizedBox(width: 14),
+                Expanded(
+                  child: Text(
+                    item.label,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      color: selected
+                          ? AppColors.textPrimary
+                          : AppColors.textSecondary,
+                      fontSize: 14,
+                      fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
+                    ),
+                  ),
                 ),
-              ),
+              ],
             ],
           ),
         ),
