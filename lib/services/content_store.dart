@@ -39,6 +39,8 @@ class ContentStore extends ChangeNotifier {
   String? error;
 
   bool _started = false;
+  bool _refreshing = false;
+  DateTime? _lastLoad;
 
   /// Carga una sola vez (la primera pestaña que la pida dispara la carga).
   Future<void> ensureLoaded() async {
@@ -52,10 +54,31 @@ class ContentStore extends ChangeNotifier {
     await load();
   }
 
+  /// Refresco "en tiempo real": vuelve a descargar el catálogo remoto en
+  /// segundo plano (sin pantalla de carga, el contenido actual sigue visible)
+  /// cuando la app vuelve al frente. Limitado a una vez cada 15 s para no
+  /// martillar el servidor. Solo actúa si ya hubo una primera carga.
+  Future<void> maybeRefresh() async {
+    if (!_started || _refreshing) return;
+    final last = _lastLoad;
+    if (last != null && DateTime.now().difference(last).inSeconds < 15) return;
+    _refreshing = true;
+    try {
+      await load();
+    } finally {
+      _refreshing = false;
+    }
+  }
+
   Future<void> load() async {
-    loading = true;
+    // Solo mostramos la pantalla de carga en el primer arranque; en refrescos
+    // posteriores mantenemos el contenido visible para que no parpadee.
+    if (all.isEmpty) {
+      loading = true;
+      notifyListeners();
+    }
     error = null;
-    notifyListeners();
+    _lastLoad = DateTime.now();
     try {
       final saved = StorageService.loadLists();
       final userLists = saved.where((l) => !l.isDefault).toList();

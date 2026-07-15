@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
 import '../services/device_type.dart';
+import '../services/content_store.dart';
 import '../widgets/tv_focusable.dart';
 import 'catalog_screen.dart';
 import 'live_tv_screen.dart';
@@ -16,7 +17,7 @@ class HomeShell extends StatefulWidget {
   State<HomeShell> createState() => _HomeShellState();
 }
 
-class _HomeShellState extends State<HomeShell> {
+class _HomeShellState extends State<HomeShell> with WidgetsBindingObserver {
   int _index = 0;
 
   static const _items = [
@@ -25,6 +26,27 @@ class _HomeShellState extends State<HomeShell> {
     (icon: Icons.favorite_rounded, label: 'Favoritos'),
     (icon: Icons.person_rounded, label: 'Perfil'),
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    // Al volver la app al frente, refresca el catálogo remoto en segundo
+    // plano para reflejar lo que se publicó desde el panel de admin.
+    if (state == AppLifecycleState.resumed) {
+      ContentStore.instance.maybeRefresh();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
