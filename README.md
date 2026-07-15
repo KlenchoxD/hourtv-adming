@@ -46,6 +46,32 @@ El servidor publica el catálogo —nombres, carátulas y URLs de las fuentes—
 no los videos. Si la descarga falla, la app usa la última copia válida guardada
 y, si no existe, vuelve al catálogo incluido en el APK.
 
+## Panel de administración
+
+El panel está en `admin/index.html` y es una página HTML/CSS/JS autónoma. Puede
+abrirse localmente con doble clic o publicarse en una URL fija de Vercel; no
+necesita dependencias, instalación ni paso de compilación.
+
+### Publicar en Vercel
+
+1. Entra en [vercel.com](https://vercel.com) e inicia sesión.
+2. Pulsa **Add New Project**.
+3. Importa este repositorio desde GitHub.
+4. En la configuración del proyecto, abre **Root Directory** y selecciona
+   `admin`.
+5. Deja **Framework Preset** en **Other** y **Build Command** vacío.
+6. Pulsa **Deploy**.
+
+Después del primer despliegue, el panel queda disponible en una URL fija. Cada
+`git push` que incluya cambios en `admin/` genera y publica automáticamente
+un nuevo despliegue; ya no hace falta buscar ni abrir el archivo local cada vez.
+
+El token fine-grained de GitHub se guarda únicamente en `localStorage` del
+navegador bajo la clave `hourtv_admin_cfg`. No se configura como variable de
+entorno de Vercel y nunca se guarda en el repositorio. Como el almacenamiento
+pertenece al origen de la página, hay que introducir el token una vez en la URL
+desplegada aunque ya se hubiera configurado al abrir el archivo local.
+
 ## Instalar por ADB
 
 ```bash
