@@ -51,8 +51,9 @@ class _PlayerScreenState extends State<PlayerScreen> {
     super.initState();
     _idx = widget.allChannels.indexWhere((c) => c.url == widget.channel.url);
     if (_idx < 0) _idx = 0;
-    _init(widget.allChannels[_idx], streamUrl: widget.initialUrl);
-    StorageService.saveRecent(widget.allChannels[_idx]);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) unawaited(_startInitialPlayback());
+    });
     if (StorageService.getSetting('forceLandscape', defaultValue: false) ==
         true) {
       _forcedLandscape = true;
@@ -61,6 +62,16 @@ class _PlayerScreenState extends State<PlayerScreen> {
         DeviceOrientation.landscapeRight,
       ]);
     }
+  }
+
+  Future<void> _startInitialPlayback() async {
+    await _playChannel(widget.allChannels[_idx], streamUrl: widget.initialUrl);
+  }
+
+  Future<void> _playChannel(Channel channel, {String? streamUrl}) async {
+    await StorageService.saveRecent(channel);
+    if (!mounted) return;
+    await _init(channel, streamUrl: streamUrl);
   }
 
   Future<void> _init(Channel ch, {String? streamUrl}) async {
@@ -155,13 +166,11 @@ class _PlayerScreenState extends State<PlayerScreen> {
     ),
   );
 
-  void _chg(int d) {
-    final ni = _idx + d;
-    if (ni >= 0 && ni < widget.allChannels.length) {
-      setState(() => _idx = ni);
-      _init(widget.allChannels[ni]);
-      StorageService.saveRecent(widget.allChannels[ni]);
-    }
+  Future<void> _chg(int direction) async {
+    final nextIndex = _idx + direction;
+    if (nextIndex < 0 || nextIndex >= widget.allChannels.length) return;
+    setState(() => _idx = nextIndex);
+    await _playChannel(widget.allChannels[nextIndex]);
   }
 
   void _togglePlayPause() {
@@ -678,10 +687,8 @@ class _PlayerScreenState extends State<PlayerScreen> {
       ),
       const SizedBox(height: 24),
       ElevatedButton.icon(
-        onPressed: () => _init(
-          widget.allChannels[_idx],
-          streamUrl: _activeServerUrl,
-        ),
+        onPressed: () =>
+            _init(widget.allChannels[_idx], streamUrl: _activeServerUrl),
         icon: const Icon(Icons.refresh),
         label: const Text('Reintentar'),
       ),
@@ -726,26 +733,28 @@ class _PlayerScreenState extends State<PlayerScreen> {
               children: [
                 Row(
                   children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 6,
-                        vertical: 2,
-                      ),
-                      decoration: BoxDecoration(
-                        color: AppColors.live,
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                      child: const Text(
-                        'LIVE',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 8,
-                          fontWeight: FontWeight.w800,
-                          letterSpacing: 0.5,
+                    if (ch.type == MediaType.live) ...[
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 6,
+                          vertical: 2,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppColors.live,
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        child: const Text(
+                          'LIVE',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 8,
+                            fontWeight: FontWeight.w800,
+                            letterSpacing: 0.5,
+                          ),
                         ),
                       ),
-                    ),
-                    const SizedBox(width: 8),
+                      const SizedBox(width: 8),
+                    ],
                     Flexible(
                       child: Text(
                         ch.displayName,
@@ -882,8 +891,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
                             _idx = i;
                             _showList = false;
                           });
-                          _init(ch);
-                          StorageService.saveRecent(ch);
+                          unawaited(_playChannel(ch));
                         },
                         leading: ch.logo != null
                             ? CachedNetworkImage(
