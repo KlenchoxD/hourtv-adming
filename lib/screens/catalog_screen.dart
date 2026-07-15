@@ -10,6 +10,7 @@ import '../services/tmdb_service.dart';
 import '../services/xtream_service.dart';
 import '../theme/app_theme.dart';
 import '../widgets/tv_focusable.dart';
+import '../widgets/hourtv_brand.dart';
 import 'movie_detail_screen.dart';
 import 'player_screen.dart';
 import 'search_screen.dart';
@@ -184,39 +185,9 @@ class _CatalogScreenState extends State<CatalogScreen> {
     padding: EdgeInsets.fromLTRB(18, 12 * _s, 12, 6),
     child: Row(
       children: [
-        Container(
-          width: 30 * _s,
-          height: 30 * _s,
-          decoration: BoxDecoration(
-            gradient: AppTheme.accentGradient,
-            borderRadius: BorderRadius.circular(8 * _s),
-          ),
-          child: Icon(
-            Icons.play_arrow_rounded,
-            color: Colors.white,
-            size: 20 * _s,
-          ),
-        ),
+        HourTvLogo(size: 30 * _s),
         const SizedBox(width: 9),
-        ShaderMask(
-          shaderCallback: (b) => AppTheme.accentGradient.createShader(b),
-          child: Text(
-            'Hour',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 19 * _s,
-              fontWeight: FontWeight.w800,
-            ),
-          ),
-        ),
-        Text(
-          'TV',
-          style: TextStyle(
-            color: AppColors.textPrimary,
-            fontSize: 19 * _s,
-            fontWeight: FontWeight.w300,
-          ),
-        ),
+        HourTvWordmark(fontSize: 19 * _s),
         const Spacer(),
         if (_vodLoading)
           const Padding(

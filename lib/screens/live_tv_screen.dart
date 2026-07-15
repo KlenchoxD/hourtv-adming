@@ -9,6 +9,7 @@ import '../services/content_store.dart';
 import '../services/device_type.dart';
 import '../theme/app_theme.dart';
 import '../widgets/tv_focusable.dart';
+import '../widgets/hourtv_brand.dart';
 import 'search_screen.dart';
 import 'epg_screen.dart';
 
@@ -728,6 +729,7 @@ class _LiveTvScreenState extends State<LiveTvScreen> {
 
   // ---------- Barra de estado superior ----------
   Widget _statusBar() {
+    final compact = MediaQuery.sizeOf(context).width < 600;
     return Container(
       height: 56 * _s,
       padding: const EdgeInsets.symmetric(horizontal: 18),
@@ -740,50 +742,49 @@ class _LiveTvScreenState extends State<LiveTvScreen> {
       ),
       child: Row(
         children: [
+          HourTvLogo(size: 30 * _s),
+          const SizedBox(width: 9),
+          HourTvWordmark(fontSize: 17 * _s),
+          const SizedBox(width: 12),
           Container(
-            width: 30 * _s,
-            height: 30 * _s,
+            padding: EdgeInsets.symmetric(horizontal: 8 * _s, vertical: 3 * _s),
             decoration: BoxDecoration(
-              gradient: AppTheme.accentGradient,
-              borderRadius: BorderRadius.circular(8),
+              color: AppColors.accent.withValues(alpha: 0.16),
+              borderRadius: BorderRadius.circular(6),
             ),
-            child: Icon(
-              Icons.live_tv_rounded,
-              color: Colors.white,
-              size: 18 * _s,
-            ),
-          ),
-          const SizedBox(width: 10),
-          Text(
-            'EN VIVO',
-            style: TextStyle(
-              color: AppColors.textPrimary,
-              fontSize: 16 * _s,
-              fontWeight: FontWeight.w800,
-              letterSpacing: 0.5,
+            child: Text(
+              'EN VIVO',
+              style: TextStyle(
+                color: AppColors.accent,
+                fontSize: 9 * _s,
+                fontWeight: FontWeight.w800,
+                letterSpacing: 0.7,
+              ),
             ),
           ),
           const Spacer(),
           _barIcon(Icons.search_rounded, _openSearch),
-          _barIcon(Icons.calendar_month_rounded, _openEpg),
-          _barIcon(Icons.refresh_rounded, () => _store.reload()),
-          const SizedBox(width: 8),
-          Icon(
-            Icons.wifi_rounded,
-            color: AppColors.textSecondary,
-            size: 18 * _s,
-          ),
-          const SizedBox(width: 12),
-          Container(width: 1, height: 18, color: Colors.white24),
-          const SizedBox(width: 12),
-          Text(
-            _clockText,
-            style: TextStyle(
-              color: AppColors.textPrimary,
-              fontSize: 14 * _s,
-              fontWeight: FontWeight.w600,
+          if (!compact) _barIcon(Icons.calendar_month_rounded, _openEpg),
+          if (!compact) _barIcon(Icons.refresh_rounded, () => _store.reload()),
+          if (!compact) ...[
+            const SizedBox(width: 8),
+            Icon(
+              Icons.wifi_rounded,
+              color: AppColors.textSecondary,
+              size: 18 * _s,
             ),
-          ),
+            const SizedBox(width: 12),
+            Container(width: 1, height: 18, color: Colors.white24),
+            const SizedBox(width: 12),
+            Text(
+              _clockText,
+              style: TextStyle(
+                color: AppColors.textPrimary,
+                fontSize: 14 * _s,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
         ],
       ),
     );
@@ -1234,26 +1235,7 @@ class _LiveTvScreenState extends State<LiveTvScreen> {
     child: Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Container(
-          width: 80,
-          height: 80,
-          decoration: BoxDecoration(
-            gradient: AppTheme.accentGradient,
-            borderRadius: BorderRadius.circular(22),
-            boxShadow: [
-              BoxShadow(
-                color: AppColors.accent.withValues(alpha: 0.45),
-                blurRadius: 36,
-                spreadRadius: 2,
-              ),
-            ],
-          ),
-          child: const Icon(
-            Icons.play_circle_fill_rounded,
-            color: Colors.white,
-            size: 46,
-          ),
-        ),
+        const HourTvLogo(size: 80),
         const SizedBox(height: 24),
         const Text(
           'Cargando canales...',

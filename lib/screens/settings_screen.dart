@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../services/content_store.dart';
 import '../services/storage_service.dart';
 import '../theme/app_theme.dart';
+import '../widgets/hourtv_brand.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -165,11 +166,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
         margin: const EdgeInsets.fromLTRB(20, 6, 20, 4),
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          gradient: AppTheme.accentGradient,
+          color: AppColors.cardElevated,
           borderRadius: BorderRadius.circular(18),
+          border: Border.all(color: AppColors.accent.withValues(alpha: 0.32)),
           boxShadow: [
             BoxShadow(
-              color: AppColors.accent.withValues(alpha: 0.28),
+              color: AppColors.accent.withValues(alpha: 0.16),
               blurRadius: 18,
               offset: const Offset(0, 8),
             ),
@@ -177,32 +179,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ),
         child: Row(
           children: [
-            Container(
-              width: 50,
-              height: 50,
-              decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.18),
-                borderRadius: BorderRadius.circular(14),
-              ),
-              child: const Icon(
-                Icons.play_circle_fill_rounded,
-                color: Colors.white,
-                size: 30,
-              ),
-            ),
+            const HourTvLogo(size: 50),
             const SizedBox(width: 14),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: const [
-                Text(
-                  'HourTV',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 19,
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
+                HourTvWordmark(fontSize: 19),
                 SizedBox(height: 2),
                 Text(
                   'Versión 1.0.0 · IPTV personal',
@@ -517,11 +500,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       context: context,
       applicationName: 'HourTV',
       applicationVersion: '1.0.0',
-      applicationIcon: const Icon(
-        Icons.live_tv,
-        color: AppColors.accent,
-        size: 40,
-      ),
+      applicationIcon: const HourTvLogo(size: 44),
       children: const [
         Text(
           'App IPTV personal para Android, Android TV, Google TV y PC.\n\nSoporta listas M3U estándar.',

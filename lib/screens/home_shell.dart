@@ -3,6 +3,7 @@ import '../theme/app_theme.dart';
 import '../services/device_type.dart';
 import '../services/content_store.dart';
 import '../widgets/tv_focusable.dart';
+import '../widgets/hourtv_brand.dart';
 import 'catalog_screen.dart';
 import 'live_tv_screen.dart';
 import 'profile_screen.dart';
@@ -114,40 +115,10 @@ class _HomeShellState extends State<HomeShell> with WidgetsBindingObserver {
                         ? MainAxisAlignment.start
                         : MainAxisAlignment.center,
                     children: [
-                      Container(
-                        width: 42,
-                        height: 42,
-                        decoration: BoxDecoration(
-                          gradient: AppTheme.accentGradient,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: const Icon(
-                          Icons.play_arrow_rounded,
-                          color: Colors.white,
-                          size: 28,
-                        ),
-                      ),
+                      const HourTvLogo(size: 42),
                       if (_railExpanded) ...[
                         const SizedBox(width: 11),
-                        const Expanded(
-                          child: Text.rich(
-                            TextSpan(
-                              children: [
-                                TextSpan(text: 'Hour'),
-                                TextSpan(
-                                  text: 'TV',
-                                  style: TextStyle(color: AppColors.accent),
-                                ),
-                              ],
-                            ),
-                            maxLines: 1,
-                            style: TextStyle(
-                              color: AppColors.textPrimary,
-                              fontSize: 19,
-                              fontWeight: FontWeight.w800,
-                            ),
-                          ),
-                        ),
+                        const Expanded(child: HourTvWordmark(fontSize: 19)),
                       ],
                     ],
                   ),

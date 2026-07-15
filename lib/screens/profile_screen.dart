@@ -3,6 +3,7 @@ import '../services/content_store.dart';
 import '../services/device_type.dart';
 import '../theme/app_theme.dart';
 import '../widgets/tv_focusable.dart';
+import '../widgets/hourtv_brand.dart';
 import 'favorites_screen.dart';
 import 'history_screen.dart';
 import 'lists_screen.dart';
@@ -80,32 +81,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
             children: [
               Row(
                 children: [
-                  Container(
-                    width: 56 * _s,
-                    height: 56 * _s,
-                    decoration: BoxDecoration(
-                      gradient: AppTheme.accentGradient,
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: Icon(
-                      Icons.play_circle_fill_rounded,
-                      color: Colors.white,
-                      size: 34 * _s,
-                    ),
-                  ),
+                  HourTvLogo(size: 56 * _s),
                   const SizedBox(width: 14),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text(
-                        'HourTV',
-                        style: TextStyle(
-                          color: AppColors.textPrimary,
-                          fontSize: 22 * _s,
-                          fontWeight: FontWeight.w800,
-                        ),
-                      ),
+                      HourTvWordmark(fontSize: 22 * _s),
                       const SizedBox(height: 2),
                       Text(
                         'Tu televisión, en todas partes',
