@@ -54,6 +54,11 @@
   .row{margin-bottom:14px}
   .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
   .row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+  .row4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  .rowtype{display:grid;grid-template-columns:160px 1fr;gap:12px}
+  .check{display:flex;align-items:center;gap:10px;color:var(--text);font-size:14px;font-weight:600;cursor:pointer;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:11px 12px}
+  .check input{width:auto;margin:0;accent-color:var(--accent)}
+  .section-label{color:var(--muted);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin:20px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
   .modal-foot{display:flex;gap:10px;justify-content:space-between;padding:16px 18px;border-top:1px solid var(--line);background:var(--surface);border-radius:0 0 14px 14px;flex:0 0 auto}
   .chips{display:flex;flex-wrap:wrap;gap:8px}
   .chip{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:6px 12px;font-size:12px;cursor:pointer;user-select:none}
@@ -74,7 +79,8 @@
   .toast.show{opacity:1}
   .toast.ok{border-color:var(--ok)}
   .toast.err{border-color:var(--accent)}
-  .thumbprev{width:60px;height:90px;object-fit:cover;border-radius:6px;background:var(--elev);flex-shrink:0}
+  .thumbprev{width:52px;height:78px;object-fit:cover;border-radius:6px;background:var(--elev);flex-shrink:0}
+  .thumbprev.wide{width:120px;height:68px}
   .imgfield{display:flex;gap:8px;align-items:stretch}
   .imgfield input[type=text],.imgfield>input{flex:1;min-width:0}
   .upload-btn{display:flex;align-items:center;justify-content:center;white-space:nowrap;flex-shrink:0;cursor:pointer;background:transparent;color:var(--muted);border:1px solid var(--line);border-radius:8px;padding:0 14px;font-size:13px;font-weight:600}
@@ -93,7 +99,7 @@
     .modal{max-width:none;max-height:100dvh;min-height:100dvh;border-radius:0;border-left:0;border-right:0}
     .modal-head{border-radius:0}
     .modal-foot{border-radius:0;padding-bottom:max(16px,env(safe-area-inset-bottom))}
-    .row2,.row3{grid-template-columns:1fr}
+    .row2,.row3,.row4,.rowtype{grid-template-columns:1fr}
     .servers .srv{display:grid;grid-template-columns:minmax(0,1fr) auto}
     .servers .srv input.nm{grid-column:1/-1;max-width:none}
     .episode-head{grid-template-columns:64px minmax(0,1fr)}
@@ -227,18 +233,37 @@ function hasMissingLanguage(scope){
   });
 }
 
-// Campo de imagen: URL a mano o subir un archivo local (se sube a GitHub y
-// autocompleta la URL). previewId es opcional (id de un <img> a refrescar).
-function imageField(id, label, value, previewId){
-  const previewAttr = previewId ? ` oninput="document.getElementById('${previewId}').src=this.value"` : '';
+// Campo de imagen: miniatura de vista previa + URL a mano o subir un archivo
+// local (se sube a GitHub y autocompleta la URL). ratio: 'wide' para 16:9.
+function imageField(id, label, value, previewId, ratio){
   const fileId = id+'_file';
+  const preview = previewId
+    ? `<img id="${previewId}" class="thumbprev ${ratio==='wide'?'wide':''}" src="${esc(value)}" onerror="this.style.visibility='hidden'" onload="this.style.visibility='visible'">`
+    : '';
+  const previewAttr = previewId
+    ? ` oninput="document.getElementById('${previewId}').src=this.value"` : '';
   return `<div class="row"><label>${label}</label>
     <div class="imgfield">
-      <input type="text" id="${id}" value="${esc(value)}" placeholder="Pega una URL o sube un archivo →"${previewAttr}>
+      ${preview}
+      <input type="text" id="${id}" value="${esc(value)}" placeholder="Pega una URL o sube un archivo"${previewAttr}>
       <label class="upload-btn">Subir…
         <input type="file" accept="image/*" id="${fileId}" style="display:none" onchange="if(this.files[0])uploadImage(this.files[0],'${id}'${previewId?`,'${previewId}'`:''});this.value=''">
       </label>
     </div></div>`;
+}
+
+// Categorías/filas predefinidas para el Inicio. El usuario marca las que
+// apliquen; determinan en qué filas aparece la película.
+const CATEGORIES = ['recomendado','estrenos','populares','antiguas','terror','accion','comedia','romance','aventura','drama','infantil','anime'];
+function categoryChips(selected){
+  const sel = (selected||[]).map(c=>String(c).toLowerCase());
+  return CATEGORIES.map(c=>
+    `<div class="chip ${sel.includes(c)?'on':''}" data-cat="${c}" onclick="this.classList.toggle('on')">${c}</div>`
+  ).join('');
+}
+function collectCategories(){
+  const on=[...document.querySelectorAll('#f_categories .chip.on')].map(c=>c.dataset.cat);
+  return on.length?on:undefined;
 }
 
 function openEditor(idx){
@@ -260,7 +285,7 @@ function closeModal(){document.getElementById('overlay').classList.remove('open'
 
 function vodForm(it, isSeries){
   return `
-  <div class="row2">
+  <div class="rowtype">
     <div class="row"><label>Tipo</label>
       <select id="f_content_type" onchange="toggleContentType(this.value)">
         <option value="movie" ${!isSeries?'selected':''}>Película</option>
@@ -269,26 +294,37 @@ function vodForm(it, isSeries){
     </div>
     <div class="row"><label>Título</label><input id="f_title" value="${esc(it.title)}" required></div>
   </div>
-  <div class="row"><label>Descripción</label><textarea id="f_plot" maxlength="4000">${esc(it.plot||it.description)}</textarea></div>
+  <div class="row"><label>Descripción / sinopsis</label><textarea id="f_plot" maxlength="4000" placeholder="De qué trata…">${esc(it.plot||it.description)}</textarea></div>
+
+  <div class="section-label">Ficha</div>
   <div class="row2">
+    <div class="row"><label>Reparto (separado por comas)</label><input id="f_cast" value="${esc(it.cast)}" placeholder="Actor 1, Actor 2…"></div>
     <div class="row"><label>Director</label><input id="f_director" value="${esc(it.director)}"></div>
-    <div class="row"><label>Escritor / Guionista</label><input id="f_writer" value="${esc(it.writer||it.screenwriter)}"></div>
   </div>
-  <div class="row3">
+  <div class="row2">
+    <div class="row"><label>Escritor / Guionista</label><input id="f_writer" value="${esc(it.writer||it.screenwriter)}"></div>
+    <div class="row"><label>Género</label><input id="f_genre" value="${esc(it.genre)}" placeholder="Acción, Terror…"></div>
+  </div>
+  <div class="row4">
     <div class="row"><label>Fecha de estreno</label><input id="f_release_date" type="date" value="${esc(it.releaseDate||it.release_date)}"></div>
     <div class="row"><label>Año</label><input id="f_year" type="number" min="1888" max="2200" value="${esc(it.year)}"></div>
     <div class="row"><label>Rating (0–10)</label><input id="f_rating" type="number" min="0" max="10" step="0.1" value="${esc(it.rating)}"></div>
+    <div class="row"><label>Duración</label><input id="f_duration" value="${esc(it.duration)}" placeholder="120 min"></div>
   </div>
-  <div class="row2">
-    <div class="row"><label>Género</label><input id="f_genre" value="${esc(it.genre)}" placeholder="Acción, Terror, Infantil…"></div>
-    ${imageField('f_poster', 'Miniatura / carátula', it.poster, 'pv')}
+
+  <div class="section-label">Imágenes</div>
+  ${imageField('f_poster', 'Miniatura / carátula (vertical 2:3)', it.poster, 'pv')}
+  ${imageField('f_backdrop', 'Imagen de fondo (16:9, opcional)', it.backdrop, 'bpv', 'wide')}
+
+  <div class="section-label">Clasificación</div>
+  <div class="row"><label>Categorías / filas del Inicio</label>
+    <div class="chips" id="f_categories">${categoryChips(it.categories)}</div>
   </div>
-  <div class="row" style="display:flex;gap:14px;align-items:flex-start">
-    <img id="pv" class="thumbprev" src="${esc(it.poster)}" onerror="this.style.visibility='hidden'">
-    <p class="hint">La carátula se sube al repositorio configurado en GitHub. Para cada idioma escribe el nombre manualmente y añade uno o más servidores.</p>
-  </div>
+  <div class="row"><label class="check"><input type="checkbox" id="f_featured" ${it.featured?'checked':''}> Destacado (banner grande de Inicio)</label></div>
+
   <div id="movie_servers" style="${isSeries?'display:none':''}">
-    <div class="row"><label>Servidores por idioma</label>
+    <div class="section-label">Servidores — dónde se ve</div>
+    <div class="row"><label>Un grupo por idioma; escribe el idioma y añade uno o más servidores (URL directa .mp4/.m3u8 o enlace embed)</label>
       <div id="f_servers">${languageGroups(it.servers)}</div>
       <button type="button" class="btn-ghost btn-sm" onclick="addLanguageGroup('f_servers')">+ Añadir idioma</button>
     </div>
@@ -342,17 +378,23 @@ function saveItem(idx){
     toast('El rating debe estar entre 0 y 10','err');return;
   }
   const current=idx!=null?catalog[originalTab][idx]:null;
+  const featured=document.getElementById('f_featured');
   const obj={
     id:(current&&current.id)||uid(),
     title:val('f_title'),
     plot:val('f_plot')||undefined,
+    cast:val('f_cast')||undefined,
     director:val('f_director')||undefined,
     writer:val('f_writer')||undefined,
     releaseDate:releaseDate||undefined,
     year:val('f_year')||(releaseDate?releaseDate.slice(0,4):undefined),
     genre:val('f_genre')||undefined,
     rating,
-    poster:val('f_poster')||undefined
+    duration:val('f_duration')||undefined,
+    poster:val('f_poster')||undefined,
+    backdrop:val('f_backdrop')||undefined,
+    categories:collectCategories(),
+    featured:featured&&featured.checked?true:undefined
   };
 
   if(targetTab==='series'){
