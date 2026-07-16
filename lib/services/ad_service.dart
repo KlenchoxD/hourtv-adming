@@ -157,11 +157,11 @@ class _PrerollScreenState extends State<_PrerollScreen> {
         body: Stack(
           fit: StackFit.expand,
           children: [
-            if (controller != null)
+            if (controller != null && _loadError == null)
               WebViewWidget(controller: controller)
             else
               _fallback(),
-            if (_progress < 100 && controller != null)
+            if (_progress < 100 && controller != null && _loadError == null)
               Align(
                 alignment: Alignment.topCenter,
                 child: LinearProgressIndicator(
