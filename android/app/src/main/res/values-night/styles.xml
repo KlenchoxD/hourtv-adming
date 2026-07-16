@@ -15,4 +15,10 @@
     <style name="NormalTheme" parent="@android:style/Theme.Black.NoTitleBar">
         <item name="android:windowBackground">?android:colorBackground</item>
     </style>
+    <style name="HourTvCastTheme" parent="Theme.AppCompat.DayNight.DarkActionBar">
+        <item name="colorPrimary">#0B0B0B</item>
+        <item name="colorPrimaryDark">#0B0B0B</item>
+        <item name="colorAccent">#E50914</item>
+        <item name="android:navigationBarColor">#0B0B0B</item>
+    </style>
 </resources>

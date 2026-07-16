@@ -96,11 +96,17 @@ por lo que bajar más requiere usar y mantener una versión anterior de Flutter.
 
 ## Transmitir al TV
 
-El botón **Transmitir** del reproductor VOD abre el panel nativo
-**Transmitir pantalla / Cast** de Android. Se eligió espejo de pantalla para
-mantener compatibilidad con Miracast, Chromecast y TV-Box modificados sin
-incorporar un SDK pesado ni entregar la URL privada del stream a otro proceso.
-Selecciona el televisor en ese panel y vuelve a HourTV para continuar.
+El botón **Transmitir** del reproductor VOD descubre receptores Chromecast y
+Google TV en la red local y envía directamente la URL HLS (`.m3u8`) o MP4 al
+Default Media Receiver de Google Cast (`CC1AD845`). La app pausa el reproductor
+local y muestra controles remotos de reproducción, pausa, búsqueda, volumen y
+desconexión.
+
+El receptor debe poder acceder a la URL y el servidor debe permitir Cast/CORS.
+El Default Media Receiver no admite un `User-Agent` HTTP personalizado; para
+esas fuentes HourTV informa la incompatibilidad y ofrece **Compartir pantalla**
+como alternativa desde las opciones del reproductor. Cast permanece limitado
+a VOD; los canales En Vivo no muestran este botón.
 
 ## Instalar por ADB
 

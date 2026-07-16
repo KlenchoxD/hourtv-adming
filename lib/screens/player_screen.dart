@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_chrome_cast/flutter_chrome_cast.dart';
 import 'package:video_player/video_player.dart';
 import 'package:chewie/chewie.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -10,8 +11,10 @@ import '../services/ad_service.dart';
 import '../services/archive_service.dart';
 import '../services/stalker_service.dart';
 import '../services/device_type.dart';
+import '../services/cast_service.dart';
 import '../theme/app_theme.dart';
 import '../widgets/tv_focusable.dart';
+import 'cast_controls_screen.dart';
 
 class PlayerScreen extends StatefulWidget {
   final Channel channel;
@@ -46,6 +49,13 @@ class _PlayerScreenState extends State<PlayerScreen> {
   bool _verticalGestureOnRight = true;
   String? _gestureLabel;
   String? _activeServerUrl;
+  String? _resolvedPlaybackUrl;
+  StreamSubscription<List<GoogleCastDevice>>? _castDevicesSubscription;
+  StreamSubscription<GoogleCastSession?>? _castSessionSubscription;
+  List<GoogleCastDevice> _castDevices = const [];
+  bool _castSdkAvailable = false;
+  bool _castConnected = false;
+  bool _castConnecting = false;
 
   @override
   void initState() {
@@ -53,7 +63,10 @@ class _PlayerScreenState extends State<PlayerScreen> {
     _idx = widget.allChannels.indexWhere((c) => c.url == widget.channel.url);
     if (_idx < 0) _idx = 0;
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted) unawaited(_startInitialPlayback());
+      if (mounted) {
+        unawaited(_startInitialPlayback());
+        unawaited(_initializeCast());
+      }
     });
     if (StorageService.getSetting('forceLandscape', defaultValue: false) ==
         true) {
@@ -111,6 +124,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
         }
         playUrl = resolved;
       }
+      _resolvedPlaybackUrl = playUrl;
       _vc = VideoPlayerController.networkUrl(
         Uri.parse(playUrl),
         httpHeaders: ch.userAgent?.isNotEmpty == true
@@ -288,6 +302,179 @@ class _PlayerScreenState extends State<PlayerScreen> {
         );
       }
     }
+  }
+
+  Future<void> _initializeCast() async {
+    if (widget.allChannels[_idx].type == MediaType.live) return;
+    final available = await CastService.instance.initialize();
+    if (!mounted || !available) return;
+    _castDevicesSubscription = CastService.instance.devicesStream.listen((
+      devices,
+    ) {
+      if (mounted) setState(() => _castDevices = devices);
+    });
+    _castSessionSubscription = CastService.instance.sessionStream.listen(
+      _onCastSessionChanged,
+    );
+    setState(() {
+      _castSdkAvailable = true;
+      _castDevices = CastService.instance.devices;
+      _castConnected = CastService.instance.isConnected;
+    });
+    await CastService.instance.startDiscovery();
+  }
+
+  void _onCastSessionChanged(GoogleCastSession? session) {
+    if (!mounted) return;
+    final connected =
+        session?.connectionState == GoogleCastConnectState.connected;
+    final disconnected = _castConnected && !connected;
+    if (connected) unawaited(_vc?.pause());
+    setState(() => _castConnected = connected);
+    if (disconnected) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text('La transmisión terminó.'),
+          action: SnackBarAction(
+            label: 'Reanudar aquí',
+            onPressed: () => unawaited(_vc?.play()),
+          ),
+        ),
+      );
+    }
+  }
+
+  Future<void> _openRealCast() async {
+    final channel = widget.allChannels[_idx];
+    if (_castConnected) {
+      await _openCastControls();
+      return;
+    }
+    if (CastService.needsUnsupportedHeaders(channel.userAgent)) {
+      await _showCastFallback(
+        'Este servidor exige un User-Agent personalizado. El receptor '
+        'predeterminado de Chromecast no permite enviar esa cabecera, por lo '
+        'que el video podría ser rechazado.',
+      );
+      return;
+    }
+    final streamUrl = _resolvedPlaybackUrl ?? _activeServerUrl ?? channel.url;
+    if (!CastService.isNetworkUrl(streamUrl) ||
+        CastService.contentTypeFor(streamUrl) == null) {
+      await _showCastFallback(
+        'Este servidor no expone una URL HLS o MP4 compatible con Chromecast.',
+      );
+      return;
+    }
+
+    await CastService.instance.startDiscovery();
+    if (!mounted) return;
+    final selected = await showDialog<Object>(
+      context: context,
+      builder: (dialogContext) => SimpleDialog(
+        title: const Text('Transmitir a'),
+        children: [
+          for (final device in _castDevices)
+            SimpleDialogOption(
+              onPressed: () => Navigator.pop(dialogContext, device),
+              child: ListTile(
+                contentPadding: EdgeInsets.zero,
+                leading: const Icon(Icons.cast_rounded),
+                title: Text(device.friendlyName),
+                subtitle: device.modelName == null
+                    ? null
+                    : Text(device.modelName!),
+              ),
+            ),
+          const Divider(),
+          SimpleDialogOption(
+            onPressed: () => Navigator.pop(dialogContext, 'mirror'),
+            child: const ListTile(
+              contentPadding: EdgeInsets.zero,
+              leading: Icon(Icons.screen_share_rounded),
+              title: Text('Compartir pantalla'),
+              subtitle: Text('Usar el espejo nativo como alternativa'),
+            ),
+          ),
+        ],
+      ),
+    );
+    if (!mounted || selected == null) return;
+    if (selected == 'mirror') {
+      await _openCastSettings();
+      return;
+    }
+    await _connectToCast(selected as GoogleCastDevice, streamUrl, channel);
+  }
+
+  Future<void> _connectToCast(
+    GoogleCastDevice device,
+    String streamUrl,
+    Channel channel,
+  ) async {
+    setState(() => _castConnecting = true);
+    try {
+      final video = _vc;
+      await CastService.instance.connectAndLoad(
+        device: device,
+        url: streamUrl,
+        title: channel.displayName,
+        posterUrl: channel.backdrop ?? channel.logo,
+        position: video?.value.position ?? Duration.zero,
+        duration: video?.value.duration,
+      );
+      await video?.pause();
+      if (!mounted) return;
+      await _openCastControls();
+    } on TimeoutException {
+      if (mounted) {
+        await _showCastFallback(
+          'El Chromecast no respondió a tiempo. Comprueba que ambos dispositivos '
+          'estén en la misma red Wi-Fi.',
+        );
+      }
+    } catch (error) {
+      if (mounted) {
+        await _showCastFallback('No se pudo transmitir: $error');
+      }
+    } finally {
+      if (mounted) setState(() => _castConnecting = false);
+    }
+  }
+
+  Future<void> _openCastControls() async {
+    final video = _vc;
+    await Navigator.of(context).push<bool>(
+      MaterialPageRoute(
+        builder: (_) => CastControlsScreen(
+          title: widget.allChannels[_idx].displayName,
+          fallbackDuration: video?.value.duration ?? Duration.zero,
+        ),
+      ),
+    );
+    if (mounted) _screenFocus.requestFocus();
+  }
+
+  Future<void> _showCastFallback(String reason) async {
+    final useMirror = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: const Text('No se puede usar Cast directo'),
+        content: Text('$reason\n\n¿Quieres compartir la pantalla en su lugar?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext, false),
+            child: const Text('Cancelar'),
+          ),
+          FilledButton.icon(
+            onPressed: () => Navigator.pop(dialogContext, true),
+            icon: const Icon(Icons.screen_share_rounded),
+            label: const Text('Compartir pantalla'),
+          ),
+        ],
+      ),
+    );
+    if (useMirror == true && mounted) await _openCastSettings();
   }
 
   Future<void> _showMessage(String title, String message) async {
@@ -477,6 +664,19 @@ class _PlayerScreenState extends State<PlayerScreen> {
       builder: (dialogContext) => SimpleDialog(
         title: const Text('Opciones de reproducción'),
         children: [
+          if (widget.allChannels[_idx].type != MediaType.live)
+            SimpleDialogOption(
+              onPressed: () {
+                Navigator.pop(dialogContext);
+                unawaited(_openCastSettings());
+              },
+              child: const ListTile(
+                contentPadding: EdgeInsets.zero,
+                leading: Icon(Icons.screen_share_rounded),
+                title: Text('Compartir pantalla'),
+                subtitle: Text('Alternativa para servidores no casteables'),
+              ),
+            ),
           if (widget.allChannels[_idx].servers.length > 1)
             SimpleDialogOption(
               onPressed: () {
@@ -846,11 +1046,27 @@ class _PlayerScreenState extends State<PlayerScreen> {
             ),
             onPressed: () => unawaited(_enterPictureInPicture()),
           ),
-          if (ch.type != MediaType.live)
+          if (ch.type != MediaType.live &&
+              _castSdkAvailable &&
+              (_castDevices.isNotEmpty || _castConnected))
             IconButton(
-              tooltip: 'Transmitir pantalla',
-              icon: const Icon(Icons.cast_rounded, color: Colors.white),
-              onPressed: () => unawaited(_openCastSettings()),
+              tooltip: _castConnected
+                  ? 'Controles de transmisión'
+                  : 'Transmitir a Chromecast',
+              icon: _castConnecting
+                  ? const SizedBox.square(
+                      dimension: 20,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
+                  : Icon(
+                      _castConnected
+                          ? Icons.cast_connected_rounded
+                          : Icons.cast_rounded,
+                      color: Colors.white,
+                    ),
+              onPressed: _castConnecting
+                  ? null
+                  : () => unawaited(_openRealCast()),
             ),
           IconButton(
             tooltip: 'Audio, subtítulos, calidad y aspecto',
@@ -995,6 +1211,9 @@ class _PlayerScreenState extends State<PlayerScreen> {
   void dispose() {
     _chromeTimer?.cancel();
     _gestureTimer?.cancel();
+    _castDevicesSubscription?.cancel();
+    _castSessionSubscription?.cancel();
+    unawaited(CastService.instance.stopDiscovery());
     _cc?.dispose();
     _vc?.dispose();
     _screenFocus.dispose();
