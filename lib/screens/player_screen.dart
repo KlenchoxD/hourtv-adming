@@ -5,6 +5,7 @@ import 'package:flutter_chrome_cast/flutter_chrome_cast.dart';
 import 'package:video_player/video_player.dart';
 import 'package:chewie/chewie.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 import '../models/channel.dart';
 import '../services/storage_service.dart';
 import '../services/ad_service.dart';
@@ -50,6 +51,10 @@ class _PlayerScreenState extends State<PlayerScreen> {
   String? _gestureLabel;
   String? _activeServerUrl;
   String? _resolvedPlaybackUrl;
+  // VOD servido como pagina embed (niramirus, dood, streamtape...). No es un
+  // stream directo: se reproduce dentro de un WebView contenido.
+  String? _embedUrl;
+  WebViewController? _embedController;
   StreamSubscription<List<GoogleCastDevice>>? _castDevicesSubscription;
   StreamSubscription<GoogleCastSession?>? _castSessionSubscription;
   List<GoogleCastDevice> _castDevices = const [];
@@ -96,12 +101,23 @@ class _PlayerScreenState extends State<PlayerScreen> {
       _loading = true;
       _err = null;
       _activeServerUrl = targetUrl;
+      _embedUrl = null;
     });
     _cc?.dispose();
     _vc?.dispose();
     _cc = null;
     _vc = null;
+    _embedController = null;
     try {
+      // VOD cuyo servidor es una pagina embed (no un .mp4/.m3u8 directo): se
+      // reproduce en un WebView contenido, no en ExoPlayer. En Vivo nunca
+      // entra aqui. archive:/stalker: tienen esquema propio y no son embed.
+      if (ch.type != MediaType.live && isEmbedStreamUrl(targetUrl)) {
+        _resolvedPlaybackUrl = targetUrl;
+        _createEmbedController(targetUrl);
+        setState(() => _loading = false);
+        return;
+      }
       var playUrl = targetUrl;
       if (playUrl.startsWith('archive:')) {
         final resolved = await ArchiveService.resolveStream(playUrl);
@@ -182,6 +198,88 @@ class _PlayerScreenState extends State<PlayerScreen> {
       fontWeight: FontWeight.bold,
     ),
   );
+
+  void _createEmbedController(String url) {
+    final host = Uri.tryParse(url)?.host;
+    _embedController = WebViewController()
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..setBackgroundColor(Colors.black)
+      ..setNavigationDelegate(
+        NavigationDelegate(
+          // Permite el host del embed; bloquea saltos a otros dominios
+          // (popups de publicidad y redirecciones). Los iframes del video son
+          // subrecursos, no navegaciones, y siguen cargando.
+          onNavigationRequest: (request) =>
+              AdService.allowsContainedNavigation(
+                request.url,
+                lockedHost: host,
+              )
+              ? NavigationDecision.navigate
+              : NavigationDecision.prevent,
+        ),
+      )
+      ..loadRequest(Uri.parse(url));
+    _embedUrl = url;
+  }
+
+  /// Cuerpo del reproductor cuando el servidor es una pagina embed: el WebView
+  /// ocupa la pantalla y una barra minima permite volver o cambiar de servidor.
+  Widget _embedBody() {
+    final ch = widget.allChannels[_idx];
+    return Stack(
+      children: [
+        Positioned.fill(child: WebViewWidget(controller: _embedController!)),
+        Positioned(
+          top: 0,
+          left: 0,
+          right: 0,
+          child: DecoratedBox(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [Colors.black87, Colors.transparent],
+              ),
+            ),
+            child: SafeArea(
+              bottom: false,
+              child: Row(
+                children: [
+                  IconButton(
+                    icon: const Icon(
+                      Icons.arrow_back_rounded,
+                      color: Colors.white,
+                    ),
+                    onPressed: () => Navigator.of(context).maybePop(),
+                  ),
+                  Expanded(
+                    child: Text(
+                      ch.displayName,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                  if (ch.servers.length > 1)
+                    IconButton(
+                      tooltip: 'Cambiar servidor',
+                      icon: const Icon(
+                        Icons.playlist_play_rounded,
+                        color: Colors.white,
+                      ),
+                      onPressed: () => unawaited(_showServerSelector()),
+                    ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
 
   Future<void> _chg(int direction) async {
     final nextIndex = _idx + direction;
@@ -825,7 +923,9 @@ class _PlayerScreenState extends State<PlayerScreen> {
       onKeyEvent: _onKey,
       child: Scaffold(
         backgroundColor: Colors.black,
-        body: GestureDetector(
+        body: (!_loading && _embedUrl != null && _embedController != null)
+            ? _embedBody()
+            : GestureDetector(
           behavior: HitTestBehavior.opaque,
           onTap: _toggleChrome,
           onHorizontalDragEnd: _onHorizontalDragEnd,
@@ -1226,4 +1326,33 @@ class _PlayerScreenState extends State<PlayerScreen> {
     }
     super.dispose();
   }
+}
+
+/// Extensiones de stream directo que ExoPlayer reproduce nativamente.
+const _directMediaExtensions = <String>[
+  '.m3u8',
+  '.mpd',
+  '.mp4',
+  '.m4v',
+  '.mov',
+  '.webm',
+  '.mkv',
+  '.ts',
+  '.flv',
+  '.avi',
+  '.mp3',
+  '.aac',
+  '.ogg',
+];
+
+/// True si la URL es una pagina web (embed tipo niramirus/dood/streamtape) en
+/// vez de un stream directo. Los esquemas propios (archive:, stalker:) y los
+/// enlaces con extension de video conocida NO son embed.
+bool isEmbedStreamUrl(String url) {
+  final uri = Uri.tryParse(url);
+  if (uri == null || (uri.scheme != 'http' && uri.scheme != 'https')) {
+    return false;
+  }
+  final path = uri.path.toLowerCase();
+  return !_directMediaExtensions.any(path.endsWith);
 }
