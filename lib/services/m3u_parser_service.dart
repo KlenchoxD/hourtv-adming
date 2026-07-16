@@ -69,7 +69,10 @@ class M3UParserService {
 
   static Map<String, String> _parseExtInf(String info) {
     final Map<String, String> attrs = {};
-    final commaIndex = info.indexOf(',');
+    // El nombre va tras la coma que separa atributos del titulo. Esa coma debe
+    // estar FUERA de comillas: valores como user-agent="...(KHTML, like Gecko)"
+    // contienen comas internas que no son el separador del nombre.
+    final commaIndex = _nameSeparatorIndex(info);
     String attrsPart = commaIndex > 0 ? info.substring(0, commaIndex) : info;
     if (commaIndex > 0) attrs['_name'] = info.substring(commaIndex + 1).trim();
     final attrRegex = RegExp(r'([\w-]+)=[\x27"]([^\x27"]*)');
@@ -79,6 +82,23 @@ class M3UParserService {
       if (key != null && value != null) attrs[key] = value;
     }
     return attrs;
+  }
+
+  /// Indice de la primera coma que NO esta dentro de comillas (separador entre
+  /// los atributos del #EXTINF y el nombre visible). -1 si no hay ninguna.
+  static int _nameSeparatorIndex(String info) {
+    String? quote;
+    for (int i = 0; i < info.length; i++) {
+      final c = info[i];
+      if (quote != null) {
+        if (c == quote) quote = null;
+      } else if (c == '"' || c == "'") {
+        quote = c;
+      } else if (c == ',') {
+        return i;
+      }
+    }
+    return -1;
   }
 
   static Future<List<Channel>> fetchAndParse(
