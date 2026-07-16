@@ -209,23 +209,39 @@ class _PlayerScreenState extends State<PlayerScreen> {
     ),
   );
 
+  // Mismo sitio = mismo dominio registrable (ignora subdominios), para permitir
+  // que el player salte a un subdominio propio sin dejar pasar otras marcas.
+  static bool _sameSite(String a, String b) {
+    String reg(String h) {
+      final p = h.toLowerCase().split('.').where((x) => x.isNotEmpty).toList();
+      return p.length <= 2 ? h.toLowerCase() : p.sublist(p.length - 2).join('.');
+    }
+    return b.isNotEmpty && reg(a) == reg(b);
+  }
+
   void _createEmbedController(String url) {
     final host = Uri.tryParse(url)?.host;
     _embedController = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      // UA de Chrome real (sin la marca "wv"): muchos hosts embed bloquean el
+      // WebView y se quedan en "Loading..." si detectan el User-Agent nativo.
+      ..setUserAgent(
+        'Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 '
+        '(KHTML, like Gecko) Chrome/124.0.0.0 Mobile Safari/537.36',
+      )
       ..setBackgroundColor(Colors.black)
       ..setNavigationDelegate(
         NavigationDelegate(
-          // Permite el host del embed; bloquea saltos a otros dominios
-          // (popups de publicidad y redirecciones). Los iframes del video son
-          // subrecursos, no navegaciones, y siguen cargando.
-          onNavigationRequest: (request) =>
-              AdService.allowsContainedNavigation(
-                request.url,
-                lockedHost: host,
-              )
-              ? NavigationDecision.navigate
-              : NavigationDecision.prevent,
+          // Permite el host del embed y sus subdominios/redirecciones internas
+          // (algunos players saltan a otro dominio propio para cargar). Solo
+          // bloquea saltos claramente externos (popups de otra marca).
+          onNavigationRequest: (request) {
+            final target = Uri.tryParse(request.url)?.host ?? '';
+            if (host == null || _sameSite(host, target)) {
+              return NavigationDecision.navigate;
+            }
+            return NavigationDecision.prevent;
+          },
         ),
       )
       ..loadRequest(Uri.parse(url));
