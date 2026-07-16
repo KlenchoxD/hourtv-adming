@@ -13,6 +13,7 @@ import '../services/archive_service.dart';
 import '../services/stalker_service.dart';
 import '../services/device_type.dart';
 import '../services/cast_service.dart';
+import '../services/embed_resolver.dart';
 import '../theme/app_theme.dart';
 import '../widgets/tv_focusable.dart';
 import 'cast_controls_screen.dart';
@@ -109,16 +110,27 @@ class _PlayerScreenState extends State<PlayerScreen> {
     _vc = null;
     _embedController = null;
     try {
-      // VOD cuyo servidor es una pagina embed (no un .mp4/.m3u8 directo): se
-      // reproduce en un WebView contenido, no en ExoPlayer. En Vivo nunca
-      // entra aqui. archive:/stalker: tienen esquema propio y no son embed.
-      if (ch.type != MediaType.live && isEmbedStreamUrl(targetUrl)) {
-        _resolvedPlaybackUrl = targetUrl;
-        _createEmbedController(targetUrl);
-        setState(() => _loading = false);
-        return;
-      }
       var playUrl = targetUrl;
+      Map<String, String> playHeaders = ch.userAgent?.isNotEmpty == true
+          ? {'User-Agent': ch.userAgent!}
+          : const {};
+      // VOD cuyo servidor es una pagina embed (streamwish, vidhide, dood...):
+      // como Xuper, se intenta extraer el .m3u8/.mp4 directo y reproducirlo
+      // nativo en ExoPlayer con su Referer. Si no se puede resolver, cae al
+      // WebView contenido. En Vivo nunca entra aqui.
+      if (ch.type != MediaType.live && isEmbedStreamUrl(targetUrl)) {
+        final resolved = await EmbedResolver.resolve(targetUrl);
+        if (!mounted) return;
+        if (resolved != null) {
+          playUrl = resolved.url;
+          playHeaders = resolved.headers;
+        } else {
+          _resolvedPlaybackUrl = targetUrl;
+          _createEmbedController(targetUrl);
+          setState(() => _loading = false);
+          return;
+        }
+      }
       if (playUrl.startsWith('archive:')) {
         final resolved = await ArchiveService.resolveStream(playUrl);
         if (resolved == null) {
@@ -143,9 +155,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
       _resolvedPlaybackUrl = playUrl;
       _vc = VideoPlayerController.networkUrl(
         Uri.parse(playUrl),
-        httpHeaders: ch.userAgent?.isNotEmpty == true
-            ? {'User-Agent': ch.userAgent!}
-            : const {},
+        httpHeaders: playHeaders,
       );
       await _vc!.initialize();
       final autoPlay =
