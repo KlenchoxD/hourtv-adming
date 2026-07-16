@@ -47,7 +47,7 @@
   /* Modal */
   .overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:50;display:none;align-items:center;justify-content:center;overflow:hidden;padding:clamp(12px,3vh,30px) 16px}
   .overlay.open{display:flex}
-  .modal{background:var(--surface);border:1px solid var(--line);border-radius:14px;width:100%;max-width:640px;max-height:calc(100dvh - clamp(24px,6vh,60px));display:flex;flex-direction:column;overflow:hidden}
+  .modal{background:var(--surface);border:1px solid var(--line);border-radius:14px;width:100%;max-width:820px;max-height:calc(100dvh - clamp(24px,6vh,60px));display:flex;flex-direction:column;overflow:hidden}
   .modal-head{display:flex;align-items:center;padding:16px 18px;border-bottom:1px solid var(--line);background:var(--surface);border-radius:14px 14px 0 0;flex:0 0 auto}
   .modal-head h3{margin:0;font-size:17px;flex:1}
   .modal-body{padding:18px;overflow-y:auto;min-height:0;overscroll-behavior:contain}
@@ -58,14 +58,18 @@
   .chips{display:flex;flex-wrap:wrap;gap:8px}
   .chip{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:6px 12px;font-size:12px;cursor:pointer;user-select:none}
   .chip.on{background:var(--accent);color:#fff;border-color:var(--accent)}
-  .servers .srv,.seasons .ep{display:flex;gap:8px;align-items:center;margin-bottom:8px}
+  .servers .srv{display:flex;gap:8px;align-items:center;margin-bottom:8px}
   .servers .srv input{flex:1}
   .servers .srv input.nm{max-width:150px}
+  .language-group{background:rgba(255,255,255,.025);border:1px solid var(--line);border-radius:10px;padding:12px;margin-bottom:10px}
+  .language-head{display:flex;gap:8px;align-items:center;margin-bottom:10px;flex-wrap:wrap}
+  .language-head input{flex:1;font-weight:700}
   .season{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px;margin-bottom:12px}
   .season .sh{display:flex;align-items:center;gap:10px;margin-bottom:10px}
   .season .sh input{max-width:80px}
-  .ep .nm{max-width:60px}
-  .ep input.t{flex:1}
+  .seasons .ep{background:rgba(0,0,0,.22);border:1px solid var(--line);border-radius:9px;padding:10px;margin-bottom:10px}
+  .episode-head{display:grid;grid-template-columns:72px 1fr auto;gap:8px;align-items:center;margin-bottom:10px}
+  .episode-head .nm{max-width:72px}
   .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--elev);border:1px solid var(--line);border-radius:10px;padding:12px 20px;z-index:100;opacity:0;transition:.3s;pointer-events:none}
   .toast.show{opacity:1}
   .toast.ok{border-color:var(--ok)}
@@ -81,11 +85,19 @@
   .status b{color:var(--ok)}
   .del{color:var(--accent);background:none;border:none}
   @media (max-width:700px){
+    header{flex-wrap:wrap}
+    header .spacer{display:none}
+    header .logo{flex:1;min-width:150px}
+    header .status{order:3;width:100%}
     .overlay{padding:0;align-items:stretch}
     .modal{max-width:none;max-height:100dvh;min-height:100dvh;border-radius:0;border-left:0;border-right:0}
     .modal-head{border-radius:0}
     .modal-foot{border-radius:0;padding-bottom:max(16px,env(safe-area-inset-bottom))}
     .row2,.row3{grid-template-columns:1fr}
+    .servers .srv{display:grid;grid-template-columns:minmax(0,1fr) auto}
+    .servers .srv input.nm{grid-column:1/-1;max-width:none}
+    .episode-head{grid-template-columns:64px minmax(0,1fr)}
+    .episode-head button{grid-column:1/-1}
   }
 </style>
 </head>
@@ -117,17 +129,14 @@
 // ---------- Estado ----------
 const TABS = [
   {id:'movies', label:'Películas', kind:'vod'},
-  {id:'series', label:'Series', kind:'series'},
-  {id:'liveChannels', label:'Canales en vivo', kind:'live'},
-  {id:'sources', label:'Fuentes IPTV', kind:'source'},
+  {id:'series', label:'Series', kind:'series'}
 ];
-const CATEGORIES = ['estrenos','populares','antiguas','recomendado','terror','accion','comedia','romance','aventura','infantil'];
-let catalog = {version:1, movies:[], series:[], liveChannels:[], sources:[]};
+let catalog = {version:2, movies:[], series:[]};
 let activeTab = 'movies';
 let cfg = JSON.parse(localStorage.getItem('hourtv_admin_cfg')||'{}');
 
 function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7)}
-function esc(s){return (s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+function esc(s){return String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
 function toast(msg,type){const t=document.getElementById('toast');t.textContent=msg;t.className='toast show '+(type||'');setTimeout(()=>t.className='toast',2600)}
 function save(){localStorage.setItem('hourtv_admin_catalog',JSON.stringify(catalog))}
 
@@ -142,49 +151,80 @@ function setTab(id){activeTab=id;document.getElementById('search').value='';rend
 // ---------- Listado ----------
 function render(){
   renderTabs();
-  const q = document.getElementById('search').value.toLowerCase().trim();
-  const items = (catalog[activeTab]||[]).filter(it=>!(q) || (it.title||it.name||'').toLowerCase().includes(q));
-  const list = document.getElementById('list');
-  if(!items.length){list.innerHTML=`<div class="empty">Sin elementos. Pulsa “+ Añadir”.</div>`;return}
-  const tab = TABS.find(t=>t.id===activeTab);
-  if(tab.kind==='source'){
-    list.innerHTML = items.map((it,i)=>`
-      <div class="item" style="display:flex;align-items:center;gap:12px;padding:12px" onclick="openEditor(${realIndex(it)})">
-        <div style="flex:1"><b>${esc(it.name)}</b> <span class="badge">${esc(it.type||'m3u')}</span><br><span style="color:var(--dim);font-size:12px">${esc(it.url||it.host||'')}</span></div>
-      </div>`).join('');
+  const q=document.getElementById('search').value.toLowerCase().trim();
+  const items=(catalog[activeTab]||[]).filter(item=>!q||(item.title||'').toLowerCase().includes(q));
+  const list=document.getElementById('list');
+  if(!items.length){
     list.className='';
+    list.innerHTML=`<div class="empty">Sin contenido VOD. Pulsa “+ Añadir”.</div>`;
     return;
   }
+  const isSeries=activeTab==='series';
   list.className='grid';
-  list.innerHTML = items.map(it=>{
-    const idx = realIndex(it);
-    const img = it.poster||it.logo||it.backdrop||'';
-    const chClass = tab.kind==='live'?' ch':'';
-    const sub = tab.kind==='live' ? esc(it.group||'') :
-      (tab.kind==='series' ? `${(it.seasons||[]).length} temp.` : (it.year||''));
-    const feat = it.featured?'<span class="badge">DESTACADO</span> ':'';
+  list.innerHTML=items.map(item=>{
+    const idx=realIndex(item);
+    const subtitle=isSeries?`${(item.seasons||[]).length} temp.`:(item.year||'');
     return `<div class="item" onclick="openEditor(${idx})">
-      <img class="thumb${chClass}" src="${esc(img)}" onerror="this.style.visibility='hidden'">
-      <div class="cap"><b>${feat}${esc(it.title||it.name)}</b><span>${sub}</span></div>
+      <img class="thumb" src="${esc(item.poster||'')}" onerror="this.style.visibility='hidden'">
+      <div class="cap"><b>${esc(item.title)}</b><span>${subtitle}</span></div>
     </div>`;
   }).join('');
 }
 function realIndex(it){return (catalog[activeTab]||[]).indexOf(it)}
 
 // ---------- Editor ----------
-function serverRows(servers){
-  return (servers&&servers.length?servers:[{name:'Servidor 1',url:''}]).map((s,i)=>`
-    <div class="srv">
-      <input class="nm" value="${esc(s.name||'')}" placeholder="Nombre">
-      <input value="${esc(s.url||'')}" placeholder="URL del video / iframe">
-      <button class="del btn-sm" onclick="this.closest('.srv').remove()">✕</button>
-    </div>`).join('');
+function serverRow(server){
+  server=server||{};
+  return `<div class="srv">
+    <input class="nm" value="${esc(server.name||'')}" placeholder="Nombre del servidor">
+    <input class="url" value="${esc(server.url||'')}" placeholder="URL HLS / MP4">
+    <button type="button" class="del btn-sm" onclick="this.closest('.srv').remove()">✕</button>
+  </div>`;
+}
+function languageGroupHtml(group){
+  const servers=group.servers&&group.servers.length?group.servers:[{name:'Servidor 1',url:''}];
+  return `<div class="language-group" data-language-group>
+    <div class="language-head">
+      <input class="language" value="${esc(group.language||'')}" placeholder="Idioma escrito manualmente, ej. Español">
+      <button type="button" class="del btn-sm" onclick="this.closest('.language-group').remove()">Quitar idioma</button>
+    </div>
+    <div class="servers">${servers.map(serverRow).join('')}</div>
+    <button type="button" class="btn-ghost btn-sm" onclick="this.closest('.language-group').querySelector('.servers').insertAdjacentHTML('beforeend',window._serverRow())">+ Añadir servidor</button>
+  </div>`;
+}
+function languageGroups(servers){
+  const groups=[];
+  (servers&&servers.length?servers:[{name:'Servidor 1',url:'',language:''}]).forEach(server=>{
+    const language=(server.language||server.idioma||'').trim();
+    let group=groups.find(item=>item.language.toLowerCase()===language.toLowerCase());
+    if(!group){group={language,servers:[]};groups.push(group)}
+    group.servers.push(server);
+  });
+  return groups.map(languageGroupHtml).join('');
+}
+window._serverRow=()=>serverRow({});
+window._languageGroup=()=>languageGroupHtml({language:'',servers:[]});
+function addLanguageGroup(container){
+  const target=typeof container==='string'?document.getElementById(container):container;
+  if(target)target.insertAdjacentHTML('beforeend',window._languageGroup());
 }
 function collectServers(scope){
-  return [...scope.querySelectorAll('.srv')].map(r=>{
-    const [nm,url]=r.querySelectorAll('input');
-    return {name:nm.value.trim()||'Servidor', url:url.value.trim()};
-  }).filter(s=>s.url);
+  const servers=[];
+  [...scope.querySelectorAll(':scope > .language-group')].forEach(group=>{
+    const language=group.querySelector('.language').value.trim();
+    [...group.querySelectorAll('.srv')].forEach(row=>{
+      const name=row.querySelector('.nm').value.trim()||'Servidor';
+      const url=row.querySelector('.url').value.trim();
+      if(url)servers.push({name,url,language});
+    });
+  });
+  return servers;
+}
+function hasMissingLanguage(scope){
+  return [...scope.querySelectorAll(':scope > .language-group')].some(group=>{
+    const hasUrl=[...group.querySelectorAll('.url')].some(input=>input.value.trim());
+    return hasUrl&&!group.querySelector('.language').value.trim();
+  });
 }
 
 // Campo de imagen: URL a mano o subir un archivo local (se sube a GitHub y
@@ -205,14 +245,7 @@ function openEditor(idx){
   const tab = TABS.find(t=>t.id===activeTab);
   const editing = idx!=null;
   const it = editing ? JSON.parse(JSON.stringify(catalog[activeTab][idx])) : {};
-  let body;
-  if(tab.kind==='source'){
-    body = sourceForm(it);
-  } else if(tab.kind==='live'){
-    body = liveForm(it);
-  } else {
-    body = vodForm(it, tab.kind==='series');
-  }
+  const body = vodForm(it, tab.kind==='series');
   document.getElementById('modal').innerHTML = `
     <div class="modal-head"><h3>${editing?'Editar':'Nuevo'} · ${tab.label}</h3>
       <button class="btn-ghost btn-sm" onclick="closeModal()">✕</button></div>
@@ -222,47 +255,52 @@ function openEditor(idx){
       <button class="btn-primary" onclick="saveItem(${editing?idx:'null'})">Guardar</button>
     </div>`;
   document.getElementById('overlay').classList.add('open');
-  if(tab.kind==='source') toggleSrc(it.type||'m3u');
 }
 function closeModal(){document.getElementById('overlay').classList.remove('open')}
 
 function vodForm(it, isSeries){
   return `
   <div class="row2">
-    <div class="row"><label>Título</label><input id="f_title" value="${esc(it.title)}"></div>
-    <div class="row"><label>Género</label><input id="f_genre" value="${esc(it.genre)}" placeholder="Acción, Terror…"></div>
+    <div class="row"><label>Tipo</label>
+      <select id="f_content_type" onchange="toggleContentType(this.value)">
+        <option value="movie" ${!isSeries?'selected':''}>Película</option>
+        <option value="series" ${isSeries?'selected':''}>Serie</option>
+      </select>
+    </div>
+    <div class="row"><label>Título</label><input id="f_title" value="${esc(it.title)}" required></div>
+  </div>
+  <div class="row"><label>Descripción</label><textarea id="f_plot" maxlength="4000">${esc(it.plot||it.description)}</textarea></div>
+  <div class="row2">
+    <div class="row"><label>Director</label><input id="f_director" value="${esc(it.director)}"></div>
+    <div class="row"><label>Escritor / Guionista</label><input id="f_writer" value="${esc(it.writer||it.screenwriter)}"></div>
   </div>
   <div class="row3">
-    <div class="row"><label>Año</label><input id="f_year" value="${esc(it.year)}"></div>
-    <div class="row"><label>Calificación</label><input id="f_rating" value="${esc(it.rating)}" placeholder="7.5"></div>
-    <div class="row"><label>Duración</label><input id="f_duration" value="${esc(it.duration)}" placeholder="120 min"></div>
+    <div class="row"><label>Fecha de estreno</label><input id="f_release_date" type="date" value="${esc(it.releaseDate||it.release_date)}"></div>
+    <div class="row"><label>Año</label><input id="f_year" type="number" min="1888" max="2200" value="${esc(it.year)}"></div>
+    <div class="row"><label>Rating (0–10)</label><input id="f_rating" type="number" min="0" max="10" step="0.1" value="${esc(it.rating)}"></div>
   </div>
   <div class="row2">
-    ${imageField('f_poster', 'Miniatura (póster vertical)', it.poster, 'pv')}
-    ${imageField('f_backdrop', 'Imagen de fondo (16:9, opcional)', it.backdrop)}
+    <div class="row"><label>Género</label><input id="f_genre" value="${esc(it.genre)}" placeholder="Acción, Terror, Infantil…"></div>
+    ${imageField('f_poster', 'Miniatura / carátula', it.poster, 'pv')}
   </div>
   <div class="row" style="display:flex;gap:14px;align-items:flex-start">
     <img id="pv" class="thumbprev" src="${esc(it.poster)}" onerror="this.style.visibility='hidden'">
-    <div style="flex:1">
-      <label>Sinopsis</label><textarea id="f_plot">${esc(it.plot)}</textarea>
+    <p class="hint">La carátula se sube al repositorio configurado en GitHub. Para cada idioma escribe el nombre manualmente y añade uno o más servidores.</p>
+  </div>
+  <div id="movie_servers" style="${isSeries?'display:none':''}">
+    <div class="row"><label>Servidores por idioma</label>
+      <div id="f_servers">${languageGroups(it.servers)}</div>
+      <button type="button" class="btn-ghost btn-sm" onclick="addLanguageGroup('f_servers')">+ Añadir idioma</button>
     </div>
   </div>
-  <div class="row2">
-    <div class="row"><label>Reparto (separado por comas)</label><input id="f_cast" value="${esc(it.cast)}"></div>
-    <div class="row"><label>Director</label><input id="f_director" value="${esc(it.director)}"></div>
-  </div>
-  <div class="row"><label>Categorías / filas</label>
-    <div class="chips" id="f_cats">${CATEGORIES.map(c=>`<span class="chip ${(it.categories||[]).includes(c)?'on':''}" onclick="this.classList.toggle('on')">${c}</span>`).join('')}</div>
-  </div>
-  <div class="row"><label><input type="checkbox" id="f_featured" ${it.featured?'checked':''} style="width:auto;vertical-align:middle"> Destacado (banner de Inicio)</label></div>
-  ${isSeries ? seasonsBlock(it) : `
-    <div class="row"><label>Servidores (dónde se ve)</label>
-      <div class="servers" id="f_servers">${serverRows(it.servers)}</div>
-      <button class="btn-ghost btn-sm" onclick="document.getElementById('f_servers').insertAdjacentHTML('beforeend', window._srvRow())">+ Servidor</button>
-    </div>`}
+  <div id="series_fields" style="${isSeries?'':'display:none'}">${seasonsBlock(it)}</div>
   `;
 }
-window._srvRow = ()=>`<div class="srv"><input class="nm" placeholder="Nombre"><input placeholder="URL del video / iframe"><button class="del btn-sm" onclick="this.closest('.srv').remove()">✕</button></div>`;
+function toggleContentType(type){
+  const isSeries=type==='series';
+  document.getElementById('movie_servers').style.display=isSeries?'none':'';
+  document.getElementById('series_fields').style.display=isSeries?'':'none';
+}
 
 function seasonsBlock(it){
   const seasons = it.seasons||[];
@@ -279,92 +317,82 @@ function seasonHtml(s){
   </div>`;
 }
 function epHtml(e){
-  const srv = (e.servers&&e.servers[0])?e.servers[0].url:'';
   return `<div class="ep" data-ep>
-    <input class="nm" type="number" value="${e.number||1}" title="Nº">
-    <input class="t" value="${esc(e.title)}" placeholder="Título del episodio">
-    <input class="u" value="${esc(srv)}" placeholder="URL del video">
-    <button class="del btn-sm" onclick="this.closest('.ep').remove()">✕</button></div>`;
+    <div class="episode-head">
+      <input class="nm" type="number" min="1" value="${e.number||1}" title="Número">
+      <input class="t" value="${esc(e.title)}" placeholder="Título del episodio">
+      <button type="button" class="del btn-sm" onclick="this.closest('.ep').remove()">Quitar</button>
+    </div>
+    <div class="episode-servers">${languageGroups(e.servers)}</div>
+    <button type="button" class="btn-ghost btn-sm" onclick="addLanguageGroup(this.previousElementSibling)">+ Añadir idioma</button>
+  </div>`;
 }
-window._epRow = ()=>epHtml({});
+window._epRow = ()=>epHtml({servers:[]});
 function addSeason(){const n=document.querySelectorAll('#f_seasons .season').length+1;document.getElementById('f_seasons').insertAdjacentHTML('beforeend', seasonHtml({number:n,episodes:[{number:1}]}))}
-
-function liveForm(it){
-  return `
-  <div class="row"><label>Nombre del canal</label><input id="f_name" value="${esc(it.name)}"></div>
-  <div class="row2">
-    ${imageField('f_logo', 'Logo', it.logo)}
-    <div class="row"><label>Grupo / categoría</label><input id="f_group" value="${esc(it.group)}" placeholder="deportes, noticias…"></div>
-  </div>
-  <div class="row"><label>URL del stream (.m3u8 / .ts)</label><input id="f_url" value="${esc(it.url)}"></div>
-  <div class="row"><label>User-Agent (opcional)</label><input id="f_ua" value="${esc(it.userAgent)}" placeholder="Déjalo vacío salvo que la fuente lo exija"></div>`;
-}
-function sourceForm(it){
-  const t = it.type||'m3u';
-  return `
-  <div class="row"><label>Tipo de fuente</label>
-    <select id="f_type" onchange="toggleSrc(this.value)">
-      ${['m3u','xtream','stalker','movie','series'].map(o=>`<option ${t===o?'selected':''}>${o}</option>`).join('')}
-    </select></div>
-  <div class="row"><label>Nombre</label><input id="f_name" value="${esc(it.name)}"></div>
-  <div id="src_m3u"><div class="row"><label>URL (.m3u / .m3u8)</label><input id="f_url" value="${esc(it.url)}"></div></div>
-  <div id="src_xtream" style="display:none">
-    <div class="row"><label>Host (http://servidor:puerto)</label><input id="f_host" value="${esc(it.host)}"></div>
-    <div class="row2"><div class="row"><label>Usuario</label><input id="f_user" value="${esc(it.username)}"></div>
-      <div class="row"><label>Contraseña</label><input id="f_pass" value="${esc(it.password)}"></div></div>
-  </div>
-  <div id="src_stalker" style="display:none">
-    <div class="row"><label>URL del portal</label><input id="f_host2" value="${esc(it.host)}" placeholder="http://portal/stalker_portal/c"></div>
-    <div class="row"><label>MAC</label><input id="f_mac" value="${esc(it.mac||it.username)}" placeholder="00:1A:79:XX:XX:XX"></div>
-  </div>
-  <div class="row"><label>User-Agent (opcional)</label><input id="f_ua" value="${esc(it.userAgent)}"></div>`;
-}
-function toggleSrc(t){
-  const map={m3u:'src_m3u',movie:'src_m3u',series:'src_m3u',xtream:'src_xtream',stalker:'src_stalker'};
-  ['src_m3u','src_xtream','src_stalker'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='none'});
-  const show=map[t]; const el=document.getElementById(show); if(el)el.style.display='';
-}
 
 function val(id){const el=document.getElementById(id);return el?el.value.trim():''}
 function saveItem(idx){
-  const tab = TABS.find(t=>t.id===activeTab);
-  let obj;
-  if(tab.kind==='source'){
-    const type=val('f_type');
-    obj={type, name:val('f_name')||'Fuente', userAgent:val('f_ua')||undefined};
-    if(type==='xtream'){obj.host=val('f_host');obj.username=val('f_user');obj.password=val('f_pass');}
-    else if(type==='stalker'){obj.host=val('f_host2');obj.mac=val('f_mac');}
-    else{obj.url=val('f_url');}
-  } else if(tab.kind==='live'){
-    obj={name:val('f_name'),logo:val('f_logo')||undefined,group:val('f_group')||undefined,url:val('f_url'),userAgent:val('f_ua')||undefined};
-    if(!obj.name||!obj.url){toast('Nombre y URL son obligatorios','err');return}
-  } else {
-    const cats=[...document.querySelectorAll('#f_cats .chip.on')].map(c=>c.textContent);
-    obj={
-      id: (idx!=null?catalog[activeTab][idx].id:null)||uid(),
-      title:val('f_title'), genre:val('f_genre')||undefined, year:val('f_year')||undefined,
-      rating:val('f_rating')||undefined, duration:val('f_duration')||undefined,
-      poster:val('f_poster')||undefined, backdrop:val('f_backdrop')||undefined,
-      plot:val('f_plot')||undefined, cast:val('f_cast')||undefined, director:val('f_director')||undefined,
-      categories:cats.length?cats:undefined, featured:document.getElementById('f_featured').checked||undefined,
-    };
-    if(!obj.title){toast('El título es obligatorio','err');return}
-    if(tab.kind==='series'){
-      obj.seasons=[...document.querySelectorAll('#f_seasons .season')].map(sec=>({
-        number:parseInt(sec.querySelector('.snum').value)||1,
-        episodes:[...sec.querySelectorAll('.ep')].map(ep=>({
-          number:parseInt(ep.querySelector('.nm').value)||1,
-          title:ep.querySelector('.t').value.trim()||undefined,
-          servers:ep.querySelector('.u').value.trim()?[{name:'Servidor 1',url:ep.querySelector('.u').value.trim()}]:[],
-        })).filter(e=>e.servers.length),
-      })).filter(s=>s.episodes.length);
-    } else {
-      obj.servers=collectServers(document.getElementById('f_servers'));
-      if(!obj.servers.length){toast('Añade al menos un servidor','err');return}
+  const originalTab=activeTab;
+  const targetTab=val('f_content_type')==='series'?'series':'movies';
+  const releaseDate=val('f_release_date');
+  const ratingText=val('f_rating');
+  const rating=ratingText===''?undefined:Number(ratingText);
+  if(!val('f_title')){toast('El título es obligatorio','err');return}
+  if(rating!==undefined&&(Number.isNaN(rating)||rating<0||rating>10)){
+    toast('El rating debe estar entre 0 y 10','err');return;
+  }
+  const current=idx!=null?catalog[originalTab][idx]:null;
+  const obj={
+    id:(current&&current.id)||uid(),
+    title:val('f_title'),
+    plot:val('f_plot')||undefined,
+    director:val('f_director')||undefined,
+    writer:val('f_writer')||undefined,
+    releaseDate:releaseDate||undefined,
+    year:val('f_year')||(releaseDate?releaseDate.slice(0,4):undefined),
+    genre:val('f_genre')||undefined,
+    rating,
+    poster:val('f_poster')||undefined
+  };
+
+  if(targetTab==='series'){
+    let invalid=false;
+    obj.seasons=[...document.querySelectorAll('#f_seasons .season')].map(section=>({
+      number:parseInt(section.querySelector('.snum').value)||1,
+      episodes:[...section.querySelectorAll(':scope > .eps > .ep')].map(episode=>{
+        const scope=episode.querySelector('.episode-servers');
+        const servers=collectServers(scope);
+        if(!servers.length||hasMissingLanguage(scope))invalid=true;
+        return {
+          number:parseInt(episode.querySelector('.nm').value)||1,
+          title:episode.querySelector('.t').value.trim()||undefined,
+          servers
+        };
+      }).filter(episode=>episode.servers.length)
+    })).filter(season=>season.episodes.length);
+    if(invalid||!obj.seasons.length){
+      toast('Cada episodio necesita idioma y al menos un servidor','err');return;
+    }
+  }else{
+    const scope=document.getElementById('f_servers');
+    obj.servers=collectServers(scope);
+    if(hasMissingLanguage(scope)){
+      toast('Escribe el idioma de cada grupo de servidores','err');return;
+    }
+    if(!obj.servers.length){
+      toast('Añade al menos un servidor','err');return;
     }
   }
-  if(idx!=null) catalog[activeTab][idx]=obj; else (catalog[activeTab]=catalog[activeTab]||[]).push(obj);
-  save();closeModal();render();toast('Guardado localmente. Pulsa “Publicar” para subirlo.','ok');
+
+  if(idx!=null&&targetTab===originalTab){
+    catalog[targetTab][idx]=obj;
+  }else{
+    if(idx!=null)catalog[originalTab].splice(idx,1);
+    catalog[targetTab].push(obj);
+  }
+  activeTab=targetTab;
+  save();closeModal();render();
+  toast('Guardado localmente. Pulsa “Publicar” para subirlo.','ok');
 }
 function removeItem(idx){if(!confirm('¿Eliminar este elemento?'))return;catalog[activeTab].splice(idx,1);save();closeModal();render()}
 
@@ -378,7 +406,7 @@ function importJson(ev){
   const r=new FileReader();r.onload=()=>{try{catalog=normalize(JSON.parse(r.result));save();render();toast('Importado','ok')}catch(e){toast('JSON inválido','err')}};r.readAsText(f);
 }
 function normalize(c){
-  c=c||{};return {version:c.version||1, movies:c.movies||[], series:c.series||[], liveChannels:c.liveChannels||[], sources:c.sources||[]};
+  c=c||{};return {version:2, movies:Array.isArray(c.movies)?c.movies:[], series:Array.isArray(c.series)?c.series:[]};
 }
 
 // ---------- GitHub ----------

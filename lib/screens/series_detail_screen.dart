@@ -108,7 +108,10 @@ class _SeriesDetailScreenState extends State<SeriesDetailScreen> {
   List<String> get _metadataParts {
     final series = widget.series;
     return <String>[
-      if (series.year?.trim().isNotEmpty == true) series.year!.trim(),
+      if (series.releaseDate?.trim().isNotEmpty == true)
+        series.releaseDate!.trim()
+      else if (series.year?.trim().isNotEmpty == true)
+        series.year!.trim(),
       if (series.duration?.trim().isNotEmpty == true) series.duration!.trim(),
       if (series.rating?.trim().isNotEmpty == true)
         '★ ${series.rating!.trim()}',
@@ -200,6 +203,18 @@ class _SeriesDetailScreenState extends State<SeriesDetailScreen> {
                       color: AppColors.textSecondary,
                       fontSize: 12 * _s,
                       height: 1.35,
+                    ),
+                  ),
+                ],
+                if (s.writer?.trim().isNotEmpty == true) ...[
+                  const SizedBox(height: 5),
+                  Text(
+                    'Guionista: ${s.writer!.trim()}',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      color: AppColors.textSecondary,
+                      fontSize: 11.5 * _s,
                     ),
                   ),
                 ],

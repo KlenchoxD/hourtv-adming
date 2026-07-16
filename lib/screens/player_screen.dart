@@ -270,6 +270,26 @@ class _PlayerScreenState extends State<PlayerScreen> {
     }
   }
 
+  Future<void> _openCastSettings() async {
+    try {
+      final opened =
+          await _platform.invokeMethod<bool>('openCastSettings') ?? false;
+      if (!opened && mounted) {
+        await _showMessage(
+          'Transmitir',
+          'Este dispositivo no ofrece el panel nativo para compartir pantalla.',
+        );
+      }
+    } on PlatformException catch (error) {
+      if (mounted) {
+        await _showMessage(
+          'Transmitir',
+          error.message ?? 'No se pudo abrir el panel para transmitir.',
+        );
+      }
+    }
+  }
+
   Future<void> _showMessage(String title, String message) async {
     await showDialog<void>(
       context: context,
@@ -401,28 +421,48 @@ class _PlayerScreenState extends State<PlayerScreen> {
     final channel = widget.allChannels[_idx];
     final servers = channel.servers;
     if (servers.length < 2) return;
+    final byLanguage = <String, List<ChannelServer>>{};
+    for (final server in servers) {
+      final language = server.language?.trim();
+      final label = language == null || language.isEmpty
+          ? 'Idioma no especificado'
+          : language;
+      byLanguage.putIfAbsent(label, () => []).add(server);
+    }
     final selected = await showDialog<ChannelServer>(
       context: context,
       builder: (dialogContext) => SimpleDialog(
-        title: const Text('Seleccionar servidor'),
+        title: const Text('Cambiar servidor'),
         children: [
-          for (var index = 0; index < servers.length; index++)
-            SimpleDialogOption(
-              onPressed: () => Navigator.pop(dialogContext, servers[index]),
-              child: ListTile(
-                contentPadding: EdgeInsets.zero,
-                leading: Icon(
-                  _activeServerUrl == servers[index].url
-                      ? Icons.radio_button_checked
-                      : Icons.radio_button_off,
-                ),
-                title: Text(
-                  servers[index].name.trim().isEmpty
-                      ? 'Servidor ${index + 1}'
-                      : servers[index].name,
+          for (final entry in byLanguage.entries) ...[
+            Padding(
+              padding: const EdgeInsets.fromLTRB(24, 12, 24, 4),
+              child: Text(
+                entry.key,
+                style: const TextStyle(
+                  color: AppColors.accent,
+                  fontWeight: FontWeight.w800,
                 ),
               ),
             ),
+            for (final server in entry.value)
+              SimpleDialogOption(
+                onPressed: () => Navigator.pop(dialogContext, server),
+                child: ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  leading: Icon(
+                    _activeServerUrl == server.url
+                        ? Icons.radio_button_checked
+                        : Icons.radio_button_off,
+                  ),
+                  title: Text(
+                    server.name.trim().isEmpty
+                        ? 'Servidor ${servers.indexOf(server) + 1}'
+                        : server.name,
+                  ),
+                ),
+              ),
+          ],
         ],
       ),
     );
@@ -806,6 +846,12 @@ class _PlayerScreenState extends State<PlayerScreen> {
             ),
             onPressed: () => unawaited(_enterPictureInPicture()),
           ),
+          if (ch.type != MediaType.live)
+            IconButton(
+              tooltip: 'Transmitir pantalla',
+              icon: const Icon(Icons.cast_rounded, color: Colors.white),
+              onPressed: () => unawaited(_openCastSettings()),
+            ),
           IconButton(
             tooltip: 'Audio, subtítulos, calidad y aspecto',
             icon: const Icon(Icons.tune_rounded, color: Colors.white),

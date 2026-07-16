@@ -22,6 +22,8 @@ class XtreamSeries {
   final String? genre;
   final String? cast;
   final String? director;
+  final String? writer;
+  final String? releaseDate;
   final String? backdrop;
   final List<String> categories;
   final bool isFeatured;
@@ -40,17 +42,70 @@ class XtreamSeries {
     this.genre,
     this.cast,
     this.director,
+    this.writer,
+    this.releaseDate,
     this.backdrop,
     this.categories = const [],
     this.isFeatured = false,
   });
+
+  Map<String, dynamic> toJson() => {
+    'seriesId': seriesId,
+    'name': name,
+    'cover': cover,
+    'plot': plot,
+    'host': host,
+    'username': username,
+    'password': password,
+    'episodes': episodes?.map((episode) => episode.toJson()).toList(),
+    'year': year,
+    'rating': rating,
+    'duration': duration,
+    'genre': genre,
+    'cast': cast,
+    'director': director,
+    'writer': writer,
+    'releaseDate': releaseDate,
+    'backdrop': backdrop,
+    'categories': categories,
+    'isFeatured': isFeatured,
+  };
+
+  factory XtreamSeries.fromJson(Map<String, dynamic> json) => XtreamSeries(
+    seriesId: json['seriesId']?.toString() ?? '',
+    name: json['name']?.toString() ?? '',
+    cover: json['cover']?.toString(),
+    plot: json['plot']?.toString(),
+    host: json['host']?.toString() ?? '',
+    username: json['username']?.toString() ?? '',
+    password: json['password']?.toString() ?? '',
+    episodes: (json['episodes'] as List<dynamic>?)
+        ?.whereType<Map>()
+        .map((episode) => Channel.fromJson(Map<String, dynamic>.from(episode)))
+        .toList(),
+    year: json['year']?.toString(),
+    rating: json['rating']?.toString(),
+    duration: json['duration']?.toString(),
+    genre: json['genre']?.toString(),
+    cast: json['cast']?.toString(),
+    director: json['director']?.toString(),
+    writer: json['writer']?.toString(),
+    releaseDate: (json['releaseDate'] ?? json['release_date'])?.toString(),
+    backdrop: json['backdrop']?.toString(),
+    categories: (json['categories'] as List<dynamic>? ?? const [])
+        .map((category) => category.toString())
+        .where((category) => category.isNotEmpty)
+        .toList(),
+    isFeatured: json['isFeatured'] == true || json['featured'] == true,
+  );
 }
 
 /// Resultado de validar una cuenta Xtream Codes.
 class XtreamAccount {
   final bool authenticated;
   final String message;
-  final String? expDate; // fecha de expiracion legible (puede ser null/ilimitada)
+  final String?
+  expDate; // fecha de expiracion legible (puede ser null/ilimitada)
   final int? activeConnections;
   final int? maxConnections;
 
@@ -69,12 +124,7 @@ class _VodMetadata {
   final String? rating;
   final String? duration;
 
-  const _VodMetadata({
-    this.plot,
-    this.year,
-    this.rating,
-    this.duration,
-  });
+  const _VodMetadata({this.plot, this.year, this.rating, this.duration});
 }
 
 /// Cliente para paneles Xtream Codes (el backend tipo MagisTV).
@@ -106,7 +156,11 @@ class XtreamService {
   }
 
   /// Valida las credenciales y devuelve informacion de la cuenta.
-  static Future<XtreamAccount> validate(String host, String username, String password) async {
+  static Future<XtreamAccount> validate(
+    String host,
+    String username,
+    String password,
+  ) async {
     final h = normalizeHost(host);
     final u = Uri.encodeQueryComponent(username.trim());
     final p = Uri.encodeQueryComponent(password.trim());
@@ -116,30 +170,47 @@ class XtreamService {
           .get(Uri.parse(url), headers: {'User-Agent': 'Mozilla/5.0'})
           .timeout(const Duration(seconds: 25));
       if (res.statusCode != 200) {
-        return XtreamAccount(authenticated: false, message: 'El servidor respondió ${res.statusCode}. Revisa el servidor y el puerto.');
+        return XtreamAccount(
+          authenticated: false,
+          message:
+              'El servidor respondió ${res.statusCode}. Revisa el servidor y el puerto.',
+        );
       }
       dynamic data;
       try {
         data = jsonDecode(res.body);
       } catch (_) {
-        return XtreamAccount(authenticated: false, message: 'El servidor no respondió en formato Xtream.\nRevisa que el servidor y el PUERTO sean correctos (ej: http://host:8080).');
+        return XtreamAccount(
+          authenticated: false,
+          message:
+              'El servidor no respondió en formato Xtream.\nRevisa que el servidor y el PUERTO sean correctos (ej: http://host:8080).',
+        );
       }
       final info = data is Map ? data['user_info'] : null;
       if (info == null) {
-        return XtreamAccount(authenticated: false, message: 'Respuesta no válida. ¿El servidor es un panel Xtream?');
+        return XtreamAccount(
+          authenticated: false,
+          message: 'Respuesta no válida. ¿El servidor es un panel Xtream?',
+        );
       }
       final auth = info['auth'] == 1 || info['auth'] == '1';
       final status = (info['status'] ?? '').toString();
       if (!auth || status.toLowerCase() != 'active') {
-        return XtreamAccount(authenticated: false, message: 'Usuario o contraseña incorrectos (estado: $status)');
+        return XtreamAccount(
+          authenticated: false,
+          message: 'Usuario o contraseña incorrectos (estado: $status)',
+        );
       }
       String? exp;
       final expRaw = info['exp_date'];
-      if (expRaw != null && expRaw.toString().isNotEmpty && expRaw.toString() != 'null') {
+      if (expRaw != null &&
+          expRaw.toString().isNotEmpty &&
+          expRaw.toString() != 'null') {
         final secs = int.tryParse(expRaw.toString());
         if (secs != null) {
           final d = DateTime.fromMillisecondsSinceEpoch(secs * 1000);
-          exp = '${d.day.toString().padLeft(2, '0')}/${d.month.toString().padLeft(2, '0')}/${d.year}';
+          exp =
+              '${d.day.toString().padLeft(2, '0')}/${d.month.toString().padLeft(2, '0')}/${d.year}';
         }
       } else {
         exp = 'Ilimitada';
@@ -149,22 +220,39 @@ class XtreamService {
         message: 'Cuenta activa',
         expDate: exp,
         activeConnections: int.tryParse((info['active_cons'] ?? '').toString()),
-        maxConnections: int.tryParse((info['max_connections'] ?? '').toString()),
+        maxConnections: int.tryParse(
+          (info['max_connections'] ?? '').toString(),
+        ),
       );
     } on TimeoutException {
-      return XtreamAccount(authenticated: false, message: 'El servidor tardó demasiado en responder.\nPuede estar caído o el puerto ser incorrecto.');
+      return XtreamAccount(
+        authenticated: false,
+        message:
+            'El servidor tardó demasiado en responder.\nPuede estar caído o el puerto ser incorrecto.',
+      );
     } catch (e) {
-      return XtreamAccount(authenticated: false, message: 'No se pudo conectar.\nVerifica el servidor y el PUERTO (ej: http://host:8080) y tu internet.');
+      return XtreamAccount(
+        authenticated: false,
+        message:
+            'No se pudo conectar.\nVerifica el servidor y el PUERTO (ej: http://host:8080) y tu internet.',
+      );
     }
   }
 
   // -------- API de catalogo (player_api.php con acciones) --------
 
-  static Future<dynamic> _api(String host, String user, String pass, String action, {String extra = ''}) async {
+  static Future<dynamic> _api(
+    String host,
+    String user,
+    String pass,
+    String action, {
+    String extra = '',
+  }) async {
     final h = normalizeHost(host);
     final u = Uri.encodeQueryComponent(user.trim());
     final p = Uri.encodeQueryComponent(pass.trim());
-    final url = '$h/player_api.php?username=$u&password=$p&action=$action$extra';
+    final url =
+        '$h/player_api.php?username=$u&password=$p&action=$action$extra';
     final res = await http
         .get(Uri.parse(url), headers: {'User-Agent': 'Mozilla/5.0'})
         .timeout(const Duration(seconds: 30));
@@ -245,9 +333,7 @@ class XtreamService {
               combined['releasedate'] ??
               combined['releaseDate'],
         ),
-        rating: _ratingText(
-          combined['rating'] ?? combined['rating_5based'],
-        ),
+        rating: _ratingText(combined['rating'] ?? combined['rating_5based']),
         duration: _durationText(combined),
       );
     } catch (_) {
@@ -287,8 +373,7 @@ class XtreamService {
     );
   }
 
-  static bool _isBlank(String? value) =>
-      value == null || value.trim().isEmpty;
+  static bool _isBlank(String? value) => value == null || value.trim().isEmpty;
 
   static String? _cleanText(dynamic value) {
     if (value is List) value = value.isEmpty ? null : value.first;
@@ -391,9 +476,8 @@ class XtreamService {
     return '${target.host}/timeshift/$u/$p/$durationMinutes/$startText/$id.ts';
   }
 
-  static ({String host, String user, String pass, String streamId})? _liveTarget(
-    String url,
-  ) {
+  static ({String host, String user, String pass, String streamId})?
+  _liveTarget(String url) {
     final uri = Uri.tryParse(url);
     if (uri == null || !uri.hasAuthority) return null;
     final segments = uri.pathSegments;
@@ -422,7 +506,11 @@ class XtreamService {
   }
 
   /// Peliculas (VOD). Devuelve Channels con URL .../movie/... (tipo pelicula).
-  static Future<List<Channel>> fetchMovies(String host, String user, String pass) async {
+  static Future<List<Channel>> fetchMovies(
+    String host,
+    String user,
+    String pass,
+  ) async {
     final h = normalizeHost(host);
     final u = user.trim();
     final p = pass.trim();
@@ -435,25 +523,35 @@ class XtreamService {
       if (id == null) continue;
       final ext = (m['container_extension'] ?? 'mp4').toString();
       final icon = (m['stream_icon'] ?? '').toString();
-      out.add(Channel(
-        name: (m['name'] ?? 'Película').toString(),
-        url: '$h/movie/$u/$p/$id.$ext',
-        logo: icon.isEmpty ? null : icon,
-        category: 'peliculas',
-        group: (m['category_id'] ?? '').toString(),
-        plot: _cleanText(m['plot'] ?? m['description']),
-        year: _yearText(
-          m['year'] ?? m['releasedate'] ?? m['releaseDate'],
+      out.add(
+        Channel(
+          name: (m['name'] ?? 'Película').toString(),
+          url: '$h/movie/$u/$p/$id.$ext',
+          logo: icon.isEmpty ? null : icon,
+          category: 'peliculas',
+          group: (m['category_id'] ?? '').toString(),
+          plot: _cleanText(m['plot'] ?? m['description']),
+          year: _yearText(m['year'] ?? m['releasedate'] ?? m['releaseDate']),
+          rating: _ratingText(m['rating'] ?? m['rating_5based']),
+          duration: _durationText(m),
+          cast: _cleanText(m['cast']),
+          director: _cleanText(m['director']),
+          writer: _cleanText(m['writer'] ?? m['screenwriter']),
+          releaseDate: _cleanText(
+            m['releasedate'] ?? m['releaseDate'] ?? m['release_date'],
+          ),
         ),
-        rating: _ratingText(m['rating'] ?? m['rating_5based']),
-        duration: _durationText(m),
-      ));
+      );
     }
     return out;
   }
 
   /// Lista de series (solo metadatos + caratula; los episodios se piden aparte).
-  static Future<List<XtreamSeries>> fetchSeriesList(String host, String user, String pass) async {
+  static Future<List<XtreamSeries>> fetchSeriesList(
+    String host,
+    String user,
+    String pass,
+  ) async {
     final data = await _api(host, user, pass, 'get_series');
     if (data is! List) return [];
     final out = <XtreamSeries>[];
@@ -462,30 +560,58 @@ class XtreamService {
       final id = (s['series_id'] ?? '').toString();
       if (id.isEmpty) continue;
       final cover = (s['cover'] ?? '').toString();
-      out.add(XtreamSeries(
-        seriesId: id,
-        name: (s['name'] ?? 'Serie').toString(),
-        cover: cover.isEmpty ? null : cover,
-        plot: (s['plot'] ?? '').toString(),
-        host: host,
-        username: user,
-        password: pass,
-      ));
+      out.add(
+        XtreamSeries(
+          seriesId: id,
+          name: (s['name'] ?? 'Serie').toString(),
+          cover: cover.isEmpty ? null : cover,
+          plot: (s['plot'] ?? '').toString(),
+          host: host,
+          username: user,
+          password: pass,
+          year: _yearText(s['year'] ?? s['releaseDate']),
+          rating: _ratingText(s['rating'] ?? s['rating_5based']),
+          duration: _durationText(s),
+          genre: _cleanText(s['genre']),
+          cast: _cleanText(s['cast']),
+          director: _cleanText(s['director']),
+          writer: _cleanText(s['writer'] ?? s['screenwriter']),
+          releaseDate: _cleanText(
+            s['releaseDate'] ?? s['release_date'] ?? s['releasedate'],
+          ),
+        ),
+      );
     }
     return out;
   }
 
   /// Episodios de una serie (URL .../series/...).
-  static Future<List<Channel>> fetchEpisodes(String host, String user, String pass, String seriesId) async {
+  static Future<List<Channel>> fetchEpisodes(
+    String host,
+    String user,
+    String pass,
+    String seriesId,
+  ) async {
     final h = normalizeHost(host);
     final u = user.trim();
     final p = pass.trim();
-    final data = await _api(h, u, p, 'get_series_info', extra: '&series_id=$seriesId');
+    final data = await _api(
+      h,
+      u,
+      p,
+      'get_series_info',
+      extra: '&series_id=$seriesId',
+    );
     if (data is! Map) return [];
     final eps = data['episodes'];
     final out = <Channel>[];
     if (eps is Map) {
-      final seasons = eps.keys.toList()..sort((a, b) => (int.tryParse(a.toString()) ?? 0).compareTo(int.tryParse(b.toString()) ?? 0));
+      final seasons = eps.keys.toList()
+        ..sort(
+          (a, b) => (int.tryParse(a.toString()) ?? 0).compareTo(
+            int.tryParse(b.toString()) ?? 0,
+          ),
+        );
       for (final season in seasons) {
         final list = eps[season];
         if (list is! List) continue;
@@ -495,12 +621,14 @@ class XtreamService {
           if (id == null) continue;
           final ext = (e['container_extension'] ?? 'mp4').toString();
           final title = (e['title'] ?? 'Episodio').toString();
-          out.add(Channel(
-            name: title,
-            url: '$h/series/$u/$p/$id.$ext',
-            category: 'series',
-            group: 'T$season',
-          ));
+          out.add(
+            Channel(
+              name: title,
+              url: '$h/series/$u/$p/$id.$ext',
+              category: 'series',
+              group: 'T$season',
+            ),
+          );
         }
       }
     }

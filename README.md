@@ -43,14 +43,17 @@ pegar su URL en **Ajustes → Metadata → URL del catálogo remoto**. Usa el mi
 formato de `assets/data/sources.json`, generado por `agregar_fuentes.py`.
 
 El servidor publica el catálogo —nombres, carátulas y URLs de las fuentes—,
-no los videos. Si la descarga falla, la app usa la última copia válida guardada
-y, si no existe, vuelve al catálogo incluido en el APK.
+no los videos. La app muestra primero la última copia válida y los canales ya
+parseados, sin esperar la red; después revalida en segundo plano. Si no existe
+caché local, vuelve al catálogo incluido en el APK.
 
 ## Panel de administración
 
 El panel está en `admin/index.html` y es una página HTML/CSS/JS autónoma. Puede
 abrirse localmente con doble clic o publicarse en una URL fija de Vercel; no
 necesita dependencias, instalación ni paso de compilación.
+
+El editor administra únicamente películas y series de Inicio. Los canales En Vivo y las fuentes IPTV no se crean ni se modifican desde este panel.
 
 ### Publicar en Vercel
 
@@ -71,6 +74,33 @@ navegador bajo la clave `hourtv_admin_cfg`. No se configura como variable de
 entorno de Vercel y nunca se guarda en el repositorio. Como el almacenamiento
 pertenece al origen de la página, hay que introducir el token una vez en la URL
 desplegada aunque ya se hubiera configurado al abrir el archivo local.
+
+## APK release universal
+
+`flutter build apk --release` genera un único
+`build/app/outputs/flutter-apk/app-release.apk` sin `--split-per-abi`. Incluye
+armeabi-v7a, arm64-v8a y x86_64. Flutter 3.44.6 establece como mínimo
+Android 7.0 (API 24); el propio SDK migra automáticamente valores 21–23 a 24,
+por lo que bajar más requiere usar y mantener una versión anterior de Flutter.
+
+## Instalar en TV por pendrive USB
+
+1. Compila `flutter build apk --release` y copia
+   `build/app/outputs/flutter-apk/app-release.apk` a un pendrive.
+2. Conecta el pendrive al TV o TV-Box y abre el APK con su explorador de
+   archivos.
+3. Cuando Android lo solicite, habilita **Instalar aplicaciones desconocidas**
+   para ese explorador.
+4. Confirma **Instalar** y abre HourTV desde el launcher. No se necesita Play
+   Store ni una compilación diferente para TV.
+
+## Transmitir al TV
+
+El botón **Transmitir** del reproductor VOD abre el panel nativo
+**Transmitir pantalla / Cast** de Android. Se eligió espejo de pantalla para
+mantener compatibilidad con Miracast, Chromecast y TV-Box modificados sin
+incorporar un SDK pesado ni entregar la URL privada del stream a otro proceso.
+Selecciona el televisor en ese panel y vuelve a HourTV para continuar.
 
 ## Instalar por ADB
 

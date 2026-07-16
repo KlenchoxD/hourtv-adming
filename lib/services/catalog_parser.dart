@@ -156,6 +156,8 @@ class CatalogParser {
           duration: _text(movie['duration']),
           cast: _text(movie['cast']),
           director: _text(movie['director']),
+          writer: _text(movie['writer'] ?? movie['screenwriter']),
+          releaseDate: _text(movie['releaseDate'] ?? movie['release_date']),
           userAgent: _text(movie['userAgent'] ?? movie['user_agent']),
           servers: servers,
           categories: categories,
@@ -239,6 +241,14 @@ class CatalogParser {
                 forcedType: 'series',
                 plot: _text(episode['plot'] ?? episode['description']),
                 duration: _text(episode['duration']),
+                cast: _text(episode['cast'] ?? item['cast']),
+                director: _text(episode['director'] ?? item['director']),
+                writer: _text(
+                  episode['writer'] ?? item['writer'] ?? item['screenwriter'],
+                ),
+                releaseDate: _text(
+                  episode['releaseDate'] ?? item['releaseDate'],
+                ),
                 userAgent: _text(
                   episode['userAgent'] ??
                       episode['user_agent'] ??
@@ -268,6 +278,8 @@ class CatalogParser {
           genre: _text(item['genre']),
           cast: _text(item['cast']),
           director: _text(item['director']),
+          writer: _text(item['writer'] ?? item['screenwriter']),
+          releaseDate: _text(item['releaseDate'] ?? item['release_date']),
           backdrop: _text(item['backdrop']),
           categories: categories,
           isFeatured: _truthy(item['featured']),
@@ -286,7 +298,13 @@ class CatalogParser {
       final url = _text(server['url']);
       if (url == null) continue;
       final name = _text(server['name']) ?? 'Servidor ${servers.length + 1}';
-      servers.add(ChannelServer(name: name, url: url));
+      servers.add(
+        ChannelServer(
+          name: name,
+          url: url,
+          language: _text(server['language'] ?? server['idioma']),
+        ),
+      );
     }
     return servers;
   }

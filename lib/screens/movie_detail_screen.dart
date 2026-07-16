@@ -101,13 +101,18 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
   List<String> get _metadataParts {
     final channel = widget.channel;
     final parts = <String>[];
+    final releaseDate = channel.releaseDate?.trim();
     final year = channel.year?.trim();
     final duration = channel.duration?.trim();
     final rating = channel.rating?.trim();
     final genre = channel.genre?.trim();
     final category = channel.category?.trim();
 
-    if (year?.isNotEmpty == true) parts.add(year!);
+    if (releaseDate?.isNotEmpty == true) {
+      parts.add(releaseDate!);
+    } else if (year?.isNotEmpty == true) {
+      parts.add(year!);
+    }
     if (duration?.isNotEmpty == true) parts.add(duration!);
     if (rating?.isNotEmpty == true) parts.add('★ $rating');
     if (genre?.isNotEmpty == true) {
@@ -371,8 +376,10 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
   /// Director y Actores (como .detail-cast del index).
   Widget _castSection() {
     final director = widget.channel.director?.trim();
+    final writer = widget.channel.writer?.trim();
     final cast = widget.channel.cast?.trim();
     if ((director == null || director.isEmpty) &&
+        (writer == null || writer.isEmpty) &&
         (cast == null || cast.isEmpty)) {
       return const SizedBox.shrink();
     }
@@ -398,6 +405,18 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
                   children: [
                     TextSpan(text: 'Director:  ', style: label()),
                     TextSpan(text: director, style: value()),
+                  ],
+                ),
+              ),
+            ),
+          if (writer != null && writer.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.only(bottom: 8),
+              child: Text.rich(
+                TextSpan(
+                  children: [
+                    TextSpan(text: 'Guionista:  ', style: label()),
+                    TextSpan(text: writer, style: value()),
                   ],
                 ),
               ),

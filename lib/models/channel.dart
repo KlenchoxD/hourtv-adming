@@ -90,14 +90,20 @@ String countryFlag(String? code) {
 class ChannelServer {
   final String name;
   final String url;
+  final String? language;
 
-  const ChannelServer({required this.name, required this.url});
+  const ChannelServer({required this.name, required this.url, this.language});
 
-  Map<String, dynamic> toJson() => {'name': name, 'url': url};
+  Map<String, dynamic> toJson() => {
+    'name': name,
+    'url': url,
+    'language': language,
+  };
 
   factory ChannelServer.fromJson(Map<String, dynamic> json) => ChannelServer(
     name: json['name']?.toString() ?? '',
     url: json['url']?.toString() ?? '',
+    language: json['language']?.toString(),
   );
 }
 
@@ -122,8 +128,11 @@ class Channel {
   String? duration;
   String? cast; // actores principales, separados por coma (TMDB/Xtream)
   String? director;
+  String? writer;
+  String? releaseDate;
   String? backdrop; // imagen horizontal 16:9 para cabeceras (TMDB)
-  String? userAgent; // User-Agent de la fuente (streams que rechazan el UA por defecto)
+  // User-Agent de la fuente (streams que rechazan el UA por defecto).
+  String? userAgent;
   bool hasCatchup; // El canal Xtream permite reproducir programas ya emitidos.
   final List<ChannelServer> servers;
   final List<String> categories;
@@ -150,6 +159,8 @@ class Channel {
     this.duration,
     this.cast,
     this.director,
+    this.writer,
+    this.releaseDate,
     this.backdrop,
     this.userAgent,
     this.hasCatchup = false,
@@ -222,6 +233,8 @@ class Channel {
     'duration': duration,
     'cast': cast,
     'director': director,
+    'writer': writer,
+    'releaseDate': releaseDate,
     'backdrop': backdrop,
     'userAgent': userAgent,
     'hasCatchup': hasCatchup,
@@ -251,14 +264,15 @@ class Channel {
     duration: json['duration']?.toString(),
     cast: json['cast']?.toString(),
     director: json['director']?.toString(),
+    writer: json['writer']?.toString(),
+    releaseDate: (json['releaseDate'] ?? json['release_date'])?.toString(),
     backdrop: json['backdrop']?.toString(),
     userAgent: json['userAgent']?.toString(),
     hasCatchup: json['hasCatchup'] == true,
     servers: (json['servers'] as List<dynamic>? ?? const [])
         .whereType<Map>()
         .map(
-          (server) =>
-              ChannelServer.fromJson(Map<String, dynamic>.from(server)),
+          (server) => ChannelServer.fromJson(Map<String, dynamic>.from(server)),
         )
         .where((server) => server.url.isNotEmpty)
         .toList(),
@@ -290,6 +304,8 @@ class Channel {
     String? duration,
     String? cast,
     String? director,
+    String? writer,
+    String? releaseDate,
     String? backdrop,
     String? userAgent,
     bool? hasCatchup,
@@ -318,6 +334,8 @@ class Channel {
       duration: duration ?? this.duration,
       cast: cast ?? this.cast,
       director: director ?? this.director,
+      writer: writer ?? this.writer,
+      releaseDate: releaseDate ?? this.releaseDate,
       backdrop: backdrop ?? this.backdrop,
       userAgent: userAgent ?? this.userAgent,
       hasCatchup: hasCatchup ?? this.hasCatchup,

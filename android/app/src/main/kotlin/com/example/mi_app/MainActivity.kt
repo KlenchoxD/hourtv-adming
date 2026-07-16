@@ -1,8 +1,10 @@
 package com.example.mi_app
 
 import android.app.PictureInPictureParams
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
+import android.provider.Settings
 import android.util.Rational
 import android.app.UiModeManager
 import android.content.Context
@@ -41,6 +43,23 @@ class MainActivity : FlutterActivity() {
                         result.success(entered)
                     } catch (error: Exception) {
                         result.error("pip_failed", error.message, null)
+                    }
+                }
+                "openCastSettings" -> {
+                    try {
+                        startActivity(Intent(Settings.ACTION_CAST_SETTINGS))
+                        result.success(true)
+                    } catch (castError: Exception) {
+                        try {
+                            startActivity(Intent(Settings.ACTION_WIRELESS_SETTINGS))
+                            result.success(true)
+                        } catch (wirelessError: Exception) {
+                            result.error(
+                                "cast_settings_unavailable",
+                                wirelessError.message ?: castError.message,
+                                null,
+                            )
+                        }
                     }
                 }
                 else -> result.notImplemented()

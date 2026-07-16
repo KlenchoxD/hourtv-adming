@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart' show rootBundle;
@@ -40,6 +41,8 @@ class ContentStore extends ChangeNotifier {
 
   bool _started = false;
   bool _refreshing = false;
+  bool _networkLoadRunning = false;
+  bool _refreshAgain = false;
   DateTime? _lastLoad;
 
   /// Carga una sola vez (la primera pestaña que la pida dispara la carga).
@@ -71,17 +74,60 @@ class ContentStore extends ChangeNotifier {
   }
 
   Future<void> load() async {
-    // Solo mostramos la pantalla de carga en el primer arranque; en refrescos
-    // posteriores mantenemos el contenido visible para que no parpadee.
+    error = null;
+    _lastLoad = DateTime.now();
+
+    // Stale-while-revalidate: restaura primero el último resultado parseado.
+    // Ninguna petición HTTP forma parte de la ruta del primer render.
     if (all.isEmpty) {
       loading = true;
       notifyListeners();
+      final cachedChannelsFuture = StorageService.loadChannels();
+      final cachedSeriesFuture = StorageService.loadSeries();
+      final cachedChannels = await cachedChannelsFuture;
+      final cachedSeries = await cachedSeriesFuture;
+      if (cachedChannels.isNotEmpty || cachedSeries.isNotEmpty) {
+        final favorites = StorageService.loadFavorites()
+            .map((channel) => channel.url)
+            .toSet();
+        for (final channel in cachedChannels) {
+          channel.isFavorite = favorites.contains(channel.url);
+        }
+        all = cachedChannels;
+        series = cachedSeries;
+        _recomputeCountries();
+        loading = false;
+        notifyListeners();
+      }
     }
-    error = null;
-    _lastLoad = DateTime.now();
+
+    // El catálogo remoto cacheado o el asset local también se leen sin red.
+    final localSources = await _loadAssetSources();
+    if (all.isEmpty && localSources.channels.isNotEmpty) {
+      all = localSources.channels;
+    }
+    if (series.isEmpty && localSources.series.isNotEmpty) {
+      series = localSources.series;
+    }
+    if (all.isNotEmpty || series.isNotEmpty) {
+      _recomputeCountries();
+      loading = false;
+      notifyListeners();
+    }
+
+    // La red siempre queda fuera de la ruta crítica del arranque.
+    unawaited(_refreshContent(localSources));
+  }
+
+  Future<void> _refreshContent(_AssetSources fallbackSources) async {
+    if (_networkLoadRunning) {
+      _refreshAgain = true;
+      return;
+    }
+    _networkLoadRunning = true;
     try {
       final saved = StorageService.loadLists();
-      final userLists = saved.where((l) => !l.isDefault).toList();
+      final userLists = saved.where((list) => !list.isDefault).toList();
       List<M3UList> lists;
       if (saved.isEmpty ||
           StorageService.getSetting('defaultsVersion') != defaultsVersion) {
@@ -92,63 +138,95 @@ class ContentStore extends ChangeNotifier {
         lists = saved;
       }
 
-      // Fuentes que el usuario agrega con el script de PC (assets/data/sources.json)
-      final assetSources = await _loadAssetSources();
-      final assetLists = assetSources.lists;
+      final refreshedSources = await _loadAssetSources(refreshRemote: true);
+      final assetSources = refreshedSources.isEmpty
+          ? fallbackSources
+          : refreshedSources;
       final byUrl = <String, M3UList>{};
-      for (final l in [...lists, ...assetLists]) {
-        byUrl[l.isStalker ? '${l.url}|${l.username}' : l.url] = l;
+      for (final list in [...lists, ...assetSources.lists]) {
+        byUrl[list.isStalker ? '${list.url}|${list.username}' : list.url] =
+            list;
       }
       lists = byUrl.values.toList();
 
       final results = await Future.wait(
-        lists
-            .where((l) => !l.isStalker)
-            .map(
-              (l) => M3UParserService.fetchAndParse(
-                l.url,
-                listName: l.name,
-                genre: (l.mediaType == 'movie' || l.mediaType == 'series')
-                    ? l.name
-                    : l.category,
-                mediaType: l.mediaType,
-                userAgent: l.userAgent,
-              ).catchError((_) => <Channel>[]),
-            ),
+        lists.where((list) => !list.isStalker).map((list) async {
+          try {
+            final channels = await M3UParserService.fetchAndParse(
+              list.url,
+              listName: list.name,
+              genre: (list.mediaType == 'movie' || list.mediaType == 'series')
+                  ? list.name
+                  : list.category,
+              mediaType: list.mediaType,
+              userAgent: list.userAgent,
+            );
+            return (list: list, channels: channels, success: true);
+          } catch (_) {
+            return (list: list, channels: const <Channel>[], success: false);
+          }
+        }),
       );
 
       final seen = <String>{};
-      final deduped = <Channel>[];
+      final refreshedChannels = <Channel>[];
       for (final channel in assetSources.channels) {
-        if (seen.add(channel.url)) deduped.add(channel);
+        if (seen.add(channel.url)) refreshedChannels.add(channel);
       }
-      for (final r in results) {
-        for (final ch in r) {
-          if (seen.add(ch.url)) deduped.add(ch);
+      if (lists.any((list) => list.isStalker)) {
+        for (final channel in all.where(
+          (channel) => channel.category == 'stalker',
+        )) {
+          if (seen.add(channel.url)) refreshedChannels.add(channel);
+        }
+      }
+      for (final result in results) {
+        final sourceChannels = result.success
+            ? result.channels
+            : all.where((channel) => channel.category == result.list.name);
+        for (final channel in sourceChannels) {
+          if (seen.add(channel.url)) refreshedChannels.add(channel);
         }
       }
 
-      final favs = StorageService.loadFavorites().map((c) => c.url).toSet();
-      for (final ch in deduped) {
-        if (favs.contains(ch.url)) ch.isFavorite = true;
+      // Si una revalidación completa falla, conserva la instantánea visible.
+      if (refreshedChannels.isEmpty && all.isNotEmpty) return;
+      final favorites = StorageService.loadFavorites()
+          .map((channel) => channel.url)
+          .toSet();
+      for (final channel in refreshedChannels) {
+        channel.isFavorite = favorites.contains(channel.url);
       }
-      all = deduped;
+      all = refreshedChannels;
       series = assetSources.series;
       _recomputeCountries();
       loading = false;
       notifyListeners();
+      await _persistSnapshot();
 
-      _loadEpg(assetSources.epgUrls); // guia EPG/XMLTV, en segundo plano
-      _loadVod(
-        lists,
-        assetSources.series,
-      ); // peliculas y series desde la API Xtream, en segundo plano
-      _loadArchive(); // peliculas de dominio publico (Internet Archive)
-    } catch (e) {
-      error = e.toString();
-      loading = false;
-      notifyListeners();
+      unawaited(_loadEpg(assetSources.epgUrls));
+      await _loadVod(lists, assetSources.series);
+      await _loadArchive();
+    } catch (exception) {
+      if (all.isEmpty && series.isEmpty) {
+        error = exception.toString();
+        loading = false;
+        notifyListeners();
+      }
+    } finally {
+      _networkLoadRunning = false;
+      if (_refreshAgain) {
+        _refreshAgain = false;
+        unawaited(_refreshContent(fallbackSources));
+      }
     }
+  }
+
+  Future<void> _persistSnapshot() async {
+    await Future.wait([
+      StorageService.saveChannels(List<Channel>.from(all)),
+      StorageService.saveSeries(List<XtreamSeries>.from(series)),
+    ]);
   }
 
   Future<void> _loadVod(
@@ -228,137 +306,54 @@ class ContentStore extends ChangeNotifier {
     vodLoading = false;
     _recomputeCountries();
     notifyListeners();
+    await _persistSnapshot();
   }
 
-  /// Catálogo remoto: mismo formato que sources.json pero hospedado en un
-  /// servidor del dueño de la app (ej. GitHub raw). Permite actualizar
-  /// fuentes y catálogo sin recompilar. Devuelve null si no hay URL
-  /// configurada o no se pudo descargar (y no hay copia cacheada).
-  Future<String?> _fetchRemoteSources() async {
+  /// Última versión buena del catálogo remoto, disponible sin red.
+  String? _cachedRemoteSources() {
+    final cached = StorageService.getSetting('remoteSourcesCache');
+    return cached is String && cached.trim().isNotEmpty ? cached : null;
+  }
+
+  /// Descarga una nueva versión sin bloquear el primer render.
+  Future<String?> _fetchRemoteSourcesFromNetwork() async {
     final url =
         (StorageService.getSetting('remoteSourcesUrl', defaultValue: '') ?? '')
             .toString()
             .trim();
     if (url.isEmpty) return null;
     try {
-      final res = await http
+      final response = await http
           .get(Uri.parse(url), headers: {'User-Agent': 'Mozilla/5.0'})
           .timeout(const Duration(seconds: 12));
-      if (res.statusCode == 200 && res.body.trim().isNotEmpty) {
-        // Guardar la última copia buena para arrancar sin internet.
-        await StorageService.saveSetting('remoteSourcesCache', res.body);
-        return res.body;
+      if (response.statusCode == 200 && response.body.trim().isNotEmpty) {
+        await StorageService.saveSetting('remoteSourcesCache', response.body);
+        return response.body;
       }
     } catch (_) {}
-    final cached = StorageService.getSetting('remoteSourcesCache');
-    return cached is String && cached.trim().isNotEmpty ? cached : null;
+    return null;
   }
 
-  /// Lee las fuentes del catálogo remoto (si está configurado) o del archivo
-  /// empaquetado (assets/data/sources.json). Formato: lista de objetos con
-  /// { name, url, type: live|movie|series|xtream|stalker, host, mac }.
-  Future<_AssetSources> _loadAssetSources() async {
+  /// Lee primero caché/asset. Solo consulta la red cuando [refreshRemote] es
+  /// true, y esa llamada se hace exclusivamente desde la revalidación de fondo.
+  Future<_AssetSources> _loadAssetSources({bool refreshRemote = false}) async {
     try {
-      final raw =
-          await _fetchRemoteSources() ??
-          await rootBundle.loadString('assets/data/sources.json');
-      final data = jsonDecode(raw);
-      if (data is Map) {
-        final parsed = CatalogParser.parse(data);
-        return _AssetSources(
-          parsed.lists,
-          parsed.epgUrls,
-          parsed.channels,
-          parsed.series,
-        );
+      String? raw;
+      if (refreshRemote) {
+        raw = await _fetchRemoteSourcesFromNetwork();
       }
-      if (data is! List) return const _AssetSources([], [], [], []);
-      final out = <M3UList>[];
-      final epgUrls = <String>[];
-      for (final e in data) {
-        if (e is! Map) continue;
-        final name = (e['name'] ?? 'Fuente').toString();
-        final type = (e['type'] ?? 'live').toString().toLowerCase();
-        if (type == 'stalker') {
-          final host = (e['host'] ?? e['url'] ?? '').toString();
-          final mac = (e['mac'] ?? e['username'] ?? '').toString();
-          if (host.isEmpty || !StalkerService.isValidMac(mac)) continue;
-          final normalizedHost = StalkerService.normalizePortal(host);
-          out.add(
-            M3UList(
-              name: name,
-              url: normalizedHost,
-              description: 'Portal Stalker · $normalizedHost',
-              category: 'stalker',
-              host: normalizedHost,
-              username: StalkerService.normalizeMac(mac),
-              userAgent: StalkerService.magUserAgent,
-            ),
-          );
-        } else if (type == 'xtream') {
-          final host = (e['host'] ?? '').toString();
-          final user = (e['username'] ?? '').toString();
-          final pass = (e['password'] ?? '').toString();
-          if (host.isEmpty || user.isEmpty || pass.isEmpty) continue;
-          out.add(
-            M3UList(
-              name: name,
-              url: XtreamService.buildM3uUrl(host, user, pass),
-              category: 'xtream',
-              host: XtreamService.normalizeHost(host),
-              username: user,
-              password: pass,
-            ),
-          );
-        } else {
-          final url = (e['url'] ?? '').toString();
-          if (url.isEmpty) continue;
-          if (_isEpgUrl(url) || type == 'epg' || type == 'xmltv') {
-            if (!epgUrls.contains(url)) epgUrls.add(url);
-            continue;
-          }
-          final linearPlaylist = M3UParserService.isLinearCategoryPlaylist(url);
-          final mt =
-              !linearPlaylist &&
-                  (type == 'movie' || type == 'movies' || type == 'peliculas')
-              ? 'movie'
-              : (!linearPlaylist && type == 'series' ? 'series' : null);
-          final category = (e['category'] ?? '')
-              .toString()
-              .trim()
-              .toLowerCase();
-          final linearCategory = M3UParserService.linearPlaylistCategory(url);
-          final ua = (e['userAgent'] ?? e['user_agent'] ?? '')
-              .toString()
-              .trim();
-          out.add(
-            M3UList(
-              name: name,
-              url: url,
-              category: category.isNotEmpty
-                  ? category
-                  : (linearCategory ??
-                        (mt == null
-                            ? 'live'
-                            : (mt == 'movie' ? 'peliculas' : 'series'))),
-              mediaType: mt,
-              userAgent: ua.isEmpty ? null : ua,
-            ),
-          );
-        }
-      }
-      return _AssetSources(out, epgUrls, const [], const []);
+      raw ??= _cachedRemoteSources();
+      raw ??= await rootBundle.loadString('assets/data/sources.json');
+      final parsed = CatalogParser.parse(jsonDecode(raw));
+      return _AssetSources(
+        parsed.lists,
+        parsed.epgUrls,
+        parsed.channels,
+        parsed.series,
+      );
     } catch (_) {
       return const _AssetSources([], [], [], []);
     }
-  }
-
-  bool _isEpgUrl(String url) {
-    final lower = url.toLowerCase();
-    return lower.endsWith('.xml') ||
-        lower.endsWith('.xml.gz') ||
-        lower.contains('/epg_') ||
-        lower.contains('xmltv');
   }
 
   Future<void> _loadEpg(List<String> urls) async {
@@ -387,6 +382,7 @@ class ContentStore extends ChangeNotifier {
     } catch (_) {}
     moviesLoading = false;
     notifyListeners();
+    await _persistSnapshot();
   }
 
   void _recomputeCountries() {
@@ -558,4 +554,7 @@ class _AssetSources {
   final List<Channel> channels;
   final List<XtreamSeries> series;
   const _AssetSources(this.lists, this.epgUrls, this.channels, this.series);
+
+  bool get isEmpty =>
+      lists.isEmpty && epgUrls.isEmpty && channels.isEmpty && series.isEmpty;
 }
