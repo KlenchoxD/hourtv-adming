@@ -315,22 +315,49 @@ class ContentStore extends ChangeNotifier {
     return cached is String && cached.trim().isNotEmpty ? cached : null;
   }
 
+  /// Catálogo publicado por el panel admin (KlenchoxD/hourtv-adming). Si el
+  /// usuario no configura una URL propia, la app lo lee de aquí para que lo
+  /// que se suba al panel aparezca solo. Se usa raw (no jsdelivr) porque su
+  /// caché es de minutos, no de horas: los cambios se ven casi en el momento.
+  /// Se prueban ambas ramas porque el repo usa master pero el panel trae main.
+  static const List<String> _defaultCatalogUrls = [
+    'https://raw.githubusercontent.com/KlenchoxD/hourtv-adming/master/catalog.json',
+    'https://raw.githubusercontent.com/KlenchoxD/hourtv-adming/main/catalog.json',
+  ];
+
   /// Descarga una nueva versión sin bloquear el primer render.
   Future<String?> _fetchRemoteSourcesFromNetwork() async {
-    final url =
+    final configured =
         (StorageService.getSetting('remoteSourcesUrl', defaultValue: '') ?? '')
             .toString()
             .trim();
-    if (url.isEmpty) return null;
-    try {
-      final response = await http
-          .get(Uri.parse(url), headers: {'User-Agent': 'Mozilla/5.0'})
-          .timeout(const Duration(seconds: 12));
-      if (response.statusCode == 200 && response.body.trim().isNotEmpty) {
-        await StorageService.saveSetting('remoteSourcesCache', response.body);
-        return response.body;
-      }
-    } catch (_) {}
+    final urls = configured.isNotEmpty ? [configured] : _defaultCatalogUrls;
+    for (final url in urls) {
+      try {
+        // Cache-buster: evita la caché de ~5 min de raw.githubusercontent para
+        // que lo recién publicado en el panel se vea de inmediato al refrescar.
+        final base = Uri.parse(url);
+        final fresh = base.replace(
+          queryParameters: {
+            ...base.queryParameters,
+            '_': DateTime.now().millisecondsSinceEpoch.toString(),
+          },
+        );
+        final response = await http
+            .get(
+              fresh,
+              headers: {
+                'User-Agent': 'Mozilla/5.0',
+                'Cache-Control': 'no-cache',
+              },
+            )
+            .timeout(const Duration(seconds: 12));
+        if (response.statusCode == 200 && response.body.trim().isNotEmpty) {
+          await StorageService.saveSetting('remoteSourcesCache', response.body);
+          return response.body;
+        }
+      } catch (_) {}
+    }
     return null;
   }
 
