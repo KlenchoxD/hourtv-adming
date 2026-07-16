@@ -156,6 +156,7 @@ class ChannelCard extends StatelessWidget {
         child: CachedNetworkImage(
           imageUrl: channel.logo!,
           fit: BoxFit.contain,
+          memCacheWidth: 300,
           placeholder: (_, _) => _placeholder(),
           errorWidget: (_, _, _) => _placeholder(),
         ),
@@ -226,6 +227,7 @@ class ChannelListTile extends StatelessWidget {
             ? CachedNetworkImage(
                 imageUrl: channel.logo!,
                 fit: BoxFit.contain,
+                memCacheWidth: 300,
                 errorWidget: (_, _, _) => _initial(),
               )
             : _initial(),

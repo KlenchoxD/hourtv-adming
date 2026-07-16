@@ -488,6 +488,7 @@ class _CatalogScreenState extends State<CatalogScreen> {
                   CachedNetworkImage(
                     imageUrl: f.backdrop ?? f.logo!,
                     fit: BoxFit.cover,
+                    memCacheWidth: 800,
                     // Si la imagen falla, un gradiente de marca en vez de un
                     // rectangulo negro que parece roto.
                     errorWidget: (_, _, _) => Container(
@@ -573,6 +574,7 @@ class _CatalogScreenState extends State<CatalogScreen> {
                   ? CachedNetworkImage(
                       imageUrl: (f.backdrop ?? f.logo)!,
                       fit: BoxFit.cover,
+                      memCacheWidth: 700,
                       fadeInDuration: const Duration(milliseconds: 220),
                       errorWidget: (_, _, _) => const SizedBox(),
                     )
@@ -793,6 +795,9 @@ class _CatalogScreenState extends State<CatalogScreen> {
                           ? CachedNetworkImage(
                               imageUrl: ch.logo!,
                               fit: BoxFit.cover,
+                              // Decodifica al ancho de la carátula, no al
+                              // tamaño completo: evita jank al desplazar.
+                              memCacheWidth: 360,
                               placeholder: (_, _) => _posterPh(ch),
                               errorWidget: (_, _, _) => _posterPh(ch),
                             )
@@ -951,6 +956,7 @@ class _CatalogScreenState extends State<CatalogScreen> {
                           ? CachedNetworkImage(
                               imageUrl: s.cover!,
                               fit: BoxFit.cover,
+                              memCacheWidth: 360,
                               errorWidget: (_, _, _) => _seriesPh(s.name),
                             )
                           : _seriesPh(s.name),

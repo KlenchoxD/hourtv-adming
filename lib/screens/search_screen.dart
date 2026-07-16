@@ -264,6 +264,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         ? CachedNetworkImage(
                             imageUrl: c.logo!,
                             fit: BoxFit.cover,
+                            memCacheWidth: 300,
                             errorWidget: (_, _, _) => _initial(c),
                           )
                         : _initial(c),

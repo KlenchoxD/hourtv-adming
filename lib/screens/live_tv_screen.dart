@@ -671,6 +671,7 @@ class _LiveTvScreenState extends State<LiveTvScreen> {
                 child: CachedNetworkImage(
                   imageUrl: _current!.logo!,
                   fit: BoxFit.contain,
+                  memCacheWidth: 400,
                   errorWidget: (_, _, _) => const Icon(
                     Icons.tv_rounded,
                     color: AppColors.textMuted,
@@ -1211,6 +1212,9 @@ class _LiveTvScreenState extends State<LiveTvScreen> {
               child: CachedNetworkImage(
                 imageUrl: ch.logo!,
                 fit: BoxFit.contain,
+                // Decodifica al tamaño real del recuadro (~46px) y no a la
+                // resolución completa del PNG: evita el lag al hacer scroll.
+                memCacheWidth: 140,
                 placeholder: (_, _) => _logoInitial(ch),
                 errorWidget: (_, _, _) => _logoInitial(ch),
               ),

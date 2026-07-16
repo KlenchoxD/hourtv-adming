@@ -172,6 +172,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                     ? CachedNetworkImage(
                         imageUrl: logo,
                         fit: BoxFit.cover,
+                        memCacheWidth: 300,
                         errorWidget: (_, _, _) => _placeholder(channel),
                       )
                     : _placeholder(channel),

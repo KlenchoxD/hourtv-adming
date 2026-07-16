@@ -170,6 +170,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                   ? CachedNetworkImage(
                       imageUrl: ch.logo!,
                       fit: BoxFit.cover,
+                      memCacheWidth: 300,
                       errorWidget: (_, _, _) => _ph(ch),
                     )
                   : _ph(ch),

@@ -209,6 +209,7 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
                 ? CachedNetworkImage(
                     imageUrl: img,
                     fit: BoxFit.cover,
+                    memCacheWidth: 800,
                     errorWidget: (_, _, _) => const SizedBox(),
                   )
                 : const SizedBox(),
@@ -465,6 +466,7 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
                         ? CachedNetworkImage(
                             imageUrl: movie.logo!,
                             fit: BoxFit.cover,
+                            memCacheWidth: 360,
                             errorWidget: (_, _, _) =>
                                 _recommendationPlaceholder(movie),
                           )

@@ -148,6 +148,7 @@ class _SeriesDetailScreenState extends State<SeriesDetailScreen> {
                   ? CachedNetworkImage(
                       imageUrl: s.cover!,
                       fit: BoxFit.cover,
+                      memCacheWidth: 500,
                       errorWidget: (_, _, _) => const Icon(
                         Icons.tv_rounded,
                         color: AppColors.textMuted,
