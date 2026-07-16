@@ -277,7 +277,10 @@ function openEditor(idx){
     <div class="modal-body" id="mbody">${body}</div>
     <div class="modal-foot">
       ${editing?`<button class="btn-ghost" onclick="removeItem(${idx})" style="color:var(--accent)">Eliminar</button>`:'<span></span>'}
-      <button class="btn-primary" onclick="saveItem(${editing?idx:'null'})">Guardar</button>
+      <div style="display:flex;gap:10px">
+        <button class="btn-ghost" onclick="saveItem(${editing?idx:'null'})">Guardar</button>
+        <button class="btn-primary" onclick="saveAndPublish(${editing?idx:'null'})">Guardar y publicar</button>
+      </div>
     </div>`;
   document.getElementById('overlay').classList.add('open');
 }
@@ -435,6 +438,11 @@ function saveItem(idx){
   activeTab=targetTab;
   save();closeModal();render();
   toast('Guardado localmente. Pulsa “Publicar” para subirlo.','ok');
+  return true;
+}
+// Guarda el elemento y, si se guardó bien, publica todo el catálogo a GitHub.
+async function saveAndPublish(idx){
+  if(saveItem(idx)===true) await publish();
 }
 function removeItem(idx){if(!confirm('¿Eliminar este elemento?'))return;catalog[activeTab].splice(idx,1);save();closeModal();render()}
 
