@@ -176,8 +176,13 @@ class _SearchScreenState extends State<SearchScreen> {
                               cursorColor: AppColors.accent,
                               decoration: const InputDecoration(
                                 isCollapsed: true,
+                                filled: false,
                                 border: InputBorder.none,
-                                hintText: 'Buscar contenido...',
+                                enabledBorder: InputBorder.none,
+                                focusedBorder: InputBorder.none,
+                                disabledBorder: InputBorder.none,
+                                errorBorder: InputBorder.none,
+                                hintText: 'Buscar título o reparto...',
                                 hintStyle: TextStyle(
                                   color: AppColors.textMuted,
                                   fontSize: 15,
