@@ -548,19 +548,32 @@ async function loadFromGitHub(){
     toast('Catálogo cargado desde GitHub','ok');
   }catch(e){toast('No se pudo cargar','err')}
 }
+async function currentSha(){
+  try{const g=await ghApi('GET');if(g.ok)return (await g.json()).sha}catch(e){}
+  return undefined;
+}
+function putCatalog(sha){
+  const content=btoa(unescape(encodeURIComponent(JSON.stringify(catalog,null,2))));
+  return ghApi('PUT',{body:JSON.stringify({
+    message:'Actualizar catálogo desde el panel HourTV',
+    content, branch:cfg.branch, ...(sha?{sha}:{})
+  })});
+}
 async function publish(){
   if(!cfg.token){toast('Configura GitHub primero','err');openConfig();return}
   try{
-    // Obtener sha actual (si existe)
-    let sha;
-    try{const g=await ghApi('GET');if(g.ok){sha=(await g.json()).sha}}catch(e){}
-    const content=btoa(unescape(encodeURIComponent(JSON.stringify(catalog,null,2))));
-    const res=await ghApi('PUT',{body:JSON.stringify({
-      message:'Actualizar catálogo desde el panel HourTV',
-      content, branch:cfg.branch, ...(sha?{sha}:{})
-    })});
-    if(res.ok){toast('¡Publicado! La app lo verá al recargar.','ok')}
-    else{const e=await res.json();toast('Error: '+(e.message||res.status),'err')}
+    let res=await putCatalog(await currentSha());
+    // Si el sha estaba desincronizado, GitHub devuelve el sha correcto en el
+    // mensaje (o lo re-pedimos) y reintentamos una vez. Evita el error
+    // "catalog.json does not match ...".
+    if(res.status===409||res.status===422){
+      const e=await res.clone().json().catch(()=>({}));
+      const m=/([0-9a-f]{40})/i.exec(e.message||'');
+      const fresh=m?m[1]:await currentSha();
+      if(fresh)res=await putCatalog(fresh);
+    }
+    if(res.ok){window._sha=(await res.json()).content.sha;toast('¡Publicado! La app lo verá al recargar.','ok')}
+    else{const e=await res.json().catch(()=>({}));toast('Error: '+(e.message||res.status),'err')}
   }catch(e){toast('Fallo al publicar','err')}
 }
 
