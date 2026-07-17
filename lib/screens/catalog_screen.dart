@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../models/channel.dart';
@@ -28,7 +29,7 @@ class _CatalogScreenState extends State<CatalogScreen> {
   final _store = ContentStore.instance;
 
   double get _posterWidth {
-    if (DeviceProfile.isTv(context)) return 118 * _s;
+    if (DeviceProfile.isTv(context)) return 156 * _s;
     final available = MediaQuery.sizeOf(context).width - 28;
     return (available / 3.2).clamp(96.0, 132.0);
   }
@@ -166,13 +167,16 @@ class _CatalogScreenState extends State<CatalogScreen> {
   /// Escala 10 pies (1.0 en móvil/tablet, 1.5 en TV) y margen de overscan.
   double get _s => DeviceProfile.uiScale(context);
   double get _pad => DeviceProfile.overscan(context);
+  double get _contentPad => DeviceProfile.isTv(context)
+      ? math.max(_pad, MediaQuery.sizeOf(context).width * 0.045)
+      : _pad;
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       bottom: false,
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: _pad),
+        padding: EdgeInsets.symmetric(horizontal: _contentPad),
         child: Column(
           children: [
             _topBar(),
@@ -337,21 +341,28 @@ class _CatalogScreenState extends State<CatalogScreen> {
   Widget _categoryChips() {
     final cats = _cats;
     return SizedBox(
-      height: 40 * _s,
+      height: (DeviceProfile.isTv(context) ? 54 : 40) * _s,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        padding: const EdgeInsets.symmetric(horizontal: 14),
+        padding: EdgeInsets.symmetric(
+          horizontal: DeviceProfile.isTv(context) ? 2 : 14,
+        ),
         itemCount: cats.length,
         itemBuilder: (ctx, i) {
           final c = cats[i];
           final sel = c.id == _cat;
           return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 5),
+            padding: EdgeInsets.symmetric(
+              horizontal: DeviceProfile.isTv(context) ? 10 : 4,
+              vertical: DeviceProfile.isTv(context) ? 9 : 5,
+            ),
             child: TvFocusable(
               onTap: () => setState(() => _cat = c.id),
               borderRadius: BorderRadius.circular(8),
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 10 * _s),
+                padding: EdgeInsets.symmetric(
+                  horizontal: (DeviceProfile.isTv(context) ? 18 : 10) * _s,
+                ),
                 alignment: Alignment.center,
                 child: Text(
                   c.label,
@@ -445,9 +456,7 @@ class _CatalogScreenState extends State<CatalogScreen> {
               )
               // Deduplica por identidad estable (id del catálogo o título): la
               // misma peli puede haberse guardado con URLs de servidor distintas.
-              .where(
-                (channel) => seenRecent.add(channel.tvgId ?? channel.name),
-              )
+              .where((channel) => seenRecent.add(channel.tvgId ?? channel.name))
               .toList(growable: false)
         : const <Channel>[];
     final year = DateTime.now().year;
@@ -502,90 +511,90 @@ class _CatalogScreenState extends State<CatalogScreen> {
       builder: (context, bannerIdx, _) {
         final f = movies[bannerIdx % movies.length];
         return Padding(
-      padding: const EdgeInsets.fromLTRB(15, 8, 15, 6),
-      child: TvFocusable(
-        onTap: () => _openDetails(f, movies),
-        borderRadius: BorderRadius.circular(6),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(6),
-          child: SizedBox(
-            height: 220 * _s,
-            width: double.infinity,
-            child: AnimatedSwitcher(
-              duration: const Duration(milliseconds: 700),
-              switchInCurve: Curves.easeOut,
-              child: Stack(
-                key: ValueKey(f.tvgId ?? f.url),
-                fit: StackFit.expand,
-                children: [
-                  CachedNetworkImage(
-                    imageUrl: f.backdrop ?? f.logo!,
-                    fit: BoxFit.cover,
-                    memCacheWidth: 800,
-                    // Si la imagen falla, un gradiente de marca en vez de un
-                    // rectangulo negro que parece roto.
-                    errorWidget: (_, _, _) => Container(
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                          colors: [
-                            AppColors.accent.withValues(alpha: 0.55),
-                            AppColors.cardDark,
-                            AppColors.primaryDark,
-                          ],
+          padding: const EdgeInsets.fromLTRB(15, 8, 15, 6),
+          child: TvFocusable(
+            onTap: () => _openDetails(f, movies),
+            borderRadius: BorderRadius.circular(6),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(6),
+              child: SizedBox(
+                height: 220 * _s,
+                width: double.infinity,
+                child: AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 700),
+                  switchInCurve: Curves.easeOut,
+                  child: Stack(
+                    key: ValueKey(f.tvgId ?? f.url),
+                    fit: StackFit.expand,
+                    children: [
+                      CachedNetworkImage(
+                        imageUrl: f.backdrop ?? f.logo!,
+                        fit: BoxFit.cover,
+                        memCacheWidth: 800,
+                        // Si la imagen falla, un gradiente de marca en vez de un
+                        // rectangulo negro que parece roto.
+                        errorWidget: (_, _, _) => Container(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                              colors: [
+                                AppColors.accent.withValues(alpha: 0.55),
+                                AppColors.cardDark,
+                                AppColors.primaryDark,
+                              ],
+                            ),
+                          ),
+                          alignment: Alignment.center,
+                          padding: const EdgeInsets.symmetric(horizontal: 24),
+                          child: Text(
+                            f.displayName,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20 * _s,
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ),
                         ),
                       ),
-                      alignment: Alignment.center,
-                      padding: const EdgeInsets.symmetric(horizontal: 24),
-                      child: Text(
-                        f.displayName,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20 * _s,
-                          fontWeight: FontWeight.w800,
+                      // Franja inferior con el título, legible sobre la imagen
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.fromLTRB(14, 26, 14, 10),
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.bottomCenter,
+                              end: Alignment.topCenter,
+                              colors: [
+                                Colors.black.withValues(alpha: 0.85),
+                                Colors.transparent,
+                              ],
+                            ),
+                          ),
+                          child: Text(
+                            f.displayName,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16 * _s,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
                         ),
                       ),
-                    ),
+                    ],
                   ),
-                  // Franja inferior con el título, legible sobre la imagen
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.fromLTRB(14, 26, 14, 10),
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.bottomCenter,
-                          end: Alignment.topCenter,
-                          colors: [
-                            Colors.black.withValues(alpha: 0.85),
-                            Colors.transparent,
-                          ],
-                        ),
-                      ),
-                      child: Text(
-                        f.displayName,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16 * _s,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+                ),
               ),
             ),
           ),
-        ),
-      ),
-    );
+        );
       },
     );
   }
@@ -596,7 +605,9 @@ class _CatalogScreenState extends State<CatalogScreen> {
   Widget _tvBillboard(Channel f) {
     final h = MediaQuery.sizeOf(context).height * 0.42;
     return SizedBox(
-      height: h,
+      height: DeviceProfile.isTv(context)
+          ? MediaQuery.sizeOf(context).height * 0.46
+          : h,
       child: Stack(
         fit: StackFit.expand,
         children: [
@@ -773,7 +784,12 @@ class _CatalogScreenState extends State<CatalogScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.fromLTRB(18, 18, 18, 10),
+          padding: EdgeInsets.fromLTRB(
+            0,
+            DeviceProfile.isTv(context) ? 32 : 18,
+            0,
+            DeviceProfile.isTv(context) ? 15 : 10,
+          ),
           child: Row(
             children: [
               Text(
@@ -796,7 +812,9 @@ class _CatalogScreenState extends State<CatalogScreen> {
           height: _posterRowHeight,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.symmetric(horizontal: 14),
+            padding: EdgeInsets.symmetric(
+              horizontal: DeviceProfile.isTv(context) ? 2 : 14,
+            ),
             itemCount: items.length > 40 ? 40 : items.length,
             itemBuilder: (ctx, i) => _posterCard(items[i], items),
           ),
@@ -922,7 +940,12 @@ class _CatalogScreenState extends State<CatalogScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.fromLTRB(18, 18, 18, 10),
+          padding: EdgeInsets.fromLTRB(
+            0,
+            DeviceProfile.isTv(context) ? 32 : 18,
+            0,
+            DeviceProfile.isTv(context) ? 15 : 10,
+          ),
           child: Text(
             title,
             style: TextStyle(
@@ -936,7 +959,9 @@ class _CatalogScreenState extends State<CatalogScreen> {
           height: _posterRowHeight,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.symmetric(horizontal: 14),
+            padding: EdgeInsets.symmetric(
+              horizontal: DeviceProfile.isTv(context) ? 2 : 14,
+            ),
             itemCount: series.length > 40 ? 40 : series.length,
             itemBuilder: (ctx, i) => _seriesCard(series[i]),
           ),
