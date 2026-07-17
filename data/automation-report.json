@@ -1,15 +1,159 @@
 {
-  "generatedAt": null,
-  "durationMs": 0,
-  "dryRun": true,
-  "moviesFound": 0,
-  "moviesDiscarded": 0,
-  "moviesAdded": 0,
+  "generatedAt": "2026-07-17T09:20:38.957Z",
+  "durationMs": 4580,
+  "dryRun": false,
+  "moviesFound": 30,
+  "moviesDiscarded": 28,
+  "moviesAdded": 2,
   "moviesEnriched": 0,
   "duplicates": 0,
   "tmdbErrors": 0,
   "providerErrors": 0,
-  "invalidSources": 0,
-  "addedTitles": [],
-  "skipped": []
+  "invalidSources": 8,
+  "addedTitles": [
+    "Backrooms",
+    "La familia Glenrothan"
+  ],
+  "skipped": [
+    {
+      "tmdbId": 1339713,
+      "title": "Obsesión",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1084244,
+      "title": "Toy Story 5",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1108427,
+      "title": "Vaiana",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1275779,
+      "title": "El día de la revelación",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1273221,
+      "title": "Scary Movie",
+      "reason": "Rating 5.4 por debajo del mínimo (5.5)"
+    },
+    {
+      "tmdbId": 1368314,
+      "title": "El pasajero nocturno",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1314481,
+      "title": "El diablo viste de Prada 2",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 936075,
+      "title": "Michael",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 687163,
+      "title": "Proyecto Salvación",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 931285,
+      "title": "Mortal Kombat II",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1212763,
+      "title": "Posesión infernal: En llamas",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1304313,
+      "title": "La momia de Lee Cronin",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1315772,
+      "title": "Minions y monstruos",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1228710,
+      "title": "The Mandalorian and Grogu",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1007757,
+      "title": "Intercambiados",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1057265,
+      "title": "పెద్ది",
+      "reason": "Sin sinopsis"
+    },
+    {
+      "tmdbId": 1301421,
+      "title": "Las ovejas detectives",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1595852,
+      "title": "Boulevard",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1397385,
+      "title": "Hermanito",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1280738,
+      "title": "The Furious",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1523145,
+      "title": "Tu corazón se romperá",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1285366,
+      "title": "愛のぬくもり",
+      "reason": "Votos 4 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 1413976,
+      "title": "Citizen Vigilante",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 278,
+      "title": "Cadena perpetua",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1127384,
+      "title": "En mar abierto",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1368337,
+      "title": "La Odisea",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1226863,
+      "title": "Super Mario Galaxy la película",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 83533,
+      "title": "Avatar: Fuego y ceniza",
+      "reason": "Sin fuente autorizada configurada"
+    }
+  ]
 }
