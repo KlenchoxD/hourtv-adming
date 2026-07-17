@@ -86,6 +86,34 @@
           "language": "Español"
         }
       ]
+    },
+    {
+      "id": "mrohyigs547bq",
+      "title": "Emma.",
+      "plot": "Emma Woodhouse es una joven rica, inteligente y segura de conocer perfectamente los asuntos del corazón. Convencida de que puede encontrar la pareja ideal para quienes la rodean, comienza a intervenir en la vida amorosa de sus amigos. Sin embargo, sus planes provocan malentendidos y sentimientos heridos que la obligarán a reconocer sus propios errores y descubrir lo que realmente siente.",
+      "cast": "Reparto (separado por comas) Anya Taylor-Joy, Johnny Flynn, Mia Goth, Josh O’Connor, Callum Turner, Bill Nighy, Miranda Hart, Rupert Graves, Gemma Whelan, Amber Anderson",
+      "director": "Autumn de Wilde",
+      "writer": "Eleanor Catton, basada en la novela de Jane Austen.",
+      "releaseDate": "2020-02-21",
+      "year": "2020",
+      "genre": "Comedia, Drama, Romance, Época",
+      "rating": 6.7,
+      "duration": "124 min",
+      "poster": "https://i.pinimg.com/1200x/65/39/83/6539837a1aec56eccfc384fd55dcff72.jpg",
+      "categories": [
+        "recomendado",
+        "populares",
+        "comedia",
+        "romance",
+        "drama"
+      ],
+      "servers": [
+        {
+          "name": "Servidor 1",
+          "url": "https://barmonrey.com/player/jZqT7vVmgAtL3ld/",
+          "language": "Español"
+        }
+      ]
     }
   ],
   "series": []
