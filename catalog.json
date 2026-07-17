@@ -59,6 +59,33 @@
           "language": "Español"
         }
       ]
+    },
+    {
+      "id": "mroht5fzhdh4w",
+      "title": "Mujercitas",
+      "plot": "Las hermanas March —Jo, Meg, Amy y Beth— atraviesan el paso de la juventud a la vida adulta mientras persiguen sus sueños, enfrentan dificultades económicas y descubren el amor, la pérdida y el valor de la familia. Jo, decidida a convertirse en escritora y vivir bajo sus propias reglas, lucha contra las expectativas impuestas a las mujeres de su época.",
+      "cast": "Saoirse Ronan, Emma Watson, Florence Pugh, Eliza Scanlen, Timothée Chalamet, Laura Dern, Meryl Streep, Chris Cooper, Louis Garrel, James Norton, Bob Odenkirk, Tracy Letts.",
+      "director": "Greta Gerwig.",
+      "writer": "Greta Gerwig, basada en la novela de Louisa May Alcott.",
+      "releaseDate": "2019-12-25",
+      "year": "2019",
+      "genre": "Drama, Romance, Época.",
+      "rating": 7.8,
+      "duration": "135 min",
+      "poster": "https://i.pinimg.com/1200x/43/29/61/432961641cfcbc9dee41274ebced7832.jpg",
+      "categories": [
+        "recomendado",
+        "populares",
+        "romance",
+        "drama"
+      ],
+      "servers": [
+        {
+          "name": "Servidor 1",
+          "url": "https://barmonrey.com/player/BqxnCX4BloX55SU/",
+          "language": "Español"
+        }
+      ]
     }
   ],
   "series": []
