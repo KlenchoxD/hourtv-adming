@@ -393,6 +393,33 @@
           "language": "Español"
         }
       ]
+    },
+    {
+      "id": "mroktsysmbz8s",
+      "title": "La propuesta",
+      "plot": "Margaret Tate, una exigente editora canadiense, está a punto de ser deportada de Estados Unidos cuando idea un inesperado plan: convencer a su asistente Andrew Paxton de fingir que están comprometidos. Lo que comienza como un acuerdo por conveniencia los llevará a viajar a Alaska para conocer a la peculiar familia de Andrew, donde las situaciones más inesperadas harán que ambos descubran sentimientos reales.",
+      "cast": "Sandra Bullock, Ryan Reynolds, Mary Steenburgen, Craig T. Nelson, Betty White, Denis O'Hare, Malin Åkerman, Oscar Nuñez",
+      "director": "Anne Fletcher",
+      "writer": "Pete Chiarelli",
+      "releaseDate": "2009-06-19",
+      "year": "2009",
+      "genre": "Comedia, Romance",
+      "rating": 6.7,
+      "duration": "108 min",
+      "poster": "https://i.pinimg.com/736x/12/24/fa/1224faffde89c8f2c99f7c8ded38085f.jpg",
+      "categories": [
+        "recomendado",
+        "populares",
+        "comedia",
+        "romance"
+      ],
+      "servers": [
+        {
+          "name": "Servidor 1",
+          "url": "https://barmonrey.com/player/MHnfu9FVNUA8ywE/",
+          "language": "Español"
+        }
+      ]
     }
   ],
   "series": []
