@@ -364,6 +364,35 @@
           "language": "Español"
         }
       ]
+    },
+    {
+      "id": "mrokne92ch4pf",
+      "title": "La Bella y la Bestia (1991)",
+      "plot": "Bella es una joven amante de los libros que termina viviendo en el castillo de una misteriosa Bestia para salvar a su padre. Allí descubrirá que el castillo está bajo una antigua maldición y que solo el amor verdadero podrá romper el hechizo. En esta inolvidable aventura, Bella aprenderá que la verdadera belleza se encuentra en el corazón.",
+      "cast": "Paige O'Hara, Robby Benson, Richard White, Jerry Orbach, Angela Lansbury, David Ogden Stiers, Rex Everhart, Jo Anne Worley, Bradley Pierce",
+      "director": "Gary Trousdale, Kirk Wise",
+      "writer": "Linda Woolverton",
+      "releaseDate": "1991-11-22",
+      "year": "1991",
+      "genre": "Animación, Fantasía, Romance, Musical, Familiar",
+      "rating": 8,
+      "duration": "84 min",
+      "poster": "https://i.pinimg.com/1200x/1b/8e/86/1b8e86831cc535425ba2df2e847652cc.jpg",
+      "categories": [
+        "recomendado",
+        "populares",
+        "comedia",
+        "romance",
+        "aventura",
+        "infantil"
+      ],
+      "servers": [
+        {
+          "name": "Servidor 1",
+          "url": "https://barmonrey.com/player/3APF9x9ptGDf0ng/",
+          "language": "Español"
+        }
+      ]
     }
   ],
   "series": []
