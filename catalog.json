@@ -503,6 +503,33 @@
           "language": "Español"
         }
       ]
+    },
+    {
+      "id": "mroltg9f1rzx2",
+      "title": "Mientras Estés Conmigo",
+      "plot": "Basada en una historia real, la película sigue la vida del cantante Jeremy Camp, quien encuentra el amor en Melissa Henning poco después de iniciar su carrera musical. Cuando una inesperada enfermedad amenaza sus sueños, ambos enfrentarán una difícil prueba de fe, esperanza y amor, demostrando que incluso en los momentos más difíciles es posible encontrar fortaleza para seguir adelante.",
+      "cast": "KJ Apa, Britt Robertson, Shania Twain, Gary Sinise, Nathan Parsons, Melissa Roxburgh, Abigail Cowen",
+      "director": "Andrew Erwin, Jon Erwin",
+      "writer": "Jon Erwin, Jon Gunn, basada en las memorias de Jeremy Camp",
+      "releaseDate": "2020-03-13",
+      "year": "2020",
+      "genre": "Drama, Romance, Biografía, Musical",
+      "rating": 6.5,
+      "duration": "116 min",
+      "poster": "https://i.pinimg.com/736x/2c/10/36/2c1036afc7f76c2e4fc9b0fea2e61da5.jpg",
+      "categories": [
+        "recomendado",
+        "populares",
+        "romance",
+        "drama"
+      ],
+      "servers": [
+        {
+          "name": "Servidor 1",
+          "url": "https://barmonrey.com/player/BK5K8krv2SrTUIf/",
+          "language": "Español"
+        }
+      ]
     }
   ],
   "series": [
