@@ -225,6 +225,33 @@
           "language": "Español"
         }
       ]
+    },
+    {
+      "id": "mrojqqy40huhv",
+      "title": "Crepúsculo la saga: Amanecer Parte 1",
+      "plot": "Después de su esperada boda, Bella Swan y Edward Cullen disfrutan de su luna de miel, pero una inesperada noticia cambiará sus vidas para siempre. Mientras Bella enfrenta un embarazo extraordinario y lleno de riesgos, los Cullen y Jacob Black harán todo lo posible por protegerla de las amenazas que podrían desencadenar un conflicto entre vampiros y hombres lobo.",
+      "cast": "Kristen Stewart, Robert Pattinson, Taylor Lautner, Billy Burke, Peter Facinelli, Elizabeth Reaser, Ashley Greene, Jackson Rathbone, Nikki Reed, Kellan Lutz, Dakota Fanning, Michael Sheen",
+      "director": "Bill Condon",
+      "writer": "Melissa Rosenberg, basada en la novela de Stephenie Meyer",
+      "releaseDate": "2011-11-18",
+      "year": "2011",
+      "genre": "Romance, Fantasía, Drama",
+      "rating": 4.9,
+      "duration": "117 min",
+      "poster": "https://i.pinimg.com/1200x/23/dc/18/23dc18978f3338d3aeead2babf30978c.jpg",
+      "categories": [
+        "recomendado",
+        "populares",
+        "romance",
+        "drama"
+      ],
+      "servers": [
+        {
+          "name": "Servidor 1",
+          "url": "https://barmonrey.com/player/C9XeB7Oy3ymoQJ8/",
+          "language": "Español"
+        }
+      ]
     }
   ],
   "series": []
