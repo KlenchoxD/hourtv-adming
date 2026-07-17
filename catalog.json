@@ -448,6 +448,34 @@
           "language": "Español"
         }
       ]
+    },
+    {
+      "id": "mrol0b83o09d1",
+      "title": "El diario de la Princesa 2",
+      "plot": "Ahora convertida en la princesa heredera de Genovia, Mia Thermopolis está lista para asumir el trono. Sin embargo, una antigua ley del reino establece que deberá casarse antes de poder convertirse en reina. Mientras busca al candidato ideal, Mia descubrirá que el verdadero amor no siempre sigue las reglas y que gobernar también significa luchar por aquello en lo que uno cree.",
+      "cast": "Anne Hathaway, Julie Andrews, Chris Pine, Hector Elizondo, Heather Matarazzo, John Rhys-Davies, Callum Blue, Larry Miller, Kathleen Marshall, Raven-Symoné",
+      "director": "Garry Marshall",
+      "writer": "Gina Wendkos, Shonda Rhimes, Meg Cabot",
+      "releaseDate": "2004-08-11",
+      "year": "2004",
+      "genre": "Comedia, Romance, Familiar",
+      "rating": 5.9,
+      "duration": "113 min",
+      "poster": "https://i.pinimg.com/1200x/12/12/47/121247b2cef06b85c426f6b0c9333ee3.jpg",
+      "categories": [
+        "recomendado",
+        "populares",
+        "comedia",
+        "romance",
+        "infantil"
+      ],
+      "servers": [
+        {
+          "name": "Servidor 1",
+          "url": "https://barmonrey.com/player/4QwjdwiPufWJmVd/",
+          "language": "Español"
+        }
+      ]
     }
   ],
   "series": []
