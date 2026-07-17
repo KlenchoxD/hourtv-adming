@@ -530,6 +530,34 @@
           "language": "Español"
         }
       ]
+    },
+    {
+      "id": "mrolwgvq0h65l",
+      "title": "Mi lista de deseos",
+      "plot": "Tras la muerte de su madre, Alex Rose recibe una inesperada misión: cumplir la lista de sueños que escribió cuando era adolescente antes de poder recibir su herencia. En el camino, enfrentará sus miedos, descubrirá secretos familiares, encontrará nuevas oportunidades y aprenderá que nunca es tarde para perseguir los sueños y abrirle la puerta al verdadero amor.",
+      "cast": "Sofia Carson, Kyle Allen, Sebastian de Souza, Connie Britton, José Zúñiga, Jordi Mollà, Marianne Rendón",
+      "director": "Adam Brooks",
+      "writer": "Adam Brooks, basada en la novela de Lori Nelson Spielman",
+      "releaseDate": "2025-03-28",
+      "year": "2025",
+      "genre": "Drama, Romance, Comedia",
+      "rating": 6.8,
+      "duration": "123 min",
+      "poster": "https://i.pinimg.com/736x/c0/d3/ce/c0d3cef4be7d90c3baf04f4d267ee4ca.jpg",
+      "categories": [
+        "recomendado",
+        "populares",
+        "comedia",
+        "romance",
+        "drama"
+      ],
+      "servers": [
+        {
+          "name": "Servidor 1",
+          "url": "https://barmonrey.com/player/XbCSRYpGyFonCwb/",
+          "language": "Español"
+        }
+      ]
     }
   ],
   "series": [
