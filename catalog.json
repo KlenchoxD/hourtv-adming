@@ -420,6 +420,34 @@
           "language": "Español"
         }
       ]
+    },
+    {
+      "id": "mrokxujv2chn6",
+      "title": "El diario de la Princesa",
+      "plot": "Mia Thermopolis es una tímida adolescente que lleva una vida normal hasta que descubre que es la heredera al trono del pequeño reino de Genovia. Guiada por su elegante abuela, la reina Clarisse, Mia deberá aprender las responsabilidades de ser una princesa mientras enfrenta los desafíos de la escuela, la amistad y el primer amor. Una entrañable historia sobre encontrar el valor para ser uno mismo.",
+      "cast": "Anne Hathaway, Julie Andrews, Hector Elizondo, Heather Matarazzo, Mandy Moore, Caroline Goodall, Robert Schwartzman, Erik von Detten",
+      "director": "Garry Marshall",
+      "writer": "Gina Wendkos, basada en la novela de Meg Cabot",
+      "releaseDate": "2001-08-03",
+      "year": "2001",
+      "genre": "Comedia, Romance, Familiar",
+      "rating": 6.4,
+      "duration": "115 min",
+      "poster": "https://i.pinimg.com/736x/f3/9e/35/f39e35de0c84e0e6db0ab66a28d03857.jpg",
+      "categories": [
+        "recomendado",
+        "populares",
+        "comedia",
+        "romance",
+        "infantil"
+      ],
+      "servers": [
+        {
+          "name": "Servidor 1",
+          "url": "https://barmonrey.com/player/9wKrkNZQiUJlnOt/",
+          "language": "Español"
+        }
+      ]
     }
   ],
   "series": []
