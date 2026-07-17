@@ -170,6 +170,33 @@
           "language": "Español"
         }
       ]
+    },
+    {
+      "id": "mroiuehspsy3x",
+      "title": "Crepúsculo la saga: Luna Nueva",
+      "plot": "Tras la inesperada partida de Edward Cullen, Bella Swan cae en una profunda tristeza. Mientras intenta reconstruir su vida, fortalece su amistad con Jacob Black, quien guarda un sorprendente secreto que cambiará su destino. Dividida entre el amor, la amistad y el peligro que la rodea, Bella deberá tomar decisiones que marcarán el rumbo de su vida para siempre.",
+      "cast": "Kristen Stewart, Robert Pattinson, Taylor Lautner, Ashley Greene, Peter Facinelli, Elizabeth Reaser, Jackson Rathbone, Nikki Reed, Kellan Lutz, Billy Burke, Dakota Fanning, Michael Sheen",
+      "director": "Chris Weitz",
+      "writer": "Melissa Rosenberg, basada en la novela de Stephenie Meyer",
+      "releaseDate": "2009-11-20",
+      "year": "2009",
+      "genre": "Romance, Fantasía, Drama",
+      "rating": 4.8,
+      "duration": "130 min",
+      "poster": "https://i.pinimg.com/1200x/99/e6/09/99e609209e5a1a76dcb7cc2a45dba794.jpg",
+      "categories": [
+        "recomendado",
+        "populares",
+        "romance",
+        "drama"
+      ],
+      "servers": [
+        {
+          "name": "Servidor 1",
+          "url": "https://barmonrey.com/player/rUGXQXynCprgrD1/",
+          "language": "Español"
+        }
+      ]
     }
   ],
   "series": []
