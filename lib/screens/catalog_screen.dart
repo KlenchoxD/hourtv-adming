@@ -185,9 +185,12 @@ class _CatalogScreenState extends State<CatalogScreen> {
     padding: EdgeInsets.fromLTRB(18, 12 * _s, 12, 6),
     child: Row(
       children: [
-        HourTvLogo(size: 30 * _s),
-        const SizedBox(width: 9),
-        HourTvWordmark(fontSize: 19 * _s),
+        // En TV el riel lateral ya muestra el logo; evita duplicarlo aquí.
+        if (!DeviceProfile.isTv(context)) ...[
+          HourTvLogo(size: 30 * _s),
+          const SizedBox(width: 9),
+          HourTvWordmark(fontSize: 19 * _s),
+        ],
         const Spacer(),
         if (_vodLoading)
           const Padding(

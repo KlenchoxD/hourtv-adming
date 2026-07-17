@@ -123,12 +123,14 @@ class _HomeShellState extends State<HomeShell> with WidgetsBindingObserver {
                     ],
                   ),
                 ),
-                const Spacer(),
+                // Botones justo debajo del logo (estilo HBO Max), sin el hueco
+                // que antes los empujaba al centro.
+                const SizedBox(height: 30),
                 if (_railExpanded)
                   const Align(
                     alignment: Alignment.centerLeft,
                     child: Padding(
-                      padding: EdgeInsets.fromLTRB(18, 0, 12, 8),
+                      padding: EdgeInsets.fromLTRB(18, 0, 12, 10),
                       child: Text(
                         'EXPLORAR',
                         style: TextStyle(
