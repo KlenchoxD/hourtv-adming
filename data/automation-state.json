@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-07-17T09:20:43.532Z",
+  "lastRunAt": "2026-07-17T11:03:22.507Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     1339713,
@@ -33,10 +33,7 @@
     83533,
     1335666
   ],
-  "tmdbIdsPublished": [
-    1083381,
-    1335666
-  ],
+  "tmdbIdsPublished": [],
   "totalMoviesInCatalog": 26,
   "errorsSummary": [],
   "skipped": [

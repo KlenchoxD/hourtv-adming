@@ -1,19 +1,16 @@
 {
-  "generatedAt": "2026-07-17T09:20:38.957Z",
-  "durationMs": 4580,
+  "generatedAt": "2026-07-17T11:03:21.503Z",
+  "durationMs": 1009,
   "dryRun": false,
   "moviesFound": 30,
   "moviesDiscarded": 28,
-  "moviesAdded": 2,
+  "moviesAdded": 0,
   "moviesEnriched": 0,
-  "duplicates": 0,
+  "duplicates": 2,
   "tmdbErrors": 0,
   "providerErrors": 0,
-  "invalidSources": 8,
-  "addedTitles": [
-    "Backrooms",
-    "La familia Glenrothan"
-  ],
+  "invalidSources": 0,
+  "addedTitles": [],
   "skipped": [
     {
       "tmdbId": 1339713,
