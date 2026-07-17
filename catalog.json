@@ -553,6 +553,34 @@
           "language": "Español"
         }
       ]
+    },
+    {
+      "id": "mrom8ak6q8nu1",
+      "title": "Mensaje de voz para Isabelle",
+      "plot": "Después de una inesperada pérdida, una joven encuentra una serie de mensajes de voz que transforman su forma de ver el amor, la familia y la vida. Mientras reconstruye el pasado a través de esos recuerdos, emprende un emotivo viaje de sanación, descubriendo que algunas palabras tienen el poder de cambiar el futuro.",
+      "cast": "Zoey Deutch, Nick Robinson, Harry Shum Jr., Ciara Bravo, Nick Offerman, Lukas Gage",
+      "director": "Leah McKendrick",
+      "writer": "Leah McKendrick",
+      "releaseDate": "2026-06-19",
+      "year": "2026",
+      "genre": "Drama, Romance",
+      "rating": 7.3,
+      "duration": "118 min",
+      "poster": "https://i.pinimg.com/1200x/72/67/4d/72674d5d76d8a4e1aa5571bff0ab2243.jpg",
+      "categories": [
+        "recomendado",
+        "populares",
+        "comedia",
+        "romance",
+        "drama"
+      ],
+      "servers": [
+        {
+          "name": "Servidor 1",
+          "url": "https://barmonrey.com/player/ayROn3f8qZTGuky/",
+          "language": "Español"
+        }
+      ]
     }
   ],
   "series": [
