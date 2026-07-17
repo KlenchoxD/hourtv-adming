@@ -116,13 +116,16 @@ def load_scrape_results_from_exports(exports_dir: Path) -> list[dict[str, Any]]:
     return results
 
 
-def tmdb_search_movie(api_key: str, title: str, language: str) -> list[dict[str, Any]]:
-    query = urllib.parse.urlencode({
+def tmdb_search_movie(api_key: str, title: str, language: str, year: str | None = None) -> list[dict[str, Any]]:
+    params = {
         "api_key": api_key,
         "language": language,
         "query": title,
         "include_adult": "false",
-    })
+    }
+    if year:
+        params["primary_release_year"] = year
+    query = urllib.parse.urlencode(params)
     url = f"{TMDB_BASE_URL}/search/movie?{query}"
     try:
         with urllib.request.urlopen(url, timeout=15) as response:
@@ -133,19 +136,70 @@ def tmdb_search_movie(api_key: str, title: str, language: str) -> list[dict[str,
         return []
 
 
-def match_movie(api_key: str, title: str, language: str) -> tuple[dict[str, Any] | None, str]:
-    """Devuelve (resultado_tmdb_o_none, confianza: 'exact' | 'guess' | 'none')."""
-    candidates = tmdb_search_movie(api_key, title, language)
-    if not candidates:
-        return None, "none"
+def extract_year(text: str) -> str | None:
+    match = re.search(r"\((19|20)\d{2}\)", text)
+    return match.group(0).strip("()") if match else None
 
-    normalized_target = normalize_title(title)
-    for candidate in candidates:
-        candidate_titles = [candidate.get("title", ""), candidate.get("original_title", "")]
-        if any(normalize_title(t) == normalized_target for t in candidate_titles):
-            return candidate, "exact"
 
-    return candidates[0], "guess"
+def clean_title_variants(raw_title: str) -> list[str]:
+    """Genera variantes limpias de un título de página tipo
+    'Ver Glenrothan (2026) Online Latino HD - Pelisplus', porque muchos
+    sitios (incluido Pelisplus) usan el <title> de la página como nombre,
+    no el título limpio de la película."""
+    variants: list[str] = [raw_title.strip()]
+
+    # Corta el sufijo del sitio: "... - Pelisplus", "... | NombreSitio"
+    no_suffix = re.split(r"\s+[-|]\s+[^-|]{2,30}$", raw_title)[0].strip()
+    variants.append(no_suffix)
+
+    for base in list(variants):
+        # Quita el prefijo "Ver "
+        no_ver = re.sub(r"^\s*Ver\s+", "", base, flags=re.IGNORECASE).strip()
+        variants.append(no_ver)
+        # Corta todo lo que venga después de "Online" (idioma/calidad)
+        no_online = re.split(r"\bOnline\b", no_ver, flags=re.IGNORECASE)[0].strip()
+        variants.append(no_online)
+        # Quita el año entre paréntesis
+        no_year = re.sub(r"\(\s*(19|20)\d{2}\s*\)", "", no_online).strip()
+        variants.append(no_year)
+
+    seen: set[str] = set()
+    cleaned: list[str] = []
+    for v in variants:
+        v = v.strip(" -|")
+        key = v.lower()
+        if v and key not in seen:
+            seen.add(key)
+            cleaned.append(v)
+    return cleaned
+
+
+def match_movie(api_key: str, raw_title: str, language: str) -> tuple[dict[str, Any] | None, str, str]:
+    """Devuelve (resultado_tmdb_o_none, confianza: 'exact' | 'guess' | 'none', título_limpio_usado)."""
+    year = extract_year(raw_title)
+    variants = clean_title_variants(raw_title)
+
+    best_guess: dict[str, Any] | None = None
+    best_guess_variant = variants[0]
+
+    for variant in variants:
+        candidates = tmdb_search_movie(api_key, variant, language, year)
+        if not candidates:
+            continue
+        if best_guess is None:
+            best_guess = candidates[0]
+            best_guess_variant = variant
+
+        normalized_target = normalize_title(variant)
+        for candidate in candidates:
+            candidate_titles = [candidate.get("title", ""), candidate.get("original_title", "")]
+            if any(normalize_title(t) == normalized_target for t in candidate_titles):
+                return candidate, "exact", variant
+
+    if best_guess is not None:
+        return best_guess, "guess", best_guess_variant
+
+    return None, "none", variants[0]
 
 
 def collect_servers(result: dict[str, Any]) -> Iterable[dict[str, str]]:
@@ -217,10 +271,14 @@ def main() -> None:
             continue
 
         print(f"Buscando en TMDB: \"{title}\"...")
-        match, confidence = match_movie(args.tmdb_api_key, title, args.tmdb_language)
+        match, confidence, used_title = match_movie(args.tmdb_api_key, title, args.tmdb_language)
 
         if confidence == "none":
-            unmatched.append({"sourceTitle": title, "sourcePage": page_url, "reason": "TMDB no encontró resultados"})
+            unmatched.append({
+                "sourceTitle": title,
+                "sourcePage": page_url,
+                "reason": f"TMDB no encontró resultados (probado como: \"{used_title}\")",
+            })
             continue
 
         tmdb_id = match["id"]
@@ -243,6 +301,7 @@ def main() -> None:
         else:
             needs_review.append({
                 "sourceTitle": title,
+                "cleanedTitle": used_title,
                 "sourcePage": page_url,
                 "guessedTmdbId": tmdb_id,
                 "guessedTitle": tmdb_title,
