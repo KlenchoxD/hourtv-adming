@@ -70,6 +70,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (DeviceProfile.isTv(context)) return _buildTv(context);
     return SafeArea(
       child: Center(
         child: ConstrainedBox(
@@ -167,6 +168,97 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     fontSize: 12 * _s,
                   ),
                 ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTv(BuildContext context) {
+    final horizontal = (MediaQuery.sizeOf(context).width * 0.05).clamp(
+      44.0,
+      96.0,
+    );
+    return SafeArea(
+      child: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 1120),
+          child: ListView(
+            padding: EdgeInsets.fromLTRB(horizontal, 54, horizontal, 72),
+            children: [
+              const Text(
+                'Perfil',
+                style: TextStyle(
+                  color: AppColors.textPrimary,
+                  fontSize: 34,
+                  fontWeight: FontWeight.w800,
+                  letterSpacing: -0.5,
+                ),
+              ),
+              const SizedBox(height: 10),
+              const Text(
+                'Tu biblioteca y preferencias',
+                style: TextStyle(color: AppColors.textSecondary, fontSize: 18),
+              ),
+              const SizedBox(height: 38),
+              Row(
+                children: [
+                  Expanded(
+                    child: _shortcut(
+                      Icons.favorite_rounded,
+                      'Favoritos',
+                      'Lo que guardaste',
+                      () => _open(const FavoritesScreen()),
+                    ),
+                  ),
+                  const SizedBox(width: 22),
+                  Expanded(
+                    child: _shortcut(
+                      Icons.history_rounded,
+                      'Historial',
+                      'Visto recientemente',
+                      () => _open(const HistoryScreen()),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 44),
+              Text(
+                'MÁS FUNCIONES',
+                style: TextStyle(
+                  color: AppColors.textMuted,
+                  fontSize: 13 * _s,
+                  fontWeight: FontWeight.w800,
+                  letterSpacing: 1.4,
+                ),
+              ),
+              const SizedBox(height: 14),
+              _item(
+                Icons.dns_rounded,
+                'Mis Fuentes',
+                'Cuentas Xtream, Stalker y listas M3U',
+                () => _open(const ListsScreen()),
+              ),
+              _item(
+                Icons.tune_rounded,
+                'Ajustes',
+                'Reproducción, red y catálogo',
+                () => _open(const SettingsScreen()),
+              ),
+              _item(
+                Icons.refresh_rounded,
+                _reloading ? 'Recargando…' : 'Recargar contenido',
+                'Actualiza canales y catálogo',
+                _reload,
+                trailing: _reloading
+                    ? SizedBox(
+                        width: 24 * _s,
+                        height: 24 * _s,
+                        child: const CircularProgressIndicator(strokeWidth: 2),
+                      )
+                    : null,
               ),
             ],
           ),
