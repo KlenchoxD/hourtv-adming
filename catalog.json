@@ -197,6 +197,34 @@
           "language": "Español"
         }
       ]
+    },
+    {
+      "id": "mrojmr4m6ge5d",
+      "title": "Crepúsculo la saga: Eclipse",
+      "plot": "Bella Swan se encuentra en el centro de un peligroso conflicto cuando una serie de misteriosos ataques sacuden la ciudad de Seattle. Mientras una poderosa enemiga busca vengarse, Bella deberá enfrentar una difícil decisión entre su amor por Edward Cullen y el profundo vínculo que la une a Jacob Black, sabiendo que su elección podría cambiar el destino de todos.",
+      "cast": "Kristen Stewart, Robert Pattinson, Taylor Lautner, Bryce Dallas Howard, Ashley Greene, Peter Facinelli, Elizabeth Reaser, Jackson Rathbone, Nikki Reed, Kellan Lutz, Billy Burke, Dakota Fanning, Michael Sheen",
+      "director": "David Slade",
+      "writer": "Melissa Rosenberg, basada en la novela de Stephenie Meyer",
+      "releaseDate": "2010-06-30",
+      "year": "2010",
+      "genre": "Romance, Fantasía, Drama",
+      "rating": 5.1,
+      "duration": "124 min",
+      "poster": "https://i.pinimg.com/1200x/ed/d7/41/edd7410d447bed98cefd9fa91c6b791f.jpg",
+      "categories": [
+        "recomendado",
+        "populares",
+        "accion",
+        "romance",
+        "drama"
+      ],
+      "servers": [
+        {
+          "name": "Servidor 1",
+          "url": "https://barmonrey.com/player/94IFvXKfe6BzOzA/",
+          "language": "Español"
+        }
+      ]
     }
   ],
   "series": []
