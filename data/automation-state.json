@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-07-17T18:55:54.589Z",
+  "lastRunAt": "2026-07-17T20:01:40.708Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     1339713,
@@ -22,14 +22,14 @@
     1301421,
     1397385,
     1309083,
-    1280738,
     1368337,
-    1413976,
-    278,
-    1127384,
+    1280738,
     1523145,
-    1226863,
-    83533,
+    1081003,
+    1413976,
+    1127384,
+    1285366,
+    1491920,
     1335666
   ],
   "tmdbIdsPublished": [],
@@ -132,28 +132,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1280738,
-      "title": "The Furious",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1368337,
       "title": "La Odisea",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1413976,
-      "title": "Citizen Vigilante",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 278,
-      "title": "Cadena perpetua",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1127384,
-      "title": "En mar abierto",
+      "tmdbId": 1280738,
+      "title": "The Furious",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -162,14 +147,29 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1226863,
-      "title": "Super Mario Galaxy la película",
+      "tmdbId": 1081003,
+      "title": "Supergirl",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 83533,
-      "title": "Avatar: Fuego y ceniza",
+      "tmdbId": 1413976,
+      "title": "Citizen Vigilante",
       "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1127384,
+      "title": "En mar abierto",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1285366,
+      "title": "愛のぬくもり",
+      "reason": "Votos 4 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 1491920,
+      "title": "功夫女足",
+      "reason": "Rating 5.3 por debajo del mínimo (5.5)"
     }
   ]
 }

@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-07-17T18:55:52.721Z",
-  "durationMs": 1873,
+  "generatedAt": "2026-07-17T20:01:38.918Z",
+  "durationMs": 1795,
   "dryRun": false,
   "moviesFound": 29,
   "moviesDiscarded": 27,
@@ -108,28 +108,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1280738,
-      "title": "The Furious",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1368337,
       "title": "La Odisea",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1413976,
-      "title": "Citizen Vigilante",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 278,
-      "title": "Cadena perpetua",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1127384,
-      "title": "En mar abierto",
+      "tmdbId": 1280738,
+      "title": "The Furious",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -138,14 +123,29 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1226863,
-      "title": "Super Mario Galaxy la película",
+      "tmdbId": 1081003,
+      "title": "Supergirl",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 83533,
-      "title": "Avatar: Fuego y ceniza",
+      "tmdbId": 1413976,
+      "title": "Citizen Vigilante",
       "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1127384,
+      "title": "En mar abierto",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1285366,
+      "title": "愛のぬくもり",
+      "reason": "Votos 4 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 1491920,
+      "title": "功夫女足",
+      "reason": "Rating 5.3 por debajo del mínimo (5.5)"
     }
   ]
 }
