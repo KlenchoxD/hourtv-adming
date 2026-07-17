@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import '../services/content_store.dart';
+import '../services/device_type.dart';
 import '../services/storage_service.dart';
 import '../theme/app_theme.dart';
 import '../widgets/hourtv_brand.dart';
+import '../widgets/tv_focusable.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -48,12 +50,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final tv = DeviceProfile.isTv(context);
     return SafeArea(
       child: ListView.builder(
+        padding: EdgeInsets.symmetric(
+          horizontal: tv ? MediaQuery.sizeOf(context).width * 0.05 : 0,
+        ),
         itemCount: 7,
         itemBuilder: (context, index) {
           return switch (index) {
-            0 => RepaintBoundary(child: _header()),
+            0 => RepaintBoundary(child: tv ? _tvHeader() : _header()),
             1 => _section('Canales', [
               _choice(
                 icon: Icons.sort,
@@ -135,6 +141,31 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
+  Widget _tvHeader() => Padding(
+    padding: const EdgeInsets.fromLTRB(0, 42, 0, 26),
+    child: Row(
+      children: [
+        TvFocusable(
+          onTap: () => Navigator.maybePop(context),
+          borderRadius: BorderRadius.circular(24),
+          child: const SizedBox(
+            width: 48,
+            height: 48,
+            child: Icon(Icons.arrow_back_rounded, color: AppColors.textPrimary),
+          ),
+        ),
+        const SizedBox(width: 20),
+        const Text(
+          'Ajustes',
+          style: TextStyle(
+            fontSize: 34,
+            fontWeight: FontWeight.w800,
+            color: AppColors.textPrimary,
+          ),
+        ),
+      ],
+    ),
+  );
   Widget _header() => Column(
     children: [
       Padding(
