@@ -280,6 +280,34 @@
           "language": "Español"
         }
       ]
+    },
+    {
+      "id": "mrojy3mcgn0pa",
+      "title": "El Cadáver de la Novia",
+      "plot": "En un pequeño pueblo de la época victoriana, el tímido Victor practica sus votos matrimoniales en el bosque y, sin darse cuenta, despierta a Emily, una novia que regresa del mundo de los muertos creyendo que acaba de casarse. Mientras intenta volver con su verdadera prometida, Victor descubrirá una historia llena de amor, sacrificio y segundas oportunidades entre el mundo de los vivos y el de los muertos.",
+      "cast": "Johnny Depp, Helena Bonham Carter, Emily Watson, Tracey Ullman, Paul Whitehouse, Joanna Lumley, Albert Finney, Richard E. Grant, Christopher Lee, Michael Gough",
+      "director": "Tim Burton, Mike Johnson",
+      "writer": "John August, Caroline Thompson, Pamela Pettler",
+      "releaseDate": "2005-09-23",
+      "year": "2005",
+      "genre": "Animación, Fantasía, Romance, Musical",
+      "rating": 7.4,
+      "duration": "77 min",
+      "poster": "https://i.pinimg.com/736x/03/e5/fd/03e5fda3273a5d51362accdd6ff861a9.jpg",
+      "categories": [
+        "recomendado",
+        "populares",
+        "comedia",
+        "romance",
+        "infantil"
+      ],
+      "servers": [
+        {
+          "name": "Servidor 1",
+          "url": "https://barmonrey.com/player/llLEMbBHBFcg0WV/",
+          "language": "Español"
+        }
+      ]
     }
   ],
   "series": []
