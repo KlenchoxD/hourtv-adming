@@ -1,11 +1,18 @@
 # HourTV AutoCatálogo
 
 Bot que actualiza `catalog.json` de forma automática, sin intervención
-humana, usando [TMDB](https://www.themoviedb.org/) para la ficha de cada
-película y "proveedores de contenido" configurables para las URLs de
-reproducción. Se ejecuta con GitHub Actions cada 6 horas
-(`.github/workflows/hourtv-auto-catalog.yml`) y también se puede lanzar
-manualmente.
+humana, tomando como fuente de verdad **lo que ya tienes listo en tus
+proveedores de reproducción** (por ejemplo, lo que ya procesaste con Server
+Hunter y volcaste en `OWN_CATALOG_URL`) y completando la ficha —título,
+sinopsis, reparto, director, género, etc.— con
+[TMDB](https://www.themoviedb.org/). Se ejecuta con GitHub Actions cada 15
+minutos (`.github/workflows/hourtv-auto-catalog.yml`) y también se puede
+lanzar manualmente.
+
+Adicionalmente, también revisa por su cuenta `discover/movie` y
+`movie/popular` de TMDB (estrenos/populares) como una segunda fuente de
+candidatos — pero esos solo se publican si además tienen una fuente
+autorizada disponible.
 
 **No hace scraping ni evade protecciones de sitios de streaming.** Solo
 publica una película si un proveedor autorizado (configurado por ti) entrega
@@ -19,25 +26,35 @@ modifica las que ya están en el catálogo).
 
 ## Qué hace en cada ejecución
 
-1. Consulta `discover/movie` (estrenos de los últimos `RULE_RECENT_DAYS` días)
-   y `movie/popular` en TMDB, en español (`es-ES`) y región `CO`.
-2. Para cada candidato, pide detalles + créditos (reparto, director,
-   guionistas) y arma la ficha completa.
-3. Descarta duplicados comparando por `tmdbId` (o por título normalizado +
+1. **Candidatos "propios"**: si `OWN_CATALOG_URL` está configurado, lee todos
+   los `tmdbId` que ya tiene listos (por ejemplo, los que generó
+   `server_hunter_sync.py` a partir de tu scraper) y los toma como
+   candidatos directos a publicar.
+2. **Candidatos de TMDB**: además consulta `discover/movie` (estrenos de los
+   últimos `RULE_RECENT_DAYS` días) y `movie/popular`, en español (`es-ES`)
+   y región `CO`.
+3. Para cada candidato (de cualquiera de los dos orígenes), pide detalles +
+   créditos a TMDB (reparto, director, guionistas) y arma la ficha completa.
+4. Descarta duplicados comparando por `tmdbId` (o por título normalizado +
    año en películas antiguas que no tengan `tmdbId`).
-4. Aplica las reglas de calidad (rating mínimo, votos mínimos, póster,
-   sinopsis, fecha válida, idioma original, contenido adulto).
-5. Calcula categorías automáticamente a partir de los géneros de TMDB.
-6. Decide si la película debe ir "destacada" según reglas objetivas de
+5. Aplica las reglas de calidad: póster, sinopsis, fecha válida, idioma
+   original y contenido adulto se exigen siempre. El rating/votos mínimos de
+   TMDB **solo aplican a los candidatos de estrenos/populares** — un
+   candidato "propio" (ya elegido por ti al escanearlo) no se descarta por
+   ser poco popular en TMDB.
+6. Calcula categorías automáticamente a partir de los géneros de TMDB.
+7. Decide si la película debe ir "destacada" según reglas objetivas de
    popularidad/rating/recencia (máximo configurable por ejecución y en total).
-7. Pregunta a los proveedores de reproducción configurados
-   (`OwnCatalogProvider` / `HttpProvider`) si tienen una fuente para esa
-   película. Si ninguno responde, la película **no se publica**.
-8. Valida cada URL candidata con una petición HTTP `HEAD`/`GET` con timeout
-   antes de aceptarla.
-9. Si hay al menos una fuente válida, añade la película a `catalog.json`.
-   Si no, la registra como omitida.
-10. Escribe `data/automation-state.json` (estado acumulado) y
+8. Pregunta a los proveedores de reproducción configurados
+   (`OwnCatalogProvider` / `HttpProvider`) si tienen fuente(s) para esa
+   película — pueden ser varias, en distintos idiomas. Si ninguno responde,
+   la película **no se publica**.
+9. Valida cada URL candidata con una petición HTTP `HEAD`/`GET` con timeout
+   antes de aceptarla; conserva **todos** los servidores que pasen la
+   validación (no solo el primero).
+10. Si hay al menos una fuente válida, añade la película —con todos sus
+    servidores— a `catalog.json`. Si no, la registra como omitida.
+11. Escribe `data/automation-state.json` (estado acumulado) y
     `data/automation-report.json` (reporte de esa ejecución).
 
 ## Variables de entorno

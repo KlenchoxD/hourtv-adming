@@ -51,6 +51,11 @@ export class OwnCatalogProvider implements ContentProvider {
     return this.cache;
   }
 
+  async listTmdbIds(): Promise<number[]> {
+    const entries = await this.load();
+    return Array.from(new Set(entries.map((e) => e.tmdbId).filter((id) => Number.isFinite(id))));
+  }
+
   async findMovieSource(movie: NormalizedMovie): Promise<ProviderResult[]> {
     const entries = await this.load();
     const matches = entries.filter((e) => e.tmdbId === movie.tmdbId && e.url);

@@ -86,6 +86,28 @@ export async function popularMovies(page = 1): Promise<TmdbMovieSummary[]> {
   return data.results || [];
 }
 
+// Construye un "summary" equivalente al de discover/popular a partir de un
+// tmdbId suelto (para candidatos que vienen de un proveedor propio, no de
+// las listas de estrenos/populares de TMDB).
+export async function summaryFromId(id: number): Promise<TmdbMovieSummary> {
+  const details = await movieDetails(id);
+  return {
+    id: details.id,
+    title: details.title,
+    original_title: details.original_title,
+    original_language: details.original_language,
+    overview: details.overview,
+    popularity: details.popularity,
+    vote_average: details.vote_average,
+    vote_count: details.vote_count,
+    release_date: details.release_date,
+    adult: details.adult,
+    poster_path: details.poster_path,
+    backdrop_path: details.backdrop_path,
+    genre_ids: (details.genres || []).map((g) => g.id),
+  };
+}
+
 export async function movieDetails(id: number): Promise<TmdbMovieDetails> {
   return tmdbFetch<TmdbMovieDetails>(`/movie/${id}`);
 }
@@ -124,7 +146,7 @@ export function mapGenreNames(genreIds: number[]): string[] {
 
 export async function buildNormalizedMovie(
   summary: TmdbMovieSummary,
-  source: "estrenos" | "populares",
+  source: "estrenos" | "populares" | "propio",
 ): Promise<NormalizedMovie> {
   const details = await movieDetails(summary.id);
   const credits = await movieCredits(summary.id);

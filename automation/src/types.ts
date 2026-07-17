@@ -107,7 +107,7 @@ export interface NormalizedMovie {
   poster: string;
   backdrop: string;
   isAnime: boolean;
-  source: "estrenos" | "populares";
+  source: "estrenos" | "populares" | "propio";
 }
 
 // ---- Proveedores de reproducción ----
@@ -123,6 +123,11 @@ export interface ProviderResult {
 export interface ContentProvider {
   name: string;
   findMovieSource(movie: NormalizedMovie): Promise<ProviderResult[]>;
+  // Opcional: proveedores que pueden enumerar TODOS los tmdbId que ya tienen
+  // listos (p. ej. OwnCatalogProvider a partir de un scraper propio) hacen
+  // que el bot los tome como candidatos a publicar directamente, sin
+  // depender de que TMDB los marque como estreno/popular.
+  listTmdbIds?(): Promise<number[]>;
 }
 
 // ---- Reglas / configuración ----

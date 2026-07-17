@@ -22,7 +22,7 @@ import {
 import { logger } from "./logger.js";
 import { HttpProvider } from "./providers/http-provider.js";
 import { OwnCatalogProvider } from "./providers/own-catalog-provider.js";
-import { discoverRecentMovies, popularMovies, buildNormalizedMovie } from "./tmdb.js";
+import { discoverRecentMovies, popularMovies, buildNormalizedMovie, summaryFromId } from "./tmdb.js";
 import { dedupeByUrl, validateSource } from "./validator.js";
 import type {
   AutomationReport,
@@ -113,7 +113,8 @@ async function main() {
   }
 
   // 1. Descubrimiento TMDB: estrenos recientes + populares.
-  let candidates: { summary: TmdbMovieSummary; source: "estrenos" | "populares" }[] = [];
+  type CandidateSource = "estrenos" | "populares" | "propio";
+  let candidates: { summary: TmdbMovieSummary; source: CandidateSource }[] = [];
   try {
     const [recent, popular] = await Promise.all([
       discoverRecentMovies(rules.recentDaysWindow).catch((err) => {
@@ -137,13 +138,39 @@ async function main() {
   }
 
   // Deduplicar candidatos por tmdbId (una película puede salir en ambas listas).
-  const byId = new Map<number, { summary: TmdbMovieSummary; source: "estrenos" | "populares" }>();
+  const byId = new Map<number, { summary: TmdbMovieSummary; source: CandidateSource }>();
   for (const c of candidates) {
     if (!byId.has(c.summary.id)) byId.set(c.summary.id, c);
   }
+
+  // 1b. Candidatos "propios": tmdbId que ya tienen fuente lista en un
+  // proveedor (p. ej. lo que ya procesaste con Server Hunter y volcaste en
+  // OWN_CATALOG_URL). Estos se publican aunque TMDB no los marque como
+  // estreno/popular — es tu propia curación la que manda aquí.
+  for (const provider of providers) {
+    if (!provider.listTmdbIds) continue;
+    try {
+      const ids = await provider.listTmdbIds();
+      for (const id of ids) {
+        if (byId.has(id)) continue;
+        try {
+          const summary = await summaryFromId(id);
+          byId.set(id, { summary, source: "propio" });
+        } catch (err) {
+          report.tmdbErrors++;
+          logger.warn(`No se pudo obtener de TMDB el tmdbId ${id} listado por ${provider.name}`, {
+            message: (err as Error).message,
+          });
+        }
+      }
+    } catch (err) {
+      logger.warn(`Proveedor ${provider.name} falló al listar sus tmdbId`, { message: (err as Error).message });
+    }
+  }
+
   candidates = Array.from(byId.values());
   report.moviesFound = candidates.length;
-  logger.info(`Candidatos TMDB encontrados: ${candidates.length}`);
+  logger.info(`Candidatos encontrados: ${candidates.length}`);
 
   function skip(entry: SkippedEntry) {
     report.skipped.push(entry);
@@ -153,8 +180,8 @@ async function main() {
   // 2. Filtro básico (adulto) antes de pedir detalles a TMDB. Los duplicados
   // se separan aparte: si el enriquecimiento está activado se procesan para
   // completar campos vacíos; si no, simplemente se cuentan y se ignoran.
-  const preFiltered: { summary: TmdbMovieSummary; source: "estrenos" | "populares" }[] = [];
-  const duplicateCandidates: { summary: TmdbMovieSummary; source: "estrenos" | "populares" }[] = [];
+  const preFiltered: { summary: TmdbMovieSummary; source: CandidateSource }[] = [];
+  const duplicateCandidates: { summary: TmdbMovieSummary; source: CandidateSource }[] = [];
   for (const candidate of candidates) {
     const { summary } = candidate;
     tmdbIdsReviewed.add(summary.id);
@@ -377,10 +404,17 @@ function evaluateRules(movie: NormalizedMovie, rules: ReturnType<typeof loadRule
   if (rules.excludeWithoutPoster && !movie.poster) return "Sin póster";
   if (rules.excludeWithoutPlot && !movie.plot) return "Sin sinopsis";
   if (rules.excludeWithoutValidDate && !isValidDate(movie.releaseDate)) return "Sin fecha de estreno válida";
-  if (movie.rating < rules.minRating) return `Rating ${movie.rating} por debajo del mínimo (${rules.minRating})`;
-  if (movie.voteCount < rules.minVoteCount) {
-    return `Votos ${movie.voteCount} por debajo del mínimo (${rules.minVoteCount})`;
+
+  // Las películas "propio" ya fueron elegidas a mano (vienen de tu scraper),
+  // así que no se filtran por popularidad/rating de TMDB — solo por calidad
+  // de datos e idioma, igual que las demás.
+  if (movie.source !== "propio") {
+    if (movie.rating < rules.minRating) return `Rating ${movie.rating} por debajo del mínimo (${rules.minRating})`;
+    if (movie.voteCount < rules.minVoteCount) {
+      return `Votos ${movie.voteCount} por debajo del mínimo (${rules.minVoteCount})`;
+    }
   }
+
   if (rules.originalLanguage !== "any" && movie.originalLanguage !== rules.originalLanguage) {
     return `Idioma original "${movie.originalLanguage}" no coincide con la regla configurada`;
   }

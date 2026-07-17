@@ -2,7 +2,7 @@ name: HourTV AutoCatálogo
 
 on:
   schedule:
-    - cron: "0 */6 * * *"
+    - cron: "*/15 * * * *"
   workflow_dispatch:
     inputs:
       dry_run:
@@ -32,7 +32,7 @@ jobs:
       - name: Checkout del repositorio
         uses: actions/checkout@v4
         with:
-          fetch-depth: 1
+          fetch-depth: 0
 
       - name: Configurar Node.js
         uses: actions/setup-node@v4
@@ -95,4 +95,17 @@ jobs:
           git config user.email "actions@users.noreply.github.com"
           git add catalog.json data/automation-state.json data/automation-report.json
           git commit -m "chore(catalog): actualización automática HourTV"
-          git push
+          # El panel admin/index.html puede publicar en paralelo; reintenta
+          # con rebase unas veces antes de rendirse (evita que una ejecución
+          # se pierda solo porque hubo un push simultáneo).
+          for i in 1 2 3 4 5; do
+            if git push; then
+              exit 0
+            fi
+            echo "Push rechazado, reintentando con rebase (intento $i)…"
+            git fetch origin "${GITHUB_REF_NAME}"
+            git rebase "origin/${GITHUB_REF_NAME}" || { git rebase --abort; exit 1; }
+            sleep $((RANDOM % 10 + 1))
+          done
+          echo "No se pudo publicar tras varios reintentos" >&2
+          exit 1

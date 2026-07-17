@@ -50,8 +50,9 @@ caché local, vuelve al catálogo incluido en el APK.
 ## Automatización del catálogo (HourTV AutoCatálogo)
 
 `catalog.json` puede actualizarse solo, sin intervención humana, mediante un
-bot que corre en GitHub Actions cada 6 horas: busca estrenos y populares en
-TMDB, arma la ficha completa en español y publica solo las películas que
+bot que corre en GitHub Actions cada 15 minutos: toma lo que ya tengas listo
+en tu proveedor de fuentes (por ejemplo, lo que proceses con Server Hunter),
+completa la ficha en español con TMDB y publica solo las películas que
 tengan una fuente de reproducción autorizada y validada. Ver
 [automation/README.md](automation/README.md) para la configuración completa
 (variables, secretos, proveedores de reproducción y cómo activarlo).
