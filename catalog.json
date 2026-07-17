@@ -308,6 +308,34 @@
           "language": "Español"
         }
       ]
+    },
+    {
+      "id": "mrok428tedbmk",
+      "title": "La Bella y la Bestia",
+      "plot": "Bella, una joven inteligente e independiente, acepta ocupar el lugar de su padre como prisionera en el misterioso castillo de una Bestia. Con el tiempo, descubre que bajo su temible apariencia se esconde un príncipe víctima de una antigua maldición. Mientras el peligro acecha al reino, ambos aprenderán que el verdadero amor va más allá de las apariencias.",
+      "cast": "Emma Watson, Dan Stevens, Luke Evans, Kevin Kline, Josh Gad, Ewan McGregor, Ian McKellen, Emma Thompson, Stanley Tucci, Audra McDonald, Gugu Mbatha-Raw",
+      "director": "Bill Condon",
+      "writer": "Stephen Chbosky, Evan Spiliotopoulos",
+      "releaseDate": "2017-03-17",
+      "year": "2017",
+      "genre": "Fantasía, Romance, Musical, Familiar",
+      "rating": 7.1,
+      "duration": "129 min",
+      "poster": "https://i.pinimg.com/736x/de/8e/38/de8e385538199b48a5c8fc3d5853f43f.jpg",
+      "categories": [
+        "recomendado",
+        "populares",
+        "romance",
+        "aventura",
+        "infantil"
+      ],
+      "servers": [
+        {
+          "name": "Servidor 1",
+          "url": "https://barmonrey.com/player/ia66tjdFRaQIQjV/",
+          "language": "Español"
+        }
+      ]
     }
   ],
   "series": []
