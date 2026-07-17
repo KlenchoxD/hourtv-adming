@@ -114,6 +114,34 @@
           "language": "Español"
         }
       ]
+    },
+    {
+      "id": "mroi2tlyme7vb",
+      "title": "La escuela del bien y del mal",
+      "plot": "Las mejores amigas Sophie y Agatha son transportadas a una escuela mágica donde los jóvenes son entrenados para convertirse en héroes o villanos de los cuentos de hadas. Cuando ambas terminan en escuelas opuestas a las que esperaban, deberán desafiar su destino, descubrir quiénes son realmente y demostrar que la verdadera amistad puede cambiar cualquier historia.",
+      "cast": "Sophia Anne Caruso, Sofia Wylie, Charlize Theron, Kerry Washington, Laurence Fishburne, Michelle Yeoh, Jamie Flatters, Kit Young, Earl Cave, Patti LuPone",
+      "director": "Paul Feig",
+      "writer": "David Magee, Paul Feig, basada en la novela de Soman Chainani",
+      "releaseDate": "2022-10-19",
+      "year": "2022",
+      "genre": "Fantasía, Aventura, Acción, Drama",
+      "rating": 5.9,
+      "duration": "147 min",
+      "poster": "https://i.pinimg.com/1200x/c9/ac/f9/c9acf90a10bdc3566cd5f744caf5a56f.jpg",
+      "categories": [
+        "recomendado",
+        "populares",
+        "accion",
+        "aventura",
+        "infantil"
+      ],
+      "servers": [
+        {
+          "name": "Servidor 1",
+          "url": "https://barmonrey.com/player/xcT5llP0BNDKCwS/",
+          "language": "Español"
+        }
+      ]
     }
   ],
   "series": []
