@@ -52,3 +52,5 @@ artifacts/
 automation/node_modules/
 automation/dist/
 automation/*.log
+automation/tools/__pycache__/
+automation/tools/own-catalog.generated.json

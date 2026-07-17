@@ -9,7 +9,6 @@ import 'storage_service.dart';
 import 'm3u_parser_service.dart';
 import 'xtream_service.dart';
 import 'stalker_service.dart';
-import 'archive_service.dart';
 import 'catalog_parser.dart';
 import 'epg_service.dart';
 
@@ -206,7 +205,6 @@ class ContentStore extends ChangeNotifier {
 
       unawaited(_loadEpg(assetSources.epgUrls));
       await _loadVod(lists, assetSources.series);
-      await _loadArchive();
     } catch (exception) {
       if (all.isEmpty && series.isEmpty) {
         error = exception.toString();
@@ -397,21 +395,6 @@ class ContentStore extends ChangeNotifier {
   bool moviesLoading = false;
 
   /// Carga películas de dominio público (legal) para llenar el catálogo Inicio.
-  Future<void> _loadArchive() async {
-    moviesLoading = true;
-    notifyListeners();
-    try {
-      final movies = await ArchiveService.fetchCatalog();
-      final seen = all.map((c) => c.url).toSet();
-      for (final m in movies) {
-        if (seen.add(m.url)) all.add(m);
-      }
-    } catch (_) {}
-    moviesLoading = false;
-    notifyListeners();
-    await _persistSnapshot();
-  }
-
   void _recomputeCountries() {
     final counts = <String, int>{};
     int total = 0;
