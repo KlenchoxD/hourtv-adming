@@ -313,6 +313,8 @@ class _SeriesDetailScreenState extends State<SeriesDetailScreen> {
       );
     }
 
+    if (DeviceProfile.isTv(context)) return _tvEpisodesBody(seasons);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -369,6 +371,96 @@ class _SeriesDetailScreenState extends State<SeriesDetailScreen> {
       ],
     );
   }
+
+  Widget _tvEpisodesBody(List<String> seasons) => Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Text(
+        'Episodios',
+        style: TextStyle(
+          color: AppColors.textPrimary,
+          fontSize: 18 * _s,
+          fontWeight: FontWeight.w800,
+        ),
+      ),
+      SizedBox(height: 16 * _s),
+      SizedBox(
+        height: 46 * _s,
+        child: ListView.separated(
+          scrollDirection: Axis.horizontal,
+          itemCount: seasons.length,
+          separatorBuilder: (_, _) => SizedBox(width: 12 * _s),
+          itemBuilder: (context, index) {
+            final season = seasons[index];
+            final selected = season == _selectedSeason;
+            return TvFocusable(
+              onTap: () => setState(() => _selectedSeason = season),
+              borderRadius: BorderRadius.circular(8 * _s),
+              child: Container(
+                alignment: Alignment.center,
+                padding: EdgeInsets.symmetric(horizontal: 18 * _s),
+                decoration: BoxDecoration(
+                  color: selected ? AppColors.accent : AppColors.cardDark,
+                  borderRadius: BorderRadius.circular(8 * _s),
+                ),
+                child: Text(
+                  'Temporada ${_seasonNumber(season)}',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 12.5 * _s,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+            );
+          },
+        ),
+      ),
+      SizedBox(height: 18 * _s),
+      SizedBox(
+        height: 172 * _s,
+        child: ListView.separated(
+          scrollDirection: Axis.horizontal,
+          clipBehavior: Clip.none,
+          itemCount: _selectedEpisodes.length,
+          separatorBuilder: (_, _) => SizedBox(width: 14 * _s),
+          itemBuilder: (context, index) {
+            final episode = _selectedEpisodes[index];
+            return TvFocusable(
+              onTap: () => _play(episode),
+              borderRadius: BorderRadius.circular(8 * _s),
+              child: SizedBox(
+                width: 244 * _s,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    AspectRatio(
+                      aspectRatio: 16 / 9,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(8 * _s),
+                        child: _episodeImage(episode),
+                      ),
+                    ),
+                    SizedBox(height: 8 * _s),
+                    Text(
+                      '${index + 1}. ${episode.displayName}',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        color: AppColors.textPrimary,
+                        fontSize: 12.5 * _s,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        ),
+      ),
+    ],
+  );
 
   Widget _episodeTile(Channel episode, int index) => Padding(
     padding: EdgeInsets.only(bottom: 10 * _s),
