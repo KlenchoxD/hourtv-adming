@@ -62,6 +62,24 @@ class MainActivity : FlutterActivity() {
                         }
                     }
                 }
+                "shareText" -> {
+                    val text = call.argument<String>("text")?.trim().orEmpty()
+                    if (text.isEmpty()) {
+                        result.error("empty_share", "No hay contenido para compartir", null)
+                        return@setMethodCallHandler
+                    }
+                    try {
+                        val shareIntent = Intent(Intent.ACTION_SEND).apply {
+                            type = "text/plain"
+                            putExtra(Intent.EXTRA_SUBJECT, call.argument<String>("subject").orEmpty())
+                            putExtra(Intent.EXTRA_TEXT, text)
+                        }
+                        startActivity(Intent.createChooser(shareIntent, "Compartir con"))
+                        result.success(true)
+                    } catch (error: Exception) {
+                        result.error("share_unavailable", error.message, null)
+                    }
+                }
                 else -> result.notImplemented()
             }
         }
