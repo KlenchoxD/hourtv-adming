@@ -129,6 +129,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (DeviceProfile.isTv(context)) return _buildTv();
     return Scaffold(
       backgroundColor: AppColors.primaryDark,
       body: SafeArea(
@@ -223,6 +224,214 @@ class _SearchScreenState extends State<SearchScreen> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildTv() {
+    final horizontal = (MediaQuery.sizeOf(context).width * 0.05).clamp(
+      44.0,
+      96.0,
+    );
+    return Scaffold(
+      backgroundColor: AppColors.primaryDark,
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(horizontal, 36, horizontal, 48),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  TvFocusable(
+                    onTap: () => Navigator.maybePop(context),
+                    borderRadius: BorderRadius.circular(24),
+                    child: const SizedBox(
+                      width: 48,
+                      height: 48,
+                      child: Icon(
+                        Icons.arrow_back_rounded,
+                        color: AppColors.textPrimary,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 18),
+                  const Text(
+                    'Buscar',
+                    style: TextStyle(
+                      color: AppColors.textPrimary,
+                      fontSize: 32,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                  const Spacer(),
+                  if (_ctrl.text.isNotEmpty)
+                    Text(
+                      _ctrl.text,
+                      style: const TextStyle(
+                        color: AppColors.textSecondary,
+                        fontSize: 22,
+                      ),
+                    ),
+                ],
+              ),
+              const SizedBox(height: 26),
+              _tvKeyboard(),
+              const SizedBox(height: 32),
+              Expanded(child: _tvResults()),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _setTvQuery(String value) {
+    _ctrl.text = value;
+    _ctrl.selection = TextSelection.collapsed(offset: value.length);
+    _search(value);
+  }
+
+  Widget _tvKeyboard() {
+    const rows = ['ABCDEFGHIJKLM', 'NOPQRSTUVWXYZ', '0123456789'];
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        for (final row in rows) ...[
+          Wrap(
+            spacing: 10,
+            runSpacing: 10,
+            children: [
+              for (final letter in row.split(''))
+                _tvKey(letter, () => _setTvQuery('${_ctrl.text}$letter')),
+            ],
+          ),
+          const SizedBox(height: 10),
+        ],
+        Wrap(
+          spacing: 10,
+          children: [
+            _tvKey('Espacio', () => _setTvQuery('${_ctrl.text} '), wide: true),
+            _tvKey(
+              'Borrar',
+              () {
+                if (_ctrl.text.isNotEmpty) {
+                  _setTvQuery(_ctrl.text.substring(0, _ctrl.text.length - 1));
+                }
+              },
+              icon: Icons.backspace_outlined,
+              wide: true,
+            ),
+            _tvKey(
+              'Limpiar',
+              () => _setTvQuery(''),
+              icon: Icons.clear_rounded,
+              wide: true,
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _tvKey(
+    String label,
+    VoidCallback onTap, {
+    IconData? icon,
+    bool wide = false,
+  }) => TvFocusable(
+    onTap: onTap,
+    borderRadius: BorderRadius.circular(8),
+    child: Container(
+      width: wide ? 118 : 52,
+      height: 46,
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        color: AppColors.cardDark,
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
+      ),
+      child: icon == null
+          ? Text(
+              label,
+              style: const TextStyle(
+                color: AppColors.textPrimary,
+                fontSize: 18,
+                fontWeight: FontWeight.w700,
+              ),
+            )
+          : Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(icon, color: AppColors.textPrimary, size: 20),
+                const SizedBox(width: 7),
+                Text(
+                  label,
+                  style: const TextStyle(
+                    color: AppColors.textPrimary,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ],
+            ),
+    ),
+  );
+
+  Widget _tvResults() {
+    if (_ctrl.text.trim().isEmpty) return _historyView();
+    if (_results.isEmpty) {
+      return _hint(
+        'Sin resultados para "${_ctrl.text.trim()}"',
+        Icons.search_off_rounded,
+      );
+    }
+    return GridView.builder(
+      gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+        maxCrossAxisExtent: 190,
+        childAspectRatio: 0.62,
+        crossAxisSpacing: 18,
+        mainAxisSpacing: 22,
+      ),
+      itemCount: _results.length,
+      itemBuilder: (context, index) {
+        final item = _results[index];
+        return TvFocusable(
+          onTap: () => _selectResult(item),
+          borderRadius: BorderRadius.circular(10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: item.logo?.isNotEmpty == true
+                        ? CachedNetworkImage(
+                            imageUrl: item.logo!,
+                            fit: BoxFit.cover,
+                            memCacheWidth: 420,
+                            errorWidget: (_, _, _) => _initial(item),
+                          )
+                        : _initial(item),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                item.displayName,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  color: AppColors.textPrimary,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 
