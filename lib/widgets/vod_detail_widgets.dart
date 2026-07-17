@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import '../services/device_type.dart';
 import '../theme/app_theme.dart';
 import 'tv_focusable.dart';
+import 'tv_vod_detail_actions.dart';
+import 'tv_vod_similar_row.dart';
 
 class VodDetailAction {
   final IconData icon;
@@ -117,8 +119,10 @@ class VodDetailView extends StatelessWidget {
   /// fondo, la información a la izquierda y el foco inicial en Reproducir.
   Widget _buildTv(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
-    final pad = math.max(30.0, overscan);
-    final infoWidth = math.min(size.width * 0.56, 760.0);
+    // El área segura de TV equivale al 4-5 % del ancho: evita overscan y deja
+    // respirar la composición desde una distancia de visualización real.
+    final pad = math.max(size.width * 0.047, math.max(overscan, 42.0));
+    final infoWidth = math.min(size.width * 0.40, 690.0);
     return ColoredBox(
       color: AppColors.primaryDark,
       child: FocusTraversalGroup(
@@ -144,7 +148,11 @@ class VodDetailView extends StatelessWidget {
                   gradient: LinearGradient(
                     begin: Alignment.centerLeft,
                     end: Alignment.centerRight,
-                    colors: [Color(0xF20B0B0B), Color(0xCC0B0B0B), Colors.transparent],
+                    colors: [
+                      Color(0xF20B0B0B),
+                      Color(0xCC0B0B0B),
+                      Colors.transparent,
+                    ],
                     stops: [0.0, 0.42, 0.85],
                   ),
                 ),
@@ -168,7 +176,7 @@ class VodDetailView extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: size.height * 0.06),
+                    SizedBox(height: size.height * 0.10),
                     SizedBox(
                       width: infoWidth,
                       child: Column(
@@ -187,7 +195,7 @@ class VodDetailView extends StatelessWidget {
                               letterSpacing: -0.4,
                             ),
                           ),
-                          SizedBox(height: 12 * scale),
+                          SizedBox(height: 18 * scale),
                           _DetailMetadata(
                             year: year,
                             duration: duration,
@@ -196,7 +204,7 @@ class VodDetailView extends StatelessWidget {
                             scale: scale,
                           ),
                           if (plot?.trim().isNotEmpty == true) ...[
-                            SizedBox(height: 16 * scale),
+                            SizedBox(height: 22 * scale),
                             Text(
                               plot!.trim(),
                               maxLines: 3,
@@ -208,17 +216,43 @@ class VodDetailView extends StatelessWidget {
                               ),
                             ),
                           ],
-                          SizedBox(height: 20 * scale),
-                          _DetailPlayButton(
-                            onTap: onPlay,
+                          SizedBox(height: 28 * scale),
+                          TvVodDetailPrimaryActions(
+                            onPlay: onPlay,
                             autofocus: playAutofocus,
                             scale: scale,
+                            secondaryIcon: actions.isEmpty
+                                ? null
+                                : actions.first.icon,
+                            secondaryLabel: actions.isEmpty
+                                ? null
+                                : actions.first.label,
+                            secondarySelected:
+                                actions.isNotEmpty && actions.first.selected,
+                            onSecondaryTap: actions.isEmpty
+                                ? null
+                                : actions.first.onTap,
                           ),
-                          if (actions.isNotEmpty) ...[
-                            SizedBox(height: 14 * scale),
-                            _DetailActions(actions: actions, scale: scale),
+                          if (actions.length > 1) ...[
+                            SizedBox(height: 16 * scale),
+                            Wrap(
+                              spacing: 18 * scale,
+                              runSpacing: 10 * scale,
+                              children: actions
+                                  .skip(1)
+                                  .map(
+                                    (action) => TvVodDetailInlineAction(
+                                      icon: action.icon,
+                                      label: action.label,
+                                      selected: action.selected,
+                                      onTap: action.onTap,
+                                      scale: scale,
+                                    ),
+                                  )
+                                  .toList(),
+                            ),
                           ],
-                          SizedBox(height: 8 * scale),
+                          SizedBox(height: 18 * scale),
                           _DetailFacts(
                             director: director,
                             writer: writer,
@@ -229,7 +263,7 @@ class VodDetailView extends StatelessWidget {
                         ],
                       ),
                     ),
-                    SizedBox(height: 18 * scale),
+                    SizedBox(height: 30 * scale),
                     Expanded(
                       child: SingleChildScrollView(
                         child: Column(
@@ -237,8 +271,11 @@ class VodDetailView extends StatelessWidget {
                           children: [
                             ?body,
                             if (similarItems.isNotEmpty) ...[
-                              SizedBox(height: 20 * scale),
-                              _SimilarSection(items: similarItems, scale: scale),
+                              SizedBox(height: 28 * scale),
+                              _SimilarSection(
+                                items: similarItems,
+                                scale: scale,
+                              ),
                             ],
                           ],
                         ),
@@ -781,101 +818,115 @@ class _SimilarSection extends StatelessWidget {
   const _SimilarSection({required this.items, required this.scale});
 
   @override
-  Widget build(BuildContext context) => Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      Container(height: 1, color: Colors.white.withValues(alpha: 0.12)),
-      SizedBox(height: 20 * scale),
-      Text(
-        'Más similares',
-        style: TextStyle(
-          color: AppColors.textPrimary,
-          fontSize: 18 * scale,
-          fontWeight: FontWeight.w800,
+  Widget build(BuildContext context) {
+    if (DeviceProfile.isTv(context)) return _buildTv(context);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(height: 1, color: Colors.white.withValues(alpha: 0.12)),
+        SizedBox(height: 20 * scale),
+        Text(
+          'Más similares',
+          style: TextStyle(
+            color: AppColors.textPrimary,
+            fontSize: 18 * scale,
+            fontWeight: FontWeight.w800,
+          ),
         ),
-      ),
-      SizedBox(height: 14 * scale),
-      GridView.builder(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemCount: items.length,
-        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-          maxCrossAxisExtent: 172 * scale,
-          childAspectRatio: 0.58,
-          crossAxisSpacing: 12 * scale,
-          mainAxisSpacing: 15 * scale,
-        ),
-        itemBuilder: (context, index) {
-          final item = items[index];
-          return TvFocusable(
-            onTap: item.onTap,
-            borderRadius: BorderRadius.circular(10 * scale),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10 * scale),
-                    child: Stack(
-                      fit: StackFit.expand,
-                      children: [
-                        ColoredBox(
-                          color: AppColors.cardElevated,
-                          child: item.imageUrl?.trim().isNotEmpty == true
-                              ? CachedNetworkImage(
-                                  imageUrl: item.imageUrl!.trim(),
-                                  fit: BoxFit.cover,
-                                  memCacheWidth: 360,
-                                  errorWidget: (_, _, _) =>
-                                      _PosterPlaceholder(title: item.title),
-                                )
-                              : _PosterPlaceholder(title: item.title),
-                        ),
-                        if (item.badge?.trim().isNotEmpty == true)
-                          Positioned(
-                            right: 6 * scale,
-                            bottom: 6 * scale,
-                            child: Container(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 7 * scale,
-                                vertical: 3 * scale,
-                              ),
-                              decoration: BoxDecoration(
-                                color: Colors.black.withValues(alpha: 0.78),
-                                borderRadius: BorderRadius.circular(5 * scale),
-                              ),
-                              child: Text(
-                                item.badge!,
-                                style: TextStyle(
-                                  color: AppColors.textPrimary,
-                                  fontSize: 9.5 * scale,
-                                  fontWeight: FontWeight.w700,
+        SizedBox(height: 14 * scale),
+        GridView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: items.length,
+          gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+            maxCrossAxisExtent: 172 * scale,
+            childAspectRatio: 0.58,
+            crossAxisSpacing: 12 * scale,
+            mainAxisSpacing: 15 * scale,
+          ),
+          itemBuilder: (context, index) {
+            final item = items[index];
+            return TvFocusable(
+              onTap: item.onTap,
+              borderRadius: BorderRadius.circular(10 * scale),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10 * scale),
+                      child: Stack(
+                        fit: StackFit.expand,
+                        children: [
+                          ColoredBox(
+                            color: AppColors.cardElevated,
+                            child: item.imageUrl?.trim().isNotEmpty == true
+                                ? CachedNetworkImage(
+                                    imageUrl: item.imageUrl!.trim(),
+                                    fit: BoxFit.cover,
+                                    memCacheWidth: 360,
+                                    errorWidget: (_, _, _) =>
+                                        _PosterPlaceholder(title: item.title),
+                                  )
+                                : _PosterPlaceholder(title: item.title),
+                          ),
+                          if (item.badge?.trim().isNotEmpty == true)
+                            Positioned(
+                              right: 6 * scale,
+                              bottom: 6 * scale,
+                              child: Container(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 7 * scale,
+                                  vertical: 3 * scale,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Colors.black.withValues(alpha: 0.78),
+                                  borderRadius: BorderRadius.circular(
+                                    5 * scale,
+                                  ),
+                                ),
+                                child: Text(
+                                  item.badge!,
+                                  style: TextStyle(
+                                    color: AppColors.textPrimary,
+                                    fontSize: 9.5 * scale,
+                                    fontWeight: FontWeight.w700,
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(height: 7 * scale),
-                Text(
-                  item.title,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    color: AppColors.textPrimary,
-                    fontSize: 11.5 * scale,
-                    height: 1.15,
-                    fontWeight: FontWeight.w600,
+                  SizedBox(height: 7 * scale),
+                  Text(
+                    item.title,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      color: AppColors.textPrimary,
+                      fontSize: 11.5 * scale,
+                      height: 1.15,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
-                ),
-              ],
-            ),
-          );
-        },
-      ),
-    ],
+                ],
+              ),
+            );
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _buildTv(BuildContext context) => TvVodSimilarRow<VodSimilarItem>(
+    items: items,
+    scale: scale,
+    titleOf: (item) => item.title,
+    imageOf: (item) => item.imageUrl,
+    badgeOf: (item) => item.badge,
+    onTapOf: (item) => item.onTap,
   );
 }
 
