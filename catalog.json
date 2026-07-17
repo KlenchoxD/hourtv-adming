@@ -478,5 +478,45 @@
       ]
     }
   ],
-  "series": []
+  "series": [
+    {
+      "id": "mrolh201cs3wb",
+      "title": "La reina de las lágrimas",
+      "plot": "Baek Hyun-woo y Hong Hae-in parecen tener el matrimonio perfecto, pero su relación atraviesa una profunda crisis. Cuando un inesperado giro del destino cambia sus vidas, ambos deberán enfrentar secretos familiares, ambiciones empresariales y viejas heridas mientras descubren si el amor que una vez los unió sigue siendo lo suficientemente fuerte para superar cualquier obstáculo.",
+      "cast": "Kim Soo-hyun, Kim Ji-won, Park Sung-hoon, Kwak Dong-yeon, Lee Joo-bin, Kim Kap-soo, Lee Mi-sook, Na Young-hee, Jung Jin-young",
+      "director": "Kim Hee-won, Jang Young-woo",
+      "writer": "Park Ji-eun",
+      "releaseDate": "2024-03-09",
+      "year": "2024",
+      "genre": "Drama, Romance, Comedia",
+      "rating": 8.2,
+      "duration": "75 min",
+      "poster": "https://i.pinimg.com/736x/c9/b9/2a/c9b92abb42962a67a05fbf58dce42492.jpg",
+      "categories": [
+        "recomendado",
+        "populares",
+        "comedia",
+        "romance",
+        "drama"
+      ],
+      "seasons": [
+        {
+          "number": 1,
+          "episodes": [
+            {
+              "number": 1,
+              "title": "Episodio 1",
+              "servers": [
+                {
+                  "name": "Servidor 1",
+                  "url": "https://voe.sx/e/2suzh7well4u",
+                  "language": "Español"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }
