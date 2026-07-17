@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
+import '../services/device_type.dart';
 import '../theme/app_theme.dart';
 import 'tv_focusable.dart';
 
@@ -108,6 +109,174 @@ class VodDetailView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (DeviceProfile.isTv(context)) return _buildTv(context);
+    return _buildPhone(context);
+  }
+
+  /// Detalle cinematográfico para TV (10-foot): backdrop a sangre completa de
+  /// fondo, la información a la izquierda y el foco inicial en Reproducir.
+  Widget _buildTv(BuildContext context) {
+    final size = MediaQuery.sizeOf(context);
+    final pad = math.max(30.0, overscan);
+    final infoWidth = math.min(size.width * 0.56, 760.0);
+    return ColoredBox(
+      color: AppColors.primaryDark,
+      child: FocusTraversalGroup(
+        policy: ReadingOrderTraversalPolicy(),
+        child: Stack(
+          children: [
+            Positioned.fill(
+              child: (backdropUrl?.trim().isNotEmpty == true)
+                  ? CachedNetworkImage(
+                      imageUrl: backdropUrl!.trim(),
+                      fit: BoxFit.cover,
+                      alignment: Alignment.topRight,
+                      memCacheWidth: 1280,
+                      errorWidget: (_, _, _) =>
+                          const ColoredBox(color: AppColors.cardDark),
+                    )
+                  : const ColoredBox(color: AppColors.cardDark),
+            ),
+            // Oscurece la izquierda (donde va el texto) y la base.
+            const Positioned.fill(
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                    colors: [Color(0xF20B0B0B), Color(0xCC0B0B0B), Colors.transparent],
+                    stops: [0.0, 0.42, 0.85],
+                  ),
+                ),
+              ),
+            ),
+            const Positioned.fill(
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.bottomCenter,
+                    end: Alignment.topCenter,
+                    colors: [Color(0xF20B0B0B), Colors.transparent],
+                    stops: [0.0, 0.55],
+                  ),
+                ),
+              ),
+            ),
+            SafeArea(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: pad, vertical: pad),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: size.height * 0.06),
+                    SizedBox(
+                      width: infoWidth,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            title,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              color: AppColors.textPrimary,
+                              fontSize: 30 * scale,
+                              height: 1.05,
+                              fontWeight: FontWeight.w900,
+                              letterSpacing: -0.4,
+                            ),
+                          ),
+                          SizedBox(height: 12 * scale),
+                          _DetailMetadata(
+                            year: year,
+                            duration: duration,
+                            rating: rating,
+                            genres: genres,
+                            scale: scale,
+                          ),
+                          if (plot?.trim().isNotEmpty == true) ...[
+                            SizedBox(height: 16 * scale),
+                            Text(
+                              plot!.trim(),
+                              maxLines: 3,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                color: AppColors.textSecondary,
+                                fontSize: 13.5 * scale,
+                                height: 1.4,
+                              ),
+                            ),
+                          ],
+                          SizedBox(height: 20 * scale),
+                          _DetailPlayButton(
+                            onTap: onPlay,
+                            autofocus: playAutofocus,
+                            scale: scale,
+                          ),
+                          if (actions.isNotEmpty) ...[
+                            SizedBox(height: 14 * scale),
+                            _DetailActions(actions: actions, scale: scale),
+                          ],
+                          SizedBox(height: 8 * scale),
+                          _DetailFacts(
+                            director: director,
+                            writer: writer,
+                            cast: cast,
+                            plot: plot,
+                            scale: scale,
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 18 * scale),
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            ?body,
+                            if (similarItems.isNotEmpty) ...[
+                              SizedBox(height: 20 * scale),
+                              _SimilarSection(items: similarItems, scale: scale),
+                            ],
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Positioned(
+              top: pad * 0.4,
+              left: pad * 0.4,
+              child: TvFocusable(
+                onTap: onBack,
+                borderRadius: BorderRadius.circular(24),
+                child: Container(
+                  width: 44 * scale,
+                  height: 44 * scale,
+                  alignment: Alignment.center,
+                  decoration: const BoxDecoration(
+                    color: Colors.black54,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    Icons.arrow_back_rounded,
+                    color: Colors.white,
+                    size: 24 * scale,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildPhone(BuildContext context) {
     final horizontal = math.max(18 * scale, overscan);
     return ColoredBox(
       color: AppColors.primaryDark,
