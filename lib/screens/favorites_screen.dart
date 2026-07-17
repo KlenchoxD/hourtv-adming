@@ -3,6 +3,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import '../models/channel.dart';
 import '../services/content_store.dart';
 import '../services/device_type.dart';
+import '../services/xtream_service.dart';
+import 'series_detail_screen.dart';
 import '../theme/app_theme.dart';
 import '../widgets/tv_focusable.dart';
 import 'movie_detail_screen.dart';
@@ -49,6 +51,25 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
   }
 
   void _open(Channel ch) {
+    if (ch.type == MediaType.series && ch.url.startsWith('hourtv-series:')) {
+      final id = ch.url.substring('hourtv-series:'.length);
+      XtreamSeries? selected;
+      for (final series in _store.series) {
+        if (series.seriesId == id) {
+          selected = series;
+          break;
+        }
+      }
+      if (selected != null) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => SeriesDetailScreen(series: selected!),
+          ),
+        );
+        return;
+      }
+    }
     if (ch.type == MediaType.movie) {
       Navigator.push(
         context,

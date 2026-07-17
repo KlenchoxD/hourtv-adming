@@ -554,7 +554,28 @@ class ContentStore extends ChangeNotifier {
   List<Channel> liveByCountry(String code) => all
       .where((c) => c.type == MediaType.live && (c.countryCode ?? 'zz') == code)
       .toList();
-  List<Channel> get favorites => all.where((c) => c.isFavorite).toList();
+  List<Channel> get favorites {
+    // Las series del catálogo no son streams hasta que se elige un episodio,
+    // así que se guardan como entradas VOD sintéticas. Se conservan aquí para
+    // que "Mi Lista" pueda abrir su ficha igual que una película.
+    final saved = StorageService.loadFavorites();
+    final activeByUrl = {
+      for (final channel in all.where((channel) => channel.isFavorite))
+        channel.url: channel,
+    };
+    final result = <Channel>[];
+    final seen = <String>{};
+    for (final favorite in saved) {
+      final active = activeByUrl[favorite.url];
+      final item = active ?? favorite;
+      item.isFavorite = true;
+      if (seen.add(item.url)) result.add(item);
+    }
+    for (final favorite in activeByUrl.values) {
+      if (seen.add(favorite.url)) result.add(favorite);
+    }
+    return result;
+  }
 
   Future<void> toggleFavorite(Channel ch) async {
     final fav = await StorageService.toggleFavorite(ch);
