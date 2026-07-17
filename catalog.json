@@ -142,6 +142,34 @@
           "language": "Español"
         }
       ]
+    },
+    {
+      "id": "mroi92clm0oht",
+      "title": "Crepúsculo",
+      "plot": "Bella Swan se muda a la pequeña ciudad de Forks para vivir con su padre, donde conoce al misterioso Edward Cullen. A medida que se enamoran, Bella descubre que Edward pertenece a una antigua familia de vampiros que lucha por vivir en paz entre los humanos. Su romance los llevará a enfrentar peligros inesperados que pondrán a prueba su amor y sus vidas.",
+      "cast": "Kristen Stewart, Robert Pattinson, Billy Burke, Peter Facinelli, Elizabeth Reaser, Ashley Greene, Jackson Rathbone, Nikki Reed, Kellan Lutz, Taylor Lautner, Cam Gigandet, Anna Kendrick",
+      "director": "Catherine Hardwicke",
+      "writer": "Melissa Rosenberg, basada en la novela de Stephenie Meyer",
+      "releaseDate": "2008-11-21",
+      "year": "2008",
+      "genre": "Romance, Fantasía, Drama",
+      "rating": 5.3,
+      "duration": "122 min",
+      "poster": "https://i.pinimg.com/1200x/1b/8b/c9/1b8bc9a634e0070171fa3c4d498aa603.jpg",
+      "categories": [
+        "recomendado",
+        "populares",
+        "romance",
+        "aventura",
+        "drama"
+      ],
+      "servers": [
+        {
+          "name": "Servidor 1",
+          "url": "https://barmonrey.com/player/IIBVFCC1uFfADXT/",
+          "language": "Español"
+        }
+      ]
     }
   ],
   "series": []
