@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-07-17T12:20:41.355Z",
-  "durationMs": 2440,
+  "generatedAt": "2026-07-17T14:11:11.176Z",
+  "durationMs": 1568,
   "dryRun": false,
   "moviesFound": 29,
   "moviesDiscarded": 27,
@@ -23,11 +23,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1108427,
-      "title": "Vaiana",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1275779,
       "title": "El día de la revelación",
       "reason": "Sin fuente autorizada configurada"
@@ -36,6 +31,11 @@
       "tmdbId": 1273221,
       "title": "Scary Movie",
       "reason": "Rating 5.4 por debajo del mínimo (5.5)"
+    },
+    {
+      "tmdbId": 1108427,
+      "title": "Vaiana",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1368314,
@@ -98,13 +98,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1595852,
-      "title": "Boulevard",
+      "tmdbId": 1397385,
+      "title": "Hermanito",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1397385,
-      "title": "Hermanito",
+      "tmdbId": 1309083,
+      "title": "Dolly",
       "reason": "Sin fuente autorizada configurada"
     },
     {

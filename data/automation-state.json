@@ -1,12 +1,12 @@
 {
-  "lastRunAt": "2026-07-17T12:20:43.790Z",
+  "lastRunAt": "2026-07-17T14:11:12.739Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     1339713,
     1084244,
-    1108427,
     1275779,
     1273221,
+    1108427,
     1083381,
     1368314,
     1314481,
@@ -20,8 +20,8 @@
     1007757,
     1057265,
     1301421,
-    1595852,
     1397385,
+    1309083,
     1280738,
     1368337,
     1413976,
@@ -47,11 +47,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1108427,
-      "title": "Vaiana",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1275779,
       "title": "El día de la revelación",
       "reason": "Sin fuente autorizada configurada"
@@ -60,6 +55,11 @@
       "tmdbId": 1273221,
       "title": "Scary Movie",
       "reason": "Rating 5.4 por debajo del mínimo (5.5)"
+    },
+    {
+      "tmdbId": 1108427,
+      "title": "Vaiana",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1368314,
@@ -122,13 +122,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1595852,
-      "title": "Boulevard",
+      "tmdbId": 1397385,
+      "title": "Hermanito",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1397385,
-      "title": "Hermanito",
+      "tmdbId": 1309083,
+      "title": "Dolly",
       "reason": "Sin fuente autorizada configurada"
     },
     {
