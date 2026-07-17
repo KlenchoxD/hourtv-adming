@@ -252,6 +252,34 @@
           "language": "Español"
         }
       ]
+    },
+    {
+      "id": "mrojui3wxup3u",
+      "title": "Crepúsculo la saga: Amanecer Parte 2",
+      "plot": "Tras convertirse en vampira, Bella Swan comienza una nueva vida junto a Edward Cullen y su hija Renesmee. Sin embargo, una falsa acusación pone a la familia Cullen en la mira de los Volturi, quienes amenazan con destruirlos. Para proteger a los suyos, los Cullen deberán reunir aliados de todo el mundo y enfrentarse a la batalla más importante de sus vidas.",
+      "cast": "Kristen Stewart, Robert Pattinson, Taylor Lautner, Mackenzie Foy, Billy Burke, Peter Facinelli, Elizabeth Reaser, Ashley Greene, Jackson Rathbone, Nikki Reed, Kellan Lutz, Dakota Fanning, Michael Sheen, Anna Kendrick",
+      "director": "Bill Condon",
+      "writer": "Melissa Rosenberg, basada en la novela de Stephenie Meyer",
+      "releaseDate": "2012-11-16",
+      "year": "2012",
+      "genre": "Romance, Fantasía, Drama, Acción",
+      "rating": 5.6,
+      "duration": "115 min",
+      "poster": "https://i.pinimg.com/1200x/69/18/a9/6918a9fd4de68699ae73daa90f795b55.jpg",
+      "categories": [
+        "recomendado",
+        "populares",
+        "accion",
+        "romance",
+        "drama"
+      ],
+      "servers": [
+        {
+          "name": "Servidor 1",
+          "url": "https://barmonrey.com/player/WiP3IovcgKcc1lp/",
+          "language": "Español"
+        }
+      ]
     }
   ],
   "series": []
