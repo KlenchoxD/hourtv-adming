@@ -183,6 +183,9 @@ class _PlayerScreenState extends State<PlayerScreen> {
         ),
       );
       setState(() => _loading = false);
+      // Arranca el auto-ocultado: sin esto, la barra de arriba y las flechas
+      // laterales se quedaban visibles para siempre al entrar a una peli.
+      _showChromeControls();
     } catch (e) {
       setState(() {
         _err = e.toString();
