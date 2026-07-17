@@ -23,12 +23,7 @@
       "servers": [
         {
           "name": "Servidor 1",
-          "url": "https://streamwish.to/e/1echh34m2w8a",
-          "language": "Español"
-        },
-        {
-          "name": "Servidor 2",
-          "url": "https://vidhidepro.com/v/9s3c05ztwxxa",
+          "url": "https://barmonrey.com/player/ybZVAT77jgOpznM/",
           "language": "Español"
         }
       ]
@@ -476,7 +471,183 @@
           "language": "Español"
         }
       ]
+    },
+    {
+      "id": "mrolqgid0ka6j",
+      "title": "Amor de Medianoche",
+      "plot": "Katie Price es una joven de 17 años que vive con una extraña enfermedad genética que le impide exponerse a la luz del sol. Acostumbrada a salir únicamente por las noches, su vida cambia cuando finalmente conoce a Charlie, el chico del que ha estado enamorada durante años. Juntos vivirán una inolvidable historia de amor, llena de esperanza, desafíos y momentos que cambiarán sus vidas para siempre.",
+      "cast": "Bella Thorne, Patrick Schwarzenegger, Rob Riggle, Quinn Shephard, Suleka Mathew, Tiera Skovbye, Ken Tremblett",
+      "director": "Scott Speer",
+      "writer": "Eric Kirsten",
+      "releaseDate": "2018-03-23",
+      "year": "2018",
+      "genre": "Drama, Romance",
+      "rating": 6.6,
+      "duration": "91 min",
+      "poster": "https://i.pinimg.com/736x/6a/e4/7d/6ae47d9d1655f6fc419f7068fd281236.jpg",
+      "categories": [
+        "recomendado",
+        "populares",
+        "romance",
+        "drama"
+      ],
+      "servers": [
+        {
+          "name": "Servidor 1",
+          "url": "https://barmonrey.com/player/w6MtC8M9MKMZnWp/",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "id": "mroltg9f1rzx2",
+      "title": "Mientras Estés Conmigo",
+      "plot": "Basada en una historia real, la película sigue la vida del cantante Jeremy Camp, quien encuentra el amor en Melissa Henning poco después de iniciar su carrera musical. Cuando una inesperada enfermedad amenaza sus sueños, ambos enfrentarán una difícil prueba de fe, esperanza y amor, demostrando que incluso en los momentos más difíciles es posible encontrar fortaleza para seguir adelante.",
+      "cast": "KJ Apa, Britt Robertson, Shania Twain, Gary Sinise, Nathan Parsons, Melissa Roxburgh, Abigail Cowen",
+      "director": "Andrew Erwin, Jon Erwin",
+      "writer": "Jon Erwin, Jon Gunn, basada en las memorias de Jeremy Camp",
+      "releaseDate": "2020-03-13",
+      "year": "2020",
+      "genre": "Drama, Romance, Biografía, Musical",
+      "rating": 6.5,
+      "duration": "116 min",
+      "poster": "https://i.pinimg.com/736x/2c/10/36/2c1036afc7f76c2e4fc9b0fea2e61da5.jpg",
+      "categories": [
+        "recomendado",
+        "populares",
+        "romance",
+        "drama"
+      ],
+      "servers": [
+        {
+          "name": "Servidor 1",
+          "url": "https://barmonrey.com/player/BK5K8krv2SrTUIf/",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "id": "mrolwgvq0h65l",
+      "title": "Mi lista de deseos",
+      "plot": "Tras la muerte de su madre, Alex Rose recibe una inesperada misión: cumplir la lista de sueños que escribió cuando era adolescente antes de poder recibir su herencia. En el camino, enfrentará sus miedos, descubrirá secretos familiares, encontrará nuevas oportunidades y aprenderá que nunca es tarde para perseguir los sueños y abrirle la puerta al verdadero amor.",
+      "cast": "Sofia Carson, Kyle Allen, Sebastian de Souza, Connie Britton, José Zúñiga, Jordi Mollà, Marianne Rendón",
+      "director": "Adam Brooks",
+      "writer": "Adam Brooks, basada en la novela de Lori Nelson Spielman",
+      "releaseDate": "2025-03-28",
+      "year": "2025",
+      "genre": "Drama, Romance, Comedia",
+      "rating": 6.8,
+      "duration": "123 min",
+      "poster": "https://i.pinimg.com/736x/c0/d3/ce/c0d3cef4be7d90c3baf04f4d267ee4ca.jpg",
+      "categories": [
+        "recomendado",
+        "populares",
+        "comedia",
+        "romance",
+        "drama"
+      ],
+      "servers": [
+        {
+          "name": "Servidor 1",
+          "url": "https://barmonrey.com/player/XbCSRYpGyFonCwb/",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "id": "mrom8ak6q8nu1",
+      "title": "Mensaje de voz para Isabelle",
+      "plot": "Después de una inesperada pérdida, una joven encuentra una serie de mensajes de voz que transforman su forma de ver el amor, la familia y la vida. Mientras reconstruye el pasado a través de esos recuerdos, emprende un emotivo viaje de sanación, descubriendo que algunas palabras tienen el poder de cambiar el futuro.",
+      "cast": "Zoey Deutch, Nick Robinson, Harry Shum Jr., Ciara Bravo, Nick Offerman, Lukas Gage",
+      "director": "Leah McKendrick",
+      "writer": "Leah McKendrick",
+      "releaseDate": "2026-06-19",
+      "year": "2026",
+      "genre": "Drama, Romance",
+      "rating": 7.3,
+      "duration": "118 min",
+      "poster": "https://i.pinimg.com/1200x/72/67/4d/72674d5d76d8a4e1aa5571bff0ab2243.jpg",
+      "categories": [
+        "recomendado",
+        "populares",
+        "comedia",
+        "romance",
+        "drama"
+      ],
+      "servers": [
+        {
+          "name": "Servidor 1",
+          "url": "https://barmonrey.com/player/ayROn3f8qZTGuky/",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "id": "mromdkmlr0p83",
+      "title": "Los Ilusionistas: Nada es lo que parece",
+      "plot": "Cuatro talentosos ilusionistas son reunidos por un misterioso benefactor para formar \"Los Cuatro Jinetes\", un grupo de magos que sorprende al mundo con espectáculos imposibles. Mientras realizan asombrosos robos durante sus presentaciones y reparten el dinero entre el público, un agente del FBI y una detective de Interpol intentarán descubrir cómo llevan a cabo sus increíbles trucos antes de que ejecuten su próximo golpe.",
+      "cast": "Jesse Eisenberg, Mark Ruffalo, Woody Harrelson, Isla Fisher, Dave Franco, Mélanie Laurent, Michael Caine, Morgan Freeman",
+      "director": "Louis Leterrier",
+      "writer": "Ed Solomon, Boaz Yakin, Edward Ricourt",
+      "releaseDate": "2013-05-31",
+      "year": "2013",
+      "genre": "Suspenso, Crimen, Misterio, Acción",
+      "rating": 7.2,
+      "duration": "115 min",
+      "poster": "https://i.pinimg.com/1200x/66/a2/7f/66a27f9a92c667d17bf8fd680f739607.jpg",
+      "categories": [
+        "recomendado",
+        "populares",
+        "accion"
+      ],
+      "servers": [
+        {
+          "name": "Servidor 1",
+          "url": "https://barmonrey.com/player/TH118DyJp7vVj4F/",
+          "language": "Español"
+        }
+      ]
     }
   ],
-  "series": []
+  "series": [
+    {
+      "id": "mrolh201cs3wb",
+      "title": "La reina de las lágrimas",
+      "plot": "Baek Hyun-woo y Hong Hae-in parecen tener el matrimonio perfecto, pero su relación atraviesa una profunda crisis. Cuando un inesperado giro del destino cambia sus vidas, ambos deberán enfrentar secretos familiares, ambiciones empresariales y viejas heridas mientras descubren si el amor que una vez los unió sigue siendo lo suficientemente fuerte para superar cualquier obstáculo.",
+      "cast": "Kim Soo-hyun, Kim Ji-won, Park Sung-hoon, Kwak Dong-yeon, Lee Joo-bin, Kim Kap-soo, Lee Mi-sook, Na Young-hee, Jung Jin-young",
+      "director": "Kim Hee-won, Jang Young-woo",
+      "writer": "Park Ji-eun",
+      "releaseDate": "2024-03-09",
+      "year": "2024",
+      "genre": "Drama, Romance, Comedia",
+      "rating": 8.2,
+      "duration": "75 min",
+      "poster": "https://i.pinimg.com/736x/c9/b9/2a/c9b92abb42962a67a05fbf58dce42492.jpg",
+      "categories": [
+        "recomendado",
+        "populares",
+        "comedia",
+        "romance",
+        "drama"
+      ],
+      "seasons": [
+        {
+          "number": 1,
+          "episodes": [
+            {
+              "number": 1,
+              "title": "Episodio 1",
+              "servers": [
+                {
+                  "name": "Servidor 1",
+                  "url": "https://voe.sx/e/2suzh7well4u",
+                  "language": "Español"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }
