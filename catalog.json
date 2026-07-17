@@ -32,6 +32,73 @@
           "language": "Español"
         }
       ]
+    },
+    {
+      "id": "mrohdxyiodvnd",
+      "title": "Orgullo y Prejuicio",
+      "plot": "Elizabeth Bennet es una joven inteligente e independiente que vive en la Inglaterra del siglo XIX. Cuando conoce al reservado y adinerado señor Darcy, las primeras impresiones y los prejuicios mutuos complican su relación. A medida que ambos descubren la verdad sobre el otro, deberán superar el orgullo, los malentendidos y las diferencias sociales para encontrar el verdadero amor.",
+      "cast": "Keira Knightley, Matthew Macfadyen, Donald Sutherland, Brenda Blethyn, Rosamund Pike, Jena Malone, Carey Mulligan, Judi Dench, Tom Hollander, Simon Woods",
+      "director": "Joe Wright",
+      "writer": "Deborah Moggach",
+      "releaseDate": "2005-09-16",
+      "year": "2005",
+      "genre": "Drama, Romance",
+      "rating": 8.2,
+      "duration": "129 min",
+      "poster": "https://i.pinimg.com/736x/b5/c1/78/b5c178999004bfebdafc70bd82d3cde7.jpg",
+      "categories": [
+        "recomendado",
+        "populares",
+        "romance",
+        "drama"
+      ],
+      "servers": [
+        {
+          "name": "Servidor 1",
+          "url": "https://streamwish.to/e/k3dpayyptacq",
+          "language": "Español Latino"
+        },
+        {
+          "name": "Servidor 2",
+          "url": "https://waaw.to/f/MBImwkogbWt2",
+          "language": "Español Latino"
+        },
+        {
+          "name": "Servidor 3",
+          "url": "https://vidhidepro.com/v/uqyrtrulpuma",
+          "language": "Español Latino"
+        },
+        {
+          "name": "Servidor 1",
+          "url": "https://streamwish.to/e/a1rptzdlchyl",
+          "language": "Español"
+        },
+        {
+          "name": "Servidor 2",
+          "url": "https://waaw.to/f/kYq5qoOGyDJD",
+          "language": "Español"
+        },
+        {
+          "name": "Servidor 3",
+          "url": "https://vidhidepro.com/v/f95veccd4eu2",
+          "language": "Español"
+        },
+        {
+          "name": "Servidor 1",
+          "url": "https://streamwish.to/e/6u5rm6wq8aem",
+          "language": "Subtitulado"
+        },
+        {
+          "name": "Servidor 2",
+          "url": "https://waaw.to/f/mKmKmvvgs0EZ",
+          "language": "Subtitulado"
+        },
+        {
+          "name": "Servidor 3",
+          "url": "https://vidhidepro.com/v/15r1ynes50ap",
+          "language": "Subtitulado"
+        }
+      ]
     }
   ],
   "series": []
