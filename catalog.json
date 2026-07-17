@@ -360,7 +360,119 @@
       "servers": [
         {
           "name": "Servidor 1",
-          "url": "https://barmonrey.com/player/ia66tjdFRaQIQjV/",
+          "url": "https://barmonrey.com/player/JYTlEIWfmVzJGxg/",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "id": "mrokne92ch4pf",
+      "title": "La Bella y la Bestia (1991)",
+      "plot": "Bella es una joven amante de los libros que termina viviendo en el castillo de una misteriosa Bestia para salvar a su padre. Allí descubrirá que el castillo está bajo una antigua maldición y que solo el amor verdadero podrá romper el hechizo. En esta inolvidable aventura, Bella aprenderá que la verdadera belleza se encuentra en el corazón.",
+      "cast": "Paige O'Hara, Robby Benson, Richard White, Jerry Orbach, Angela Lansbury, David Ogden Stiers, Rex Everhart, Jo Anne Worley, Bradley Pierce",
+      "director": "Gary Trousdale, Kirk Wise",
+      "writer": "Linda Woolverton",
+      "releaseDate": "1991-11-22",
+      "year": "1991",
+      "genre": "Animación, Fantasía, Romance, Musical, Familiar",
+      "rating": 8,
+      "duration": "84 min",
+      "poster": "https://i.pinimg.com/1200x/1b/8e/86/1b8e86831cc535425ba2df2e847652cc.jpg",
+      "categories": [
+        "recomendado",
+        "populares",
+        "comedia",
+        "romance",
+        "aventura",
+        "infantil"
+      ],
+      "servers": [
+        {
+          "name": "Servidor 1",
+          "url": "https://barmonrey.com/player/3APF9x9ptGDf0ng/",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "id": "mroktsysmbz8s",
+      "title": "La propuesta",
+      "plot": "Margaret Tate, una exigente editora canadiense, está a punto de ser deportada de Estados Unidos cuando idea un inesperado plan: convencer a su asistente Andrew Paxton de fingir que están comprometidos. Lo que comienza como un acuerdo por conveniencia los llevará a viajar a Alaska para conocer a la peculiar familia de Andrew, donde las situaciones más inesperadas harán que ambos descubran sentimientos reales.",
+      "cast": "Sandra Bullock, Ryan Reynolds, Mary Steenburgen, Craig T. Nelson, Betty White, Denis O'Hare, Malin Åkerman, Oscar Nuñez",
+      "director": "Anne Fletcher",
+      "writer": "Pete Chiarelli",
+      "releaseDate": "2009-06-19",
+      "year": "2009",
+      "genre": "Comedia, Romance",
+      "rating": 6.7,
+      "duration": "108 min",
+      "poster": "https://i.pinimg.com/736x/12/24/fa/1224faffde89c8f2c99f7c8ded38085f.jpg",
+      "categories": [
+        "recomendado",
+        "populares",
+        "comedia",
+        "romance"
+      ],
+      "servers": [
+        {
+          "name": "Servidor 1",
+          "url": "https://barmonrey.com/player/MHnfu9FVNUA8ywE/",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "id": "mrokxujv2chn6",
+      "title": "El diario de la Princesa",
+      "plot": "Mia Thermopolis es una tímida adolescente que lleva una vida normal hasta que descubre que es la heredera al trono del pequeño reino de Genovia. Guiada por su elegante abuela, la reina Clarisse, Mia deberá aprender las responsabilidades de ser una princesa mientras enfrenta los desafíos de la escuela, la amistad y el primer amor. Una entrañable historia sobre encontrar el valor para ser uno mismo.",
+      "cast": "Anne Hathaway, Julie Andrews, Hector Elizondo, Heather Matarazzo, Mandy Moore, Caroline Goodall, Robert Schwartzman, Erik von Detten",
+      "director": "Garry Marshall",
+      "writer": "Gina Wendkos, basada en la novela de Meg Cabot",
+      "releaseDate": "2001-08-03",
+      "year": "2001",
+      "genre": "Comedia, Romance, Familiar",
+      "rating": 6.4,
+      "duration": "115 min",
+      "poster": "https://i.pinimg.com/736x/f3/9e/35/f39e35de0c84e0e6db0ab66a28d03857.jpg",
+      "categories": [
+        "recomendado",
+        "populares",
+        "comedia",
+        "romance",
+        "infantil"
+      ],
+      "servers": [
+        {
+          "name": "Servidor 1",
+          "url": "https://barmonrey.com/player/9wKrkNZQiUJlnOt/",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "id": "mrol0b83o09d1",
+      "title": "El diario de la Princesa 2",
+      "plot": "Ahora convertida en la princesa heredera de Genovia, Mia Thermopolis está lista para asumir el trono. Sin embargo, una antigua ley del reino establece que deberá casarse antes de poder convertirse en reina. Mientras busca al candidato ideal, Mia descubrirá que el verdadero amor no siempre sigue las reglas y que gobernar también significa luchar por aquello en lo que uno cree.",
+      "cast": "Anne Hathaway, Julie Andrews, Chris Pine, Hector Elizondo, Heather Matarazzo, John Rhys-Davies, Callum Blue, Larry Miller, Kathleen Marshall, Raven-Symoné",
+      "director": "Garry Marshall",
+      "writer": "Gina Wendkos, Shonda Rhimes, Meg Cabot",
+      "releaseDate": "2004-08-11",
+      "year": "2004",
+      "genre": "Comedia, Romance, Familiar",
+      "rating": 5.9,
+      "duration": "113 min",
+      "poster": "https://i.pinimg.com/1200x/12/12/47/121247b2cef06b85c426f6b0c9333ee3.jpg",
+      "categories": [
+        "recomendado",
+        "populares",
+        "comedia",
+        "romance",
+        "infantil"
+      ],
+      "servers": [
+        {
+          "name": "Servidor 1",
+          "url": "https://barmonrey.com/player/4QwjdwiPufWJmVd/",
           "language": "Español"
         }
       ]
