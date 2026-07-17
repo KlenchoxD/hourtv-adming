@@ -39,9 +39,11 @@ class _CatalogScreenState extends State<CatalogScreen> {
   /// Categoría activa: 'all' (Recomendado), un género de película, o 'series'.
   String _cat = 'all';
 
-  /// Banner rotativo del Inicio en móvil/tablet (estilo UltraPelis).
+  /// Banner rotativo del Inicio en móvil/tablet (estilo UltraPelis). Es un
+  /// ValueNotifier para que la rotación cada 5s reconstruya SOLO el hero, no
+  /// toda la pantalla del catálogo (eso causaba un tironcito periódico).
   Timer? _bannerTimer;
-  int _bannerIdx = 0;
+  final ValueNotifier<int> _bannerIdx = ValueNotifier<int>(0);
 
   /// Contenido que muestra el billboard en TV: el último póster enfocado
   /// con D-pad (estilo Netflix). Null = la primera película destacada.
@@ -60,13 +62,14 @@ class _CatalogScreenState extends State<CatalogScreen> {
         return; // en TV el billboard sigue al foco
       }
       final n = _store.movies.where((m) => m.logo != null).length;
-      if (n > 1) setState(() => _bannerIdx = (_bannerIdx + 1) % n);
+      if (n > 1) _bannerIdx.value = (_bannerIdx.value + 1) % n;
     });
   }
 
   @override
   void dispose() {
     _bannerTimer?.cancel();
+    _bannerIdx.dispose();
     _spotlightDebounce?.cancel();
     _spotlightRequest++;
     _store.removeListener(_onChange);
@@ -494,8 +497,11 @@ class _CatalogScreenState extends State<CatalogScreen> {
       return _tvBillboard(_spotlight ?? movies.first);
     }
     // Banner estilo UltraPelis: imagen a lo ancho, rota sola y es clickeable.
-    final f = movies[_bannerIdx % movies.length];
-    return Padding(
+    return ValueListenableBuilder<int>(
+      valueListenable: _bannerIdx,
+      builder: (context, bannerIdx, _) {
+        final f = movies[bannerIdx % movies.length];
+        return Padding(
       padding: const EdgeInsets.fromLTRB(15, 8, 15, 6),
       child: TvFocusable(
         onTap: () => _openDetails(f, movies),
@@ -579,6 +585,8 @@ class _CatalogScreenState extends State<CatalogScreen> {
           ),
         ),
       ),
+    );
+      },
     );
   }
 
