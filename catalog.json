@@ -607,6 +607,33 @@
           "language": "Español"
         }
       ]
+    },
+    {
+      "id": "mromgm5g30dbg",
+      "title": "Los Ilusionistas: Nada es lo que parece 2",
+      "plot": "Un año después de sus espectaculares atracos, los Cuatro Jinetes regresan con un nuevo espectáculo para desenmascarar a un poderoso empresario. Sin embargo, su plan sale mal cuando son manipulados por un brillante magnate tecnológico que los obliga a ejecutar el robo más difícil de sus vidas. Entre ilusiones, persecuciones y giros inesperados, deberán usar todo su ingenio para descubrir la verdad y recuperar su libertad.",
+      "cast": "Jesse Eisenberg, Mark Ruffalo, Woody Harrelson, Dave Franco, Lizzy Caplan, Daniel Radcliffe, Jay Chou, Morgan Freeman, Michael Caine",
+      "director": "Jon M. Chu",
+      "writer": "Ed Solomon, Peter Chiarelli, Boaz Yakin, basado en los personajes creados por Boaz Yakin y Edward Ricourt",
+      "releaseDate": "2016-06-10",
+      "year": "2016",
+      "genre": "Acción, Aventura, Crimen, Misterio, Suspenso",
+      "rating": 6.4,
+      "duration": "129 min",
+      "poster": "https://i.pinimg.com/736x/23/d9/61/23d961cc8b37e22f5690d0fbd10eff74.jpg",
+      "categories": [
+        "recomendado",
+        "populares",
+        "accion",
+        "aventura"
+      ],
+      "servers": [
+        {
+          "name": "Servidor 1",
+          "url": "https://barmonrey.com/player/uaVy70kCm31PxPA/",
+          "language": "Español"
+        }
+      ]
     }
   ],
   "series": [
