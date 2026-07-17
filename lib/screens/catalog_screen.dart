@@ -469,7 +469,7 @@ class _CatalogScreenState extends State<CatalogScreen> {
           // Fila que SIEMPRE lista todas las películas del catálogo, para que
           // ninguna quede oculta si no cae en los filtros de abajo.
           _movieRow('Todas las películas', movies),
-          _movieRow('Estrenos $year', _byYear(movies, min: year - 1)),
+          _movieRow('Estrenos', _byYear(movies, min: year - 1)),
           _movieRow('Películas Más Populares', _byRating(movies, 7.5)),
           _movieRow('Películas Antiguas', _byYear(movies, max: 2010)),
         ],
@@ -506,7 +506,7 @@ class _CatalogScreenState extends State<CatalogScreen> {
               duration: const Duration(milliseconds: 700),
               switchInCurve: Curves.easeOut,
               child: Stack(
-                key: ValueKey(f.url),
+                key: ValueKey(f.tvgId ?? f.url),
                 fit: StackFit.expand,
                 children: [
                   CachedNetworkImage(

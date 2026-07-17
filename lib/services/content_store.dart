@@ -170,7 +170,13 @@ class ContentStore extends ChangeNotifier {
       final seen = <String>{};
       final refreshedChannels = <Channel>[];
       for (final channel in assetSources.channels) {
-        if (seen.add(channel.url)) refreshedChannels.add(channel);
+        // Las pelis/series del panel se deduplican por su id único, NO por url:
+        // dos titulos distintos pueden compartir la misma URL de servidor y una
+        // desaparecia. El prefijo evita chocar con las urls de los canales.
+        final key = channel.tvgId?.isNotEmpty == true
+            ? 'id:${channel.tvgId}'
+            : channel.url;
+        if (seen.add(key)) refreshedChannels.add(channel);
       }
       if (lists.any((list) => list.isStalker)) {
         for (final channel in all.where(
