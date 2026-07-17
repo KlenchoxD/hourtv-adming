@@ -1,0 +1,21 @@
+{
+  "name": "hourtv-auto-catalogo",
+  "version": "1.0.0",
+  "description": "Bot de automatización del catálogo VOD de HourTV (TMDB + proveedores autorizados)",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/index.js",
+    "run": "tsc -p tsconfig.json && node dist/index.js",
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "typescript": "^5.5.4"
+  }
+}

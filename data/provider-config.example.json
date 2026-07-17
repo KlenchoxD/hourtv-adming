@@ -1,0 +1,35 @@
+{
+  "_comment": "Ejemplo del formato que debe exponer OWN_CATALOG_URL. No contiene secretos: la URL en sí se configura como variable de entorno / secreto de GitHub Actions, y este archivo es solo referencia de formato para quien implemente el CDN o biblioteca propia.",
+
+  "entries": [
+    {
+      "tmdbId": 550,
+      "language": "Español",
+      "serverName": "CDN propio",
+      "url": "https://cdn.tu-servicio-autorizado.com/videos/fight-club.m3u8"
+    },
+    {
+      "tmdbId": 550,
+      "language": "Inglés",
+      "serverName": "CDN propio (VOSE)",
+      "url": "https://cdn.tu-servicio-autorizado.com/videos/fight-club-en.m3u8"
+    },
+    {
+      "tmdbId": 27205,
+      "language": "Español",
+      "serverName": "Biblioteca autorizada",
+      "url": "https://cdn.tu-servicio-autorizado.com/videos/inception.mp4"
+    }
+  ],
+
+  "_httpProviderNote": "Si en vez de un JSON estático usas una API (CONTENT_PROVIDER_API_URL), esta debe responder a GET ?tmdbId=550&title=...&year=... con el siguiente formato:",
+  "_httpProviderExampleResponse": {
+    "sources": [
+      {
+        "url": "https://api.tu-proveedor.com/stream/550",
+        "serverName": "Proveedor API",
+        "language": "Español"
+      }
+    ]
+  }
+}

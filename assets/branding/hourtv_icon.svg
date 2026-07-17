@@ -1,0 +1,11 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <!-- HourTV — logo original (concepto A): arco rojo abierto + play blanco.
+       Ícono transparente para usar en header/splash sobre fondo oscuro. -->
+  <g transform="translate(256,256)">
+    <!-- Arco de "hora" (órbita abierta), abre arriba-izquierda -->
+    <path d="M0 -196 a196 196 0 1 1 -140 56"
+          fill="none" stroke="#E50914" stroke-width="46" stroke-linecap="round"/>
+    <!-- Triángulo play centrado -->
+    <path d="M-52 -84 L104 0 L-52 84 Z" fill="#FFFFFF"/>
+  </g>
+</svg>

@@ -1,0 +1,98 @@
+name: HourTV AutoCatálogo
+
+on:
+  schedule:
+    - cron: "0 */6 * * *"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Simular sin escribir ni publicar cambios"
+        type: boolean
+        default: false
+      max_items:
+        description: "Máximo de películas a añadir en esta ejecución (vacío = usar valor por defecto)"
+        type: string
+        default: ""
+      force_refresh:
+        description: "Forzar una nueva revisión ignorando cachés internas"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: hourtv-auto-catalog
+  cancel-in-progress: false
+
+jobs:
+  update-catalog:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout del repositorio
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: automation/package-lock.json
+
+      - name: Instalar dependencias del automatizador
+        working-directory: automation
+        run: npm install
+
+      - name: Compilar TypeScript
+        working-directory: automation
+        run: npm run build
+
+      - name: Ejecutar HourTV AutoCatálogo
+        working-directory: automation
+        env:
+          TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
+          TMDB_LANGUAGE: "es-ES"
+          TMDB_REGION: "CO"
+          OWN_CATALOG_URL: ${{ secrets.OWN_CATALOG_URL }}
+          CONTENT_PROVIDER_API_URL: ${{ secrets.CONTENT_PROVIDER_API_URL }}
+          CONTENT_PROVIDER_API_KEY: ${{ secrets.CONTENT_PROVIDER_API_KEY }}
+          DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
+          MAX_ITEMS: ${{ github.event.inputs.max_items || '' }}
+          FORCE_REFRESH: ${{ github.event.inputs.force_refresh || 'false' }}
+          CATALOG_PATH: ../catalog.json
+          STATE_PATH: ../data/automation-state.json
+          REPORT_PATH: ../data/automation-report.json
+        run: node dist/index.js
+
+      - name: Validar que catalog.json es JSON válido
+        run: node -e "JSON.parse(require('fs').readFileSync('catalog.json', 'utf-8')); console.log('catalog.json es válido')"
+
+      - name: Subir reporte como artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hourtv-automation-report
+          path: |
+            data/automation-report.json
+            data/automation-state.json
+          retention-days: 30
+
+      - name: Detectar cambios
+        id: changes
+        run: |
+          if git diff --quiet -- catalog.json data/automation-state.json data/automation-report.json; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Commit y push del catálogo actualizado
+        if: steps.changes.outputs.changed == 'true' && (github.event.inputs.dry_run != 'true')
+        run: |
+          git config user.name "hourtv-auto-catalogo[bot]"
+          git config user.email "actions@users.noreply.github.com"
+          git add catalog.json data/automation-state.json data/automation-report.json
+          git commit -m "chore(catalog): actualización automática HourTV"
+          git push

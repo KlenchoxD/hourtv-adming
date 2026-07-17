@@ -1,0 +1,15 @@
+{
+  "generatedAt": null,
+  "durationMs": 0,
+  "dryRun": true,
+  "moviesFound": 0,
+  "moviesDiscarded": 0,
+  "moviesAdded": 0,
+  "moviesEnriched": 0,
+  "duplicates": 0,
+  "tmdbErrors": 0,
+  "providerErrors": 0,
+  "invalidSources": 0,
+  "addedTitles": [],
+  "skipped": []
+}

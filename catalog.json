@@ -1,0 +1,38 @@
+{
+  "version": 2,
+  "movies": [
+    {
+      "id": "mrmz01ubkua53",
+      "title": "Black Widow",
+      "plot": "Natasha Romanoff, conocida como Black Widow, se ve obligada a enfrentar los secretos de su pasado cuando una peligrosa conspiración relacionada con su antigua vida vuelve a perseguirla. Mientras intenta detener una poderosa organización, deberá reencontrarse con personas que alguna vez fueron su familia y superar las consecuencias de las decisiones que tomó antes de convertirse en una Vengadora.\n\nUna película de acción, espionaje y aventura que profundiza en la historia personal de una de las heroínas más importantes del Universo Marvel.",
+      "cast": "Scarlett Johansson, Florence Pugh, David Harbour, Rachel Weisz, O-T Fagbenle, Ray Winstone, Olga Kurylenko, William Hurt",
+      "director": "Cate Shortland",
+      "writer": "Eric Pearson, Jac Schaeffer, Ned Benson",
+      "releaseDate": "2021-07-09",
+      "year": "2021",
+      "genre": "Acción, Aventura, Ciencia ficción, Superhéroes, Espionaje",
+      "rating": 6.6,
+      "duration": "133 Min",
+      "poster": "https://i.pinimg.com/736x/25/83/ae/2583ae26878d2ae0604ed4d8ffbeb953.jpg",
+      "categories": [
+        "recomendado",
+        "populares",
+        "accion",
+        "aventura"
+      ],
+      "servers": [
+        {
+          "name": "Servidor 1",
+          "url": "https://streamwish.to/e/1echh34m2w8a",
+          "language": "Español"
+        },
+        {
+          "name": "Servidor 2",
+          "url": "https://vidhidepro.com/v/9s3c05ztwxxa",
+          "language": "Español"
+        }
+      ]
+    }
+  ],
+  "series": []
+}

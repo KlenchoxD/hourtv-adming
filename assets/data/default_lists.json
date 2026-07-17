@@ -1,0 +1,72 @@
+[
+  {
+    "name": "Latinos",
+    "description": "Canales latinoamericanos",
+    "url": "https://raw.githubusercontent.com/GeertHauw/Advanced-IPTV/main/lists/latino.m3u",
+    "icon": "latam",
+    "category": "latinos"
+  },
+  {
+    "name": "USA & Canada",
+    "description": "Canales americanos y canadienses",
+    "url": "https://raw.githubusercontent.com/GeertHauw/Advanced-IPTV/main/lists/usa.m3u",
+    "icon": "usa",
+    "category": "usa"
+  },
+  {
+    "name": "España",
+    "description": "Canales españoles",
+    "url": "https://raw.githubusercontent.com/iptv-org/iptv/master/data/countries/es.m3u",
+    "icon": "spain",
+    "category": "espana"
+  },
+  {
+    "name": "Deportes",
+    "description": "Canales deportivos",
+    "url": "https://raw.githubusercontent.com/GeertHauw/Advanced-IPTV/main/lists/sports.m3u",
+    "icon": "sports",
+    "category": "deportes"
+  },
+  {
+    "name": "Películas",
+    "description": "Canales de cine y series",
+    "url": "https://raw.githubusercontent.com/GeertHauw/Advanced-IPTV/main/lists/movies.m3u",
+    "icon": "movies",
+    "category": "peliculas"
+  },
+  {
+    "name": "Documentales",
+    "description": "Canales documentales y naturaleza",
+    "url": "https://raw.githubusercontent.com/GeertHauw/Advanced-IPTV/main/lists/docs.m3u",
+    "icon": "documentary",
+    "category": "documentales"
+  },
+  {
+    "name": "Infantiles",
+    "description": "Canales para niños",
+    "url": "https://raw.githubusercontent.com/GeertHauw/Advanced-IPTV/main/lists/kids.m3u",
+    "icon": "kids",
+    "category": "infantiles"
+  },
+  {
+    "name": "Música",
+    "description": "Canales musicales",
+    "url": "https://raw.githubusercontent.com/GeertHauw/Advanced-IPTV/main/lists/music.m3u",
+    "icon": "music",
+    "category": "musica"
+  },
+  {
+    "name": "Noticias",
+    "description": "Canales de noticias",
+    "url": "https://raw.githubusercontent.com/GeertHauw/Advanced-IPTV/main/lists/news.m3u",
+    "icon": "news",
+    "category": "noticias"
+  },
+  {
+    "name": "Internacional",
+    "description": "Canales de todo el mundo",
+    "url": "https://raw.githubusercontent.com/iptv-org/iptv/master/data/channels.m3u",
+    "icon": "world",
+    "category": "internacional"
+  }
+]
