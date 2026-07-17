@@ -476,6 +476,33 @@
           "language": "Español"
         }
       ]
+    },
+    {
+      "id": "mrolqgid0ka6j",
+      "title": "Amor de Medianoche",
+      "plot": "Katie Price es una joven de 17 años que vive con una extraña enfermedad genética que le impide exponerse a la luz del sol. Acostumbrada a salir únicamente por las noches, su vida cambia cuando finalmente conoce a Charlie, el chico del que ha estado enamorada durante años. Juntos vivirán una inolvidable historia de amor, llena de esperanza, desafíos y momentos que cambiarán sus vidas para siempre.",
+      "cast": "Bella Thorne, Patrick Schwarzenegger, Rob Riggle, Quinn Shephard, Suleka Mathew, Tiera Skovbye, Ken Tremblett",
+      "director": "Scott Speer",
+      "writer": "Eric Kirsten",
+      "releaseDate": "2018-03-23",
+      "year": "2018",
+      "genre": "Drama, Romance",
+      "rating": 6.6,
+      "duration": "91 min",
+      "poster": "https://i.pinimg.com/736x/6a/e4/7d/6ae47d9d1655f6fc419f7068fd281236.jpg",
+      "categories": [
+        "recomendado",
+        "populares",
+        "romance",
+        "drama"
+      ],
+      "servers": [
+        {
+          "name": "Servidor 1",
+          "url": "https://barmonrey.com/player/w6MtC8M9MKMZnWp/",
+          "language": "Español"
+        }
+      ]
     }
   ],
   "series": [
