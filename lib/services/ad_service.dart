@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import '../models/channel.dart';
 import '../theme/app_theme.dart';
@@ -67,6 +68,7 @@ class _PrerollScreenState extends State<_PrerollScreen> {
   final _skipFocus = FocusNode();
   WebViewController? _controller;
   Timer? _timer;
+  Timer? _loadTimeout;
   int _secondsLeft = _waitSeconds;
   int _progress = 0;
   String? _loadError;
@@ -78,7 +80,33 @@ class _PrerollScreenState extends State<_PrerollScreen> {
   void initState() {
     super.initState();
     _startCountdown();
-    if (widget.useWebView) _createWebView();
+    if (widget.useWebView) {
+      _createWebView();
+      // Si el anuncio no renderiza en unos segundos (típico en TV o con
+      // DNS/ad-blocker), muestra el fallback en vez de una pantalla negra.
+      _loadTimeout = Timer(const Duration(seconds: 4), () {
+        if (mounted && _progress < 100 && _loadError == null) {
+          setState(() => _loadError = 'Espacio publicitario');
+        }
+      });
+    }
+  }
+
+  // OK / Enter / centro del D-pad saltan el anuncio cuando ya se puede.
+  KeyEventResult _onKey(FocusNode node, KeyEvent event) {
+    if (event is! KeyDownEvent || !_canSkip) return KeyEventResult.ignored;
+    final skipKeys = {
+      LogicalKeyboardKey.select,
+      LogicalKeyboardKey.enter,
+      LogicalKeyboardKey.numpadEnter,
+      LogicalKeyboardKey.gameButtonA,
+      LogicalKeyboardKey.space,
+    };
+    if (skipKeys.contains(event.logicalKey)) {
+      _close();
+      return KeyEventResult.handled;
+    }
+    return KeyEventResult.ignored;
   }
 
   void _startCountdown() {
@@ -143,6 +171,7 @@ class _PrerollScreenState extends State<_PrerollScreen> {
   @override
   void dispose() {
     _timer?.cancel();
+    _loadTimeout?.cancel();
     _skipFocus.dispose();
     super.dispose();
   }
@@ -150,7 +179,10 @@ class _PrerollScreenState extends State<_PrerollScreen> {
   @override
   Widget build(BuildContext context) {
     final controller = _controller;
-    return PopScope(
+    return Focus(
+      autofocus: true,
+      onKeyEvent: _onKey,
+      child: PopScope(
       canPop: _canSkip,
       child: Scaffold(
         backgroundColor: Colors.black,
@@ -238,6 +270,7 @@ class _PrerollScreenState extends State<_PrerollScreen> {
             ),
           ],
         ),
+      ),
       ),
     );
   }
