@@ -376,7 +376,7 @@ class _SeriesDetailScreenState extends State<SeriesDetailScreen> {
       onTap: () => _play(episode),
       borderRadius: BorderRadius.circular(12 * _s),
       child: Container(
-        constraints: BoxConstraints(minHeight: 78 * _s),
+        height: 74 * _s,
         decoration: BoxDecoration(
           color: AppColors.cardDark,
           borderRadius: BorderRadius.circular(12 * _s),
@@ -384,8 +384,9 @@ class _SeriesDetailScreenState extends State<SeriesDetailScreen> {
         ),
         child: Row(
           children: [
+            // Miniatura 16:9 compacta (estilo Netflix), no el póster vertical.
             SizedBox(
-              width: 120 * _s,
+              width: 132 * _s,
               child: ClipRRect(
                 borderRadius: BorderRadius.horizontal(
                   left: Radius.circular(12 * _s),
