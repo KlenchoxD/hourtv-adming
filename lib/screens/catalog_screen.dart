@@ -418,9 +418,30 @@ class _CatalogScreenState extends State<CatalogScreen> {
       return _vodEmpty(_cat.toLowerCase());
     }
 
+    // Identidades válidas = solo lo que sigue en el catálogo del panel, para que
+    // "Continuar viendo" no muestre pelis viejas/demo ya eliminadas.
+    final catalogKeys = <String>{
+      for (final m in movies) ...[
+        if (m.tvgId != null && m.tvgId!.isNotEmpty) m.tvgId!,
+        m.name,
+        m.url,
+      ],
+    };
+    final seenRecent = <String>{};
     final recent = recommended
         ? StorageService.loadRecent()
               .where((channel) => channel.type != MediaType.live)
+              .where(
+                (channel) =>
+                    catalogKeys.contains(channel.tvgId) ||
+                    catalogKeys.contains(channel.name) ||
+                    catalogKeys.contains(channel.url),
+              )
+              // Deduplica por identidad estable (id del catálogo o título): la
+              // misma peli puede haberse guardado con URLs de servidor distintas.
+              .where(
+                (channel) => seenRecent.add(channel.tvgId ?? channel.name),
+              )
               .toList(growable: false)
         : const <Channel>[];
     final year = DateTime.now().year;
@@ -445,6 +466,9 @@ class _CatalogScreenState extends State<CatalogScreen> {
         if (recent.isNotEmpty) _movieRow('Continuar viendo', recent),
         if (recommended && movies.isNotEmpty) const InlineAdBanner(),
         if (recommended || moviesTab) ...[
+          // Fila que SIEMPRE lista todas las películas del catálogo, para que
+          // ninguna quede oculta si no cae en los filtros de abajo.
+          _movieRow('Todas las películas', movies),
           _movieRow('Estrenos $year', _byYear(movies, min: year - 1)),
           _movieRow('Películas Más Populares', _byRating(movies, 7.5)),
           _movieRow('Películas Antiguas', _byYear(movies, max: 2010)),
