@@ -32,6 +32,338 @@
           "language": "Español"
         }
       ]
+    },
+    {
+      "id": "mrohdxyiodvnd",
+      "title": "Orgullo y Prejuicio",
+      "plot": "Elizabeth Bennet es una joven inteligente e independiente que vive en la Inglaterra del siglo XIX. Cuando conoce al reservado y adinerado señor Darcy, las primeras impresiones y los prejuicios mutuos complican su relación. A medida que ambos descubren la verdad sobre el otro, deberán superar el orgullo, los malentendidos y las diferencias sociales para encontrar el verdadero amor.",
+      "cast": "Keira Knightley, Matthew Macfadyen, Donald Sutherland, Brenda Blethyn, Rosamund Pike, Jena Malone, Carey Mulligan, Judi Dench, Tom Hollander, Simon Woods",
+      "director": "Joe Wright",
+      "writer": "Deborah Moggach",
+      "releaseDate": "2005-09-16",
+      "year": "2005",
+      "genre": "Drama, Romance",
+      "rating": 8.2,
+      "duration": "129 min",
+      "poster": "https://i.pinimg.com/736x/b5/c1/78/b5c178999004bfebdafc70bd82d3cde7.jpg",
+      "categories": [
+        "recomendado",
+        "populares",
+        "romance",
+        "drama"
+      ],
+      "servers": [
+        {
+          "name": "Servidor 1",
+          "url": "https://barmonrey.com/player/QQabGfq1LJaE3Rx/",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "id": "mroht5fzhdh4w",
+      "title": "Mujercitas",
+      "plot": "Las hermanas March —Jo, Meg, Amy y Beth— atraviesan el paso de la juventud a la vida adulta mientras persiguen sus sueños, enfrentan dificultades económicas y descubren el amor, la pérdida y el valor de la familia. Jo, decidida a convertirse en escritora y vivir bajo sus propias reglas, lucha contra las expectativas impuestas a las mujeres de su época.",
+      "cast": "Saoirse Ronan, Emma Watson, Florence Pugh, Eliza Scanlen, Timothée Chalamet, Laura Dern, Meryl Streep, Chris Cooper, Louis Garrel, James Norton, Bob Odenkirk, Tracy Letts.",
+      "director": "Greta Gerwig.",
+      "writer": "Greta Gerwig, basada en la novela de Louisa May Alcott.",
+      "releaseDate": "2019-12-25",
+      "year": "2019",
+      "genre": "Drama, Romance, Época.",
+      "rating": 7.8,
+      "duration": "135 min",
+      "poster": "https://i.pinimg.com/1200x/43/29/61/432961641cfcbc9dee41274ebced7832.jpg",
+      "categories": [
+        "recomendado",
+        "populares",
+        "romance",
+        "drama"
+      ],
+      "servers": [
+        {
+          "name": "Servidor 1",
+          "url": "https://barmonrey.com/player/BqxnCX4BloX55SU/",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "id": "mrohyigs547bq",
+      "title": "Emma.",
+      "plot": "Emma Woodhouse es una joven rica, inteligente y segura de conocer perfectamente los asuntos del corazón. Convencida de que puede encontrar la pareja ideal para quienes la rodean, comienza a intervenir en la vida amorosa de sus amigos. Sin embargo, sus planes provocan malentendidos y sentimientos heridos que la obligarán a reconocer sus propios errores y descubrir lo que realmente siente.",
+      "cast": "Reparto (separado por comas) Anya Taylor-Joy, Johnny Flynn, Mia Goth, Josh O’Connor, Callum Turner, Bill Nighy, Miranda Hart, Rupert Graves, Gemma Whelan, Amber Anderson",
+      "director": "Autumn de Wilde",
+      "writer": "Eleanor Catton, basada en la novela de Jane Austen.",
+      "releaseDate": "2020-02-21",
+      "year": "2020",
+      "genre": "Comedia, Drama, Romance, Época",
+      "rating": 6.7,
+      "duration": "124 min",
+      "poster": "https://i.pinimg.com/1200x/65/39/83/6539837a1aec56eccfc384fd55dcff72.jpg",
+      "categories": [
+        "recomendado",
+        "populares",
+        "comedia",
+        "romance",
+        "drama"
+      ],
+      "servers": [
+        {
+          "name": "Servidor 1",
+          "url": "https://barmonrey.com/player/jZqT7vVmgAtL3ld/",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "id": "mroi2tlyme7vb",
+      "title": "La escuela del bien y del mal",
+      "plot": "Las mejores amigas Sophie y Agatha son transportadas a una escuela mágica donde los jóvenes son entrenados para convertirse en héroes o villanos de los cuentos de hadas. Cuando ambas terminan en escuelas opuestas a las que esperaban, deberán desafiar su destino, descubrir quiénes son realmente y demostrar que la verdadera amistad puede cambiar cualquier historia.",
+      "cast": "Sophia Anne Caruso, Sofia Wylie, Charlize Theron, Kerry Washington, Laurence Fishburne, Michelle Yeoh, Jamie Flatters, Kit Young, Earl Cave, Patti LuPone",
+      "director": "Paul Feig",
+      "writer": "David Magee, Paul Feig, basada en la novela de Soman Chainani",
+      "releaseDate": "2022-10-19",
+      "year": "2022",
+      "genre": "Fantasía, Aventura, Acción, Drama",
+      "rating": 5.9,
+      "duration": "147 min",
+      "poster": "https://i.pinimg.com/1200x/c9/ac/f9/c9acf90a10bdc3566cd5f744caf5a56f.jpg",
+      "categories": [
+        "recomendado",
+        "populares",
+        "accion",
+        "aventura",
+        "infantil"
+      ],
+      "servers": [
+        {
+          "name": "Servidor 1",
+          "url": "https://barmonrey.com/player/xcT5llP0BNDKCwS/",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "id": "mroi92clm0oht",
+      "title": "Crepúsculo",
+      "plot": "Bella Swan se muda a la pequeña ciudad de Forks para vivir con su padre, donde conoce al misterioso Edward Cullen. A medida que se enamoran, Bella descubre que Edward pertenece a una antigua familia de vampiros que lucha por vivir en paz entre los humanos. Su romance los llevará a enfrentar peligros inesperados que pondrán a prueba su amor y sus vidas.",
+      "cast": "Kristen Stewart, Robert Pattinson, Billy Burke, Peter Facinelli, Elizabeth Reaser, Ashley Greene, Jackson Rathbone, Nikki Reed, Kellan Lutz, Taylor Lautner, Cam Gigandet, Anna Kendrick",
+      "director": "Catherine Hardwicke",
+      "writer": "Melissa Rosenberg, basada en la novela de Stephenie Meyer",
+      "releaseDate": "2008-11-21",
+      "year": "2008",
+      "genre": "Romance, Fantasía, Drama",
+      "rating": 5.3,
+      "duration": "122 min",
+      "poster": "https://i.pinimg.com/1200x/1b/8b/c9/1b8bc9a634e0070171fa3c4d498aa603.jpg",
+      "categories": [
+        "recomendado",
+        "populares",
+        "romance",
+        "aventura",
+        "drama"
+      ],
+      "servers": [
+        {
+          "name": "Servidor 1",
+          "url": "https://barmonrey.com/player/IIBVFCC1uFfADXT/",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "id": "mroiuehspsy3x",
+      "title": "Crepúsculo la saga: Luna Nueva",
+      "plot": "Tras la inesperada partida de Edward Cullen, Bella Swan cae en una profunda tristeza. Mientras intenta reconstruir su vida, fortalece su amistad con Jacob Black, quien guarda un sorprendente secreto que cambiará su destino. Dividida entre el amor, la amistad y el peligro que la rodea, Bella deberá tomar decisiones que marcarán el rumbo de su vida para siempre.",
+      "cast": "Kristen Stewart, Robert Pattinson, Taylor Lautner, Ashley Greene, Peter Facinelli, Elizabeth Reaser, Jackson Rathbone, Nikki Reed, Kellan Lutz, Billy Burke, Dakota Fanning, Michael Sheen",
+      "director": "Chris Weitz",
+      "writer": "Melissa Rosenberg, basada en la novela de Stephenie Meyer",
+      "releaseDate": "2009-11-20",
+      "year": "2009",
+      "genre": "Romance, Fantasía, Drama",
+      "rating": 4.8,
+      "duration": "130 min",
+      "poster": "https://i.pinimg.com/1200x/99/e6/09/99e609209e5a1a76dcb7cc2a45dba794.jpg",
+      "categories": [
+        "recomendado",
+        "populares",
+        "romance",
+        "drama"
+      ],
+      "servers": [
+        {
+          "name": "Servidor 1",
+          "url": "https://barmonrey.com/player/rUGXQXynCprgrD1/",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "id": "mrojmr4m6ge5d",
+      "title": "Crepúsculo la saga: Eclipse",
+      "plot": "Bella Swan se encuentra en el centro de un peligroso conflicto cuando una serie de misteriosos ataques sacuden la ciudad de Seattle. Mientras una poderosa enemiga busca vengarse, Bella deberá enfrentar una difícil decisión entre su amor por Edward Cullen y el profundo vínculo que la une a Jacob Black, sabiendo que su elección podría cambiar el destino de todos.",
+      "cast": "Kristen Stewart, Robert Pattinson, Taylor Lautner, Bryce Dallas Howard, Ashley Greene, Peter Facinelli, Elizabeth Reaser, Jackson Rathbone, Nikki Reed, Kellan Lutz, Billy Burke, Dakota Fanning, Michael Sheen",
+      "director": "David Slade",
+      "writer": "Melissa Rosenberg, basada en la novela de Stephenie Meyer",
+      "releaseDate": "2010-06-30",
+      "year": "2010",
+      "genre": "Romance, Fantasía, Drama",
+      "rating": 5.1,
+      "duration": "124 min",
+      "poster": "https://i.pinimg.com/1200x/ed/d7/41/edd7410d447bed98cefd9fa91c6b791f.jpg",
+      "categories": [
+        "recomendado",
+        "populares",
+        "accion",
+        "romance",
+        "drama"
+      ],
+      "servers": [
+        {
+          "name": "Servidor 1",
+          "url": "https://barmonrey.com/player/94IFvXKfe6BzOzA/",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "id": "mrojqqy40huhv",
+      "title": "Crepúsculo la saga: Amanecer Parte 1",
+      "plot": "Después de su esperada boda, Bella Swan y Edward Cullen disfrutan de su luna de miel, pero una inesperada noticia cambiará sus vidas para siempre. Mientras Bella enfrenta un embarazo extraordinario y lleno de riesgos, los Cullen y Jacob Black harán todo lo posible por protegerla de las amenazas que podrían desencadenar un conflicto entre vampiros y hombres lobo.",
+      "cast": "Kristen Stewart, Robert Pattinson, Taylor Lautner, Billy Burke, Peter Facinelli, Elizabeth Reaser, Ashley Greene, Jackson Rathbone, Nikki Reed, Kellan Lutz, Dakota Fanning, Michael Sheen",
+      "director": "Bill Condon",
+      "writer": "Melissa Rosenberg, basada en la novela de Stephenie Meyer",
+      "releaseDate": "2011-11-18",
+      "year": "2011",
+      "genre": "Romance, Fantasía, Drama",
+      "rating": 4.9,
+      "duration": "117 min",
+      "poster": "https://i.pinimg.com/1200x/23/dc/18/23dc18978f3338d3aeead2babf30978c.jpg",
+      "categories": [
+        "recomendado",
+        "populares",
+        "romance",
+        "drama"
+      ],
+      "servers": [
+        {
+          "name": "Servidor 1",
+          "url": "https://barmonrey.com/player/C9XeB7Oy3ymoQJ8/",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "id": "mrojui3wxup3u",
+      "title": "Crepúsculo la saga: Amanecer Parte 2",
+      "plot": "Tras convertirse en vampira, Bella Swan comienza una nueva vida junto a Edward Cullen y su hija Renesmee. Sin embargo, una falsa acusación pone a la familia Cullen en la mira de los Volturi, quienes amenazan con destruirlos. Para proteger a los suyos, los Cullen deberán reunir aliados de todo el mundo y enfrentarse a la batalla más importante de sus vidas.",
+      "cast": "Kristen Stewart, Robert Pattinson, Taylor Lautner, Mackenzie Foy, Billy Burke, Peter Facinelli, Elizabeth Reaser, Ashley Greene, Jackson Rathbone, Nikki Reed, Kellan Lutz, Dakota Fanning, Michael Sheen, Anna Kendrick",
+      "director": "Bill Condon",
+      "writer": "Melissa Rosenberg, basada en la novela de Stephenie Meyer",
+      "releaseDate": "2012-11-16",
+      "year": "2012",
+      "genre": "Romance, Fantasía, Drama, Acción",
+      "rating": 5.6,
+      "duration": "115 min",
+      "poster": "https://i.pinimg.com/1200x/69/18/a9/6918a9fd4de68699ae73daa90f795b55.jpg",
+      "categories": [
+        "recomendado",
+        "populares",
+        "accion",
+        "romance",
+        "drama"
+      ],
+      "servers": [
+        {
+          "name": "Servidor 1",
+          "url": "https://barmonrey.com/player/WiP3IovcgKcc1lp/",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "id": "mrojy3mcgn0pa",
+      "title": "El Cadáver de la Novia",
+      "plot": "En un pequeño pueblo de la época victoriana, el tímido Victor practica sus votos matrimoniales en el bosque y, sin darse cuenta, despierta a Emily, una novia que regresa del mundo de los muertos creyendo que acaba de casarse. Mientras intenta volver con su verdadera prometida, Victor descubrirá una historia llena de amor, sacrificio y segundas oportunidades entre el mundo de los vivos y el de los muertos.",
+      "cast": "Johnny Depp, Helena Bonham Carter, Emily Watson, Tracey Ullman, Paul Whitehouse, Joanna Lumley, Albert Finney, Richard E. Grant, Christopher Lee, Michael Gough",
+      "director": "Tim Burton, Mike Johnson",
+      "writer": "John August, Caroline Thompson, Pamela Pettler",
+      "releaseDate": "2005-09-23",
+      "year": "2005",
+      "genre": "Animación, Fantasía, Romance, Musical",
+      "rating": 7.4,
+      "duration": "77 min",
+      "poster": "https://i.pinimg.com/736x/03/e5/fd/03e5fda3273a5d51362accdd6ff861a9.jpg",
+      "categories": [
+        "recomendado",
+        "populares",
+        "comedia",
+        "romance",
+        "infantil"
+      ],
+      "servers": [
+        {
+          "name": "Servidor 1",
+          "url": "https://barmonrey.com/player/llLEMbBHBFcg0WV/",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "id": "mrok428tedbmk",
+      "title": "La Bella y la Bestia",
+      "plot": "Bella, una joven inteligente e independiente, acepta ocupar el lugar de su padre como prisionera en el misterioso castillo de una Bestia. Con el tiempo, descubre que bajo su temible apariencia se esconde un príncipe víctima de una antigua maldición. Mientras el peligro acecha al reino, ambos aprenderán que el verdadero amor va más allá de las apariencias.",
+      "cast": "Emma Watson, Dan Stevens, Luke Evans, Kevin Kline, Josh Gad, Ewan McGregor, Ian McKellen, Emma Thompson, Stanley Tucci, Audra McDonald, Gugu Mbatha-Raw",
+      "director": "Bill Condon",
+      "writer": "Stephen Chbosky, Evan Spiliotopoulos",
+      "releaseDate": "2017-03-17",
+      "year": "2017",
+      "genre": "Fantasía, Romance, Musical, Familiar",
+      "rating": 7.1,
+      "duration": "129 min",
+      "poster": "https://i.pinimg.com/736x/de/8e/38/de8e385538199b48a5c8fc3d5853f43f.jpg",
+      "categories": [
+        "recomendado",
+        "populares",
+        "romance",
+        "aventura",
+        "infantil"
+      ],
+      "servers": [
+        {
+          "name": "Servidor 1",
+          "url": "https://barmonrey.com/player/ia66tjdFRaQIQjV/",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "id": "mrok9knx5ayc5",
+      "title": "La Bella y la Bestia",
+      "plot": "Tras perder toda la fortuna de su familia, Bella decide sacrificarse para salvar a su padre y termina viviendo en el misterioso castillo de una Bestia. Mientras descubre los secretos del lugar y la verdadera historia detrás de la maldición que pesa sobre su anfitrión, comprenderá que el amor y la bondad pueden romper incluso los hechizos más poderosos.",
+      "cast": "Léa Seydoux, Vincent Cassel, André Dussollier, Eduardo Noriega, Myriam Charleins, Audrey Lamy, Sara Giraudeau, Jonathan Demurger",
+      "director": "Christophe Gans",
+      "writer": "Christophe Gans, Sandra Vo-Anh",
+      "releaseDate": "2014-02-12",
+      "year": "2014",
+      "genre": "Fantasía, Romance, Drama",
+      "rating": 6.4,
+      "duration": "112 min",
+      "poster": "https://i.pinimg.com/736x/8b/9b/74/8b9b74d0e3837318298b3cc86f226e06.jpg",
+      "categories": [
+        "recomendado",
+        "populares",
+        "romance",
+        "aventura",
+        "drama"
+      ],
+      "servers": [
+        {
+          "name": "Servidor 1",
+          "url": "https://barmonrey.com/player/ia66tjdFRaQIQjV/",
+          "language": "Español"
+        }
+      ]
     }
   ],
   "series": []

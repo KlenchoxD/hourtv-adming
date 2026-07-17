@@ -52,4 +52,3 @@ artifacts/
 automation/node_modules/
 automation/dist/
 automation/*.log
-
