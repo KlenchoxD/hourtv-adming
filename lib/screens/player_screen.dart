@@ -217,8 +217,11 @@ class _PlayerScreenState extends State<PlayerScreen> {
   static bool _sameSite(String a, String b) {
     String reg(String h) {
       final p = h.toLowerCase().split('.').where((x) => x.isNotEmpty).toList();
-      return p.length <= 2 ? h.toLowerCase() : p.sublist(p.length - 2).join('.');
+      return p.length <= 2
+          ? h.toLowerCase()
+          : p.sublist(p.length - 2).join('.');
     }
+
     return b.isNotEmpty && reg(a) == reg(b);
   }
 
@@ -955,83 +958,92 @@ class _PlayerScreenState extends State<PlayerScreen> {
         body: (!_loading && _embedUrl != null && _embedController != null)
             ? _embedBody()
             : GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onTap: _toggleChrome,
-          onHorizontalDragEnd: _onHorizontalDragEnd,
-          onVerticalDragStart: _onVerticalDragStart,
-          onVerticalDragUpdate: _onVerticalDragUpdate,
-          child: SafeArea(
-            minimum: EdgeInsets.symmetric(
-              horizontal: DeviceProfile.isTv(context) ? 12 : 0,
-            ),
-            child: Stack(
-              children: [
-                Center(
-                  child: _loading
-                      ? _lw()
-                      : _err != null
-                      ? _ew()
-                      : _cc != null
-                      ? Transform.scale(
-                          scale: _videoScale,
-                          child: Chewie(controller: _cc!),
-                        )
-                      : const SizedBox(),
-                ),
-                if (_screenDim > 0)
-                  Positioned.fill(
-                    child: IgnorePointer(
-                      child: ColoredBox(
-                        color: Colors.black.withValues(alpha: _screenDim),
-                      ),
-                    ),
+                behavior: HitTestBehavior.opaque,
+                onTap: _toggleChrome,
+                onHorizontalDragEnd: _onHorizontalDragEnd,
+                onVerticalDragStart: _onVerticalDragStart,
+                onVerticalDragUpdate: _onVerticalDragUpdate,
+                child: SafeArea(
+                  minimum: EdgeInsets.symmetric(
+                    horizontal: DeviceProfile.isTv(context) ? 12 : 0,
                   ),
-                if (_chromeVisible)
-                  Positioned(top: 0, left: 0, right: 0, child: _tb()),
-                if (_gestureLabel != null)
-                  Positioned.fill(
-                    child: IgnorePointer(
-                      child: Center(
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 18,
-                            vertical: 10,
-                          ),
-                          decoration: BoxDecoration(
-                            color: Colors.black87,
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Text(
-                            _gestureLabel!,
-                            style: const TextStyle(color: Colors.white),
+                  child: Stack(
+                    children: [
+                      Center(
+                        child: _loading
+                            ? _lw()
+                            : _err != null
+                            ? _ew()
+                            : _cc != null
+                            ? Transform.scale(
+                                scale: _videoScale,
+                                child: Chewie(controller: _cc!),
+                              )
+                            : const SizedBox(),
+                      ),
+                      if (_screenDim > 0)
+                        Positioned.fill(
+                          child: IgnorePointer(
+                            child: ColoredBox(
+                              color: Colors.black.withValues(alpha: _screenDim),
+                            ),
                           ),
                         ),
-                      ),
-                    ),
+                      if (_chromeVisible)
+                        Positioned(top: 0, left: 0, right: 0, child: _tb()),
+                      if (_chromeVisible &&
+                          DeviceProfile.isTv(context) &&
+                          !_showList)
+                        Positioned(
+                          left: 46,
+                          right: 46,
+                          bottom: 34,
+                          child: _tvTransport(),
+                        ),
+                      if (_gestureLabel != null)
+                        Positioned.fill(
+                          child: IgnorePointer(
+                            child: Center(
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 18,
+                                  vertical: 10,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Colors.black87,
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: Text(
+                                  _gestureLabel!,
+                                  style: const TextStyle(color: Colors.white),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      if (_showList) _ov(),
+                      if (_chromeVisible && !_showList) ...[
+                        Positioned(
+                          left: 8,
+                          top: 0,
+                          bottom: 0,
+                          child: Center(
+                            child: _nb(Icons.chevron_left, () => _chg(-1)),
+                          ),
+                        ),
+                        Positioned(
+                          right: 8,
+                          top: 0,
+                          bottom: 0,
+                          child: Center(
+                            child: _nb(Icons.chevron_right, () => _chg(1)),
+                          ),
+                        ),
+                      ],
+                    ],
                   ),
-                if (_showList) _ov(),
-                if (_chromeVisible && !_showList) ...[
-                  Positioned(
-                    left: 8,
-                    top: 0,
-                    bottom: 0,
-                    child: Center(
-                      child: _nb(Icons.chevron_left, () => _chg(-1)),
-                    ),
-                  ),
-                  Positioned(
-                    right: 8,
-                    top: 0,
-                    bottom: 0,
-                    child: Center(
-                      child: _nb(Icons.chevron_right, () => _chg(1)),
-                    ),
-                  ),
-                ],
-              ],
-            ),
-          ),
-        ),
+                ),
+              ),
       ),
     ),
   );
@@ -1079,6 +1091,117 @@ class _PlayerScreenState extends State<PlayerScreen> {
       child: Icon(ic, color: Colors.white, size: 28),
     ),
   );
+
+  Widget _tvTransport() {
+    final controller = _vc;
+    final value = controller?.value;
+    final initialized = value?.isInitialized == true;
+    final position = value?.position ?? Duration.zero;
+    final duration = value?.duration ?? Duration.zero;
+    String format(Duration time) {
+      String two(int number) => number.toString().padLeft(2, '0');
+      return '${two(time.inMinutes.remainder(60))}:${two(time.inSeconds.remainder(60))}';
+    }
+
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: Colors.black.withValues(alpha: 0.72),
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.12)),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(22, 14, 22, 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              widget.allChannels[_idx].displayName,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 21,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            const SizedBox(height: 12),
+            Row(
+              children: [
+                TvFocusable(
+                  onTap: _togglePlayPause,
+                  autofocus: false,
+                  borderRadius: BorderRadius.circular(24),
+                  child: Container(
+                    width: 52,
+                    height: 52,
+                    alignment: Alignment.center,
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(
+                      value?.isPlaying == true
+                          ? Icons.pause_rounded
+                          : Icons.play_arrow_rounded,
+                      color: Colors.black,
+                      size: 31,
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 18),
+                Text(
+                  format(position),
+                  style: const TextStyle(color: Colors.white70, fontSize: 15),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: initialized
+                        ? VideoProgressIndicator(
+                            controller!,
+                            allowScrubbing: true,
+                            colors: const VideoProgressColors(
+                              playedColor: AppColors.accent,
+                              bufferedColor: Color(0x99FFFFFF),
+                              backgroundColor: Color(0x55FFFFFF),
+                            ),
+                          )
+                        : const LinearProgressIndicator(
+                            color: AppColors.accent,
+                          ),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Text(
+                  format(duration),
+                  style: const TextStyle(color: Colors.white70, fontSize: 15),
+                ),
+                const SizedBox(width: 18),
+                const Icon(
+                  Icons.keyboard_arrow_left_rounded,
+                  color: Colors.white70,
+                ),
+                const Text(
+                  '10 s',
+                  style: TextStyle(color: Colors.white70, fontSize: 14),
+                ),
+                const SizedBox(width: 10),
+                const Text(
+                  '10 s',
+                  style: TextStyle(color: Colors.white70, fontSize: 14),
+                ),
+                const Icon(
+                  Icons.keyboard_arrow_right_rounded,
+                  color: Colors.white70,
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 
   Widget _tb() {
     final ch = widget.allChannels[_idx];
