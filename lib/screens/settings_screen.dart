@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../services/content_store.dart';
 import '../services/device_type.dart';
+import '../services/iptv_server_service.dart';
 import '../services/storage_service.dart';
 import '../theme/app_theme.dart';
 import '../widgets/hourtv_brand.dart';
@@ -19,6 +21,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
   bool _wifiOnly = false;
   bool _tmdbConfigured = false;
   bool _remoteConfigured = false;
+  bool _iptvServerEnabled = false;
+  String? _iptvServerUrl;
 
   @override
   void initState() {
@@ -42,10 +46,69 @@ class _SettingsScreenState extends State<SettingsScreen> {
             .toString()
             .trim()
             .isNotEmpty;
+    final server = IptvServerService.instance;
+    _iptvServerEnabled =
+        StorageService.getSetting('iptv_server_enabled', defaultValue: false) ==
+        true;
+    _iptvServerUrl = server.localUrl.value;
+    server.isRunning.addListener(_onIptvServerChanged);
+    server.localUrl.addListener(_onIptvServerChanged);
   }
 
   Future<void> _set(String key, dynamic value) async {
     await StorageService.saveSetting(key, value);
+  }
+
+  void _onIptvServerChanged() {
+    if (!mounted) return;
+    setState(() {
+      _iptvServerEnabled = IptvServerService.instance.isRunning.value;
+      _iptvServerUrl = IptvServerService.instance.localUrl.value;
+    });
+  }
+
+  Future<void> _setIptvServerEnabled(bool enabled) async {
+    setState(() => _iptvServerEnabled = enabled);
+    await _set('iptv_server_enabled', enabled);
+    try {
+      if (enabled) {
+        await IptvServerService.instance.start();
+      } else {
+        await IptvServerService.instance.stop();
+      }
+      if (mounted) {
+        setState(
+          () => _iptvServerUrl = IptvServerService.instance.localUrl.value,
+        );
+      }
+    } catch (_) {
+      await _set('iptv_server_enabled', false);
+      if (!mounted) return;
+      setState(() {
+        _iptvServerEnabled = false;
+        _iptvServerUrl = null;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('No se pudo iniciar el servidor IPTV.')),
+      );
+    }
+  }
+
+  void _copyIptvServerUrl() {
+    final url = _iptvServerUrl;
+    if (url == null) return;
+    Clipboard.setData(ClipboardData(text: url));
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('URL copiada al portapapeles')),
+    );
+  }
+
+  @override
+  void dispose() {
+    final server = IptvServerService.instance;
+    server.isRunning.removeListener(_onIptvServerChanged);
+    server.localUrl.removeListener(_onIptvServerChanged);
+    super.dispose();
   }
 
   @override
@@ -56,7 +119,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         padding: EdgeInsets.symmetric(
           horizontal: tv ? MediaQuery.sizeOf(context).width * 0.05 : 0,
         ),
-        itemCount: 7,
+        itemCount: 8,
         itemBuilder: (context, index) {
           return switch (index) {
             0 => RepaintBoundary(child: tv ? _tvHeader() : _header()),
@@ -108,7 +171,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 onTap: _clearCache,
               ),
             ]),
-            4 => _section('Metadata', [
+            4 => _section('Servidor IPTV', [_iptvServerTile()]),
+            5 => _section('Metadata', [
               _choice(
                 icon: Icons.movie_filter_outlined,
                 title: 'API Key de TMDB',
@@ -126,7 +190,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 onTap: _editRemoteSourcesUrl,
               ),
             ]),
-            5 => _section('Información', [
+            6 => _section('Información', [
               _choice(
                 icon: Icons.info_outline,
                 title: 'Acerca de',
@@ -229,6 +293,101 @@ class _SettingsScreenState extends State<SettingsScreen> {
       ),
     ],
   );
+
+  Widget _iptvServerTile() {
+    final url = _iptvServerUrl;
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(12, 6, 12, 10),
+      child: Column(
+        children: [
+          ListTile(
+            contentPadding: EdgeInsets.zero,
+            leading: _iconChip(Icons.dns_outlined),
+            title: const Text(
+              'Servidor IPTV (LAN)',
+              style: TextStyle(
+                color: AppColors.textPrimary,
+                fontSize: 14.5,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            subtitle: const Text(
+              'Comparte el catálogo con apps IPTV en tu Wi-Fi',
+              style: TextStyle(color: AppColors.textMuted, fontSize: 12),
+            ),
+            trailing: Switch(
+              value: _iptvServerEnabled,
+              onChanged: _setIptvServerEnabled,
+              activeThumbColor: AppColors.accent,
+              activeTrackColor: AppColors.accent.withValues(alpha: 0.5),
+            ),
+            onTap: () => _setIptvServerEnabled(!_iptvServerEnabled),
+          ),
+          if (_iptvServerEnabled) ...[
+            const SizedBox(height: 4),
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: AppColors.surfaceDark,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: url == null
+                  ? const Text(
+                      'Buscando la dirección de esta red Wi-Fi…',
+                      style: TextStyle(
+                        color: AppColors.textMuted,
+                        fontSize: 12,
+                      ),
+                    )
+                  : Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Pega esta URL en tu app IPTV (TiviMate, IPTV Smarters) en un TV conectado a la misma red Wi-Fi:',
+                          style: TextStyle(
+                            color: AppColors.textMuted,
+                            fontSize: 12,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: SelectableText(
+                                url,
+                                style: const TextStyle(
+                                  color: AppColors.textPrimary,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                            IconButton(
+                              tooltip: 'Copiar URL',
+                              onPressed: _copyIptvServerUrl,
+                              icon: const Icon(
+                                Icons.copy_rounded,
+                                color: AppColors.accent,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 4),
+                        const Text(
+                          'Mantén esta pantalla o la app abierta para que el servidor siga activo.',
+                          style: TextStyle(
+                            color: AppColors.textMuted,
+                            fontSize: 11.5,
+                          ),
+                        ),
+                      ],
+                    ),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
 
   Widget _section(String title, List<Widget> tiles) => Column(
     crossAxisAlignment: CrossAxisAlignment.start,

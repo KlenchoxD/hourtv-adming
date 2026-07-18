@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'services/storage_service.dart';
 import 'services/device_type.dart';
+import 'services/iptv_server_service.dart';
 import 'theme/app_theme.dart';
 import 'widgets/hourtv_brand.dart';
 import 'screens/home_shell.dart';
@@ -33,6 +34,13 @@ void main() {
         ),
       );
       runApp(const HourTVApp());
+      if (StorageService.getSetting(
+            'iptv_server_enabled',
+            defaultValue: false,
+          ) ==
+          true) {
+        unawaited(IptvServerService.instance.start().catchError((_) {}));
+      }
     },
     (error, stack) {
       runApp(HourTVApp(fatalError: '$error'));
