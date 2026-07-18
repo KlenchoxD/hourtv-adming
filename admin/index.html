@@ -44,6 +44,13 @@
   .item .cap span{color:var(--dim);font-size:11px}
   .badge{display:inline-block;background:var(--accent);color:#fff;font-size:9px;font-weight:800;padding:2px 6px;border-radius:4px;letter-spacing:.4px;vertical-align:middle}
   .empty{text-align:center;color:var(--dim);padding:60px 20px}
+  .sourcelist{display:flex;flex-direction:column;gap:10px}
+  .source-row{display:flex;align-items:center;gap:14px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px;cursor:pointer;transition:.15s}
+  .source-row:hover{border-color:var(--accent)}
+  .source-ic{font-size:22px;flex-shrink:0}
+  .source-info{flex:1;min-width:0}
+  .source-info b{display:block;font-size:14px}
+  .source-info span{color:var(--dim);font-size:12px;word-break:break-all}
   /* Modal */
   .overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:50;display:none;align-items:center;justify-content:center;overflow:hidden;padding:clamp(12px,3vh,30px) 16px}
   .overlay.open{display:flex}
@@ -135,9 +142,10 @@
 // ---------- Estado ----------
 const TABS = [
   {id:'movies', label:'Películas', kind:'vod'},
-  {id:'series', label:'Series', kind:'series'}
+  {id:'series', label:'Series', kind:'series'},
+  {id:'sources', label:'Canales en vivo', kind:'live'}
 ];
-let catalog = {version:2, movies:[], series:[]};
+let catalog = {version:2, movies:[], series:[], sources:[]};
 let activeTab = 'movies';
 let cfg = JSON.parse(localStorage.getItem('hourtv_admin_cfg')||'{}');
 
@@ -158,11 +166,27 @@ function setTab(id){activeTab=id;document.getElementById('search').value='';rend
 function render(){
   renderTabs();
   const q=document.getElementById('search').value.toLowerCase().trim();
-  const items=(catalog[activeTab]||[]).filter(item=>!q||(item.title||'').toLowerCase().includes(q));
+  const isLive=activeTab==='sources';
+  const items=(catalog[activeTab]||[]).filter(item=>!q||((item.title||item.name||'').toLowerCase().includes(q)));
   const list=document.getElementById('list');
   if(!items.length){
     list.className='';
-    list.innerHTML=`<div class="empty">Sin contenido VOD. Pulsa “+ Añadir”.</div>`;
+    list.innerHTML=`<div class="empty">${isLive?'Sin fuentes IPTV. Pulsa “+ Añadir” para agregar una lista M3U, cuenta Xtream o portal Stalker.':'Sin contenido VOD. Pulsa “+ Añadir”.'}</div>`;
+    return;
+  }
+  if(isLive){
+    list.className='sourcelist';
+    list.innerHTML=items.map(item=>{
+      const idx=realIndex(item);
+      const type=(item.type||'live');
+      const typeLabel={live:'Lista M3U',xtream:'Xtream Codes',stalker:'Stalker / MAG'}[type]||type;
+      const detail=type==='xtream'||type==='stalker'?esc(item.host||''):esc(item.url||'');
+      return `<div class="source-row" onclick="openEditor(${idx})">
+        <div class="source-ic">📡</div>
+        <div class="source-info"><b>${esc(item.name||'Fuente')}</b><span>${typeLabel}${detail?' · '+detail:''}</span></div>
+        <span style="color:var(--dim);font-size:18px">›</span>
+      </div>`;
+    }).join('');
     return;
   }
   const isSeries=activeTab==='series';
@@ -266,11 +290,72 @@ function collectCategories(){
   return on.length?on:undefined;
 }
 
+// ---------- Fuente IPTV (Canales en vivo) ----------
+function liveForm(it){
+  const type=it.type||'live';
+  return `
+  <div class="row2">
+    <div class="row"><label>Tipo de fuente</label>
+      <select id="s_type" onchange="toggleSourceType(this.value)">
+        <option value="live" ${type==='live'?'selected':''}>Lista M3U / M3U8</option>
+        <option value="xtream" ${type==='xtream'?'selected':''}>Xtream Codes</option>
+        <option value="stalker" ${type==='stalker'?'selected':''}>Stalker / MAG</option>
+      </select>
+    </div>
+    <div class="row"><label>Nombre</label><input id="s_name" value="${esc(it.name)}" placeholder="Mi servidor IPTV" required></div>
+  </div>
+  <div id="src_m3u" style="${type==='live'?'':'display:none'}">
+    <div class="row"><label>URL de la lista (.m3u / .m3u8)</label><input id="s_url" value="${esc(it.url)}" placeholder="http://servidor.com/get.php?...type=m3u_plus"></div>
+    <div class="row"><label>Categoría (opcional)</label><input id="s_category" value="${esc(it.category)}" placeholder="deportes, noticias… (vacío = En Vivo general)"></div>
+  </div>
+  <div id="src_xtream" style="${type==='xtream'?'':'display:none'}">
+    <div class="row"><label>Host (http://dominio:puerto)</label><input id="s_host" value="${esc(it.host)}" placeholder="http://servidor.com:8080"></div>
+    <div class="row2">
+      <div class="row"><label>Usuario</label><input id="s_user" value="${esc(it.username)}"></div>
+      <div class="row"><label>Contraseña</label><input id="s_pass" value="${esc(it.password)}"></div>
+    </div>
+  </div>
+  <div id="src_stalker" style="${type==='stalker'?'':'display:none'}">
+    <div class="row"><label>Portal (host)</label><input id="s_host2" value="${esc(it.host)}" placeholder="http://portal.com/c/"></div>
+    <div class="row"><label>Dirección MAC</label><input id="s_mac" value="${esc(it.mac||it.username)}" placeholder="00:1A:79:XX:XX:XX"></div>
+  </div>
+  <p class="hint">Las fuentes IPTV alimentan la pestaña <b>En Vivo</b> de la app (nunca el Inicio). Una lista M3U o cuenta Xtream puede traer cientos de canales.</p>
+  `;
+}
+function toggleSourceType(t){
+  document.getElementById('src_m3u').style.display=t==='live'?'':'none';
+  document.getElementById('src_xtream').style.display=t==='xtream'?'':'none';
+  document.getElementById('src_stalker').style.display=t==='stalker'?'':'none';
+}
+function saveSource(idx){
+  const type=val('s_type')||'live';
+  const name=val('s_name');
+  if(!name){toast('El nombre es obligatorio','err');return false}
+  const current=idx!=null?catalog.sources[idx]:null;
+  const obj={id:(current&&current.id)||uid(), name, type};
+  if(type==='live'){
+    obj.url=val('s_url');
+    if(!obj.url){toast('Pega la URL de la lista M3U','err');return false}
+    const cat=val('s_category'); if(cat)obj.category=cat;
+  }else if(type==='xtream'){
+    obj.host=val('s_host'); obj.username=val('s_user'); obj.password=val('s_pass');
+    if(!obj.host||!obj.username||!obj.password){toast('Host, usuario y contraseña son obligatorios','err');return false}
+  }else{
+    obj.host=val('s_host2'); obj.mac=val('s_mac');
+    if(!obj.host||!obj.mac){toast('Portal y MAC son obligatorios','err');return false}
+  }
+  if(!Array.isArray(catalog.sources))catalog.sources=[];
+  if(idx!=null)catalog.sources[idx]=obj; else catalog.sources.push(obj);
+  save();closeModal();render();
+  toast('Guardado. Pulsa “Publicar” para subirlo.','ok');
+  return true;
+}
+
 function openEditor(idx){
   const tab = TABS.find(t=>t.id===activeTab);
   const editing = idx!=null;
   const it = editing ? JSON.parse(JSON.stringify(catalog[activeTab][idx])) : {};
-  const body = vodForm(it, tab.kind==='series');
+  const body = tab.kind==='live' ? liveForm(it) : vodForm(it, tab.kind==='series');
   document.getElementById('modal').innerHTML = `
     <div class="modal-head"><h3>${editing?'Editar':'Nuevo'} · ${tab.label}</h3>
       <button class="btn-ghost btn-sm" onclick="closeModal()">✕</button></div>
@@ -371,6 +456,7 @@ function addSeason(){const n=document.querySelectorAll('#f_seasons .season').len
 
 function val(id){const el=document.getElementById(id);return el?el.value.trim():''}
 function saveItem(idx){
+  if(activeTab==='sources') return saveSource(idx);
   const originalTab=activeTab;
   const targetTab=val('f_content_type')==='series'?'series':'movies';
   const releaseDate=val('f_release_date');
@@ -456,7 +542,16 @@ function importJson(ev){
   const r=new FileReader();r.onload=()=>{try{catalog=normalize(JSON.parse(r.result));save();render();toast('Importado','ok')}catch(e){toast('JSON inválido','err')}};r.readAsText(f);
 }
 function normalize(c){
-  c=c||{};return {version:2, movies:Array.isArray(c.movies)?c.movies:[], series:Array.isArray(c.series)?c.series:[]};
+  c=c||{};
+  return {
+    version:2,
+    movies:Array.isArray(c.movies)?c.movies:[],
+    series:Array.isArray(c.series)?c.series:[],
+    // Fuentes IPTV (listas M3U / Xtream / Stalker) y canales sueltos: se
+    // conservan para no perderlos al cargar/guardar.
+    sources:Array.isArray(c.sources)?c.sources:[],
+    liveChannels:Array.isArray(c.liveChannels)?c.liveChannels:[]
+  };
 }
 
 // ---------- GitHub ----------
