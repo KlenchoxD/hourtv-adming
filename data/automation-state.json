@@ -1,27 +1,27 @@
 {
-  "lastRunAt": "2026-07-18T05:43:01.930Z",
+  "lastRunAt": "2026-07-18T07:19:27.115Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
-    1339713,
     1108427,
+    1339713,
     1084244,
     1275779,
     1083381,
     1273221,
+    1081003,
     1368314,
     1314481,
-    1081003,
     1315772,
     936075,
     931285,
-    1212763,
     1304313,
     1228710,
+    1212763,
+    1301421,
     1007757,
     1595852,
     1318447,
     1057265,
-    1301421,
     1368337,
     1280738,
     1523145,
@@ -37,13 +37,13 @@
   "errorsSummary": [],
   "skipped": [
     {
-      "tmdbId": 1339713,
-      "title": "Obsesión",
+      "tmdbId": 1108427,
+      "title": "Vaiana",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1108427,
-      "title": "Vaiana",
+      "tmdbId": 1339713,
+      "title": "Obsesión",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -62,6 +62,11 @@
       "reason": "Rating 5.4 por debajo del mínimo (5.5)"
     },
     {
+      "tmdbId": 1081003,
+      "title": "Supergirl",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1368314,
       "title": "El pasajero nocturno",
       "reason": "Sin fuente autorizada configurada"
@@ -69,11 +74,6 @@
     {
       "tmdbId": 1314481,
       "title": "El diablo viste de Prada 2",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1081003,
-      "title": "Supergirl",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -92,11 +92,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1212763,
-      "title": "Posesión infernal: En llamas",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1304313,
       "title": "La momia de Lee Cronin",
       "reason": "Sin fuente autorizada configurada"
@@ -104,6 +99,16 @@
     {
       "tmdbId": 1228710,
       "title": "The Mandalorian and Grogu",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1212763,
+      "title": "Posesión infernal: En llamas",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1301421,
+      "title": "Las ovejas detectives",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -125,11 +130,6 @@
       "tmdbId": 1057265,
       "title": "పెద్ది",
       "reason": "Sin sinopsis"
-    },
-    {
-      "tmdbId": 1301421,
-      "title": "Las ovejas detectives",
-      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1368337,

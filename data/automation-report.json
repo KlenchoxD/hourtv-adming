@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-07-18T05:42:58.869Z",
-  "durationMs": 3066,
+  "generatedAt": "2026-07-18T07:19:23.773Z",
+  "durationMs": 3347,
   "dryRun": false,
   "moviesFound": 29,
   "moviesDiscarded": 27,
@@ -13,13 +13,13 @@
   "addedTitles": [],
   "skipped": [
     {
-      "tmdbId": 1339713,
-      "title": "Obsesión",
+      "tmdbId": 1108427,
+      "title": "Vaiana",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1108427,
-      "title": "Vaiana",
+      "tmdbId": 1339713,
+      "title": "Obsesión",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -38,6 +38,11 @@
       "reason": "Rating 5.4 por debajo del mínimo (5.5)"
     },
     {
+      "tmdbId": 1081003,
+      "title": "Supergirl",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1368314,
       "title": "El pasajero nocturno",
       "reason": "Sin fuente autorizada configurada"
@@ -45,11 +50,6 @@
     {
       "tmdbId": 1314481,
       "title": "El diablo viste de Prada 2",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1081003,
-      "title": "Supergirl",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -68,11 +68,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1212763,
-      "title": "Posesión infernal: En llamas",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1304313,
       "title": "La momia de Lee Cronin",
       "reason": "Sin fuente autorizada configurada"
@@ -80,6 +75,16 @@
     {
       "tmdbId": 1228710,
       "title": "The Mandalorian and Grogu",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1212763,
+      "title": "Posesión infernal: En llamas",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1301421,
+      "title": "Las ovejas detectives",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -101,11 +106,6 @@
       "tmdbId": 1057265,
       "title": "పెద్ది",
       "reason": "Sin sinopsis"
-    },
-    {
-      "tmdbId": 1301421,
-      "title": "Las ovejas detectives",
-      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1368337,
