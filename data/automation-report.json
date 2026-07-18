@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-07-17T23:06:14.731Z",
-  "durationMs": 841,
+  "generatedAt": "2026-07-18T00:07:19.656Z",
+  "durationMs": 2040,
   "dryRun": false,
-  "moviesFound": 28,
-  "moviesDiscarded": 26,
+  "moviesFound": 29,
+  "moviesDiscarded": 27,
   "moviesAdded": 0,
   "moviesEnriched": 0,
   "duplicates": 2,
@@ -58,11 +58,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 687163,
-      "title": "Proyecto Salvación",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 936075,
       "title": "Michael",
       "reason": "Sin fuente autorizada configurada"
@@ -108,6 +103,11 @@
       "reason": "Sin sinopsis"
     },
     {
+      "tmdbId": 1301421,
+      "title": "Las ovejas detectives",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1368337,
       "title": "La Odisea",
       "reason": "Sin fuente autorizada configurada"
@@ -120,6 +120,11 @@
     {
       "tmdbId": 1523145,
       "title": "Tu corazón se romperá",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 687163,
+      "title": "Proyecto Salvación",
       "reason": "Sin fuente autorizada configurada"
     },
     {
