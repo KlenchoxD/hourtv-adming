@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-07-18T15:12:46.114Z",
-  "durationMs": 1009,
+  "generatedAt": "2026-07-18T16:10:51.783Z",
+  "durationMs": 1721,
   "dryRun": false,
   "moviesFound": 29,
   "moviesDiscarded": 27,
@@ -43,6 +43,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1315772,
+      "title": "Minions y monstruos",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1368314,
       "title": "El pasajero nocturno",
       "reason": "Sin fuente autorizada configurada"
@@ -50,11 +55,6 @@
     {
       "tmdbId": 1314481,
       "title": "El diablo viste de Prada 2",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1315772,
-      "title": "Minions y monstruos",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -68,13 +68,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1304313,
-      "title": "La momia de Lee Cronin",
+      "tmdbId": 1228710,
+      "title": "The Mandalorian and Grogu",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1228710,
-      "title": "The Mandalorian and Grogu",
+      "tmdbId": 1304313,
+      "title": "La momia de Lee Cronin",
       "reason": "Sin fuente autorizada configurada"
     },
     {
