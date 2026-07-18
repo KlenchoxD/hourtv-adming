@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-07-18T00:07:19.656Z",
-  "durationMs": 2040,
+  "generatedAt": "2026-07-18T03:29:02.632Z",
+  "durationMs": 2423,
   "dryRun": false,
   "moviesFound": 29,
   "moviesDiscarded": 27,
@@ -143,9 +143,9 @@
       "reason": "Votos 4 por debajo del mínimo (50)"
     },
     {
-      "tmdbId": 1491920,
-      "title": "功夫女足",
-      "reason": "Rating 5.4 por debajo del mínimo (5.5)"
+      "tmdbId": 83533,
+      "title": "Avatar: Fuego y ceniza",
+      "reason": "Sin fuente autorizada configurada"
     }
   ]
 }

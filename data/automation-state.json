@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-07-18T00:07:21.691Z",
+  "lastRunAt": "2026-07-18T03:29:05.050Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     1339713,
@@ -29,7 +29,7 @@
     1413976,
     1127384,
     1285366,
-    1491920,
+    83533,
     1335666
   ],
   "tmdbIdsPublished": [],
@@ -167,9 +167,9 @@
       "reason": "Votos 4 por debajo del mínimo (50)"
     },
     {
-      "tmdbId": 1491920,
-      "title": "功夫女足",
-      "reason": "Rating 5.4 por debajo del mínimo (5.5)"
+      "tmdbId": 83533,
+      "title": "Avatar: Fuego y ceniza",
+      "reason": "Sin fuente autorizada configurada"
     }
   ]
 }
