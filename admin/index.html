@@ -129,6 +129,7 @@
   <div class="toolbar">
     <input type="search" id="search" placeholder="Buscar…" oninput="render()">
     <button class="btn-primary" onclick="openEditor()">+ Añadir</button>
+    <button class="btn-ghost" onclick="copyIptvUrl()">📺 URL IPTV</button>
     <button class="btn-ghost" onclick="exportJson()">Descargar JSON</button>
     <label class="btn-ghost" style="cursor:pointer;padding:9px 16px">Importar JSON<input type="file" accept=".json" onchange="importJson(event)" style="display:none"></label>
   </div>
@@ -533,6 +534,14 @@ async function saveAndPublish(idx){
 function removeItem(idx){if(!confirm('¿Eliminar este elemento?'))return;catalog[activeTab].splice(idx,1);save();closeModal();render()}
 
 // ---------- Import / export ----------
+// URL de la lista IPTV para pegar en apps externas (TiviMate, IPTV Smarters…).
+function copyIptvUrl(){
+  const url=location.origin+'/lista.m3u';
+  const done=()=>toast('URL IPTV copiada: '+url,'ok');
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(url).then(done,()=>prompt('Copia la URL IPTV:',url));
+  }else{prompt('Copia la URL IPTV:',url)}
+}
 function exportJson(){
   const blob=new Blob([JSON.stringify(catalog,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='catalog.json';a.click();
