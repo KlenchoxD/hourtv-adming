@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-07-18T17:13:13.802Z",
-  "durationMs": 2500,
+  "generatedAt": "2026-07-18T18:07:38.669Z",
+  "durationMs": 1625,
   "dryRun": false,
   "moviesFound": 29,
   "moviesDiscarded": 27,
@@ -128,13 +128,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1413976,
-      "title": "Citizen Vigilante",
+      "tmdbId": 1127384,
+      "title": "En mar abierto",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1127384,
-      "title": "En mar abierto",
+      "tmdbId": 1413976,
+      "title": "Citizen Vigilante",
       "reason": "Sin fuente autorizada configurada"
     },
     {
