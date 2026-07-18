@@ -59,12 +59,10 @@ async function resolve(embedUrl) {
     headers: { 'User-Agent': UA, Referer: origin + '/' },
     redirect: 'follow',
   });
-  if (!res.ok) return null;
-  const html = await res.text();
+  const html = res.ok ? await res.text() : '';
   let src = extractSource(html);
-  if (!src) return null;
-  if (src.startsWith('/')) src = origin + src;
-  return src;
+  if (src && src.startsWith('/')) src = origin + src;
+  return { src, status: res.status, length: html.length };
 }
 
 module.exports = async (req, res) => {
@@ -74,13 +72,19 @@ module.exports = async (req, res) => {
     return;
   }
   try {
-    const direct = await resolve(u);
-    if (direct) {
+    const r = await resolve(u);
+    if (r.src) {
       res.setHeader('Cache-Control', 'no-store');
-      res.redirect(302, direct);
+      res.redirect(302, r.src);
       return;
     }
-    res.status(404).send('No se pudo resolver este enlace');
+    // Diagnóstico: si la página bajó pero sin stream, casi siempre es que el
+    // host bloquea la IP de Vercel (datacenter) o exige verificación.
+    res
+      .status(404)
+      .send(
+        'No se pudo resolver. status=' + r.status + ' htmlLen=' + r.length,
+      );
   } catch (e) {
     res.status(502).send('Error al resolver: ' + e.message);
   }
