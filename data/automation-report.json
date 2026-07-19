@@ -1,18 +1,16 @@
 {
-  "generatedAt": "2026-07-19T06:24:30.085Z",
-  "durationMs": 3092,
+  "generatedAt": "2026-07-19T08:41:27.076Z",
+  "durationMs": 434,
   "dryRun": false,
   "moviesFound": 29,
   "moviesDiscarded": 27,
-  "moviesAdded": 1,
+  "moviesAdded": 0,
   "moviesEnriched": 0,
-  "duplicates": 1,
+  "duplicates": 2,
   "tmdbErrors": 0,
   "providerErrors": 0,
-  "invalidSources": 6,
-  "addedTitles": [
-    "Backrooms"
-  ],
+  "invalidSources": 0,
+  "addedTitles": [],
   "skipped": [
     {
       "tmdbId": 1108427,
@@ -85,11 +83,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1301421,
-      "title": "Las ovejas detectives",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1007757,
       "title": "Intercambiados",
       "reason": "Sin fuente autorizada configurada"
@@ -102,6 +95,11 @@
     {
       "tmdbId": 1318447,
       "title": "Depredador dominante",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1301421,
+      "title": "Las ovejas detectives",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -145,9 +143,9 @@
       "reason": "Votos 4 por debajo del mínimo (50)"
     },
     {
-      "tmdbId": 83533,
-      "title": "Avatar: Fuego y ceniza",
-      "reason": "Sin fuente autorizada configurada"
+      "tmdbId": 1668364,
+      "title": "Deseo",
+      "reason": "Votos 37 por debajo del mínimo (50)"
     }
   ]
 }

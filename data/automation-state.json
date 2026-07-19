@@ -1,12 +1,12 @@
 {
-  "lastRunAt": "2026-07-19T06:24:33.172Z",
+  "lastRunAt": "2026-07-19T08:41:27.506Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     1108427,
     1339713,
+    1083381,
     1084244,
     1275779,
-    1083381,
     1273221,
     1081003,
     1315772,
@@ -17,10 +17,10 @@
     1228710,
     1304313,
     1212763,
-    1301421,
     1007757,
     1595852,
     1318447,
+    1301421,
     1057265,
     1368337,
     1280738,
@@ -29,12 +29,10 @@
     1127384,
     1413976,
     1285366,
-    83533,
+    1668364,
     1335666
   ],
-  "tmdbIdsPublished": [
-    1083381
-  ],
+  "tmdbIdsPublished": [],
   "totalMoviesInCatalog": 44,
   "errorsSummary": [],
   "skipped": [
@@ -109,11 +107,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1301421,
-      "title": "Las ovejas detectives",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1007757,
       "title": "Intercambiados",
       "reason": "Sin fuente autorizada configurada"
@@ -126,6 +119,11 @@
     {
       "tmdbId": 1318447,
       "title": "Depredador dominante",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1301421,
+      "title": "Las ovejas detectives",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -169,9 +167,9 @@
       "reason": "Votos 4 por debajo del mínimo (50)"
     },
     {
-      "tmdbId": 83533,
-      "title": "Avatar: Fuego y ceniza",
-      "reason": "Sin fuente autorizada configurada"
+      "tmdbId": 1668364,
+      "title": "Deseo",
+      "reason": "Votos 37 por debajo del mínimo (50)"
     }
   ]
 }
