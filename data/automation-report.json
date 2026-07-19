@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-07-19T16:10:22.719Z",
-  "durationMs": 1074,
+  "generatedAt": "2026-07-19T17:14:02.502Z",
+  "durationMs": 3297,
   "dryRun": false,
-  "moviesFound": 29,
-  "moviesDiscarded": 27,
+  "moviesFound": 30,
+  "moviesDiscarded": 28,
   "moviesAdded": 0,
   "moviesEnriched": 0,
   "duplicates": 2,
@@ -118,34 +118,39 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1523145,
-      "title": "Tu corazón se romperá",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 687163,
       "title": "Proyecto Salvación",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1127384,
-      "title": "En mar abierto",
-      "reason": "Sin fuente autorizada configurada"
+      "tmdbId": 261639,
+      "title": "尼寺の情事　極楽ＳＥＸ",
+      "reason": "Sin sinopsis"
     },
     {
-      "tmdbId": 1413976,
-      "title": "Citizen Vigilante",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1285366,
-      "title": "愛のぬくもり",
-      "reason": "Votos 4 por debajo del mínimo (50)"
+      "tmdbId": 1318621,
+      "title": "Los Descendientes: viaje al mundo oscuro",
+      "reason": "Votos 40 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1668364,
       "title": "Deseo",
-      "reason": "Votos 44 por debajo del mínimo (50)"
+      "reason": "Votos 49 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 83533,
+      "title": "Avatar: Fuego y ceniza",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1321008,
+      "title": "Black Box: Vuelo 298",
+      "reason": "Votos 34 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 1523145,
+      "title": "Tu corazón se romperá",
+      "reason": "Sin fuente autorizada configurada"
     }
   ]
 }
