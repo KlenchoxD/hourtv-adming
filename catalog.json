@@ -664,44 +664,32 @@
     },
     {
       "id": "tmdb-1083381",
-      "title": "Backrooms",
-      "plot": "Una puerta extraña aparece en el sótano de una sala de exposición de muebles.",
-      "cast": "Chiwetel Ejiofor, Renate Reinsve, Mark Duplass, Finn Bennett, Lukita Maxwell, Avan Jogia, Robert Bobroczkyi, Ember Ambrose, Krista Kosonen, Philip Granger",
+      "title": "Backrooms: Sin salida",
+      "plot": "Una misteriosa anomalía conduce a una dimensión compuesta por interminables pasillos, oficinas vacías y espacios que desafían toda lógica. Cuando una terapeuta decide adentrarse en ese inquietante laberinto para encontrar a un paciente desaparecido, deberá enfrentarse a un entorno donde las leyes de la realidad parecen romperse y cada decisión puede conducir a un lugar aún más perturbador. La película transforma el fenómeno viral de los Backrooms en un thriller psicológico de terror que apuesta por la tensión, la atmósfera opresiva y el miedo a lo desconocido, evitando depender únicamente de los sobresaltos tradicionales.",
+      "cast": "Chiwetel Ejiofor, Renate Reinsve, Mark Duplass, Finn Bennett, Lukita Maxwell",
       "director": "Kane Parsons",
       "writer": "Will Soodik",
-      "releaseDate": "2026-05-27",
+      "releaseDate": "2026-05-29",
       "year": "2026",
-      "genre": "Terror, Misterio, Ciencia ficción",
+      "genre": "Terror, Ciencia ficción, Thriller psicológico, Metraje encontrado",
       "rating": 7,
-      "duration": "105 min",
-      "poster": "https://image.tmdb.org/t/p/w780/A6otDtTWkCUa7cN8DExxO91ziOK.jpg",
-      "backdrop": "https://image.tmdb.org/t/p/w1280/dqmMWNWfLnExDRpMtIMqI97GQFR.jpg",
+      "duration": "110 min",
+      "poster": "https://i.pinimg.com/736x/3d/ad/ed/3dadedbe3535cebfd75acafa89885d6a.jpg",
       "categories": [
-        "terror",
-        "aventura",
+        "recomendado",
         "estrenos",
         "populares",
-        "recomendado"
+        "terror",
+        "aventura"
       ],
       "featured": true,
       "servers": [
         {
-          "name": "Streamwish",
-          "url": "https://streamwish.to/e/uscs7h3xbbo9",
-          "language": "Español Latino"
-        },
-        {
-          "name": "Streamwish",
-          "url": "https://streamwish.to/e/2jel88xzez9s",
-          "language": "Subtitulado"
-        },
-        {
-          "name": "Streamwish",
-          "url": "https://streamwish.to/e/e94tq2gvehr0",
+          "name": "Servidor 1",
+          "url": "https://barmonrey.com/player/v6GW8AcMnOBvdDa/",
           "language": "Español"
         }
-      ],
-      "tmdbId": 1083381
+      ]
     },
     {
       "id": "tmdb-1335666",
@@ -1504,5 +1492,7 @@
         }
       ]
     }
-  ]
+  ],
+  "sources": [],
+  "liveChannels": []
 }
