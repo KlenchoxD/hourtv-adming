@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-07-19T08:41:27.506Z",
+  "lastRunAt": "2026-07-19T10:14:55.468Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     1108427,
@@ -169,7 +169,7 @@
     {
       "tmdbId": 1668364,
       "title": "Deseo",
-      "reason": "Votos 37 por debajo del mínimo (50)"
+      "reason": "Votos 44 por debajo del mínimo (50)"
     }
   ]
 }
