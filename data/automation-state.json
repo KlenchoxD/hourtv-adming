@@ -1,27 +1,27 @@
 {
-  "lastRunAt": "2026-07-19T14:11:32.750Z",
+  "lastRunAt": "2026-07-19T15:13:12.200Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
-    1108427,
     1339713,
+    1275779,
+    1108427,
+    1273221,
+    1315772,
     1083381,
     1084244,
-    1275779,
-    1273221,
-    1081003,
-    1315772,
     1368314,
     1314481,
-    936075,
-    931285,
+    1081003,
     1228710,
+    936075,
     1304313,
     1212763,
-    1007757,
-    1595852,
+    931285,
     1318447,
     1301421,
-    1057265,
+    1397385,
+    1309083,
+    1007757,
     1368337,
     1280738,
     1523145,
@@ -37,18 +37,8 @@
   "errorsSummary": [],
   "skipped": [
     {
-      "tmdbId": 1108427,
-      "title": "Vaiana",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1339713,
       "title": "Obsesión",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1084244,
-      "title": "Toy Story 5",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -57,18 +47,23 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1108427,
+      "title": "Vaiana",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1273221,
       "title": "Scary Movie",
       "reason": "Rating 5.4 por debajo del mínimo (5.5)"
     },
     {
-      "tmdbId": 1081003,
-      "title": "Supergirl",
+      "tmdbId": 1315772,
+      "title": "Minions y monstruos",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1315772,
-      "title": "Minions y monstruos",
+      "tmdbId": 1084244,
+      "title": "Toy Story 5",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -82,18 +77,18 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 936075,
-      "title": "Michael",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 931285,
-      "title": "Mortal Kombat II",
+      "tmdbId": 1081003,
+      "title": "Supergirl",
       "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1228710,
       "title": "The Mandalorian and Grogu",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 936075,
+      "title": "Michael",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -107,13 +102,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1007757,
-      "title": "Intercambiados",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1595852,
-      "title": "Boulevard",
+      "tmdbId": 931285,
+      "title": "Mortal Kombat II",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -127,8 +117,18 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1057265,
-      "title": "Peddi",
+      "tmdbId": 1397385,
+      "title": "Hermanito",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1309083,
+      "title": "Dolly",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1007757,
+      "title": "Intercambiados",
       "reason": "Sin fuente autorizada configurada"
     },
     {
