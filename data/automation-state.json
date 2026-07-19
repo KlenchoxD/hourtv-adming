@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-07-19T00:07:48.411Z",
+  "lastRunAt": "2026-07-19T03:50:51.519Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     1108427,
@@ -128,8 +128,8 @@
     },
     {
       "tmdbId": 1057265,
-      "title": "పెద్ది",
-      "reason": "Sin sinopsis"
+      "title": "Peddi",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1368337,

@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-07-19T00:07:46.407Z",
-  "durationMs": 2009,
+  "generatedAt": "2026-07-19T03:50:50.034Z",
+  "durationMs": 1490,
   "dryRun": false,
   "moviesFound": 29,
   "moviesDiscarded": 27,
@@ -104,8 +104,8 @@
     },
     {
       "tmdbId": 1057265,
-      "title": "పెద్ది",
-      "reason": "Sin sinopsis"
+      "title": "Peddi",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1368337,
