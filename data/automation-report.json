@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-07-19T19:29:51.465Z",
-  "durationMs": 3120,
+  "generatedAt": "2026-07-19T20:24:12.008Z",
+  "durationMs": 1149,
   "dryRun": false,
   "moviesFound": 30,
   "moviesDiscarded": 28,
@@ -130,7 +130,7 @@
     {
       "tmdbId": 1318621,
       "title": "Los Descendientes: viaje al mundo oscuro",
-      "reason": "Votos 40 por debajo del mínimo (50)"
+      "reason": "Votos 44 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1668364,
