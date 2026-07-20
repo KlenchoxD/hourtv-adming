@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-07-20T07:26:45.607Z",
-  "durationMs": 640,
+  "generatedAt": "2026-07-20T10:24:48.878Z",
+  "durationMs": 3282,
   "dryRun": false,
   "moviesFound": 30,
   "moviesDiscarded": 28,
@@ -109,7 +109,7 @@
     },
     {
       "tmdbId": 1368337,
-      "title": "La odisea",
+      "title": "La Odisea",
       "reason": "Sin fuente autorizada configurada"
     },
     {
