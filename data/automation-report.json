@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-07-20T16:13:35.453Z",
-  "durationMs": 2333,
+  "generatedAt": "2026-07-20T18:20:09.031Z",
+  "durationMs": 948,
   "dryRun": false,
   "moviesFound": 30,
   "moviesDiscarded": 28,
@@ -19,7 +19,7 @@
     },
     {
       "tmdbId": 1339713,
-      "title": "Obsesión",
+      "title": "Obsession",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -34,12 +34,12 @@
     },
     {
       "tmdbId": 1273221,
-      "title": "Scary Movie",
+      "title": "Scary Movie 6",
       "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1315772,
-      "title": "Minions y monstruos",
+      "title": "Minions & Monsters",
       "reason": "Sin fuente autorizada configurada"
     },
     {
