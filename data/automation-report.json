@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-07-20T21:30:14.695Z",
-  "durationMs": 2871,
+  "generatedAt": "2026-07-20T22:31:41.309Z",
+  "durationMs": 3304,
   "dryRun": false,
   "moviesFound": 30,
   "moviesDiscarded": 28,
@@ -123,6 +123,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1318621,
+      "title": "Los Descendientes: viaje al mundo oscuro",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 261639,
       "title": "尼寺の情事　極楽ＳＥＸ",
       "reason": "Sin sinopsis"
@@ -133,8 +138,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1318621,
-      "title": "Los Descendientes: viaje al mundo oscuro",
+      "tmdbId": 1523145,
+      "title": "Tu corazón se romperá",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -146,11 +151,6 @@
       "tmdbId": 1285366,
       "title": "愛のぬくもり",
       "reason": "Votos 4 por debajo del mínimo (50)"
-    },
-    {
-      "tmdbId": 83533,
-      "title": "Avatar: Fuego y ceniza",
-      "reason": "Sin fuente autorizada configurada"
     }
   ]
 }
