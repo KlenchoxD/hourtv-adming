@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-07-20T04:01:37.693Z",
-  "durationMs": 2714,
+  "generatedAt": "2026-07-20T07:26:45.607Z",
+  "durationMs": 640,
   "dryRun": false,
   "moviesFound": 30,
   "moviesDiscarded": 28,
@@ -23,6 +23,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1084244,
+      "title": "Toy Story 5",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1108427,
       "title": "Vaiana",
       "reason": "Sin fuente autorizada configurada"
@@ -30,16 +35,11 @@
     {
       "tmdbId": 1273221,
       "title": "Scary Movie",
-      "reason": "Rating 5.4 por debajo del mínimo (5.5)"
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1315772,
       "title": "Minions y monstruos",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1084244,
-      "title": "Toy Story 5",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -93,6 +93,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1468683,
+      "title": "Heartstopper para siempre",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1397385,
       "title": "Hermanito",
       "reason": "Sin fuente autorizada configurada"
@@ -100,11 +105,6 @@
     {
       "tmdbId": 1309083,
       "title": "Dolly",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1007757,
-      "title": "Intercambiados",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -145,7 +145,7 @@
     {
       "tmdbId": 1321008,
       "title": "Black Box: Vuelo 298",
-      "reason": "Votos 34 por debajo del mínimo (50)"
+      "reason": "Votos 36 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1523145,
