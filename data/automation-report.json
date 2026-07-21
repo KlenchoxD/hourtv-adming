@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-07-21T14:58:04.704Z",
-  "durationMs": 919,
+  "generatedAt": "2026-07-21T16:22:53.900Z",
+  "durationMs": 1622,
   "dryRun": false,
   "moviesFound": 29,
   "moviesDiscarded": 27,
@@ -28,11 +28,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1084244,
-      "title": "Toy Story 5",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1315772,
       "title": "Minions & Monsters",
       "reason": "Sin fuente autorizada configurada"
@@ -40,6 +35,11 @@
     {
       "tmdbId": 1081003,
       "title": "Supergirl",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1084244,
+      "title": "Toy Story 5",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -78,8 +78,18 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1301421,
+      "title": "Las ovejas detectives",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1318447,
       "title": "Depredador dominante",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1595852,
+      "title": "Boulevard",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -88,18 +98,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1301421,
-      "title": "Las ovejas detectives",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1007757,
       "title": "Intercambiados",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1595852,
-      "title": "Boulevard",
       "reason": "Sin fuente autorizada configurada"
     },
     {

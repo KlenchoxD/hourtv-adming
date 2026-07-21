@@ -1,14 +1,14 @@
 {
-  "lastRunAt": "2026-07-21T14:58:05.617Z",
+  "lastRunAt": "2026-07-21T16:22:55.517Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     1108427,
     1339713,
-    1083381,
     1275779,
-    1084244,
+    1083381,
     1315772,
     1081003,
+    1084244,
     1273221,
     1368314,
     1314481,
@@ -16,11 +16,11 @@
     936075,
     931285,
     1304313,
-    1318447,
-    1212763,
     1301421,
-    1007757,
+    1318447,
     1595852,
+    1212763,
+    1007757,
     1468683,
     1368337,
     687163,
@@ -52,11 +52,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1084244,
-      "title": "Toy Story 5",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1315772,
       "title": "Minions & Monsters",
       "reason": "Sin fuente autorizada configurada"
@@ -64,6 +59,11 @@
     {
       "tmdbId": 1081003,
       "title": "Supergirl",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1084244,
+      "title": "Toy Story 5",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -102,8 +102,18 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1301421,
+      "title": "Las ovejas detectives",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1318447,
       "title": "Depredador dominante",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1595852,
+      "title": "Boulevard",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -112,18 +122,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1301421,
-      "title": "Las ovejas detectives",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1007757,
       "title": "Intercambiados",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1595852,
-      "title": "Boulevard",
       "reason": "Sin fuente autorizada configurada"
     },
     {
