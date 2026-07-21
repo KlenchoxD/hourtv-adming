@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-07-21T04:29:46.632Z",
+  "lastRunAt": "2026-07-21T07:11:18.063Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     1108427,
@@ -23,8 +23,8 @@
     1595852,
     1468683,
     1368337,
-    1280738,
     687163,
+    1280738,
     1318621,
     261639,
     1668364,
@@ -138,13 +138,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1280738,
-      "title": "The Furious",
+      "tmdbId": 687163,
+      "title": "Proyecto Salvación",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 687163,
-      "title": "Proyecto Salvación",
+      "tmdbId": 1280738,
+      "title": "The Furious",
       "reason": "Sin fuente autorizada configurada"
     },
     {

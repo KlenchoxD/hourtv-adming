@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-07-21T04:29:45.644Z",
-  "durationMs": 993,
+  "generatedAt": "2026-07-21T07:11:14.945Z",
+  "durationMs": 3123,
   "dryRun": false,
   "moviesFound": 30,
   "moviesDiscarded": 28,
@@ -113,13 +113,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1280738,
-      "title": "The Furious",
+      "tmdbId": 687163,
+      "title": "Proyecto Salvación",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 687163,
-      "title": "Proyecto Salvación",
+      "tmdbId": 1280738,
+      "title": "The Furious",
       "reason": "Sin fuente autorizada configurada"
     },
     {
