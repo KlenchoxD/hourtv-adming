@@ -66,11 +66,13 @@ class _HomeShellState extends State<HomeShell> with WidgetsBindingObserver {
       backgroundColor: AppColors.primaryDark,
       body: Container(
         decoration: AppTheme.gradientBackground,
+        // TV estilo Netflix: contenido a pantalla completa (inmersivo) con el
+        // menú como overlay que solo se expande al enfocarlo con el D-pad.
         child: isTv
-            ? Row(
+            ? Stack(
                 children: [
+                  Positioned.fill(child: content),
                   _sideRail(),
-                  Expanded(child: content),
                 ],
               )
             : content,
@@ -79,81 +81,71 @@ class _HomeShellState extends State<HomeShell> with WidgetsBindingObserver {
     );
   }
 
+  /// Menú overlay estilo Netflix TV: colapsado es una franja delgada casi
+  /// invisible (solo íconos sobre un degradado sutil, sin panel sólido ni
+  /// etiquetas). Al enfocarlo con el D-pad se desliza sobre el contenido.
   Widget _sideRail() {
-    return Focus(
-      onFocusChange: (focused) {
-        if (_railExpanded != focused) {
-          setState(() => _railExpanded = focused);
-        }
-      },
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 180),
-        curve: Curves.easeOut,
-        width: _railExpanded ? 214 : 84,
-        decoration: BoxDecoration(
-          color: const Color(0xF2141414),
-          border: Border(
-            right: BorderSide(color: Colors.white.withValues(alpha: 0.06)),
-          ),
-          boxShadow: const [
-            BoxShadow(
-              color: Colors.black45,
-              blurRadius: 18,
-              offset: Offset(8, 0),
-            ),
-          ],
-        ),
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 18),
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12),
-                  child: Row(
-                    mainAxisAlignment: _railExpanded
-                        ? MainAxisAlignment.start
-                        : MainAxisAlignment.center,
-                    children: [
-                      const HourTvLogo(size: 42),
-                      if (_railExpanded) ...[
-                        const SizedBox(width: 11),
-                        const Expanded(child: HourTvWordmark(fontSize: 19)),
-                      ],
-                    ],
+    final expanded = _railExpanded;
+    return Positioned(
+      top: 0,
+      bottom: 0,
+      left: 0,
+      child: Focus(
+        onFocusChange: (focused) {
+          if (_railExpanded != focused) {
+            setState(() => _railExpanded = focused);
+          }
+        },
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 220),
+          curve: Curves.easeOutCubic,
+          width: expanded ? 250 : 62,
+          decoration: BoxDecoration(
+            // Colapsado: sin panel, solo un degradado que funde con el fondo
+            // para que el hero se vea a sangre completa. Expandido: panel.
+            color: expanded ? const Color(0xF5121212) : null,
+            gradient: expanded
+                ? null
+                : const LinearGradient(
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                    colors: [Color(0xC0000000), Colors.transparent],
                   ),
-                ),
-                // Botones justo debajo del logo (estilo HBO Max), sin el hueco
-                // que antes los empujaba al centro.
-                const SizedBox(height: 30),
-                if (_railExpanded)
-                  const Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: EdgeInsets.fromLTRB(18, 0, 12, 10),
-                      child: Text(
-                        'EXPLORAR',
-                        style: TextStyle(
-                          color: AppColors.textMuted,
-                          fontSize: 10,
-                          fontWeight: FontWeight.w800,
-                          letterSpacing: 1.2,
-                        ),
-                      ),
+            boxShadow: expanded
+                ? const [
+                    BoxShadow(
+                      color: Colors.black87,
+                      blurRadius: 30,
+                      offset: Offset(10, 0),
+                    ),
+                  ]
+                : null,
+          ),
+          child: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 22),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: expanded ? 16 : 0),
+                    child: Row(
+                      mainAxisAlignment: expanded
+                          ? MainAxisAlignment.start
+                          : MainAxisAlignment.center,
+                      children: [
+                        const HourTvLogo(size: 38),
+                        if (expanded) ...[
+                          const SizedBox(width: 11),
+                          const Expanded(child: HourTvWordmark(fontSize: 18)),
+                        ],
+                      ],
                     ),
                   ),
-                for (var i = 0; i < _items.length; i++) _railTab(i),
-                const Spacer(),
-                AnimatedOpacity(
-                  opacity: _railExpanded ? 1 : 0,
-                  duration: const Duration(milliseconds: 140),
-                  child: const Text(
-                    'Usa el D-pad para navegar',
-                    maxLines: 1,
-                    style: TextStyle(color: AppColors.textMuted, fontSize: 10),
-                  ),
-                ),
-              ],
+                  const SizedBox(height: 34),
+                  for (var i = 0; i < _items.length; i++) _railTab(i),
+                  const Spacer(),
+                ],
+              ),
             ),
           ),
         ),

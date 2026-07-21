@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../models/channel.dart';
@@ -167,9 +166,9 @@ class _CatalogScreenState extends State<CatalogScreen> {
   /// Escala 10 pies (1.0 en móvil/tablet, 1.5 en TV) y margen de overscan.
   double get _s => DeviceProfile.uiScale(context);
   double get _pad => DeviceProfile.overscan(context);
-  double get _contentPad => DeviceProfile.isTv(context)
-      ? math.max(_pad, MediaQuery.sizeOf(context).width * 0.045)
-      : _pad;
+  // En TV: gutter fijo que libra el rail overlay (62px) en cualquier
+  // resolución. El hero rompe este margen para ir a sangre completa.
+  double get _contentPad => DeviceProfile.isTv(context) ? 66.0 : _pad;
 
   @override
   Widget build(BuildContext context) {
@@ -211,14 +210,17 @@ class _CatalogScreenState extends State<CatalogScreen> {
               ),
             ),
           ),
-        IconButton(
-          icon: Icon(
-            Icons.filter_list_rounded,
-            color: AppColors.textPrimary,
-            size: 24 * _s,
+        // El filtro es chrome innecesario en TV: las categorías ya están en
+        // las pills. Solo en móvil/tablet.
+        if (!DeviceProfile.isTv(context))
+          IconButton(
+            icon: Icon(
+              Icons.filter_list_rounded,
+              color: AppColors.textPrimary,
+              size: 24 * _s,
+            ),
+            onPressed: _openFilter,
           ),
-          onPressed: _openFilter,
-        ),
         IconButton(
           icon: Icon(
             Icons.search_rounded,
@@ -344,6 +346,7 @@ class _CatalogScreenState extends State<CatalogScreen> {
       height: (DeviceProfile.isTv(context) ? 54 : 40) * _s,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
+        clipBehavior: Clip.none,
         padding: EdgeInsets.symmetric(
           horizontal: DeviceProfile.isTv(context) ? 2 : 14,
         ),
@@ -390,10 +393,6 @@ class _CatalogScreenState extends State<CatalogScreen> {
         if (max != null && y > max) return false;
         return true;
       }).toList();
-
-  List<Channel> _byRating(List<Channel> src, double min) => src
-      .where((m) => (double.tryParse(m.rating?.trim() ?? '') ?? 0) >= min)
-      .toList();
 
   List<XtreamSeries> _seriesForCategory(String category) {
     final target = category.toLowerCase();
@@ -478,14 +477,14 @@ class _CatalogScreenState extends State<CatalogScreen> {
             title: _cat == 'Anime' ? 'Series de anime' : 'Series infantiles',
             items: catSeries,
           ),
-        if (recent.isNotEmpty) _movieRow('Continuar viendo', recent),
+        if (recent.isNotEmpty) _continueRow(recent),
+        if (recommended && movies.isNotEmpty) _top10Row(movies),
         if (recommended && movies.isNotEmpty) const InlineAdBanner(),
         if (recommended || moviesTab) ...[
           // Fila que SIEMPRE lista todas las películas del catálogo, para que
           // ninguna quede oculta si no cae en los filtros de abajo.
           _movieRow('Todas las películas', movies),
           _movieRow('Estrenos', _byYear(movies, min: year - 1)),
-          _movieRow('Películas Más Populares', _byRating(movies, 7.5)),
           _movieRow('Películas Antiguas', _byYear(movies, max: 2010)),
         ],
         if (terror.isNotEmpty) _movieRow('Para No Dormir', terror),
@@ -505,92 +504,115 @@ class _CatalogScreenState extends State<CatalogScreen> {
     if (DeviceProfile.isTv(context)) {
       return _tvBillboard(_spotlight ?? movies.first);
     }
-    // Banner estilo UltraPelis: imagen a lo ancho, rota sola y es clickeable.
+    // Hero cinematográfico (estilo Netflix): backdrop a sangre completa con
+    // degradado, título, metadatos y botones. Rota solo cada 5s.
     return ValueListenableBuilder<int>(
       valueListenable: _bannerIdx,
       builder: (context, bannerIdx, _) {
         final f = movies[bannerIdx % movies.length];
-        return Padding(
-          padding: const EdgeInsets.fromLTRB(15, 8, 15, 6),
-          child: TvFocusable(
-            onTap: () => _openDetails(f, movies),
-            borderRadius: BorderRadius.circular(6),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(6),
-              child: SizedBox(
-                height: 220 * _s,
-                width: double.infinity,
-                child: AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 700),
-                  switchInCurve: Curves.easeOut,
-                  child: Stack(
-                    key: ValueKey(f.tvgId ?? f.url),
-                    fit: StackFit.expand,
-                    children: [
-                      CachedNetworkImage(
-                        imageUrl: f.backdrop ?? f.logo!,
-                        fit: BoxFit.cover,
-                        memCacheWidth: 800,
-                        // Si la imagen falla, un gradiente de marca en vez de un
-                        // rectangulo negro que parece roto.
-                        errorWidget: (_, _, _) => Container(
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                              colors: [
-                                AppColors.accent.withValues(alpha: 0.55),
-                                AppColors.cardDark,
-                                AppColors.primaryDark,
-                              ],
-                            ),
-                          ),
-                          alignment: Alignment.center,
-                          padding: const EdgeInsets.symmetric(horizontal: 24),
-                          child: Text(
-                            f.displayName,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20 * _s,
-                              fontWeight: FontWeight.w800,
-                            ),
-                          ),
+        final size = MediaQuery.sizeOf(context);
+        final heroH = (size.height *
+                (DeviceProfile.isTablet(context) ? 0.5 : 0.54))
+            .clamp(320.0, 560.0);
+        return GestureDetector(
+          onTap: () => _openDetails(f, movies),
+          child: SizedBox(
+            height: heroH,
+            width: double.infinity,
+            child: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 700),
+              switchInCurve: Curves.easeOut,
+              child: Stack(
+                key: ValueKey(f.tvgId ?? f.url),
+                fit: StackFit.expand,
+                children: [
+                  CachedNetworkImage(
+                    imageUrl: f.backdrop ?? f.logo!,
+                    fit: BoxFit.cover,
+                    memCacheWidth: 900,
+                    errorWidget: (_, _, _) => Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            AppColors.accent.withValues(alpha: 0.55),
+                            AppColors.cardDark,
+                            AppColors.primaryDark,
+                          ],
                         ),
                       ),
-                      // Franja inferior con el título, legible sobre la imagen
-                      Align(
-                        alignment: Alignment.bottomCenter,
-                        child: Container(
-                          width: double.infinity,
-                          padding: const EdgeInsets.fromLTRB(14, 26, 14, 10),
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              begin: Alignment.bottomCenter,
-                              end: Alignment.topCenter,
-                              colors: [
-                                Colors.black.withValues(alpha: 0.85),
-                                Colors.transparent,
-                              ],
-                            ),
-                          ),
-                          child: Text(
-                            f.displayName,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16 * _s,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
-                ),
+                  // Degradado inferior que funde con el fondo (legibilidad).
+                  const DecoratedBox(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.bottomCenter,
+                        end: Alignment.topCenter,
+                        colors: [
+                          AppColors.primaryDark,
+                          AppColors.primaryDark,
+                          Colors.transparent,
+                        ],
+                        stops: [0.0, 0.22, 0.72],
+                      ),
+                    ),
+                  ),
+                  // Scrim superior sutil para que el logo/buscador se lean.
+                  DecoratedBox(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.center,
+                        colors: [
+                          Colors.black.withValues(alpha: 0.45),
+                          Colors.transparent,
+                        ],
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(20, 0, 20, 18 * _s),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          f.displayName,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 27 * _s,
+                            fontWeight: FontWeight.w900,
+                            height: 1.05,
+                            letterSpacing: -0.5,
+                            shadows: const [
+                              Shadow(color: Colors.black87, blurRadius: 12),
+                            ],
+                          ),
+                        ),
+                        Align(
+                          alignment: Alignment.center,
+                          child: _billboardMetadata(f),
+                        ),
+                        SizedBox(height: 14 * _s),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            _heroPlayButton(f),
+                            const SizedBox(width: 10),
+                            _heroInfoButton(f, movies),
+                          ],
+                        ),
+                        SizedBox(height: 12 * _s),
+                        _heroDots(bannerIdx, movies.length),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -599,107 +621,157 @@ class _CatalogScreenState extends State<CatalogScreen> {
     );
   }
 
-  /// Billboard de TV a sangre completa (estilo Netflix): la imagen del
-  /// contenido enfocado ocupa el ancho, con degradado hacia el fondo y el
-  /// texto a la izquierda. Cambia al mover el foco por los pósters.
-  Widget _tvBillboard(Channel f) {
-    final h = MediaQuery.sizeOf(context).height * 0.42;
-    return SizedBox(
-      height: DeviceProfile.isTv(context)
-          ? MediaQuery.sizeOf(context).height * 0.46
-          : h,
-      child: Stack(
-        fit: StackFit.expand,
+  /// Botón secundario translúcido "Mi Lista / Info" del hero.
+  Widget _heroInfoButton(Channel f, List<Channel> ctx) => TvFocusable(
+    onTap: () => _openDetails(f, ctx),
+    borderRadius: BorderRadius.circular(10),
+    child: Container(
+      padding: EdgeInsets.symmetric(horizontal: 16 * _s, vertical: 9 * _s),
+      decoration: BoxDecoration(
+        color: Colors.white.withValues(alpha: 0.16),
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.28)),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          // Imagen alineada a la derecha (el póster no se estira de más)
-          Align(
-            alignment: Alignment.centerRight,
-            child: SizedBox(
-              width: MediaQuery.sizeOf(context).width * 0.62,
-              child: (f.backdrop ?? f.logo) != null
-                  ? CachedNetworkImage(
-                      imageUrl: (f.backdrop ?? f.logo)!,
-                      fit: BoxFit.cover,
-                      memCacheWidth: 700,
-                      fadeInDuration: const Duration(milliseconds: 220),
-                      errorWidget: (_, _, _) => const SizedBox(),
-                    )
-                  : const SizedBox(),
-            ),
-          ),
-          // Degradado horizontal (texto legible) y vertical (funde con el fondo)
-          const DecoratedBox(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.centerLeft,
-                end: Alignment.centerRight,
-                colors: [
-                  AppColors.primaryDark,
-                  AppColors.primaryDark,
-                  Colors.transparent,
-                ],
-                stops: [0.0, 0.38, 0.75],
-              ),
-            ),
-          ),
-          DecoratedBox(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.bottomCenter,
-                end: Alignment.topCenter,
-                colors: [
-                  AppColors.primaryDark,
-                  AppColors.primaryDark.withValues(alpha: 0.0),
-                ],
-                stops: const [0.0, 0.45],
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(24, 12, 24, 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                _heroBadge(),
-                const SizedBox(height: 12),
-                SizedBox(
-                  width: MediaQuery.sizeOf(context).width * 0.45,
-                  child: Text(
-                    f.displayName,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 34,
-                      fontWeight: FontWeight.w800,
-                      height: 1.1,
-                    ),
-                  ),
-                ),
-                _billboardMetadata(f),
-                if (f.plot?.trim().isNotEmpty == true) ...[
-                  const SizedBox(height: 8),
-                  SizedBox(
-                    width: MediaQuery.sizeOf(context).width * 0.45,
-                    child: Text(
-                      f.plot!,
-                      maxLines: 3,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        color: AppColors.textSecondary,
-                        fontSize: 12.5 * _s,
-                        height: 1.3,
-                      ),
-                    ),
-                  ),
-                ],
-                const SizedBox(height: 14),
-                _heroPlayButton(f),
-              ],
+          Icon(Icons.info_outline_rounded, color: Colors.white, size: 19 * _s),
+          const SizedBox(width: 6),
+          Text(
+            'Información',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 14 * _s,
+              fontWeight: FontWeight.w700,
             ),
           ),
         ],
+      ),
+    ),
+  );
+
+  /// Puntos de rotación del hero (el activo en rojo, estilo carrusel premium).
+  Widget _heroDots(int active, int total) {
+    final count = total.clamp(0, 7);
+    if (count <= 1) return const SizedBox.shrink();
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        for (var i = 0; i < count; i++)
+          AnimatedContainer(
+            duration: const Duration(milliseconds: 300),
+            margin: const EdgeInsets.symmetric(horizontal: 3),
+            width: (active % count) == i ? 18 : 6,
+            height: 6,
+            decoration: BoxDecoration(
+              color: (active % count) == i
+                  ? AppColors.accent
+                  : Colors.white.withValues(alpha: 0.35),
+              borderRadius: BorderRadius.circular(3),
+            ),
+          ),
+      ],
+    );
+  }
+
+  /// Banner destacado estilo Google TV Home: NO va a sangre completa. Es una
+  /// tarjeta con esquinas redondeadas y aire alrededor (padding), con la imagen
+  /// del contenido enfocado, degradado para legibilidad y el texto a la
+  /// izquierda. Cambia al mover el foco por los pósters.
+  Widget _tvBillboard(Channel f) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(18, 10, 10, 8),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(16),
+        child: SizedBox(
+          height: MediaQuery.sizeOf(context).height * 0.54,
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              if ((f.backdrop ?? f.logo) != null)
+                CachedNetworkImage(
+                  imageUrl: (f.backdrop ?? f.logo)!,
+                  fit: BoxFit.cover,
+                  memCacheWidth: 1100,
+                  fadeInDuration: const Duration(milliseconds: 220),
+                  errorWidget: (_, _, _) => const SizedBox(),
+                ),
+              // Degradado horizontal (texto legible a la izquierda) y vertical
+              // (funde con el fondo abajo).
+              const DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                    colors: [
+                      AppColors.primaryDark,
+                      AppColors.primaryDark,
+                      Colors.transparent,
+                    ],
+                    stops: [0.0, 0.40, 0.80],
+                  ),
+                ),
+              ),
+              DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.bottomCenter,
+                    end: Alignment.topCenter,
+                    colors: [
+                      AppColors.primaryDark,
+                      AppColors.primaryDark.withValues(alpha: 0.0),
+                    ],
+                    stops: const [0.0, 0.5],
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(30, 12, 24, 24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    _heroBadge(),
+                    const SizedBox(height: 12),
+                    SizedBox(
+                      width: MediaQuery.sizeOf(context).width * 0.45,
+                      child: Text(
+                        f.displayName,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 34,
+                          fontWeight: FontWeight.w800,
+                          height: 1.1,
+                        ),
+                      ),
+                    ),
+                    _billboardMetadata(f),
+                    if (f.plot?.trim().isNotEmpty == true) ...[
+                      const SizedBox(height: 8),
+                      SizedBox(
+                        width: MediaQuery.sizeOf(context).width * 0.45,
+                        child: Text(
+                          f.plot!,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            color: AppColors.textSecondary,
+                            fontSize: 12.5 * _s,
+                            height: 1.3,
+                          ),
+                        ),
+                      ),
+                    ],
+                    const SizedBox(height: 14),
+                    _heroPlayButton(f),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -724,7 +796,7 @@ class _CatalogScreenState extends State<CatalogScreen> {
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
         style: TextStyle(
-          color: AppColors.accentLight,
+          color: Colors.white.withValues(alpha: 0.85),
           fontSize: 12 * _s,
           fontWeight: FontWeight.w700,
           letterSpacing: 0.35,
@@ -812,6 +884,7 @@ class _CatalogScreenState extends State<CatalogScreen> {
           height: _posterRowHeight,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
+            clipBehavior: Clip.none,
             padding: EdgeInsets.symmetric(
               horizontal: DeviceProfile.isTv(context) ? 2 : 14,
             ),
@@ -882,6 +955,246 @@ class _CatalogScreenState extends State<CatalogScreen> {
       ),
     ),
   );
+
+  // --------- Fila TOP 10 (números gigantes estilo Netflix) ---------
+  Widget _top10Row(List<Channel> items) {
+    final ranked = [...items]
+      ..sort(
+        (a, b) => (double.tryParse(b.rating?.trim() ?? '') ?? 0).compareTo(
+          double.tryParse(a.rating?.trim() ?? '') ?? 0,
+        ),
+      );
+    final top = ranked.take(10).toList();
+    if (top.length < 3) return const SizedBox.shrink();
+    final tv = DeviceProfile.isTv(context);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: EdgeInsets.fromLTRB(tv ? 2 : 14, tv ? 32 : 18, 0, tv ? 15 : 10),
+          child: Row(
+            children: [
+              Icon(
+                Icons.local_fire_department_rounded,
+                color: AppColors.accent,
+                size: 20 * _s,
+              ),
+              const SizedBox(width: 6),
+              Text(
+                'Top 10 de hoy',
+                style: TextStyle(
+                  color: AppColors.textPrimary,
+                  fontSize: 16 * _s,
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
+            ],
+          ),
+        ),
+        SizedBox(
+          height: _posterHeight + 30 * _s,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            clipBehavior: Clip.none,
+            padding: EdgeInsets.symmetric(horizontal: tv ? 2 : 12),
+            itemCount: top.length,
+            itemBuilder: (ctx, i) => _top10Card(i, top[i], top),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _top10Card(int index, Channel ch, List<Channel> ctx) {
+    final posterW = _posterWidth * 0.82;
+    final posterH = _posterHeight;
+    final numberW = posterW * 0.74;
+    return Padding(
+      padding: const EdgeInsets.only(right: 6),
+      child: TvFocusable(
+        onTap: () => _openDetails(ch, ctx),
+        onFocusChange: (focused) => _onPosterFocus(ch, focused),
+        borderRadius: BorderRadius.circular(12),
+        child: SizedBox(
+          width: posterW + numberW,
+          height: posterH,
+          child: Stack(
+            clipBehavior: Clip.none,
+            children: [
+              // Número gigante (relleno + contorno) detrás del póster.
+              Positioned(
+                left: -4,
+                bottom: -8,
+                child: _rankNumber('${index + 1}', posterH * 0.92),
+              ),
+              // Póster a la derecha.
+              Positioned(
+                right: 0,
+                top: 0,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: SizedBox(
+                    width: posterW,
+                    height: posterH,
+                    child: ColoredBox(
+                      color: AppColors.cardElevated,
+                      child: ch.logo != null && ch.logo!.isNotEmpty
+                          ? CachedNetworkImage(
+                              imageUrl: ch.logo!,
+                              fit: BoxFit.cover,
+                              memCacheWidth: 360,
+                              placeholder: (_, _) => _posterPh(ch),
+                              errorWidget: (_, _, _) => _posterPh(ch),
+                            )
+                          : _posterPh(ch),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  /// Número grande con relleno oscuro y contorno claro (look premium Netflix).
+  Widget _rankNumber(String n, double fontSize) {
+    return Stack(
+      children: [
+        Text(
+          n,
+          style: TextStyle(
+            fontSize: fontSize,
+            height: 0.9,
+            fontWeight: FontWeight.w900,
+            letterSpacing: -6,
+            color: AppColors.cardElevated,
+          ),
+        ),
+        Text(
+          n,
+          style: TextStyle(
+            fontSize: fontSize,
+            height: 0.9,
+            fontWeight: FontWeight.w900,
+            letterSpacing: -6,
+            foreground: Paint()
+              ..style = PaintingStyle.stroke
+              ..strokeWidth = 1.6
+              ..color = Colors.white.withValues(alpha: 0.22),
+          ),
+        ),
+      ],
+    );
+  }
+
+  // --------- Continuar viendo (tarjetas horizontales 16:9) ---------
+  Widget _continueRow(List<Channel> items) {
+    if (items.isEmpty) return const SizedBox.shrink();
+    final tv = DeviceProfile.isTv(context);
+    final cardW = _posterWidth * 1.55;
+    final cardH = cardW * 9 / 16;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: EdgeInsets.fromLTRB(tv ? 2 : 14, tv ? 32 : 18, 0, tv ? 15 : 10),
+          child: Text(
+            'Continuar viendo',
+            style: TextStyle(
+              color: AppColors.textPrimary,
+              fontSize: 16 * _s,
+              fontWeight: FontWeight.w800,
+            ),
+          ),
+        ),
+        SizedBox(
+          height: cardH + 34 * _s,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            clipBehavior: Clip.none,
+            padding: EdgeInsets.symmetric(horizontal: tv ? 2 : 12),
+            itemCount: items.length,
+            itemBuilder: (ctx, i) => _continueCard(items[i], items, cardW, cardH),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _continueCard(Channel ch, List<Channel> ctx, double w, double h) {
+    final img = ch.backdrop ?? ch.logo;
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 5),
+      child: TvFocusable(
+        onTap: () => _play(ch, ctx),
+        onFocusChange: (focused) => _onPosterFocus(ch, focused),
+        borderRadius: BorderRadius.circular(12),
+        child: SizedBox(
+          width: w,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: SizedBox(
+                  width: w,
+                  height: h,
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      ColoredBox(
+                        color: AppColors.cardElevated,
+                        child: img != null && img.isNotEmpty
+                            ? CachedNetworkImage(
+                                imageUrl: img,
+                                fit: BoxFit.cover,
+                                memCacheWidth: 500,
+                                errorWidget: (_, _, _) => _posterPh(ch),
+                              )
+                            : _posterPh(ch),
+                      ),
+                      // Botón play semitransparente centrado.
+                      Center(
+                        child: Container(
+                          padding: const EdgeInsets.all(7),
+                          decoration: BoxDecoration(
+                            color: Colors.black.withValues(alpha: 0.55),
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: Colors.white.withValues(alpha: 0.85),
+                              width: 1.5,
+                            ),
+                          ),
+                          child: Icon(
+                            Icons.play_arrow_rounded,
+                            color: Colors.white,
+                            size: 22 * _s,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 6),
+              Text(
+                ch.displayName,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  color: AppColors.textPrimary,
+                  fontSize: 12 * _s,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 
   bool _isAnimeMovie(Channel channel) {
     final metadata = <String>[
@@ -959,6 +1272,7 @@ class _CatalogScreenState extends State<CatalogScreen> {
           height: _posterRowHeight,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
+            clipBehavior: Clip.none,
             padding: EdgeInsets.symmetric(
               horizontal: DeviceProfile.isTv(context) ? 2 : 14,
             ),

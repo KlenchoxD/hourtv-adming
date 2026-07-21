@@ -128,7 +128,7 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
           ? rating
           : a.displayName.toLowerCase().compareTo(b.displayName.toLowerCase());
     });
-    return movies.take(12).toList();
+    return movies.take(6).toList();
   }
 
   void _openRecommendation(Channel movie) {

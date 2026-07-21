@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../theme/app_theme.dart';
 
 /// Hace que [child] sea operable con control remoto (D-pad de Android TV/Google TV)
 /// y teclado (PC), ademas de tactil/mouse. Resalta con un borde cuando tiene foco
@@ -96,22 +95,26 @@ class _TvFocusableState extends State<TvFocusable> {
       child: GestureDetector(
         onTap: widget.onTap,
         child: AnimatedScale(
-          scale: _focused ? 1.06 : 1.0,
-          duration: const Duration(milliseconds: 120),
+          scale: _focused ? 1.08 : 1.0,
+          duration: const Duration(milliseconds: 180),
+          curve: Curves.easeOutCubic,
           child: AnimatedContainer(
-            duration: const Duration(milliseconds: 120),
+            duration: const Duration(milliseconds: 180),
+            curve: Curves.easeOutCubic,
             decoration: BoxDecoration(
               borderRadius: radius,
+              // Google TV nativo: el foco es anillo blanco + elevacion, nunca
+              // un relleno de color (eso se veia "app Android cualquiera").
               border: Border.all(
-                color: _focused ? AppColors.accent : Colors.transparent,
+                color: _focused ? Colors.white : Colors.transparent,
                 width: 3,
               ),
               boxShadow: _focused
-                  ? [
+                  ? const [
                       BoxShadow(
-                        color: AppColors.accent.withValues(alpha: 0.5),
-                        blurRadius: 12,
-                        spreadRadius: 1,
+                        color: Colors.black87,
+                        blurRadius: 24,
+                        offset: Offset(0, 10),
                       ),
                     ]
                   : null,

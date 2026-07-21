@@ -198,7 +198,7 @@ class _SeriesDetailScreenState extends State<SeriesDetailScreen> {
           ? rating
           : a.name.toLowerCase().compareTo(b.name.toLowerCase());
     });
-    return similar.take(12).toList();
+    return similar.take(6).toList();
   }
 
   @override
