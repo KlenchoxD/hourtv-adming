@@ -1,16 +1,18 @@
 {
-  "generatedAt": "2026-07-21T23:39:50.701Z",
-  "durationMs": 3007,
+  "generatedAt": "2026-07-22T01:05:29.743Z",
+  "durationMs": 1605,
   "dryRun": false,
   "moviesFound": 29,
   "moviesDiscarded": 27,
-  "moviesAdded": 0,
+  "moviesAdded": 1,
   "moviesEnriched": 0,
-  "duplicates": 2,
+  "duplicates": 1,
   "tmdbErrors": 0,
   "providerErrors": 0,
-  "invalidSources": 0,
-  "addedTitles": [],
+  "invalidSources": 6,
+  "addedTitles": [
+    "Backrooms"
+  ],
   "skipped": [
     {
       "tmdbId": 1108427,
