@@ -33,13 +33,21 @@ class _HourTvNewShellState extends State<HourTvNewShell> {
   final ContentStore store = ContentStore.instance;
   _Section section = _Section.home;
   bool railHovered = false;
+  bool _loaded = false;
 
   @override
   void initState() {
     super.initState();
     store.addListener(_refresh);
-    store.ensureLoaded();
+    // Marca cuando termina la carga inicial: hasta entonces mostramos un
+    // loading, nunca el catalogo de PREVIEW (evita el parpadeo del demo).
+    store.ensureLoaded().whenComplete(() {
+      if (mounted) setState(() => _loaded = true);
+    });
   }
+
+  /// Aun cargando el catalogo real y todavia sin contenido: mostrar loading.
+  bool get _booting => !_loaded && store.movies.isEmpty && store.all.isEmpty;
 
   @override
   void dispose() {
@@ -90,7 +98,9 @@ class _HourTvNewShellState extends State<HourTvNewShell> {
     final phone = DeviceProfile.isPhone(context);
     final tablet = DeviceProfile.isTablet(context);
     final tv = DeviceProfile.isTv(context);
-    final body = _sectionBody(phone: phone, tablet: tablet, tv: tv);
+    final body = _booting
+        ? const _BootLoading()
+        : _sectionBody(phone: phone, tablet: tablet, tv: tv);
 
     return Scaffold(
       backgroundColor: _black,
@@ -191,6 +201,28 @@ class _HourTvNewShellState extends State<HourTvNewShell> {
       case _Section.profile:
         return HourTvProfilePage(phone: phone, tablet: tablet, tv: tv);
     }
+  }
+}
+
+class _BootLoading extends StatelessWidget {
+  const _BootLoading();
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          HourTvLogo(height: 64),
+          SizedBox(height: 26),
+          SizedBox(
+            width: 26,
+            height: 26,
+            child: CircularProgressIndicator(strokeWidth: 2.4, color: _red),
+          ),
+        ],
+      ),
+    );
   }
 }
 
