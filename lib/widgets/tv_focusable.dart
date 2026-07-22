@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../theme/app_theme.dart';
 
 /// Hace que [child] sea operable con control remoto (D-pad de Android TV/Google TV)
 /// y teclado (PC), ademas de tactil/mouse. Resalta con un borde cuando tiene foco
@@ -103,18 +104,18 @@ class _TvFocusableState extends State<TvFocusable> {
             curve: Curves.easeOutCubic,
             decoration: BoxDecoration(
               borderRadius: radius,
-              // Google TV nativo: el foco es anillo blanco + elevacion, nunca
-              // un relleno de color (eso se veia "app Android cualquiera").
+              // Foco de marca HourTV: borde + glow rojo + escala (como el
+              // diseño rojo/negro). El rojo resalta lo seleccionado a 10 pies.
               border: Border.all(
-                color: _focused ? Colors.white : Colors.transparent,
+                color: _focused ? AppColors.accent : Colors.transparent,
                 width: 3,
               ),
               boxShadow: _focused
-                  ? const [
+                  ? [
                       BoxShadow(
-                        color: Colors.black87,
-                        blurRadius: 24,
-                        offset: Offset(0, 10),
+                        color: AppColors.accent.withValues(alpha: 0.6),
+                        blurRadius: 22,
+                        spreadRadius: 1,
                       ),
                     ]
                   : null,

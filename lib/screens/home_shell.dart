@@ -2,15 +2,24 @@ import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
 import '../services/device_type.dart';
 import '../services/content_store.dart';
+import '../services/xtream_service.dart';
+import '../models/channel.dart';
 import '../widgets/tv_focusable.dart';
 import '../widgets/hourtv_brand.dart';
 import 'catalog_screen.dart';
 import 'live_tv_screen.dart';
 import 'profile_screen.dart';
+import 'favorites_screen.dart';
+import 'search_screen.dart';
+import 'movie_detail_screen.dart';
+import 'series_detail_screen.dart';
 
-/// Estructura principal: Inicio (catálogo), En Vivo (solo canales) y Perfil.
-/// En móvil/tablet usa barra inferior; en Android TV/Google TV usa un riel
-/// lateral navegable con D-pad (nunca requiere pantalla táctil).
+/// Estructura principal. Navegación adaptativa (diseño rojo/negro de referencia):
+///   - Móvil/tablet: barra inferior de 5 (Inicio, Buscar, TV en Vivo, Mi lista,
+///     Perfil). "Buscar" abre el buscador a pantalla completa.
+///   - Android TV/Google TV: riel lateral de 6 navegable con D-pad (Inicio,
+///     Películas, Series, TV en Vivo, Mi Lista, Perfil); Películas/Series abren
+///     el catálogo directo en esa categoría.
 class HomeShell extends StatefulWidget {
   const HomeShell({super.key});
   @override
@@ -21,10 +30,44 @@ class _HomeShellState extends State<HomeShell> with WidgetsBindingObserver {
   int _index = 0;
   bool _railExpanded = false;
 
-  static const _items = [
+  // --- Destinos por dispositivo (íconos + páginas del IndexedStack) ---
+
+  // TV: 6 destinos, uno por página.
+  static const _tvItems = [
     (icon: Icons.home_rounded, label: 'Inicio'),
-    (icon: Icons.live_tv_rounded, label: 'En Vivo'),
+    (icon: Icons.movie_rounded, label: 'Películas'),
+    (icon: Icons.video_library_rounded, label: 'Series'),
+    (icon: Icons.live_tv_rounded, label: 'TV en Vivo'),
+    (icon: Icons.favorite_rounded, label: 'Mi Lista'),
     (icon: Icons.person_rounded, label: 'Perfil'),
+  ];
+  static const _tvLiveIndex = 3;
+
+  List<Widget> get _tvPages => [
+    const CatalogScreen(initialCategory: 'all'),
+    const CatalogScreen(initialCategory: 'movies'),
+    const CatalogScreen(initialCategory: 'series'),
+    LiveTvScreen(active: _index == _tvLiveIndex),
+    const FavoritesScreen(),
+    const ProfileScreen(),
+  ];
+
+  // Móvil: 4 páginas; "Buscar" es una acción (push), no una página.
+  static const _mobileLiveIndex = 1;
+  List<Widget> get _mobilePages => [
+    const CatalogScreen(),
+    LiveTvScreen(active: _index == _mobileLiveIndex),
+    const FavoritesScreen(),
+    const ProfileScreen(),
+  ];
+
+  // Orden visual de la barra inferior: page = índice de página; search = acción.
+  static const _mobileNav = [
+    (icon: Icons.home_rounded, label: 'Inicio', page: 0),
+    (icon: Icons.search_rounded, label: 'Buscar', page: -1),
+    (icon: Icons.live_tv_rounded, label: 'TV en Vivo', page: 1),
+    (icon: Icons.favorite_rounded, label: 'Mi lista', page: 2),
+    (icon: Icons.person_rounded, label: 'Perfil', page: 3),
   ];
 
   @override
@@ -48,26 +91,65 @@ class _HomeShellState extends State<HomeShell> with WidgetsBindingObserver {
     }
   }
 
+  /// Buscador a pantalla completa (móvil). Construye la lista de contenido y
+  /// navega al detalle de lo elegido.
+  Future<void> _openSearch() async {
+    final store = ContentStore.instance;
+    final seriesByUrl = <String, XtreamSeries>{
+      for (final item in store.series) 'hourtv-series:${item.seriesId}': item,
+    };
+    final searchItems = <Channel>[
+      ...store.movies,
+      for (final item in store.series)
+        Channel(
+          name: item.name,
+          url: 'hourtv-series:${item.seriesId}',
+          logo: item.cover,
+          backdrop: item.backdrop,
+          forcedType: 'series',
+          plot: item.plot,
+          year: item.year,
+          rating: item.rating,
+          duration: item.duration,
+          genre: item.genre,
+          categories: item.categories,
+        ),
+    ];
+    final picked = await Navigator.push<Channel>(
+      context,
+      MaterialPageRoute(builder: (_) => SearchScreen(all: searchItems)),
+    );
+    if (picked == null || !mounted) return;
+    final selectedSeries = seriesByUrl[picked.url];
+    if (selectedSeries != null) {
+      await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => SeriesDetailScreen(series: selectedSeries),
+        ),
+      );
+      return;
+    }
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) =>
+            MovieDetailScreen(channel: picked, allChannels: store.movies),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final isTv = DeviceProfile.isTv(context);
-    // En horizontal (viendo a pantalla completa) ocultamos la barra inferior.
     final landscape =
         MediaQuery.of(context).orientation == Orientation.landscape;
-    final content = IndexedStack(
-      index: _index,
-      children: [
-        const CatalogScreen(),
-        LiveTvScreen(active: _index == 1),
-        const ProfileScreen(),
-      ],
-    );
+    final pages = isTv ? _tvPages : _mobilePages;
+    final content = IndexedStack(index: _index, children: pages);
     return Scaffold(
       backgroundColor: AppColors.primaryDark,
       body: Container(
         decoration: AppTheme.gradientBackground,
-        // TV estilo Netflix: contenido a pantalla completa (inmersivo) con el
-        // menú como overlay que solo se expande al enfocarlo con el D-pad.
         child: isTv
             ? Stack(
                 children: [
@@ -81,9 +163,10 @@ class _HomeShellState extends State<HomeShell> with WidgetsBindingObserver {
     );
   }
 
-  /// Menú overlay estilo Netflix TV: colapsado es una franja delgada casi
-  /// invisible (solo íconos sobre un degradado sutil, sin panel sólido ni
-  /// etiquetas). Al enfocarlo con el D-pad se desliza sobre el contenido.
+  // ======================= TV: riel lateral (6) =======================
+
+  /// Menú overlay: colapsado es una franja delgada de íconos sobre un degradado;
+  /// al enfocarlo con el D-pad se expande sobre el contenido.
   Widget _sideRail() {
     final expanded = _railExpanded;
     return Positioned(
@@ -99,10 +182,8 @@ class _HomeShellState extends State<HomeShell> with WidgetsBindingObserver {
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 220),
           curve: Curves.easeOutCubic,
-          width: expanded ? 250 : 62,
+          width: expanded ? 250 : 66,
           decoration: BoxDecoration(
-            // Colapsado: sin panel, solo un degradado que funde con el fondo
-            // para que el hero se vea a sangre completa. Expandido: panel.
             color: expanded ? const Color(0xF5121212) : null,
             gradient: expanded
                 ? null
@@ -123,7 +204,7 @@ class _HomeShellState extends State<HomeShell> with WidgetsBindingObserver {
           ),
           child: SafeArea(
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 22),
+              padding: const EdgeInsets.symmetric(vertical: 20),
               child: Column(
                 children: [
                   Padding(
@@ -133,7 +214,7 @@ class _HomeShellState extends State<HomeShell> with WidgetsBindingObserver {
                           ? MainAxisAlignment.start
                           : MainAxisAlignment.center,
                       children: [
-                        const HourTvLogo(size: 38),
+                        const HourTvLogo(size: 36),
                         if (expanded) ...[
                           const SizedBox(width: 11),
                           const Expanded(child: HourTvWordmark(fontSize: 18)),
@@ -141,8 +222,8 @@ class _HomeShellState extends State<HomeShell> with WidgetsBindingObserver {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 34),
-                  for (var i = 0; i < _items.length; i++) _railTab(i),
+                  const SizedBox(height: 26),
+                  for (var i = 0; i < _tvItems.length; i++) _railTab(i),
                   const Spacer(),
                 ],
               ),
@@ -155,9 +236,9 @@ class _HomeShellState extends State<HomeShell> with WidgetsBindingObserver {
 
   Widget _railTab(int i) {
     final selected = i == _index;
-    final item = _items[i];
+    final item = _tvItems[i];
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       child: TvFocusable(
         onTap: () => setState(() => _index = i),
         autofocus: i == 0,
@@ -165,12 +246,12 @@ class _HomeShellState extends State<HomeShell> with WidgetsBindingObserver {
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 160),
           width: double.infinity,
-          height: 58,
+          height: 52,
           padding: EdgeInsets.symmetric(horizontal: _railExpanded ? 14 : 0),
           alignment: Alignment.center,
           decoration: BoxDecoration(
             color: selected
-                ? AppColors.accent.withValues(alpha: 0.17)
+                ? AppColors.accent.withValues(alpha: 0.18)
                 : Colors.transparent,
             borderRadius: BorderRadius.circular(14),
             border: Border(
@@ -214,7 +295,8 @@ class _HomeShellState extends State<HomeShell> with WidgetsBindingObserver {
     );
   }
 
-  /// Barra inferior solo iconos, estilo UltraPelis: el activo en rojo.
+  // ==================== Móvil: barra inferior (5) ====================
+
   Widget _bottomBar() {
     return Container(
       decoration: BoxDecoration(
@@ -233,10 +315,10 @@ class _HomeShellState extends State<HomeShell> with WidgetsBindingObserver {
       child: SafeArea(
         top: false,
         child: SizedBox(
-          height: 54,
+          height: 58,
           child: Row(
             children: [
-              for (var i = 0; i < _items.length; i++) Expanded(child: _tab(i)),
+              for (final it in _mobileNav) Expanded(child: _bottomTab(it)),
             ],
           ),
         ),
@@ -244,19 +326,37 @@ class _HomeShellState extends State<HomeShell> with WidgetsBindingObserver {
     );
   }
 
-  Widget _tab(int i) {
-    final sel = i == _index;
-    final it = _items[i];
+  Widget _bottomTab(({IconData icon, String label, int page}) it) {
+    final isSearch = it.page < 0;
+    final sel = !isSearch && it.page == _index;
     return InkWell(
-      onTap: () => setState(() => _index = i),
-      child: AnimatedScale(
-        scale: sel ? 1.0 : 0.95,
-        duration: const Duration(milliseconds: 160),
-        child: Icon(
-          it.icon,
-          size: 24,
-          color: sel ? AppColors.accent : Colors.white.withValues(alpha: 0.6),
-        ),
+      onTap: () {
+        if (isSearch) {
+          _openSearch();
+        } else {
+          setState(() => _index = it.page);
+        }
+      },
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            it.icon,
+            size: 22,
+            color: sel ? AppColors.accent : Colors.white.withValues(alpha: 0.6),
+          ),
+          const SizedBox(height: 3),
+          Text(
+            it.label,
+            style: TextStyle(
+              fontSize: 10,
+              fontWeight: sel ? FontWeight.w700 : FontWeight.w500,
+              color: sel
+                  ? AppColors.accent
+                  : Colors.white.withValues(alpha: 0.6),
+            ),
+          ),
+        ],
       ),
     );
   }

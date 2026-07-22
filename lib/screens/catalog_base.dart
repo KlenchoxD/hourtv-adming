@@ -38,9 +38,14 @@ mixin CatalogBaseState<T extends StatefulWidget> on State<T> {
   /// Categoría activa: 'all' (Recomendado), un género de película, o 'series'.
   String _cat = 'all';
 
+  /// Categoría con la que arranca la pantalla (cada variante la toma de su
+  /// widget; por defecto Recomendado).
+  String get _initialCategory => 'all';
+
   @override
   void initState() {
     super.initState();
+    _cat = _initialCategory;
     _store.addListener(_onChange);
     _store.ensureLoaded();
   }

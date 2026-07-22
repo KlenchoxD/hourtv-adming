@@ -27,12 +27,15 @@ part 'catalog_touch_screen.dart';
 ///   - teléfono/tablet (táctil)     -> [CatalogTouchScreen]
 /// NO muestra canales en vivo (eso vive en la pestaña En Vivo).
 class CatalogScreen extends StatelessWidget {
-  const CatalogScreen({super.key});
+  /// Categoría con la que arranca (para que el rail de TV abra directo en
+  /// Películas o Series). 'all' = Recomendado.
+  final String initialCategory;
+  const CatalogScreen({super.key, this.initialCategory = 'all'});
 
   @override
   Widget build(BuildContext context) {
     return DeviceProfile.isTv(context)
-        ? const CatalogTvScreen()
-        : const CatalogTouchScreen();
+        ? CatalogTvScreen(initialCategory: initialCategory)
+        : CatalogTouchScreen(initialCategory: initialCategory);
   }
 }

@@ -5,13 +5,17 @@ part of 'catalog_screen.dart';
 /// algo más grandes vía `uiScale`; no necesita una pantalla aparte. Comparte
 /// datos y filas con [CatalogBaseState]; solo aporta el hero y su rotación.
 class CatalogTouchScreen extends StatefulWidget {
-  const CatalogTouchScreen({super.key});
+  final String initialCategory;
+  const CatalogTouchScreen({super.key, this.initialCategory = 'all'});
   @override
   State<CatalogTouchScreen> createState() => _CatalogTouchScreenState();
 }
 
 class _CatalogTouchScreenState extends State<CatalogTouchScreen>
     with CatalogBaseState {
+  @override
+  String get _initialCategory => widget.initialCategory;
+
   /// Banner rotativo del Inicio (estilo UltraPelis). Es un ValueNotifier para
   /// que la rotación cada 5s reconstruya SOLO el hero, no toda la pantalla.
   Timer? _bannerTimer;

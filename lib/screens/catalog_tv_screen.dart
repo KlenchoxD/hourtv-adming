@@ -5,13 +5,17 @@ part of 'catalog_screen.dart';
 /// se muestra como una tarjeta contenida con esquinas redondeadas. Comparte
 /// datos y filas con [CatalogBaseState]; solo aporta hero y estado de foco.
 class CatalogTvScreen extends StatefulWidget {
-  const CatalogTvScreen({super.key});
+  final String initialCategory;
+  const CatalogTvScreen({super.key, this.initialCategory = 'all'});
   @override
   State<CatalogTvScreen> createState() => _CatalogTvScreenState();
 }
 
 class _CatalogTvScreenState extends State<CatalogTvScreen>
     with CatalogBaseState {
+  @override
+  String get _initialCategory => widget.initialCategory;
+
   /// Contenido que muestra el billboard: el último póster enfocado con D-pad.
   /// Null = la primera película destacada.
   Channel? _spotlight;
