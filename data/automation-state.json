@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-07-22T18:04:18.176Z",
+  "lastRunAt": "2026-07-22T19:41:29.157Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     1108427,
@@ -23,13 +23,13 @@
     1595852,
     1212763,
     1368337,
-    687163,
     1668364,
     1318621,
-    1280738,
+    687163,
+    1727780,
     261639,
+    1280738,
     969681,
-    1523145,
     1127384,
     1335666
   ],
@@ -138,11 +138,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 687163,
-      "title": "Proyecto Salvación",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1668364,
       "title": "Deseo",
       "reason": "Sin fuente autorizada configurada"
@@ -153,9 +148,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1280738,
-      "title": "The Furious",
+      "tmdbId": 687163,
+      "title": "Proyecto Salvación",
       "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1727780,
+      "title": "Borderline",
+      "reason": "Rating 0 por debajo del mínimo (5.5)"
     },
     {
       "tmdbId": 261639,
@@ -163,14 +163,14 @@
       "reason": "Sin sinopsis"
     },
     {
+      "tmdbId": 1280738,
+      "title": "The Furious",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 969681,
       "title": "Spider-Man: Brand New Day",
       "reason": "Rating 0 por debajo del mínimo (5.5)"
-    },
-    {
-      "tmdbId": 1523145,
-      "title": "Tu corazón se romperá",
-      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1127384,

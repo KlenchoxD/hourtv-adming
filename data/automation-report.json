@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-07-22T18:04:17.630Z",
-  "durationMs": 551,
+  "generatedAt": "2026-07-22T19:41:27.264Z",
+  "durationMs": 1898,
   "dryRun": false,
   "moviesFound": 30,
   "moviesDiscarded": 28,
@@ -113,11 +113,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 687163,
-      "title": "Proyecto Salvación",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1668364,
       "title": "Deseo",
       "reason": "Sin fuente autorizada configurada"
@@ -128,9 +123,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1280738,
-      "title": "The Furious",
+      "tmdbId": 687163,
+      "title": "Proyecto Salvación",
       "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1727780,
+      "title": "Borderline",
+      "reason": "Rating 0 por debajo del mínimo (5.5)"
     },
     {
       "tmdbId": 261639,
@@ -138,14 +138,14 @@
       "reason": "Sin sinopsis"
     },
     {
+      "tmdbId": 1280738,
+      "title": "The Furious",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 969681,
       "title": "Spider-Man: Brand New Day",
       "reason": "Rating 0 por debajo del mínimo (5.5)"
-    },
-    {
-      "tmdbId": 1523145,
-      "title": "Tu corazón se romperá",
-      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1127384,
