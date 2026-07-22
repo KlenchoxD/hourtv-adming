@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-07-22T07:20:09.126Z",
-  "durationMs": 1444,
+  "generatedAt": "2026-07-22T09:55:02.567Z",
+  "durationMs": 699,
   "dryRun": false,
-  "moviesFound": 29,
-  "moviesDiscarded": 27,
+  "moviesFound": 30,
+  "moviesDiscarded": 28,
   "moviesAdded": 0,
   "moviesEnriched": 0,
   "duplicates": 2,
@@ -18,13 +18,18 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1275779,
+      "title": "El día de la revelación",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1339713,
       "title": "Obsession",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1275779,
-      "title": "El día de la revelación",
+      "tmdbId": 1273221,
+      "title": "Scary Movie",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -40,11 +45,6 @@
     {
       "tmdbId": 1084244,
       "title": "Toy Story 5",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1273221,
-      "title": "Scary Movie",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -88,6 +88,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 454639,
+      "title": "He-Man y los masters del universo",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1595852,
       "title": "Boulevard",
       "reason": "Sin fuente autorizada configurada"
@@ -100,11 +105,6 @@
     {
       "tmdbId": 1007757,
       "title": "Intercambiados",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1468683,
-      "title": "Heartstopper para siempre",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -136,6 +136,11 @@
       "tmdbId": 261639,
       "title": "尼寺の情事　極楽ＳＥＸ",
       "reason": "Sin sinopsis"
+    },
+    {
+      "tmdbId": 969681,
+      "title": "Spider-Man: Brand New Day",
+      "reason": "Rating 0 por debajo del mínimo (5.5)"
     },
     {
       "tmdbId": 1523145,

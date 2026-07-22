@@ -1,15 +1,15 @@
 {
-  "lastRunAt": "2026-07-22T07:20:10.565Z",
+  "lastRunAt": "2026-07-22T09:55:03.261Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     1108427,
-    1339713,
     1275779,
+    1339713,
     1083381,
+    1273221,
     1315772,
     1081003,
     1084244,
-    1273221,
     1368314,
     1314481,
     1228710,
@@ -18,16 +18,17 @@
     1304313,
     1301421,
     1318447,
+    454639,
     1595852,
     1212763,
     1007757,
-    1468683,
     1368337,
     687163,
     1668364,
     1318621,
     1280738,
     261639,
+    969681,
     1523145,
     1127384,
     1335666
@@ -42,13 +43,18 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1275779,
+      "title": "El día de la revelación",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1339713,
       "title": "Obsession",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1275779,
-      "title": "El día de la revelación",
+      "tmdbId": 1273221,
+      "title": "Scary Movie",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -64,11 +70,6 @@
     {
       "tmdbId": 1084244,
       "title": "Toy Story 5",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1273221,
-      "title": "Scary Movie",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -112,6 +113,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 454639,
+      "title": "He-Man y los masters del universo",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1595852,
       "title": "Boulevard",
       "reason": "Sin fuente autorizada configurada"
@@ -124,11 +130,6 @@
     {
       "tmdbId": 1007757,
       "title": "Intercambiados",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1468683,
-      "title": "Heartstopper para siempre",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -160,6 +161,11 @@
       "tmdbId": 261639,
       "title": "尼寺の情事　極楽ＳＥＸ",
       "reason": "Sin sinopsis"
+    },
+    {
+      "tmdbId": 969681,
+      "title": "Spider-Man: Brand New Day",
+      "reason": "Rating 0 por debajo del mínimo (5.5)"
     },
     {
       "tmdbId": 1523145,
