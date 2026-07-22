@@ -6,6 +6,7 @@ import '../models/channel.dart';
 import '../services/content_store.dart';
 import '../services/device_type.dart';
 
+import 'hourtv_focusable.dart';
 import 'hourtv_detail_page.dart';
 import 'hourtv_live_page.dart';
 import 'hourtv_profile_page.dart';
@@ -125,7 +126,6 @@ class _HourTvNewShellState extends State<HourTvNewShell> {
         return _HomePage(
           movies: movies,
           series: series,
-          live: live,
           store: store,
           preview: showingPreview,
           phone: phone,
@@ -253,6 +253,7 @@ class _SideRail extends StatelessWidget {
                     label: entry.$3,
                     selected: current == entry.$1,
                     showLabel: tv || expanded,
+                    autofocus: tv && current == entry.$1,
                     onTap: () => onSelect(entry.$1),
                   ),
                   const SizedBox(height: 8),
@@ -279,23 +280,27 @@ class _RailItem extends StatelessWidget {
     required this.selected,
     required this.showLabel,
     required this.onTap,
+    this.autofocus = false,
   });
   final IconData icon;
   final String label;
   final bool selected;
   final bool showLabel;
   final VoidCallback onTap;
+  final bool autofocus;
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: selected ? _red : Colors.transparent,
+    return TvFocusable(
+      onTap: onTap,
+      autofocus: autofocus,
       borderRadius: BorderRadius.circular(14),
-      clipBehavior: Clip.antiAlias,
-      child: InkWell(
-        onTap: onTap,
-        focusColor: _red,
-        hoverColor: selected ? _red : const Color(0xFF1C1C20),
+      child: Container(
+        clipBehavior: Clip.antiAlias,
+        decoration: BoxDecoration(
+          color: selected ? _red : Colors.transparent,
+          borderRadius: BorderRadius.circular(14),
+        ),
         child: SizedBox(
           height: 48,
           child: Row(
@@ -385,7 +390,6 @@ class _HomePage extends StatelessWidget {
   const _HomePage({
     required this.movies,
     required this.series,
-    required this.live,
     required this.store,
     required this.preview,
     required this.phone,
@@ -395,7 +399,6 @@ class _HomePage extends StatelessWidget {
   });
   final List<Channel> movies;
   final List<Channel> series;
-  final List<Channel> live;
   final ContentStore store;
   final bool preview;
   final bool phone;
@@ -454,15 +457,8 @@ class _HomePage extends StatelessWidget {
             tv: tv,
           ),
         ),
-        SliverToBoxAdapter(
-          child: _LiveStrip(
-            title: 'En vivo ahora',
-            items: live.take(8).toList(),
-            store: store,
-            preview: live == PreviewCatalog.live,
-            phone: phone,
-          ),
-        ),
+        // Regla de oro HourTV: Inicio es SOLO VOD. Los canales en vivo viven
+        // exclusivamente en la seccion "TV en vivo", nunca en Home.
         const SliverToBoxAdapter(child: SizedBox(height: 48)),
       ],
     );
@@ -741,7 +737,7 @@ class _MediaCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: width,
-      child: InkWell(
+      child: TvFocusable(
         onTap: onTap,
         borderRadius: BorderRadius.circular(10),
         child: Column(
@@ -776,108 +772,6 @@ class _MediaCard extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class _LiveStrip extends StatelessWidget {
-  const _LiveStrip({
-    required this.title,
-    required this.items,
-    required this.store,
-    required this.preview,
-    required this.phone,
-  });
-  final String title;
-  final List<Channel> items;
-  final ContentStore store;
-  final bool preview;
-  final bool phone;
-
-  @override
-  Widget build(BuildContext context) {
-    final side = phone ? 12.0 : 28.0;
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: EdgeInsets.fromLTRB(side, 0, side, 10),
-            child: Text(
-              title,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: phone ? 17 : 20,
-                fontWeight: FontWeight.w800,
-              ),
-            ),
-          ),
-          SizedBox(
-            height: phone ? 120 : 150,
-            child: ListView.separated(
-              padding: EdgeInsets.symmetric(horizontal: side),
-              scrollDirection: Axis.horizontal,
-              itemCount: items.length,
-              separatorBuilder: (_, _) => const SizedBox(width: 12),
-              itemBuilder: (context, index) {
-                final channel = items[index];
-                return SizedBox(
-                  width: phone ? 190 : 250,
-                  child: InkWell(
-                    onTap: () => _open(context, channel, store, preview),
-                    borderRadius: BorderRadius.circular(12),
-                    child: Stack(
-                      fit: StackFit.expand,
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(12),
-                          child: _Artwork(
-                            url: channel.backdrop ?? channel.logo,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        const DecoratedBox(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(12)),
-                            gradient: LinearGradient(
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                              colors: [Colors.transparent, Color(0xDD000000)],
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          left: 12,
-                          right: 12,
-                          bottom: 10,
-                          child: Row(
-                            children: [
-                              const _Badge(text: 'EN VIVO'),
-                              const SizedBox(width: 8),
-                              Expanded(
-                                child: Text(
-                                  channel.displayName,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              },
-            ),
-          ),
-        ],
       ),
     );
   }
