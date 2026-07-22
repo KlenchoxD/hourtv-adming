@@ -14,9 +14,13 @@ import '../services/stalker_service.dart';
 import '../services/device_type.dart';
 import '../services/cast_service.dart';
 import '../services/embed_resolver.dart';
-import '../theme/app_theme.dart';
-import '../widgets/tv_focusable.dart';
-import 'cast_controls_screen.dart';
+import 'hourtv_focusable.dart';
+import 'hourtv_cast_controls_screen.dart';
+
+const _hourRed = Color(0xFFF20A1A);
+const _hourSurface = Color(0xFF101012);
+const _hourMuted = Color(0xFFA6A6B0);
+const _hourError = Color(0xFFFF5A66);
 
 class PlayerScreen extends StatefulWidget {
   final Channel channel;
@@ -176,10 +180,10 @@ class _PlayerScreenState extends State<PlayerScreen> {
           child: Text(m, style: const TextStyle(color: Colors.white)),
         ),
         materialProgressColors: ChewieProgressColors(
-          playedColor: AppColors.accent,
-          handleColor: AppColors.accent,
-          backgroundColor: AppColors.cardDark,
-          bufferedColor: AppColors.textMuted,
+          playedColor: _hourRed,
+          handleColor: _hourRed,
+          backgroundColor: _hourSurface,
+          bufferedColor: _hourMuted,
         ),
       );
       setState(() => _loading = false);
@@ -206,7 +210,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
   Widget _in(Channel ch) => Text(
     ch.displayName.isNotEmpty ? ch.displayName[0].toUpperCase() : '?',
     style: const TextStyle(
-      color: AppColors.accent,
+      color: _hourRed,
       fontSize: 40,
       fontWeight: FontWeight.bold,
     ),
@@ -757,7 +761,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
               child: Text(
                 entry.key,
                 style: const TextStyle(
-                  color: AppColors.accent,
+                  color: _hourRed,
                   fontWeight: FontWeight.w800,
                 ),
               ),
@@ -871,12 +875,17 @@ class _PlayerScreenState extends State<PlayerScreen> {
 
   KeyEventResult _onKey(FocusNode node, KeyEvent event) {
     if (event is! KeyDownEvent) return KeyEventResult.ignored;
-    final k = event.logicalKey;
+    final key = event.logicalKey;
+    final desktop = DeviceProfile.isDesktop(context);
 
-    if (k == LogicalKeyboardKey.escape || k == LogicalKeyboardKey.goBack) {
+    if (key == LogicalKeyboardKey.escape ||
+        key == LogicalKeyboardKey.goBack ||
+        key == LogicalKeyboardKey.backspace) {
       if (_showList) {
         setState(() => _showList = false);
-      } else if (_chromeVisible) {
+      } else if (_cc?.isFullScreen == true) {
+        _cc?.exitFullScreen();
+      } else if (!desktop && _chromeVisible) {
         _chromeTimer?.cancel();
         setState(() => _chromeVisible = false);
       } else {
@@ -884,55 +893,86 @@ class _PlayerScreenState extends State<PlayerScreen> {
       }
       return KeyEventResult.handled;
     }
-    if (k == LogicalKeyboardKey.mediaPlayPause ||
-        k == LogicalKeyboardKey.mediaPlay ||
-        k == LogicalKeyboardKey.mediaPause) {
+
+    if (_showList) return KeyEventResult.ignored;
+
+    final playKey =
+        key == LogicalKeyboardKey.mediaPlayPause ||
+        key == LogicalKeyboardKey.mediaPlay ||
+        key == LogicalKeyboardKey.mediaPause ||
+        key == LogicalKeyboardKey.space ||
+        (desktop && key == LogicalKeyboardKey.keyK) ||
+        key == LogicalKeyboardKey.select ||
+        key == LogicalKeyboardKey.enter ||
+        key == LogicalKeyboardKey.numpadEnter;
+    if (playKey) {
       _togglePlayPause();
       _showChromeControls();
       return KeyEventResult.handled;
     }
-    if (_showList) return KeyEventResult.ignored;
-    if (k == LogicalKeyboardKey.channelDown ||
-        k == LogicalKeyboardKey.mediaTrackPrevious) {
-      _chg(-1);
+
+    if (desktop && key == LogicalKeyboardKey.keyM) {
+      _volume = _volume > 0 ? 0 : 1;
+      _vc?.setVolume(_volume);
+      _showGesture(_volume == 0 ? 'Silencio' : 'Volumen 100%');
       _showChromeControls();
       return KeyEventResult.handled;
     }
-    if (k == LogicalKeyboardKey.channelUp ||
-        k == LogicalKeyboardKey.mediaTrackNext) {
-      _chg(1);
+    if (desktop && key == LogicalKeyboardKey.keyF) {
+      final controller = _cc;
+      if (controller != null) {
+        controller.isFullScreen
+            ? controller.exitFullScreen()
+            : controller.enterFullScreen();
+      }
       _showChromeControls();
       return KeyEventResult.handled;
     }
-    if (k == LogicalKeyboardKey.arrowLeft ||
-        k == LogicalKeyboardKey.mediaRewind) {
+    if (desktop && key == LogicalKeyboardKey.arrowUp) {
+      _volume = (_volume + .1).clamp(0.0, 1.0);
+      _vc?.setVolume(_volume);
+      _showGesture('Volumen ${(_volume * 100).round()}%');
+      return KeyEventResult.handled;
+    }
+    if (desktop && key == LogicalKeyboardKey.arrowDown) {
+      _volume = (_volume - .1).clamp(0.0, 1.0);
+      _vc?.setVolume(_volume);
+      _showGesture('Volumen ${(_volume * 100).round()}%');
+      return KeyEventResult.handled;
+    }
+
+    if (key == LogicalKeyboardKey.channelDown ||
+        key == LogicalKeyboardKey.mediaTrackPrevious) {
+      unawaited(_chg(-1));
+      _showChromeControls();
+      return KeyEventResult.handled;
+    }
+    if (key == LogicalKeyboardKey.channelUp ||
+        key == LogicalKeyboardKey.mediaTrackNext) {
+      unawaited(_chg(1));
+      _showChromeControls();
+      return KeyEventResult.handled;
+    }
+    if (key == LogicalKeyboardKey.arrowLeft ||
+        key == LogicalKeyboardKey.mediaRewind) {
       unawaited(_seekBy(const Duration(seconds: -10)));
       return KeyEventResult.handled;
     }
-    if (k == LogicalKeyboardKey.arrowRight ||
-        k == LogicalKeyboardKey.mediaFastForward) {
+    if (key == LogicalKeyboardKey.arrowRight ||
+        key == LogicalKeyboardKey.mediaFastForward) {
       unawaited(_seekBy(const Duration(seconds: 10)));
       return KeyEventResult.handled;
     }
-    if (k == LogicalKeyboardKey.arrowUp) {
+    if (!desktop && key == LogicalKeyboardKey.arrowUp) {
       _showChromeControls();
       unawaited(_showPlayerOptions());
       return KeyEventResult.handled;
     }
-    if (k == LogicalKeyboardKey.arrowDown) {
+    if (!desktop && key == LogicalKeyboardKey.arrowDown) {
       setState(() {
         _showList = true;
         _chromeVisible = true;
       });
-      return KeyEventResult.handled;
-    }
-
-    if (k == LogicalKeyboardKey.select ||
-        k == LogicalKeyboardKey.enter ||
-        k == LogicalKeyboardKey.numpadEnter ||
-        k == LogicalKeyboardKey.space) {
-      _togglePlayPause();
-      _showChromeControls();
       return KeyEventResult.handled;
     }
     return KeyEventResult.ignored;
@@ -1000,6 +1040,14 @@ class _PlayerScreenState extends State<PlayerScreen> {
                           bottom: 34,
                           child: _tvTransport(),
                         ),
+                      if (_chromeVisible &&
+                          DeviceProfile.isDesktop(context) &&
+                          !_showList)
+                        Positioned.fill(
+                          child: IgnorePointer(
+                            child: Center(child: _desktopShortcutHint()),
+                          ),
+                        ),
                       if (_gestureLabel != null)
                         Positioned.fill(
                           child: IgnorePointer(
@@ -1022,7 +1070,10 @@ class _PlayerScreenState extends State<PlayerScreen> {
                           ),
                         ),
                       if (_showList) _ov(),
-                      if (_chromeVisible && !_showList) ...[
+                      if (_chromeVisible &&
+                          !_showList &&
+                          !DeviceProfile.isDesktop(context) &&
+                          !DeviceProfile.isTv(context)) ...[
                         Positioned(
                           left: 8,
                           top: 0,
@@ -1048,10 +1099,43 @@ class _PlayerScreenState extends State<PlayerScreen> {
     ),
   );
 
+  Widget _desktopShortcutHint() {
+    return Container(
+      padding: const EdgeInsets.fromLTRB(18, 14, 18, 16),
+      decoration: BoxDecoration(
+        color: Colors.black.withValues(alpha: .72),
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: Colors.white12),
+      ),
+      child: const Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            'MÉTODOS ABREVIADOS',
+            style: TextStyle(
+              color: _hourRed,
+              fontSize: 10,
+              fontWeight: FontWeight.w900,
+              letterSpacing: 1.1,
+            ),
+          ),
+          SizedBox(height: 10),
+          Text(
+            'Espacio / K  ·  Play o pausa\n'
+            '← / →  ·  Retroceder o avanzar 10 s\n'
+            '↑ / ↓  ·  Volumen     M  ·  Silencio     F  ·  Pantalla completa',
+            textAlign: TextAlign.center,
+            style: TextStyle(color: Colors.white70, fontSize: 11, height: 1.7),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _lw() => Column(
     mainAxisSize: MainAxisSize.min,
     children: [
-      const CircularProgressIndicator(color: AppColors.accent),
+      const CircularProgressIndicator(color: _hourRed),
       const SizedBox(height: 16),
       const Text('Cargando...', style: TextStyle(color: Colors.white70)),
     ],
@@ -1059,7 +1143,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
   Widget _ew() => Column(
     mainAxisSize: MainAxisSize.min,
     children: [
-      const Icon(Icons.error, color: AppColors.error, size: 48),
+      const Icon(Icons.error, color: _hourError, size: 48),
       const SizedBox(height: 16),
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 32),
@@ -1098,60 +1182,103 @@ class _PlayerScreenState extends State<PlayerScreen> {
     final initialized = value?.isInitialized == true;
     final position = value?.position ?? Duration.zero;
     final duration = value?.duration ?? Duration.zero;
+
     String format(Duration time) {
       String two(int number) => number.toString().padLeft(2, '0');
-      return '${two(time.inMinutes.remainder(60))}:${two(time.inSeconds.remainder(60))}';
+      final hours = time.inHours;
+      final base =
+          '${two(time.inMinutes.remainder(60))}:${two(time.inSeconds.remainder(60))}';
+      return hours > 0 ? '${two(hours)}:$base' : base;
     }
 
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: Colors.black.withValues(alpha: 0.72),
-        borderRadius: BorderRadius.circular(14),
+        color: Colors.black.withValues(alpha: 0.86),
+        borderRadius: BorderRadius.circular(18),
         border: Border.all(color: Colors.white.withValues(alpha: 0.12)),
+        boxShadow: const [
+          BoxShadow(
+            color: Color(0x99000000),
+            blurRadius: 30,
+            offset: Offset(0, 12),
+          ),
+        ],
       ),
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(22, 14, 22, 16),
+        padding: const EdgeInsets.fromLTRB(24, 18, 24, 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              widget.allChannels[_idx].displayName,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 21,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-            const SizedBox(height: 12),
             Row(
               children: [
-                TvFocusable(
-                  onTap: _togglePlayPause,
-                  autofocus: false,
-                  borderRadius: BorderRadius.circular(24),
-                  child: Container(
-                    width: 52,
-                    height: 52,
-                    alignment: Alignment.center,
-                    decoration: const BoxDecoration(
+                const _HourPlayerBadge(),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Text(
+                    widget.allChannels[_idx].displayName,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
                       color: Colors.white,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Icon(
-                      value?.isPlaying == true
-                          ? Icons.pause_rounded
-                          : Icons.play_arrow_rounded,
-                      color: Colors.black,
-                      size: 31,
+                      fontSize: 22,
+                      fontWeight: FontWeight.w900,
                     ),
                   ),
                 ),
-                const SizedBox(width: 18),
+                const Text(
+                  'CONTROL REMOTO ACTIVO',
+                  style: TextStyle(
+                    color: _hourMuted,
+                    fontSize: 10,
+                    fontWeight: FontWeight.w800,
+                    letterSpacing: 1.2,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            Row(
+              children: [
+                _tvControl(
+                  icon: Icons.replay_10_rounded,
+                  label: 'Atrás',
+                  onTap: () => unawaited(_seekBy(const Duration(seconds: -10))),
+                ),
+                const SizedBox(width: 12),
+                _tvControl(
+                  icon: value?.isPlaying == true
+                      ? Icons.pause_rounded
+                      : Icons.play_arrow_rounded,
+                  label: value?.isPlaying == true ? 'Pausa' : 'Reproducir',
+                  primary: true,
+                  onTap: _togglePlayPause,
+                ),
+                const SizedBox(width: 12),
+                _tvControl(
+                  icon: Icons.forward_10_rounded,
+                  label: 'Adelante',
+                  onTap: () => unawaited(_seekBy(const Duration(seconds: 10))),
+                ),
+                const SizedBox(width: 12),
+                _tvControl(
+                  icon: _volume == 0
+                      ? Icons.volume_off_rounded
+                      : Icons.volume_up_rounded,
+                  label: 'Volumen',
+                  onTap: () {
+                    _volume = _volume > 0 ? 0 : 1;
+                    _vc?.setVolume(_volume);
+                    setState(() {});
+                  },
+                ),
+                const SizedBox(width: 20),
                 Text(
                   format(position),
-                  style: const TextStyle(color: Colors.white70, fontSize: 15),
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontFeatures: [FontFeature.tabularFigures()],
+                  ),
                 ),
                 const SizedBox(width: 12),
                 Expanded(
@@ -1161,39 +1288,28 @@ class _PlayerScreenState extends State<PlayerScreen> {
                         ? VideoProgressIndicator(
                             controller!,
                             allowScrubbing: true,
+                            padding: EdgeInsets.zero,
                             colors: const VideoProgressColors(
-                              playedColor: AppColors.accent,
+                              playedColor: _hourRed,
                               bufferedColor: Color(0x99FFFFFF),
-                              backgroundColor: Color(0x55FFFFFF),
+                              backgroundColor: Color(0x44FFFFFF),
                             ),
                           )
                         : const LinearProgressIndicator(
-                            color: AppColors.accent,
+                            minHeight: 6,
+                            color: _hourRed,
+                            backgroundColor: Color(0x44FFFFFF),
                           ),
                   ),
                 ),
                 const SizedBox(width: 12),
                 Text(
                   format(duration),
-                  style: const TextStyle(color: Colors.white70, fontSize: 15),
-                ),
-                const SizedBox(width: 18),
-                const Icon(
-                  Icons.keyboard_arrow_left_rounded,
-                  color: Colors.white70,
-                ),
-                const Text(
-                  '10 s',
-                  style: TextStyle(color: Colors.white70, fontSize: 14),
-                ),
-                const SizedBox(width: 10),
-                const Text(
-                  '10 s',
-                  style: TextStyle(color: Colors.white70, fontSize: 14),
-                ),
-                const Icon(
-                  Icons.keyboard_arrow_right_rounded,
-                  color: Colors.white70,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontFeatures: [FontFeature.tabularFigures()],
+                  ),
                 ),
               ],
             ),
@@ -1203,8 +1319,98 @@ class _PlayerScreenState extends State<PlayerScreen> {
     );
   }
 
+  Widget _tvControl({
+    required IconData icon,
+    required String label,
+    required VoidCallback onTap,
+    bool primary = false,
+  }) {
+    return TvFocusable(
+      onTap: onTap,
+      autofocus: primary,
+      borderRadius: BorderRadius.circular(14),
+      child: Container(
+        width: primary ? 76 : 64,
+        height: primary ? 64 : 56,
+        decoration: BoxDecoration(
+          color: primary ? _hourRed : const Color(0xFF1A1A1D),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, color: Colors.white, size: primary ? 31 : 25),
+            const SizedBox(height: 2),
+            Text(
+              label,
+              style: const TextStyle(
+                color: Colors.white70,
+                fontSize: 8,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget _tb() {
     final ch = widget.allChannels[_idx];
+    if (DeviceProfile.isTv(context)) {
+      return SafeArea(
+        bottom: false,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(24, 18, 24, 0),
+          child: Row(
+            children: [
+              const _HourPlayerBadge(),
+              const SizedBox(width: 14),
+              Expanded(
+                child: Text(
+                  ch.displayName,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 22,
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
+              ),
+              TvFocusable(
+                onTap: () => Navigator.maybePop(context),
+                autofocus: false,
+                borderRadius: BorderRadius.circular(12),
+                child: Container(
+                  height: 48,
+                  padding: const EdgeInsets.symmetric(horizontal: 18),
+                  decoration: BoxDecoration(
+                    color: const Color(0xDD171719),
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: Colors.white24),
+                  ),
+                  child: const Row(
+                    children: [
+                      Icon(Icons.close_rounded, color: Colors.white),
+                      SizedBox(width: 8),
+                      Text(
+                        'Salir de reproducción',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
       decoration: BoxDecoration(
@@ -1235,7 +1441,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
                           vertical: 2,
                         ),
                         decoration: BoxDecoration(
-                          color: AppColors.live,
+                          color: _hourRed,
                           borderRadius: BorderRadius.circular(4),
                         ),
                         child: const Text(
@@ -1355,7 +1561,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
           IconButton(
             icon: Icon(
               ch.isFavorite ? Icons.favorite : Icons.favorite_border,
-              color: AppColors.accent,
+              color: _hourRed,
             ),
             onPressed: () async {
               final fav = await StorageService.toggleFavorite(ch);
@@ -1387,7 +1593,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
             height: MediaQuery.of(context).size.height * 0.7,
             margin: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: AppColors.surfaceDark,
+              color: _hourSurface,
               borderRadius: BorderRadius.circular(16),
             ),
             child: Column(
@@ -1399,7 +1605,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
                       const Text(
                         'Todos los canales',
                         style: TextStyle(
-                          color: AppColors.textPrimary,
+                          color: Colors.white,
                           fontSize: 18,
                           fontWeight: FontWeight.w600,
                         ),
@@ -1407,7 +1613,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
                       const Spacer(),
                       Text(
                         widget.allChannels.length.toString(),
-                        style: const TextStyle(color: AppColors.textMuted),
+                        style: const TextStyle(color: _hourMuted),
                       ),
                     ],
                   ),
@@ -1439,9 +1645,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
                         title: Text(
                           ch.displayName,
                           style: TextStyle(
-                            color: cur
-                                ? AppColors.accent
-                                : AppColors.textPrimary,
+                            color: cur ? _hourRed : Colors.white,
                             fontSize: 14,
                             fontWeight: cur ? FontWeight.w600 : FontWeight.w400,
                           ),
@@ -1450,7 +1654,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
                             ? Text(
                                 ch.epgLine ?? ch.group!,
                                 style: const TextStyle(
-                                  color: AppColors.textMuted,
+                                  color: _hourMuted,
                                   fontSize: 11,
                                 ),
                                 maxLines: 1,
@@ -1460,7 +1664,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
                         trailing: cur
                             ? const Icon(
                                 Icons.play_arrow,
-                                color: AppColors.accent,
+                                color: _hourRed,
                                 size: 20,
                               )
                             : null,
@@ -1524,4 +1728,28 @@ bool isEmbedStreamUrl(String url) {
   }
   final path = uri.path.toLowerCase();
   return !_directMediaExtensions.any(path.endsWith);
+}
+
+class _HourPlayerBadge extends StatelessWidget {
+  const _HourPlayerBadge();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 5),
+      decoration: BoxDecoration(
+        color: _hourRed,
+        borderRadius: BorderRadius.circular(5),
+      ),
+      child: const Text(
+        'HOURTV TV-OS',
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 9,
+          fontWeight: FontWeight.w900,
+          letterSpacing: .9,
+        ),
+      ),
+    );
+  }
 }

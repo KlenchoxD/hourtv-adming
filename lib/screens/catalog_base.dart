@@ -79,45 +79,6 @@ mixin CatalogBaseState<T extends StatefulWidget> on State<T> {
     );
   }
 
-  Future<void> _openSearch() async {
-    final seriesByUrl = <String, XtreamSeries>{
-      for (final item in _store.series) 'hourtv-series:${item.seriesId}': item,
-    };
-    final searchItems = <Channel>[
-      ..._store.movies,
-      for (final item in _store.series)
-        Channel(
-          name: item.name,
-          url: 'hourtv-series:${item.seriesId}',
-          logo: item.cover,
-          backdrop: item.backdrop,
-          forcedType: 'series',
-          plot: item.plot,
-          year: item.year,
-          rating: item.rating,
-          duration: item.duration,
-          genre: item.genre,
-          categories: item.categories,
-        ),
-    ];
-    final picked = await Navigator.push<Channel>(
-      context,
-      MaterialPageRoute(builder: (_) => SearchScreen(all: searchItems)),
-    );
-    if (picked == null || !mounted) return;
-    final selectedSeries = seriesByUrl[picked.url];
-    if (selectedSeries != null) {
-      await Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (_) => SeriesDetailScreen(series: selectedSeries),
-        ),
-      );
-      return;
-    }
-    _openDetails(picked, _store.movies);
-  }
-
   bool get _vodLoading => _store.moviesLoading || _store.vodLoading;
 
   /// Escala 10 pies (1.0 en móvil/tablet, 1.5 en TV) y margen de overscan.
@@ -135,8 +96,7 @@ mixin CatalogBaseState<T extends StatefulWidget> on State<T> {
         padding: EdgeInsets.symmetric(horizontal: _contentPad),
         child: Column(
           children: [
-            _topBar(),
-            _categoryChips(),
+            if (_showLogo) _topBar(),
             Expanded(child: _content()),
           ],
         ),
@@ -144,21 +104,16 @@ mixin CatalogBaseState<T extends StatefulWidget> on State<T> {
     );
   }
 
-  Widget _topBar() => Padding(
-    padding: EdgeInsets.fromLTRB(18, 12 * _s, 12, 6),
-    child: Row(
-      children: [
-        // En TV el riel lateral ya muestra el logo; evita duplicarlo aquí.
-        if (_showLogo) ...[
-          HourTvLogo(size: 30 * _s),
-          const SizedBox(width: 9),
-          HourTvWordmark(fontSize: 19 * _s),
-        ],
-        const Spacer(),
-        if (_vodLoading)
-          const Padding(
-            padding: EdgeInsets.only(right: 6),
-            child: SizedBox(
+  Widget _topBar() => SizedBox(
+    height: 64,
+    child: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Row(
+        children: [
+          const HourTvLogo(size: 44, width: 72),
+          const Spacer(),
+          if (_vodLoading)
+            const SizedBox(
               width: 16,
               height: 16,
               child: CircularProgressIndicator(
@@ -166,179 +121,10 @@ mixin CatalogBaseState<T extends StatefulWidget> on State<T> {
                 color: AppColors.accent,
               ),
             ),
-          ),
-        // El filtro es chrome innecesario en TV: las categorías ya están en
-        // las pills. Solo en móvil/tablet.
-        if (!DeviceProfile.isTv(context))
-          IconButton(
-            icon: Icon(
-              Icons.filter_list_rounded,
-              color: AppColors.textPrimary,
-              size: 24 * _s,
-            ),
-            onPressed: _openFilter,
-          ),
-        IconButton(
-          icon: Icon(
-            Icons.search_rounded,
-            color: AppColors.textPrimary,
-            size: 24 * _s,
-          ),
-          onPressed: _openSearch,
-        ),
-      ],
+        ],
+      ),
     ),
   );
-
-  /// Panel de filtros estilo UltraPelis: lista de categorías a pantalla.
-  Future<void> _openFilter() async {
-    final cats = _cats;
-    final picked = await showModalBottomSheet<String>(
-      context: context,
-      backgroundColor: AppColors.surfaceDark,
-      isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(18)),
-      ),
-      builder: (ctx) => SafeArea(
-        child: ConstrainedBox(
-          constraints: BoxConstraints(
-            maxHeight: MediaQuery.sizeOf(ctx).height * 0.75,
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(20, 16, 8, 4),
-                child: Row(
-                  children: [
-                    Text(
-                      'Categorías',
-                      style: TextStyle(
-                        color: AppColors.textPrimary,
-                        fontSize: 18 * _s,
-                        fontWeight: FontWeight.w800,
-                      ),
-                    ),
-                    const Spacer(),
-                    IconButton(
-                      icon: const Icon(
-                        Icons.close_rounded,
-                        color: AppColors.textPrimary,
-                      ),
-                      onPressed: () => Navigator.pop(ctx),
-                    ),
-                  ],
-                ),
-              ),
-              Flexible(
-                child: ListView(
-                  shrinkWrap: true,
-                  children: [
-                    for (final c in cats)
-                      ListTile(
-                        autofocus: c.id == _cat && DeviceProfile.isTv(context),
-                        leading: Icon(
-                          _catIcon(c.id),
-                          color: c.id == _cat
-                              ? AppColors.accent
-                              : AppColors.textSecondary,
-                          size: 20 * _s,
-                        ),
-                        title: Text(
-                          c.label,
-                          style: TextStyle(
-                            color: c.id == _cat
-                                ? AppColors.accent
-                                : AppColors.textPrimary,
-                            fontSize: 15 * _s,
-                          ),
-                        ),
-                        onTap: () => Navigator.pop(ctx, c.id),
-                      ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-    if (picked != null && mounted) setState(() => _cat = picked);
-  }
-
-  IconData _catIcon(String id) {
-    final k = id.toLowerCase();
-    if (id == 'all') return Icons.recommend_rounded;
-    if (id == 'movies') return Icons.local_movies_rounded;
-    if (id == 'series') return Icons.tv_rounded;
-    if (k.contains('terror')) return Icons.dark_mode_rounded;
-    if (k.contains('acci')) return Icons.local_fire_department_rounded;
-    if (k.contains('comedia')) return Icons.sentiment_very_satisfied_rounded;
-    if (k.contains('roman')) return Icons.favorite_rounded;
-    if (k.contains('aventura')) return Icons.terrain_rounded;
-    if (k.contains('infantil') ||
-        k.contains('anima') ||
-        k.contains('familia')) {
-      return Icons.child_care_rounded;
-    }
-    if (k.contains('documental')) return Icons.video_library_rounded;
-    if (k.contains('cienc')) return Icons.rocket_launch_rounded;
-    return Icons.local_movies_rounded;
-  }
-
-  /// Inicio conserva cinco destinos editoriales, sin categorías de fuentes.
-  List<({String id, String label})> get _cats => const [
-    (id: 'all', label: 'Recomendado'),
-    (id: 'movies', label: 'Películas'),
-    (id: 'series', label: 'Series'),
-    (id: 'Infantil', label: 'Infantil'),
-    (id: 'Anime', label: 'Anime'),
-  ];
-
-  /// Fila de categorías estilo UltraPelis: texto plano, la activa en rojo.
-  Widget _categoryChips() {
-    final cats = _cats;
-    return SizedBox(
-      height: (DeviceProfile.isTv(context) ? 54 : 40) * _s,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        clipBehavior: Clip.none,
-        padding: EdgeInsets.symmetric(
-          horizontal: DeviceProfile.isTv(context) ? 2 : 14,
-        ),
-        itemCount: cats.length,
-        itemBuilder: (ctx, i) {
-          final c = cats[i];
-          final sel = c.id == _cat;
-          return Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: DeviceProfile.isTv(context) ? 10 : 4,
-              vertical: DeviceProfile.isTv(context) ? 9 : 5,
-            ),
-            child: TvFocusable(
-              onTap: () => setState(() => _cat = c.id),
-              borderRadius: BorderRadius.circular(8),
-              child: Container(
-                padding: EdgeInsets.symmetric(
-                  horizontal: (DeviceProfile.isTv(context) ? 18 : 10) * _s,
-                ),
-                alignment: Alignment.center,
-                child: Text(
-                  c.label,
-                  style: TextStyle(
-                    color: sel ? AppColors.accent : AppColors.textSecondary,
-                    fontSize: 14 * _s,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-            ),
-          );
-        },
-      ),
-    );
-  }
 
   // --------- Filtros por año/calificación (usa metadata cuando existe) ---------
 
@@ -628,7 +414,12 @@ mixin CatalogBaseState<T extends StatefulWidget> on State<T> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: EdgeInsets.fromLTRB(tv ? 2 : 14, tv ? 32 : 18, 0, tv ? 15 : 10),
+          padding: EdgeInsets.fromLTRB(
+            tv ? 2 : 14,
+            tv ? 32 : 18,
+            0,
+            tv ? 15 : 10,
+          ),
           child: Row(
             children: [
               Icon(
@@ -756,7 +547,12 @@ mixin CatalogBaseState<T extends StatefulWidget> on State<T> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: EdgeInsets.fromLTRB(tv ? 2 : 14, tv ? 32 : 18, 0, tv ? 15 : 10),
+          padding: EdgeInsets.fromLTRB(
+            tv ? 2 : 14,
+            tv ? 32 : 18,
+            0,
+            tv ? 15 : 10,
+          ),
           child: Text(
             'Continuar viendo',
             style: TextStyle(
@@ -773,7 +569,8 @@ mixin CatalogBaseState<T extends StatefulWidget> on State<T> {
             clipBehavior: Clip.none,
             padding: EdgeInsets.symmetric(horizontal: tv ? 2 : 12),
             itemCount: items.length,
-            itemBuilder: (ctx, i) => _continueCard(items[i], items, cardW, cardH),
+            itemBuilder: (ctx, i) =>
+                _continueCard(items[i], items, cardW, cardH),
           ),
         ),
       ],

@@ -15,12 +15,12 @@ import '../widgets/tv_focusable.dart';
 import '../widgets/hourtv_brand.dart';
 import 'movie_detail_screen.dart';
 import 'player_screen.dart';
-import 'search_screen.dart';
 import 'series_detail_screen.dart';
 
 part 'catalog_base.dart';
 part 'catalog_tv_screen.dart';
 part 'catalog_touch_screen.dart';
+part 'catalog_desktop_screen.dart';
 
 /// Pestaña INICIO: catálogo de VIDEO BAJO DEMANDA (películas y series). El
 /// backend/datos son únicos (ContentStore); lo que cambia es la FORMA de
@@ -36,8 +36,12 @@ class CatalogScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DeviceProfile.isTv(context)
-        ? CatalogTvScreen(initialCategory: initialCategory)
-        : CatalogTouchScreen(initialCategory: initialCategory);
+    if (DeviceProfile.isTv(context)) {
+      return CatalogTvScreen(initialCategory: initialCategory);
+    }
+    if (DeviceProfile.isDesktop(context)) {
+      return CatalogDesktopScreen(initialCategory: initialCategory);
+    }
+    return CatalogTouchScreen(initialCategory: initialCategory);
   }
 }

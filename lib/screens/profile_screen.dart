@@ -3,7 +3,6 @@ import '../services/content_store.dart';
 import '../services/device_type.dart';
 import '../theme/app_theme.dart';
 import '../widgets/tv_focusable.dart';
-import '../widgets/hourtv_brand.dart';
 import 'favorites_screen.dart';
 import 'history_screen.dart';
 import 'lists_screen.dart';
@@ -70,36 +69,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (DeviceProfile.isTv(context)) return _buildTv(context);
+    if (DeviceProfile.isTv(context) || DeviceProfile.isDesktop(context)) {
+      return _buildTv(context);
+    }
     return SafeArea(
       child: Center(
         child: ConstrainedBox(
-          constraints: BoxConstraints(
-            maxWidth: DeviceProfile.isTv(context) ? 860 : double.infinity,
-          ),
+          constraints: const BoxConstraints(maxWidth: 860),
           child: ListView(
             padding: const EdgeInsets.fromLTRB(20, 18, 20, 24),
             children: [
-              Row(
-                children: [
-                  HourTvLogo(size: 56 * _s),
-                  const SizedBox(width: 14),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      HourTvWordmark(fontSize: 22 * _s),
-                      const SizedBox(height: 2),
-                      Text(
-                        'Tu televisión, en todas partes',
-                        style: TextStyle(
-                          color: AppColors.textSecondary,
-                          fontSize: 12.5 * _s,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+              Text(
+                'Perfil',
+                style: TextStyle(
+                  color: AppColors.textPrimary,
+                  fontSize: 28 * _s,
+                  fontWeight: FontWeight.w900,
+                  letterSpacing: -0.5,
+                ),
+              ),
+              const SizedBox(height: 5),
+              Text(
+                'Tu biblioteca y preferencias',
+                style: TextStyle(
+                  color: AppColors.textSecondary,
+                  fontSize: 13 * _s,
+                ),
               ),
               const SizedBox(height: 22),
               Row(

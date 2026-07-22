@@ -313,7 +313,9 @@ class _SeriesDetailScreenState extends State<SeriesDetailScreen> {
       );
     }
 
-    if (DeviceProfile.isTv(context)) return _tvEpisodesBody(seasons);
+    if (DeviceProfile.isTv(context) || DeviceProfile.isDesktop(context)) {
+      return _tvEpisodesBody(seasons);
+    }
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

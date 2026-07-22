@@ -217,8 +217,11 @@ class _CatalogTvScreenState extends State<CatalogTvScreen>
     final duration = f.duration?.trim();
     final rating = f.rating?.trim();
     final fav = f.isFavorite;
+    final viewportHeroHeight = MediaQuery.sizeOf(context).height * 0.5;
     return Container(
-      constraints: BoxConstraints(minHeight: MediaQuery.sizeOf(context).height * 0.5),
+      constraints: BoxConstraints(
+        minHeight: viewportHeroHeight < 420 ? 420 : viewportHeroHeight,
+      ),
       padding: const EdgeInsets.only(left: 14, top: 30, bottom: 20),
       alignment: Alignment.centerLeft,
       child: Column(
@@ -261,13 +264,13 @@ class _CatalogTvScreenState extends State<CatalogTvScreen>
           const SizedBox(height: 16),
           Row(
             children: [
-              if (year?.isNotEmpty == true) ...[
-                _metaText(year!),
-                _metaDot(),
-              ],
+              if (year?.isNotEmpty == true) ...[_metaText(year!), _metaDot()],
               if (rating?.isNotEmpty == true) ...[
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 3,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.12),
                     borderRadius: BorderRadius.circular(5),
@@ -372,9 +375,7 @@ class _CatalogTvScreenState extends State<CatalogTvScreen>
   List<({String title, List<Channel> items, bool originals})> get _rows {
     if (_cat == 'series') {
       final s = _seriesAsChannels(_store.series);
-      return [
-        if (s.isNotEmpty) (title: 'Series', items: s, originals: false),
-      ];
+      return [if (s.isNotEmpty) (title: 'Series', items: s, originals: false)];
     }
     final movies = _store.movies;
     final ranked = [...movies]
@@ -619,7 +620,9 @@ class _TvHeroButtonState extends State<_TvHeroButton> {
               color: _f ? Colors.white : Colors.white.withValues(alpha: 0.12),
               borderRadius: BorderRadius.circular(12),
               border: Border.all(
-                color: _f ? AppColors.accent : Colors.white.withValues(alpha: 0.12),
+                color: _f
+                    ? AppColors.accent
+                    : Colors.white.withValues(alpha: 0.12),
                 width: 2,
               ),
               boxShadow: _f

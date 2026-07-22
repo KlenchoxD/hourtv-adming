@@ -111,7 +111,9 @@ class VodDetailView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (DeviceProfile.isTv(context)) return _buildTv(context);
+    if (DeviceProfile.isTv(context) || DeviceProfile.isDesktop(context)) {
+      return _buildTv(context);
+    }
     return _buildPhone(context);
   }
 
@@ -819,7 +821,9 @@ class _SimilarSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (DeviceProfile.isTv(context)) return _buildTv(context);
+    if (DeviceProfile.isTv(context) || DeviceProfile.isDesktop(context)) {
+      return _buildTv(context);
+    }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

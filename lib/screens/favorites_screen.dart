@@ -160,7 +160,9 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                       24,
                     ),
                     gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                      maxCrossAxisExtent: 130 * _s,
+                      maxCrossAxisExtent: DeviceProfile.isDesktop(context)
+                          ? 190
+                          : 130 * _s,
                       childAspectRatio: 0.62,
                       crossAxisSpacing: 10,
                       mainAxisSpacing: 14,

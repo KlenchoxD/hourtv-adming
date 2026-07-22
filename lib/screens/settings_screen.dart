@@ -114,15 +114,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     final tv = DeviceProfile.isTv(context);
+    final wide = tv || DeviceProfile.isDesktop(context);
     return SafeArea(
       child: ListView.builder(
         padding: EdgeInsets.symmetric(
-          horizontal: tv ? MediaQuery.sizeOf(context).width * 0.05 : 0,
+          horizontal: wide ? MediaQuery.sizeOf(context).width * 0.05 : 0,
         ),
         itemCount: 8,
         itemBuilder: (context, index) {
           return switch (index) {
-            0 => RepaintBoundary(child: tv ? _tvHeader() : _header()),
+            0 => RepaintBoundary(child: wide ? _tvHeader() : _header()),
             1 => _section('Canales', [
               _choice(
                 icon: Icons.sort,
@@ -274,19 +275,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ),
         child: Row(
           children: [
-            const HourTvLogo(size: 50),
-            const SizedBox(width: 14),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: const [
-                HourTvWordmark(fontSize: 19),
-                SizedBox(height: 2),
-                Text(
-                  'Versión 1.0.0 · IPTV personal',
-                  style: TextStyle(color: Colors.white70, fontSize: 12.5),
-                ),
-              ],
+            const HourTvLogo(size: 58, width: 92),
+            const SizedBox(width: 16),
+            const Expanded(
+              child: Text(
+                'Versión 1.0.0 · IPTV personal',
+                style: TextStyle(color: Colors.white70, fontSize: 12.5),
+              ),
             ),
           ],
         ),

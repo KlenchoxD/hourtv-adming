@@ -129,7 +129,9 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (DeviceProfile.isTv(context)) return _buildTv();
+    if (DeviceProfile.isTv(context) || DeviceProfile.isDesktop(context)) {
+      return _buildTv();
+    }
     return Scaffold(
       backgroundColor: AppColors.primaryDark,
       body: SafeArea(

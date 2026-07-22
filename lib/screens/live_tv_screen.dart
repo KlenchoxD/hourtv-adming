@@ -744,9 +744,7 @@ class _LiveTvScreenState extends State<LiveTvScreen> {
       child: Row(
         children: [
           if (!DeviceProfile.isTv(context)) ...[
-            HourTvLogo(size: 30 * _s),
-            const SizedBox(width: 9),
-            HourTvWordmark(fontSize: 17 * _s),
+            HourTvLogo(size: 36 * _s, width: 58 * _s),
             const SizedBox(width: 12),
           ],
           Container(

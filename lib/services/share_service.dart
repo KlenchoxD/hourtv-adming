@@ -1,5 +1,4 @@
-import 'dart:io';
-
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 enum DetailShareResult { shared, copied }
@@ -16,7 +15,7 @@ class ShareService {
         ? title.trim()
         : '${title.trim()}\n\n$synopsis';
 
-    if (Platform.isAndroid) {
+    if (!kIsWeb && defaultTargetPlatform == TargetPlatform.android) {
       try {
         final shared = await _channel.invokeMethod<bool>('shareText', {
           'subject': title.trim(),

@@ -13,61 +13,107 @@ import 'favorites_screen.dart';
 import 'search_screen.dart';
 import 'movie_detail_screen.dart';
 import 'series_detail_screen.dart';
+import 'settings_screen.dart';
 
-/// Estructura principal. Navegación adaptativa (diseño rojo/negro de referencia):
-///   - Móvil/tablet: barra inferior de 5 (Inicio, Buscar, TV en Vivo, Mi lista,
-///     Perfil). "Buscar" abre el buscador a pantalla completa.
-///   - Android TV/Google TV: riel lateral de 6 navegable con D-pad (Inicio,
-///     Películas, Series, TV en Vivo, Mi Lista, Perfil); Películas/Series abren
-///     el catálogo directo en esa categoría.
+typedef _ShellDestination = ({
+  IconData icon,
+  String label,
+  int page,
+  bool search,
+});
+
 class HomeShell extends StatefulWidget {
   const HomeShell({super.key});
+
   @override
   State<HomeShell> createState() => _HomeShellState();
 }
 
 class _HomeShellState extends State<HomeShell> with WidgetsBindingObserver {
   int _index = 0;
-  bool _railExpanded = false;
+  bool _railHovered = false;
+  bool _railFocused = false;
 
-  // --- Destinos por dispositivo (íconos + páginas del IndexedStack) ---
-
-  // TV: 6 destinos, uno por página.
-  static const _tvItems = [
-    (icon: Icons.home_rounded, label: 'Inicio'),
-    (icon: Icons.movie_rounded, label: 'Películas'),
-    (icon: Icons.video_library_rounded, label: 'Series'),
-    (icon: Icons.live_tv_rounded, label: 'TV en Vivo'),
-    (icon: Icons.favorite_rounded, label: 'Mi Lista'),
-    (icon: Icons.person_rounded, label: 'Perfil'),
-  ];
-  static const _tvLiveIndex = 3;
-
-  List<Widget> get _tvPages => [
-    const CatalogScreen(initialCategory: 'all'),
-    const CatalogScreen(initialCategory: 'movies'),
-    const CatalogScreen(initialCategory: 'series'),
-    LiveTvScreen(active: _index == _tvLiveIndex),
-    const FavoritesScreen(),
-    const ProfileScreen(),
+  static const _phoneNav = <_ShellDestination>[
+    (icon: Icons.home_rounded, label: 'Inicio', page: 0, search: false),
+    (icon: Icons.search_rounded, label: 'Buscar', page: -1, search: true),
+    (icon: Icons.live_tv_rounded, label: 'TV en Vivo', page: 1, search: false),
+    (
+      icon: Icons.favorite_border_rounded,
+      label: 'Mi lista',
+      page: 2,
+      search: false,
+    ),
+    (
+      icon: Icons.person_outline_rounded,
+      label: 'Perfil',
+      page: 3,
+      search: false,
+    ),
   ];
 
-  // Móvil: 4 páginas; "Buscar" es una acción (push), no una página.
-  static const _mobileLiveIndex = 1;
-  List<Widget> get _mobilePages => [
-    const CatalogScreen(),
-    LiveTvScreen(active: _index == _mobileLiveIndex),
-    const FavoritesScreen(),
-    const ProfileScreen(),
+  static const _tabletNav = <_ShellDestination>[
+    (icon: Icons.home_rounded, label: 'Inicio', page: 0, search: false),
+    (icon: Icons.movie_outlined, label: 'Películas', page: 1, search: false),
+    (
+      icon: Icons.video_library_outlined,
+      label: 'Series',
+      page: 2,
+      search: false,
+    ),
+    (icon: Icons.search_rounded, label: 'Buscar', page: -1, search: true),
+    (icon: Icons.live_tv_outlined, label: 'TV Vivo', page: 3, search: false),
+    (icon: Icons.add_rounded, label: 'Mi Lista', page: 4, search: false),
+    (
+      icon: Icons.person_outline_rounded,
+      label: 'Perfil',
+      page: 5,
+      search: false,
+    ),
   ];
 
-  // Orden visual de la barra inferior: page = índice de página; search = acción.
-  static const _mobileNav = [
-    (icon: Icons.home_rounded, label: 'Inicio', page: 0),
-    (icon: Icons.search_rounded, label: 'Buscar', page: -1),
-    (icon: Icons.live_tv_rounded, label: 'TV en Vivo', page: 1),
-    (icon: Icons.favorite_rounded, label: 'Mi lista', page: 2),
-    (icon: Icons.person_rounded, label: 'Perfil', page: 3),
+  static const _desktopNav = <_ShellDestination>[
+    (icon: Icons.home_rounded, label: 'Inicio', page: 0, search: false),
+    (icon: Icons.movie_outlined, label: 'Películas', page: 1, search: false),
+    (
+      icon: Icons.video_library_outlined,
+      label: 'Series',
+      page: 2,
+      search: false,
+    ),
+    (icon: Icons.search_rounded, label: 'Buscar', page: -1, search: true),
+    (icon: Icons.live_tv_outlined, label: 'TV en Vivo', page: 3, search: false),
+    (
+      icon: Icons.favorite_border_rounded,
+      label: 'Mi Lista',
+      page: 4,
+      search: false,
+    ),
+    (icon: Icons.settings_outlined, label: 'Ajustes', page: 5, search: false),
+  ];
+
+  static const _tvNav = <_ShellDestination>[
+    (icon: Icons.home_rounded, label: 'Inicio', page: 0, search: false),
+    (icon: Icons.movie_outlined, label: 'Películas', page: 1, search: false),
+    (
+      icon: Icons.video_library_outlined,
+      label: 'Series',
+      page: 2,
+      search: false,
+    ),
+    (icon: Icons.live_tv_outlined, label: 'TV en Vivo', page: 3, search: false),
+    (
+      icon: Icons.favorite_border_rounded,
+      label: 'Mi Lista',
+      page: 4,
+      search: false,
+    ),
+    (
+      icon: Icons.person_outline_rounded,
+      label: 'Perfil',
+      page: 5,
+      search: false,
+    ),
   ];
 
   @override
@@ -84,15 +130,39 @@ class _HomeShellState extends State<HomeShell> with WidgetsBindingObserver {
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    // Al volver la app al frente, refresca el catálogo remoto en segundo
-    // plano para reflejar lo que se publicó desde el panel de admin.
     if (state == AppLifecycleState.resumed) {
       ContentStore.instance.maybeRefresh();
     }
   }
 
-  /// Buscador a pantalla completa (móvil). Construye la lista de contenido y
-  /// navega al detalle de lo elegido.
+  List<Widget> _pages(DeviceType device) {
+    final liveIndex = device == DeviceType.phone ? 1 : 3;
+    final common = <Widget>[
+      const CatalogScreen(initialCategory: 'all'),
+      const CatalogScreen(initialCategory: 'movies'),
+      const CatalogScreen(initialCategory: 'series'),
+      LiveTvScreen(active: _index == liveIndex),
+      const FavoritesScreen(),
+    ];
+    return switch (device) {
+      DeviceType.phone => [
+        const CatalogScreen(initialCategory: 'all'),
+        LiveTvScreen(active: _index == liveIndex),
+        const FavoritesScreen(),
+        const ProfileScreen(),
+      ],
+      DeviceType.desktop => [...common, const SettingsScreen()],
+      DeviceType.tablet || DeviceType.tv => [...common, const ProfileScreen()],
+    };
+  }
+
+  List<_ShellDestination> _nav(DeviceType device) => switch (device) {
+    DeviceType.phone => _phoneNav,
+    DeviceType.tablet => _tabletNav,
+    DeviceType.desktop => _desktopNav,
+    DeviceType.tv => _tvNav,
+  };
+
   Future<void> _openSearch() async {
     final store = ContentStore.instance;
     final seriesByUrl = <String, XtreamSeries>{
@@ -139,92 +209,123 @@ class _HomeShellState extends State<HomeShell> with WidgetsBindingObserver {
     );
   }
 
+  void _activate(_ShellDestination destination) {
+    if (destination.search) {
+      _openSearch();
+      return;
+    }
+    setState(() => _index = destination.page);
+  }
+
   @override
   Widget build(BuildContext context) {
-    final isTv = DeviceProfile.isTv(context);
-    final landscape =
-        MediaQuery.of(context).orientation == Orientation.landscape;
-    final pages = isTv ? _tvPages : _mobilePages;
-    final content = IndexedStack(index: _index, children: pages);
+    final device = DeviceProfile.of(context);
+    final pages = _pages(device);
+    final safeIndex = _index.clamp(0, pages.length - 1);
+    final content = IndexedStack(index: safeIndex, children: pages);
+
     return Scaffold(
       backgroundColor: AppColors.primaryDark,
       body: Container(
         decoration: AppTheme.gradientBackground,
-        child: isTv
-            ? Stack(
-                children: [
-                  Positioned.fill(child: content),
-                  _sideRail(),
-                ],
-              )
-            : content,
+        child: device == DeviceType.phone
+            ? content
+            : _railLayout(device, content),
       ),
-      bottomNavigationBar: (!isTv && !landscape) ? _bottomBar() : null,
+      bottomNavigationBar: device == DeviceType.phone ? _bottomBar() : null,
     );
   }
 
-  // ======================= TV: riel lateral (6) =======================
+  Widget _railLayout(DeviceType device, Widget content) {
+    final collapsed = switch (device) {
+      DeviceType.tablet => 88.0,
+      DeviceType.desktop => 82.0,
+      DeviceType.tv => 96.0,
+      DeviceType.phone => 0.0,
+    };
+    return Stack(
+      children: [
+        Positioned.fill(left: collapsed, child: content),
+        Positioned(
+          left: 0,
+          top: 0,
+          bottom: 0,
+          child: _sideRail(device, collapsed),
+        ),
+      ],
+    );
+  }
 
-  /// Menú overlay: colapsado es una franja delgada de íconos sobre un degradado;
-  /// al enfocarlo con el D-pad se expande sobre el contenido.
-  Widget _sideRail() {
-    final expanded = _railExpanded;
-    return Positioned(
-      top: 0,
-      bottom: 0,
-      left: 0,
+  Widget _sideRail(DeviceType device, double collapsedWidth) {
+    final canExpand = device == DeviceType.desktop || device == DeviceType.tv;
+    final expanded = canExpand && (_railHovered || _railFocused);
+    final expandedWidth = device == DeviceType.tv ? 220.0 : 208.0;
+    final width = expanded ? expandedWidth : collapsedWidth;
+    final items = _nav(device);
+
+    return MouseRegion(
+      onEnter: (_) => setState(() => _railHovered = true),
+      onExit: (_) => setState(() => _railHovered = false),
       child: Focus(
         onFocusChange: (focused) {
-          if (_railExpanded != focused) {
-            setState(() => _railExpanded = focused);
+          if (_railFocused != focused) {
+            setState(() => _railFocused = focused);
           }
         },
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 220),
           curve: Curves.easeOutCubic,
-          width: expanded ? 250 : 66,
+          width: width,
           decoration: BoxDecoration(
-            color: expanded ? const Color(0xF5121212) : null,
-            gradient: expanded
-                ? null
-                : const LinearGradient(
-                    begin: Alignment.centerLeft,
-                    end: Alignment.centerRight,
-                    colors: [Color(0xC0000000), Colors.transparent],
-                  ),
+            color: const Color(0xF7000000),
+            border: Border(
+              right: BorderSide(
+                color: AppColors.accent.withValues(alpha: 0.12),
+              ),
+            ),
             boxShadow: expanded
-                ? const [
+                ? [
                     BoxShadow(
-                      color: Colors.black87,
-                      blurRadius: 30,
-                      offset: Offset(10, 0),
+                      color: Colors.black.withValues(alpha: 0.75),
+                      blurRadius: 28,
+                      offset: const Offset(10, 0),
                     ),
                   ]
                 : null,
           ),
           child: SafeArea(
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20),
+              padding: EdgeInsets.fromLTRB(
+                device == DeviceType.tv ? 10 : 8,
+                device == DeviceType.tv ? 24 : 16,
+                device == DeviceType.tv ? 10 : 8,
+                12,
+              ),
               child: Column(
                 children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: expanded ? 16 : 0),
-                    child: Row(
-                      mainAxisAlignment: expanded
-                          ? MainAxisAlignment.start
-                          : MainAxisAlignment.center,
-                      children: [
-                        const HourTvLogo(size: 36),
-                        if (expanded) ...[
-                          const SizedBox(width: 11),
-                          const Expanded(child: HourTvWordmark(fontSize: 18)),
-                        ],
-                      ],
+                  AnimatedAlign(
+                    duration: const Duration(milliseconds: 180),
+                    alignment: expanded
+                        ? Alignment.centerLeft
+                        : Alignment.center,
+                    child: HourTvLogo(
+                      size: device == DeviceType.tv ? 54 : 44,
+                      width: expanded
+                          ? (device == DeviceType.tv ? 112 : 104)
+                          : collapsedWidth - 16,
                     ),
                   ),
-                  const SizedBox(height: 26),
-                  for (var i = 0; i < _tvItems.length; i++) _railTab(i),
-                  const Spacer(),
+                  SizedBox(height: device == DeviceType.tv ? 22 : 14),
+                  Expanded(
+                    child: ListView.separated(
+                      padding: EdgeInsets.zero,
+                      itemCount: items.length,
+                      separatorBuilder: (_, _) =>
+                          SizedBox(height: device == DeviceType.tv ? 7 : 5),
+                      itemBuilder: (_, index) =>
+                          _railTab(device, items[index], expanded, index == 0),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -234,128 +335,167 @@ class _HomeShellState extends State<HomeShell> with WidgetsBindingObserver {
     );
   }
 
-  Widget _railTab(int i) {
-    final selected = i == _index;
-    final item = _tvItems[i];
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-      child: TvFocusable(
-        onTap: () => setState(() => _index = i),
-        autofocus: i == 0,
+  Widget _railTab(
+    DeviceType device,
+    _ShellDestination item,
+    bool expanded,
+    bool autofocus,
+  ) {
+    final selected = !item.search && item.page == _index;
+    final compactTablet = device == DeviceType.tablet;
+
+    final child = AnimatedContainer(
+      duration: const Duration(milliseconds: 160),
+      width: double.infinity,
+      height: compactTablet ? 54 : (device == DeviceType.tv ? 56 : 50),
+      padding: EdgeInsets.symmetric(horizontal: expanded ? 13 : 0),
+      decoration: BoxDecoration(
+        color: selected ? AppColors.accent : Colors.transparent,
         borderRadius: BorderRadius.circular(14),
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 160),
-          width: double.infinity,
-          height: 52,
-          padding: EdgeInsets.symmetric(horizontal: _railExpanded ? 14 : 0),
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: selected
-                ? AppColors.accent.withValues(alpha: 0.18)
-                : Colors.transparent,
-            borderRadius: BorderRadius.circular(14),
-            border: Border(
-              left: BorderSide(
-                color: selected ? AppColors.accent : Colors.transparent,
-                width: 3,
-              ),
-            ),
-          ),
-          child: Row(
-            mainAxisAlignment: _railExpanded
-                ? MainAxisAlignment.start
-                : MainAxisAlignment.center,
-            children: [
-              Icon(
-                item.icon,
-                size: 24,
-                color: selected ? AppColors.accent : AppColors.textSecondary,
-              ),
-              if (_railExpanded) ...[
-                const SizedBox(width: 14),
-                Expanded(
-                  child: Text(
-                    item.label,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      color: selected
-                          ? AppColors.textPrimary
-                          : AppColors.textSecondary,
-                      fontSize: 14,
-                      fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
-                    ),
+        border: Border.all(
+          color: selected
+              ? AppColors.accentSecondary
+              : Colors.white.withValues(alpha: 0.02),
+        ),
+        boxShadow: selected
+            ? [
+                BoxShadow(
+                  color: AppColors.accent.withValues(alpha: 0.32),
+                  blurRadius: 14,
+                ),
+              ]
+            : null,
+      ),
+      child: compactTablet
+          ? Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  item.icon,
+                  size: 21,
+                  color: selected ? Colors.white : AppColors.textSecondary,
+                ),
+                const SizedBox(height: 3),
+                Text(
+                  item.label,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: selected ? Colors.white : AppColors.textMuted,
+                    fontSize: 9,
+                    fontWeight: FontWeight.w700,
                   ),
                 ),
               ],
-            ],
-          ),
-        ),
+            )
+          : Row(
+              mainAxisAlignment: expanded
+                  ? MainAxisAlignment.start
+                  : MainAxisAlignment.center,
+              children: [
+                Icon(
+                  item.icon,
+                  size: device == DeviceType.tv ? 25 : 22,
+                  color: selected ? Colors.white : AppColors.textSecondary,
+                ),
+                if (expanded) ...[
+                  const SizedBox(width: 14),
+                  Expanded(
+                    child: Text(
+                      item.label,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        color: selected
+                            ? Colors.white
+                            : AppColors.textSecondary,
+                        fontSize: device == DeviceType.tv ? 15 : 14,
+                        fontWeight: selected
+                            ? FontWeight.w800
+                            : FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ],
+              ],
+            ),
+    );
+
+    if (device == DeviceType.tv) {
+      return TvFocusable(
+        onTap: () => _activate(item),
+        autofocus: autofocus,
+        borderRadius: BorderRadius.circular(14),
+        child: child,
+      );
+    }
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: () => _activate(item),
+        borderRadius: BorderRadius.circular(14),
+        child: child,
       ),
     );
   }
-
-  // ==================== Móvil: barra inferior (5) ====================
 
   Widget _bottomBar() {
     return Container(
+      height: 64,
       decoration: BoxDecoration(
-        color: const Color(0xFF1B1B1C),
+        color: const Color(0xFF111111),
         border: Border(
-          top: BorderSide(color: Colors.white.withValues(alpha: 0.1)),
+          top: BorderSide(color: Colors.white.withValues(alpha: 0.08)),
         ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.3),
-            blurRadius: 10,
-            offset: const Offset(0, -2),
-          ),
-        ],
       ),
       child: SafeArea(
         top: false,
-        child: SizedBox(
-          height: 58,
-          child: Row(
-            children: [
-              for (final it in _mobileNav) Expanded(child: _bottomTab(it)),
-            ],
-          ),
+        child: Row(
+          children: [
+            for (final item in _phoneNav) Expanded(child: _bottomTab(item)),
+          ],
         ),
       ),
     );
   }
 
-  Widget _bottomTab(({IconData icon, String label, int page}) it) {
-    final isSearch = it.page < 0;
-    final sel = !isSearch && it.page == _index;
+  Widget _bottomTab(_ShellDestination item) {
+    final selected = !item.search && item.page == _index;
     return InkWell(
-      onTap: () {
-        if (isSearch) {
-          _openSearch();
-        } else {
-          setState(() => _index = it.page);
-        }
-      },
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+      onTap: () => _activate(item),
+      child: Stack(
+        alignment: Alignment.center,
         children: [
-          Icon(
-            it.icon,
-            size: 22,
-            color: sel ? AppColors.accent : Colors.white.withValues(alpha: 0.6),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                item.icon,
+                size: 21,
+                color: selected ? AppColors.accent : AppColors.textMuted,
+              ),
+              const SizedBox(height: 3),
+              Text(
+                item.label,
+                style: TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.w700,
+                  color: selected ? AppColors.accent : AppColors.textMuted,
+                ),
+              ),
+            ],
           ),
-          const SizedBox(height: 3),
-          Text(
-            it.label,
-            style: TextStyle(
-              fontSize: 10,
-              fontWeight: sel ? FontWeight.w700 : FontWeight.w500,
-              color: sel
-                  ? AppColors.accent
-                  : Colors.white.withValues(alpha: 0.6),
+          if (selected)
+            const Positioned(
+              bottom: 2,
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  color: AppColors.accent,
+                  borderRadius: BorderRadius.all(Radius.circular(3)),
+                ),
+                child: SizedBox(width: 20, height: 3),
+              ),
             ),
-          ),
         ],
       ),
     );

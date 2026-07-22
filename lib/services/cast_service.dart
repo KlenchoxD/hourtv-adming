@@ -1,6 +1,6 @@
 import 'dart:async';
-import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_chrome_cast/flutter_chrome_cast.dart';
 
 class CastService {
@@ -30,7 +30,9 @@ class CastService {
       _available && GoogleCastSessionManager.instance.hasConnectedSession;
 
   Future<bool> initialize() async {
-    if (!Platform.isAndroid) return false;
+    if (kIsWeb || defaultTargetPlatform != TargetPlatform.android) {
+      return false;
+    }
     if (_initializationAttempted) return _available;
     _initializationAttempted = true;
     try {
