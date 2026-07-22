@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../models/channel.dart';
@@ -1071,20 +1072,8 @@ class _PrimaryButton extends StatelessWidget {
   final IconData icon;
   final VoidCallback onTap;
   @override
-  Widget build(BuildContext context) {
-    return FilledButton.icon(
-      onPressed: onTap,
-      icon: Icon(icon, size: 22),
-      label: Text(label),
-      style: FilledButton.styleFrom(
-        backgroundColor: _red,
-        foregroundColor: Colors.white,
-        minimumSize: const Size(148, 48),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        textStyle: const TextStyle(fontWeight: FontWeight.w800),
-      ),
-    );
-  }
+  Widget build(BuildContext context) =>
+      _HeroButton(label: label, icon: icon, onTap: onTap, primary: true);
 }
 
 class _OutlineButton extends StatelessWidget {
@@ -1097,18 +1086,117 @@ class _OutlineButton extends StatelessWidget {
   final IconData icon;
   final VoidCallback? onTap;
   @override
+  Widget build(BuildContext context) =>
+      _HeroButton(label: label, icon: icon, onTap: onTap, primary: false);
+}
+
+/// Boton del hero operable con control remoto: al enfocar muestra un anillo
+/// blanco + escala y auto-desplaza para que el hero entre completo a la vista.
+class _HeroButton extends StatefulWidget {
+  const _HeroButton({
+    required this.label,
+    required this.icon,
+    required this.onTap,
+    required this.primary,
+  });
+  final String label;
+  final IconData icon;
+  final VoidCallback? onTap;
+  final bool primary;
+
+  @override
+  State<_HeroButton> createState() => _HeroButtonState();
+}
+
+class _HeroButtonState extends State<_HeroButton> {
+  final _node = FocusNode();
+  bool _focused = false;
+
+  @override
+  void dispose() {
+    _node.dispose();
+    super.dispose();
+  }
+
+  void _onFocusChange(bool value) {
+    if (mounted) setState(() => _focused = value);
+    if (!value) return;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted || !_node.hasFocus) return;
+      Scrollable.ensureVisible(
+        context,
+        alignment: .5,
+        duration: const Duration(milliseconds: 200),
+        curve: Curves.easeOutCubic,
+      );
+    });
+  }
+
+  KeyEventResult _onKey(FocusNode _, KeyEvent event) {
+    if (event is! KeyDownEvent) return KeyEventResult.ignored;
+    final keys = {
+      LogicalKeyboardKey.select,
+      LogicalKeyboardKey.enter,
+      LogicalKeyboardKey.numpadEnter,
+      LogicalKeyboardKey.space,
+      LogicalKeyboardKey.gameButtonA,
+    };
+    if (!keys.contains(event.logicalKey) || widget.onTap == null) {
+      return KeyEventResult.ignored;
+    }
+    widget.onTap!();
+    return KeyEventResult.handled;
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return OutlinedButton.icon(
-      onPressed: onTap,
-      icon: Icon(icon, size: 21),
-      label: label.isEmpty ? const SizedBox.shrink() : Text(label),
-      style: OutlinedButton.styleFrom(
-        foregroundColor: Colors.white,
-        minimumSize: Size(label.isEmpty ? 50 : 124, 48),
-        padding: EdgeInsets.symmetric(horizontal: label.isEmpty ? 12 : 18),
-        side: const BorderSide(color: Color(0x66FFFFFF)),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        textStyle: const TextStyle(fontWeight: FontWeight.w700),
+    final iconOnly = widget.label.isEmpty;
+    final bg = widget.primary ? _red : const Color(0x2EFFFFFF);
+    final border = _focused
+        ? Colors.white
+        : (widget.primary ? Colors.transparent : const Color(0x66FFFFFF));
+    return Focus(
+      focusNode: _node,
+      onKeyEvent: _onKey,
+      onFocusChange: _onFocusChange,
+      child: GestureDetector(
+        onTap: widget.onTap,
+        child: AnimatedScale(
+          scale: _focused ? 1.05 : 1,
+          duration: const Duration(milliseconds: 150),
+          curve: Curves.easeOutCubic,
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 150),
+            height: 48,
+            padding: EdgeInsets.symmetric(horizontal: iconOnly ? 12 : 20),
+            constraints: BoxConstraints(minWidth: iconOnly ? 50 : 132),
+            decoration: BoxDecoration(
+              color: bg,
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: border, width: _focused ? 2.5 : 1.4),
+              boxShadow: _focused
+                  ? const [BoxShadow(color: Color(0x66000000), blurRadius: 14)]
+                  : null,
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(widget.icon, size: 21, color: Colors.white),
+                if (!iconOnly) ...[
+                  const SizedBox(width: 9),
+                  Text(
+                    widget.label,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                ],
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
