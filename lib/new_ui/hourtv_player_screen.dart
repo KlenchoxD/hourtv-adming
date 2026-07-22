@@ -171,7 +171,10 @@ class _PlayerScreenState extends State<PlayerScreen> {
         aspectRatio: _vc!.value.aspectRatio,
         allowFullScreen: true,
         allowMuting: true,
-        showControls: true,
+        // Controles propios (chrome custom) hacen todo: play/pausa, seek,
+        // progreso, gestos. Los de Chewie eran redundantes y repintaban una
+        // segunda barra sobre la textura de video -> micro-trabas en TV Box.
+        showControls: false,
         placeholder: Container(
           color: Colors.black,
           child: Center(child: _lg(ch)),
@@ -1016,10 +1019,12 @@ class _PlayerScreenState extends State<PlayerScreen> {
                             : _err != null
                             ? _ew()
                             : _cc != null
-                            ? Transform.scale(
-                                scale: _videoScale,
-                                child: Chewie(controller: _cc!),
-                              )
+                            ? (_videoScale == 1
+                                  ? Chewie(controller: _cc!)
+                                  : Transform.scale(
+                                      scale: _videoScale,
+                                      child: Chewie(controller: _cc!),
+                                    ))
                             : const SizedBox(),
                       ),
                       if (_screenDim > 0)
