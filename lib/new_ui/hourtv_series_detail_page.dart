@@ -568,6 +568,7 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
     }
     return CachedNetworkImage(
       imageUrl: cover,
+      memCacheWidth: 720,
       fit: fit,
       errorWidget: (_, _, _) => const ColoredBox(color: _surface),
     );

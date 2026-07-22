@@ -816,6 +816,7 @@ class _Backdrop extends StatelessWidget {
         if (url != null && url.isNotEmpty)
           CachedNetworkImage(
             imageUrl: url,
+      memCacheWidth: 720,
             fit: BoxFit.cover,
             errorWidget: (_, _, _) => const ColoredBox(color: _surface),
           )
@@ -859,6 +860,7 @@ class _RelatedCard extends StatelessWidget {
                   ? const SizedBox.expand()
                   : CachedNetworkImage(
                       imageUrl: url,
+      memCacheWidth: 720,
                       fit: BoxFit.cover,
                       width: double.infinity,
                       errorWidget: (_, _, _) => const SizedBox.expand(),
@@ -918,6 +920,7 @@ class _TvRelatedCard extends StatelessWidget {
               if (channel.backdrop != null || channel.logo != null)
                 CachedNetworkImage(
                   imageUrl: channel.backdrop ?? channel.logo!,
+      memCacheWidth: 720,
                   fit: BoxFit.cover,
                   errorWidget: (_, _, _) => const SizedBox.expand(),
                 ),

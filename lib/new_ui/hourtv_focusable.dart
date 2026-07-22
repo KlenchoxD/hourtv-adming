@@ -106,9 +106,8 @@ class _TvFocusableState extends State<TvFocusable> {
               boxShadow: _focused
                   ? [
                       BoxShadow(
-                        color: _hourTvRed.withValues(alpha: .55),
-                        blurRadius: 22,
-                        spreadRadius: 1,
+                        color: _hourTvRed.withValues(alpha: .5),
+                        blurRadius: 12,
                       ),
                     ]
                   : null,

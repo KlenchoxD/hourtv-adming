@@ -201,6 +201,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
   Widget _lg(Channel ch) => ch.logo != null
       ? CachedNetworkImage(
           imageUrl: ch.logo!,
+      memCacheWidth: 720,
           width: 80,
           height: 80,
           fit: BoxFit.contain,
@@ -1636,6 +1637,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
                         leading: ch.logo != null
                             ? CachedNetworkImage(
                                 imageUrl: ch.logo!,
+      memCacheWidth: 720,
                                 width: 40,
                                 height: 40,
                                 fit: BoxFit.contain,

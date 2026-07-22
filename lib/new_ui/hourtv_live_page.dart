@@ -760,6 +760,7 @@ class _NetworkArtwork extends StatelessWidget {
     if (url == null || url!.trim().isEmpty) return const _Fallback();
     return CachedNetworkImage(
       imageUrl: url!,
+      memCacheWidth: 720,
       fit: BoxFit.cover,
       errorWidget: (_, _, _) => const _Fallback(),
       placeholder: (_, _) => const _Fallback(),

@@ -518,7 +518,11 @@ class _Hero extends StatelessWidget {
       child: Stack(
         fit: StackFit.expand,
         children: [
-          _Artwork(url: channel.backdrop ?? channel.logo, fit: BoxFit.cover),
+          _Artwork(
+            url: channel.backdrop ?? channel.logo,
+            fit: BoxFit.cover,
+            cacheWidth: 900,
+          ),
           const DecoratedBox(
             decoration: BoxDecoration(
               gradient: LinearGradient(
@@ -971,9 +975,14 @@ class HourTvLogo extends StatelessWidget {
 }
 
 class _Artwork extends StatelessWidget {
-  const _Artwork({required this.url, required this.fit});
+  const _Artwork({required this.url, required this.fit, this.cacheWidth = 360});
   final String? url;
   final BoxFit fit;
+
+  /// Ancho de decodificacion: las imagenes se cachean/decodifican a esta
+  /// resolucion en vez de la original. Clave para el rendimiento en TV Box
+  /// arm32 (evita saturar memoria/GPU con caratulas a tamano completo).
+  final int cacheWidth;
 
   @override
   Widget build(BuildContext context) {
@@ -981,6 +990,8 @@ class _Artwork extends StatelessWidget {
     return CachedNetworkImage(
       imageUrl: url!,
       fit: fit,
+      memCacheWidth: cacheWidth,
+      fadeInDuration: const Duration(milliseconds: 200),
       placeholder: (_, _) => const _ArtworkFallback(),
       errorWidget: (_, _, _) => const _ArtworkFallback(),
     );
