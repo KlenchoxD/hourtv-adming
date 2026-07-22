@@ -274,7 +274,7 @@ class _SideRail extends StatelessWidget {
   }
 }
 
-class _RailItem extends StatelessWidget {
+class _RailItem extends StatefulWidget {
   const _RailItem({
     required this.icon,
     required this.label,
@@ -291,41 +291,77 @@ class _RailItem extends StatelessWidget {
   final bool autofocus;
 
   @override
+  State<_RailItem> createState() => _RailItemState();
+}
+
+class _RailItemState extends State<_RailItem> {
+  bool _focused = false;
+  bool _hovered = false;
+
+  @override
   Widget build(BuildContext context) {
-    return TvFocusable(
-      onTap: onTap,
-      autofocus: autofocus,
-      borderRadius: BorderRadius.circular(14),
-      child: Container(
-        clipBehavior: Clip.antiAlias,
-        decoration: BoxDecoration(
-          color: selected ? _red : Colors.transparent,
-          borderRadius: BorderRadius.circular(14),
-        ),
-        child: SizedBox(
-          height: 48,
-          child: Row(
-            mainAxisAlignment: showLabel
-                ? MainAxisAlignment.start
-                : MainAxisAlignment.center,
-            children: [
-              if (showLabel) const SizedBox(width: 14),
-              Icon(icon, color: selected ? Colors.white : _muted, size: 22),
-              if (showLabel) ...[
-                const SizedBox(width: 14),
-                Expanded(
-                  child: Text(
-                    label,
-                    maxLines: 1,
-                    style: TextStyle(
-                      color: selected ? Colors.white : _muted,
-                      fontWeight: FontWeight.w700,
-                      fontSize: 14,
+    // Resalte claro estilo Xuper: el item enfocado (D-pad) o seleccionado se
+    // RELLENA de rojo; con mouse encima muestra un relleno tenue. El foco es un
+    // bloque que se mueve, no solo un borde.
+    // Solo el item ENFOCADO se rellena de rojo (bloque que se mueve con el
+    // D-pad). La seccion actual, cuando el foco esta en otro lado, se marca con
+    // texto rojo. Con mouse encima, relleno tenue.
+    final Color bg = _focused
+        ? _red
+        : (_hovered ? const Color(0xFF1E1E23) : Colors.transparent);
+    final Color fg = _focused
+        ? Colors.white
+        : (widget.selected ? _red : _muted);
+    return MouseRegion(
+      onEnter: (_) => setState(() => _hovered = true),
+      onExit: (_) => setState(() => _hovered = false),
+      child: TvFocusable(
+        onTap: widget.onTap,
+        autofocus: widget.autofocus,
+        decorated: false,
+        scale: 1.0,
+        borderRadius: BorderRadius.circular(14),
+        onFocusChange: (value) => setState(() => _focused = value),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 140),
+          clipBehavior: Clip.antiAlias,
+          decoration: BoxDecoration(
+            color: bg,
+            borderRadius: BorderRadius.circular(14),
+            boxShadow: _focused
+                ? [
+                    BoxShadow(
+                      color: _red.withValues(alpha: .45),
+                      blurRadius: 16,
+                    ),
+                  ]
+                : null,
+          ),
+          child: SizedBox(
+            height: 48,
+            child: Row(
+              mainAxisAlignment: widget.showLabel
+                  ? MainAxisAlignment.start
+                  : MainAxisAlignment.center,
+              children: [
+                if (widget.showLabel) const SizedBox(width: 14),
+                Icon(widget.icon, color: fg, size: 22),
+                if (widget.showLabel) ...[
+                  const SizedBox(width: 14),
+                  Expanded(
+                    child: Text(
+                      widget.label,
+                      maxLines: 1,
+                      style: TextStyle(
+                        color: fg,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 14,
+                      ),
                     ),
                   ),
-                ),
+                ],
               ],
-            ],
+            ),
           ),
         ),
       ),
