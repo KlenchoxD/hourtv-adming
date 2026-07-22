@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-07-22T16:54:42.177Z",
+  "lastRunAt": "2026-07-22T18:04:18.176Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     1108427,
@@ -7,21 +7,21 @@
     1339713,
     1083381,
     1273221,
-    1315772,
     1081003,
+    1315772,
     1084244,
-    1368314,
-    1314481,
     1228710,
+    1314481,
+    1368314,
     936075,
     931285,
     1304313,
-    1301421,
     1318447,
+    1301421,
     454639,
+    1007757,
     1595852,
     1212763,
-    1007757,
     1368337,
     687163,
     1668364,
@@ -58,13 +58,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1315772,
-      "title": "Minions & Monsters",
+      "tmdbId": 1081003,
+      "title": "Supergirl",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1081003,
-      "title": "Supergirl",
+      "tmdbId": 1315772,
+      "title": "Minions & Monsters",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -73,8 +73,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1368314,
-      "title": "El pasajero nocturno",
+      "tmdbId": 1228710,
+      "title": "The Mandalorian and Grogu",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -83,8 +83,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1228710,
-      "title": "The Mandalorian and Grogu",
+      "tmdbId": 1368314,
+      "title": "El pasajero nocturno",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -103,18 +103,23 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1301421,
-      "title": "Las ovejas detectives",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1318447,
       "title": "Depredador dominante",
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1301421,
+      "title": "Las ovejas detectives",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 454639,
       "title": "He-Man y los masters del universo",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1007757,
+      "title": "Intercambiados",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -125,11 +130,6 @@
     {
       "tmdbId": 1212763,
       "title": "Posesión infernal. En llamas",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1007757,
-      "title": "Intercambiados",
       "reason": "Sin fuente autorizada configurada"
     },
     {

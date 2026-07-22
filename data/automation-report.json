@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-07-22T16:54:41.379Z",
-  "durationMs": 801,
+  "generatedAt": "2026-07-22T18:04:17.630Z",
+  "durationMs": 551,
   "dryRun": false,
   "moviesFound": 30,
   "moviesDiscarded": 28,
@@ -33,13 +33,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1315772,
-      "title": "Minions & Monsters",
+      "tmdbId": 1081003,
+      "title": "Supergirl",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1081003,
-      "title": "Supergirl",
+      "tmdbId": 1315772,
+      "title": "Minions & Monsters",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -48,8 +48,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1368314,
-      "title": "El pasajero nocturno",
+      "tmdbId": 1228710,
+      "title": "The Mandalorian and Grogu",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -58,8 +58,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1228710,
-      "title": "The Mandalorian and Grogu",
+      "tmdbId": 1368314,
+      "title": "El pasajero nocturno",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -78,18 +78,23 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1301421,
-      "title": "Las ovejas detectives",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1318447,
       "title": "Depredador dominante",
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1301421,
+      "title": "Las ovejas detectives",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 454639,
       "title": "He-Man y los masters del universo",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1007757,
+      "title": "Intercambiados",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -100,11 +105,6 @@
     {
       "tmdbId": 1212763,
       "title": "Posesión infernal. En llamas",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1007757,
-      "title": "Intercambiados",
       "reason": "Sin fuente autorizada configurada"
     },
     {
