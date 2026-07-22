@@ -1,18 +1,16 @@
 {
-  "generatedAt": "2026-07-22T01:05:29.743Z",
-  "durationMs": 1605,
+  "generatedAt": "2026-07-22T04:32:21.950Z",
+  "durationMs": 3400,
   "dryRun": false,
   "moviesFound": 29,
   "moviesDiscarded": 27,
-  "moviesAdded": 1,
+  "moviesAdded": 0,
   "moviesEnriched": 0,
-  "duplicates": 1,
+  "duplicates": 2,
   "tmdbErrors": 0,
   "providerErrors": 0,
-  "invalidSources": 6,
-  "addedTitles": [
-    "Backrooms"
-  ],
+  "invalidSources": 0,
+  "addedTitles": [],
   "skipped": [
     {
       "tmdbId": 1108427,
@@ -46,7 +44,7 @@
     },
     {
       "tmdbId": 1273221,
-      "title": "Scary Movie 6",
+      "title": "Scary Movie",
       "reason": "Sin fuente autorizada configurada"
     },
     {

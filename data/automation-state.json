@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-07-22T01:05:31.343Z",
+  "lastRunAt": "2026-07-22T04:32:25.346Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     1108427,
@@ -32,9 +32,7 @@
     1127384,
     1335666
   ],
-  "tmdbIdsPublished": [
-    1083381
-  ],
+  "tmdbIdsPublished": [],
   "totalMoviesInCatalog": 44,
   "errorsSummary": [],
   "skipped": [
@@ -70,7 +68,7 @@
     },
     {
       "tmdbId": 1273221,
-      "title": "Scary Movie 6",
+      "title": "Scary Movie",
       "reason": "Sin fuente autorizada configurada"
     },
     {
