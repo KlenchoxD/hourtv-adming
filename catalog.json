@@ -1012,47 +1012,6 @@
           "language": "Idioma sin identificar"
         }
       ]
-    },
-    {
-      "id": "tmdb-1083381",
-      "title": "Backrooms",
-      "plot": "Una puerta extraña aparece en el sótano de una sala de exposición de muebles.",
-      "cast": "Chiwetel Ejiofor, Renate Reinsve, Mark Duplass, Finn Bennett, Lukita Maxwell, Avan Jogia, Robert Bobroczkyi, Ember Ambrose, Krista Kosonen, Philip Granger",
-      "director": "Kane Parsons",
-      "writer": "Will Soodik",
-      "releaseDate": "2026-05-27",
-      "year": "2026",
-      "genre": "Terror, Misterio, Ciencia ficción",
-      "rating": 7.1,
-      "duration": "105 min",
-      "poster": "https://image.tmdb.org/t/p/w780/A6otDtTWkCUa7cN8DExxO91ziOK.jpg",
-      "backdrop": "https://image.tmdb.org/t/p/w1280/dqmMWNWfLnExDRpMtIMqI97GQFR.jpg",
-      "categories": [
-        "terror",
-        "aventura",
-        "estrenos",
-        "populares",
-        "recomendado"
-      ],
-      "featured": true,
-      "servers": [
-        {
-          "name": "Streamwish",
-          "url": "https://streamwish.to/e/uscs7h3xbbo9",
-          "language": "Español Latino"
-        },
-        {
-          "name": "Streamwish",
-          "url": "https://streamwish.to/e/2jel88xzez9s",
-          "language": "Subtitulado"
-        },
-        {
-          "name": "Streamwish",
-          "url": "https://streamwish.to/e/e94tq2gvehr0",
-          "language": "Español"
-        }
-      ],
-      "tmdbId": 1083381
     }
   ],
   "series": [
@@ -1530,5 +1489,7 @@
         }
       ]
     }
-  ]
+  ],
+  "sources": [],
+  "liveChannels": []
 }
