@@ -323,19 +323,11 @@ class _RailItemState extends State<_RailItem> {
         borderRadius: BorderRadius.circular(14),
         onFocusChange: (value) => setState(() => _focused = value),
         child: AnimatedContainer(
-          duration: const Duration(milliseconds: 140),
+          duration: const Duration(milliseconds: 120),
           clipBehavior: Clip.antiAlias,
           decoration: BoxDecoration(
             color: bg,
             borderRadius: BorderRadius.circular(14),
-            boxShadow: _focused
-                ? [
-                    BoxShadow(
-                      color: _red.withValues(alpha: .45),
-                      blurRadius: 16,
-                    ),
-                  ]
-                : null,
           ),
           child: SizedBox(
             height: 48,
@@ -785,12 +777,14 @@ class _MediaCardState extends State<_MediaCard> {
   Widget build(BuildContext context) {
     // El resalte de foco va SOLO en la caratula (borde rojo limpio), nunca
     // alrededor del titulo. Escala suave para que no desborde a las vecinas.
-    return SizedBox(
+    // RepaintBoundary aisla el repintado por tarjeta (menos jank al desplazar).
+    return RepaintBoundary(
+      child: SizedBox(
       width: widget.width,
       child: TvFocusable(
         onTap: widget.onTap,
         decorated: false,
-        scale: 1.05,
+        scale: 1.04,
         borderRadius: BorderRadius.circular(9),
         onFocusChange: (value) => setState(() => _focused = value),
         child: Column(
@@ -830,6 +824,7 @@ class _MediaCardState extends State<_MediaCard> {
           ],
         ),
       ),
+    ),
     );
   }
 }
@@ -1028,7 +1023,7 @@ class HourTvLogo extends StatelessWidget {
 }
 
 class _Artwork extends StatelessWidget {
-  const _Artwork({required this.url, required this.fit, this.cacheWidth = 360});
+  const _Artwork({required this.url, required this.fit, this.cacheWidth = 260});
   final String? url;
   final BoxFit fit;
 
