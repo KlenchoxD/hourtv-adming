@@ -13,6 +13,8 @@ class TvFocusable extends StatefulWidget {
     this.autofocus = false,
     this.focusNode,
     this.onFocusChange,
+    this.decorated = true,
+    this.scale = 1.07,
   });
 
   final Widget child;
@@ -21,6 +23,12 @@ class TvFocusable extends StatefulWidget {
   final bool autofocus;
   final FocusNode? focusNode;
   final ValueChanged<bool>? onFocusChange;
+
+  /// Si es false, no dibuja borde/glow propios (solo escala + foco + tecla);
+  /// el hijo decide su resalte. Util cuando el borde debe ir solo en la
+  /// caratula y no alrededor del titulo.
+  final bool decorated;
+  final double scale;
 
   @override
   State<TvFocusable> createState() => _TvFocusableState();
@@ -92,28 +100,30 @@ class _TvFocusableState extends State<TvFocusable> {
       child: GestureDetector(
         onTap: widget.onTap,
         child: AnimatedScale(
-          scale: _focused ? 1.07 : 1,
+          scale: _focused ? widget.scale : 1,
           duration: const Duration(milliseconds: 170),
           curve: Curves.easeOutCubic,
-          child: AnimatedContainer(
-            duration: const Duration(milliseconds: 170),
-            decoration: BoxDecoration(
-              borderRadius: radius,
-              border: Border.all(
-                color: _focused ? _hourTvRed : Colors.transparent,
-                width: 3,
-              ),
-              boxShadow: _focused
-                  ? [
-                      BoxShadow(
-                        color: _hourTvRed.withValues(alpha: .5),
-                        blurRadius: 12,
-                      ),
-                    ]
-                  : null,
-            ),
-            child: widget.child,
-          ),
+          child: widget.decorated
+              ? AnimatedContainer(
+                  duration: const Duration(milliseconds: 170),
+                  decoration: BoxDecoration(
+                    borderRadius: radius,
+                    border: Border.all(
+                      color: _focused ? _hourTvRed : Colors.transparent,
+                      width: 3,
+                    ),
+                    boxShadow: _focused
+                        ? [
+                            BoxShadow(
+                              color: _hourTvRed.withValues(alpha: .5),
+                              blurRadius: 12,
+                            ),
+                          ]
+                        : null,
+                  ),
+                  child: widget.child,
+                )
+              : widget.child,
         ),
       ),
     );

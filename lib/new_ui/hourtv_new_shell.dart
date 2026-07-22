@@ -723,7 +723,7 @@ class _MediaRow extends StatelessWidget {
   }
 }
 
-class _MediaCard extends StatelessWidget {
+class _MediaCard extends StatefulWidget {
   const _MediaCard({
     required this.channel,
     required this.width,
@@ -738,38 +738,54 @@ class _MediaCard extends StatelessWidget {
   final VoidCallback onTap;
 
   @override
+  State<_MediaCard> createState() => _MediaCardState();
+}
+
+class _MediaCardState extends State<_MediaCard> {
+  bool _focused = false;
+
+  @override
   Widget build(BuildContext context) {
+    // El resalte de foco va SOLO en la caratula (borde rojo limpio), nunca
+    // alrededor del titulo. Escala suave para que no desborde a las vecinas.
     return SizedBox(
-      width: width,
+      width: widget.width,
       child: TvFocusable(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(10),
+        onTap: widget.onTap,
+        decorated: false,
+        scale: 1.05,
+        borderRadius: BorderRadius.circular(9),
+        onFocusChange: (value) => setState(() => _focused = value),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              width: width,
-              height: imageHeight,
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 150),
+              width: widget.width,
+              height: widget.imageHeight,
               clipBehavior: Clip.antiAlias,
               decoration: BoxDecoration(
                 color: _surface,
                 borderRadius: BorderRadius.circular(9),
-                border: Border.all(color: _line),
+                border: Border.all(
+                  color: _focused ? _red : _line,
+                  width: _focused ? 2.5 : 1,
+                ),
               ),
               child: _Artwork(
-                url: landscape
-                    ? (channel.backdrop ?? channel.logo)
-                    : channel.logo,
+                url: widget.landscape
+                    ? (widget.channel.backdrop ?? widget.channel.logo)
+                    : widget.channel.logo,
                 fit: BoxFit.cover,
               ),
             ),
             const SizedBox(height: 7),
             Text(
-              channel.displayName,
+              widget.channel.displayName,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                color: Colors.white,
+              style: TextStyle(
+                color: _focused ? Colors.white : const Color(0xFFD6D6DB),
                 fontSize: 12,
                 fontWeight: FontWeight.w600,
               ),
