@@ -506,10 +506,10 @@ class _Hero extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final side = phone ? 16.0 : (tv ? 34.0 : 28.0);
-    final height = phone ? 410.0 : (tablet ? 300.0 : (tv ? 460.0 : 420.0));
+    final height = phone ? 380.0 : (tablet ? 260.0 : (tv ? 300.0 : 340.0));
     return Container(
       height: height,
-      margin: EdgeInsets.fromLTRB(side, phone ? 2 : 22, side, phone ? 14 : 24),
+      margin: EdgeInsets.fromLTRB(side, phone ? 2 : 12, side, phone ? 14 : 14),
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
         color: _surface,
@@ -669,16 +669,16 @@ class _MediaRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final portrait = phone || tablet || tv;
-    final width = phone ? 108.0 : (tablet ? 136.0 : (tv ? 164.0 : 224.0));
+    final width = phone ? 104.0 : (tablet ? 118.0 : (tv ? 118.0 : 180.0));
     final imageHeight = portrait ? width * 1.5 : width * .56;
     final side = phone ? 12.0 : (tv ? 34.0 : 28.0);
     return Padding(
-      padding: EdgeInsets.only(bottom: phone ? 18 : 28),
+      padding: EdgeInsets.only(bottom: phone ? 14 : 18),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: EdgeInsets.fromLTRB(side, 0, side, 10),
+            padding: EdgeInsets.fromLTRB(side, 0, side, 8),
             child: Row(
               children: [
                 Expanded(
