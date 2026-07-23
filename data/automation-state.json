@@ -1,14 +1,14 @@
 {
-  "lastRunAt": "2026-07-23T08:00:23.722Z",
+  "lastRunAt": "2026-07-23T10:34:29.783Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
-    1108427,
     1275779,
+    1108427,
     1339713,
     1083381,
-    1273221,
     1081003,
     1315772,
+    1273221,
     1084244,
     454639,
     1228710,
@@ -18,9 +18,9 @@
     931285,
     1304313,
     1318447,
-    1301421,
     1007757,
     1595852,
+    1301421,
     1212763,
     1368337,
     1668364,
@@ -37,23 +37,18 @@
   "errorsSummary": [],
   "skipped": [
     {
-      "tmdbId": 1108427,
-      "title": "Vaiana",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1275779,
       "title": "El día de la revelación",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1339713,
-      "title": "Obsession",
+      "tmdbId": 1108427,
+      "title": "Vaiana",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1273221,
-      "title": "Scary Movie",
+      "tmdbId": 1339713,
+      "title": "Obsession",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -64,6 +59,11 @@
     {
       "tmdbId": 1315772,
       "title": "Minions & Monsters",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1273221,
+      "title": "Scary Movie",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -112,11 +112,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1301421,
-      "title": "Las ovejas detectives",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1007757,
       "title": "Intercambiados",
       "reason": "Sin fuente autorizada configurada"
@@ -124,6 +119,11 @@
     {
       "tmdbId": 1595852,
       "title": "Boulevard",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1301421,
+      "title": "Las ovejas detectives",
       "reason": "Sin fuente autorizada configurada"
     },
     {

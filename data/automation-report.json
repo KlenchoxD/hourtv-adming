@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-07-23T08:00:20.591Z",
-  "durationMs": 3135,
+  "generatedAt": "2026-07-23T10:34:26.391Z",
+  "durationMs": 3396,
   "dryRun": false,
   "moviesFound": 29,
   "moviesDiscarded": 27,
@@ -13,23 +13,18 @@
   "addedTitles": [],
   "skipped": [
     {
-      "tmdbId": 1108427,
-      "title": "Vaiana",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1275779,
       "title": "El día de la revelación",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1339713,
-      "title": "Obsession",
+      "tmdbId": 1108427,
+      "title": "Vaiana",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1273221,
-      "title": "Scary Movie",
+      "tmdbId": 1339713,
+      "title": "Obsession",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -40,6 +35,11 @@
     {
       "tmdbId": 1315772,
       "title": "Minions & Monsters",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1273221,
+      "title": "Scary Movie",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -88,11 +88,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1301421,
-      "title": "Las ovejas detectives",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1007757,
       "title": "Intercambiados",
       "reason": "Sin fuente autorizada configurada"
@@ -100,6 +95,11 @@
     {
       "tmdbId": 1595852,
       "title": "Boulevard",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1301421,
+      "title": "Las ovejas detectives",
       "reason": "Sin fuente autorizada configurada"
     },
     {
