@@ -44,8 +44,16 @@ class _HourTvNewShellState extends State<HourTvNewShell> {
   // expanded: ancho grande (iconos+texto). hidden: el rail desaparece del
   // todo (ancho 0) mientras ves En Vivo a pantalla completa, como en el
   // diseño original -> reaparece solo cuando el foco vuelve al rail.
-  final ValueNotifier<({bool expanded, bool hidden})> _railVisual =
-      ValueNotifier((expanded: false, hidden: false));
+  // railFocused: hay foco de D-pad EN el rail ahora mismo (navegando entre
+  // items). Se usa para que el resalte de "seccion activa" solo se muestre
+  // cuando el foco esta afuera (viendo contenido) -> nunca dos resaltados a
+  // la vez: uno solo que se mueve contigo.
+  final ValueNotifier<({bool expanded, bool hidden, bool railFocused})>
+  _railVisual = ValueNotifier((
+    expanded: false,
+    hidden: false,
+    railFocused: false,
+  ));
   bool get _railFocused => _railFocusRaw;
   // Un FocusNode FIJO por seccion (nunca se reasigna): reusar un solo nodo
   // "actual" y reencadenarlo entre items causaba nodos fantasma con foco
@@ -83,6 +91,7 @@ class _HourTvNewShellState extends State<HourTvNewShell> {
     _railVisual.value = (
       expanded: _railHoverRaw || _railFocusRaw,
       hidden: section == _Section.live && !_railFocusRaw,
+      railFocused: _railFocusRaw,
     );
   }
 
@@ -329,7 +338,8 @@ class _SideRail extends StatelessWidget {
   // no el resto de la pantalla (grillas de posters), evitando el traba al
   // abrir el rail. "hidden" lo esconde del todo en En Vivo a pantalla
   // completa, como en el diseño original.
-  final ValueListenable<({bool expanded, bool hidden})> visualListenable;
+  final ValueListenable<({bool expanded, bool hidden, bool railFocused})>
+  visualListenable;
   final bool tv;
   // Nodo FIJO por seccion (nunca se reasigna entre items).
   final Map<_Section, FocusNode> focusNodes;
@@ -347,9 +357,33 @@ class _SideRail extends StatelessWidget {
     (_Section.profile, Icons.person_outline_rounded, 'Perfil'),
   ];
 
+  // Arriba/abajo explicito en vez de confiar en el traversal direccional
+  // implicito de Flutter: justo despues de un salto de foco programatico
+  // (ej. el back que vuelve al rail) ese traversal a veces no encuentra el
+  // siguiente item y el foco se pierde por completo. Recorriendo `entries`
+  // a mano el movimiento es siempre predecible.
+  KeyEventResult _onKey(FocusNode node, KeyEvent event) {
+    if (event is! KeyDownEvent) return KeyEventResult.ignored;
+    final key = event.logicalKey;
+    if (key != LogicalKeyboardKey.arrowUp &&
+        key != LogicalKeyboardKey.arrowDown) {
+      return KeyEventResult.ignored;
+    }
+    final currentIndex = entries.indexWhere(
+      (entry) => focusNodes[entry.$1]?.hasFocus == true,
+    );
+    if (currentIndex < 0) return KeyEventResult.ignored;
+    final delta = key == LogicalKeyboardKey.arrowDown ? 1 : -1;
+    final nextIndex = (currentIndex + delta).clamp(0, entries.length - 1);
+    if (nextIndex != currentIndex) {
+      focusNodes[entries[nextIndex].$1]?.requestFocus();
+    }
+    return KeyEventResult.handled;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder<({bool expanded, bool hidden})>(
+    return ValueListenableBuilder<({bool expanded, bool hidden, bool railFocused})>(
       valueListenable: visualListenable,
       builder: (context, visual, _) {
         // Colapsado a iconos (88); se EXPANDE (208) cuando el foco del control
@@ -380,6 +414,7 @@ class _SideRail extends StatelessWidget {
                   canRequestFocus: false,
                   skipTraversal: true,
                   onFocusChange: onRailFocus,
+                  onKeyEvent: _onKey,
                   child: SafeArea(
                     child: Padding(
                       padding: EdgeInsets.fromLTRB(
@@ -404,6 +439,7 @@ class _SideRail extends StatelessWidget {
                               icon: entry.$2,
                               label: entry.$3,
                               selected: current == entry.$1,
+                              railHasFocus: visual.railFocused,
                               showLabel: expanded,
                               // En Vivo roba el foco el mismo (pantalla
                               // completa); si tambien autofocamos aqui se
@@ -447,6 +483,7 @@ class _RailItem extends StatefulWidget {
     required this.icon,
     required this.label,
     required this.selected,
+    required this.railHasFocus,
     required this.showLabel,
     required this.onTap,
     this.autofocus = false,
@@ -455,6 +492,12 @@ class _RailItem extends StatefulWidget {
   final IconData icon;
   final String label;
   final bool selected;
+  // Hay foco de D-pad EN ALGUN item del rail ahora mismo (navegando el
+  // menu). Cuando es true, solo se resalta el item con foco literal; cuando
+  // es false (foco esta en el contenido, fuera del rail), se resalta la
+  // seccion activa. Nunca las dos cosas a la vez: un solo resalte que se
+  // mueve contigo.
+  final bool railHasFocus;
   final bool showLabel;
   final VoidCallback onTap;
   final bool autofocus;
@@ -470,21 +513,11 @@ class _RailItemState extends State<_RailItem> {
 
   @override
   Widget build(BuildContext context) {
-    // Resalte claro estilo Xuper: el item enfocado (D-pad) o seleccionado se
-    // RELLENA de rojo; con mouse encima muestra un relleno tenue. El foco es un
-    // bloque que se mueve, no solo un borde.
-    // Solo el item ENFOCADO se rellena de rojo (bloque que se mueve con el
-    // D-pad). La seccion actual, cuando el foco esta en otro lado, se marca con
-    // texto rojo. Con mouse encima, relleno tenue.
-    final Color bg = _focused
+    final bool active = _focused || (widget.selected && !widget.railHasFocus);
+    final Color bg = active
         ? _red
         : (_hovered ? const Color(0xFF1E1E23) : Colors.transparent);
-    // El ROJO es solo para el item enfocado (el selector que se mueve con el
-    // control). La seccion actual, cuando el foco esta en otro lado, se marca
-    // en blanco -> nunca se ven dos "seleccionados" a la vez.
-    final Color fg = _focused
-        ? Colors.white
-        : (widget.selected ? Colors.white : _muted);
+    final Color fg = active ? Colors.white : _muted;
     return MouseRegion(
       onEnter: (_) => setState(() => _hovered = true),
       onExit: (_) => setState(() => _hovered = false),
@@ -1175,37 +1208,40 @@ class _CatalogPageState extends State<_CatalogPage> {
                   const SizedBox(height: 5),
                   Text(widget.subtitle!, style: const TextStyle(color: _muted)),
                 ],
-                const SizedBox(height: 18),
-                SizedBox(
-                  width: widget.phone ? double.infinity : 420,
-                  child: TextField(
-                    autofocus: widget.searchAutofocus,
-                    textInputAction: TextInputAction.search,
-                    onChanged: (value) => setState(() => query = value),
-                    onSubmitted: (value) => setState(() => query = value),
-                    style: const TextStyle(color: Colors.white),
-                    decoration: InputDecoration(
-                      hintText: widget.title == 'Buscar'
-                          ? 'Títulos, géneros o categorías…'
-                          : 'Buscar en ${widget.title.toLowerCase()}',
-                      hintStyle: const TextStyle(color: _muted),
-                      prefixIcon: const Icon(
-                        Icons.search_rounded,
-                        color: _muted,
-                      ),
-                      filled: true,
-                      fillColor: _surface,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(14),
-                        borderSide: const BorderSide(color: _line),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(14),
-                        borderSide: const BorderSide(color: _line),
+                // El buscador vive UNICAMENTE en la seccion "Buscar" (con su
+                // teclado en TV). Peliculas, Series y Mi lista no lo tienen.
+                if (widget.title == 'Buscar') ...[
+                  const SizedBox(height: 18),
+                  SizedBox(
+                    width: widget.phone ? double.infinity : 420,
+                    child: TextField(
+                      autofocus: widget.searchAutofocus,
+                      textInputAction: TextInputAction.search,
+                      onChanged: (value) => setState(() => query = value),
+                      onSubmitted: (value) => setState(() => query = value),
+                      style: const TextStyle(color: Colors.white),
+                      decoration: InputDecoration(
+                        hintText: 'Títulos, géneros o categorías…',
+                        hintStyle: const TextStyle(color: _muted),
+                        prefixIcon: const Icon(
+                          Icons.search_rounded,
+                          color: _muted,
+                        ),
+                        filled: true,
+                        fillColor: _surface,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(14),
+                          borderSide: const BorderSide(color: _line),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(14),
+                          borderSide: const BorderSide(color: _line),
+                        ),
                       ),
                     ),
                   ),
-                ),
+                ] else
+                  const SizedBox(height: 18),
               ],
             ),
           ),
