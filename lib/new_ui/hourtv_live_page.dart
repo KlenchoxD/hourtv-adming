@@ -115,10 +115,14 @@ class _HourTvLivePageState extends State<HourTvLivePage> {
     remoteFocus.requestFocus();
   }
 
+  // Envuelve al llegar a una punta (del ultimo canal pasa al primero y
+  // viceversa), en vez de trabarse en el limite.
   void flip(int direction) {
+    final count = widget.channels.length;
+    if (count == 0) return;
     final index = widget.channels.indexOf(current);
-    final next = (index + direction).clamp(0, widget.channels.length - 1);
-    if (next != index) select(widget.channels[next]);
+    final next = (index + direction) % count;
+    select(widget.channels[next < 0 ? next + count : next]);
   }
 
   KeyEventResult _remote(FocusNode node, KeyEvent event) {
@@ -127,17 +131,13 @@ class _HourTvLivePageState extends State<HourTvLivePage> {
     if (showGuide) {
       if (key == LogicalKeyboardKey.arrowUp) {
         setState(
-          () => guideIndex = (guideIndex - 1).clamp(
-            0,
-            widget.channels.length - 1,
-          ),
+          () => guideIndex =
+              (guideIndex - 1 + widget.channels.length) %
+              widget.channels.length,
         );
       } else if (key == LogicalKeyboardKey.arrowDown) {
         setState(
-          () => guideIndex = (guideIndex + 1).clamp(
-            0,
-            widget.channels.length - 1,
-          ),
+          () => guideIndex = (guideIndex + 1) % widget.channels.length,
         );
       } else if (key == LogicalKeyboardKey.enter ||
           key == LogicalKeyboardKey.select) {
@@ -150,14 +150,13 @@ class _HourTvLivePageState extends State<HourTvLivePage> {
       }
       return KeyEventResult.handled;
     }
-    if (key == LogicalKeyboardKey.arrowLeft) {
+    // Solo arriba/abajo cambian de canal (abajo = siguiente, arriba =
+    // anterior). Izquierda/derecha no hacen nada aqui. OK abre la guia.
+    if (key == LogicalKeyboardKey.arrowUp) {
       flip(-1);
-    } else if (key == LogicalKeyboardKey.arrowRight) {
+    } else if (key == LogicalKeyboardKey.arrowDown) {
       flip(1);
-    } else if (key == LogicalKeyboardKey.arrowUp) {
-      flip(-1);
-    } else if (key == LogicalKeyboardKey.arrowDown ||
-        key == LogicalKeyboardKey.enter ||
+    } else if (key == LogicalKeyboardKey.enter ||
         key == LogicalKeyboardKey.select) {
       setState(() {
         showGuide = true;
