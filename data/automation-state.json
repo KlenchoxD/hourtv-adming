@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-07-23T20:19:13.385Z",
+  "lastRunAt": "2026-07-23T21:33:29.729Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     1275779,
@@ -23,13 +23,13 @@
     1301421,
     1212763,
     1368337,
-    1668364,
+    1727780,
     1318621,
     687163,
-    1727780,
+    1668364,
     261639,
-    1280738,
-    969681,
+    1523145,
+    200066,
     1335666
   ],
   "tmdbIdsPublished": [],
@@ -137,9 +137,9 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1668364,
-      "title": "Deseo",
-      "reason": "Sin fuente autorizada configurada"
+      "tmdbId": 1727780,
+      "title": "Borderline",
+      "reason": "Rating 0 por debajo del mínimo (5.5)"
     },
     {
       "tmdbId": 1318621,
@@ -152,9 +152,9 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1727780,
-      "title": "Borderline",
-      "reason": "Rating 0 por debajo del mínimo (5.5)"
+      "tmdbId": 1668364,
+      "title": "Deseo",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 261639,
@@ -162,14 +162,14 @@
       "reason": "Sin sinopsis"
     },
     {
-      "tmdbId": 1280738,
-      "title": "The Furious",
+      "tmdbId": 1523145,
+      "title": "Tu corazón se romperá",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 969681,
-      "title": "Spider-Man: Brand New Day",
-      "reason": "Rating 0 por debajo del mínimo (5.5)"
+      "tmdbId": 200066,
+      "title": "Momentos de amor",
+      "reason": "Rating 4.2 por debajo del mínimo (5.5)"
     }
   ]
 }
