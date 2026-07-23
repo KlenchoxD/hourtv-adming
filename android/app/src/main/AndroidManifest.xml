@@ -6,6 +6,8 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE"/>
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK"/>
+    <!-- Permite instalar el APK descargado al actualizar desde Configuracion. -->
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
 
     <!-- Android TV / Google TV: no requiere pantalla tactil ni camara -->
     <uses-feature android:name="android.software.leanback" android:required="false"/>

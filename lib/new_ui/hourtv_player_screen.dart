@@ -162,6 +162,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
         httpHeaders: playHeaders,
       );
       await _vc!.initialize();
+      unawaited(_applyPreferredAudioLanguage(_vc!));
       final autoPlay =
           StorageService.getSetting('autoPlay', defaultValue: true) == true;
       _cc = ChewieController(
@@ -631,6 +632,36 @@ class _PlayerScreenState extends State<PlayerScreen> {
       ),
     );
     if (mounted) _screenFocus.requestFocus();
+  }
+
+  /// Selecciona la pista de audio segun la preferencia guardada en Perfil >
+  /// Idioma y subtitulos, si la fuente ofrece una que coincida. Usa la misma
+  /// API real de pistas que el selector manual (getAudioTracks/
+  /// selectAudioTrack); si el dispositivo o la fuente no la soportan,
+  /// simplemente no hace nada (se queda con la pista por defecto).
+  Future<void> _applyPreferredAudioLanguage(
+    VideoPlayerController controller,
+  ) async {
+    final preferred = StorageService.getSetting(
+      'preferredAudioLanguage',
+      defaultValue: 'auto',
+    ).toString();
+    if (preferred == 'auto') return;
+    try {
+      if (!controller.isAudioTrackSupportAvailable()) return;
+      final tracks = await controller.getAudioTracks();
+      final match = tracks
+          .where(
+            (track) =>
+                (track.language ?? '').toLowerCase().startsWith(preferred),
+          )
+          .firstOrNull;
+      if (match != null && !match.isSelected) {
+        await controller.selectAudioTrack(match.id);
+      }
+    } catch (_) {
+      // Sin pista compatible o sin soporte: se mantiene la pista por defecto.
+    }
   }
 
   Future<void> _showAudioSelector() async {

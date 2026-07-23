@@ -155,10 +155,18 @@ class _HourTvNewShellState extends State<HourTvNewShell> {
     if (section == _Section.live && _liveBack.handleBack()) return;
 
     if (!DeviceProfile.isPhone(context)) {
-      // TV/tablet/desktop: el back "de más" lleva el foco al rail en la MISMA
-      // seccion (no redirige a Inicio). Estando ya en el rail, sale de la app.
+      // TV/tablet/desktop, back por capas:
+      // 1) foco en el contenido -> foco al rail, en la MISMA seccion (no
+      //    redirige a Inicio, eso es justo lo que no se queria).
+      // 2) foco ya en el rail pero en otro item -> a Inicio (un paso mas,
+      //    evita salir de golpe sin querer).
+      // 3) foco en el rail y ya en Inicio -> recien ahi sale de la app.
       if (!_railFocused) {
         _railFocusNodes[section]!.requestFocus();
+        return;
+      }
+      if (_railFocusNodes[_Section.home]?.hasFocus != true) {
+        _railFocusNodes[_Section.home]!.requestFocus();
         return;
       }
       SystemNavigator.pop();

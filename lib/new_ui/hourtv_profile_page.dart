@@ -5,7 +5,10 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../services/storage_service.dart';
 import 'hourtv_focusable.dart';
+import 'hourtv_settings_language_page.dart';
 import 'hourtv_settings_page.dart';
+import 'hourtv_settings_parental_page.dart';
+import 'hourtv_settings_playback_page.dart';
 
 const _red = Color(0xFFF20A1A);
 const _surface = Color(0xFF111113);
@@ -42,9 +45,9 @@ class _HourTvProfilePageState extends State<HourTvProfilePage> {
   ];
 
   static const tvOptions = <(IconData, String, String)>[
-    (Icons.high_quality_rounded, 'Reproducción y calidad', 'Ultra HD 4K'),
-    (Icons.subtitles_rounded, 'Idioma y subtítulos', 'Español'),
-    (Icons.notifications_active_rounded, 'Notificaciones', 'Activadas'),
+    (Icons.high_quality_rounded, 'Reproducción y calidad', 'Automática'),
+    (Icons.subtitles_rounded, 'Idioma y subtítulos', 'Audio y subtítulos'),
+    (Icons.settings_rounded, 'Configuración', 'Actualizaciones y más'),
     (Icons.family_restroom_rounded, 'Control parental', 'Desactivado'),
   ];
 
@@ -413,10 +416,16 @@ class _HourTvProfilePageState extends State<HourTvProfilePage> {
     );
   }
 
+  // Cada opcion abre SU PROPIA pantalla con contenido real y distinto -
+  // antes todas reusaban la misma pagina generica y mostraban lo mismo.
   void _openSetting(String title) {
-    Navigator.of(
-      context,
-    ).push(MaterialPageRoute(builder: (_) => HourTvSettingsPage(title: title)));
+    final page = switch (title) {
+      'Reproducción y calidad' => const HourTvPlaybackSettingsPage(),
+      'Idioma y subtítulos' => const HourTvLanguageSettingsPage(),
+      'Control parental' => const HourTvParentalSettingsPage(),
+      _ => const HourTvSettingsPage(),
+    };
+    Navigator.of(context).push(MaterialPageRoute(builder: (_) => page));
   }
 
   Widget _profileCard({required bool compact}) {

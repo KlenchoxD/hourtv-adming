@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 
 import '../services/iptv_server_service.dart';
 import '../services/storage_service.dart';
+import 'hourtv_settings_update_page.dart';
 
 const _red = Color(0xFFF20A1A);
 const _black = Color(0xFF050505);
@@ -19,8 +20,6 @@ class HourTvSettingsPage extends StatefulWidget {
 }
 
 class _HourTvSettingsPageState extends State<HourTvSettingsPage> {
-  late bool autoPlay;
-  late bool forceLandscape;
   late bool wifiOnly;
   late bool serverEnabled;
   late String sortBy;
@@ -29,11 +28,6 @@ class _HourTvSettingsPageState extends State<HourTvSettingsPage> {
   @override
   void initState() {
     super.initState();
-    autoPlay =
-        StorageService.getSetting('autoPlay', defaultValue: true) == true;
-    forceLandscape =
-        StorageService.getSetting('forceLandscape', defaultValue: false) ==
-        true;
     wifiOnly =
         StorageService.getSetting('wifiOnly', defaultValue: false) == true;
     sortBy =
@@ -110,26 +104,16 @@ class _HourTvSettingsPageState extends State<HourTvSettingsPage> {
           child: ListView(
             padding: const EdgeInsets.fromLTRB(16, 12, 16, 40),
             children: [
-              _sectionTitle('Reproducción'),
-              _ToggleTile(
-                icon: Icons.play_circle_outline_rounded,
-                title: 'Auto-play',
-                subtitle: 'Iniciar al abrir un canal o título',
-                value: autoPlay,
-                onChanged: (value) {
-                  setState(() => autoPlay = value);
-                  _saveBool('autoPlay', value);
-                },
-              ),
-              _ToggleTile(
-                icon: Icons.screen_rotation_rounded,
-                title: 'Forzar horizontal',
-                subtitle: 'Rotar al entrar al reproductor',
-                value: forceLandscape,
-                onChanged: (value) {
-                  setState(() => forceLandscape = value);
-                  _saveBool('forceLandscape', value);
-                },
+              _sectionTitle('Actualizaciones'),
+              _ChoiceTile(
+                icon: Icons.system_update_rounded,
+                title: 'Buscar actualizaciones',
+                subtitle: 'Descarga e instala nuevas versiones desde GitHub',
+                onTap: () => Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => const HourTvUpdatePage(),
+                  ),
+                ),
               ),
               const SizedBox(height: 24),
               _sectionTitle('Catálogo y datos'),

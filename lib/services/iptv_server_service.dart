@@ -8,6 +8,21 @@ import '../models/channel.dart';
 import 'content_store.dart';
 import 'embed_resolver.dart';
 
+typedef _PendingEntry = ({
+  String name,
+  String? logo,
+  String group,
+  String? url,
+});
+
+typedef _ResolvedEntry = ({
+  String name,
+  String? logo,
+  String group,
+  String url,
+  Map<String, String>? headers,
+});
+
 /// Servidor M3U de alcance exclusivamente local. No expone contenido fuera de
 /// la red Wi-Fi: publica el catálogo actual y resuelve embeds bajo demanda.
 class IptvServerService {
@@ -101,11 +116,7 @@ class IptvServerService {
   }
 
   Future<void> _m3u(HttpRequest request) async {
-    const fallbackAddress = '127.0.0.1';
-    final base =
-        localUrl.value?.replaceFirst('/lista.m3u', '') ??
-        'http://$fallbackAddress:${_server?.port ?? defaultPort}';
-    final output = buildPlaylist(base);
+    final output = await buildPlaylist();
     request.response.headers
       ..set(HttpHeaders.contentTypeHeader, 'audio/x-mpegurl; charset=utf-8')
       ..set('content-disposition', 'inline; filename="hourtv.m3u"')
@@ -137,21 +148,23 @@ class IptvServerService {
     await request.response.close();
   }
 
-  /// Genera la lista desde el store en memoria. Expuesto para pruebas locales.
+  /// Genera la lista desde el store en memoria. Resuelve los embeds de
+  /// películas/series en el momento (en paralelo) para poder incluir el
+  /// Referer/User-Agent que su CDN exige incluso en el .m3u8 final; un
+  /// redirect 302 no sirve porque las apps IPTV no reenvían esos headers.
+  /// Expuesto para pruebas locales.
   @visibleForTesting
-  String buildPlaylist(String baseUrl) {
+  Future<String> buildPlaylist() async {
     final store = ContentStore.instance;
-    final out = StringBuffer('#EXTM3U\n');
+    final pending = <_PendingEntry>[];
 
     for (final movie in store.movies) {
-      _addEntry(
-        out,
+      pending.add((
         name: movie.displayName,
         logo: movie.logo,
         group: _movieGroup(movie),
         url: _primaryUrl(movie),
-        baseUrl: baseUrl,
-      );
+      ));
     }
 
     for (final series in store.series) {
@@ -167,57 +180,84 @@ class IptvServerService {
         final label =
             '${series.name} · T$season${episodeNumber == null ? '' : 'E$episodeNumber'} ${episode.displayName}'
                 .trim();
-        _addEntry(
-          out,
+        pending.add((
           name: label,
           logo: episode.logo ?? series.cover,
           group: 'Series',
           url: _primaryUrl(episode),
-          baseUrl: baseUrl,
-        );
+        ));
       }
+    }
+
+    final resolved = await Future.wait(pending.map(_resolveEntry));
+
+    final out = StringBuffer('#EXTM3U\n');
+    for (final entry in resolved) {
+      if (entry != null) _writeEntry(out, entry);
     }
 
     for (final channel in store.all.where(
       (item) => item.type == MediaType.live,
     )) {
-      _addEntry(
+      final url = channel.url.trim();
+      if (url.isEmpty) continue;
+      _writeEntry(
         out,
-        name: channel.displayName,
-        logo: channel.logo,
-        group: channel.group?.trim().isNotEmpty == true
-            ? channel.group!.trim()
-            : 'Canales',
-        url: channel.url,
-        baseUrl: baseUrl,
-        forceDirect: true,
+        (
+          name: channel.displayName,
+          logo: channel.logo,
+          group: channel.group?.trim().isNotEmpty == true
+              ? channel.group!.trim()
+              : 'Canales',
+          url: url,
+          headers: null,
+        ),
       );
     }
     return out.toString();
   }
 
-  void _addEntry(
-    StringBuffer out, {
-    required String name,
-    required String? logo,
-    required String group,
-    required String? url,
-    required String baseUrl,
-    bool forceDirect = false,
-  }) {
-    final stream = _streamFor(baseUrl, url, forceDirect: forceDirect);
-    if (stream == null) return;
-    out
-      ..write('#EXTINF:-1 tvg-logo="${_escapeAttribute(logo)}" ')
-      ..write('group-title="${_escapeAttribute(group)}",${_escapeText(name)}\n')
-      ..write('$stream\n');
+  /// Streams directos pasan tal cual; embeds se resuelven ya mismo (no con un
+  /// enlace a /resolve) para poder adjuntar Referer/User-Agent en el M3U.
+  /// Si el host no responde, la entrada simplemente se omite de la lista.
+  Future<_ResolvedEntry?> _resolveEntry(_PendingEntry item) async {
+    final value = item.url?.trim();
+    if (value == null || value.isEmpty) return null;
+    if (_directStream.hasMatch(value)) {
+      return (
+        name: item.name,
+        logo: item.logo,
+        group: item.group,
+        url: value,
+        headers: null,
+      );
+    }
+    final stream = await EmbedResolver.resolve(value);
+    if (stream == null) return null;
+    return (
+      name: item.name,
+      logo: item.logo,
+      group: item.group,
+      url: stream.url,
+      headers: stream.headers,
+    );
   }
 
-  String? _streamFor(String baseUrl, String? url, {bool forceDirect = false}) {
-    final value = url?.trim();
-    if (value == null || value.isEmpty) return null;
-    if (forceDirect || _directStream.hasMatch(value)) return value;
-    return '$baseUrl/resolve?u=${Uri.encodeQueryComponent(value)}';
+  void _writeEntry(StringBuffer out, _ResolvedEntry entry) {
+    out
+      ..write('#EXTINF:-1 tvg-logo="${_escapeAttribute(entry.logo)}" ')
+      ..write(
+        'group-title="${_escapeAttribute(entry.group)}",${_escapeText(entry.name)}\n',
+      );
+    final referer = entry.headers?['Referer'];
+    final userAgent = entry.headers?['User-Agent'];
+    // Etiquetas VLC-option: las respetan TiviMate, GSE IPTV y Perfect Player
+    // para mandar el header en cada request del stream (manifest y segmentos).
+    if (referer != null) out.write('#EXTVLCOPT:http-referrer=$referer\n');
+    if (userAgent != null) {
+      out.write('#EXTVLCOPT:http-user-agent=$userAgent\n');
+    }
+    out.write('${entry.url}\n');
   }
 
   String _movieGroup(Channel movie) {
