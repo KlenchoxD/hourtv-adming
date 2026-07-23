@@ -10,6 +10,15 @@ const _surface = Color(0xFF101012);
 const _line = Color(0xFF25252A);
 const _muted = Color(0xFFA6A6B0);
 
+/// Puente para que el shell delegue el boton "atras" a la pagina En Vivo:
+/// esta registra un [handler] que devuelve true si consumio el back (p. ej.
+/// salio de la vista extendida a la guia) o false para que el shell siga
+/// (ir al rail/Inicio).
+class LiveBackController {
+  bool Function()? handler;
+  bool handleBack() => handler?.call() ?? false;
+}
+
 class HourTvLivePage extends StatefulWidget {
   const HourTvLivePage({
     super.key,
@@ -18,6 +27,7 @@ class HourTvLivePage extends StatefulWidget {
     required this.phone,
     required this.tablet,
     required this.tv,
+    this.backController,
   });
 
   final List<Channel> channels;
@@ -25,6 +35,7 @@ class HourTvLivePage extends StatefulWidget {
   final bool phone;
   final bool tablet;
   final bool tv;
+  final LiveBackController? backController;
 
   @override
   State<HourTvLivePage> createState() => _HourTvLivePageState();
@@ -42,9 +53,22 @@ class _HourTvLivePageState extends State<HourTvLivePage> {
     super.initState();
     current = widget.channels.first;
     guideIndex = widget.channels.indexOf(current);
+    widget.backController?.handler = _handleBack;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (widget.tv && mounted) remoteFocus.requestFocus();
     });
+  }
+
+  /// Back por capas dentro de En Vivo: si estas viendo un canal a pantalla
+  /// completa (extendido), el primer back abre la guia; estando en la guia,
+  /// devuelve false para que el shell te lleve al rail/Inicio.
+  bool _handleBack() {
+    if (showGuide) return false;
+    setState(() {
+      showGuide = true;
+      guideIndex = widget.channels.indexOf(current);
+    });
+    return true;
   }
 
   @override
@@ -58,6 +82,9 @@ class _HourTvLivePageState extends State<HourTvLivePage> {
 
   @override
   void dispose() {
+    if (widget.backController?.handler == _handleBack) {
+      widget.backController!.handler = null;
+    }
     remoteFocus.dispose();
     super.dispose();
   }

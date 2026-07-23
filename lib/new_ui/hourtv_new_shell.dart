@@ -35,6 +35,7 @@ class _HourTvNewShellState extends State<HourTvNewShell> {
   bool railHovered = false;
   bool _railFocused = false;
   bool _loaded = false;
+  final LiveBackController _liveBack = LiveBackController();
 
   @override
   void initState() {
@@ -94,6 +95,25 @@ class _HourTvNewShellState extends State<HourTvNewShell> {
 
   bool get showingPreview => store.movies.isEmpty;
 
+  /// Back por capas: deshace una cosa a la vez y solo sale de la app cuando ya
+  /// no queda nada que cerrar y estamos en Inicio.
+  void _handleBack() {
+    // 1. Teclado en pantalla abierto -> cerrarlo.
+    if (MediaQuery.viewInsetsOf(context).bottom > 0) {
+      FocusManager.instance.primaryFocus?.unfocus();
+      return;
+    }
+    // 2. La seccion actual puede consumir el back (En Vivo: salir de extendido).
+    if (section == _Section.live && _liveBack.handleBack()) return;
+    // 3. En una seccion distinta a Inicio -> volver a Inicio/rail.
+    if (section != _Section.home) {
+      setState(() => section = _Section.home);
+      return;
+    }
+    // 4. Ya en Inicio sin nada abierto -> salir de la app.
+    SystemNavigator.pop();
+  }
+
   @override
   Widget build(BuildContext context) {
     final phone = DeviceProfile.isPhone(context);
@@ -103,29 +123,40 @@ class _HourTvNewShellState extends State<HourTvNewShell> {
         ? const _BootLoading()
         : _sectionBody(phone: phone, tablet: tablet, tv: tv);
 
-    return Scaffold(
-      backgroundColor: _black,
-      body: phone
-          ? SafeArea(bottom: false, child: body)
-          : Row(
-              children: [
-                _SideRail(
-                  current: section,
-                  expanded: railHovered || _railFocused,
-                  tv: tv,
-                  onHover: (value) => setState(() => railHovered = value),
-                  onRailFocus: (value) => setState(() => _railFocused = value),
-                  onSelect: (value) => setState(() => section = value),
-                ),
-                Expanded(child: body),
-              ],
-            ),
-      bottomNavigationBar: phone
-          ? _BottomNav(
-              current: section,
-              onSelect: (value) => setState(() => section = value),
-            )
-          : null,
+    return PopScope(
+      // Nunca dejamos que el back del sistema salga directo: lo manejamos por
+      // capas y solo salimos de la app cuando ya estamos en Inicio sin nada
+      // abierto.
+      canPop: false,
+      onPopInvokedWithResult: (didPop, _) {
+        if (didPop) return;
+        _handleBack();
+      },
+      child: Scaffold(
+        backgroundColor: _black,
+        body: phone
+            ? SafeArea(bottom: false, child: body)
+            : Row(
+                children: [
+                  _SideRail(
+                    current: section,
+                    expanded: railHovered || _railFocused,
+                    tv: tv,
+                    onHover: (value) => setState(() => railHovered = value),
+                    onRailFocus: (value) =>
+                        setState(() => _railFocused = value),
+                    onSelect: (value) => setState(() => section = value),
+                  ),
+                  Expanded(child: body),
+                ],
+              ),
+        bottomNavigationBar: phone
+            ? _BottomNav(
+                current: section,
+                onSelect: (value) => setState(() => section = value),
+              )
+            : null,
+      ),
     );
   }
 
@@ -187,6 +218,7 @@ class _HourTvNewShellState extends State<HourTvNewShell> {
           phone: phone,
           tablet: tablet,
           tv: tv,
+          backController: _liveBack,
         );
       case _Section.list:
         return _CatalogPage(
@@ -961,10 +993,14 @@ class _CatalogPageState extends State<_CatalogPage> {
                   width: widget.phone ? double.infinity : 420,
                   child: TextField(
                     autofocus: widget.searchAutofocus,
+                    textInputAction: TextInputAction.search,
                     onChanged: (value) => setState(() => query = value),
+                    onSubmitted: (value) => setState(() => query = value),
                     style: const TextStyle(color: Colors.white),
                     decoration: InputDecoration(
-                      hintText: 'Buscar en ${widget.title.toLowerCase()}',
+                      hintText: widget.title == 'Buscar'
+                          ? 'Títulos, géneros o categorías…'
+                          : 'Buscar en ${widget.title.toLowerCase()}',
                       hintStyle: const TextStyle(color: _muted),
                       prefixIcon: const Icon(
                         Icons.search_rounded,
