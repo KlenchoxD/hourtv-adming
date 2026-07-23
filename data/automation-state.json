@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-07-23T02:11:59.750Z",
+  "lastRunAt": "2026-07-23T05:34:07.989Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     1108427,
@@ -30,7 +30,6 @@
     261639,
     1280738,
     969681,
-    1127384,
     1335666
   ],
   "tmdbIdsPublished": [],
@@ -171,11 +170,6 @@
       "tmdbId": 969681,
       "title": "Spider-Man: Brand New Day",
       "reason": "Rating 0 por debajo del mínimo (5.5)"
-    },
-    {
-      "tmdbId": 1127384,
-      "title": "En mar abierto",
-      "reason": "Sin fuente autorizada configurada"
     }
   ]
 }

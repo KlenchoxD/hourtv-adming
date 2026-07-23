@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-07-23T02:11:58.378Z",
-  "durationMs": 1377,
+  "generatedAt": "2026-07-23T05:34:04.588Z",
+  "durationMs": 3406,
   "dryRun": false,
-  "moviesFound": 30,
-  "moviesDiscarded": 28,
+  "moviesFound": 29,
+  "moviesDiscarded": 27,
   "moviesAdded": 0,
   "moviesEnriched": 0,
   "duplicates": 2,
@@ -146,11 +146,6 @@
       "tmdbId": 969681,
       "title": "Spider-Man: Brand New Day",
       "reason": "Rating 0 por debajo del mínimo (5.5)"
-    },
-    {
-      "tmdbId": 1127384,
-      "title": "En mar abierto",
-      "reason": "Sin fuente autorizada configurada"
     }
   ]
 }
