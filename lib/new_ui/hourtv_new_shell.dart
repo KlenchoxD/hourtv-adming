@@ -33,6 +33,7 @@ class _HourTvNewShellState extends State<HourTvNewShell> {
   final ContentStore store = ContentStore.instance;
   _Section section = _Section.home;
   bool railHovered = false;
+  bool _railFocused = false;
   bool _loaded = false;
 
   @override
@@ -110,9 +111,10 @@ class _HourTvNewShellState extends State<HourTvNewShell> {
               children: [
                 _SideRail(
                   current: section,
-                  expanded: !tv && railHovered,
+                  expanded: railHovered || _railFocused,
                   tv: tv,
                   onHover: (value) => setState(() => railHovered = value),
+                  onRailFocus: (value) => setState(() => _railFocused = value),
                   onSelect: (value) => setState(() => section = value),
                 ),
                 Expanded(child: body),
@@ -232,6 +234,7 @@ class _SideRail extends StatelessWidget {
     required this.expanded,
     required this.tv,
     required this.onHover,
+    required this.onRailFocus,
     required this.onSelect,
   });
 
@@ -239,6 +242,7 @@ class _SideRail extends StatelessWidget {
   final bool expanded;
   final bool tv;
   final ValueChanged<bool> onHover;
+  final ValueChanged<bool> onRailFocus;
   final ValueChanged<_Section> onSelect;
 
   static const entries = <(_Section, IconData, String)>[
@@ -253,7 +257,9 @@ class _SideRail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final width = tv ? 180.0 : (expanded ? 208.0 : 88.0);
+    // Colapsado a iconos (88); se EXPANDE (208) cuando el foco del control
+    // entra al rail (TV) o el mouse pasa encima. Como en el prototipo.
+    final width = expanded ? 208.0 : 88.0;
     return MouseRegion(
       onEnter: (_) => onHover(true),
       onExit: (_) => onHover(false),
@@ -265,39 +271,46 @@ class _SideRail extends StatelessWidget {
           color: Color(0xFF070708),
           border: Border(right: BorderSide(color: _line)),
         ),
-        child: SafeArea(
-          child: Padding(
-            padding: EdgeInsets.fromLTRB(tv ? 20 : 14, 22, tv ? 16 : 14, 18),
-            child: Column(
-              children: [
-                SizedBox(
-                  height: tv ? 76 : 70,
-                  child: Align(
-                    alignment: tv || expanded
-                        ? Alignment.centerLeft
-                        : Alignment.center,
-                    child: const HourTvLogo(height: 54),
+        // Detecta cuando el foco (D-pad) entra/sale de cualquier item del rail
+        // para expandir/colapsar. No es enfocable en si mismo.
+        child: Focus(
+          canRequestFocus: false,
+          skipTraversal: true,
+          onFocusChange: onRailFocus,
+          child: SafeArea(
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(expanded ? 20 : 14, 22, 14, 18),
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 72,
+                    child: Align(
+                      alignment: expanded
+                          ? Alignment.centerLeft
+                          : Alignment.center,
+                      child: HourTvLogo(height: expanded ? 54 : 42),
+                    ),
                   ),
-                ),
-                const SizedBox(height: 12),
-                for (final entry in entries) ...[
-                  _RailItem(
-                    icon: entry.$2,
-                    label: entry.$3,
-                    selected: current == entry.$1,
-                    showLabel: tv || expanded,
-                    autofocus: tv && current == entry.$1,
-                    onTap: () => onSelect(entry.$1),
-                  ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 12),
+                  for (final entry in entries) ...[
+                    _RailItem(
+                      icon: entry.$2,
+                      label: entry.$3,
+                      selected: current == entry.$1,
+                      showLabel: expanded,
+                      autofocus: tv && current == entry.$1,
+                      onTap: () => onSelect(entry.$1),
+                    ),
+                    const SizedBox(height: 8),
+                  ],
+                  const Spacer(),
+                  if (expanded)
+                    const Text(
+                      'HOURTV  •  ENTRETENIMIENTO SIN LÍMITES',
+                      style: TextStyle(color: Color(0xFF55555E), fontSize: 8.5),
+                    ),
                 ],
-                const Spacer(),
-                if (tv || expanded)
-                  const Text(
-                    'HOURTV  •  ENTRETENIMIENTO SIN LÍMITES',
-                    style: TextStyle(color: Color(0xFF55555E), fontSize: 8.5),
-                  ),
-              ],
+              ),
             ),
           ),
         ),
@@ -566,7 +579,7 @@ class _Hero extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final side = phone ? 16.0 : (tv ? 34.0 : 28.0);
-    final height = phone ? 380.0 : (tablet ? 260.0 : (tv ? 300.0 : 340.0));
+    final height = phone ? 380.0 : (tablet ? 280.0 : (tv ? 340.0 : 360.0));
     return Container(
       height: height,
       margin: EdgeInsets.fromLTRB(side, phone ? 2 : 12, side, phone ? 14 : 14),
@@ -583,6 +596,9 @@ class _Hero extends StatelessWidget {
             url: channel.backdrop ?? channel.logo,
             fit: BoxFit.cover,
             cacheWidth: 900,
+            // Alinea arriba: en banners anchos y bajos, centrar recortaba la
+            // cara/parte superior del contenido (se veia solo el torso).
+            alignment: Alignment.topCenter,
           ),
           const DecoratedBox(
             decoration: BoxDecoration(
@@ -1055,9 +1071,15 @@ class HourTvLogo extends StatelessWidget {
 }
 
 class _Artwork extends StatelessWidget {
-  const _Artwork({required this.url, required this.fit, this.cacheWidth = 260});
+  const _Artwork({
+    required this.url,
+    required this.fit,
+    this.cacheWidth = 260,
+    this.alignment = Alignment.center,
+  });
   final String? url;
   final BoxFit fit;
+  final Alignment alignment;
 
   /// Ancho de decodificacion: las imagenes se cachean/decodifican a esta
   /// resolucion en vez de la original. Clave para el rendimiento en TV Box
@@ -1070,6 +1092,7 @@ class _Artwork extends StatelessWidget {
     return CachedNetworkImage(
       imageUrl: url!,
       fit: fit,
+      alignment: alignment,
       memCacheWidth: cacheWidth,
       fadeInDuration: const Duration(milliseconds: 200),
       placeholder: (_, _) => const _ArtworkFallback(),
