@@ -59,15 +59,13 @@ class _HourTvLivePageState extends State<HourTvLivePage> {
     });
   }
 
-  /// Back por capas dentro de En Vivo: si estas viendo un canal a pantalla
-  /// completa (extendido), el primer back abre la guia; estando en la guia,
-  /// devuelve false para que el shell te lleve al rail/Inicio.
+  /// Back por capas dentro de En Vivo: si la guia esta abierta, el back la
+  /// CIERRA (te deja en pantalla completa) y no deja que el shell siga;
+  /// con la guia ya cerrada, devuelve false para que el shell te lleve al
+  /// rail.
   bool _handleBack() {
-    if (showGuide) return false;
-    setState(() {
-      showGuide = true;
-      guideIndex = widget.channels.indexOf(current);
-    });
+    if (!showGuide) return false;
+    setState(() => showGuide = false);
     return true;
   }
 
@@ -359,63 +357,75 @@ class _HourTvLivePageState extends State<HourTvLivePage> {
             left: 38,
             right: 38,
             bottom: 34,
-            child: Row(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        current.displayName,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 30,
-                          fontWeight: FontWeight.w900,
-                        ),
-                      ),
-                      const SizedBox(height: 6),
-                      Text(
-                        _currentTitle(current),
-                        style: const TextStyle(
-                          color: Colors.white70,
-                          fontSize: 16,
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-                      _ProgramProgress(channel: current),
-                      const SizedBox(height: 8),
-                      Text(
-                        'A continuación: ${_nextTitle(current)}',
-                        style: const TextStyle(color: _muted, fontSize: 13),
-                      ),
-                    ],
+                Text(
+                  current.displayName,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 30,
+                    fontWeight: FontWeight.w900,
                   ),
                 ),
-                const SizedBox(width: 30),
-                FilledButton.icon(
-                  autofocus: true,
-                  onPressed: () => setState(() => showGuide = true),
-                  style: FilledButton.styleFrom(
-                    backgroundColor: _red,
-                    minimumSize: const Size(160, 52),
-                  ),
-                  icon: const Icon(Icons.list_alt_rounded),
-                  label: const Text(
-                    'Ver guía',
-                    style: TextStyle(fontWeight: FontWeight.w800),
+                const SizedBox(height: 6),
+                Text(
+                  _currentTitle(current),
+                  style: const TextStyle(color: Colors.white70, fontSize: 16),
+                ),
+                const SizedBox(height: 12),
+                SizedBox(
+                  width: 420,
+                  child: _ProgramProgress(channel: current),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  'A continuación: ${_nextTitle(current)}',
+                  style: const TextStyle(color: _muted, fontSize: 13),
+                ),
+                const SizedBox(height: 14),
+                // Sin boton clickeable: todo se maneja por control, como en
+                // el diseño original (hint dinamico segun el estado).
+                Text(
+                  '↑ ↓ cambiar canal   •   OK para ver la guía',
+                  style: TextStyle(
+                    color: _muted,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: .2,
                   ),
                 ),
               ],
             ),
           ),
-          if (showGuide)
-            Positioned.fill(
-              child: ColoredBox(
-                color: const Color(0xF0000000),
+          // Guia como panel deslizante angosto desde la izquierda (como
+          // Pluto/Netflix), con el video detras atenuado, NO tapado del todo.
+          IgnorePointer(
+            ignoring: !showGuide,
+            child: AnimatedOpacity(
+              opacity: showGuide ? 1 : 0,
+              duration: const Duration(milliseconds: 200),
+              child: GestureDetector(
+                onTap: () => setState(() => showGuide = false),
+                child: Container(color: const Color(0x80000000)),
+              ),
+            ),
+          ),
+          AnimatedPositioned(
+            duration: const Duration(milliseconds: 250),
+            curve: Curves.easeOutCubic,
+            left: showGuide ? 0 : -380,
+            top: 0,
+            bottom: 0,
+            width: 380,
+            child: IgnorePointer(
+              ignoring: !showGuide,
+              child: Container(
+                color: const Color(0xF20B0B0D),
                 child: SafeArea(
                   child: Padding(
-                    padding: const EdgeInsets.all(32),
+                    padding: const EdgeInsets.all(24),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -423,16 +433,16 @@ class _HourTvLivePageState extends State<HourTvLivePage> {
                           'Guía de canales',
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: 30,
+                            fontSize: 26,
                             fontWeight: FontWeight.w900,
                           ),
                         ),
                         const SizedBox(height: 6),
                         const Text(
-                          '↑ ↓ para navegar  •  OK para ver  •  Atrás para cerrar',
-                          style: TextStyle(color: _muted),
+                          '↑ ↓ navegar  •  OK ver  •  Atrás cerrar',
+                          style: TextStyle(color: _muted, fontSize: 12),
                         ),
-                        const SizedBox(height: 20),
+                        const SizedBox(height: 18),
                         Expanded(
                           child: ListView.builder(
                             itemCount: widget.channels.length,
@@ -455,6 +465,7 @@ class _HourTvLivePageState extends State<HourTvLivePage> {
                 ),
               ),
             ),
+          ),
         ],
       ),
     );
@@ -525,6 +536,19 @@ class _PlayerSurface extends StatelessWidget {
                 ),
               ),
             ),
+            // En TV el texto vive a la izquierda: oscurece ese lado y deja el
+            // derecho mas limpio, como en el diseño original.
+            if (tv)
+              const DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                    colors: [Color(0xCC000000), Colors.transparent],
+                    stops: [0, 0.6],
+                  ),
+                ),
+              ),
             if (!tv) Positioned(left: 14, top: 14, child: const _LiveBadge()),
             if (!tv)
               Positioned(

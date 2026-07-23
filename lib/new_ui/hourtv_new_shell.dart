@@ -41,11 +41,19 @@ class _HourTvNewShellState extends State<HourTvNewShell> {
   // al abrir el menu lateral en el TV.
   bool _railHoverRaw = false;
   bool _railFocusRaw = false;
-  final ValueNotifier<bool> _railExpanded = ValueNotifier(false);
+  // expanded: ancho grande (iconos+texto). hidden: el rail desaparece del
+  // todo (ancho 0) mientras ves En Vivo a pantalla completa, como en el
+  // diseño original -> reaparece solo cuando el foco vuelve al rail.
+  final ValueNotifier<({bool expanded, bool hidden})> _railVisual =
+      ValueNotifier((expanded: false, hidden: false));
   bool get _railFocused => _railFocusRaw;
-  // Nodo de foco del item ACTUAL del rail: el back "de más" lleva el foco aqui
-  // (a la seccion en la que estas), no a Inicio.
-  final FocusNode _railFocusNode = FocusNode(debugLabel: 'railCurrent');
+  // Un FocusNode FIJO por seccion (nunca se reasigna): reusar un solo nodo
+  // "actual" y reencadenarlo entre items causaba nodos fantasma con foco
+  // (dos items resaltados a la vez, foco que no se movia bien). El back "de
+  // mas" pide foco al nodo de la seccion en la que estas, no a Inicio.
+  final Map<_Section, FocusNode> _railFocusNodes = {
+    for (final s in _Section.values) s: FocusNode(debugLabel: 'rail-$s'),
+  };
 
   @override
   void initState() {
@@ -64,19 +72,28 @@ class _HourTvNewShellState extends State<HourTvNewShell> {
   @override
   void dispose() {
     store.removeListener(_refresh);
-    _railFocusNode.dispose();
-    _railExpanded.dispose();
+    for (final node in _railFocusNodes.values) {
+      node.dispose();
+    }
+    _railVisual.dispose();
     super.dispose();
+  }
+
+  void _updateRailVisual() {
+    _railVisual.value = (
+      expanded: _railHoverRaw || _railFocusRaw,
+      hidden: section == _Section.live && !_railFocusRaw,
+    );
   }
 
   void _onRailHover(bool value) {
     _railHoverRaw = value;
-    _railExpanded.value = _railHoverRaw || _railFocusRaw;
+    _updateRailVisual();
   }
 
   void _onRailFocus(bool value) {
     _railFocusRaw = value;
-    _railExpanded.value = _railHoverRaw || _railFocusRaw;
+    _updateRailVisual();
   }
 
   void _refresh() {
@@ -132,7 +149,7 @@ class _HourTvNewShellState extends State<HourTvNewShell> {
       // TV/tablet/desktop: el back "de más" lleva el foco al rail en la MISMA
       // seccion (no redirige a Inicio). Estando ya en el rail, sale de la app.
       if (!_railFocused) {
-        _railFocusNode.requestFocus();
+        _railFocusNodes[section]!.requestFocus();
         return;
       }
       SystemNavigator.pop();
@@ -173,12 +190,15 @@ class _HourTvNewShellState extends State<HourTvNewShell> {
                 children: [
                   _SideRail(
                     current: section,
-                    expandedListenable: _railExpanded,
+                    visualListenable: _railVisual,
                     tv: tv,
-                    currentFocusNode: _railFocusNode,
+                    focusNodes: _railFocusNodes,
                     onHover: _onRailHover,
                     onRailFocus: _onRailFocus,
-                    onSelect: (value) => setState(() => section = value),
+                    onSelect: (value) => setState(() {
+                      section = value;
+                      _updateRailVisual();
+                    }),
                   ),
                   Expanded(child: body),
                 ],
@@ -296,9 +316,9 @@ class _BootLoading extends StatelessWidget {
 class _SideRail extends StatelessWidget {
   const _SideRail({
     required this.current,
-    required this.expandedListenable,
+    required this.visualListenable,
     required this.tv,
-    required this.currentFocusNode,
+    required this.focusNodes,
     required this.onHover,
     required this.onRailFocus,
     required this.onSelect,
@@ -307,10 +327,12 @@ class _SideRail extends StatelessWidget {
   final _Section current;
   // ValueListenable en vez de bool: el hover/foco solo repinta este widget,
   // no el resto de la pantalla (grillas de posters), evitando el traba al
-  // abrir el rail.
-  final ValueListenable<bool> expandedListenable;
+  // abrir el rail. "hidden" lo esconde del todo en En Vivo a pantalla
+  // completa, como en el diseño original.
+  final ValueListenable<({bool expanded, bool hidden})> visualListenable;
   final bool tv;
-  final FocusNode currentFocusNode;
+  // Nodo FIJO por seccion (nunca se reasigna entre items).
+  final Map<_Section, FocusNode> focusNodes;
   final ValueChanged<bool> onHover;
   final ValueChanged<bool> onRailFocus;
   final ValueChanged<_Section> onSelect;
@@ -327,72 +349,88 @@ class _SideRail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder<bool>(
-      valueListenable: expandedListenable,
-      builder: (context, expanded, _) {
+    return ValueListenableBuilder<({bool expanded, bool hidden})>(
+      valueListenable: visualListenable,
+      builder: (context, visual, _) {
         // Colapsado a iconos (88); se EXPANDE (208) cuando el foco del control
         // entra al rail (TV) o el mouse pasa encima. Como en el prototipo.
-        final width = expanded ? 208.0 : 88.0;
+        // "hidden" lo colapsa a 0: en En Vivo a pantalla completa el rail
+        // desaparece del todo y solo vuelve cuando el foco regresa a el.
+        final expanded = visual.expanded;
+        final width = visual.hidden ? 0.0 : (expanded ? 208.0 : 88.0);
         return MouseRegion(
           onEnter: (_) => onHover(true),
           onExit: (_) => onHover(false),
-          child: AnimatedContainer(
-            duration: const Duration(milliseconds: 220),
-            curve: Curves.easeOutCubic,
-            width: width,
-            decoration: const BoxDecoration(
-              color: Color(0xFF070708),
-              border: Border(right: BorderSide(color: _line)),
-            ),
-            // Detecta cuando el foco (D-pad) entra/sale de cualquier item del
-            // rail para expandir/colapsar. No es enfocable en si mismo.
-            child: Focus(
-              canRequestFocus: false,
-              skipTraversal: true,
-              onFocusChange: onRailFocus,
-              child: SafeArea(
-                child: Padding(
-                  padding: EdgeInsets.fromLTRB(
-                    expanded ? 20 : 14,
-                    22,
-                    14,
-                    18,
-                  ),
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 72,
-                        child: Align(
-                          // Centrado siempre, expandido o colapsado.
-                          alignment: Alignment.center,
-                          child: HourTvLogo(height: expanded ? 54 : 42),
-                        ),
+          child: IgnorePointer(
+            ignoring: visual.hidden,
+            child: AnimatedOpacity(
+              opacity: visual.hidden ? 0 : 1,
+              duration: const Duration(milliseconds: 200),
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 220),
+                curve: Curves.easeOutCubic,
+                width: width,
+                decoration: const BoxDecoration(
+                  color: Color(0xFF070708),
+                  border: Border(right: BorderSide(color: _line)),
+                ),
+                // Detecta cuando el foco (D-pad) entra/sale de cualquier item
+                // del rail para expandir/colapsar. No es enfocable en si mismo.
+                child: Focus(
+                  canRequestFocus: false,
+                  skipTraversal: true,
+                  onFocusChange: onRailFocus,
+                  child: SafeArea(
+                    child: Padding(
+                      padding: EdgeInsets.fromLTRB(
+                        expanded ? 20 : 14,
+                        22,
+                        14,
+                        18,
                       ),
-                      const SizedBox(height: 12),
-                      for (final entry in entries) ...[
-                        _RailItem(
-                          icon: entry.$2,
-                          label: entry.$3,
-                          selected: current == entry.$1,
-                          showLabel: expanded,
-                          autofocus: tv && current == entry.$1,
-                          focusNode: current == entry.$1
-                              ? currentFocusNode
-                              : null,
-                          onTap: () => onSelect(entry.$1),
-                        ),
-                        const SizedBox(height: 8),
-                      ],
-                      const Spacer(),
-                      if (expanded)
-                        const Text(
-                          'HOURTV  •  ENTRETENIMIENTO SIN LÍMITES',
-                          style: TextStyle(
-                            color: Color(0xFF55555E),
-                            fontSize: 8.5,
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: 72,
+                            child: Align(
+                              // Centrado siempre, expandido o colapsado.
+                              alignment: Alignment.center,
+                              child: HourTvLogo(height: expanded ? 54 : 42),
+                            ),
                           ),
-                        ),
-                    ],
+                          const SizedBox(height: 12),
+                          for (final entry in entries) ...[
+                            _RailItem(
+                              icon: entry.$2,
+                              label: entry.$3,
+                              selected: current == entry.$1,
+                              showLabel: expanded,
+                              // En Vivo roba el foco el mismo (pantalla
+                              // completa); si tambien autofocamos aqui se
+                              // pelean los dos requestFocus() y el rail nunca
+                              // se oculta. El regreso desde En Vivo ya pide
+                              // foco explicito en _handleBack().
+                              autofocus:
+                                  tv &&
+                                  current == entry.$1 &&
+                                  current != _Section.live,
+                              focusNode: focusNodes[entry.$1],
+                              onTap: () => onSelect(entry.$1),
+                            ),
+                            const SizedBox(height: 8),
+                          ],
+                          const Spacer(),
+                          if (expanded)
+                            const Text(
+                              'HOURTV  •  ENTRETENIMIENTO SIN LÍMITES',
+                              style: TextStyle(
+                                color: Color(0xFF55555E),
+                                fontSize: 8.5,
+                              ),
+                            ),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -1740,24 +1778,16 @@ class PreviewCatalog {
       .map((item) => item.copyWith(forcedType: 'series'))
       .toList();
 
+  // Canal real de ejemplo (lista publica tdtchannels) para ver como se ve
+  // En Vivo con contenido real en vez de datos de mentira.
   static final live = <Channel>[
-    item(
-      'HourTV Noticias',
-      'https://images.unsplash.com/photo-1495020689067-958852a7765e?q=80&w=600&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1495020689067-958852a7765e?q=80&w=1200&auto=format&fit=crop',
-      genre: 'Noticias',
-    ).copyWith(forcedType: 'live'),
-    item(
-      'HourTV Deportes',
-      'https://images.unsplash.com/photo-1517649763962-0c623066013b?q=80&w=600&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1517649763962-0c623066013b?q=80&w=1200&auto=format&fit=crop',
-      genre: 'Deportes',
-    ).copyWith(forcedType: 'live'),
-    item(
-      'HourTV Cine',
-      'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=600&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=1200&auto=format&fit=crop',
-      genre: 'Cine',
-    ).copyWith(forcedType: 'live'),
+    Channel(
+      name: 'La 1',
+      url: 'https://rtvelivestream.rtve.es/rtvesec/la1/la1_main_dvr.m3u8',
+      logo:
+          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKAkEfk96B4C3wdml0A6_Ewv8zhsVAj2AVDSLpS34DMw&s',
+      group: 'Generalistas',
+      tvgName: 'La 1',
+    ),
   ];
 }
