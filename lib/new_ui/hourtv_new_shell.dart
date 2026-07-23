@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -32,10 +33,16 @@ class HourTvNewShell extends StatefulWidget {
 class _HourTvNewShellState extends State<HourTvNewShell> {
   final ContentStore store = ContentStore.instance;
   _Section section = _Section.home;
-  bool railHovered = false;
-  bool _railFocused = false;
   bool _loaded = false;
   final LiveBackController _liveBack = LiveBackController();
+  // Hover/foco del rail viven en un ValueNotifier aparte: asi el rail se
+  // expande/colapsa repintando SOLO su propio subarbol, sin reconstruir toda
+  // la seccion (grillas de posters) en cada evento -> evita el traba de ~1-2s
+  // al abrir el menu lateral en el TV.
+  bool _railHoverRaw = false;
+  bool _railFocusRaw = false;
+  final ValueNotifier<bool> _railExpanded = ValueNotifier(false);
+  bool get _railFocused => _railFocusRaw;
   // Nodo de foco del item ACTUAL del rail: el back "de más" lleva el foco aqui
   // (a la seccion en la que estas), no a Inicio.
   final FocusNode _railFocusNode = FocusNode(debugLabel: 'railCurrent');
@@ -58,7 +65,18 @@ class _HourTvNewShellState extends State<HourTvNewShell> {
   void dispose() {
     store.removeListener(_refresh);
     _railFocusNode.dispose();
+    _railExpanded.dispose();
     super.dispose();
+  }
+
+  void _onRailHover(bool value) {
+    _railHoverRaw = value;
+    _railExpanded.value = _railHoverRaw || _railFocusRaw;
+  }
+
+  void _onRailFocus(bool value) {
+    _railFocusRaw = value;
+    _railExpanded.value = _railHoverRaw || _railFocusRaw;
   }
 
   void _refresh() {
@@ -155,12 +173,11 @@ class _HourTvNewShellState extends State<HourTvNewShell> {
                 children: [
                   _SideRail(
                     current: section,
-                    expanded: railHovered || _railFocused,
+                    expandedListenable: _railExpanded,
                     tv: tv,
                     currentFocusNode: _railFocusNode,
-                    onHover: (value) => setState(() => railHovered = value),
-                    onRailFocus: (value) =>
-                        setState(() => _railFocused = value),
+                    onHover: _onRailHover,
+                    onRailFocus: _onRailFocus,
                     onSelect: (value) => setState(() => section = value),
                   ),
                   Expanded(child: body),
@@ -279,7 +296,7 @@ class _BootLoading extends StatelessWidget {
 class _SideRail extends StatelessWidget {
   const _SideRail({
     required this.current,
-    required this.expanded,
+    required this.expandedListenable,
     required this.tv,
     required this.currentFocusNode,
     required this.onHover,
@@ -288,7 +305,10 @@ class _SideRail extends StatelessWidget {
   });
 
   final _Section current;
-  final bool expanded;
+  // ValueListenable en vez de bool: el hover/foco solo repinta este widget,
+  // no el resto de la pantalla (grillas de posters), evitando el traba al
+  // abrir el rail.
+  final ValueListenable<bool> expandedListenable;
   final bool tv;
   final FocusNode currentFocusNode;
   final ValueChanged<bool> onHover;
@@ -307,65 +327,79 @@ class _SideRail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Colapsado a iconos (88); se EXPANDE (208) cuando el foco del control
-    // entra al rail (TV) o el mouse pasa encima. Como en el prototipo.
-    final width = expanded ? 208.0 : 88.0;
-    return MouseRegion(
-      onEnter: (_) => onHover(true),
-      onExit: (_) => onHover(false),
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 220),
-        curve: Curves.easeOutCubic,
-        width: width,
-        decoration: const BoxDecoration(
-          color: Color(0xFF070708),
-          border: Border(right: BorderSide(color: _line)),
-        ),
-        // Detecta cuando el foco (D-pad) entra/sale de cualquier item del rail
-        // para expandir/colapsar. No es enfocable en si mismo.
-        child: Focus(
-          canRequestFocus: false,
-          skipTraversal: true,
-          onFocusChange: onRailFocus,
-          child: SafeArea(
-            child: Padding(
-              padding: EdgeInsets.fromLTRB(expanded ? 20 : 14, 22, 14, 18),
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 72,
-                    child: Align(
-                      alignment: expanded
-                          ? Alignment.centerLeft
-                          : Alignment.center,
-                      child: HourTvLogo(height: expanded ? 54 : 42),
-                    ),
+    return ValueListenableBuilder<bool>(
+      valueListenable: expandedListenable,
+      builder: (context, expanded, _) {
+        // Colapsado a iconos (88); se EXPANDE (208) cuando el foco del control
+        // entra al rail (TV) o el mouse pasa encima. Como en el prototipo.
+        final width = expanded ? 208.0 : 88.0;
+        return MouseRegion(
+          onEnter: (_) => onHover(true),
+          onExit: (_) => onHover(false),
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 220),
+            curve: Curves.easeOutCubic,
+            width: width,
+            decoration: const BoxDecoration(
+              color: Color(0xFF070708),
+              border: Border(right: BorderSide(color: _line)),
+            ),
+            // Detecta cuando el foco (D-pad) entra/sale de cualquier item del
+            // rail para expandir/colapsar. No es enfocable en si mismo.
+            child: Focus(
+              canRequestFocus: false,
+              skipTraversal: true,
+              onFocusChange: onRailFocus,
+              child: SafeArea(
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(
+                    expanded ? 20 : 14,
+                    22,
+                    14,
+                    18,
                   ),
-                  const SizedBox(height: 12),
-                  for (final entry in entries) ...[
-                    _RailItem(
-                      icon: entry.$2,
-                      label: entry.$3,
-                      selected: current == entry.$1,
-                      showLabel: expanded,
-                      autofocus: tv && current == entry.$1,
-                      focusNode: current == entry.$1 ? currentFocusNode : null,
-                      onTap: () => onSelect(entry.$1),
-                    ),
-                    const SizedBox(height: 8),
-                  ],
-                  const Spacer(),
-                  if (expanded)
-                    const Text(
-                      'HOURTV  •  ENTRETENIMIENTO SIN LÍMITES',
-                      style: TextStyle(color: Color(0xFF55555E), fontSize: 8.5),
-                    ),
-                ],
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 72,
+                        child: Align(
+                          // Centrado siempre, expandido o colapsado.
+                          alignment: Alignment.center,
+                          child: HourTvLogo(height: expanded ? 54 : 42),
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      for (final entry in entries) ...[
+                        _RailItem(
+                          icon: entry.$2,
+                          label: entry.$3,
+                          selected: current == entry.$1,
+                          showLabel: expanded,
+                          autofocus: tv && current == entry.$1,
+                          focusNode: current == entry.$1
+                              ? currentFocusNode
+                              : null,
+                          onTap: () => onSelect(entry.$1),
+                        ),
+                        const SizedBox(height: 8),
+                      ],
+                      const Spacer(),
+                      if (expanded)
+                        const Text(
+                          'HOURTV  •  ENTRETENIMIENTO SIN LÍMITES',
+                          style: TextStyle(
+                            color: Color(0xFF55555E),
+                            fontSize: 8.5,
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
               ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }
