@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-07-22T23:56:04.217Z",
+  "lastRunAt": "2026-07-23T02:11:59.750Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     1108427,
@@ -10,6 +10,7 @@
     1081003,
     1315772,
     1084244,
+    454639,
     1228710,
     1314481,
     1368314,
@@ -18,7 +19,6 @@
     1304313,
     1318447,
     1301421,
-    454639,
     1007757,
     1595852,
     1212763,
@@ -73,6 +73,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 454639,
+      "title": "He-Man y los masters del universo",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1228710,
       "title": "The Mandalorian and Grogu",
       "reason": "Sin fuente autorizada configurada"
@@ -110,11 +115,6 @@
     {
       "tmdbId": 1301421,
       "title": "Las ovejas detectives",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 454639,
-      "title": "He-Man y los masters del universo",
       "reason": "Sin fuente autorizada configurada"
     },
     {

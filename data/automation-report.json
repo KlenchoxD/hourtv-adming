@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-07-22T23:56:03.409Z",
-  "durationMs": 813,
+  "generatedAt": "2026-07-23T02:11:58.378Z",
+  "durationMs": 1377,
   "dryRun": false,
   "moviesFound": 30,
   "moviesDiscarded": 28,
@@ -48,6 +48,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 454639,
+      "title": "He-Man y los masters del universo",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1228710,
       "title": "The Mandalorian and Grogu",
       "reason": "Sin fuente autorizada configurada"
@@ -85,11 +90,6 @@
     {
       "tmdbId": 1301421,
       "title": "Las ovejas detectives",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 454639,
-      "title": "He-Man y los masters del universo",
       "reason": "Sin fuente autorizada configurada"
     },
     {
