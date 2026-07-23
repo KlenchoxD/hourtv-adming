@@ -36,6 +36,9 @@ class _HourTvNewShellState extends State<HourTvNewShell> {
   bool _railFocused = false;
   bool _loaded = false;
   final LiveBackController _liveBack = LiveBackController();
+  // Nodo de foco del item ACTUAL del rail: el back "de más" lleva el foco aqui
+  // (a la seccion en la que estas), no a Inicio.
+  final FocusNode _railFocusNode = FocusNode(debugLabel: 'railCurrent');
 
   @override
   void initState() {
@@ -54,6 +57,7 @@ class _HourTvNewShellState extends State<HourTvNewShell> {
   @override
   void dispose() {
     store.removeListener(_refresh);
+    _railFocusNode.dispose();
     super.dispose();
   }
 
@@ -105,12 +109,23 @@ class _HourTvNewShellState extends State<HourTvNewShell> {
     }
     // 2. La seccion actual puede consumir el back (En Vivo: salir de extendido).
     if (section == _Section.live && _liveBack.handleBack()) return;
-    // 3. En una seccion distinta a Inicio -> volver a Inicio/rail.
+
+    if (!DeviceProfile.isPhone(context)) {
+      // TV/tablet/desktop: el back "de más" lleva el foco al rail en la MISMA
+      // seccion (no redirige a Inicio). Estando ya en el rail, sale de la app.
+      if (!_railFocused) {
+        _railFocusNode.requestFocus();
+        return;
+      }
+      SystemNavigator.pop();
+      return;
+    }
+
+    // 3. Telefono (sin rail): capas por seccion -> Inicio -> salir.
     if (section != _Section.home) {
       setState(() => section = _Section.home);
       return;
     }
-    // 4. Ya en Inicio sin nada abierto -> salir de la app.
     SystemNavigator.pop();
   }
 
@@ -142,6 +157,7 @@ class _HourTvNewShellState extends State<HourTvNewShell> {
                     current: section,
                     expanded: railHovered || _railFocused,
                     tv: tv,
+                    currentFocusNode: _railFocusNode,
                     onHover: (value) => setState(() => railHovered = value),
                     onRailFocus: (value) =>
                         setState(() => _railFocused = value),
@@ -265,6 +281,7 @@ class _SideRail extends StatelessWidget {
     required this.current,
     required this.expanded,
     required this.tv,
+    required this.currentFocusNode,
     required this.onHover,
     required this.onRailFocus,
     required this.onSelect,
@@ -273,6 +290,7 @@ class _SideRail extends StatelessWidget {
   final _Section current;
   final bool expanded;
   final bool tv;
+  final FocusNode currentFocusNode;
   final ValueChanged<bool> onHover;
   final ValueChanged<bool> onRailFocus;
   final ValueChanged<_Section> onSelect;
@@ -331,6 +349,7 @@ class _SideRail extends StatelessWidget {
                       selected: current == entry.$1,
                       showLabel: expanded,
                       autofocus: tv && current == entry.$1,
+                      focusNode: current == entry.$1 ? currentFocusNode : null,
                       onTap: () => onSelect(entry.$1),
                     ),
                     const SizedBox(height: 8),
@@ -359,6 +378,7 @@ class _RailItem extends StatefulWidget {
     required this.showLabel,
     required this.onTap,
     this.autofocus = false,
+    this.focusNode,
   });
   final IconData icon;
   final String label;
@@ -366,6 +386,7 @@ class _RailItem extends StatefulWidget {
   final bool showLabel;
   final VoidCallback onTap;
   final bool autofocus;
+  final FocusNode? focusNode;
 
   @override
   State<_RailItem> createState() => _RailItemState();
@@ -395,6 +416,7 @@ class _RailItemState extends State<_RailItem> {
       child: TvFocusable(
         onTap: widget.onTap,
         autofocus: widget.autofocus,
+        focusNode: widget.focusNode,
         decorated: false,
         scale: 1.0,
         borderRadius: BorderRadius.circular(14),
@@ -940,6 +962,91 @@ class _CatalogPage extends StatefulWidget {
 class _CatalogPageState extends State<_CatalogPage> {
   String query = '';
 
+  /// Layout de búsqueda para TV: teclado a la izquierda y resultados a la
+  /// derecha, ambos visibles a la vez (como Netflix).
+  Widget _buildTvSearch(List<Channel> filtered) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Izquierda: título + teclado en pantalla.
+        SizedBox(
+          width: 424,
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.fromLTRB(30, 34, 24, 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  widget.title,
+                  style: GoogleFonts.inter(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w900,
+                    fontSize: 34,
+                    letterSpacing: -1,
+                  ),
+                ),
+                if (widget.subtitle != null) ...[
+                  const SizedBox(height: 5),
+                  Text(widget.subtitle!, style: const TextStyle(color: _muted)),
+                ],
+                const SizedBox(height: 16),
+                _TvSearchKeyboard(
+                  query: query,
+                  onChanged: (value) => setState(() => query = value),
+                ),
+              ],
+            ),
+          ),
+        ),
+        // Derecha: grid de resultados con su propio scroll.
+        Expanded(
+          child: filtered.isEmpty
+              ? _EmptyState(message: widget.emptyMessage)
+              : Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 34, 30, 20),
+                  child: LayoutBuilder(
+                    builder: (context, constraints) {
+                      const columns = 4;
+                      const gap = 14.0;
+                      final cardWidth =
+                          (constraints.maxWidth - gap * (columns - 1)) /
+                          columns;
+                      final imageHeight = cardWidth * 1.5;
+                      final aspect = cardWidth / (imageHeight + 27);
+                      return GridView.builder(
+                        padding: EdgeInsets.zero,
+                        itemCount: filtered.length,
+                        gridDelegate:
+                            SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: columns,
+                              crossAxisSpacing: gap,
+                              mainAxisSpacing: 20,
+                              childAspectRatio: aspect,
+                            ),
+                        itemBuilder: (context, index) {
+                          final item = filtered[index];
+                          return _MediaCard(
+                            channel: item,
+                            width: double.infinity,
+                            imageHeight: imageHeight,
+                            landscape: false,
+                            onTap: () => _open(
+                              context,
+                              item,
+                              widget.store,
+                              widget.preview,
+                            ),
+                          );
+                        },
+                      );
+                    },
+                  ),
+                ),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final filtered = widget.items
@@ -948,6 +1055,11 @@ class _CatalogPageState extends State<_CatalogPage> {
               item.displayName.toLowerCase().contains(query.toLowerCase()),
         )
         .toList();
+    // Búsqueda en TV: teclado a la izquierda + pósters a la derecha (estilo
+    // Netflix), ambos visibles sin tener que bajar.
+    if (widget.title == 'Buscar' && widget.tv) {
+      return _buildTvSearch(filtered);
+    }
     final columns = widget.phone
         ? 3
         : (widget.tablet ? 4 : (widget.tv ? 6 : 5));
@@ -1053,6 +1165,148 @@ class _CatalogPageState extends State<_CatalogPage> {
             ),
           ),
       ],
+    );
+  }
+}
+
+/// Teclado en pantalla para búsqueda en TV: navegable con el control (D-pad),
+/// sin depender del IME del sistema. Reporta el texto al padre.
+class _TvSearchKeyboard extends StatelessWidget {
+  const _TvSearchKeyboard({required this.query, required this.onChanged});
+
+  final String query;
+  final ValueChanged<String> onChanged;
+
+  static const _rows = <String>[
+    'ABCDEFG',
+    'HIJKLMN',
+    'OPQRSTU',
+    'VWXYZ01',
+    '2345678',
+  ];
+
+  void _type(String ch) => onChanged(query + ch);
+  void _back() => onChanged(
+    query.isEmpty ? '' : query.substring(0, query.length - 1),
+  );
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Lo que se va escribiendo.
+        Container(
+          width: 372,
+          height: 46,
+          alignment: Alignment.centerLeft,
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          decoration: BoxDecoration(
+            color: _surface,
+            borderRadius: BorderRadius.circular(14),
+            border: Border.all(color: _line),
+          ),
+          child: Row(
+            children: [
+              const Icon(Icons.search_rounded, color: _muted, size: 20),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Text(
+                  query.isEmpty ? 'Escribe con el control…' : query,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: query.isEmpty ? _muted : Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 12),
+        for (var r = 0; r < _rows.length; r++) ...[
+          Row(
+            children: [
+              for (final ch in _rows[r].split('')) ...[
+                _KeyCap(
+                  label: ch,
+                  autofocus: r == 0 && ch == 'A',
+                  onTap: () => _type(ch),
+                ),
+                const SizedBox(width: 6),
+              ],
+            ],
+          ),
+          const SizedBox(height: 6),
+        ],
+        Row(
+          children: [
+            _KeyCap(label: 'Espacio', wide: true, onTap: () => _type(' ')),
+            const SizedBox(width: 6),
+            _KeyCap(icon: Icons.backspace_outlined, onTap: _back),
+            const SizedBox(width: 6),
+            _KeyCap(icon: Icons.close_rounded, onTap: () => onChanged('')),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+class _KeyCap extends StatefulWidget {
+  const _KeyCap({
+    this.label,
+    this.icon,
+    this.wide = false,
+    this.autofocus = false,
+    required this.onTap,
+  });
+
+  final String? label;
+  final IconData? icon;
+  final bool wide;
+  final bool autofocus;
+  final VoidCallback onTap;
+
+  @override
+  State<_KeyCap> createState() => _KeyCapState();
+}
+
+class _KeyCapState extends State<_KeyCap> {
+  bool _focused = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return TvFocusable(
+      onTap: widget.onTap,
+      autofocus: widget.autofocus,
+      decorated: false,
+      scale: 1.12,
+      borderRadius: BorderRadius.circular(10),
+      onFocusChange: (value) => setState(() => _focused = value),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 110),
+        width: widget.wide ? 96 : 38,
+        height: 38,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: _focused ? _red : _surface,
+          borderRadius: BorderRadius.circular(9),
+          border: Border.all(color: _focused ? _red : _line),
+        ),
+        child: widget.icon != null
+            ? Icon(widget.icon, color: Colors.white, size: 18)
+            : Text(
+                widget.label!,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w700,
+                  fontSize: widget.wide ? 13 : 15,
+                ),
+              ),
+      ),
     );
   }
 }
