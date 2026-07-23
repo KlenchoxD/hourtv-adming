@@ -407,9 +407,12 @@ class _RailItemState extends State<_RailItem> {
     final Color bg = _focused
         ? _red
         : (_hovered ? const Color(0xFF1E1E23) : Colors.transparent);
+    // El ROJO es solo para el item enfocado (el selector que se mueve con el
+    // control). La seccion actual, cuando el foco esta en otro lado, se marca
+    // en blanco -> nunca se ven dos "seleccionados" a la vez.
     final Color fg = _focused
         ? Colors.white
-        : (widget.selected ? _red : _muted);
+        : (widget.selected ? Colors.white : _muted);
     return MouseRegion(
       onEnter: (_) => setState(() => _hovered = true),
       onExit: (_) => setState(() => _hovered = false),
