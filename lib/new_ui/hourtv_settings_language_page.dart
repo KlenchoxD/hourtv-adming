@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../services/storage_service.dart';
-
-const _red = Color(0xFFF20A1A);
-const _black = Color(0xFF050505);
-const _surface = Color(0xFF101012);
-const _line = Color(0xFF25252A);
-const _muted = Color(0xFFA6A6B0);
+import 'hourtv_settings_kit.dart';
 
 /// Claves de preferencias reales (leidas por el reproductor):
 /// - preferredAudioLanguage: 'es' | 'en' | 'auto'. Si la fuente ofrece varias
@@ -66,229 +61,59 @@ class _HourTvLanguageSettingsPageState
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: _black,
-      appBar: AppBar(
-        backgroundColor: _black,
-        surfaceTintColor: Colors.transparent,
-        leading: IconButton(
-          onPressed: () => Navigator.pop(context),
-          icon: const Icon(Icons.arrow_back_rounded),
-        ),
-        title: const Text(
-          'Idioma y subtítulos',
-          style: TextStyle(fontWeight: FontWeight.w900),
-        ),
-      ),
-      body: Center(
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 780),
-          child: ListView(
-            padding: const EdgeInsets.fromLTRB(16, 12, 16, 40),
-            children: [
-              _sectionTitle('Audio'),
-              for (final option in _languages)
-                _ChoiceRow(
-                  title: option.$2,
-                  selected: audioLanguage == option.$1,
-                  onTap: () {
-                    setState(() => audioLanguage = option.$1);
-                    StorageService.saveSetting(
-                      'preferredAudioLanguage',
-                      option.$1,
-                    );
-                  },
-                ),
-              const Padding(
-                padding: EdgeInsets.fromLTRB(4, 8, 4, 20),
-                child: Text(
-                  'Si el canal o película ofrece esa pista de audio, se '
-                  'selecciona automáticamente al reproducir.',
-                  style: TextStyle(color: _muted, fontSize: 12),
-                ),
-              ),
-              _sectionTitle('Subtítulos'),
-              const Padding(
-                padding: EdgeInsets.fromLTRB(4, 0, 4, 10),
-                child: Text(
-                  'Tamaño y estilo de letra',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
-              Row(
-                children: [
-                  for (final size in _sizes) ...[
-                    Expanded(
-                      child: _SizeChip(
-                        label: size.$2,
-                        selected: subtitleScale == size.$1,
-                        scale: size.$1,
-                        onTap: () {
-                          setState(() => subtitleScale = size.$1);
-                          StorageService.saveSetting(
-                            'subtitleFontScale',
-                            size.$1,
-                          );
-                        },
-                      ),
-                    ),
-                    if (size != _sizes.last) const SizedBox(width: 10),
-                  ],
-                ],
-              ),
-              const SizedBox(height: 10),
-              _ChoiceRow(
-                title: 'Negrita',
-                selected: subtitleBold,
-                onTap: () {
-                  setState(() => subtitleBold = !subtitleBold);
-                  StorageService.saveSetting('subtitleBold', !subtitleBold);
-                },
-                trailingCheckbox: true,
-              ),
-              const Padding(
-                padding: EdgeInsets.fromLTRB(4, 8, 4, 0),
-                child: Text(
-                  'Se aplica cuando el contenido incluye subtítulos. La '
-                  'mayoría de canales en vivo no traen pista de subtítulos.',
-                  style: TextStyle(color: _muted, fontSize: 12),
-                ),
-              ),
-            ],
+    return HourTvSettingsScaffold(
+      title: 'Idioma y subtítulos',
+      children: [
+        const SettingsSectionLabel('Audio'),
+        for (var i = 0; i < _languages.length; i++)
+          SettingsRadioRow(
+            title: _languages[i].$2,
+            selected: audioLanguage == _languages[i].$1,
+            autofocus: i == 0,
+            onTap: () {
+              setState(() => audioLanguage = _languages[i].$1);
+              StorageService.saveSetting(
+                'preferredAudioLanguage',
+                _languages[i].$1,
+              );
+            },
+          ),
+        const Padding(
+          padding: EdgeInsets.fromLTRB(4, 4, 4, 10),
+          child: Text(
+            'Si el canal o película ofrece esa pista de audio, se '
+            'selecciona automáticamente al reproducir.',
+            style: TextStyle(color: kSetMuted, fontSize: 12),
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _sectionTitle(String text) => Padding(
-    padding: const EdgeInsets.fromLTRB(4, 4, 4, 9),
-    child: Text(
-      text.toUpperCase(),
-      style: const TextStyle(
-        color: _muted,
-        fontSize: 11,
-        fontWeight: FontWeight.w800,
-        letterSpacing: 1.1,
-      ),
-    ),
-  );
-}
-
-class _ChoiceRow extends StatelessWidget {
-  const _ChoiceRow({
-    required this.title,
-    required this.selected,
-    required this.onTap,
-    this.trailingCheckbox = false,
-  });
-  final String title;
-  final bool selected;
-  final VoidCallback onTap;
-  final bool trailingCheckbox;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
-      child: Material(
-        color: _surface,
-        borderRadius: BorderRadius.circular(14),
-        child: InkWell(
-          onTap: onTap,
-          borderRadius: BorderRadius.circular(14),
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 14),
-            decoration: BoxDecoration(
-              border: Border.all(color: selected ? _red : _line),
-              borderRadius: BorderRadius.circular(14),
-            ),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    title,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: selected
-                          ? FontWeight.w800
-                          : FontWeight.w600,
-                    ),
-                  ),
-                ),
-                Icon(
-                  trailingCheckbox
-                      ? (selected
-                            ? Icons.check_box_rounded
-                            : Icons.check_box_outline_blank_rounded)
-                      : (selected
-                            ? Icons.radio_button_checked_rounded
-                            : Icons.radio_button_off_rounded),
-                  color: selected ? _red : _muted,
-                ),
-              ],
-            ),
+        const SettingsSectionLabel('Subtítulos'),
+        for (var i = 0; i < _sizes.length; i++)
+          SettingsRadioRow(
+            title: 'Tamaño de letra: ${_sizes[i].$2}',
+            selected: subtitleScale == _sizes[i].$1,
+            onTap: () {
+              setState(() => subtitleScale = _sizes[i].$1);
+              StorageService.saveSetting('subtitleFontScale', _sizes[i].$1);
+            },
+          ),
+        SettingsRadioRow(
+          title: 'Negrita',
+          checkbox: true,
+          selected: subtitleBold,
+          onTap: () {
+            setState(() => subtitleBold = !subtitleBold);
+            StorageService.saveSetting('subtitleBold', !subtitleBold);
+          },
+        ),
+        const Padding(
+          padding: EdgeInsets.fromLTRB(4, 4, 4, 0),
+          child: Text(
+            'Se aplica cuando el contenido incluye subtítulos. La mayoría de '
+            'canales en vivo no traen pista de subtítulos.',
+            style: TextStyle(color: kSetMuted, fontSize: 12),
           ),
         ),
-      ),
-    );
-  }
-}
-
-class _SizeChip extends StatelessWidget {
-  const _SizeChip({
-    required this.label,
-    required this.selected,
-    required this.scale,
-    required this.onTap,
-  });
-  final String label;
-  final bool selected;
-  final double scale;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      color: _surface,
-      borderRadius: BorderRadius.circular(14),
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(14),
-        child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 12),
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            border: Border.all(color: selected ? _red : _line),
-            borderRadius: BorderRadius.circular(14),
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                'Aa',
-                style: TextStyle(
-                  color: selected ? Colors.white : _muted,
-                  fontWeight: FontWeight.w800,
-                  fontSize: 17 * scale,
-                ),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                label,
-                style: TextStyle(
-                  color: selected ? Colors.white : _muted,
-                  fontSize: 11,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
+      ],
     );
   }
 }
