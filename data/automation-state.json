@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-07-24T12:53:50.606Z",
+  "lastRunAt": "2026-07-24T14:47:31.001Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     1275779,
@@ -24,12 +24,12 @@
     1301421,
     1368337,
     1727780,
-    687163,
     1668364,
+    687163,
     1318621,
-    261639,
     969681,
     1523145,
+    1127384,
     1335666
   ],
   "tmdbIdsPublished": [],
@@ -142,24 +142,19 @@
       "reason": "Rating 0 por debajo del mínimo (5.5)"
     },
     {
-      "tmdbId": 687163,
-      "title": "Proyecto Salvación",
+      "tmdbId": 1668364,
+      "title": "Deseo",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1668364,
-      "title": "Deseo",
+      "tmdbId": 687163,
+      "title": "Proyecto Salvación",
       "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1318621,
       "title": "Los Descendientes: viaje al mundo oscuro",
       "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 261639,
-      "title": "尼寺の情事　極楽ＳＥＸ",
-      "reason": "Sin sinopsis"
     },
     {
       "tmdbId": 969681,
@@ -169,6 +164,11 @@
     {
       "tmdbId": 1523145,
       "title": "Tu corazón se romperá",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1127384,
+      "title": "En mar abierto",
       "reason": "Sin fuente autorizada configurada"
     }
   ]

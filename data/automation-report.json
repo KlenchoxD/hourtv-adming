@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-07-24T12:53:48.381Z",
-  "durationMs": 2230,
+  "generatedAt": "2026-07-24T14:47:27.568Z",
+  "durationMs": 3438,
   "dryRun": false,
   "moviesFound": 29,
   "moviesDiscarded": 27,
@@ -118,24 +118,19 @@
       "reason": "Rating 0 por debajo del mínimo (5.5)"
     },
     {
-      "tmdbId": 687163,
-      "title": "Proyecto Salvación",
+      "tmdbId": 1668364,
+      "title": "Deseo",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1668364,
-      "title": "Deseo",
+      "tmdbId": 687163,
+      "title": "Proyecto Salvación",
       "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1318621,
       "title": "Los Descendientes: viaje al mundo oscuro",
       "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 261639,
-      "title": "尼寺の情事　極楽ＳＥＸ",
-      "reason": "Sin sinopsis"
     },
     {
       "tmdbId": 969681,
@@ -145,6 +140,11 @@
     {
       "tmdbId": 1523145,
       "title": "Tu corazón se romperá",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1127384,
+      "title": "En mar abierto",
       "reason": "Sin fuente autorizada configurada"
     }
   ]
