@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-07-24T19:24:26.897Z",
-  "durationMs": 3244,
+  "generatedAt": "2026-07-24T20:44:46.576Z",
+  "durationMs": 563,
   "dryRun": false,
   "moviesFound": 29,
   "moviesDiscarded": 27,
@@ -135,7 +135,7 @@
     {
       "tmdbId": 969681,
       "title": "Spider-Man: Brand New Day",
-      "reason": "Votos 7 por debajo del mínimo (50)"
+      "reason": "Votos 9 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1523145,
