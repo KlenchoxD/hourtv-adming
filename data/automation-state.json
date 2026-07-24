@@ -1,17 +1,17 @@
 {
-  "lastRunAt": "2026-07-24T07:09:46.129Z",
+  "lastRunAt": "2026-07-24T09:31:55.173Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     1275779,
     1108427,
-    1339713,
     1083381,
+    1339713,
     1081003,
     1315772,
-    1273221,
     1084244,
-    1228710,
+    1273221,
     454639,
+    1228710,
     1314481,
     1368314,
     936075,
@@ -20,8 +20,8 @@
     1318447,
     1595852,
     1007757,
-    1301421,
     1212763,
+    1301421,
     1368337,
     1727780,
     687163,
@@ -62,23 +62,23 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1273221,
-      "title": "Scary Movie",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1084244,
       "title": "Toy Story 5",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1228710,
-      "title": "The Mandalorian and Grogu",
+      "tmdbId": 1273221,
+      "title": "Scary Movie",
       "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 454639,
       "title": "He-Man y los masters del universo",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1228710,
+      "title": "The Mandalorian and Grogu",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -122,13 +122,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1301421,
-      "title": "Las ovejas detectives",
+      "tmdbId": 1212763,
+      "title": "Posesión infernal. En llamas",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1212763,
-      "title": "Posesión infernal. En llamas",
+      "tmdbId": 1301421,
+      "title": "Las ovejas detectives",
       "reason": "Sin fuente autorizada configurada"
     },
     {

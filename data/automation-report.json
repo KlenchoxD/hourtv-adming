@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-07-24T07:09:42.757Z",
-  "durationMs": 3377,
+  "generatedAt": "2026-07-24T09:31:53.407Z",
+  "durationMs": 1771,
   "dryRun": false,
   "moviesFound": 29,
   "moviesDiscarded": 27,
@@ -38,23 +38,23 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1273221,
-      "title": "Scary Movie",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1084244,
       "title": "Toy Story 5",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1228710,
-      "title": "The Mandalorian and Grogu",
+      "tmdbId": 1273221,
+      "title": "Scary Movie",
       "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 454639,
       "title": "He-Man y los masters del universo",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1228710,
+      "title": "The Mandalorian and Grogu",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -98,13 +98,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1301421,
-      "title": "Las ovejas detectives",
+      "tmdbId": 1212763,
+      "title": "Posesión infernal. En llamas",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1212763,
-      "title": "Posesión infernal. En llamas",
+      "tmdbId": 1301421,
+      "title": "Las ovejas detectives",
       "reason": "Sin fuente autorizada configurada"
     },
     {
