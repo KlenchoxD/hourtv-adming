@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-07-24T04:30:21.947Z",
+  "lastRunAt": "2026-07-24T07:09:46.129Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     1275779,
@@ -24,12 +24,12 @@
     1212763,
     1368337,
     1727780,
-    1318621,
     687163,
     1668364,
+    1318621,
     261639,
+    969681,
     1523145,
-    200066,
     1335666
   ],
   "tmdbIdsPublished": [],
@@ -142,11 +142,6 @@
       "reason": "Rating 0 por debajo del mínimo (5.5)"
     },
     {
-      "tmdbId": 1318621,
-      "title": "Los Descendientes: viaje al mundo oscuro",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 687163,
       "title": "Proyecto Salvación",
       "reason": "Sin fuente autorizada configurada"
@@ -157,19 +152,24 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1318621,
+      "title": "Los Descendientes: viaje al mundo oscuro",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 261639,
       "title": "尼寺の情事　極楽ＳＥＸ",
       "reason": "Sin sinopsis"
     },
     {
+      "tmdbId": 969681,
+      "title": "Spider-Man: Brand New Day",
+      "reason": "Votos 7 por debajo del mínimo (50)"
+    },
+    {
       "tmdbId": 1523145,
       "title": "Tu corazón se romperá",
       "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 200066,
-      "title": "Momentos de amor",
-      "reason": "Rating 4.2 por debajo del mínimo (5.5)"
     }
   ]
 }
