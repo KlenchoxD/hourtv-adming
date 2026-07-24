@@ -1,9 +1,9 @@
 {
-  "lastRunAt": "2026-07-24T14:47:31.001Z",
+  "lastRunAt": "2026-07-24T16:35:35.557Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
-    1275779,
     1108427,
+    1275779,
     1083381,
     1339713,
     1081003,
@@ -17,11 +17,11 @@
     936075,
     931285,
     1304313,
-    1318447,
     1595852,
     1007757,
-    1212763,
     1301421,
+    1318447,
+    1212763,
     1368337,
     1727780,
     1668364,
@@ -37,13 +37,13 @@
   "errorsSummary": [],
   "skipped": [
     {
-      "tmdbId": 1275779,
-      "title": "El día de la revelación",
+      "tmdbId": 1108427,
+      "title": "Vaiana",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1108427,
-      "title": "Vaiana",
+      "tmdbId": 1275779,
+      "title": "El día de la revelación",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -107,11 +107,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1318447,
-      "title": "Depredador dominante",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1595852,
       "title": "Boulevard",
       "reason": "Sin fuente autorizada configurada"
@@ -122,13 +117,18 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1212763,
-      "title": "Posesión infernal. En llamas",
+      "tmdbId": 1301421,
+      "title": "Las ovejas detectives",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1301421,
-      "title": "Las ovejas detectives",
+      "tmdbId": 1318447,
+      "title": "Depredador dominante",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1212763,
+      "title": "Posesión infernal. En llamas",
       "reason": "Sin fuente autorizada configurada"
     },
     {
