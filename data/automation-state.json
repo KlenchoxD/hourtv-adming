@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-07-25T11:58:27.704Z",
+  "lastRunAt": "2026-07-25T13:27:55.111Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     1275779,
@@ -29,6 +29,7 @@
     969681,
     1318621,
     1523145,
+    1630409,
     1127384,
     1335666
   ],
@@ -165,6 +166,11 @@
       "tmdbId": 1523145,
       "title": "Tu corazón se romperá",
       "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1630409,
+      "title": "El cobrador de deudas",
+      "reason": "Votos 11 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1127384,

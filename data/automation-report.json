@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-07-25T11:58:27.251Z",
-  "durationMs": 458,
+  "generatedAt": "2026-07-25T13:27:54.520Z",
+  "durationMs": 596,
   "dryRun": false,
-  "moviesFound": 29,
-  "moviesDiscarded": 27,
+  "moviesFound": 30,
+  "moviesDiscarded": 28,
   "moviesAdded": 0,
   "moviesEnriched": 0,
   "duplicates": 2,
@@ -141,6 +141,11 @@
       "tmdbId": 1523145,
       "title": "Tu corazón se romperá",
       "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1630409,
+      "title": "El cobrador de deudas",
+      "reason": "Votos 11 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1127384,
