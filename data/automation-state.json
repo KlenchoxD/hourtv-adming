@@ -1,16 +1,16 @@
 {
-  "lastRunAt": "2026-07-24T23:57:42.836Z",
+  "lastRunAt": "2026-07-25T02:32:02.477Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
-    1108427,
     1275779,
-    1083381,
+    1108427,
     1339713,
-    1081003,
+    1083381,
     1315772,
+    1081003,
     1084244,
-    1273221,
     454639,
+    1273221,
     1228710,
     1314481,
     1368314,
@@ -37,13 +37,13 @@
   "errorsSummary": [],
   "skipped": [
     {
-      "tmdbId": 1108427,
-      "title": "Vaiana",
+      "tmdbId": 1275779,
+      "title": "El día de la revelación",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1275779,
-      "title": "El día de la revelación",
+      "tmdbId": 1108427,
+      "title": "Vaiana",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -52,13 +52,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1081003,
-      "title": "Supergirl",
+      "tmdbId": 1315772,
+      "title": "Minions & Monsters",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1315772,
-      "title": "Minions & Monsters",
+      "tmdbId": 1081003,
+      "title": "Supergirl",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -67,13 +67,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1273221,
-      "title": "Scary Movie",
+      "tmdbId": 454639,
+      "title": "He-Man y los masters del universo",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 454639,
-      "title": "He-Man y los masters del universo",
+      "tmdbId": 1273221,
+      "title": "Scary Movie",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -159,7 +159,7 @@
     {
       "tmdbId": 969681,
       "title": "Spider-Man: Brand New Day",
-      "reason": "Votos 9 por debajo del mínimo (50)"
+      "reason": "Votos 10 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1523145,
