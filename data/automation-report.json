@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-07-25T21:22:59.946Z",
-  "durationMs": 1692,
+  "generatedAt": "2026-07-25T22:23:57.783Z",
+  "durationMs": 809,
   "dryRun": false,
   "moviesFound": 30,
   "moviesDiscarded": 28,
@@ -113,24 +113,24 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1727780,
-      "title": "Borderline",
-      "reason": "Votos 2 por debajo del mínimo (50)"
-    },
-    {
       "tmdbId": 1668364,
       "title": "Deseo",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 687163,
-      "title": "Proyecto Salvación",
-      "reason": "Sin fuente autorizada configurada"
+      "tmdbId": 1727780,
+      "title": "Borderline",
+      "reason": "Votos 2 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 969681,
       "title": "Spider-Man: Brand New Day",
       "reason": "Votos 11 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 687163,
+      "title": "Proyecto Salvación",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1318621,
