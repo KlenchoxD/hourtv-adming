@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-07-25T02:32:00.656Z",
-  "durationMs": 1825,
+  "generatedAt": "2026-07-25T05:31:12.816Z",
+  "durationMs": 2927,
   "dryRun": false,
   "moviesFound": 29,
   "moviesDiscarded": 27,
@@ -115,7 +115,7 @@
     {
       "tmdbId": 1727780,
       "title": "Borderline",
-      "reason": "Rating 0 por debajo del mínimo (5.5)"
+      "reason": "Votos 2 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1668364,
@@ -128,14 +128,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1318621,
-      "title": "Los Descendientes: viaje al mundo oscuro",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 969681,
       "title": "Spider-Man: Brand New Day",
       "reason": "Votos 10 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 1318621,
+      "title": "Los Descendientes: viaje al mundo oscuro",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1523145,

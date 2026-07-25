@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-07-25T02:32:02.477Z",
+  "lastRunAt": "2026-07-25T05:31:15.738Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     1275779,
@@ -26,8 +26,8 @@
     1727780,
     1668364,
     687163,
-    1318621,
     969681,
+    1318621,
     1523145,
     1127384,
     1335666
@@ -139,7 +139,7 @@
     {
       "tmdbId": 1727780,
       "title": "Borderline",
-      "reason": "Rating 0 por debajo del mínimo (5.5)"
+      "reason": "Votos 2 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1668364,
@@ -152,14 +152,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1318621,
-      "title": "Los Descendientes: viaje al mundo oscuro",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 969681,
       "title": "Spider-Man: Brand New Day",
       "reason": "Votos 10 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 1318621,
+      "title": "Los Descendientes: viaje al mundo oscuro",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1523145,
