@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-07-25T17:59:28.541Z",
-  "durationMs": 816,
+  "generatedAt": "2026-07-25T19:12:45.890Z",
+  "durationMs": 2637,
   "dryRun": false,
   "moviesFound": 30,
   "moviesDiscarded": 28,
@@ -28,23 +28,23 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1315772,
-      "title": "Minions & Monsters",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1081003,
       "title": "Supergirl",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1084244,
-      "title": "Toy Story 5",
+      "tmdbId": 454639,
+      "title": "He-Man y los masters del universo",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 454639,
-      "title": "He-Man y los masters del universo",
+      "tmdbId": 1315772,
+      "title": "Minions & Monsters",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1084244,
+      "title": "Toy Story 5",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -88,13 +88,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1007757,
-      "title": "Intercambiados",
+      "tmdbId": 1301421,
+      "title": "Las ovejas detectives",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1301421,
-      "title": "Las ovejas detectives",
+      "tmdbId": 1007757,
+      "title": "Intercambiados",
       "reason": "Sin fuente autorizada configurada"
     },
     {

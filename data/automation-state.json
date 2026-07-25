@@ -1,15 +1,15 @@
 {
-  "lastRunAt": "2026-07-25T17:59:29.352Z",
+  "lastRunAt": "2026-07-25T19:12:48.522Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     1275779,
     1108427,
     1339713,
     1083381,
-    1315772,
     1081003,
-    1084244,
     454639,
+    1315772,
+    1084244,
     1273221,
     1228710,
     1314481,
@@ -18,8 +18,8 @@
     931285,
     1304313,
     1595852,
-    1007757,
     1301421,
+    1007757,
     1318447,
     1212763,
     1368337,
@@ -53,23 +53,23 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1315772,
-      "title": "Minions & Monsters",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1081003,
       "title": "Supergirl",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1084244,
-      "title": "Toy Story 5",
+      "tmdbId": 454639,
+      "title": "He-Man y los masters del universo",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 454639,
-      "title": "He-Man y los masters del universo",
+      "tmdbId": 1315772,
+      "title": "Minions & Monsters",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1084244,
+      "title": "Toy Story 5",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -113,13 +113,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1007757,
-      "title": "Intercambiados",
+      "tmdbId": 1301421,
+      "title": "Las ovejas detectives",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1301421,
-      "title": "Las ovejas detectives",
+      "tmdbId": 1007757,
+      "title": "Intercambiados",
       "reason": "Sin fuente autorizada configurada"
     },
     {
