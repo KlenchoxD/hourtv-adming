@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:http/http.dart' as http;
@@ -118,9 +119,37 @@ class ContentStore extends ChangeNotifier {
     unawaited(_refreshContent(localSources));
   }
 
+  /// "Solo por Wi‑Fi" (Perfil > Configuracion) antes no restringia nada: se
+  /// guardaba pero nadie lo leia. Ahora si esta activo y la conexion es de
+  /// datos moviles, se omite el refresco remoto (el contenido cacheado y el
+  /// asset local siguen mostrandose).
+  Future<bool> _remoteRefreshAllowed() async {
+    if (StorageService.getSetting('wifiOnly', defaultValue: false) != true) {
+      return true;
+    }
+    try {
+      final result = await Connectivity().checkConnectivity();
+      // Si hay Wi‑Fi/ethernet disponible se permite; solo se bloquea cuando la
+      // unica via es movil. Si la consulta falla, no bloqueamos nada.
+      if (result.contains(ConnectivityResult.mobile) &&
+          !result.contains(ConnectivityResult.wifi) &&
+          !result.contains(ConnectivityResult.ethernet)) {
+        return false;
+      }
+    } catch (_) {
+      return true;
+    }
+    return true;
+  }
+
   Future<void> _refreshContent(_AssetSources fallbackSources) async {
     if (_networkLoadRunning) {
       _refreshAgain = true;
+      return;
+    }
+    if (!await _remoteRefreshAllowed()) {
+      loading = false;
+      notifyListeners();
       return;
     }
     _networkLoadRunning = true;

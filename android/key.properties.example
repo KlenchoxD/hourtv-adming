@@ -1,0 +1,19 @@
+# Copia este archivo como android/key.properties y rellena tus datos.
+# key.properties, *.keystore y *.jks ya estan en android/.gitignore: la llave
+# NUNCA se sube al repo.
+#
+# 1) Crea la keystore una sola vez (guardala en un lugar seguro y con respaldo;
+#    si la pierdes NO podras publicar actualizaciones sobre la app instalada):
+#
+#    keytool -genkey -v -keystore C:/Users/<TU_USUARIO>/hourtv-release.jks ^
+#      -storetype JKS -keyalg RSA -keysize 2048 -validity 10000 -alias hourtv
+#
+# 2) Rellena las 4 lineas de abajo con lo que usaste.
+# 3) Compila normal: flutter build apk --release
+#    Gradle avisara en consola si key.properties falta y usara la llave de
+#    debug (solo para pruebas locales, NO para publicar).
+
+storeFile=C:/Users/<TU_USUARIO>/hourtv-release.jks
+storePassword=<CONTRASENA_DE_LA_KEYSTORE>
+keyAlias=hourtv
+keyPassword=<CONTRASENA_DE_LA_LLAVE>

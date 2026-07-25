@@ -101,15 +101,21 @@ class _HourTvLanguageSettingsPageState
           checkbox: true,
           selected: subtitleBold,
           onTap: () {
-            setState(() => subtitleBold = !subtitleBold);
-            StorageService.saveSetting('subtitleBold', !subtitleBold);
+            // Calcular el valor nuevo ANTES de guardar: antes se hacia
+            // `saveSetting(!subtitleBold)` despues del setState, que ya lo
+            // habia invertido -> se persistia el valor viejo.
+            final next = !subtitleBold;
+            setState(() => subtitleBold = next);
+            StorageService.saveSetting('subtitleBold', next);
           },
         ),
         const Padding(
           padding: EdgeInsets.fromLTRB(4, 4, 4, 0),
           child: Text(
-            'Se aplica cuando el contenido incluye subtítulos. La mayoría de '
-            'canales en vivo no traen pista de subtítulos.',
+            'El reproductor pinta los subtítulos con este tamaño y grosor, '
+            'pero solo cuando la fuente los entrega. Los canales en vivo IPTV '
+            'casi nunca incluyen una pista de subtítulos que se pueda leer, '
+            'así que en la mayoría no verás ninguno.',
             style: TextStyle(color: kSetMuted, fontSize: 12),
           ),
         ),

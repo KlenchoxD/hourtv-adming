@@ -75,46 +75,53 @@ class UpdateService {
         'GitHub respondió con un error (${response.statusCode}).',
       );
     }
-    final Map<String, dynamic> json;
+    // Todo el parseo va dentro del try. Antes los accesos al JSON estaban
+    // fuera y cualquier campo ausente o con otro tipo lanzaba una excepcion
+    // sin capturar, dejando la pantalla clavada en "Buscando…" para siempre.
     try {
-      json = jsonDecode(response.body) as Map<String, dynamic>;
-    } catch (_) {
-      return const UpdateCheckFailed('Respuesta inválida de GitHub.');
-    }
-    final tag = (json['tag_name'] as String? ?? '').trim();
-    final remoteVersion = tag.startsWith('v') ? tag.substring(1) : tag;
-    if (remoteVersion.isEmpty) {
-      return const UpdateCheckFailed(
-        'El último release no tiene una versión válida.',
-      );
-    }
-    final assets = (json['assets'] as List<dynamic>? ?? const [])
-        .cast<Map<String, dynamic>>();
-    final apkAsset = assets.cast<Map<String, dynamic>?>().firstWhere(
-      (asset) => (asset?['name'] as String? ?? '').toLowerCase().endsWith(
-        '.apk',
-      ),
-      orElse: () => null,
-    );
-    if (apkAsset == null) {
-      return const UpdateCheckFailed(
-        'El último release no incluye un archivo .apk descargable.',
-      );
-    }
+      final json = jsonDecode(response.body) as Map<String, dynamic>;
+      final tag = (json['tag_name'] as String? ?? '').trim();
+      final remoteVersion = tag.startsWith('v') ? tag.substring(1) : tag;
+      if (remoteVersion.isEmpty) {
+        return const UpdateCheckFailed(
+          'El último release no tiene una versión válida.',
+        );
+      }
+      final assets = (json['assets'] as List<dynamic>? ?? const [])
+          .whereType<Map<String, dynamic>>()
+          .toList();
+      Map<String, dynamic>? apkAsset;
+      for (final asset in assets) {
+        final name = (asset['name'] as String? ?? '').toLowerCase();
+        final url = asset['browser_download_url'];
+        if (name.endsWith('.apk') && url is String && url.isNotEmpty) {
+          apkAsset = asset;
+          break;
+        }
+      }
+      if (apkAsset == null) {
+        return const UpdateCheckFailed(
+          'El último release no incluye un archivo .apk descargable.',
+        );
+      }
 
-    final packageInfo = await PackageInfo.fromPlatform();
-    final currentVersion = packageInfo.version;
-    if (!_isNewer(remoteVersion, currentVersion)) {
-      return const UpToDate();
+      final packageInfo = await PackageInfo.fromPlatform();
+      if (!_isNewer(remoteVersion, packageInfo.version)) {
+        return const UpToDate();
+      }
+      return UpdateAvailable(
+        UpdateInfo(
+          version: remoteVersion,
+          downloadUrl: apkAsset['browser_download_url'] as String,
+          notes: (json['body'] as String? ?? '').trim(),
+          sizeBytes: (apkAsset['size'] as num?)?.toInt() ?? 0,
+        ),
+      );
+    } catch (error) {
+      return UpdateCheckFailed(
+        'No se pudo leer la información del release: $error',
+      );
     }
-    return UpdateAvailable(
-      UpdateInfo(
-        version: remoteVersion,
-        downloadUrl: apkAsset['browser_download_url'] as String,
-        notes: (json['body'] as String? ?? '').trim(),
-        sizeBytes: (apkAsset['size'] as num?)?.toInt() ?? 0,
-      ),
-    );
   }
 
   /// true si [remote] es una version mayor que [current] (semver simple,
@@ -141,6 +148,11 @@ class UpdateService {
 
   /// Descarga el APK reportando progreso 0.0-1.0. Lanza si falla la red o
   /// la escritura a disco; el llamador decide como mostrar el error.
+  ///
+  /// Solo emite cuando el progreso avanza al menos 1% (y siempre el 100%
+  /// final): antes emitia por cada trozo HTTP (~2400 veces en un APK de
+  /// 19 MB), lo que provocaba miles de repintados y trababa la TV justo
+  /// mientras descargaba.
   Stream<double> download(UpdateInfo info, String savePath) async* {
     final request = http.Request('GET', Uri.parse(info.downloadUrl));
     final client = http.Client();
@@ -153,11 +165,17 @@ class UpdateService {
       final file = File(savePath);
       final sink = file.openWrite();
       var received = 0;
+      var lastReported = -1;
       try {
         await for (final chunk in response.stream) {
           sink.add(chunk);
           received += chunk.length;
-          if (total > 0) yield received / total;
+          if (total <= 0) continue;
+          final percent = (received * 100 ~/ total).clamp(0, 100);
+          if (percent != lastReported) {
+            lastReported = percent;
+            yield percent / 100;
+          }
         }
       } finally {
         await sink.close();

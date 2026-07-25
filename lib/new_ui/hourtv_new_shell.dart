@@ -1176,15 +1176,24 @@ class _CatalogPageState extends State<_CatalogPage> {
     if (widget.title == 'Buscar' && widget.tv) {
       return _buildTvSearch(filtered);
     }
+    // El ancho real disponible sale de LayoutBuilder. Antes se restaba un
+    // ancho de rail inventado (180) del ancho de PANTALLA, pero el rail mide
+    // 88 colapsado y 208 expandido: al expandirse las celdas quedaban mas
+    // cortas que su contenido y recortaban el titulo.
+    return LayoutBuilder(
+      builder: (context, constraints) =>
+          _buildGrid(filtered, constraints.maxWidth),
+    );
+  }
+
+  Widget _buildGrid(List<Channel> filtered, double availableWidth) {
     final columns = widget.phone
         ? 3
         : (widget.tablet ? 4 : (widget.tv ? 6 : 5));
     final portrait = widget.phone || widget.tablet || widget.tv;
     final padding = widget.phone ? 14.0 : 30.0;
-    final railWidth = widget.phone ? 0.0 : (widget.tv ? 180.0 : 88.0);
     final gap = widget.phone ? 8.0 : 14.0;
-    final gridWidth =
-        MediaQuery.sizeOf(context).width - railWidth - (padding * 2);
+    final gridWidth = availableWidth - (padding * 2);
     final cardWidth = (gridWidth - (gap * (columns - 1))) / columns;
     final cardImageHeight = portrait ? cardWidth * 1.5 : cardWidth * .56;
     final cardAspectRatio = cardWidth / (cardImageHeight + 27);
@@ -1301,7 +1310,8 @@ class _TvSearchKeyboard extends StatelessWidget {
     'HIJKLMN',
     'OPQRSTU',
     'VWXYZ01',
-    '2345678',
+    // La ultima fila llegaba solo al 8: faltaba la tecla del 9.
+    '23456789',
   ];
 
   void _type(String ch) => onChanged(query + ch);

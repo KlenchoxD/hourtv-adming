@@ -33,10 +33,6 @@ class HourTvProfilePage extends StatefulWidget {
 
 class _HourTvProfilePageState extends State<HourTvProfilePage> {
   String profile = 'Invitado';
-  bool wifiDownloads = true;
-  bool smartNotifications = false;
-  bool highQualityDownloads = true;
-  bool autoplayNext = true;
 
   static const profiles = <(String, IconData)>[
     ('Invitado', Icons.person_rounded),
@@ -44,12 +40,42 @@ class _HourTvProfilePageState extends State<HourTvProfilePage> {
     ('Kids', Icons.child_care_rounded),
   ];
 
-  static const tvOptions = <(IconData, String, String)>[
-    (Icons.high_quality_rounded, 'Reproducción y calidad', 'Automática'),
-    (Icons.subtitles_rounded, 'Idioma y subtítulos', 'Audio y subtítulos'),
-    (Icons.settings_rounded, 'Configuración', 'Actualizaciones y más'),
-    (Icons.family_restroom_rounded, 'Control parental', 'Desactivado'),
-  ];
+  /// Los subtitulos de cada tarjeta se calculan del ajuste GUARDADO, no son
+  /// texto fijo: antes "Control parental" decia siempre "Desactivado" aunque
+  /// estuviera activado.
+  List<(IconData, String, String)> get tvOptions {
+    final audio = StorageService.getSetting(
+      'preferredAudioLanguage',
+      defaultValue: 'auto',
+    ).toString();
+    final audioLabel = switch (audio) {
+      'es' => 'Audio en español',
+      'en' => 'Audio en inglés',
+      _ => 'Audio automático',
+    };
+    final autoPlay =
+        StorageService.getSetting('autoPlay', defaultValue: true) == true;
+    final parental =
+        StorageService.getSetting(
+          'parentalControlEnabled',
+          defaultValue: false,
+        ) ==
+        true;
+    return [
+      (
+        Icons.high_quality_rounded,
+        'Reproducción y calidad',
+        autoPlay ? 'Calidad automática · Auto-play' : 'Calidad automática',
+      ),
+      (Icons.subtitles_rounded, 'Idioma y subtítulos', audioLabel),
+      (Icons.settings_rounded, 'Configuración', 'Actualizaciones y más'),
+      (
+        Icons.family_restroom_rounded,
+        'Control parental',
+        parental ? 'Activado' : 'Desactivado',
+      ),
+    ];
+  }
 
   @override
   void initState() {
@@ -58,27 +84,11 @@ class _HourTvProfilePageState extends State<HourTvProfilePage> {
       'activeProfile',
       defaultValue: 'Invitado',
     )).toString();
-    wifiDownloads =
-        StorageService.getSetting('wifiOnly', defaultValue: true) == true;
-    smartNotifications =
-        StorageService.getSetting('smartNotifications', defaultValue: false) ==
-        true;
-    highQualityDownloads =
-        StorageService.getSetting('highQualityDownloads', defaultValue: true) ==
-        true;
-    autoplayNext =
-        StorageService.getSetting('autoPlayNextEpisode', defaultValue: true) ==
-        true;
   }
 
   void _selectProfile(String value) {
     setState(() => profile = value);
     unawaited(StorageService.saveSetting('activeProfile', value));
-  }
-
-  void _saveBool(String key, bool value, VoidCallback update) {
-    setState(update);
-    unawaited(StorageService.saveSetting(key, value));
   }
 
   @override
@@ -120,51 +130,36 @@ class _HourTvProfilePageState extends State<HourTvProfilePage> {
                   ],
                 ),
                 const SizedBox(height: 24),
+                // Mismos apartados que en TV: antes el Perfil de telefono solo
+                // tenia dos interruptores (uno de ellos, Notificaciones, no
+                // hacia nada) y no habia forma de llegar a Configuracion,
+                // Actualizaciones, Idioma ni Control parental.
+                for (final option in tvOptions) ...[
+                  _optionRow(option),
+                  const SizedBox(height: 10),
+                ],
+                const SizedBox(height: 6),
                 Container(
                   decoration: BoxDecoration(
                     color: _surface,
                     borderRadius: BorderRadius.circular(16),
                     border: Border.all(color: _line),
                   ),
-                  child: Column(
-                    children: [
-                      _switchRow(
-                        title: 'Descargas solo por Wi-Fi',
-                        value: wifiDownloads,
-                        onChanged: (value) => _saveBool(
-                          'wifiOnly',
-                          value,
-                          () => wifiDownloads = value,
-                        ),
-                      ),
-                      const Divider(height: 1, color: _line),
-                      _switchRow(
-                        title: 'Notificaciones inteligentes',
-                        value: smartNotifications,
-                        onChanged: (value) => _saveBool(
-                          'smartNotifications',
-                          value,
-                          () => smartNotifications = value,
-                        ),
-                      ),
-                      const Divider(height: 1, color: _line),
-                      TextButton(
-                        onPressed: () {
-                          _selectProfile('Invitado');
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Sesión cerrada.')),
-                          );
-                        },
-                        style: TextButton.styleFrom(
-                          foregroundColor: _red,
-                          minimumSize: const Size.fromHeight(50),
-                        ),
-                        child: const Text(
-                          'Cerrar sesión',
-                          style: TextStyle(fontWeight: FontWeight.w900),
-                        ),
-                      ),
-                    ],
+                  child: TextButton(
+                    onPressed: () {
+                      _selectProfile('Invitado');
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Sesión cerrada.')),
+                      );
+                    },
+                    style: TextButton.styleFrom(
+                      foregroundColor: _red,
+                      minimumSize: const Size.fromHeight(50),
+                    ),
+                    child: const Text(
+                      'Cerrar sesión',
+                      style: TextStyle(fontWeight: FontWeight.w900),
+                    ),
                   ),
                 ),
               ],
@@ -254,32 +249,16 @@ class _HourTvProfilePageState extends State<HourTvProfilePage> {
                                 fontWeight: FontWeight.w900,
                               ),
                             ),
-                            const SizedBox(height: 10),
-                            const Divider(color: _line),
-                            _switchRow(
-                              title: 'Descargas en alta calidad',
-                              subtitle:
-                                  'Utilizar almacenamiento interno para descargas en 1080p',
-                              value: highQualityDownloads,
-                              onChanged: (value) => _saveBool(
-                                'highQualityDownloads',
-                                value,
-                                () => highQualityDownloads = value,
-                              ),
-                            ),
-                            const Divider(height: 1, color: _line),
-                            _switchRow(
-                              title:
-                                  'Reproducción automática del siguiente episodio',
-                              subtitle:
-                                  'Iniciar automáticamente el próximo episodio de una serie',
-                              value: autoplayNext,
-                              onChanged: (value) => _saveBool(
-                                'autoPlayNextEpisode',
-                                value,
-                                () => autoplayNext = value,
-                              ),
-                            ),
+                            const SizedBox(height: 14),
+                            // Antes habia dos interruptores ("Descargas en
+                            // alta calidad" y "Reproduccion automatica del
+                            // siguiente episodio") que se guardaban pero
+                            // ningun codigo leia: no hacian nada. Se
+                            // reemplazan por los apartados reales.
+                            for (final option in tvOptions) ...[
+                              _optionRow(option),
+                              const SizedBox(height: 10),
+                            ],
                           ],
                         ),
                       ),
@@ -296,6 +275,8 @@ class _HourTvProfilePageState extends State<HourTvProfilePage> {
 
   Widget _desktopAndTv() {
     final isTv = widget.tv;
+    // Se calcula una vez por build: tvOptions es un getter que lee ajustes.
+    final options = tvOptions;
     return LayoutBuilder(
       builder: (context, constraints) => SingleChildScrollView(
         child: ConstrainedBox(
@@ -348,7 +329,7 @@ class _HourTvProfilePageState extends State<HourTvProfilePage> {
                     GridView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
-                      itemCount: tvOptions.length,
+                      itemCount: options.length,
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
@@ -357,7 +338,7 @@ class _HourTvProfilePageState extends State<HourTvProfilePage> {
                             childAspectRatio: 3.7,
                           ),
                       itemBuilder: (context, index) {
-                        final option = tvOptions[index];
+                        final option = options[index];
                         final card = _tvOption(option);
                         if (!isTv) return card;
                         return TvFocusable(
@@ -416,16 +397,68 @@ class _HourTvProfilePageState extends State<HourTvProfilePage> {
     );
   }
 
+  /// Fila de apartado para telefono y tablet (en TV se usa `_tvOption` dentro
+  /// de la cuadricula con foco de D-pad).
+  Widget _optionRow((IconData, String, String) option) {
+    return Material(
+      color: _surface,
+      borderRadius: BorderRadius.circular(16),
+      child: InkWell(
+        onTap: () => _openSetting(option.$2),
+        borderRadius: BorderRadius.circular(16),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: _line),
+          ),
+          child: Row(
+            children: [
+              Icon(option.$1, color: _red, size: 24),
+              const SizedBox(width: 14),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      option.$2,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                    const SizedBox(height: 3),
+                    Text(
+                      option.$3,
+                      style: const TextStyle(color: _muted, fontSize: 12),
+                    ),
+                  ],
+                ),
+              ),
+              const Icon(Icons.chevron_right_rounded, color: _muted),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   // Cada opcion abre SU PROPIA pantalla con contenido real y distinto -
   // antes todas reusaban la misma pagina generica y mostraban lo mismo.
-  void _openSetting(String title) {
+  Future<void> _openSetting(String title) async {
     final page = switch (title) {
       'Reproducción y calidad' => const HourTvPlaybackSettingsPage(),
       'Idioma y subtítulos' => const HourTvLanguageSettingsPage(),
       'Control parental' => const HourTvParentalSettingsPage(),
       _ => const HourTvSettingsPage(),
     };
-    Navigator.of(context).push(MaterialPageRoute(builder: (_) => page));
+    await Navigator.of(context).push(MaterialPageRoute(builder: (_) => page));
+    // Al volver, releer los ajustes para que los subtitulos de las tarjetas
+    // muestren el valor nuevo (ej. Control parental: Activado).
+    if (mounted) setState(() {});
   }
 
   Widget _profileCard({required bool compact}) {
@@ -499,49 +532,6 @@ class _HourTvProfilePageState extends State<HourTvProfilePage> {
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _switchRow({
-    required String title,
-    String? subtitle,
-    required bool value,
-    required ValueChanged<bool> onChanged,
-  }) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-      child: Row(
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 13,
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
-                if (subtitle != null) ...[
-                  const SizedBox(height: 4),
-                  Text(
-                    subtitle,
-                    style: const TextStyle(color: _muted, fontSize: 11),
-                  ),
-                ],
-              ],
-            ),
-          ),
-          Switch(
-            value: value,
-            onChanged: onChanged,
-            activeThumbColor: Colors.white,
-            activeTrackColor: _red,
-          ),
-        ],
       ),
     );
   }

@@ -47,6 +47,11 @@ class _HourTvLivePageState extends State<HourTvLivePage> {
   bool showGuide = false;
   int guideIndex = 0;
   final FocusNode remoteFocus = FocusNode();
+  // Sin esto la guia no se desplazaba: guideIndex avanzaba pero la lista se
+  // quedaba quieta, asi que el resaltado se salia de pantalla (y con miles de
+  // canales, abrir la guia en un canal alto mostraba la lista sin seleccion).
+  final ScrollController guideScroll = ScrollController();
+  static const double _guideRowExtent = 88;
 
   @override
   void initState() {
@@ -72,7 +77,16 @@ class _HourTvLivePageState extends State<HourTvLivePage> {
   @override
   void didUpdateWidget(covariant HourTvLivePage oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (!widget.channels.contains(current)) {
+    // Buscar por URL, no por identidad: Channel no define ==, asi que tras
+    // recargar el catalogo las instancias son nuevas y `contains` daba false
+    // -> te sacaba del canal que estabas viendo y volvia al 1.
+    final sameUrl = widget.channels.indexWhere(
+      (channel) => channel.url == current.url,
+    );
+    if (sameUrl >= 0) {
+      current = widget.channels[sameUrl];
+      guideIndex = sameUrl;
+    } else if (widget.channels.isNotEmpty) {
       current = widget.channels.first;
       guideIndex = 0;
     }
@@ -84,7 +98,54 @@ class _HourTvLivePageState extends State<HourTvLivePage> {
       widget.backController!.handler = null;
     }
     remoteFocus.dispose();
+    guideScroll.dispose();
     super.dispose();
+  }
+
+  /// Mantiene la fila [guideIndex] a la vista dentro de la guia. [jump] se usa
+  /// al abrir la guia (posicionarse de golpe en el canal actual, sin animar
+  /// miles de filas).
+  void _revealGuideIndex({bool jump = false}) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted || !guideScroll.hasClients) return;
+      final position = guideScroll.position;
+      final rowTop = guideIndex * _guideRowExtent;
+      final rowBottom = rowTop + _guideRowExtent;
+      final viewTop = position.pixels;
+      final viewBottom = viewTop + position.viewportDimension;
+      double? target;
+      if (jump) {
+        // Centra el canal actual en el viewport.
+        target = rowTop - (position.viewportDimension - _guideRowExtent) / 2;
+      } else if (rowTop < viewTop) {
+        target = rowTop;
+      } else if (rowBottom > viewBottom) {
+        target = rowBottom - position.viewportDimension;
+      }
+      if (target == null) return;
+      final clamped = target.clamp(
+        position.minScrollExtent,
+        position.maxScrollExtent,
+      );
+      if (jump) {
+        guideScroll.jumpTo(clamped);
+      } else {
+        guideScroll.animateTo(
+          clamped,
+          duration: const Duration(milliseconds: 160),
+          curve: Curves.easeOutCubic,
+        );
+      }
+    });
+  }
+
+  void _openGuide() {
+    setState(() {
+      showGuide = true;
+      guideIndex = widget.channels.indexOf(current);
+      if (guideIndex < 0) guideIndex = 0;
+    });
+    _revealGuideIndex(jump: true);
   }
 
   List<String> get categories {
@@ -135,10 +196,12 @@ class _HourTvLivePageState extends State<HourTvLivePage> {
               (guideIndex - 1 + widget.channels.length) %
               widget.channels.length,
         );
+        _revealGuideIndex();
       } else if (key == LogicalKeyboardKey.arrowDown) {
         setState(
           () => guideIndex = (guideIndex + 1) % widget.channels.length,
         );
+        _revealGuideIndex();
       } else if (key == LogicalKeyboardKey.enter ||
           key == LogicalKeyboardKey.select) {
         select(widget.channels[guideIndex]);
@@ -158,10 +221,7 @@ class _HourTvLivePageState extends State<HourTvLivePage> {
       flip(1);
     } else if (key == LogicalKeyboardKey.enter ||
         key == LogicalKeyboardKey.select) {
-      setState(() {
-        showGuide = true;
-        guideIndex = widget.channels.indexOf(current);
-      });
+      _openGuide();
     } else {
       return KeyEventResult.ignored;
     }
@@ -253,7 +313,7 @@ class _HourTvLivePageState extends State<HourTvLivePage> {
               return _GuideRow(
                 channel: channel,
                 number: widget.channels.indexOf(channel) + 1,
-                active: channel == current,
+                active: channel.url == current.url,
                 focused: false,
                 onTap: () => select(channel),
               );
@@ -308,7 +368,7 @@ class _HourTvLivePageState extends State<HourTvLivePage> {
                             child: _GuideRow(
                               channel: channel,
                               number: widget.channels.indexOf(channel) + 1,
-                              active: channel == current,
+                              active: channel.url == current.url,
                               focused: false,
                               onTap: () => select(channel),
                             ),
@@ -444,14 +504,15 @@ class _HourTvLivePageState extends State<HourTvLivePage> {
                         const SizedBox(height: 18),
                         Expanded(
                           child: ListView.builder(
+                            controller: guideScroll,
                             itemCount: widget.channels.length,
-                            itemExtent: 88,
+                            itemExtent: _guideRowExtent,
                             itemBuilder: (context, index) => Padding(
                               padding: const EdgeInsets.only(bottom: 8),
                               child: _GuideRow(
                                 channel: widget.channels[index],
                                 number: index + 1,
-                                active: widget.channels[index] == current,
+                                active: widget.channels[index].url == current.url,
                                 focused: index == guideIndex,
                                 onTap: () => select(widget.channels[index]),
                               ),

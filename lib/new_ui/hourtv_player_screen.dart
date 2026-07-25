@@ -56,6 +56,11 @@ class _PlayerScreenState extends State<PlayerScreen> {
   String? _gestureLabel;
   String? _activeServerUrl;
   String? _resolvedPlaybackUrl;
+  // Estilo de subtitulos elegido en Perfil > Idioma y subtitulos. Chewie solo
+  // pinta subtitulos dentro de sus controles (y aqui van desactivados), asi
+  // que HourTV dibuja la linea de subtitulo con este estilo.
+  double _subtitleScale = 1;
+  bool _subtitleBold = false;
   // VOD servido como pagina embed (niramirus, dood, streamtape...). No es un
   // stream directo: se reproduce dentro de un WebView contenido.
   String? _embedUrl;
@@ -78,6 +83,16 @@ class _PlayerScreenState extends State<PlayerScreen> {
         unawaited(_initializeCast());
       }
     });
+    _subtitleScale =
+        double.tryParse(
+          StorageService.getSetting(
+            'subtitleFontScale',
+            defaultValue: 1.0,
+          ).toString(),
+        ) ??
+        1.0;
+    _subtitleBold =
+        StorageService.getSetting('subtitleBold', defaultValue: false) == true;
     if (StorageService.getSetting('forceLandscape', defaultValue: false) ==
         true) {
       _forcedLandscape = true;
@@ -1066,6 +1081,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
                             ),
                           ),
                         ),
+                      if (_vc != null) _subtitleOverlay(_vc!),
                       if (_chromeVisible)
                         Positioned(top: 0, left: 0, right: 0, child: _tb()),
                       if (_chromeVisible &&
@@ -1135,6 +1151,53 @@ class _PlayerScreenState extends State<PlayerScreen> {
       ),
     ),
   );
+
+  /// Linea de subtitulo con el tamaño/negrita elegidos en Perfil. Usa
+  /// ValueListenableBuilder para repintar SOLO esta capa cuando cambia el
+  /// caption, sin reconstruir el arbol completo en cada frame (clave para el
+  /// TV Box). Aparece unicamente cuando la fuente entrega subtitulos.
+  Widget _subtitleOverlay(VideoPlayerController controller) {
+    return Positioned(
+      left: 24,
+      right: 24,
+      bottom: DeviceProfile.isTv(context) ? 120 : 88,
+      child: IgnorePointer(
+        child: ValueListenableBuilder<VideoPlayerValue>(
+          valueListenable: controller,
+          builder: (context, value, _) {
+            final text = value.caption.text.trim();
+            if (text.isEmpty) return const SizedBox.shrink();
+            return Center(
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  color: Colors.black.withValues(alpha: .66),
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 6,
+                  ),
+                  child: Text(
+                    text,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18 * _subtitleScale,
+                      fontWeight: _subtitleBold
+                          ? FontWeight.w900
+                          : FontWeight.w500,
+                      height: 1.3,
+                    ),
+                  ),
+                ),
+              ),
+            );
+          },
+        ),
+      ),
+    );
+  }
 
   Widget _desktopShortcutHint() {
     return Container(
