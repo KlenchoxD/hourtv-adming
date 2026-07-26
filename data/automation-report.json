@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-07-26T04:38:08.215Z",
-  "durationMs": 2511,
+  "generatedAt": "2026-07-26T07:18:04.848Z",
+  "durationMs": 2759,
   "dryRun": false,
   "moviesFound": 30,
   "moviesDiscarded": 28,
@@ -120,17 +120,22 @@
     {
       "tmdbId": 1727780,
       "title": "Borderline",
-      "reason": "Votos 2 por debajo del mínimo (50)"
+      "reason": "Votos 3 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 969681,
       "title": "Spider-Man: Brand New Day",
-      "reason": "Votos 12 por debajo del mínimo (50)"
+      "reason": "Votos 13 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 687163,
       "title": "Proyecto Salvación",
       "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1630409,
+      "title": "El cobrador de deudas",
+      "reason": "Votos 12 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1318621,
@@ -143,13 +148,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1630409,
-      "title": "El cobrador de deudas",
-      "reason": "Votos 12 por debajo del mínimo (50)"
-    },
-    {
-      "tmdbId": 1127384,
-      "title": "En mar abierto",
+      "tmdbId": 980431,
+      "title": "La leyenda de Aang: El último Airbender",
       "reason": "Sin fuente autorizada configurada"
     }
   ]
