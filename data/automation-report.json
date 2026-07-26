@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-07-26T15:05:52.354Z",
-  "durationMs": 1443,
+  "generatedAt": "2026-07-26T16:13:18.696Z",
+  "durationMs": 1198,
   "dryRun": false,
-  "moviesFound": 30,
-  "moviesDiscarded": 28,
+  "moviesFound": 31,
+  "moviesDiscarded": 29,
   "moviesAdded": 0,
   "moviesEnriched": 0,
   "duplicates": 2,
@@ -38,13 +38,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1315772,
-      "title": "Minions & Monsters",
+      "tmdbId": 1084244,
+      "title": "Toy Story 5",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1084244,
-      "title": "Toy Story 5",
+      "tmdbId": 1315772,
+      "title": "Minions & Monsters",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -63,6 +63,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 931285,
+      "title": "Mortal Kombat II",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1368314,
       "title": "El pasajero nocturno",
       "reason": "Sin fuente autorizada configurada"
@@ -73,13 +78,23 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 931285,
-      "title": "Mortal Kombat II",
+      "tmdbId": 1304313,
+      "title": "La momia de Lee Cronin",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1304313,
-      "title": "La momia de Lee Cronin",
+      "tmdbId": 949838,
+      "title": "72 horas",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1361774,
+      "title": "Dink",
+      "reason": "Votos 33 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 1007757,
+      "title": "Intercambiados",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -90,21 +105,6 @@
     {
       "tmdbId": 1301421,
       "title": "Las ovejas detectives",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1007757,
-      "title": "Intercambiados",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1318447,
-      "title": "Depredador dominante",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1212763,
-      "title": "Posesión infernal. En llamas",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -133,6 +133,16 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1284465,
+      "title": "La muerte de Robin Hood",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1523145,
+      "title": "Tu corazón se romperá",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1630409,
       "title": "El cobrador de deudas",
       "reason": "Votos 12 por debajo del mínimo (50)"
@@ -143,13 +153,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1523145,
-      "title": "Tu corazón se romperá",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 980431,
-      "title": "La leyenda de Aang: El último Airbender",
+      "tmdbId": 1110034,
+      "title": "Kraken",
       "reason": "Sin fuente autorizada configurada"
     }
   ]
