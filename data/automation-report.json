@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-07-27T17:11:06.185Z",
-  "durationMs": 2424,
+  "generatedAt": "2026-07-27T18:46:09.677Z",
+  "durationMs": 474,
   "dryRun": false,
   "moviesFound": 31,
   "moviesDiscarded": 29,
@@ -90,7 +90,7 @@
     {
       "tmdbId": 1361774,
       "title": "Dink",
-      "reason": "Votos 42 por debajo del mínimo (50)"
+      "reason": "Votos 43 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1007757,
