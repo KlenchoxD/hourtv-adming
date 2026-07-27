@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-07-27T01:17:26.174Z",
+  "lastRunAt": "2026-07-27T05:04:48.177Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     1275779,
@@ -25,13 +25,13 @@
     1368337,
     1668364,
     1727780,
+    980431,
     969681,
     687163,
     1284465,
     1523145,
     1630409,
     1318621,
-    1110034,
     1335666
   ],
   "tmdbIdsPublished": [],
@@ -116,7 +116,7 @@
     {
       "tmdbId": 1361774,
       "title": "Dink",
-      "reason": "Votos 36 por debajo del mínimo (50)"
+      "reason": "Votos 41 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1007757,
@@ -149,9 +149,14 @@
       "reason": "Votos 3 por debajo del mínimo (50)"
     },
     {
+      "tmdbId": 980431,
+      "title": "La leyenda de Aang: El último Airbender",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 969681,
       "title": "Spider-Man: Brand New Day",
-      "reason": "Votos 14 por debajo del mínimo (50)"
+      "reason": "Votos 15 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 687163,
@@ -176,11 +181,6 @@
     {
       "tmdbId": 1318621,
       "title": "Los Descendientes: viaje al mundo oscuro",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1110034,
-      "title": "Kraken",
       "reason": "Sin fuente autorizada configurada"
     }
   ]
