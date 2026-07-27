@@ -1212,119 +1212,161 @@ class _PlayerScreenState extends State<PlayerScreen> {
                 onHorizontalDragEnd: _onHorizontalDragEnd,
                 onVerticalDragStart: _onVerticalDragStart,
                 onVerticalDragUpdate: _onVerticalDragUpdate,
-                child: SafeArea(
-                  minimum: EdgeInsets.symmetric(
-                    horizontal: DeviceProfile.isTv(context) ? 12 : 0,
-                  ),
-                  child: Stack(
-                    children: [
-                      if (defaultTargetPlatform == TargetPlatform.android)
-                        Center(
+                child: Stack(
+                  children: [
+                    // El video va FUERA del SafeArea, a sangre: dentro, el
+                    // inset del recorte de camara le dejaba franjas negras a
+                    // los lados en horizontal. Los controles si respetan el
+                    // SafeArea, para no quedar debajo del notch.
+                    //
+                    // OJO: en Android el video va dentro de un `Center` con
+                    // restricciones SUELTAS. Se intento unificarlo con el
+                    // resto de plataformas usando Positioned.fill +
+                    // SizedBox.expand (restricciones ajustadas) y la pantalla
+                    // volvio a quedarse en negro con el audio sonando: el
+                    // decodificador seguia entregando fotogramas (logcat:
+                    // queueBuffer fps=30) pero la textura externa no se
+                    // componia. Verificado en el Infinix. No cambiar sin
+                    // probar en dispositivo.
+                    if (defaultTargetPlatform == TargetPlatform.android)
+                      Positioned.fill(
+                        child: Center(
                           child: _loading
                               ? _lw()
                               : _err != null
                               ? _ew()
                               : _cc != null
-                              ? _androidChewieSurface(_cc!)
-                              : const SizedBox(),
-                        )
-                      else
-                        Positioned.fill(
-                          child: _loading
-                              ? Center(child: _lw())
-                              : _err != null
-                              ? Center(child: _ew())
-                              : _vc != null
-                              ? _videoStage()
+                              ? _androidVideoStage()
                               : const SizedBox(),
                         ),
-                      if (_screenDim > 0)
-                        Positioned.fill(
-                          child: IgnorePointer(
-                            child: ColoredBox(
-                              color: Colors.black.withValues(alpha: _screenDim),
-                            ),
-                          ),
+                      )
+                    else
+                      Positioned.fill(
+                        child: _loading
+                            ? Center(child: _lw())
+                            : _err != null
+                            ? Center(child: _ew())
+                            : _vc != null
+                            ? _videoStage()
+                            : const SizedBox(),
+                      ),
+                    // Positioned.fill obligatorio: como hijo sin posicionar,
+                    // este SafeArea se dimensionaba a su contenido, y el Stack
+                    // de dentro solo tiene hijos Positioned, asi que colapsaba
+                    // a 0x0 y arrastraba al Stack exterior. Resultado: pantalla
+                    // completamente negra, sin video y sin controles.
+                    Positioned.fill(
+                      child: SafeArea(
+                        minimum: EdgeInsets.symmetric(
+                          horizontal: DeviceProfile.isTv(context) ? 12 : 0,
                         ),
-                      if (_vc != null) _subtitleOverlay(_vc!),
-                      if (_chromeVisible)
-                        Positioned(top: 0, left: 0, right: 0, child: _tb()),
-                      if (_chromeVisible &&
-                          DeviceProfile.isTv(context) &&
-                          !_showList)
-                        Positioned(
-                          left: 46,
-                          right: 46,
-                          bottom: 34,
-                          child: _tvTransport(),
-                        ),
-                      if (_chromeVisible &&
-                          !DeviceProfile.isDesktop(context) &&
-                          !DeviceProfile.isTv(context) &&
-                          !_showList)
-                        Positioned(
-                          left: 16,
-                          right: 16,
-                          bottom: 12,
-                          child: _touchTransport(),
-                        ),
-                      if (_chromeVisible &&
-                          DeviceProfile.isDesktop(context) &&
-                          !_showList)
-                        Positioned.fill(
-                          child: IgnorePointer(
-                            child: Center(child: _desktopShortcutHint()),
-                          ),
-                        ),
-                      if (_gestureLabel != null)
-                        Positioned.fill(
-                          child: IgnorePointer(
-                            child: Center(
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 18,
-                                  vertical: 10,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: Colors.black87,
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                child: Text(
-                                  _gestureLabel!,
-                                  style: const TextStyle(color: Colors.white),
+                        child: Stack(
+                          children: [
+                            if (_screenDim > 0)
+                              Positioned.fill(
+                                child: IgnorePointer(
+                                  child: ColoredBox(
+                                    color: Colors.black.withValues(
+                                      alpha: _screenDim,
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ),
+                            if (_vc != null) _subtitleOverlay(_vc!),
+                            if (_chromeVisible)
+                              Positioned(
+                                top: 0,
+                                left: 0,
+                                right: 0,
+                                child: _tb(),
+                              ),
+                            if (_chromeVisible &&
+                                DeviceProfile.isTv(context) &&
+                                !_showList)
+                              Positioned(
+                                left: 46,
+                                right: 46,
+                                bottom: 34,
+                                child: _tvTransport(),
+                              ),
+                            if (_chromeVisible &&
+                                !DeviceProfile.isDesktop(context) &&
+                                !DeviceProfile.isTv(context) &&
+                                !_showList)
+                              Positioned(
+                                left: 16,
+                                right: 16,
+                                bottom: 12,
+                                child: _touchTransport(),
+                              ),
+                            if (_chromeVisible &&
+                                DeviceProfile.isDesktop(context) &&
+                                !_showList)
+                              Positioned.fill(
+                                child: IgnorePointer(
+                                  child: Center(child: _desktopShortcutHint()),
+                                ),
+                              ),
+                            if (_gestureLabel != null)
+                              Positioned.fill(
+                                child: IgnorePointer(
+                                  child: Center(
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 18,
+                                        vertical: 10,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: Colors.black87,
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                      child: Text(
+                                        _gestureLabel!,
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            if (_vc != null) _introPrompt(),
+                            _nextEpisodePrompt(),
+                            _endOfPlaybackOverlay(),
+                            if (_showList && _isLive) _ov(),
+                            if (_chromeVisible &&
+                                !_showList &&
+                                _isLive &&
+                                !DeviceProfile.isDesktop(context) &&
+                                !DeviceProfile.isTv(context)) ...[
+                              Positioned(
+                                left: 8,
+                                top: 0,
+                                bottom: 0,
+                                child: Center(
+                                  child: _nb(
+                                    Icons.chevron_left,
+                                    () => _chg(-1),
+                                  ),
+                                ),
+                              ),
+                              Positioned(
+                                right: 8,
+                                top: 0,
+                                bottom: 0,
+                                child: Center(
+                                  child: _nb(
+                                    Icons.chevron_right,
+                                    () => _chg(1),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ],
                         ),
-                      if (_vc != null) _introPrompt(),
-                      _nextEpisodePrompt(),
-                      _endOfPlaybackOverlay(),
-                      if (_showList && _isLive) _ov(),
-                      if (_chromeVisible &&
-                          !_showList &&
-                          _isLive &&
-                          !DeviceProfile.isDesktop(context) &&
-                          !DeviceProfile.isTv(context)) ...[
-                        Positioned(
-                          left: 8,
-                          top: 0,
-                          bottom: 0,
-                          child: Center(
-                            child: _nb(Icons.chevron_left, () => _chg(-1)),
-                          ),
-                        ),
-                        Positioned(
-                          right: 8,
-                          top: 0,
-                          bottom: 0,
-                          child: Center(
-                            child: _nb(Icons.chevron_right, () => _chg(1)),
-                          ),
-                        ),
-                      ],
-                    ],
-                  ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
       ),
@@ -1381,6 +1423,34 @@ class _PlayerScreenState extends State<PlayerScreen> {
   /// Conserva en Android el arbol de Chewie, estable con Skia. Ajustar y
   /// automatico respetan la relacion original; Llenar usa el Transform.scale
   /// que ya era fiable antes de introducir el render con FittedBox.
+  /// Escena de video en Android. Recupera el encogido de creditos --que se
+  /// perdio al pasar el render a Chewie-- sin volver a imponer restricciones
+  /// ajustadas: se limita el maximo con un ConstrainedBox, asi el hijo sigue
+  /// recibiendo restricciones SUELTAS y la textura se sigue componiendo.
+  Widget _androidVideoStage() {
+    final chewie = _cc;
+    if (chewie == null) return const SizedBox();
+    return ValueListenableBuilder<bool>(
+      valueListenable: _creditsMode,
+      builder: (context, credits, _) {
+        final surface = _androidChewieSurface(chewie);
+        if (!credits) return surface;
+        final size = MediaQuery.sizeOf(context);
+        return AnimatedSize(
+          duration: const Duration(milliseconds: 420),
+          curve: Curves.easeOutCubic,
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              maxWidth: size.width * .68,
+              maxHeight: size.height * .68,
+            ),
+            child: surface,
+          ),
+        );
+      },
+    );
+  }
+
   Widget _androidChewieSurface(ChewieController chewie) {
     final controller = _vc;
     if (controller == null || !controller.value.isInitialized) {
@@ -1389,20 +1459,50 @@ class _PlayerScreenState extends State<PlayerScreen> {
     final videoAr = controller.value.aspectRatio > 0
         ? controller.value.aspectRatio
         : 16 / 9;
-    final size = MediaQuery.sizeOf(context);
-    final screenAr = size.height > 0 ? size.width / size.height : videoAr;
-    final difference = (videoAr - screenAr).abs() / screenAr;
-    final cover = switch (_videoFitMode) {
-      _VideoFitMode.contain => false,
-      _VideoFitMode.cover => true,
-      _VideoFitMode.automatic => difference < .18,
-    };
-    final surface = Chewie(controller: chewie);
-    if (!cover) return surface;
-
-    final scale = videoAr > screenAr ? videoAr / screenAr : screenAr / videoAr;
-    if (!scale.isFinite || scale <= 1.001) return surface;
-    return Transform.scale(scale: scale, child: surface);
+    // Se mide la caja real que ocupa el video, no la pantalla entera: en modo
+    // creditos `_videoStage` reduce esa caja, y con MediaQuery el recorte se
+    // calculaba sobre un tamano que ya no era el del video.
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final width = constraints.maxWidth;
+        final height = constraints.maxHeight;
+        final surface = Chewie(controller: chewie);
+        if (!width.isFinite || !height.isFinite || width <= 0 || height <= 0) {
+          return surface;
+        }
+        final screenAr = width / height;
+        final cover = switch (_videoFitMode) {
+          _VideoFitMode.contain => false,
+          _VideoFitMode.cover => true,
+          _VideoFitMode.automatic => _shouldFill(videoAr, screenAr),
+        };
+        if (!cover) return surface;
+        // OJO: aqui NO se puede usar Transform.scale. Impeller esta
+        // desactivado (Skia) y video_player pinta una textura externa: al
+        // aplicarle una matriz de escala el decodificador sigue entregando
+        // fotogramas (logcat: queueBuffer fps=30) pero la superficie no se
+        // compone y la pantalla queda en negro. Se comprobo en el Infinix.
+        //
+        // En su lugar se agranda la CAJA por layout y se recorta con un
+        // ClipRect normal (sin saveLayer): la textura se dibuja a su tamano
+        // real, sin transformaciones.
+        final boxAr = width / height;
+        final target = videoAr > boxAr
+            ? Size(height * videoAr, height)
+            : Size(width, width / videoAr);
+        return ClipRect(
+          child: OverflowBox(
+            maxWidth: target.width,
+            maxHeight: target.height,
+            child: SizedBox(
+              width: target.width,
+              height: target.height,
+              child: surface,
+            ),
+          ),
+        );
+      },
+    );
   }
 
   Widget _videoStage() {
@@ -1451,10 +1551,8 @@ class _PlayerScreenState extends State<PlayerScreen> {
           : Chewie(controller: chewie);
     }
 
-    if (defaultTargetPlatform == TargetPlatform.android) {
-      return _androidVideoSurface(controller);
-    }
-
+    // Android no pasa por aqui: usa `_androidVideoStage`, con su propio
+    // arbol de Chewie (ver el comentario en build).
     final videoSize = controller.value.size;
     final videoAr = controller.value.aspectRatio > 0
         ? controller.value.aspectRatio
@@ -1462,12 +1560,11 @@ class _PlayerScreenState extends State<PlayerScreen> {
     return LayoutBuilder(
       builder: (context, constraints) {
         final screenAr = constraints.maxWidth / constraints.maxHeight;
-        final relativeDifference = (videoAr - screenAr).abs() / screenAr;
         final fit = switch (_videoFitMode) {
           _VideoFitMode.contain => BoxFit.contain,
           _VideoFitMode.cover => BoxFit.cover,
           _VideoFitMode.automatic =>
-            relativeDifference < .18 ? BoxFit.cover : BoxFit.contain,
+            _shouldFill(videoAr, screenAr) ? BoxFit.cover : BoxFit.contain,
         };
         final width = videoSize.width > 0 ? videoSize.width : 16.0;
         final height = videoSize.height > 0 ? videoSize.height : 9.0;
@@ -1489,44 +1586,25 @@ class _PlayerScreenState extends State<PlayerScreen> {
     );
   }
 
-  /// Render Android sin FittedBox ni transformaciones. video_player pinta una
-  /// textura externa y algunos dispositivos con Skia no la componen cuando
-  /// FittedBox aplica una matriz de escala. El Texture recibe aqui un tamano
-  /// fisico explicito; cover recorta y contain conserva la imagen completa.
-  Widget _androidVideoSurface(VideoPlayerController controller) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final rawVideoAr = controller.value.aspectRatio;
-        final videoAr = rawVideoAr.isFinite && rawVideoAr > 0
-            ? rawVideoAr
-            : 16 / 9;
-        final maxWidth = constraints.maxWidth;
-        final maxHeight = constraints.maxHeight;
-        if (!maxWidth.isFinite ||
-            !maxHeight.isFinite ||
-            maxWidth <= 0 ||
-            maxHeight <= 0) {
-          return VideoPlayer(controller);
-        }
-        final screenAr = maxWidth / maxHeight;
-        final relativeDifference = (videoAr - screenAr).abs() / screenAr;
-        final cover = switch (_videoFitMode) {
-          _VideoFitMode.contain => false,
-          _VideoFitMode.cover => true,
-          _VideoFitMode.automatic => relativeDifference < .18,
-        };
-        final scaleByWidth = cover ? videoAr < screenAr : videoAr > screenAr;
-        final width = scaleByWidth ? maxWidth : maxHeight * videoAr;
-        final height = scaleByWidth ? maxWidth / videoAr : maxHeight;
-        return Center(
-          child: SizedBox(
-            width: width,
-            height: height,
-            child: VideoPlayer(controller),
-          ),
-        );
-      },
-    );
+  /// Decide si en modo automatico se llena la pantalla (recortando) o se
+  /// conserva la imagen completa (con franjas).
+  ///
+  /// Se mide la fraccion de imagen que se perderia al llenar, no una
+  /// "diferencia relativa" abstracta. El umbral anterior era .18, y un 16:9 en
+  /// un telefono de 2436x1080 da .21: se pasaba por poquisimo, asi que
+  /// automatico NUNCA llenaba y siempre salian las franjas laterales.
+  ///
+  /// Llenar un 2.25:1 con un 16:9 cuesta un 21% de alto, recortado a partes
+  /// iguales arriba y abajo. Se acepta hasta un 25%: a cambio desaparecen las
+  /// franjas. Por encima de eso (contenido 4:3 o vertical) se conserva la
+  /// imagen entera, porque recortar medio cuadro es peor que la franja. Quien
+  /// quiera el fotograma completo tiene "Ajustar" en las opciones.
+  static bool _shouldFill(double videoAr, double screenAr) {
+    if (!videoAr.isFinite || !screenAr.isFinite) return false;
+    if (videoAr <= 0 || screenAr <= 0) return false;
+    final smaller = videoAr < screenAr ? videoAr : screenAr;
+    final larger = videoAr < screenAr ? screenAr : videoAr;
+    return 1 - (smaller / larger) <= .25;
   }
 
   Widget _touchTransport() {
