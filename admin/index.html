@@ -48,6 +48,8 @@
   .source-row{display:flex;align-items:center;gap:14px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px;cursor:pointer;transition:.15s}
   .source-row:hover{border-color:var(--accent)}
   .source-ic{font-size:22px;flex-shrink:0}
+  .pend-thumb{width:40px;height:58px;object-fit:cover;border-radius:6px;flex-shrink:0;background:var(--elev)}
+  .miss-chip{display:inline-block;background:rgba(229,9,20,.14);color:var(--accent2);border:1px solid rgba(229,9,20,.35);border-radius:5px;padding:1px 7px;margin-left:5px;font-size:11px;font-weight:700}
   .source-info{flex:1;min-width:0}
   .source-info b{display:block;font-size:14px}
   .source-info span{color:var(--dim);font-size:12px;word-break:break-all}
@@ -129,6 +131,7 @@
   <div class="toolbar">
     <input type="search" id="search" placeholder="Buscar…" oninput="render()">
     <button class="btn-primary" onclick="openEditor()">+ Añadir</button>
+    <button class="btn-ghost" onclick="syncTrending()">📈 Sincronizar tendencias</button>
     <button class="btn-ghost" onclick="copyIptvUrl()">📺 URL IPTV</button>
     <button class="btn-ghost" onclick="exportJson()">Descargar JSON</button>
     <label class="btn-ghost" style="cursor:pointer;padding:9px 16px">Importar JSON<input type="file" accept=".json" onchange="importJson(event)" style="display:none"></label>
@@ -144,6 +147,7 @@
 const TABS = [
   {id:'movies', label:'Películas', kind:'vod'},
   {id:'series', label:'Series', kind:'series'},
+  {id:'pending', label:'Pendientes', kind:'pending'},
   {id:'sources', label:'Canales en vivo', kind:'live'}
 ];
 let catalog = {version:2, movies:[], series:[], sources:[]};
@@ -155,10 +159,34 @@ function esc(s){return String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt
 function toast(msg,type){const t=document.getElementById('toast');t.textContent=msg;t.className='toast show '+(type||'');setTimeout(()=>t.className='toast',2600)}
 function save(){localStorage.setItem('hourtv_admin_catalog',JSON.stringify(catalog))}
 
+// ---------- Pendientes ----------
+// Campos clave que Server Hunter no rellena al publicar y que completas a mano.
+// Una peli/serie está "pendiente" si le falta alguno.
+function missingFields(item){
+  const m=[];
+  if(!item.year) m.push('año');
+  if(!item.genre) m.push('género');
+  if(item.rating==null||item.rating==='') m.push('rating');
+  return m;
+}
+function isPending(item){return missingFields(item).length>0}
+// Devuelve [{item, tab, idx, missing}] de películas y series incompletas.
+function pendingItems(){
+  const out=[];
+  ['movies','series'].forEach(tab=>{
+    (catalog[tab]||[]).forEach((item,idx)=>{
+      const missing=missingFields(item);
+      if(missing.length)out.push({item,tab,idx,missing});
+    });
+  });
+  return out;
+}
+function tabCount(id){return id==='pending'?pendingItems().length:(catalog[id]||[]).length}
+
 // ---------- Tabs ----------
 function renderTabs(){
   document.getElementById('tabs').innerHTML = TABS.map(t=>
-    `<button class="tab ${t.id===activeTab?'active':''}" onclick="setTab('${t.id}')">${t.label} <span style="color:var(--dim)">${(catalog[t.id]||[]).length}</span></button>`
+    `<button class="tab ${t.id===activeTab?'active':''}" onclick="setTab('${t.id}')">${t.label} <span style="color:var(--dim)">${tabCount(t.id)}</span></button>`
   ).join('');
 }
 function setTab(id){activeTab=id;document.getElementById('search').value='';renderTabs();render()}
@@ -167,6 +195,7 @@ function setTab(id){activeTab=id;document.getElementById('search').value='';rend
 function render(){
   renderTabs();
   const q=document.getElementById('search').value.toLowerCase().trim();
+  if(activeTab==='pending'){renderPending(q);return}
   const isLive=activeTab==='sources';
   const items=(catalog[activeTab]||[]).filter(item=>!q||((item.title||item.name||'').toLowerCase().includes(q)));
   const list=document.getElementById('list');
@@ -202,6 +231,29 @@ function render(){
   }).join('');
 }
 function realIndex(it){return (catalog[activeTab]||[]).indexOf(it)}
+
+// Lista de películas/series incompletas, con los campos que faltan por llenar.
+function renderPending(q){
+  const list=document.getElementById('list');
+  const rows=pendingItems().filter(p=>!q||(p.item.title||'').toLowerCase().includes(q));
+  if(!rows.length){
+    list.className='';
+    list.innerHTML='<div class="empty">Nada pendiente. Todo el contenido tiene año, género y rating. 🎉</div>';
+    return;
+  }
+  list.className='sourcelist';
+  list.innerHTML=rows.map(p=>{
+    const kind=p.tab==='series'?'Serie':'Película';
+    const chips=p.missing.map(m=>`<span class="miss-chip">${m}</span>`).join('');
+    return `<div class="source-row" onclick="openPending('${p.tab}',${p.idx})">
+      <img class="pend-thumb" src="${esc(p.item.poster||'')}" onerror="this.style.visibility='hidden'">
+      <div class="source-info"><b>${esc(p.item.title||'(sin título)')}</b><span>${kind} · falta: ${chips}</span></div>
+      <span style="color:var(--dim);font-size:18px">›</span>
+    </div>`;
+  }).join('');
+}
+// Abre el editor de un pendiente en su pestaña real (movies o series).
+function openPending(tab,idx){activeTab=tab;renderTabs();openEditor(idx)}
 
 // ---------- Editor ----------
 function serverRow(server){
@@ -279,7 +331,9 @@ function imageField(id, label, value, previewId, ratio){
 
 // Categorías/filas predefinidas para el Inicio. El usuario marca las que
 // apliquen; determinan en qué filas aparece la película.
-const CATEGORIES = ['recomendado','estrenos','populares','antiguas','terror','accion','comedia','romance','aventura','drama','infantil','anime'];
+// "tendencias" no se marca a mano: la pone "Sincronizar tendencias" con los
+// datos reales de TMDB. Se deja visible para poder revisarla y corregirla.
+const CATEGORIES = ['tendencias','recomendado','estrenos','populares','antiguas','terror','accion','comedia','romance','aventura','drama','infantil','anime','novelas'];
 function categoryChips(selected){
   const sel = (selected||[]).map(c=>String(c).toLowerCase());
   return CATEGORIES.map(c=>
@@ -289,6 +343,140 @@ function categoryChips(selected){
 function collectCategories(){
   const on=[...document.querySelectorAll('#f_categories .chip.on')].map(c=>c.dataset.cat);
   return on.length?on:undefined;
+}
+function setCategoryChips(cats){
+  const want=new Set((cats||[]).map(c=>String(c).toLowerCase()));
+  document.querySelectorAll('#f_categories .chip').forEach(chip=>{
+    if(want.has(chip.dataset.cat))chip.classList.add('on');
+  });
+}
+
+// ---------- Clasificación automática ----------
+// Traduce los datos reales de TMDB (géneros, país de origen, fecha, votos) a
+// las categorías del Inicio. Reemplaza el marcar a ojo.
+const TMDB_GENRE_CAT = {
+  28:'accion', 12:'aventura', 16:'infantil', 35:'comedia', 18:'drama',
+  27:'terror', 10749:'romance', 10751:'infantil', 10762:'infantil',
+  10766:'novelas', 878:'aventura', 53:'terror', 80:'drama', 9648:'terror',
+  10759:'accion', 10765:'aventura'
+};
+// `info` es lo que devuelve /api/tmdb?action=detail.
+function classify(info){
+  const ids=info.genreIds||[];
+  const cats=new Set();
+  ids.forEach(id=>{const c=TMDB_GENRE_CAT[id];if(c)cats.add(c)});
+
+  const origin=(info.originCountry||[]).map(c=>c.toUpperCase());
+  const lang=(info.originalLanguage||'').toLowerCase();
+  // Anime = animación + origen japonés. Sin el origen, "animación" sola
+  // metería Pixar y Disney en la fila de anime.
+  const animated=ids.includes(16);
+  if(animated&&(origin.includes('JP')||lang==='ja')){cats.add('anime');cats.delete('infantil')}
+  // Telenovela: género Soap de TMDB, o serie de habla hispana/portuguesa
+  // catalogada como drama familiar largo.
+  if(ids.includes(10766))cats.add('novelas');
+
+  const year=info.year;
+  const now=new Date();
+  if(info.releaseDate){
+    const days=(now-new Date(info.releaseDate))/86400000;
+    if(days>=0&&days<=120)cats.add('estrenos');
+  }
+  if(year&&year<1990)cats.add('antiguas');
+  // Popular / recomendado con los números de TMDB, no a ojo.
+  if((info.votes||0)>=1000&&(info.popularity||0)>=40)cats.add('populares');
+  if((info.rating||0)>=7.5&&(info.votes||0)>=500)cats.add('recomendado');
+  return [...cats];
+}
+
+// ---------- TMDB ----------
+async function tmdbApi(params){
+  const r=await fetch('/api/tmdb?'+params);
+  const data=await r.json().catch(()=>({error:'Respuesta no válida de /api/tmdb'}));
+  if(!r.ok||data.error)throw new Error(data.error||('HTTP '+r.status));
+  return data;
+}
+
+// Busca por el título escrito y ofrece los candidatos. No elige solo: los
+// títulos del catálogo suelen venir con sufijos ("Latino", "1080p") y una
+// coincidencia automática rellenaría la ficha equivocada.
+async function tmdbSearch(){
+  const title=val('f_title');
+  const box=document.getElementById('tmdb_results');
+  if(!title){toast('Escribe primero el título','err');return}
+  box.innerHTML='<div style="color:var(--dim);font-size:12px;padding:8px 0">Buscando…</div>';
+  try{
+    const {results}=await tmdbApi('action=search&q='+encodeURIComponent(title)+(val('f_year')?'&year='+val('f_year'):''));
+    if(!results.length){box.innerHTML='<div style="color:var(--dim);font-size:12px;padding:8px 0">Sin resultados. Prueba con el título original, sin “Latino”, “HD” ni el año.</div>';return}
+    box.innerHTML='<div class="sourcelist" style="margin-top:8px">'+results.map(r=>
+      `<div class="source-row" onclick="tmdbPick('${r.tmdbType}',${r.tmdbId})">
+        <img class="pend-thumb" src="${esc(r.poster||'')}" onerror="this.style.visibility='hidden'">
+        <div class="source-info"><b>${esc(r.title)}</b><span>${r.tmdbType==='tv'?'Serie':'Película'}${r.year?' · '+r.year:''}${r.rating?' · ★'+r.rating:''}${r.originalTitle&&r.originalTitle!==r.title?' · '+esc(r.originalTitle):''}</span></div>
+      </div>`).join('')+'</div>';
+  }catch(e){box.innerHTML='<div style="color:var(--accent);font-size:12px;padding:8px 0">'+esc(e.message)+'</div>'}
+}
+
+// Rellena SOLO los campos vacíos: lo que ya escribiste a mano manda.
+function fill(id,value){
+  const el=document.getElementById(id);
+  if(el&&value!=null&&value!==''&&!el.value)el.value=value;
+}
+async function tmdbPick(type,id){
+  const box=document.getElementById('tmdb_results');
+  try{
+    const info=await tmdbApi('action=detail&type='+type+'&id='+id);
+    fill('f_plot',info.plot);
+    fill('f_cast',info.cast);
+    fill('f_director',info.director);
+    fill('f_writer',info.writer);
+    fill('f_genre',(info.genres||[]).join(', '));
+    fill('f_release_date',info.releaseDate);
+    fill('f_year',info.year);
+    fill('f_rating',info.rating);
+    fill('f_duration',info.duration);
+    fill('f_poster',info.poster);
+    fill('f_backdrop',info.backdrop);
+    document.getElementById('f_tmdb_id').value=info.tmdbId;
+    document.getElementById('f_tmdb_type').value=info.tmdbType;
+    setCategoryChips(classify(info));
+    box.innerHTML='';
+    document.getElementById('tmdb_state').textContent='Vinculado a TMDB #'+info.tmdbId+' · ficha y categorías rellenadas';
+    toast('Ficha completada desde TMDB');
+  }catch(e){box.innerHTML='<div style="color:var(--accent);font-size:12px;padding:8px 0">'+esc(e.message)+'</div>'}
+}
+
+// Marca como "tendencias" lo que TMDB reporta en tendencia esta semana, y se
+// la quita al resto. Sin esto la fila de Tendencias del Inicio es un adorno.
+async function syncTrending(){
+  toast('Consultando tendencias de TMDB…');
+  let data;
+  try{data=await tmdbApi('action=trending&window=week')}
+  catch(e){toast(e.message,'err');return}
+
+  const norm=s=>String(s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9]+/g,' ').trim();
+  const byId=new Set(data.results.map(r=>r.tmdbId));
+  const byTitle=new Set(data.results.flatMap(r=>[norm(r.title),norm(r.originalTitle)]).filter(Boolean));
+
+  let added=0, removed=0, matched=0;
+  ['movies','series'].forEach(tab=>{
+    (catalog[tab]||[]).forEach(item=>{
+      // El id de TMDB es exacto; el título es el respaldo para lo que aún no
+      // has vinculado con "Autocompletar".
+      const hit=(item.tmdbId&&byId.has(Number(item.tmdbId)))||byTitle.has(norm(item.title));
+      const cats=(item.categories||[]).map(c=>String(c).toLowerCase());
+      const has=cats.includes('tendencias');
+      if(hit)matched++;
+      if(hit&&!has){item.categories=[...cats,'tendencias'];added++}
+      else if(!hit&&has){
+        const rest=cats.filter(c=>c!=='tendencias');
+        item.categories=rest.length?rest:undefined;
+        removed++;
+      }
+    });
+  });
+  save();render();
+  toast(matched?`Tendencias: ${matched} coinciden (+${added} nuevas, −${removed} caducadas)`
+                :'Nada de tu catálogo está en tendencia esta semana');
 }
 
 // ---------- Fuente IPTV (Canales en vivo) ----------
@@ -353,6 +541,9 @@ function saveSource(idx){
 }
 
 function openEditor(idx){
+  // "Pendientes" es una vista-filtro, no una lista propia: al añadir desde ahí
+  // se crea una película normal.
+  if(activeTab==='pending'){activeTab='movies';renderTabs()}
   const tab = TABS.find(t=>t.id===activeTab);
   const editing = idx!=null;
   const it = editing ? JSON.parse(JSON.stringify(catalog[activeTab][idx])) : {};
@@ -383,6 +574,13 @@ function vodForm(it, isSeries){
     </div>
     <div class="row"><label>Título</label><input id="f_title" value="${esc(it.title)}" required></div>
   </div>
+  <div class="row">
+    <button type="button" class="btn-ghost btn-sm" onclick="tmdbSearch()">🔎 Autocompletar ficha desde TMDB</button>
+    <span id="tmdb_state" style="color:var(--dim);font-size:12px;margin-left:8px">${it.tmdbId?'Vinculado a TMDB #'+it.tmdbId:''}</span>
+    <div id="tmdb_results"></div>
+  </div>
+  <input type="hidden" id="f_tmdb_id" value="${esc(it.tmdbId)}">
+  <input type="hidden" id="f_tmdb_type" value="${esc(it.tmdbType)}">
   <div class="row"><label>Descripción / sinopsis</label><textarea id="f_plot" maxlength="4000" placeholder="De qué trata…">${esc(it.plot||it.description)}</textarea></div>
 
   <div class="section-label">Ficha</div>
@@ -484,7 +682,11 @@ function saveItem(idx){
     poster:val('f_poster')||undefined,
     backdrop:val('f_backdrop')||undefined,
     categories:collectCategories(),
-    featured:featured&&featured.checked?true:undefined
+    featured:featured&&featured.checked?true:undefined,
+    // Vínculo con TMDB: hace que "Sincronizar tendencias" acierte por id en
+    // vez de tener que adivinar por el título.
+    tmdbId:val('f_tmdb_id')?Number(val('f_tmdb_id')):undefined,
+    tmdbType:val('f_tmdb_type')||undefined
   };
 
   if(targetTab==='series'){

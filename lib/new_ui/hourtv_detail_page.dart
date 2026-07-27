@@ -9,6 +9,7 @@ import '../models/channel.dart';
 import '../services/cast_service.dart';
 import '../services/content_store.dart';
 import '../services/device_type.dart';
+import 'hourtv_artwork.dart';
 import 'hourtv_cast_controls_screen.dart';
 import 'hourtv_focusable.dart';
 import 'hourtv_player_screen.dart';
@@ -1016,17 +1017,18 @@ class _RelatedCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
                 border: Border.all(color: _line),
               ),
-              child: url == null
-                  ? const SizedBox.expand()
-                  : CachedNetworkImage(
-                      imageUrl: url,
-                      memCacheWidth: 720,
-                      // Poster completo, sin recortar; el banner horizontal
-                      // si usa cover (recorte de bordes esperado ahi).
-                      fit: portrait ? BoxFit.contain : BoxFit.cover,
-                      width: double.infinity,
-                      errorWidget: (_, _, _) => const SizedBox.expand(),
-                    ),
+              // Poster completo, sin recortar; el banner horizontal si usa
+              // cover (recorte de bordes esperado ahi). En celda vertical se
+              // mide la imagen: si el catalogo trae un fotograma apaisado en
+              // vez de poster, se pasa a cover para no dejar media tarjeta
+              // vacia.
+              child: AdaptiveArtwork(
+                url: url,
+                fit: portrait ? BoxFit.contain : BoxFit.cover,
+                adaptive: portrait,
+                cacheWidth: 720,
+                fallback: const SizedBox.expand(),
+              ),
             ),
           ),
           const SizedBox(height: 7),

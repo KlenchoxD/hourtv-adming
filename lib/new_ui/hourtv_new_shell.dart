@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,6 +7,7 @@ import '../models/channel.dart';
 import '../services/content_store.dart';
 import '../services/device_type.dart';
 
+import 'hourtv_artwork.dart';
 import 'hourtv_focusable.dart';
 import 'hourtv_detail_page.dart';
 import 'hourtv_live_page.dart';
@@ -669,9 +669,19 @@ class _HomePage extends StatelessWidget {
   final bool tv;
   final VoidCallback onSearch;
 
+  // Tendencias de verdad: las marca el panel de administracion con
+  // "Sincronizar tendencias", que lee el ranking semanal de TMDB. Si no hay
+  // nada marcado la fila no se pinta; antes se rellenaba invirtiendo el
+  // catalogo, que no era ninguna tendencia.
+  List<Channel> get _trending => [
+    for (final item in [...movies, ...series])
+      if (item.categories.any((c) => c.toLowerCase() == 'tendencias')) item,
+  ].take(12).toList();
+
   @override
   Widget build(BuildContext context) {
     final featured = movies.first;
+    final trending = _trending;
     return CustomScrollView(
       slivers: [
         SliverToBoxAdapter(
@@ -698,17 +708,18 @@ class _HomePage extends StatelessWidget {
             tv: tv,
           ),
         ),
-        SliverToBoxAdapter(
-          child: _MediaRow(
-            title: 'Tendencias ahora',
-            items: movies.reversed.take(10).toList(),
-            store: store,
-            preview: preview,
-            phone: phone,
-            tablet: tablet,
-            tv: tv,
+        if (trending.isNotEmpty)
+          SliverToBoxAdapter(
+            child: _MediaRow(
+              title: 'Tendencias ahora',
+              items: trending,
+              store: store,
+              preview: preview,
+              phone: phone,
+              tablet: tablet,
+              tv: tv,
+            ),
           ),
-        ),
         SliverToBoxAdapter(
           child: _MediaRow(
             title: 'Series para ti',
@@ -1050,6 +1061,7 @@ class _MediaCardState extends State<_MediaCard> {
                 // ratio de la celda. El banner horizontal si usa cover: ahi
                 // el recorte de bordes es el comportamiento esperado.
                 fit: widget.landscape ? BoxFit.cover : BoxFit.contain,
+                adaptive: !widget.landscape,
               ),
             ),
             const SizedBox(height: 7),
@@ -1398,29 +1410,23 @@ class _Artwork extends StatelessWidget {
     required this.fit,
     this.cacheWidth = 260,
     this.alignment = Alignment.center,
+    this.adaptive = false,
   });
   final String? url;
   final BoxFit fit;
   final Alignment alignment;
-
-  /// Ancho de decodificacion: las imagenes se cachean/decodifican a esta
-  /// resolucion en vez de la original. Clave para el rendimiento en TV Box
-  /// arm32 (evita saturar memoria/GPU con caratulas a tamano completo).
   final int cacheWidth;
+  final bool adaptive;
 
   @override
-  Widget build(BuildContext context) {
-    if (url == null || url!.trim().isEmpty) return const _ArtworkFallback();
-    return CachedNetworkImage(
-      imageUrl: url!,
-      fit: fit,
-      alignment: alignment,
-      memCacheWidth: cacheWidth,
-      fadeInDuration: const Duration(milliseconds: 200),
-      placeholder: (_, _) => const _ArtworkFallback(),
-      errorWidget: (_, _, _) => const _ArtworkFallback(),
-    );
-  }
+  Widget build(BuildContext context) => AdaptiveArtwork(
+    url: url,
+    fit: fit,
+    alignment: alignment,
+    cacheWidth: cacheWidth,
+    adaptive: adaptive,
+    fallback: const _ArtworkFallback(),
+  );
 }
 
 class _ArtworkFallback extends StatelessWidget {
