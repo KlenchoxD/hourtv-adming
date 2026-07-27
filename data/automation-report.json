@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-07-27T18:46:09.677Z",
-  "durationMs": 474,
+  "generatedAt": "2026-07-27T20:15:26.391Z",
+  "durationMs": 3728,
   "dryRun": false,
   "moviesFound": 31,
   "moviesDiscarded": 29,
@@ -68,23 +68,23 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 949838,
-      "title": "72 horas",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1368314,
-      "title": "El pasajero nocturno",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 936075,
       "title": "Michael",
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 949838,
+      "title": "72 horas",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1304313,
       "title": "La momia de Lee Cronin",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1368314,
+      "title": "El pasajero nocturno",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -98,8 +98,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1595852,
-      "title": "Boulevard",
+      "tmdbId": 1318447,
+      "title": "Depredador dominante",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -113,14 +113,19 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1668364,
-      "title": "Deseo",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1727780,
       "title": "Borderline",
       "reason": "Votos 3 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 1284465,
+      "title": "La muerte de Robin Hood",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1668364,
+      "title": "Deseo",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 980431,
@@ -143,18 +148,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1284465,
-      "title": "La muerte de Robin Hood",
+      "tmdbId": 1110034,
+      "title": "Kraken",
       "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1523145,
       "title": "Tu corazón se romperá",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1318621,
-      "title": "Los Descendientes: viaje al mundo oscuro",
       "reason": "Sin fuente autorizada configurada"
     }
   ]
