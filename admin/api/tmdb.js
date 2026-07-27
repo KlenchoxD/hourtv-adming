@@ -117,6 +117,7 @@ module.exports = async (req, res) => {
           crew.find((c) => c.job === 'Screenplay' || c.job === 'Writer') || {}
         ).name,
         seasons: data.number_of_seasons || null,
+        episodes: data.number_of_episodes || null,
       });
     }
 

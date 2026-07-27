@@ -360,7 +360,9 @@ function setCategoryChips(cats){
 // las categorías del Inicio. Reemplaza el marcar a ojo.
 const TMDB_GENRE_CAT = {
   28:'accion', 12:'aventura', 16:'infantil', 35:'comedia', 18:'drama',
-  27:'terror', 10749:'romance', 10751:'infantil', 10762:'infantil',
+  // Ojo: 10751 "Family" de TMDB NO es infantil (se lo ponen a dramas duros
+  // como Fatmagül). Infantil solo sale de 10762 "Kids" o de animación.
+  27:'terror', 10749:'romance', 10762:'infantil',
   10766:'novelas', 878:'aventura', 53:'terror', 80:'drama', 9648:'terror',
   10759:'accion', 10765:'aventura'
 };
@@ -376,9 +378,20 @@ function classify(info){
   // metería Pixar y Disney en la fila de anime.
   const animated=ids.includes(16);
   if(animated&&(origin.includes('JP')||lang==='ja')){cats.add('anime');cats.delete('infantil')}
-  // Telenovela: género Soap de TMDB, o serie de habla hispana/portuguesa
-  // catalogada como drama familiar largo.
+  // Telenovela: el género Soap de TMDB cuando está puesto. Pero lo aplican de
+  // forma irregular (La Reina del Flow figura solo como drama/crimen), así que
+  // se añade el rasgo que de verdad distingue a una novela: producción latina
+  // o turca, drama, y una tirada de episodios que ninguna serie normal tiene.
+  // Se mira el IDIOMA original, no el país: TMDB registra Pasión de gavilanes
+  // como estadounidense por ser de Telemundo. Y el idioma evita el falso
+  // positivo obvio del país-más-episodios, que colaría Grey's Anatomy.
+  const NOVELA_IDIOMA=['es','pt','tr'];
+  const NOVELA_PAIS=['CO','MX','VE','BR','AR','PE','CL','EC','TR'];
   if(ids.includes(10766))cats.add('novelas');
+  else if((NOVELA_IDIOMA.includes(lang)||origin.some(c=>NOVELA_PAIS.includes(c)))
+          &&ids.includes(18)&&(info.episodes||0)>=60){
+    cats.add('novelas');
+  }
 
   const year=info.year;
   const now=new Date();
@@ -387,8 +400,10 @@ function classify(info){
     if(days>=0&&days<=120)cats.add('estrenos');
   }
   if(year&&year<1990)cats.add('antiguas');
-  // Popular / recomendado con los números de TMDB, no a ojo.
-  if((info.votes||0)>=1000&&(info.popularity||0)>=40)cats.add('populares');
+  // Popular / recomendado con los números de TMDB, no a ojo. Se usa el número
+  // de votos, no `popularity`: TMDB rebajó la escala de popularidad y hoy un
+  // taquillazo ronda 20, así que cualquier umbral fijo sobre ella envejece mal.
+  if((info.votes||0)>=2000)cats.add('populares');
   if((info.rating||0)>=7.5&&(info.votes||0)>=500)cats.add('recomendado');
   return [...cats];
 }
