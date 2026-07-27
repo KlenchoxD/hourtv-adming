@@ -252,6 +252,15 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
     return KeyEventResult.ignored;
   }
 
+  // Cuando no hay banner horizontal el poster se dibuja completo (contain),
+  // asi que la altura reservada solo sirve para dejar franjas negras a los
+  // lados. Se reserva menos alto: la caratula sigue viendose entera y el
+  // titulo y los botones suben a la parte visible de la pantalla.
+  double _heroHeight(BuildContext context, double withBackdrop) =>
+      (channel.backdrop?.isNotEmpty ?? false)
+      ? withBackdrop
+      : 300 + MediaQuery.paddingOf(context).top;
+
   @override
   Widget build(BuildContext context) {
     if (DeviceProfile.isTv(context)) return tvLayout();
@@ -267,7 +276,7 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
         slivers: [
           SliverToBoxAdapter(
             child: SizedBox(
-              height: 410,
+              height: _heroHeight(context, 410),
               child: _Backdrop(
                 channel: channel,
                 gradient: const LinearGradient(
@@ -323,7 +332,7 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
         slivers: [
           SliverToBoxAdapter(
             child: SizedBox(
-              height: 360,
+              height: _heroHeight(context, 360),
               child: _Backdrop(
                 channel: channel,
                 gradient: const LinearGradient(
@@ -954,11 +963,21 @@ class _Backdrop extends StatelessWidget {
               // de relleno a los lados: ensuciaba la caratula y no aportaba.
               : ColoredBox(
                   color: _black,
-                  child: CachedNetworkImage(
-                    imageUrl: url,
-                    memCacheWidth: 620,
-                    fit: BoxFit.contain,
-                    errorWidget: (_, _, _) => const ColoredBox(color: _surface),
+                  // El poster se baja lo que mide la barra de estado: sin
+                  // esto el reloj y los iconos del sistema quedan pintados
+                  // encima de la caratula. El banner horizontal si sangra
+                  // hasta arriba a proposito, ahi el degradado lo tapa.
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                      top: MediaQuery.paddingOf(context).top,
+                    ),
+                    child: CachedNetworkImage(
+                      imageUrl: url,
+                      memCacheWidth: 620,
+                      fit: BoxFit.contain,
+                      errorWidget: (_, _, _) =>
+                          const ColoredBox(color: _surface),
+                    ),
                   ),
                 )
         else

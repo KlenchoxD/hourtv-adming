@@ -171,7 +171,7 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
       slivers: [
         SliverToBoxAdapter(
           child: SizedBox(
-            height: 430,
+            height: _heroHeight(context, 430),
             child: Stack(
               fit: StackFit.expand,
               children: [
@@ -219,7 +219,7 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
       slivers: [
         SliverToBoxAdapter(
           child: SizedBox(
-            height: tablet ? 390 : 440,
+            height: tablet ? _heroHeight(context, 390) : 440,
             child: Stack(
               fit: StackFit.expand,
               children: [
@@ -578,6 +578,13 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
     return list;
   }
 
+  // Sin banner horizontal el poster se dibuja completo (contain): el alto de
+  // sobra solo produce franjas negras a los lados. Se reserva menos.
+  double _heroHeight(BuildContext context, double withBackdrop) =>
+      (widget.series.backdrop?.isNotEmpty ?? false)
+      ? withBackdrop
+      : 300 + MediaQuery.paddingOf(context).top;
+
   Widget _artwork(BoxFit fit) {
     final backdrop = widget.series.backdrop;
     if (backdrop != null && backdrop.isNotEmpty) {
@@ -597,11 +604,16 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
     // a los lados (ensuciaba la caratula y no aportaba nada).
     return ColoredBox(
       color: _black,
-      child: CachedNetworkImage(
-        imageUrl: cover,
-        memCacheWidth: 620,
-        fit: BoxFit.contain,
-        errorWidget: (_, _, _) => const ColoredBox(color: _surface),
+      // Baja el poster lo que mide la barra de estado: si no, el reloj y los
+      // iconos del sistema quedan pintados encima de la caratula.
+      child: Padding(
+        padding: EdgeInsets.only(top: MediaQuery.paddingOf(context).top),
+        child: CachedNetworkImage(
+          imageUrl: cover,
+          memCacheWidth: 620,
+          fit: BoxFit.contain,
+          errorWidget: (_, _, _) => const ColoredBox(color: _surface),
+        ),
       ),
     );
   }
