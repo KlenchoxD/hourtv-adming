@@ -336,9 +336,19 @@ class _PlayerScreenState extends State<PlayerScreen> {
           bufferedColor: _hourMuted,
         ),
       );
-      _vc!.addListener(_onVideoProgress);
-      if (autoPlay) await _vc!.play();
+      final activeController = _vc!;
+      activeController.addListener(_onVideoProgress);
       setState(() => _loading = false);
+      // En Android la textura externa debe estar montada antes de iniciar el
+      // stream. Arrancar desde Chewie durante initialize puede dejar audio
+      // activo con una superficie negra en dispositivos que usan Skia.
+      if (autoPlay && defaultTargetPlatform == TargetPlatform.android) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (mounted && identical(_vc, activeController)) {
+            unawaited(activeController.play());
+          }
+        });
+      }
       // Arranca el auto-ocultado: sin esto, la barra de arriba y las flechas
       // laterales se quedaban visibles para siempre al entrar a una peli.
       _showChromeControls();
@@ -1208,15 +1218,26 @@ class _PlayerScreenState extends State<PlayerScreen> {
                   ),
                   child: Stack(
                     children: [
-                      Positioned.fill(
-                        child: _loading
-                            ? Center(child: _lw())
-                            : _err != null
-                            ? Center(child: _ew())
-                            : _vc != null
-                            ? _videoStage()
-                            : const SizedBox(),
-                      ),
+                      if (defaultTargetPlatform == TargetPlatform.android)
+                        Center(
+                          child: _loading
+                              ? _lw()
+                              : _err != null
+                              ? _ew()
+                              : _cc != null
+                              ? _androidChewieSurface(_cc!)
+                              : const SizedBox(),
+                        )
+                      else
+                        Positioned.fill(
+                          child: _loading
+                              ? Center(child: _lw())
+                              : _err != null
+                              ? Center(child: _ew())
+                              : _vc != null
+                              ? _videoStage()
+                              : const SizedBox(),
+                        ),
                       if (_screenDim > 0)
                         Positioned.fill(
                           child: IgnorePointer(
@@ -1357,15 +1378,47 @@ class _PlayerScreenState extends State<PlayerScreen> {
     );
   }
 
+  /// Conserva en Android el arbol de Chewie, estable con Skia. Ajustar y
+  /// automatico respetan la relacion original; Llenar usa el Transform.scale
+  /// que ya era fiable antes de introducir el render con FittedBox.
+  Widget _androidChewieSurface(ChewieController chewie) {
+    final controller = _vc;
+    if (controller == null || !controller.value.isInitialized) {
+      return const SizedBox.shrink();
+    }
+    final videoAr = controller.value.aspectRatio > 0
+        ? controller.value.aspectRatio
+        : 16 / 9;
+    final size = MediaQuery.sizeOf(context);
+    final screenAr = size.height > 0 ? size.width / size.height : videoAr;
+    final difference = (videoAr - screenAr).abs() / screenAr;
+    final cover = switch (_videoFitMode) {
+      _VideoFitMode.contain => false,
+      _VideoFitMode.cover => true,
+      _VideoFitMode.automatic => difference < .18,
+    };
+    final surface = Chewie(controller: chewie);
+    if (!cover) return surface;
+
+    final scale = videoAr > screenAr ? videoAr / screenAr : screenAr / videoAr;
+    if (!scale.isFinite || scale <= 1.001) return surface;
+    return Transform.scale(scale: scale, child: surface);
+  }
+
   Widget _videoStage() {
     return ValueListenableBuilder<bool>(
       valueListenable: _creditsMode,
       builder: (context, credits, _) {
         return LayoutBuilder(
+          // OJO: nada de `alignment` aqui. Con alignment el Container pasa
+          // restricciones SUELTAS al hijo, y un FittedBox con restricciones
+          // sueltas no escala: se queda con el tamaño nativo del video
+          // (1920x1080) y se sale de la pantalla -> se oia el audio pero la
+          // imagen no aparecia. Solo con padding el hijo recibe
+          // restricciones ajustadas y el modo creditos igual encoge.
           builder: (context, constraints) => AnimatedContainer(
             duration: const Duration(milliseconds: 420),
             curve: Curves.easeOutCubic,
-            alignment: Alignment.topLeft,
             padding: credits
                 ? EdgeInsets.fromLTRB(
                     24,
@@ -1374,16 +1427,12 @@ class _PlayerScreenState extends State<PlayerScreen> {
                     constraints.maxHeight * .28,
                   )
                 : EdgeInsets.zero,
-            decoration: BoxDecoration(
-              color: Colors.black,
-              border: credits
-                  ? Border.all(color: Colors.white24, width: 2)
-                  : null,
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(credits ? 12 : 0),
-              child: _videoSurface(),
-            ),
+            decoration: credits
+                ? BoxDecoration(
+                    border: Border.all(color: Colors.white24, width: 2),
+                  )
+                : null,
+            child: SizedBox.expand(child: _videoSurface()),
           ),
         );
       },
@@ -1400,6 +1449,10 @@ class _PlayerScreenState extends State<PlayerScreen> {
       return chewie == null
           ? const ColoredBox(color: Colors.black)
           : Chewie(controller: chewie);
+    }
+
+    if (defaultTargetPlatform == TargetPlatform.android) {
+      return _androidVideoSurface(controller);
     }
 
     final videoSize = controller.value.size;
@@ -1430,6 +1483,46 @@ class _PlayerScreenState extends State<PlayerScreen> {
                 child: VideoPlayer(controller),
               ),
             ),
+          ),
+        );
+      },
+    );
+  }
+
+  /// Render Android sin FittedBox ni transformaciones. video_player pinta una
+  /// textura externa y algunos dispositivos con Skia no la componen cuando
+  /// FittedBox aplica una matriz de escala. El Texture recibe aqui un tamano
+  /// fisico explicito; cover recorta y contain conserva la imagen completa.
+  Widget _androidVideoSurface(VideoPlayerController controller) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final rawVideoAr = controller.value.aspectRatio;
+        final videoAr = rawVideoAr.isFinite && rawVideoAr > 0
+            ? rawVideoAr
+            : 16 / 9;
+        final maxWidth = constraints.maxWidth;
+        final maxHeight = constraints.maxHeight;
+        if (!maxWidth.isFinite ||
+            !maxHeight.isFinite ||
+            maxWidth <= 0 ||
+            maxHeight <= 0) {
+          return VideoPlayer(controller);
+        }
+        final screenAr = maxWidth / maxHeight;
+        final relativeDifference = (videoAr - screenAr).abs() / screenAr;
+        final cover = switch (_videoFitMode) {
+          _VideoFitMode.contain => false,
+          _VideoFitMode.cover => true,
+          _VideoFitMode.automatic => relativeDifference < .18,
+        };
+        final scaleByWidth = cover ? videoAr < screenAr : videoAr > screenAr;
+        final width = scaleByWidth ? maxWidth : maxHeight * videoAr;
+        final height = scaleByWidth ? maxWidth / videoAr : maxHeight;
+        return Center(
+          child: SizedBox(
+            width: width,
+            height: height,
+            child: VideoPlayer(controller),
           ),
         );
       },
