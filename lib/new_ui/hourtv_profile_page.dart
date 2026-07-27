@@ -21,11 +21,19 @@ class HourTvProfilePage extends StatefulWidget {
     required this.phone,
     required this.tablet,
     required this.tv,
+    this.onLoggedOut,
   });
 
   final bool phone;
   final bool tablet;
   final bool tv;
+
+  /// Se llama tras confirmar "Cerrar sesión": el shell usa esto para
+  /// devolver al usuario a Inicio. Esta app no tiene login con
+  /// usuario/contraseña (es un reproductor IPTV local), asi que "cerrar
+  /// sesión" es honesto sobre lo que realmente hace: vuelve el perfil
+  /// activo a Invitado y regresa a Inicio.
+  final VoidCallback? onLoggedOut;
 
   @override
   State<HourTvProfilePage> createState() => _HourTvProfilePageState();
@@ -91,6 +99,84 @@ class _HourTvProfilePageState extends State<HourTvProfilePage> {
     unawaited(StorageService.saveSetting('activeProfile', value));
   }
 
+  Future<void> _cycleProfile() async {
+    final current = profiles.indexWhere((item) => item.$1 == profile);
+    _selectProfile(profiles[(current + 1) % profiles.length].$1);
+  }
+
+  Future<void> _logout() async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        backgroundColor: _surface,
+        title: const Text(
+          'Cerrar sesión',
+          style: TextStyle(color: Colors.white),
+        ),
+        content: const Text(
+          'Esto vuelve el perfil activo a Invitado. HourTV no usa cuentas '
+          'con usuario y contraseña: el perfil es local a este dispositivo.',
+          style: TextStyle(color: _muted),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext, false),
+            child: const Text('Cancelar'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext, true),
+            style: TextButton.styleFrom(foregroundColor: _red),
+            child: const Text('Cerrar sesión'),
+          ),
+        ],
+      ),
+    );
+    if (confirmed != true || !mounted) return;
+    _selectProfile('Invitado');
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Sesión cerrada.')),
+    );
+    widget.onLoggedOut?.call();
+  }
+
+  Widget _switchProfileButton({required bool isTv}) {
+    final button = OutlinedButton.icon(
+      onPressed: _cycleProfile,
+      style: OutlinedButton.styleFrom(
+        foregroundColor: Colors.white,
+        side: const BorderSide(color: _line),
+        minimumSize: Size.fromHeight(isTv ? 52 : 46),
+      ),
+      icon: const Icon(Icons.switch_account_rounded),
+      label: const Text('Cambiar perfil'),
+    );
+    if (!isTv) return button;
+    return TvFocusable(
+      onTap: _cycleProfile,
+      borderRadius: BorderRadius.circular(10),
+      child: button,
+    );
+  }
+
+  Widget _logoutButton({required bool isTv}) {
+    final button = OutlinedButton.icon(
+      onPressed: () => unawaited(_logout()),
+      style: OutlinedButton.styleFrom(
+        foregroundColor: _red,
+        side: const BorderSide(color: _red),
+        minimumSize: Size.fromHeight(isTv ? 52 : 46),
+      ),
+      icon: const Icon(Icons.logout_rounded),
+      label: const Text('Cerrar sesión'),
+    );
+    if (!isTv) return button;
+    return TvFocusable(
+      onTap: () => unawaited(_logout()),
+      borderRadius: BorderRadius.circular(10),
+      child: button,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     if (widget.phone) return _mobile();
@@ -146,12 +232,7 @@ class _HourTvProfilePageState extends State<HourTvProfilePage> {
                     border: Border.all(color: _line),
                   ),
                   child: TextButton(
-                    onPressed: () {
-                      _selectProfile('Invitado');
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Sesión cerrada.')),
-                      );
-                    },
+                    onPressed: () => unawaited(_logout()),
                     style: TextButton.styleFrom(
                       foregroundColor: _red,
                       minimumSize: const Size.fromHeight(50),
@@ -194,7 +275,7 @@ class _HourTvProfilePageState extends State<HourTvProfilePage> {
                             _avatar(40, Icons.local_movies_rounded),
                             const SizedBox(height: 15),
                             Text(
-                              '$profile (Cinéfilo)',
+                              profile,
                               textAlign: TextAlign.center,
                               style: const TextStyle(
                                 color: Colors.white,
@@ -226,7 +307,7 @@ class _HourTvProfilePageState extends State<HourTvProfilePage> {
                                 side: const BorderSide(color: _line),
                                 minimumSize: const Size.fromHeight(44),
                               ),
-                              child: const Text('Cambiar avatar'),
+                              child: const Text('Cambiar perfil'),
                             ),
                           ],
                         ),
@@ -348,6 +429,16 @@ class _HourTvProfilePageState extends State<HourTvProfilePage> {
                           child: card,
                         );
                       },
+                    ),
+                    SizedBox(height: isTv ? 22 : 18),
+                    // Antes desktop/TV no tenian forma de cambiar de perfil
+                    // ni de cerrar sesion (solo existia en telefono/tablet).
+                    Row(
+                      children: [
+                        Expanded(child: _switchProfileButton(isTv: isTv)),
+                        const SizedBox(width: 14),
+                        Expanded(child: _logoutButton(isTv: isTv)),
+                      ],
                     ),
                   ],
                 ),

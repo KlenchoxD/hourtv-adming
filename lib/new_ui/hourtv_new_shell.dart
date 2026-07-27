@@ -12,6 +12,7 @@ import 'hourtv_focusable.dart';
 import 'hourtv_detail_page.dart';
 import 'hourtv_live_page.dart';
 import 'hourtv_profile_page.dart';
+import 'hourtv_search_keyboard.dart';
 import 'hourtv_series_detail_page.dart';
 
 const _red = Color(0xFFF20A1A);
@@ -217,7 +218,19 @@ class _HourTvNewShellState extends State<HourTvNewShell> {
                       _updateRailVisual();
                     }),
                   ),
-                  Expanded(child: body),
+                  Expanded(
+                    // En Vivo es pantalla completa a proposito (estilo
+                    // Netflix): el video debe llegar hasta el borde real,
+                    // sin dejar franjas negras arriba/abajo por la barra de
+                    // estado. El resto de secciones si necesita el inset:
+                    // sin esto, en tablets con status bar visible el titulo
+                    // y el contenido de arriba quedaban tapados por los
+                    // iconos de la barra (la unica seccion protegida era el
+                    // rail, que ya trae su propio SafeArea).
+                    child: section == _Section.live
+                        ? body
+                        : SafeArea(left: false, child: body),
+                  ),
                 ],
               ),
         bottomNavigationBar: phone
@@ -303,7 +316,12 @@ class _HourTvNewShellState extends State<HourTvNewShell> {
           emptyMessage: 'Todavía no agregaste contenido a Mi lista.',
         );
       case _Section.profile:
-        return HourTvProfilePage(phone: phone, tablet: tablet, tv: tv);
+        return HourTvProfilePage(
+          phone: phone,
+          tablet: tablet,
+          tv: tv,
+          onLoggedOut: () => setState(() => section = _Section.home),
+        );
     }
   }
 }
@@ -583,9 +601,10 @@ class _BottomNav extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Sin "Buscar": la lupa de Inicio ya lleva a la busqueda, tener los dos
+    // accesos era redundante.
     const items = <(_Section, IconData, String)>[
       (_Section.home, Icons.home_rounded, 'Inicio'),
-      (_Section.search, Icons.search_rounded, 'Buscar'),
       (_Section.live, Icons.live_tv_rounded, 'TV'),
       (_Section.list, Icons.favorite_border_rounded, 'Mi lista'),
       (_Section.profile, Icons.person_outline_rounded, 'Perfil'),
@@ -1025,7 +1044,12 @@ class _MediaCardState extends State<_MediaCard> {
                 url: widget.landscape
                     ? (widget.channel.backdrop ?? widget.channel.logo)
                     : widget.channel.logo,
-                fit: BoxFit.cover,
+                // La portada (poster) se ve COMPLETA, sin recortar cabeza ni
+                // pies: "cover" rellenaba la tarjeta pero cortaba el arte
+                // cuando el poster real no coincidia exacto con el aspect
+                // ratio de la celda. El banner horizontal si usa cover: ahi
+                // el recorte de bordes es el comportamiento esperado.
+                fit: widget.landscape ? BoxFit.cover : BoxFit.contain,
               ),
             ),
             const SizedBox(height: 7),
@@ -1077,6 +1101,28 @@ class _CatalogPage extends StatefulWidget {
 
 class _CatalogPageState extends State<_CatalogPage> {
   String query = '';
+  final FocusNode _searchFocus = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+    // El teclado de Android se abria en el MISMO frame que el layout
+    // inicial de la grilla de resultados (potencialmente cientos de
+    // celdas) porque `autofocus` pide el foco de forma sincrona durante el
+    // build. Pedirlo un frame despues, con la UI ya asentada, evita ese
+    // choque y el lag al abrir el buscador.
+    if (widget.searchAutofocus) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) _searchFocus.requestFocus();
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _searchFocus.dispose();
+    super.dispose();
+  }
 
   /// Layout de búsqueda para TV: teclado a la izquierda y resultados a la
   /// derecha, ambos visibles a la vez (como Netflix).
@@ -1106,7 +1152,7 @@ class _CatalogPageState extends State<_CatalogPage> {
                   Text(widget.subtitle!, style: const TextStyle(color: _muted)),
                 ],
                 const SizedBox(height: 16),
-                _TvSearchKeyboard(
+                TvSearchKeyboard(
                   query: query,
                   onChanged: (value) => setState(() => query = value),
                 ),
@@ -1232,7 +1278,7 @@ class _CatalogPageState extends State<_CatalogPage> {
                   SizedBox(
                     width: widget.phone ? double.infinity : 420,
                     child: TextField(
-                      autofocus: widget.searchAutofocus,
+                      focusNode: _searchFocus,
                       textInputAction: TextInputAction.search,
                       onChanged: (value) => setState(() => query = value),
                       onSubmitted: (value) => setState(() => query = value),
@@ -1293,149 +1339,6 @@ class _CatalogPageState extends State<_CatalogPage> {
             ),
           ),
       ],
-    );
-  }
-}
-
-/// Teclado en pantalla para búsqueda en TV: navegable con el control (D-pad),
-/// sin depender del IME del sistema. Reporta el texto al padre.
-class _TvSearchKeyboard extends StatelessWidget {
-  const _TvSearchKeyboard({required this.query, required this.onChanged});
-
-  final String query;
-  final ValueChanged<String> onChanged;
-
-  static const _rows = <String>[
-    'ABCDEFG',
-    'HIJKLMN',
-    'OPQRSTU',
-    'VWXYZ01',
-    // La ultima fila llegaba solo al 8: faltaba la tecla del 9.
-    '23456789',
-  ];
-
-  void _type(String ch) => onChanged(query + ch);
-  void _back() => onChanged(
-    query.isEmpty ? '' : query.substring(0, query.length - 1),
-  );
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // Lo que se va escribiendo.
-        Container(
-          width: 372,
-          height: 46,
-          alignment: Alignment.centerLeft,
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          decoration: BoxDecoration(
-            color: _surface,
-            borderRadius: BorderRadius.circular(14),
-            border: Border.all(color: _line),
-          ),
-          child: Row(
-            children: [
-              const Icon(Icons.search_rounded, color: _muted, size: 20),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Text(
-                  query.isEmpty ? 'Escribe con el control…' : query,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    color: query.isEmpty ? _muted : Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(height: 12),
-        for (var r = 0; r < _rows.length; r++) ...[
-          Row(
-            children: [
-              for (final ch in _rows[r].split('')) ...[
-                _KeyCap(
-                  label: ch,
-                  autofocus: r == 0 && ch == 'A',
-                  onTap: () => _type(ch),
-                ),
-                const SizedBox(width: 6),
-              ],
-            ],
-          ),
-          const SizedBox(height: 6),
-        ],
-        Row(
-          children: [
-            _KeyCap(label: 'Espacio', wide: true, onTap: () => _type(' ')),
-            const SizedBox(width: 6),
-            _KeyCap(icon: Icons.backspace_outlined, onTap: _back),
-            const SizedBox(width: 6),
-            _KeyCap(icon: Icons.close_rounded, onTap: () => onChanged('')),
-          ],
-        ),
-      ],
-    );
-  }
-}
-
-class _KeyCap extends StatefulWidget {
-  const _KeyCap({
-    this.label,
-    this.icon,
-    this.wide = false,
-    this.autofocus = false,
-    required this.onTap,
-  });
-
-  final String? label;
-  final IconData? icon;
-  final bool wide;
-  final bool autofocus;
-  final VoidCallback onTap;
-
-  @override
-  State<_KeyCap> createState() => _KeyCapState();
-}
-
-class _KeyCapState extends State<_KeyCap> {
-  bool _focused = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return TvFocusable(
-      onTap: widget.onTap,
-      autofocus: widget.autofocus,
-      decorated: false,
-      scale: 1.12,
-      borderRadius: BorderRadius.circular(10),
-      onFocusChange: (value) => setState(() => _focused = value),
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 110),
-        width: widget.wide ? 96 : 38,
-        height: 38,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          color: _focused ? _red : _surface,
-          borderRadius: BorderRadius.circular(9),
-          border: Border.all(color: _focused ? _red : _line),
-        ),
-        child: widget.icon != null
-            ? Icon(widget.icon, color: Colors.white, size: 18)
-            : Text(
-                widget.label!,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w700,
-                  fontSize: widget.wide ? 13 : 15,
-                ),
-              ),
-      ),
     );
   }
 }

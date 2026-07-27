@@ -3,11 +3,13 @@ import 'dart:async';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_chrome_cast/flutter_chrome_cast.dart';
 
 import '../models/channel.dart';
+import '../services/cast_service.dart';
 import '../services/content_store.dart';
 import '../services/device_type.dart';
-import '../services/share_service.dart';
+import 'hourtv_cast_controls_screen.dart';
 import 'hourtv_focusable.dart';
 import 'hourtv_player_screen.dart';
 
@@ -95,9 +97,98 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
     if (mounted) setState(() {});
   }
 
-  Future<void> share() async {
-    await ShareService.shareVod(title: channel.displayName, plot: channel.plot);
+  /// Envia el contenido a un TV por Chromecast/Cast, no comparte texto: el
+  /// icono es un cast, asi que su accion real debe ser transmitir, igual
+  /// que el boton "Transmitir" del reproductor.
+  Future<void> castToDevice() async {
+    if (widget.preview) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Conecta una fuente IPTV para transmitir contenido real.'),
+        ),
+      );
+      return;
+    }
+    final available = await CastService.instance.initialize();
+    if (!mounted) return;
+    if (!available) {
+      await _showCastMessage(
+        'Este dispositivo no tiene soporte para Google Cast.',
+      );
+      return;
+    }
+    final streamUrl = channel.url;
+    if (!CastService.isNetworkUrl(streamUrl) ||
+        CastService.contentTypeFor(streamUrl) == null) {
+      await _showCastMessage(
+        'Este contenido no expone una URL HLS o MP4 compatible con Chromecast.',
+      );
+      return;
+    }
+    await CastService.instance.startDiscovery();
+    await Future<void>.delayed(const Duration(seconds: 2));
+    if (!mounted) return;
+    final devices = CastService.instance.devices;
+    if (devices.isEmpty) {
+      await _showCastMessage(
+        'No se encontró ningún Chromecast en la red. Verifica que estén '
+        'conectados al mismo Wi-Fi.',
+      );
+      return;
+    }
+    final selected = await showDialog<GoogleCastDevice>(
+      context: context,
+      builder: (dialogContext) => SimpleDialog(
+        title: const Text('Transmitir a'),
+        children: [
+          for (final device in devices)
+            SimpleDialogOption(
+              onPressed: () => Navigator.pop(dialogContext, device),
+              child: ListTile(
+                contentPadding: EdgeInsets.zero,
+                leading: const Icon(Icons.cast_rounded),
+                title: Text(device.friendlyName),
+                subtitle: device.modelName == null
+                    ? null
+                    : Text(device.modelName!),
+              ),
+            ),
+        ],
+      ),
+    );
+    if (!mounted || selected == null) return;
+    try {
+      await CastService.instance.connectAndLoad(
+        device: selected,
+        url: streamUrl,
+        title: channel.displayName,
+        posterUrl: channel.backdrop ?? channel.logo,
+      );
+      if (!mounted) return;
+      await Navigator.of(context).push<bool>(
+        MaterialPageRoute(
+          builder: (_) => CastControlsScreen(title: channel.displayName),
+        ),
+      );
+    } catch (error) {
+      if (mounted) await _showCastMessage('No se pudo transmitir: $error');
+    }
   }
+
+  Future<void> _showCastMessage(String message) => showDialog<void>(
+    context: context,
+    builder: (dialogContext) => AlertDialog(
+      backgroundColor: _surface,
+      title: const Text('Transmitir', style: TextStyle(color: Colors.white)),
+      content: Text(message, style: const TextStyle(color: _muted)),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(dialogContext),
+          child: const Text('Entendido'),
+        ),
+      ],
+    ),
+  );
 
   void openRelated(Channel item) {
     Navigator.of(context).pushReplacement(
@@ -190,31 +281,33 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
             ),
           ),
           SliverToBoxAdapter(
-            child: Transform.translate(
-              offset: const Offset(0, -24),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _title(29),
-                    const SizedBox(height: 10),
-                    _meta(),
-                    const SizedBox(height: 17),
-                    _actions(phone: true),
-                    const SizedBox(height: 19),
-                    _description(),
-                    const SizedBox(height: 14),
-                    _cast(),
-                    const SizedBox(height: 12),
-                    _genres(),
-                    if (related.isNotEmpty) ...[
-                      const SizedBox(height: 28),
-                      _relatedRow(portrait: true, cardWidth: 112),
-                    ],
-                    const SizedBox(height: 80),
+            child: Padding(
+              // Antes este bloque se desplazaba -24px hacia arriba para
+              // superponerse al backdrop: el titulo terminaba pintandose
+              // sobre la imagen y quedaba dificil de leer. Ahora arranca
+              // debajo, sobre el fondo negro, con aire suficiente para que
+              // el titulo no se lea pegado al borde de la imagen.
+              padding: const EdgeInsets.fromLTRB(16, 22, 16, 0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _title(29),
+                  const SizedBox(height: 10),
+                  _meta(),
+                  const SizedBox(height: 17),
+                  _actions(phone: true),
+                  const SizedBox(height: 19),
+                  _description(),
+                  const SizedBox(height: 14),
+                  _cast(),
+                  const SizedBox(height: 12),
+                  _genres(),
+                  if (related.isNotEmpty) ...[
+                    const SizedBox(height: 28),
+                    _relatedRow(portrait: true, cardWidth: 112),
                   ],
-                ),
+                  const SizedBox(height: 80),
+                ],
               ),
             ),
           ),
@@ -538,17 +631,27 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
   }) {
     return Positioned(
       left: left,
-      top: top,
-      child: IconButton.filledTonal(
+      // Suma el inset de la barra de estado (backdrop edge-to-edge) mas un
+      // margen extra: separado del borde, no pegado a la hora/iconos del
+      // sistema en telefono y tablet.
+      top: top + MediaQuery.paddingOf(context).top + 10,
+      child: IconButton(
         onPressed: () => Navigator.pop(context),
-        icon: Icon(
-          close ? Icons.close_rounded : Icons.chevron_left_rounded,
-          color: Colors.white,
+        // Colores oficiales de HourTV (negro/rojo), no el azul/teal por
+        // defecto de filledTonal en Material 3.
+        style: IconButton.styleFrom(
+          backgroundColor: _black.withValues(alpha: .55),
+          foregroundColor: Colors.white,
+          side: const BorderSide(color: _red, width: 1.4),
         ),
+        icon: Icon(close ? Icons.close_rounded : Icons.chevron_left_rounded),
       ),
     );
   }
 
+  // height 1.12 (antes .98) y una sombra suave: con .98 las dos lineas se
+  // tocaban entre si y el titulo se leia comprimido contra la imagen; la
+  // sombra lo despega del fondo cuando queda sobre el backdrop.
   Widget _title(double size) => Text(
     channel.displayName,
     maxLines: 2,
@@ -556,9 +659,12 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
     style: TextStyle(
       color: Colors.white,
       fontSize: size,
-      height: .98,
+      height: 1.12,
       fontWeight: FontWeight.w900,
-      letterSpacing: -1.2,
+      letterSpacing: -.8,
+      shadows: const [
+        Shadow(color: Color(0xCC000000), blurRadius: 12, offset: Offset(0, 2)),
+      ],
     ),
   );
 
@@ -661,25 +767,45 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
           active: liked,
         ),
         const SizedBox(width: 8),
-        _roundAction(Icons.cast_rounded, () => unawaited(share())),
+        _roundAction(Icons.cast_rounded, () => unawaited(castToDevice())),
       ],
     );
   }
 
+  // Rediseño de "Añadir a la lista" / "Me gusta": circular, con relleno rojo
+  // y sombra suave cuando esta activo en vez del cuadrado plano de antes
+  // (mismo color en foco y sin foco, sin feedback visual de estado real).
   Widget _roundAction(
     IconData icon,
     VoidCallback onTap, {
     bool active = false,
-  }) => IconButton(
-    onPressed: onTap,
-    style: IconButton.styleFrom(
-      backgroundColor: _surface,
-      foregroundColor: active ? _red : Colors.white,
-      minimumSize: const Size(48, 48),
-      side: const BorderSide(color: _line),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+  }) => Material(
+    color: Colors.transparent,
+    child: InkWell(
+      onTap: onTap,
+      customBorder: const CircleBorder(),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        curve: Curves.easeOutCubic,
+        width: 48,
+        height: 48,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: active ? _red : _surface,
+          border: Border.all(color: active ? _red : _line),
+          boxShadow: active
+              ? [
+                  BoxShadow(
+                    color: _red.withValues(alpha: .45),
+                    blurRadius: 14,
+                    spreadRadius: 1,
+                  ),
+                ]
+              : null,
+        ),
+        child: Icon(icon, color: Colors.white, size: 22),
+      ),
     ),
-    icon: Icon(icon),
   );
 
   Widget _description({int? maxLines, bool large = false}) => Text(
@@ -737,7 +863,7 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
-          'Más como esto',
+          'Relacionado',
           style: TextStyle(
             color: Colors.white,
             fontSize: 18,
@@ -769,7 +895,7 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       const Text(
-        'Más como esto',
+        'Relacionado',
         style: TextStyle(
           color: Colors.white,
           fontSize: 21,
@@ -809,17 +935,32 @@ class _Backdrop extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final hasBackdrop = channel.backdrop != null && channel.backdrop!.isNotEmpty;
     final url = channel.backdrop ?? channel.logo;
     return Stack(
       fit: StackFit.expand,
       children: [
         if (url != null && url.isNotEmpty)
-          CachedNetworkImage(
-            imageUrl: url,
-      memCacheWidth: 720,
-            fit: BoxFit.cover,
-            errorWidget: (_, _, _) => const ColoredBox(color: _surface),
-          )
+          hasBackdrop
+              // Banner horizontal real: cover, hecho para este ancho.
+              ? CachedNetworkImage(
+                  imageUrl: url,
+                  memCacheWidth: 720,
+                  fit: BoxFit.cover,
+                  errorWidget: (_, _, _) => const ColoredBox(color: _surface),
+                )
+              // Sin banner: es el poster VERTICAL. Se muestra completo y
+              // proporcionado sobre fondo negro liso. Nada de copia borrosa
+              // de relleno a los lados: ensuciaba la caratula y no aportaba.
+              : ColoredBox(
+                  color: _black,
+                  child: CachedNetworkImage(
+                    imageUrl: url,
+                    memCacheWidth: 620,
+                    fit: BoxFit.contain,
+                    errorWidget: (_, _, _) => const ColoredBox(color: _surface),
+                  ),
+                )
         else
           const ColoredBox(color: _surface),
         DecoratedBox(decoration: BoxDecoration(gradient: gradient)),
@@ -860,8 +1001,10 @@ class _RelatedCard extends StatelessWidget {
                   ? const SizedBox.expand()
                   : CachedNetworkImage(
                       imageUrl: url,
-      memCacheWidth: 720,
-                      fit: BoxFit.cover,
+                      memCacheWidth: 720,
+                      // Poster completo, sin recortar; el banner horizontal
+                      // si usa cover (recorte de bordes esperado ahi).
+                      fit: portrait ? BoxFit.contain : BoxFit.cover,
                       width: double.infinity,
                       errorWidget: (_, _, _) => const SizedBox.expand(),
                     ),

@@ -152,9 +152,9 @@ class M3UParserService {
   /// real de la cuenta Xtream del usuario (rutas /movie/ y /series/).
   ///
   /// El campo `category` de cada lista se usa como GENERO del canal:
-  ///   'deportes','noticias','infantiles','musica','documentales','anime'
+  ///   'Deportes','Noticias','Infantiles','Anime','Cine','Series'
   ///   -> alimentan las categorías tipo Netflix.
-  ///   'live' -> canales generales; EN VIVO los agrupa por PAÍS (del tvg-id).
+  ///   'Populares' -> canales generales; EN VIVO los agrupa por PAÍS (del tvg-id).
   /// Se cargan en este orden y se deduplican por URL conservando la primera
   /// aparición, por eso los géneros van primero (ganan su etiqueta).
   /// Países (código ISO -> nombre) cuyas listas oficiales de iptv-org se cargan
@@ -181,46 +181,54 @@ class M3UParserService {
 
   static List<M3UList> getDefaultLists() => [
     // --- Generos (categorías) primero, para que conserven su etiqueta ---
+    // La categoria alimenta directamente el chip de la seccion TV en vivo
+    // (channel.genre), asi que va en Mayuscula inicial: antes se guardaba en
+    // minuscula ('deportes', 'documentales'...) y los chips salian asi tal
+    // cual, sin capitalizar.
     M3UList(
       name: 'Deportes',
       url: '$_io/categories/sports.m3u',
       description: 'Canales deportivos',
-      category: 'deportes',
+      category: 'Deportes',
       isDefault: true,
     ),
     M3UList(
       name: 'Noticias',
       url: '$_io/categories/news.m3u',
       description: 'Canales de noticias',
-      category: 'noticias',
+      category: 'Noticias',
       isDefault: true,
     ),
     M3UList(
       name: 'Infantiles',
       url: '$_io/categories/kids.m3u',
       description: 'Canales para niños',
-      category: 'infantiles',
+      category: 'Infantiles',
       isDefault: true,
     ),
     M3UList(
       name: 'Anime',
       url: '$_io/categories/animation.m3u',
       description: 'Anime y animación',
-      category: 'anime',
+      category: 'Anime',
+      isDefault: true,
+    ),
+    // Documentales y Musica se reemplazan por Cine/Series: son listas
+    // lineales tematicas de iptv-org (canales 24/7, no VOD) igual que las
+    // anteriores, solo que con contenido de peliculas/series en vez de
+    // documentales/musica.
+    M3UList(
+      name: 'Cine',
+      url: '$_io/categories/movies.m3u',
+      description: 'Canales de cine 24/7',
+      category: 'Cine',
       isDefault: true,
     ),
     M3UList(
-      name: 'Documentales',
-      url: '$_io/categories/documentary.m3u',
-      description: 'Documentales',
-      category: 'documentales',
-      isDefault: true,
-    ),
-    M3UList(
-      name: 'Música',
-      url: '$_io/categories/music.m3u',
-      description: 'Canales musicales',
-      category: 'musica',
+      name: 'Series',
+      url: '$_io/categories/series.m3u',
+      description: 'Canales de series 24/7',
+      category: 'Series',
       isDefault: true,
     ),
     // --- EN VIVO por PAÍS: lista oficial de cada país (iptv-org/countries) ---
@@ -229,7 +237,10 @@ class M3UParserService {
         name: e.value,
         url: '$_io/countries/${e.key}.m3u',
         description: 'Canales de ${e.value}',
-        category: 'live',
+        // "Live" era redundante como categoria (toda la seccion ya es TV en
+        // vivo): se reemplaza por "Populares", que es lo que realmente es
+        // este grupo (el catalogo general/por pais).
+        category: 'Populares',
         isDefault: true,
       ),
     // --- Refuerzo: agregados grandes (rellenan lo que falte) ---
@@ -237,7 +248,7 @@ class M3UParserService {
       name: 'Latinos',
       url: '$_io/languages/spa.m3u',
       description: 'Canales en español',
-      category: 'live',
+      category: 'Populares',
       isDefault: true,
     ),
     M3UList(
@@ -245,7 +256,7 @@ class M3UParserService {
       url:
           'https://raw.githubusercontent.com/Free-TV/IPTV/master/playlist.m3u8',
       description: 'Canales por país (Free-TV)',
-      category: 'live',
+      category: 'Populares',
       isDefault: true,
     ),
   ];

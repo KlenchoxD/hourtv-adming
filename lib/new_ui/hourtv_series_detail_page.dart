@@ -194,7 +194,9 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
                 Positioned(
                   left: 18,
                   right: 18,
-                  bottom: 8,
+                  // Mas aire abajo: con 8 el titulo quedaba pegado al borde
+                  // de la imagen y al bloque de episodios que sigue.
+                  bottom: 22,
                   child: _summary(phone: true),
                 ),
               ],
@@ -231,7 +233,11 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
                     ),
                   ),
                 ),
-                Positioned(left: 20, top: 20, child: _back()),
+                Positioned(
+                  left: 20,
+                  top: MediaQuery.paddingOf(context).top + 20,
+                  child: _back(),
+                ),
                 Positioned(
                   left: 58,
                   bottom: 42,
@@ -344,12 +350,22 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
           textAlign: phone ? TextAlign.center : TextAlign.left,
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
+          // Igual que en el detalle de pelicula: height 1.12 en vez de .98
+          // (las dos lineas se tocaban) y sombra para despegar el titulo de
+          // la imagen que tiene detras.
           style: GoogleFonts.inter(
             color: Colors.white,
             fontWeight: FontWeight.w900,
             fontSize: phone ? 30 : (tv ? 52 : 42),
-            height: .98,
-            letterSpacing: -1.4,
+            height: 1.12,
+            letterSpacing: -.9,
+            shadows: const [
+              Shadow(
+                color: Color(0xCC000000),
+                blurRadius: 12,
+                offset: Offset(0, 2),
+              ),
+            ],
           ),
         ),
         const SizedBox(height: 10),
@@ -402,6 +418,7 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
             _action(
               item.isFavorite ? Icons.check_rounded : Icons.add_rounded,
               _favorite,
+              active: item.isFavorite,
             ),
             const SizedBox(width: 8),
             _action(Icons.ios_share_rounded, _share),
@@ -562,37 +579,76 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
   }
 
   Widget _artwork(BoxFit fit) {
+    final backdrop = widget.series.backdrop;
+    if (backdrop != null && backdrop.isNotEmpty) {
+      return CachedNetworkImage(
+        imageUrl: backdrop,
+        memCacheWidth: 720,
+        fit: fit,
+        errorWidget: (_, _, _) => const ColoredBox(color: _surface),
+      );
+    }
     final cover = widget.series.cover;
     if (cover == null || cover.isEmpty) {
       return const ColoredBox(color: _surface);
     }
-    return CachedNetworkImage(
-      imageUrl: cover,
-      memCacheWidth: 720,
-      fit: fit,
-      errorWidget: (_, _, _) => const ColoredBox(color: _surface),
+    // Sin backdrop: cover es el poster VERTICAL. Se muestra completo y
+    // proporcionado sobre fondo negro liso, sin copia borrosa de relleno
+    // a los lados (ensuciaba la caratula y no aportaba nada).
+    return ColoredBox(
+      color: _black,
+      child: CachedNetworkImage(
+        imageUrl: cover,
+        memCacheWidth: 620,
+        fit: BoxFit.contain,
+        errorWidget: (_, _, _) => const ColoredBox(color: _surface),
+      ),
     );
   }
 
-  Widget _back() => IconButton.filledTonal(
+  Widget _back() => IconButton(
     onPressed: () => Navigator.pop(context),
     style: IconButton.styleFrom(
       backgroundColor: const Color(0xB3101012),
       foregroundColor: Colors.white,
+      side: const BorderSide(color: _red, width: 1.4),
     ),
     icon: const Icon(Icons.chevron_left_rounded),
   );
 
-  Widget _action(IconData icon, Future<void> Function() action) => IconButton(
-    onPressed: () => unawaited(action()),
-    style: IconButton.styleFrom(
-      backgroundColor: const Color(0xCC111113),
-      foregroundColor: Colors.white,
-      minimumSize: const Size(48, 48),
-      side: const BorderSide(color: _line),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+  // Mismo rediseño circular que en el detalle de pelicula: relleno rojo y
+  // sombra cuando esta activo, en vez del cuadrado plano de antes.
+  Widget _action(
+    IconData icon,
+    Future<void> Function() action, {
+    bool active = false,
+  }) => Material(
+    color: Colors.transparent,
+    child: InkWell(
+      onTap: () => unawaited(action()),
+      customBorder: const CircleBorder(),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        curve: Curves.easeOutCubic,
+        width: 48,
+        height: 48,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: active ? _red : const Color(0xCC111113),
+          border: Border.all(color: active ? _red : _line),
+          boxShadow: active
+              ? [
+                  BoxShadow(
+                    color: _red.withValues(alpha: .45),
+                    blurRadius: 14,
+                    spreadRadius: 1,
+                  ),
+                ]
+              : null,
+        ),
+        child: Icon(icon, color: Colors.white, size: 22),
+      ),
     ),
-    icon: Icon(icon),
   );
 
   Widget _badge(String text) => Container(

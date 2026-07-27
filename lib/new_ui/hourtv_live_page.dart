@@ -1,9 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:video_player/video_player.dart';
 
 import '../models/channel.dart';
 import 'hourtv_player_screen.dart';
+import 'hourtv_search_keyboard.dart';
 
 const _red = Color(0xFFF20A1A);
 const _surface = Color(0xFF101012);
@@ -46,6 +48,11 @@ class _HourTvLivePageState extends State<HourTvLivePage> {
   String category = 'Todos';
   bool showGuide = false;
   int guideIndex = 0;
+  // Buscador independiente de canales de TV: vive solo dentro de la guia,
+  // no comparte estado ni comportamiento con el buscador general (Buscar).
+  bool searchMode = false;
+  String channelQuery = '';
+  final FocusNode _searchKeyFocus = FocusNode();
   final FocusNode remoteFocus = FocusNode();
   // Sin esto la guia no se desplazaba: guideIndex avanzaba pero la lista se
   // quedaba quieta, asi que el resaltado se salia de pantalla (y con miles de
@@ -99,6 +106,7 @@ class _HourTvLivePageState extends State<HourTvLivePage> {
     }
     remoteFocus.dispose();
     guideScroll.dispose();
+    _searchKeyFocus.dispose();
     super.dispose();
   }
 
@@ -159,12 +167,58 @@ class _HourTvLivePageState extends State<HourTvLivePage> {
   }
 
   List<Channel> get filtered {
-    if (category == 'Todos') return widget.channels;
-    return widget.channels
-        .where(
-          (channel) => channel.genre == category || channel.group == category,
-        )
+    final byCategory = category == 'Todos'
+        ? widget.channels
+        : widget.channels.where(
+            (channel) =>
+                channel.genre == category || channel.group == category,
+          );
+    final query = channelQuery.trim().toLowerCase();
+    if (query.isEmpty) return byCategory.toList();
+    return byCategory
+        .where((channel) => channel.displayName.toLowerCase().contains(query))
         .toList();
+  }
+
+  /// Buscador de canales para telefono/tablet/desktop: propio de esta
+  /// pantalla, no comparte estado con el buscador general (Buscar).
+  Widget _channelSearchField() {
+    return TextField(
+      onChanged: _setChannelQuery,
+      style: const TextStyle(color: Colors.white),
+      decoration: InputDecoration(
+        hintText: 'Buscar canal…',
+        hintStyle: const TextStyle(color: _muted),
+        prefixIcon: const Icon(Icons.search_rounded, color: _muted),
+        filled: true,
+        fillColor: _surface,
+        contentPadding: const EdgeInsets.symmetric(vertical: 0),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: const BorderSide(color: _line),
+        ),
+      ),
+    );
+  }
+
+  /// Canales de la guia que coinciden con [channelQuery]. Buscador propio de
+  /// esta pantalla: no lee ni escribe el estado del buscador general (Buscar).
+  List<Channel> get _searchFiltered {
+    final query = channelQuery.trim().toLowerCase();
+    if (query.isEmpty) return widget.channels;
+    return widget.channels
+        .where((channel) => channel.displayName.toLowerCase().contains(query))
+        .toList();
+  }
+
+  /// Actualiza la busqueda de canales y reubica el cursor de la guia en el
+  /// primer resultado: sin esto, guideIndex podia quedar apuntando fuera de
+  /// rango cuando la lista filtrada se encogia.
+  void _setChannelQuery(String value) {
+    setState(() {
+      channelQuery = value;
+      guideIndex = 0;
+    });
   }
 
   void select(Channel channel) {
@@ -190,21 +244,46 @@ class _HourTvLivePageState extends State<HourTvLivePage> {
     if (event is! KeyDownEvent) return KeyEventResult.ignored;
     final key = event.logicalKey;
     if (showGuide) {
+      if (searchMode) {
+        // Con el buscador abierto, las flechas/OK las maneja el teclado en
+        // pantalla (foco real de Flutter en sus teclas), asi que aqui solo
+        // se atiende el cierre. Todo lo demas se ignora para que el evento
+        // siga subiendo hasta el sistema de navegacion por foco.
+        if (key == LogicalKeyboardKey.escape ||
+            key == LogicalKeyboardKey.goBack) {
+          setState(() {
+            searchMode = false;
+            channelQuery = '';
+            guideIndex = widget.channels.indexOf(current);
+            if (guideIndex < 0) guideIndex = 0;
+          });
+          remoteFocus.requestFocus();
+          return KeyEventResult.handled;
+        }
+        return KeyEventResult.ignored;
+      }
+      final list = _searchFiltered;
       if (key == LogicalKeyboardKey.arrowUp) {
-        setState(
-          () => guideIndex =
-              (guideIndex - 1 + widget.channels.length) %
-              widget.channels.length,
-        );
-        _revealGuideIndex();
+        if (list.isNotEmpty) {
+          setState(
+            () => guideIndex = (guideIndex - 1 + list.length) % list.length,
+          );
+          _revealGuideIndex();
+        }
       } else if (key == LogicalKeyboardKey.arrowDown) {
-        setState(
-          () => guideIndex = (guideIndex + 1) % widget.channels.length,
-        );
-        _revealGuideIndex();
+        if (list.isNotEmpty) {
+          setState(() => guideIndex = (guideIndex + 1) % list.length);
+          _revealGuideIndex();
+        }
+      } else if (key == LogicalKeyboardKey.arrowLeft) {
+        // Entrada al buscador independiente de canales (solo TV, D-pad).
+        setState(() => searchMode = true);
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (mounted) _searchKeyFocus.requestFocus();
+        });
       } else if (key == LogicalKeyboardKey.enter ||
           key == LogicalKeyboardKey.select) {
-        select(widget.channels[guideIndex]);
+        if (list.isNotEmpty) select(list[guideIndex]);
       } else if (key == LogicalKeyboardKey.escape ||
           key == LogicalKeyboardKey.backspace) {
         setState(() => showGuide = false);
@@ -241,8 +320,13 @@ class _HourTvLivePageState extends State<HourTvLivePage> {
     }
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (_) =>
-            PlayerScreen(channel: current, allChannels: widget.channels),
+        builder: (_) => PlayerScreen(
+          channel: current,
+          allChannels: widget.channels,
+          // Expandir = pantalla completa horizontal. En vertical el video
+          // queda como una franja y no es realmente "pantalla completa".
+          forceLandscape: true,
+        ),
       ),
     );
   }
@@ -287,6 +371,17 @@ class _HourTvLivePageState extends State<HourTvLivePage> {
             padding: EdgeInsets.fromLTRB(
               widget.phone ? 14 : 28,
               18,
+              widget.phone ? 14 : 28,
+              12,
+            ),
+            child: _channelSearchField(),
+          ),
+        ),
+        SliverToBoxAdapter(
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(
+              widget.phone ? 14 : 28,
+              0,
               widget.phone ? 14 : 28,
               12,
             ),
@@ -354,6 +449,8 @@ class _HourTvLivePageState extends State<HourTvLivePage> {
               Expanded(
                 child: Column(
                   children: [
+                    _channelSearchField(),
+                    const SizedBox(height: 12),
                     _categoryPills(),
                     const SizedBox(height: 12),
                     SizedBox(
@@ -397,19 +494,15 @@ class _HourTvLivePageState extends State<HourTvLivePage> {
           Positioned(
             left: 32,
             top: 28,
-            child: Row(
-              children: [
-                const _LiveBadge(),
-                const SizedBox(width: 12),
-                Text(
-                  'CH ${widget.channels.indexOf(current) + 1}',
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 17,
-                    fontWeight: FontWeight.w900,
-                  ),
-                ),
-              ],
+            // Sin insignia "EN VIVO": toda la seccion ya es TV en vivo, el
+            // indicador solo repetia lo obvio encima del video.
+            child: Text(
+              'CH ${widget.channels.indexOf(current) + 1}',
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 17,
+                fontWeight: FontWeight.w900,
+              ),
             ),
           ),
           Positioned(
@@ -488,36 +581,91 @@ class _HourTvLivePageState extends State<HourTvLivePage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
-                          'Guía de canales',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 26,
-                            fontWeight: FontWeight.w900,
-                          ),
-                        ),
-                        const SizedBox(height: 6),
-                        const Text(
-                          '↑ ↓ navegar  •  OK ver  •  Atrás cerrar',
-                          style: TextStyle(color: _muted, fontSize: 12),
-                        ),
-                        const SizedBox(height: 18),
-                        Expanded(
-                          child: ListView.builder(
-                            controller: guideScroll,
-                            itemCount: widget.channels.length,
-                            itemExtent: _guideRowExtent,
-                            itemBuilder: (context, index) => Padding(
-                              padding: const EdgeInsets.only(bottom: 8),
-                              child: _GuideRow(
-                                channel: widget.channels[index],
-                                number: index + 1,
-                                active: widget.channels[index].url == current.url,
-                                focused: index == guideIndex,
-                                onTap: () => select(widget.channels[index]),
+                        Row(
+                          children: [
+                            const Expanded(
+                              child: Text(
+                                'Guía de canales',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 26,
+                                  fontWeight: FontWeight.w900,
+                                ),
                               ),
                             ),
+                            // Buscador independiente: filtra SOLO esta guia
+                            // de canales, no toca el buscador general de la
+                            // app (Buscar) ni comparte su estado con el.
+                            IconButton(
+                              tooltip: searchMode
+                                  ? 'Cerrar buscador'
+                                  : 'Buscar canal',
+                              onPressed: () => setState(() {
+                                searchMode = !searchMode;
+                                if (!searchMode) {
+                                  channelQuery = '';
+                                  guideIndex = widget.channels.indexOf(
+                                    current,
+                                  );
+                                  if (guideIndex < 0) guideIndex = 0;
+                                }
+                              }),
+                              icon: Icon(
+                                searchMode
+                                    ? Icons.close_rounded
+                                    : Icons.search_rounded,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 6),
+                        Text(
+                          searchMode
+                              ? 'Atrás cierra el buscador'
+                              : '↑ ↓ navegar  •  OK ver  •  ← buscar  •  Atrás cerrar',
+                          style: const TextStyle(color: _muted, fontSize: 12),
+                        ),
+                        const SizedBox(height: 14),
+                        if (searchMode) ...[
+                          TvSearchKeyboard(
+                            query: channelQuery,
+                            onChanged: _setChannelQuery,
+                            hint: 'Nombre del canal…',
+                            firstKeyFocusNode: _searchKeyFocus,
                           ),
+                          const SizedBox(height: 14),
+                        ],
+                        Expanded(
+                          child: _searchFiltered.isEmpty
+                              ? const Center(
+                                  child: Text(
+                                    'Sin resultados',
+                                    style: TextStyle(color: _muted),
+                                  ),
+                                )
+                              : ListView.builder(
+                                  controller: guideScroll,
+                                  itemCount: _searchFiltered.length,
+                                  itemExtent: _guideRowExtent,
+                                  itemBuilder: (context, index) {
+                                    final channel = _searchFiltered[index];
+                                    return Padding(
+                                      padding: const EdgeInsets.only(
+                                        bottom: 8,
+                                      ),
+                                      child: _GuideRow(
+                                        channel: channel,
+                                        number:
+                                            widget.channels.indexOf(channel) +
+                                            1,
+                                        active: channel.url == current.url,
+                                        focused: index == guideIndex,
+                                        onTap: () => select(channel),
+                                      ),
+                                    );
+                                  },
+                                ),
                         ),
                       ],
                     ),
@@ -561,7 +709,7 @@ class _HourTvLivePageState extends State<HourTvLivePage> {
   }
 }
 
-class _PlayerSurface extends StatelessWidget {
+class _PlayerSurface extends StatefulWidget {
   const _PlayerSurface({
     required this.channel,
     required this.onPlay,
@@ -574,7 +722,75 @@ class _PlayerSurface extends StatelessWidget {
   final bool tv;
 
   @override
+  State<_PlayerSurface> createState() => _PlayerSurfaceState();
+}
+
+class _PlayerSurfaceState extends State<_PlayerSurface> {
+  VideoPlayerController? _controller;
+  bool _failed = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _load();
+  }
+
+  @override
+  void didUpdateWidget(covariant _PlayerSurface oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.channel.url != widget.channel.url) _load();
+  }
+
+  @override
+  void dispose() {
+    _controller?.dispose();
+    super.dispose();
+  }
+
+  /// Reproduce el canal EN LA MISMA vista, sin pasar por el reproductor a
+  /// pantalla completa: antes esta superficie solo mostraba una imagen fija
+  /// (el backdrop) con un boton de play que empujaba a otra pantalla, asi
+  /// que "TV en vivo" nunca reproducia video aqui mismo. Si el stream no es
+  /// directamente reproducible (requiere resolucion de embed/stalker/etc.),
+  /// se degrada honestamente a la miniatura + boton para abrir el
+  /// reproductor completo, que si sabe resolver esos casos.
+  Future<void> _load() async {
+    final old = _controller;
+    _controller = null;
+    setState(() => _failed = false);
+    await old?.dispose();
+    final uri = Uri.tryParse(widget.channel.url);
+    if (uri == null || !(uri.scheme == 'http' || uri.scheme == 'https')) {
+      if (mounted) setState(() => _failed = true);
+      return;
+    }
+    final controller = VideoPlayerController.networkUrl(
+      uri,
+      httpHeaders: widget.channel.userAgent?.isNotEmpty == true
+          ? {'User-Agent': widget.channel.userAgent!}
+          : const {},
+    );
+    try {
+      await controller.initialize();
+      if (!mounted) {
+        await controller.dispose();
+        return;
+      }
+      await controller.setLooping(false);
+      await controller.play();
+      setState(() => _controller = controller);
+    } catch (_) {
+      await controller.dispose();
+      if (mounted) setState(() => _failed = true);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final channel = widget.channel;
+    final tv = widget.tv;
+    final onPlay = widget.onPlay;
+    final playing = _controller?.value.isInitialized == true && !_failed;
     return AspectRatio(
       aspectRatio: 16 / 9,
       child: ClipRRect(
@@ -582,7 +798,17 @@ class _PlayerSurface extends StatelessWidget {
         child: Stack(
           fit: StackFit.expand,
           children: [
-            _NetworkArtwork(url: channel.backdrop ?? channel.logo),
+            if (playing)
+              FittedBox(
+                fit: BoxFit.cover,
+                child: SizedBox(
+                  width: _controller!.value.size.width,
+                  height: _controller!.value.size.height,
+                  child: VideoPlayer(_controller!),
+                ),
+              )
+            else
+              _NetworkArtwork(url: channel.backdrop ?? channel.logo),
             const DecoratedBox(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
@@ -609,33 +835,47 @@ class _PlayerSurface extends StatelessWidget {
                   ),
                 ),
               ),
-            if (!tv) Positioned(left: 14, top: 14, child: const _LiveBadge()),
             if (!tv)
               Positioned(
                 right: 12,
                 top: 10,
-                child: IconButton.filledTonal(
+                child: IconButton(
                   tooltip: 'Pantalla completa',
                   onPressed: onPlay,
-                  icon: const Icon(
-                    Icons.fullscreen_rounded,
-                    color: Colors.white,
+                  style: IconButton.styleFrom(
+                    backgroundColor: const Color(0xB30B0B0D),
+                    foregroundColor: Colors.white,
+                    side: const BorderSide(color: _red, width: 1.2),
+                  ),
+                  icon: const Icon(Icons.fullscreen_rounded),
+                ),
+              ),
+            // Sin boton de play: el canal arranca solo. Mientras el stream
+            // se abre se muestra un indicador de carga, no un boton que
+            // sugiera que hay que pulsar algo para empezar.
+            if (!tv && !playing && !_failed)
+              const Center(
+                child: SizedBox(
+                  width: 34,
+                  height: 34,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2.6,
+                    color: _red,
                   ),
                 ),
               ),
-            if (!tv)
+            // Si el stream no se puede abrir aqui, se dice de frente y se
+            // ofrece el reproductor completo (sabe resolver embed/stalker).
+            if (!tv && _failed)
               Center(
-                child: IconButton.filled(
+                child: TextButton.icon(
                   onPressed: onPlay,
-                  style: IconButton.styleFrom(
-                    backgroundColor: _red,
-                    minimumSize: const Size(64, 64),
+                  style: TextButton.styleFrom(
+                    backgroundColor: const Color(0xCC0B0B0D),
+                    foregroundColor: Colors.white,
                   ),
-                  icon: const Icon(
-                    Icons.play_arrow_rounded,
-                    color: Colors.white,
-                    size: 38,
-                  ),
+                  icon: const Icon(Icons.open_in_full_rounded),
+                  label: const Text('Abrir en el reproductor'),
                 ),
               ),
             if (!tv)
@@ -827,36 +1067,6 @@ class _ProgramProgress extends StatelessWidget {
         minHeight: 3,
         color: _red,
         backgroundColor: Colors.white.withValues(alpha: .16),
-      ),
-    );
-  }
-}
-
-class _LiveBadge extends StatelessWidget {
-  const _LiveBadge();
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 5),
-      decoration: BoxDecoration(
-        color: const Color(0xCC000000),
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: const Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          CircleAvatar(radius: 3, backgroundColor: _red),
-          SizedBox(width: 6),
-          Text(
-            'EN VIVO',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 9,
-              fontWeight: FontWeight.w900,
-              letterSpacing: .5,
-            ),
-          ),
-        ],
       ),
     );
   }

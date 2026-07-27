@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_chrome_cast/flutter_chrome_cast.dart';
@@ -22,15 +23,31 @@ const _hourSurface = Color(0xFF101012);
 const _hourMuted = Color(0xFFA6A6B0);
 const _hourError = Color(0xFFFF5A66);
 
+enum _VideoFitMode { automatic, contain, cover }
+
+String _formatPlaybackTime(Duration time) {
+  String two(int number) => number.toString().padLeft(2, '0');
+  final hours = time.inHours;
+  final base =
+      '${two(time.inMinutes.remainder(60))}:${two(time.inSeconds.remainder(60))}';
+  return hours > 0 ? '${two(hours)}:$base' : base;
+}
+
 class PlayerScreen extends StatefulWidget {
   final Channel channel;
   final List<Channel> allChannels;
   final String? initialUrl;
+
+  /// Fuerza horizontal aunque el ajuste global "forceLandscape" este apagado.
+  /// Lo usa el boton Expandir de TV en vivo: expandir en vertical no es
+  /// pantalla completa util, el video queda como una franja en medio.
+  final bool forceLandscape;
   const PlayerScreen({
     super.key,
     required this.channel,
     required this.allChannels,
     this.initialUrl,
+    this.forceLandscape = false,
   });
   @override
   State<PlayerScreen> createState() => _PlayerScreenState();
@@ -51,7 +68,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
   bool _chromeVisible = true;
   double _volume = 1;
   double _screenDim = 0;
-  double _videoScale = 1;
+  _VideoFitMode _videoFitMode = _VideoFitMode.automatic;
   bool _verticalGestureOnRight = true;
   String? _gestureLabel;
   String? _activeServerUrl;
@@ -72,9 +89,27 @@ class _PlayerScreenState extends State<PlayerScreen> {
   bool _castConnected = false;
   bool _castConnecting = false;
 
+  final ValueNotifier<int?> _nextEpisodeCountdown = ValueNotifier(null);
+  final ValueNotifier<bool> _creditsMode = ValueNotifier(false);
+  final ValueNotifier<bool> _playbackEnded = ValueNotifier(false);
+  bool _autoNextCancelled = false;
+  bool _advancingEpisode = false;
+  int _lastProgressSecond = -1;
+
+  Channel get _currentChannel => widget.allChannels[_idx];
+  bool get _isLive => _currentChannel.type == MediaType.live;
+  bool get _isSeriesEpisode => _currentChannel.type == MediaType.series;
+  bool get _hasNextEpisode =>
+      _isSeriesEpisode && _idx + 1 < widget.allChannels.length;
+
   @override
   void initState() {
     super.initState();
+    if (defaultTargetPlatform == TargetPlatform.android) {
+      unawaited(
+        SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky),
+      );
+    }
     _idx = widget.allChannels.indexWhere((c) => c.url == widget.channel.url);
     if (_idx < 0) _idx = 0;
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -93,8 +128,9 @@ class _PlayerScreenState extends State<PlayerScreen> {
         1.0;
     _subtitleBold =
         StorageService.getSetting('subtitleBold', defaultValue: false) == true;
-    if (StorageService.getSetting('forceLandscape', defaultValue: false) ==
-        true) {
+    if (widget.forceLandscape ||
+        StorageService.getSetting('forceLandscape', defaultValue: false) ==
+            true) {
       _forcedLandscape = true;
       SystemChrome.setPreferredOrientations([
         DeviceOrientation.landscapeLeft,
@@ -115,14 +151,109 @@ class _PlayerScreenState extends State<PlayerScreen> {
     await _init(channel, streamUrl: streamUrl);
   }
 
+  void _resetEpisodeUi() {
+    _autoNextCancelled = false;
+    _lastProgressSecond = -1;
+    _nextEpisodeCountdown.value = null;
+    _creditsMode.value = false;
+    _playbackEnded.value = false;
+  }
+
+  void _onVideoProgress() {
+    final controller = _vc;
+    if (controller == null || !controller.value.isInitialized || _isLive) {
+      return;
+    }
+    final value = controller.value;
+    final duration = value.duration;
+    if (duration <= Duration.zero) return;
+    final second = value.position.inSeconds;
+    if (second == _lastProgressSecond && !value.isCompleted) return;
+    _lastProgressSecond = second;
+
+    final remaining = duration - value.position;
+    final completed =
+        value.isCompleted || remaining <= const Duration(milliseconds: 450);
+    if (completed) {
+      _nextEpisodeCountdown.value = null;
+      _creditsMode.value = false;
+      if (!_advancingEpisode && !_playbackEnded.value) {
+        _playbackEnded.value = true;
+        _chromeTimer?.cancel();
+        if (mounted && _chromeVisible) {
+          setState(() => _chromeVisible = false);
+        }
+      }
+      return;
+    }
+
+    if (_hasNextEpisode &&
+        !_autoNextCancelled &&
+        value.position >= const Duration(seconds: 30) &&
+        remaining <= const Duration(seconds: 15)) {
+      final seconds = (remaining.inMilliseconds / 1000).ceil().clamp(1, 15);
+      _nextEpisodeCountdown.value = seconds;
+      _creditsMode.value = true;
+      if (remaining <= const Duration(seconds: 1) && !_advancingEpisode) {
+        unawaited(_playNextEpisode());
+      }
+      return;
+    }
+
+    if (_nextEpisodeCountdown.value != null) {
+      _nextEpisodeCountdown.value = null;
+      _creditsMode.value = false;
+    }
+  }
+
+  Future<void> _playNextEpisode() async {
+    if (!_hasNextEpisode || _advancingEpisode) return;
+    _advancingEpisode = true;
+    _nextEpisodeCountdown.value = null;
+    _creditsMode.value = false;
+    _playbackEnded.value = false;
+    try {
+      await _chg(1);
+    } finally {
+      _advancingEpisode = false;
+    }
+  }
+
+  void _cancelAutoNext() {
+    _autoNextCancelled = true;
+    _nextEpisodeCountdown.value = null;
+    _creditsMode.value = false;
+  }
+
+  Future<void> _replayCurrent() async {
+    final controller = _vc;
+    if (controller == null || !controller.value.isInitialized) return;
+    _resetEpisodeUi();
+    await controller.seekTo(Duration.zero);
+    await controller.play();
+    _showChromeControls();
+  }
+
+  Future<void> _skipEstimatedIntro() async {
+    final controller = _vc;
+    if (controller == null || !controller.value.isInitialized) return;
+    const introEnd = Duration(seconds: 85);
+    final duration = controller.value.duration;
+    final target = duration > introEnd ? introEnd : duration;
+    await controller.seekTo(target);
+    _showChromeControls();
+  }
+
   Future<void> _init(Channel ch, {String? streamUrl}) async {
     final targetUrl = streamUrl ?? ch.url;
+    _resetEpisodeUi();
     setState(() {
       _loading = true;
       _err = null;
       _activeServerUrl = targetUrl;
       _embedUrl = null;
     });
+    _vc?.removeListener(_onVideoProgress);
     _cc?.dispose();
     _vc?.dispose();
     _cc = null;
@@ -205,6 +336,8 @@ class _PlayerScreenState extends State<PlayerScreen> {
           bufferedColor: _hourMuted,
         ),
       );
+      _vc!.addListener(_onVideoProgress);
+      if (autoPlay) await _vc!.play();
       setState(() => _loading = false);
       // Arranca el auto-ocultado: sin esto, la barra de arriba y las flechas
       // laterales se quedaban visibles para siempre al entrar a una peli.
@@ -220,7 +353,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
   Widget _lg(Channel ch) => ch.logo != null
       ? CachedNetworkImage(
           imageUrl: ch.logo!,
-      memCacheWidth: 720,
+          memCacheWidth: 720,
           width: 80,
           height: 80,
           fit: BoxFit.contain,
@@ -762,24 +895,38 @@ class _PlayerScreenState extends State<PlayerScreen> {
         children: [
           SimpleDialogOption(
             onPressed: () {
-              setState(() => _videoScale = 1);
+              setState(() => _videoFitMode = _VideoFitMode.automatic);
               Navigator.pop(dialogContext);
             },
             child: const ListTile(
               contentPadding: EdgeInsets.zero,
               leading: Icon(Icons.fit_screen_rounded),
-              title: Text('Original'),
+              title: Text('Autom\u00e1tico'),
+              subtitle: Text('Elige el mejor encuadre para la pantalla'),
             ),
           ),
           SimpleDialogOption(
             onPressed: () {
-              setState(() => _videoScale = 1.16);
+              setState(() => _videoFitMode = _VideoFitMode.contain);
+              Navigator.pop(dialogContext);
+            },
+            child: const ListTile(
+              contentPadding: EdgeInsets.zero,
+              leading: Icon(Icons.fit_screen_rounded),
+              title: Text('Ajustar'),
+              subtitle: Text('Muestra la imagen completa'),
+            ),
+          ),
+          SimpleDialogOption(
+            onPressed: () {
+              setState(() => _videoFitMode = _VideoFitMode.cover);
               Navigator.pop(dialogContext);
             },
             child: const ListTile(
               contentPadding: EdgeInsets.zero,
               leading: Icon(Icons.zoom_out_map_rounded),
-              title: Text('Zoom / llenar pantalla'),
+              title: Text('Llenar (sin deformar)'),
+              subtitle: Text('Recorta los bordes para ocupar la pantalla'),
             ),
           ),
         ],
@@ -991,14 +1138,16 @@ class _PlayerScreenState extends State<PlayerScreen> {
       return KeyEventResult.handled;
     }
 
-    if (key == LogicalKeyboardKey.channelDown ||
-        key == LogicalKeyboardKey.mediaTrackPrevious) {
+    if (_isLive &&
+        (key == LogicalKeyboardKey.channelDown ||
+            key == LogicalKeyboardKey.mediaTrackPrevious)) {
       unawaited(_chg(-1));
       _showChromeControls();
       return KeyEventResult.handled;
     }
-    if (key == LogicalKeyboardKey.channelUp ||
-        key == LogicalKeyboardKey.mediaTrackNext) {
+    if (_isLive &&
+        (key == LogicalKeyboardKey.channelUp ||
+            key == LogicalKeyboardKey.mediaTrackNext)) {
       unawaited(_chg(1));
       _showChromeControls();
       return KeyEventResult.handled;
@@ -1018,7 +1167,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
       unawaited(_showPlayerOptions());
       return KeyEventResult.handled;
     }
-    if (!desktop && key == LogicalKeyboardKey.arrowDown) {
+    if (!desktop && _isLive && key == LogicalKeyboardKey.arrowDown) {
       setState(() {
         _showList = true;
         _chromeVisible = true;
@@ -1059,18 +1208,13 @@ class _PlayerScreenState extends State<PlayerScreen> {
                   ),
                   child: Stack(
                     children: [
-                      Center(
+                      Positioned.fill(
                         child: _loading
-                            ? _lw()
+                            ? Center(child: _lw())
                             : _err != null
-                            ? _ew()
-                            : _cc != null
-                            ? (_videoScale == 1
-                                  ? Chewie(controller: _cc!)
-                                  : Transform.scale(
-                                      scale: _videoScale,
-                                      child: Chewie(controller: _cc!),
-                                    ))
+                            ? Center(child: _ew())
+                            : _vc != null
+                            ? _videoStage()
                             : const SizedBox(),
                       ),
                       if (_screenDim > 0)
@@ -1092,6 +1236,16 @@ class _PlayerScreenState extends State<PlayerScreen> {
                           right: 46,
                           bottom: 34,
                           child: _tvTransport(),
+                        ),
+                      if (_chromeVisible &&
+                          !DeviceProfile.isDesktop(context) &&
+                          !DeviceProfile.isTv(context) &&
+                          !_showList)
+                        Positioned(
+                          left: 16,
+                          right: 16,
+                          bottom: 12,
+                          child: _touchTransport(),
                         ),
                       if (_chromeVisible &&
                           DeviceProfile.isDesktop(context) &&
@@ -1122,9 +1276,13 @@ class _PlayerScreenState extends State<PlayerScreen> {
                             ),
                           ),
                         ),
-                      if (_showList) _ov(),
+                      if (_vc != null) _introPrompt(),
+                      _nextEpisodePrompt(),
+                      _endOfPlaybackOverlay(),
+                      if (_showList && _isLive) _ov(),
                       if (_chromeVisible &&
                           !_showList &&
+                          _isLive &&
                           !DeviceProfile.isDesktop(context) &&
                           !DeviceProfile.isTv(context)) ...[
                         Positioned(
@@ -1195,6 +1353,442 @@ class _PlayerScreenState extends State<PlayerScreen> {
             );
           },
         ),
+      ),
+    );
+  }
+
+  Widget _videoStage() {
+    return ValueListenableBuilder<bool>(
+      valueListenable: _creditsMode,
+      builder: (context, credits, _) {
+        return LayoutBuilder(
+          builder: (context, constraints) => AnimatedContainer(
+            duration: const Duration(milliseconds: 420),
+            curve: Curves.easeOutCubic,
+            alignment: Alignment.topLeft,
+            padding: credits
+                ? EdgeInsets.fromLTRB(
+                    24,
+                    28,
+                    constraints.maxWidth * .28,
+                    constraints.maxHeight * .28,
+                  )
+                : EdgeInsets.zero,
+            decoration: BoxDecoration(
+              color: Colors.black,
+              border: credits
+                  ? Border.all(color: Colors.white24, width: 2)
+                  : null,
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(credits ? 12 : 0),
+              child: _videoSurface(),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _videoSurface() {
+    final controller = _vc;
+    if (controller == null || !controller.value.isInitialized) {
+      return const ColoredBox(color: Colors.black);
+    }
+    if (DeviceProfile.isDesktop(context)) {
+      final chewie = _cc;
+      return chewie == null
+          ? const ColoredBox(color: Colors.black)
+          : Chewie(controller: chewie);
+    }
+
+    final videoSize = controller.value.size;
+    final videoAr = controller.value.aspectRatio > 0
+        ? controller.value.aspectRatio
+        : 16 / 9;
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final screenAr = constraints.maxWidth / constraints.maxHeight;
+        final relativeDifference = (videoAr - screenAr).abs() / screenAr;
+        final fit = switch (_videoFitMode) {
+          _VideoFitMode.contain => BoxFit.contain,
+          _VideoFitMode.cover => BoxFit.cover,
+          _VideoFitMode.automatic =>
+            relativeDifference < .18 ? BoxFit.cover : BoxFit.contain,
+        };
+        final width = videoSize.width > 0 ? videoSize.width : 16.0;
+        final height = videoSize.height > 0 ? videoSize.height : 9.0;
+        return ColoredBox(
+          color: Colors.black,
+          child: Center(
+            child: FittedBox(
+              fit: fit,
+              clipBehavior: Clip.hardEdge,
+              child: SizedBox(
+                width: width,
+                height: height,
+                child: VideoPlayer(controller),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _touchTransport() {
+    final controller = _vc;
+    if (controller == null) return const SizedBox.shrink();
+    return ValueListenableBuilder<VideoPlayerValue>(
+      valueListenable: controller,
+      builder: (context, value, _) {
+        final ready = value.isInitialized && value.duration > Duration.zero;
+        return DecoratedBox(
+          decoration: BoxDecoration(
+            color: Colors.black.withValues(alpha: .82),
+            borderRadius: BorderRadius.circular(14),
+            border: Border.all(color: Colors.white12),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(10, 8, 12, 10),
+            child: Row(
+              children: [
+                IconButton(
+                  tooltip: value.isPlaying ? 'Pausar' : 'Reproducir',
+                  onPressed: _togglePlayPause,
+                  icon: Icon(
+                    value.isPlaying
+                        ? Icons.pause_rounded
+                        : Icons.play_arrow_rounded,
+                    color: Colors.white,
+                  ),
+                ),
+                Text(
+                  _formatPlaybackTime(value.position),
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 12,
+                    fontFeatures: [FontFeature.tabularFigures()],
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: ready
+                      ? VideoProgressIndicator(
+                          controller,
+                          allowScrubbing: true,
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          colors: const VideoProgressColors(
+                            playedColor: _hourRed,
+                            bufferedColor: Color(0x99FFFFFF),
+                            backgroundColor: Color(0x44FFFFFF),
+                          ),
+                        )
+                      : const LinearProgressIndicator(
+                          minHeight: 4,
+                          color: _hourRed,
+                          backgroundColor: Color(0x44FFFFFF),
+                        ),
+                ),
+                const SizedBox(width: 10),
+                Text(
+                  _formatPlaybackTime(value.duration),
+                  style: const TextStyle(
+                    color: Colors.white70,
+                    fontSize: 12,
+                    fontFeatures: [FontFeature.tabularFigures()],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _introPrompt() {
+    final controller = _vc;
+    if (controller == null || !_isSeriesEpisode) {
+      return const SizedBox.shrink();
+    }
+    return Positioned(
+      right: 24,
+      bottom: DeviceProfile.isTv(context) ? 138 : 90,
+      child: ValueListenableBuilder<VideoPlayerValue>(
+        valueListenable: controller,
+        builder: (context, value, _) {
+          final seconds = value.position.inSeconds;
+          if (!value.isInitialized ||
+              seconds < 5 ||
+              seconds > 70 ||
+              _playbackEnded.value) {
+            return const SizedBox.shrink();
+          }
+          return _overlayAction(
+            icon: Icons.skip_next_rounded,
+            label: 'Omitir introducci\u00f3n \u00b7 salto estimado 1:25',
+            onTap: () => unawaited(_skipEstimatedIntro()),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _nextEpisodePrompt() {
+    if (!_hasNextEpisode) return const SizedBox.shrink();
+    final next = widget.allChannels[_idx + 1];
+    return Positioned(
+      right: 24,
+      bottom: 24,
+      child: ValueListenableBuilder<int?>(
+        valueListenable: _nextEpisodeCountdown,
+        builder: (context, seconds, _) {
+          if (seconds == null) return const SizedBox.shrink();
+          final artwork = next.backdrop ?? next.logo;
+          return Container(
+            width: DeviceProfile.isTv(context) ? 390 : 340,
+            padding: const EdgeInsets.all(14),
+            decoration: BoxDecoration(
+              color: const Color(0xF2111113),
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: Colors.white24),
+              boxShadow: const [
+                BoxShadow(
+                  color: Color(0xCC000000),
+                  blurRadius: 28,
+                  offset: Offset(0, 10),
+                ),
+              ],
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text(
+                  'SIGUIENTE EPISODIO',
+                  style: TextStyle(
+                    color: _hourRed,
+                    fontSize: 10,
+                    fontWeight: FontWeight.w900,
+                    letterSpacing: 1.1,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: SizedBox(
+                        width: 112,
+                        height: 64,
+                        child: artwork == null
+                            ? const ColoredBox(
+                                color: _hourSurface,
+                                child: Icon(
+                                  Icons.movie_rounded,
+                                  color: Colors.white54,
+                                ),
+                              )
+                            : CachedNetworkImage(
+                                imageUrl: artwork,
+                                memCacheWidth: 320,
+                                fit: BoxFit.cover,
+                                errorWidget: (_, _, _) =>
+                                    const ColoredBox(color: _hourSurface),
+                              ),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            next.displayName,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ),
+                          const SizedBox(height: 5),
+                          Text(
+                            'Reproducci\u00f3n autom\u00e1tica en $seconds s',
+                            style: const TextStyle(
+                              color: Colors.white70,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                Row(
+                  children: [
+                    Expanded(
+                      child: _overlayAction(
+                        icon: Icons.play_arrow_rounded,
+                        label: 'Reproducir ahora',
+                        primary: true,
+                        onTap: () => unawaited(_playNextEpisode()),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: _overlayAction(
+                        icon: Icons.close_rounded,
+                        label: 'Cancelar',
+                        onTap: _cancelAutoNext,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _endOfPlaybackOverlay() {
+    return Positioned.fill(
+      child: ValueListenableBuilder<bool>(
+        valueListenable: _playbackEnded,
+        builder: (context, ended, _) {
+          if (!ended || _isLive) return const SizedBox.shrink();
+          return ColoredBox(
+            color: const Color(0xF20B0B0B),
+            child: Center(
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 760),
+                child: Padding(
+                  padding: const EdgeInsets.all(28),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(
+                        Icons.check_circle_outline_rounded,
+                        color: _hourRed,
+                        size: 52,
+                      ),
+                      const SizedBox(height: 18),
+                      Text(
+                        _currentChannel.displayName,
+                        textAlign: TextAlign.center,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: DeviceProfile.isTv(context) ? 32 : 24,
+                          fontWeight: FontWeight.w900,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      const Text(
+                        'Has llegado al final.',
+                        style: TextStyle(color: Colors.white70),
+                      ),
+                      const SizedBox(height: 26),
+                      Wrap(
+                        alignment: WrapAlignment.center,
+                        spacing: 12,
+                        runSpacing: 12,
+                        children: [
+                          if (_hasNextEpisode)
+                            _overlayAction(
+                              icon: Icons.skip_next_rounded,
+                              label: 'Siguiente episodio',
+                              primary: true,
+                              autofocus: true,
+                              onTap: () => unawaited(_playNextEpisode()),
+                            ),
+                          _overlayAction(
+                            icon: Icons.replay_rounded,
+                            label: 'Reproducir de nuevo',
+                            primary: !_hasNextEpisode,
+                            autofocus: !_hasNextEpisode,
+                            onTap: () => unawaited(_replayCurrent()),
+                          ),
+                          _overlayAction(
+                            icon: Icons.info_outline_rounded,
+                            label: 'Ficha y contenido relacionado',
+                            onTap: () => Navigator.of(context).maybePop(),
+                          ),
+                          _overlayAction(
+                            icon: Icons.home_rounded,
+                            label: 'Volver al inicio',
+                            onTap: () => Navigator.of(
+                              context,
+                            ).popUntil((route) => route.isFirst),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _overlayAction({
+    required IconData icon,
+    required String label,
+    required VoidCallback onTap,
+    bool primary = false,
+    bool autofocus = false,
+  }) {
+    final content = Container(
+      constraints: const BoxConstraints(minHeight: 46),
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 11),
+      decoration: BoxDecoration(
+        color: primary ? _hourRed : const Color(0xFF1B1B1E),
+        borderRadius: BorderRadius.circular(11),
+        border: Border.all(color: primary ? _hourRed : Colors.white24),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(icon, color: Colors.white, size: 21),
+          const SizedBox(width: 8),
+          Flexible(
+            child: Text(
+              label,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w800,
+                fontSize: 12,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+    if (DeviceProfile.isTv(context)) {
+      return TvFocusable(
+        onTap: onTap,
+        autofocus: autofocus,
+        borderRadius: BorderRadius.circular(11),
+        child: content,
+      );
+    }
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(11),
+        child: content,
       ),
     );
   }
@@ -1649,15 +2243,17 @@ class _PlayerScreenState extends State<PlayerScreen> {
             onPressed: () => unawaited(_showPlayerOptions()),
           ),
 
-          IconButton(
-            icon: Icon(
-              _showList
-                  ? Icons.close_rounded
-                  : Icons.format_list_bulleted_rounded,
-              color: Colors.white,
+          if (ch.type == MediaType.live)
+            IconButton(
+              tooltip: 'Todos los canales',
+              icon: Icon(
+                _showList
+                    ? Icons.close_rounded
+                    : Icons.format_list_bulleted_rounded,
+                color: Colors.white,
+              ),
+              onPressed: () => setState(() => _showList = !_showList),
             ),
-            onPressed: () => setState(() => _showList = !_showList),
-          ),
           IconButton(
             icon: Icon(
               ch.isFavorite ? Icons.favorite : Icons.favorite_border,
@@ -1736,7 +2332,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
                         leading: ch.logo != null
                             ? CachedNetworkImage(
                                 imageUrl: ch.logo!,
-      memCacheWidth: 720,
+                                memCacheWidth: 720,
                                 width: 40,
                                 height: 40,
                                 fit: BoxFit.contain,
@@ -1788,8 +2384,12 @@ class _PlayerScreenState extends State<PlayerScreen> {
     _castDevicesSubscription?.cancel();
     _castSessionSubscription?.cancel();
     unawaited(CastService.instance.stopDiscovery());
+    _vc?.removeListener(_onVideoProgress);
     _cc?.dispose();
     _vc?.dispose();
+    _nextEpisodeCountdown.dispose();
+    _creditsMode.dispose();
+    _playbackEnded.dispose();
     _screenFocus.dispose();
     if (_forcedLandscape) {
       SystemChrome.setPreferredOrientations([
@@ -1797,6 +2397,9 @@ class _PlayerScreenState extends State<PlayerScreen> {
         DeviceOrientation.landscapeLeft,
         DeviceOrientation.landscapeRight,
       ]);
+    }
+    if (defaultTargetPlatform == TargetPlatform.android) {
+      unawaited(SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge));
     }
     super.dispose();
   }

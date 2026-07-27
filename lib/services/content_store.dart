@@ -29,7 +29,7 @@ class ContentStore extends ChangeNotifier {
 
   /// Sube este número cuando cambien las listas por defecto para refrescarlas
   /// sin borrar las fuentes que el usuario haya agregado.
-  static const int defaultsVersion = 6;
+  static const int defaultsVersion = 7;
 
   List<Channel> all = [];
   List<XtreamSeries> series = [];

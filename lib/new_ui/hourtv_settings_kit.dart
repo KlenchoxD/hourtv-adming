@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../services/device_type.dart';
 import 'hourtv_focusable.dart';
 
 // Mismos tokens que el resto del diseño nuevo (hourtv_new_shell.dart /
@@ -169,10 +170,16 @@ class _SettingsRowState extends State<_SettingsRow> {
     // El borde rojo es SOLO del foco literal del D-pad (un unico resalte que
     // se mueve). "highlighted" (seleccionado/activado) se muestra en el
     // icono/switch, nunca en el borde -> nunca dos filas rojas a la vez.
+    // El foco automatico solo tiene sentido en TV (control remoto sin
+    // puntero): en telefono/tablet/desktop mostraba el anillo rojo de foco
+    // sobre la primera fila apenas se abria la pantalla, sin que el usuario
+    // hubiera tocado nada -> parecia una fila "activada sola", sobre todo
+    // en pantallas con un solo control (Control parental).
+    final effectiveAutofocus = widget.autofocus && DeviceProfile.isTv(context);
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
       child: TvFocusable(
-        autofocus: widget.autofocus,
+        autofocus: effectiveAutofocus,
         onTap: widget.onTap,
         decorated: false,
         scale: 1.015,
@@ -426,7 +433,7 @@ class _SettingsActionButtonState extends State<SettingsActionButton> {
   @override
   Widget build(BuildContext context) {
     return TvFocusable(
-      autofocus: widget.autofocus,
+      autofocus: widget.autofocus && DeviceProfile.isTv(context),
       onTap: widget.onTap,
       decorated: false,
       scale: 1.03,
