@@ -1,23 +1,23 @@
 {
-  "lastRunAt": "2026-07-27T08:46:01.931Z",
+  "lastRunAt": "2026-07-27T12:13:51.776Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     1275779,
+    454639,
     1108427,
     1339713,
-    1083381,
     1081003,
-    454639,
+    1083381,
     1084244,
     1315772,
     1273221,
     1228710,
     1314481,
     931285,
+    949838,
     1368314,
     936075,
     1304313,
-    949838,
     1361774,
     1007757,
     1595852,
@@ -44,6 +44,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 454639,
+      "title": "He-Man y los masters del universo",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1108427,
       "title": "Vaiana",
       "reason": "Sin fuente autorizada configurada"
@@ -56,11 +61,6 @@
     {
       "tmdbId": 1081003,
       "title": "Supergirl",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 454639,
-      "title": "He-Man y los masters del universo",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -94,6 +94,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 949838,
+      "title": "72 horas",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1368314,
       "title": "El pasajero nocturno",
       "reason": "Sin fuente autorizada configurada"
@@ -109,14 +114,9 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 949838,
-      "title": "72 horas",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1361774,
       "title": "Dink",
-      "reason": "Votos 41 por debajo del mínimo (50)"
+      "reason": "Votos 42 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1007757,
