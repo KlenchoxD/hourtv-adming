@@ -1,0 +1,6 @@
+# El proyecto de Vercel tiene su raíz en admin/, así que el despliegue se lanza
+# desde la raíz del repo. Sin esto la CLI intenta subir todo el proyecto Flutter
+# (build/, .dart_tool/, los APK de 56 MB) y la subida se corta.
+*
+!admin
+!admin/**
