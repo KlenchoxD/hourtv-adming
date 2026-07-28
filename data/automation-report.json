@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-07-28T01:04:27.449Z",
-  "durationMs": 712,
+  "generatedAt": "2026-07-28T04:25:47.828Z",
+  "durationMs": 2758,
   "dryRun": false,
   "moviesFound": 31,
   "moviesDiscarded": 29,
@@ -90,7 +90,7 @@
     {
       "tmdbId": 1361774,
       "title": "Dink",
-      "reason": "Votos 43 por debajo del mínimo (50)"
+      "reason": "Votos 46 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1007757,
@@ -111,6 +111,11 @@
       "tmdbId": 1368337,
       "title": "La odisea",
       "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 969681,
+      "title": "Spider-Man: Brand New Day",
+      "reason": "Votos 14 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1727780,
@@ -135,12 +140,7 @@
     {
       "tmdbId": 1630409,
       "title": "El cobrador de deudas",
-      "reason": "Votos 15 por debajo del mínimo (50)"
-    },
-    {
-      "tmdbId": 969681,
-      "title": "Spider-Man: Brand New Day",
-      "reason": "Votos 14 por debajo del mínimo (50)"
+      "reason": "Votos 17 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 687163,
