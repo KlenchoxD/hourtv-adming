@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-07-28T07:09:34.741Z",
-  "durationMs": 2893,
+  "generatedAt": "2026-07-28T09:45:47.606Z",
+  "durationMs": 1881,
   "dryRun": false,
   "moviesFound": 31,
   "moviesDiscarded": 29,
@@ -28,13 +28,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1339713,
-      "title": "Obsession",
+      "tmdbId": 1081003,
+      "title": "Supergirl",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1081003,
-      "title": "Supergirl",
+      "tmdbId": 1339713,
+      "title": "Obsession",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -90,7 +90,7 @@
     {
       "tmdbId": 1361774,
       "title": "Dink",
-      "reason": "Votos 46 por debajo del mínimo (50)"
+      "reason": "Votos 49 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1007757,
@@ -103,8 +103,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1301421,
-      "title": "Las ovejas detectives",
+      "tmdbId": 1595852,
+      "title": "Boulevard",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -115,7 +115,7 @@
     {
       "tmdbId": 969681,
       "title": "Spider-Man: Brand New Day",
-      "reason": "Votos 14 por debajo del mínimo (50)"
+      "reason": "Votos 15 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1727780,

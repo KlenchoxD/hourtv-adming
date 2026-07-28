@@ -1,14 +1,14 @@
 {
-  "lastRunAt": "2026-07-28T07:09:37.629Z",
+  "lastRunAt": "2026-07-28T09:45:49.482Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     1275779,
     454639,
     1108427,
-    1339713,
     1081003,
-    1083381,
+    1339713,
     1084244,
+    1083381,
     1315772,
     1273221,
     1228710,
@@ -21,7 +21,7 @@
     1361774,
     1007757,
     1318447,
-    1301421,
+    1595852,
     1368337,
     969681,
     1727780,
@@ -54,13 +54,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1339713,
-      "title": "Obsession",
+      "tmdbId": 1081003,
+      "title": "Supergirl",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1081003,
-      "title": "Supergirl",
+      "tmdbId": 1339713,
+      "title": "Obsession",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -116,7 +116,7 @@
     {
       "tmdbId": 1361774,
       "title": "Dink",
-      "reason": "Votos 46 por debajo del mínimo (50)"
+      "reason": "Votos 49 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1007757,
@@ -129,8 +129,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1301421,
-      "title": "Las ovejas detectives",
+      "tmdbId": 1595852,
+      "title": "Boulevard",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -141,7 +141,7 @@
     {
       "tmdbId": 969681,
       "title": "Spider-Man: Brand New Day",
-      "reason": "Votos 14 por debajo del mínimo (50)"
+      "reason": "Votos 15 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1727780,
