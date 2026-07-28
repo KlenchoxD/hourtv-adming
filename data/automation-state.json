@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-07-28T18:56:40.442Z",
+  "lastRunAt": "2026-07-28T20:13:16.973Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     1275779,
@@ -23,11 +23,11 @@
     1301421,
     1318447,
     1368337,
-    969681,
-    1727780,
     1284465,
-    1668364,
+    969681,
     980431,
+    1727780,
+    1668364,
     1630409,
     687163,
     1110034,
@@ -139,9 +139,19 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1284465,
+      "title": "La muerte de Robin Hood",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 969681,
       "title": "Spider-Man: Brand New Day",
       "reason": "Votos 19 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 980431,
+      "title": "La leyenda de Aang: El último Airbender",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1727780,
@@ -149,18 +159,8 @@
       "reason": "Votos 4 por debajo del mínimo (50)"
     },
     {
-      "tmdbId": 1284465,
-      "title": "La muerte de Robin Hood",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1668364,
       "title": "Deseo",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 980431,
-      "title": "La leyenda de Aang: El último Airbender",
       "reason": "Sin fuente autorizada configurada"
     },
     {

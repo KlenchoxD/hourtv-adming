@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-07-28T18:56:39.919Z",
-  "durationMs": 528,
+  "generatedAt": "2026-07-28T20:13:13.315Z",
+  "durationMs": 3663,
   "dryRun": false,
   "moviesFound": 31,
   "moviesDiscarded": 29,
@@ -113,9 +113,19 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1284465,
+      "title": "La muerte de Robin Hood",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 969681,
       "title": "Spider-Man: Brand New Day",
       "reason": "Votos 19 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 980431,
+      "title": "La leyenda de Aang: El último Airbender",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1727780,
@@ -123,18 +133,8 @@
       "reason": "Votos 4 por debajo del mínimo (50)"
     },
     {
-      "tmdbId": 1284465,
-      "title": "La muerte de Robin Hood",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1668364,
       "title": "Deseo",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 980431,
-      "title": "La leyenda de Aang: El último Airbender",
       "reason": "Sin fuente autorizada configurada"
     },
     {
