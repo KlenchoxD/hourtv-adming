@@ -14,6 +14,7 @@ import '../services/content_store.dart';
 import '../services/device_type.dart';
 import 'hourtv_artwork.dart';
 import 'hourtv_cast_controls_screen.dart';
+import 'hourtv_cast_sheet.dart';
 import 'hourtv_focusable.dart';
 import 'hourtv_player_screen.dart';
 
@@ -137,91 +138,36 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
     if (widget.preview) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Conecta una fuente IPTV para transmitir contenido real.'),
+          content: Text(
+            'Conecta una fuente IPTV para transmitir contenido real.',
+          ),
         ),
       );
       return;
     }
-    final available = await CastService.instance.initialize();
-    if (!mounted) return;
-    if (!available) {
-      await _showCastMessage(
-        'Este dispositivo no tiene soporte para Google Cast.',
-      );
-      return;
-    }
+    // Mismo panel propio que el reproductor: busca, muestra el estado, deja
+    // elegir y desconectar, y explica los errores sin salir de la app.
     final streamUrl = channel.url;
-    if (!CastService.isNetworkUrl(streamUrl) ||
-        CastService.contentTypeFor(streamUrl) == null) {
-      await _showCastMessage(
-        'Este contenido no expone una URL HLS o MP4 compatible con Chromecast.',
-      );
-      return;
-    }
-    await CastService.instance.startDiscovery();
-    await Future<void>.delayed(const Duration(seconds: 2));
-    if (!mounted) return;
-    final devices = CastService.instance.devices;
-    if (devices.isEmpty) {
-      await _showCastMessage(
-        'No se encontró ningún Chromecast en la red. Verifica que estén '
-        'conectados al mismo Wi-Fi.',
-      );
-      return;
-    }
-    final selected = await showDialog<GoogleCastDevice>(
-      context: context,
-      builder: (dialogContext) => SimpleDialog(
-        title: const Text('Transmitir a'),
-        children: [
-          for (final device in devices)
-            SimpleDialogOption(
-              onPressed: () => Navigator.pop(dialogContext, device),
-              child: ListTile(
-                contentPadding: EdgeInsets.zero,
-                leading: const Icon(Icons.cast_rounded),
-                title: Text(device.friendlyName),
-                subtitle: device.modelName == null
-                    ? null
-                    : Text(device.modelName!),
-              ),
-            ),
-        ],
+    final blocked =
+        !CastService.isNetworkUrl(streamUrl) ||
+            CastService.contentTypeFor(streamUrl) == null
+        ? 'Este contenido no expone una URL HLS (.m3u8) ni MP4, que son los '
+              'únicos formatos que acepta Chromecast.'
+        : null;
+    final connected = await showCastSheet(
+      context,
+      title: channel.displayName,
+      streamUrl: () => streamUrl,
+      posterUrl: channel.backdrop ?? channel.logo,
+      blockedReason: blocked,
+    );
+    if (!mounted || !connected) return;
+    await Navigator.of(context).push<bool>(
+      MaterialPageRoute(
+        builder: (_) => CastControlsScreen(title: channel.displayName),
       ),
     );
-    if (!mounted || selected == null) return;
-    try {
-      await CastService.instance.connectAndLoad(
-        device: selected,
-        url: streamUrl,
-        title: channel.displayName,
-        posterUrl: channel.backdrop ?? channel.logo,
-      );
-      if (!mounted) return;
-      await Navigator.of(context).push<bool>(
-        MaterialPageRoute(
-          builder: (_) => CastControlsScreen(title: channel.displayName),
-        ),
-      );
-    } catch (error) {
-      if (mounted) await _showCastMessage('No se pudo transmitir: $error');
-    }
   }
-
-  Future<void> _showCastMessage(String message) => showDialog<void>(
-    context: context,
-    builder: (dialogContext) => AlertDialog(
-      backgroundColor: _surface,
-      title: const Text('Transmitir', style: TextStyle(color: Colors.white)),
-      content: Text(message, style: const TextStyle(color: _muted)),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.pop(dialogContext),
-          child: const Text('Entendido'),
-        ),
-      ],
-    ),
-  );
 
   void openRelated(Channel item) {
     Navigator.of(context).pushReplacement(
@@ -728,8 +674,10 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
   static String? _prettyDuration(String? raw) {
     final value = raw?.trim();
     if (value == null || value.isEmpty) return null;
-    final match = RegExp(r'^(\d+)\s*(min|m|minutos?)?\.?$', caseSensitive: false)
-        .firstMatch(value);
+    final match = RegExp(
+      r'^(\d+)\s*(min|m|minutos?)?\.?$',
+      caseSensitive: false,
+    ).firstMatch(value);
     if (match == null) return value;
     final total = int.tryParse(match.group(1)!);
     if (total == null || total <= 0) return value;
@@ -747,8 +695,18 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
     final date = DateTime.tryParse(raw);
     if (date == null) return null;
     const months = [
-      'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
-      'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre',
+      'enero',
+      'febrero',
+      'marzo',
+      'abril',
+      'mayo',
+      'junio',
+      'julio',
+      'agosto',
+      'septiembre',
+      'octubre',
+      'noviembre',
+      'diciembre',
     ];
     return '${date.day} de ${months[date.month - 1]} de ${date.year}';
   }
@@ -823,9 +781,7 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
         backgroundColor: desktop ? Colors.white : _red,
         foregroundColor: desktop ? Colors.black : Colors.white,
         minimumSize: const Size(158, 48),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       ),
       icon: const Icon(Icons.play_arrow_rounded),
       label: const Text(
@@ -980,7 +936,12 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
     );
     // En las vistas que piden un recorte fijo (TV, escritorio) se respeta.
     if (maxLines != null) {
-      return Text(plot, maxLines: maxLines, overflow: TextOverflow.ellipsis, style: style);
+      return Text(
+        plot,
+        maxLines: maxLines,
+        overflow: TextOverflow.ellipsis,
+        style: style,
+      );
     }
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -996,7 +957,9 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
             Text(
               plot,
               maxLines: plotExpanded || !overflows ? null : 5,
-              overflow: plotExpanded || !overflows ? null : TextOverflow.ellipsis,
+              overflow: plotExpanded || !overflows
+                  ? null
+                  : TextOverflow.ellipsis,
               style: style,
             ),
             if (overflows)
@@ -1109,8 +1072,16 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
   /// Categorias internas del panel: sirven para armar las filas del Inicio,
   /// no son generos y no pintan nada en la ficha.
   static const _internalCategories = {
-    'tendencias', 'recomendado', 'populares', 'estrenos', 'antiguas',
-    'destacado', 'featured', 'live', 'vod', 'iptv',
+    'tendencias',
+    'recomendado',
+    'populares',
+    'estrenos',
+    'antiguas',
+    'destacado',
+    'featured',
+    'live',
+    'vod',
+    'iptv',
   };
 
   /// Clave de comparacion sin tildes: el genero llega como "Acción" y la
@@ -1321,7 +1292,8 @@ class _Backdrop extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final hasBackdrop = channel.backdrop != null && channel.backdrop!.isNotEmpty;
+    final hasBackdrop =
+        channel.backdrop != null && channel.backdrop!.isNotEmpty;
     final url = channel.backdrop ?? channel.logo;
     return Stack(
       fit: StackFit.expand,
@@ -1460,7 +1432,7 @@ class _TvRelatedCard extends StatelessWidget {
               if (channel.backdrop != null || channel.logo != null)
                 CachedNetworkImage(
                   imageUrl: channel.backdrop ?? channel.logo!,
-      memCacheWidth: 720,
+                  memCacheWidth: 720,
                   fit: BoxFit.cover,
                   errorWidget: (_, _, _) => const SizedBox.expand(),
                 ),

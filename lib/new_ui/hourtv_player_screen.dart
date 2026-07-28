@@ -17,6 +17,7 @@ import '../services/cast_service.dart';
 import '../services/embed_resolver.dart';
 import 'hourtv_focusable.dart';
 import 'hourtv_cast_controls_screen.dart';
+import 'hourtv_cast_sheet.dart';
 
 const _hourRed = Color(0xFFF20A1A);
 const _hourSurface = Color(0xFF101012);
@@ -84,10 +85,10 @@ class _PlayerScreenState extends State<PlayerScreen> {
   WebViewController? _embedController;
   StreamSubscription<List<GoogleCastDevice>>? _castDevicesSubscription;
   StreamSubscription<GoogleCastSession?>? _castSessionSubscription;
-  List<GoogleCastDevice> _castDevices = const [];
-  bool _castSdkAvailable = false;
+  // Solo se guarda si hay sesion activa, para pintar el boton. La lista de
+  // dispositivos y el estado de conexion los lleva el panel de transmision
+  // (`showCastSheet`), que es quien los muestra.
   bool _castConnected = false;
-  bool _castConnecting = false;
 
   final ValueNotifier<int?> _nextEpisodeCountdown = ValueNotifier(null);
   final ValueNotifier<bool> _creditsMode = ValueNotifier(false);
@@ -605,19 +606,12 @@ class _PlayerScreenState extends State<PlayerScreen> {
     if (widget.allChannels[_idx].type == MediaType.live) return;
     final available = await CastService.instance.initialize();
     if (!mounted || !available) return;
-    _castDevicesSubscription = CastService.instance.devicesStream.listen((
-      devices,
-    ) {
-      if (mounted) setState(() => _castDevices = devices);
-    });
     _castSessionSubscription = CastService.instance.sessionStream.listen(
       _onCastSessionChanged,
     );
-    setState(() {
-      _castSdkAvailable = true;
-      _castDevices = CastService.instance.devices;
-      _castConnected = CastService.instance.isConnected;
-    });
+    setState(() => _castConnected = CastService.instance.isConnected);
+    // El descubrimiento arranca ya, para que al abrir el panel la lista este
+    // poblada en vez de tener que esperar desde cero.
     await CastService.instance.startDiscovery();
   }
 
@@ -641,102 +635,90 @@ class _PlayerScreenState extends State<PlayerScreen> {
     }
   }
 
-  Future<void> _openRealCast() async {
-    final channel = widget.allChannels[_idx];
-    if (_castConnected) {
-      await _openCastControls();
-      return;
-    }
-    if (CastService.needsUnsupportedHeaders(channel.userAgent)) {
-      await _showCastFallback(
-        'Este servidor exige un User-Agent personalizado. El receptor '
-        'predeterminado de Chromecast no permite enviar esa cabecera, por lo '
-        'que el video podría ser rechazado.',
-      );
-      return;
-    }
-    final streamUrl = _resolvedPlaybackUrl ?? _activeServerUrl ?? channel.url;
-    if (!CastService.isNetworkUrl(streamUrl) ||
-        CastService.contentTypeFor(streamUrl) == null) {
-      await _showCastFallback(
-        'Este servidor no expone una URL HLS o MP4 compatible con Chromecast.',
-      );
-      return;
-    }
-
-    await CastService.instance.startDiscovery();
-    if (!mounted) return;
-    final selected = await showDialog<Object>(
-      context: context,
-      builder: (dialogContext) => SimpleDialog(
-        title: const Text('Transmitir a'),
-        children: [
-          for (final device in _castDevices)
-            SimpleDialogOption(
-              onPressed: () => Navigator.pop(dialogContext, device),
-              child: ListTile(
-                contentPadding: EdgeInsets.zero,
-                leading: const Icon(Icons.cast_rounded),
-                title: Text(device.friendlyName),
-                subtitle: device.modelName == null
-                    ? null
-                    : Text(device.modelName!),
+  /// Boton de transmitir con la identidad de la app: capsula con borde rojo,
+  /// icono y etiqueta. Antes era un IconButton suelto que no se distinguia de
+  /// los demas y no decia lo que hacia. Cuando hay sesion activa se pinta en
+  /// rojo relleno con el estado "Conectado".
+  Widget _castButton() {
+    final connected = _castConnected;
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 4),
+      child: Material(
+        color: connected ? _hourRed : Colors.white.withValues(alpha: .10),
+        borderRadius: BorderRadius.circular(20),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(20),
+          onTap: () => unawaited(_openRealCast()),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(
+                color: connected ? _hourRed : Colors.white24,
+                width: 1.2,
               ),
             ),
-          const Divider(),
-          SimpleDialogOption(
-            onPressed: () => Navigator.pop(dialogContext, 'mirror'),
-            child: const ListTile(
-              contentPadding: EdgeInsets.zero,
-              leading: Icon(Icons.screen_share_rounded),
-              title: Text('Compartir pantalla'),
-              subtitle: Text('Usar el espejo nativo como alternativa'),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  connected ? Icons.cast_connected_rounded : Icons.cast_rounded,
+                  color: Colors.white,
+                  size: 18,
+                ),
+                const SizedBox(width: 7),
+                Text(
+                  connected ? 'Conectado' : 'Transmitir',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 12.5,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+              ],
             ),
           ),
-        ],
+        ),
       ),
     );
-    if (!mounted || selected == null) return;
-    if (selected == 'mirror') {
-      await _openCastSettings();
-      return;
-    }
-    await _connectToCast(selected as GoogleCastDevice, streamUrl, channel);
   }
 
-  Future<void> _connectToCast(
-    GoogleCastDevice device,
-    String streamUrl,
-    Channel channel,
-  ) async {
-    setState(() => _castConnecting = true);
-    try {
-      final video = _vc;
-      await CastService.instance.connectAndLoad(
-        device: device,
-        url: streamUrl,
-        title: channel.displayName,
-        posterUrl: channel.backdrop ?? channel.logo,
-        position: video?.value.position ?? Duration.zero,
-        duration: video?.value.duration,
-      );
-      await video?.pause();
-      if (!mounted) return;
-      await _openCastControls();
-    } on TimeoutException {
-      if (mounted) {
-        await _showCastFallback(
-          'El Chromecast no respondió a tiempo. Comprueba que ambos dispositivos '
-          'estén en la misma red Wi-Fi.',
-        );
-      }
-    } catch (error) {
-      if (mounted) {
-        await _showCastFallback('No se pudo transmitir: $error');
-      }
-    } finally {
-      if (mounted) setState(() => _castConnecting = false);
-    }
+  /// Abre el panel de transmision propio de la app.
+  ///
+  /// Antes, si el descubrimiento aun no habia encontrado nada, este boton
+  /// lanzaba `Settings.ACTION_CAST_SETTINGS`: el panel NATIVO de Android, que
+  /// saca al usuario de HourTV. Y mientras se buscaba, no parecia hacer nada.
+  /// Ahora siempre abre la hoja propia, que ya muestra el estado "buscando".
+  Future<void> _openRealCast() async {
+    final channel = widget.allChannels[_idx];
+    final streamUrl = _resolvedPlaybackUrl ?? _activeServerUrl ?? channel.url;
+
+    // Motivos reales por los que este contenido no se puede enviar. Se pasan
+    // al panel para explicarlos ahi en vez de ofrecer dispositivos que van a
+    // fallar al cargar el video.
+    final blocked = CastService.needsUnsupportedHeaders(channel.userAgent)
+        ? 'Este servidor exige un User-Agent personalizado y el receptor '
+              'predeterminado de Chromecast no permite enviar esa cabecera, '
+              'así que el televisor rechazaría el vídeo.'
+        : (!CastService.isNetworkUrl(streamUrl) ||
+              CastService.contentTypeFor(streamUrl) == null)
+        ? 'Este servidor no expone una URL HLS (.m3u8) ni MP4, que son los '
+              'únicos formatos que acepta Chromecast.'
+        : null;
+
+    final connected = await showCastSheet(
+      context,
+      title: channel.displayName,
+      streamUrl: () => _resolvedPlaybackUrl ?? _activeServerUrl ?? channel.url,
+      posterUrl: channel.backdrop ?? channel.logo,
+      position: () => _vc?.value.position ?? Duration.zero,
+      duration: () => _vc?.value.duration,
+      blockedReason: blocked,
+    );
+    if (!mounted || !connected) return;
+    // Con la sesion activa el video local no debe seguir sonando.
+    await _vc?.pause();
+    if (mounted) await _openCastControls();
   }
 
   Future<void> _openCastControls() async {
@@ -750,28 +732,6 @@ class _PlayerScreenState extends State<PlayerScreen> {
       ),
     );
     if (mounted) _screenFocus.requestFocus();
-  }
-
-  Future<void> _showCastFallback(String reason) async {
-    final useMirror = await showDialog<bool>(
-      context: context,
-      builder: (dialogContext) => AlertDialog(
-        title: const Text('No se puede usar Cast directo'),
-        content: Text('$reason\n\n¿Quieres compartir la pantalla en su lugar?'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(dialogContext, false),
-            child: const Text('Cancelar'),
-          ),
-          FilledButton.icon(
-            onPressed: () => Navigator.pop(dialogContext, true),
-            icon: const Icon(Icons.screen_share_rounded),
-            label: const Text('Compartir pantalla'),
-          ),
-        ],
-      ),
-    );
-    if (useMirror == true && mounted) await _openCastSettings();
   }
 
   Future<void> _showMessage(String title, String message) async {
@@ -1011,11 +971,18 @@ class _PlayerScreenState extends State<PlayerScreen> {
                 Navigator.pop(dialogContext);
                 unawaited(_openCastSettings());
               },
+              // Esto NO es transmitir: es el espejo de pantalla del sistema, y
+              // no existe forma de hacerlo dentro de la app. Se deja porque es
+              // la unica salida para servidores no casteables, pero el texto
+              // avisa de que sale a los ajustes de Android.
               child: const ListTile(
                 contentPadding: EdgeInsets.zero,
                 leading: Icon(Icons.screen_share_rounded),
                 title: Text('Compartir pantalla'),
-                subtitle: Text('Alternativa para servidores no casteables'),
+                subtitle: Text(
+                  'Abre los ajustes de Android. Alternativa para servidores '
+                  'que no se pueden transmitir',
+                ),
               ),
             ),
           if (widget.allChannels[_idx].servers.length > 1)
@@ -2384,30 +2351,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
               },
             ),
           if (ch.type != MediaType.live && !DeviceProfile.isTv(context))
-            IconButton(
-              tooltip: _castConnected
-                  ? 'Controles de transmisión'
-                  : 'Transmitir o compartir pantalla',
-              icon: _castConnecting
-                  ? const SizedBox.square(
-                      dimension: 20,
-                      child: CircularProgressIndicator(strokeWidth: 2),
-                    )
-                  : Icon(
-                      _castConnected
-                          ? Icons.cast_connected_rounded
-                          : Icons.cast_rounded,
-                      color: Colors.white,
-                    ),
-              onPressed: _castConnecting
-                  ? null
-                  : () => unawaited(
-                      _castSdkAvailable &&
-                              (_castDevices.isNotEmpty || _castConnected)
-                          ? _openRealCast()
-                          : _openCastSettings(),
-                    ),
-            ),
+            _castButton(),
           IconButton(
             tooltip: 'Audio, subtítulos, calidad y aspecto',
             icon: const Icon(Icons.tune_rounded, color: Colors.white),
