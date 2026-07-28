@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-07-28T13:45:19.885Z",
-  "durationMs": 1113,
+  "generatedAt": "2026-07-28T15:59:53.912Z",
+  "durationMs": 1724,
   "dryRun": false,
   "moviesFound": 31,
   "moviesDiscarded": 29,
@@ -90,7 +90,7 @@
     {
       "tmdbId": 1361774,
       "title": "Dink",
-      "reason": "Votos 49 por debajo del mínimo (50)"
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1007757,
@@ -140,7 +140,7 @@
     {
       "tmdbId": 1630409,
       "title": "El cobrador de deudas",
-      "reason": "Votos 17 por debajo del mínimo (50)"
+      "reason": "Votos 18 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 687163,
