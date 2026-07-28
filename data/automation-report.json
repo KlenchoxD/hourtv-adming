@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-07-28T09:45:47.606Z",
-  "durationMs": 1881,
+  "generatedAt": "2026-07-28T11:51:41.760Z",
+  "durationMs": 2203,
   "dryRun": false,
   "moviesFound": 31,
   "moviesDiscarded": 29,
@@ -153,8 +153,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1523145,
-      "title": "Tu corazón se romperá",
+      "tmdbId": 1375646,
+      "title": "Colony",
       "reason": "Sin fuente autorizada configurada"
     }
   ]

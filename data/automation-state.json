@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-07-28T09:45:49.482Z",
+  "lastRunAt": "2026-07-28T11:51:43.958Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     1275779,
@@ -31,7 +31,7 @@
     1630409,
     687163,
     1110034,
-    1523145,
+    1375646,
     1335666
   ],
   "tmdbIdsPublished": [],
@@ -179,8 +179,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1523145,
-      "title": "Tu corazón se romperá",
+      "tmdbId": 1375646,
+      "title": "Colony",
       "reason": "Sin fuente autorizada configurada"
     }
   ]
