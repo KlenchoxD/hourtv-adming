@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-07-28T15:59:53.912Z",
-  "durationMs": 1724,
+  "generatedAt": "2026-07-28T17:38:51.767Z",
+  "durationMs": 2585,
   "dryRun": false,
   "moviesFound": 31,
   "moviesDiscarded": 29,
@@ -23,13 +23,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1108427,
-      "title": "Vaiana",
+      "tmdbId": 1081003,
+      "title": "Supergirl",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1081003,
-      "title": "Supergirl",
+      "tmdbId": 1108427,
+      "title": "Vaiana",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -63,13 +63,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 931285,
-      "title": "Mortal Kombat II",
+      "tmdbId": 936075,
+      "title": "Michael",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 936075,
-      "title": "Michael",
+      "tmdbId": 931285,
+      "title": "Mortal Kombat II",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -98,13 +98,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1318447,
-      "title": "Depredador dominante",
+      "tmdbId": 1301421,
+      "title": "Las ovejas detectives",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1595852,
-      "title": "Boulevard",
+      "tmdbId": 1318447,
+      "title": "Depredador dominante",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -120,7 +120,7 @@
     {
       "tmdbId": 1727780,
       "title": "Borderline",
-      "reason": "Votos 3 por debajo del mínimo (50)"
+      "reason": "Votos 4 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1284465,
