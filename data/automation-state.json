@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-07-29T12:18:10.530Z",
+  "lastRunAt": "2026-07-29T14:38:39.370Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     1081003,
@@ -126,7 +126,7 @@
     {
       "tmdbId": 1564614,
       "title": "Leviticus",
-      "reason": "Votos 49 por debajo del mínimo (50)"
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1301421,

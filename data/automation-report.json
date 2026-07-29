@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-07-29T12:18:09.266Z",
-  "durationMs": 1269,
+  "generatedAt": "2026-07-29T14:38:36.249Z",
+  "durationMs": 3126,
   "dryRun": false,
   "moviesFound": 31,
   "moviesDiscarded": 29,
@@ -100,7 +100,7 @@
     {
       "tmdbId": 1564614,
       "title": "Leviticus",
-      "reason": "Votos 49 por debajo del mínimo (50)"
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1301421,
