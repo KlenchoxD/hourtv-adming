@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-07-29T01:07:24.100Z",
+  "lastRunAt": "2026-07-29T04:28:59.903Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     1275779,
@@ -28,10 +28,10 @@
     980431,
     1727780,
     1668364,
+    1375646,
     1630409,
     687163,
     1110034,
-    1375646,
     1335666
   ],
   "tmdbIdsPublished": [],
@@ -164,6 +164,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1375646,
+      "title": "Colony",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1630409,
       "title": "El cobrador de deudas",
       "reason": "Votos 18 por debajo del mínimo (50)"
@@ -176,11 +181,6 @@
     {
       "tmdbId": 1110034,
       "title": "Kraken",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1375646,
-      "title": "Colony",
       "reason": "Sin fuente autorizada configurada"
     }
   ]

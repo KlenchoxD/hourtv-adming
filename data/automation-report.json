@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-07-29T01:07:21.331Z",
-  "durationMs": 2775,
+  "generatedAt": "2026-07-29T04:28:58.253Z",
+  "durationMs": 1655,
   "dryRun": false,
   "moviesFound": 31,
   "moviesDiscarded": 29,
@@ -138,6 +138,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1375646,
+      "title": "Colony",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1630409,
       "title": "El cobrador de deudas",
       "reason": "Votos 18 por debajo del mínimo (50)"
@@ -150,11 +155,6 @@
     {
       "tmdbId": 1110034,
       "title": "Kraken",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1375646,
-      "title": "Colony",
       "reason": "Sin fuente autorizada configurada"
     }
   ]
