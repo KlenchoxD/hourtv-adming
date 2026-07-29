@@ -1,10 +1,10 @@
 {
-  "lastRunAt": "2026-07-29T07:20:24.810Z",
+  "lastRunAt": "2026-07-29T10:04:16.596Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
-    1275779,
-    454639,
     1081003,
+    454639,
+    1275779,
     1108427,
     1339713,
     1083381,
@@ -20,11 +20,11 @@
     1368314,
     1361774,
     1007757,
+    1564614,
     1301421,
-    1318447,
     1368337,
-    1284465,
     969681,
+    1284465,
     980431,
     1727780,
     1668364,
@@ -39,8 +39,8 @@
   "errorsSummary": [],
   "skipped": [
     {
-      "tmdbId": 1275779,
-      "title": "El día de la revelación",
+      "tmdbId": 1081003,
+      "title": "Supergirl",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -49,8 +49,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1081003,
-      "title": "Supergirl",
+      "tmdbId": 1275779,
+      "title": "El día de la revelación",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -124,13 +124,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1301421,
-      "title": "Las ovejas detectives",
-      "reason": "Sin fuente autorizada configurada"
+      "tmdbId": 1564614,
+      "title": "Leviticus",
+      "reason": "Votos 49 por debajo del mínimo (50)"
     },
     {
-      "tmdbId": 1318447,
-      "title": "Depredador dominante",
+      "tmdbId": 1301421,
+      "title": "Las ovejas detectives",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -139,14 +139,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1284465,
-      "title": "La muerte de Robin Hood",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 969681,
       "title": "Spider-Man: Brand New Day",
       "reason": "Votos 36 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 1284465,
+      "title": "La muerte de Robin Hood",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 980431,
