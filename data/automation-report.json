@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-07-29T04:28:58.253Z",
-  "durationMs": 1655,
+  "generatedAt": "2026-07-29T07:20:22.282Z",
+  "durationMs": 2533,
   "dryRun": false,
   "moviesFound": 31,
   "moviesDiscarded": 29,
@@ -120,7 +120,7 @@
     {
       "tmdbId": 969681,
       "title": "Spider-Man: Brand New Day",
-      "reason": "Votos 34 por debajo del mínimo (50)"
+      "reason": "Votos 36 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 980431,
@@ -139,7 +139,7 @@
     },
     {
       "tmdbId": 1375646,
-      "title": "Colony",
+      "title": "Zona Cero",
       "reason": "Sin fuente autorizada configurada"
     },
     {
