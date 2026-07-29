@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-07-29T22:01:24.096Z",
-  "durationMs": 1112,
+  "generatedAt": "2026-07-29T23:12:25.575Z",
+  "durationMs": 647,
   "dryRun": false,
   "moviesFound": 31,
   "moviesDiscarded": 29,
@@ -115,7 +115,7 @@
     {
       "tmdbId": 969681,
       "title": "Spider-Man: Brand New Day",
-      "reason": "Votos 44 por debajo del mínimo (50)"
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1284465,
@@ -135,7 +135,7 @@
     {
       "tmdbId": 1630409,
       "title": "El cobrador de deudas",
-      "reason": "Votos 18 por debajo del mínimo (50)"
+      "reason": "Votos 21 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1375646,
