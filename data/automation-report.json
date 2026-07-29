@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-07-29T17:35:55.322Z",
-  "durationMs": 420,
+  "generatedAt": "2026-07-29T18:39:48.184Z",
+  "durationMs": 2927,
   "dryRun": false,
   "moviesFound": 31,
   "moviesDiscarded": 29,
@@ -68,13 +68,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 931285,
-      "title": "Mortal Kombat II",
+      "tmdbId": 949838,
+      "title": "72 horas",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 949838,
-      "title": "72 horas",
+      "tmdbId": 931285,
+      "title": "Mortal Kombat II",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -130,12 +130,12 @@
     {
       "tmdbId": 1727780,
       "title": "Borderline",
-      "reason": "Votos 5 por debajo del mínimo (50)"
+      "reason": "Votos 6 por debajo del mínimo (50)"
     },
     {
-      "tmdbId": 1668364,
-      "title": "Deseo",
-      "reason": "Sin fuente autorizada configurada"
+      "tmdbId": 1630409,
+      "title": "El cobrador de deudas",
+      "reason": "Votos 18 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1375646,
@@ -143,9 +143,9 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1630409,
-      "title": "El cobrador de deudas",
-      "reason": "Votos 18 por debajo del mínimo (50)"
+      "tmdbId": 1668364,
+      "title": "Deseo",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 687163,

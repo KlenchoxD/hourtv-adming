@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-07-29T17:35:55.737Z",
+  "lastRunAt": "2026-07-29T18:39:51.106Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     1081003,
@@ -7,15 +7,15 @@
     1275779,
     1108427,
     1339713,
-    1083381,
     1084244,
+    1083381,
     1315772,
     1273221,
     1228710,
     1314481,
     936075,
-    931285,
     949838,
+    931285,
     1304313,
     1368314,
     1361774,
@@ -27,9 +27,9 @@
     1284465,
     980431,
     1727780,
-    1668364,
-    1375646,
     1630409,
+    1375646,
+    1668364,
     687163,
     1110034,
     1335666
@@ -94,13 +94,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 931285,
-      "title": "Mortal Kombat II",
+      "tmdbId": 949838,
+      "title": "72 horas",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 949838,
-      "title": "72 horas",
+      "tmdbId": 931285,
+      "title": "Mortal Kombat II",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -156,12 +156,12 @@
     {
       "tmdbId": 1727780,
       "title": "Borderline",
-      "reason": "Votos 5 por debajo del mínimo (50)"
+      "reason": "Votos 6 por debajo del mínimo (50)"
     },
     {
-      "tmdbId": 1668364,
-      "title": "Deseo",
-      "reason": "Sin fuente autorizada configurada"
+      "tmdbId": 1630409,
+      "title": "El cobrador de deudas",
+      "reason": "Votos 18 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1375646,
@@ -169,9 +169,9 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1630409,
-      "title": "El cobrador de deudas",
-      "reason": "Votos 18 por debajo del mínimo (50)"
+      "tmdbId": 1668364,
+      "title": "Deseo",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 687163,
