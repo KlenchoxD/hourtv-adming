@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-07-30T10:59:47.091Z",
-  "durationMs": 1794,
+  "generatedAt": "2026-07-30T12:48:24.568Z",
+  "durationMs": 750,
   "dryRun": false,
   "moviesFound": 32,
   "moviesDiscarded": 30,
@@ -135,7 +135,7 @@
     {
       "tmdbId": 1630409,
       "title": "El cobrador de deudas",
-      "reason": "Votos 21 por debajo del mínimo (50)"
+      "reason": "Votos 22 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1375646,
