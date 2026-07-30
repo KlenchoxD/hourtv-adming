@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-07-30T15:04:52.718Z",
-  "durationMs": 2994,
+  "generatedAt": "2026-07-30T16:46:22.778Z",
+  "durationMs": 2412,
   "dryRun": false,
   "moviesFound": 32,
   "moviesDiscarded": 30,
@@ -53,23 +53,23 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1228710,
-      "title": "The Mandalorian and Grogu",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1314481,
       "title": "El diablo viste de Prada 2",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 936075,
-      "title": "Michael",
+      "tmdbId": 1228710,
+      "title": "The Mandalorian and Grogu",
       "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 949838,
       "title": "72 horas",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 936075,
+      "title": "Michael",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -83,11 +83,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1368314,
-      "title": "El pasajero nocturno",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1361774,
       "title": "Dink",
       "reason": "Sin fuente autorizada configurada"
@@ -95,6 +90,11 @@
     {
       "tmdbId": 1007757,
       "title": "Intercambiados",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1368314,
+      "title": "El pasajero nocturno",
       "reason": "Sin fuente autorizada configurada"
     },
     {
