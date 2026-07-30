@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-07-30T16:46:25.185Z",
+  "lastRunAt": "2026-07-30T18:10:24.319Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     1081003,
@@ -26,13 +26,14 @@
     969681,
     1284465,
     980431,
+    1375646,
     1727780,
     1630409,
-    1375646,
-    1668364,
     1311031,
-    1110034,
+    1668364,
     687163,
+    1110034,
+    634649,
     1335666
   ],
   "tmdbIdsPublished": [],
@@ -155,6 +156,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1375646,
+      "title": "Zona Cero",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1727780,
       "title": "Borderline",
       "reason": "Votos 6 por debajo del mínimo (50)"
@@ -165,8 +171,8 @@
       "reason": "Votos 22 por debajo del mínimo (50)"
     },
     {
-      "tmdbId": 1375646,
-      "title": "Zona Cero",
+      "tmdbId": 1311031,
+      "title": "Guardianes de la noche: Kimetsu no Yaiba La fortaleza infinita",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -175,8 +181,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1311031,
-      "title": "Guardianes de la noche: Kimetsu no Yaiba La fortaleza infinita",
+      "tmdbId": 687163,
+      "title": "Proyecto Salvación",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -185,8 +191,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 687163,
-      "title": "Proyecto Salvación",
+      "tmdbId": 634649,
+      "title": "Spider-Man: No Way Home",
       "reason": "Sin fuente autorizada configurada"
     }
   ]

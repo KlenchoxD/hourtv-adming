@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-07-30T16:46:22.778Z",
-  "durationMs": 2412,
+  "generatedAt": "2026-07-30T18:10:21.295Z",
+  "durationMs": 3029,
   "dryRun": false,
-  "moviesFound": 32,
-  "moviesDiscarded": 30,
+  "moviesFound": 33,
+  "moviesDiscarded": 31,
   "moviesAdded": 0,
   "moviesEnriched": 0,
   "duplicates": 2,
@@ -128,6 +128,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1375646,
+      "title": "Zona Cero",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1727780,
       "title": "Borderline",
       "reason": "Votos 6 por debajo del mínimo (50)"
@@ -138,8 +143,8 @@
       "reason": "Votos 22 por debajo del mínimo (50)"
     },
     {
-      "tmdbId": 1375646,
-      "title": "Zona Cero",
+      "tmdbId": 1311031,
+      "title": "Guardianes de la noche: Kimetsu no Yaiba La fortaleza infinita",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -148,8 +153,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1311031,
-      "title": "Guardianes de la noche: Kimetsu no Yaiba La fortaleza infinita",
+      "tmdbId": 687163,
+      "title": "Proyecto Salvación",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -158,8 +163,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 687163,
-      "title": "Proyecto Salvación",
+      "tmdbId": 634649,
+      "title": "Spider-Man: No Way Home",
       "reason": "Sin fuente autorizada configurada"
     }
   ]
