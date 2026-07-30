@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-07-30T08:46:48.662Z",
-  "durationMs": 2713,
+  "generatedAt": "2026-07-30T10:59:47.091Z",
+  "durationMs": 1794,
   "dryRun": false,
-  "moviesFound": 31,
-  "moviesDiscarded": 29,
+  "moviesFound": 32,
+  "moviesDiscarded": 30,
   "moviesAdded": 0,
   "moviesEnriched": 0,
   "duplicates": 2,
@@ -148,13 +148,18 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 687163,
-      "title": "Proyecto Salvación",
+      "tmdbId": 1311031,
+      "title": "Guardianes de la noche: Kimetsu no Yaiba La fortaleza infinita",
       "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1110034,
       "title": "Kraken",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 687163,
+      "title": "Proyecto Salvación",
       "reason": "Sin fuente autorizada configurada"
     }
   ]

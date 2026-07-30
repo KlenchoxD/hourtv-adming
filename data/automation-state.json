@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-07-30T08:46:51.371Z",
+  "lastRunAt": "2026-07-30T10:59:48.880Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     1081003,
@@ -30,8 +30,9 @@
     1630409,
     1375646,
     1668364,
-    687163,
+    1311031,
     1110034,
+    687163,
     1335666
   ],
   "tmdbIdsPublished": [],
@@ -174,13 +175,18 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 687163,
-      "title": "Proyecto Salvación",
+      "tmdbId": 1311031,
+      "title": "Guardianes de la noche: Kimetsu no Yaiba La fortaleza infinita",
       "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1110034,
       "title": "Kraken",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 687163,
+      "title": "Proyecto Salvación",
       "reason": "Sin fuente autorizada configurada"
     }
   ]
