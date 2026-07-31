@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-07-30T23:17:29.892Z",
-  "durationMs": 1643,
+  "generatedAt": "2026-07-31T01:01:41.041Z",
+  "durationMs": 2856,
   "dryRun": false,
-  "moviesFound": 33,
-  "moviesDiscarded": 31,
+  "moviesFound": 32,
+  "moviesDiscarded": 30,
   "moviesAdded": 0,
   "moviesEnriched": 0,
   "duplicates": 2,
@@ -12,6 +12,11 @@
   "invalidSources": 0,
   "addedTitles": [],
   "skipped": [
+    {
+      "tmdbId": 969681,
+      "title": "Spider-Man: Brand New Day",
+      "reason": "Sin fuente autorizada configurada"
+    },
     {
       "tmdbId": 1081003,
       "title": "Supergirl",
@@ -103,18 +108,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1301421,
-      "title": "Las ovejas detectives",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1368337,
       "title": "La odisea",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 969681,
-      "title": "Spider-Man: Brand New Day",
       "reason": "Sin fuente autorizada configurada"
     },
     {
