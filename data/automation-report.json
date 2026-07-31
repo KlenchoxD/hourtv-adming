@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-07-31T16:40:14.286Z",
-  "durationMs": 3229,
+  "generatedAt": "2026-07-31T18:09:10.043Z",
+  "durationMs": 2912,
   "dryRun": false,
   "moviesFound": 32,
   "moviesDiscarded": 30,
@@ -33,13 +33,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1108427,
-      "title": "Vaiana",
+      "tmdbId": 1339713,
+      "title": "Obsession",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1339713,
-      "title": "Obsession",
+      "tmdbId": 1108427,
+      "title": "Vaiana",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -98,13 +98,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1368314,
-      "title": "El pasajero nocturno",
+      "tmdbId": 1361774,
+      "title": "Dink",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1361774,
-      "title": "Dink",
+      "tmdbId": 1368314,
+      "title": "El pasajero nocturno",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -120,6 +120,11 @@
     {
       "tmdbId": 980431,
       "title": "La leyenda de Aang: El último Airbender",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 634649,
+      "title": "Spider-Man: No Way Home",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -143,11 +148,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1668364,
-      "title": "Deseo",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 687163,
       "title": "Proyecto Salvación",
       "reason": "Sin fuente autorizada configurada"
@@ -158,8 +158,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 634649,
-      "title": "Spider-Man: No Way Home",
+      "tmdbId": 1668364,
+      "title": "Deseo",
       "reason": "Sin fuente autorizada configurada"
     }
   ]
