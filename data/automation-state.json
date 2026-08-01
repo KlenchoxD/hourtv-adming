@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-08-01T17:30:07.623Z",
+  "lastRunAt": "2026-08-01T18:32:02.088Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -27,12 +27,12 @@
     980431,
     634649,
     1375646,
+    1481343,
     1630409,
-    1727780,
     1311031,
+    1727780,
     687163,
     1110034,
-    1668364,
     1335666
   ],
   "tmdbIdsPublished": [],
@@ -160,19 +160,24 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1481343,
+      "title": "La Boca del Diablo",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1630409,
       "title": "El cobrador de deudas",
       "reason": "Votos 27 por debajo del mínimo (50)"
     },
     {
-      "tmdbId": 1727780,
-      "title": "Borderline",
-      "reason": "Votos 6 por debajo del mínimo (50)"
-    },
-    {
       "tmdbId": 1311031,
       "title": "Guardianes de la noche: Kimetsu no Yaiba La fortaleza infinita",
       "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1727780,
+      "title": "Borderline",
+      "reason": "Votos 6 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 687163,
@@ -182,11 +187,6 @@
     {
       "tmdbId": 1110034,
       "title": "Kraken",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1668364,
-      "title": "Deseo",
       "reason": "Sin fuente autorizada configurada"
     }
   ]
