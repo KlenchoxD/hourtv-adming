@@ -1,16 +1,16 @@
 {
-  "lastRunAt": "2026-08-01T06:21:53.628Z",
+  "lastRunAt": "2026-08-01T08:38:22.394Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
     1081003,
     454639,
     1275779,
-    1339713,
     1108427,
+    1339713,
     1084244,
-    1083381,
     1315772,
+    1083381,
     1273221,
     1314481,
     1564614,
@@ -60,13 +60,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1339713,
-      "title": "Obsession",
+      "tmdbId": 1108427,
+      "title": "Vaiana",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1108427,
-      "title": "Vaiana",
+      "tmdbId": 1339713,
+      "title": "Obsession",
       "reason": "Sin fuente autorizada configurada"
     },
     {
