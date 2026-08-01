@@ -1,27 +1,27 @@
 {
-  "lastRunAt": "2026-08-01T16:27:16.323Z",
+  "lastRunAt": "2026-08-01T17:30:07.623Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
     1081003,
     454639,
     1275779,
-    1108427,
     1339713,
+    1108427,
     1084244,
-    1315772,
     1083381,
+    1315772,
     1273221,
-    1314481,
     1564614,
+    1314481,
     1228710,
     949838,
     936075,
     931285,
     1304313,
     1007757,
+    1301421,
     1361774,
-    1368314,
     1368337,
     1284465,
     980431,
@@ -60,13 +60,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1108427,
-      "title": "Vaiana",
+      "tmdbId": 1339713,
+      "title": "Obsession",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1339713,
-      "title": "Obsession",
+      "tmdbId": 1108427,
+      "title": "Vaiana",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -85,13 +85,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1314481,
-      "title": "El diablo viste de Prada 2",
+      "tmdbId": 1564614,
+      "title": "Leviticus",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1564614,
-      "title": "Leviticus",
+      "tmdbId": 1314481,
+      "title": "El diablo viste de Prada 2",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -125,13 +125,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1361774,
-      "title": "Dink",
+      "tmdbId": 1301421,
+      "title": "Las ovejas detectives",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1368314,
-      "title": "El pasajero nocturno",
+      "tmdbId": 1361774,
+      "title": "Dink",
       "reason": "Sin fuente autorizada configurada"
     },
     {

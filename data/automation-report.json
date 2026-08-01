@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-01T16:27:13.072Z",
-  "durationMs": 3256,
+  "generatedAt": "2026-08-01T17:30:07.215Z",
+  "durationMs": 413,
   "dryRun": false,
   "moviesFound": 32,
   "moviesDiscarded": 30,
@@ -33,13 +33,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1108427,
-      "title": "Vaiana",
+      "tmdbId": 1339713,
+      "title": "Obsession",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1339713,
-      "title": "Obsession",
+      "tmdbId": 1108427,
+      "title": "Vaiana",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -58,13 +58,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1314481,
-      "title": "El diablo viste de Prada 2",
+      "tmdbId": 1564614,
+      "title": "Leviticus",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1564614,
-      "title": "Leviticus",
+      "tmdbId": 1314481,
+      "title": "El diablo viste de Prada 2",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -98,13 +98,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1361774,
-      "title": "Dink",
+      "tmdbId": 1301421,
+      "title": "Las ovejas detectives",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1368314,
-      "title": "El pasajero nocturno",
+      "tmdbId": 1361774,
+      "title": "Dink",
       "reason": "Sin fuente autorizada configurada"
     },
     {
