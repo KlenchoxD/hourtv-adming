@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-08-02T07:16:36.723Z",
+  "lastRunAt": "2026-08-02T09:30:17.428Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -9,8 +9,8 @@
     1339713,
     1108427,
     1084244,
-    1083381,
     1315772,
+    1083381,
     1273221,
     1564614,
     1314481,
@@ -32,7 +32,6 @@
     1311031,
     1727780,
     687163,
-    1110034,
     1335666
   ],
   "tmdbIdsPublished": [],
@@ -182,11 +181,6 @@
     {
       "tmdbId": 687163,
       "title": "Proyecto Salvación",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1110034,
-      "title": "Kraken",
       "reason": "Sin fuente autorizada configurada"
     }
   ]

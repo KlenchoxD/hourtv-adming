@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-08-02T07:16:33.745Z",
-  "durationMs": 2983,
+  "generatedAt": "2026-08-02T09:30:14.671Z",
+  "durationMs": 2762,
   "dryRun": false,
-  "moviesFound": 32,
-  "moviesDiscarded": 30,
+  "moviesFound": 31,
+  "moviesDiscarded": 29,
   "moviesAdded": 0,
   "moviesEnriched": 0,
   "duplicates": 2,
@@ -155,11 +155,6 @@
     {
       "tmdbId": 687163,
       "title": "Proyecto Salvación",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1110034,
-      "title": "Kraken",
       "reason": "Sin fuente autorizada configurada"
     }
   ]
