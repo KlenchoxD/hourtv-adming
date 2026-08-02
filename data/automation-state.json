@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-08-01T23:39:07.674Z",
+  "lastRunAt": "2026-08-02T01:13:55.226Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -18,10 +18,10 @@
     949838,
     936075,
     931285,
+    1510795,
     1304313,
     1007757,
     1301421,
-    1361774,
     1368337,
     1284465,
     980431,
@@ -115,6 +115,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1510795,
+      "title": "Shake, Rattle & Roll 17: El origen del mal",
+      "reason": "Rating 3.3 por debajo del mínimo (5.5)"
+    },
+    {
       "tmdbId": 1304313,
       "title": "La momia de Lee Cronin",
       "reason": "Sin fuente autorizada configurada"
@@ -127,11 +132,6 @@
     {
       "tmdbId": 1301421,
       "title": "Las ovejas detectives",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1361774,
-      "title": "Dink",
       "reason": "Sin fuente autorizada configurada"
     },
     {
