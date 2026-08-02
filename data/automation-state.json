@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-08-02T15:56:17.286Z",
+  "lastRunAt": "2026-08-02T16:53:53.470Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -23,13 +23,13 @@
     1007757,
     1301421,
     1368337,
+    634649,
     1284465,
     980431,
-    634649,
     1481343,
     1375646,
-    1630409,
     1311031,
+    1630409,
     1727780,
     687163,
     1335666
@@ -139,6 +139,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 634649,
+      "title": "Spider-Man: No Way Home",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1284465,
       "title": "La muerte de Robin Hood",
       "reason": "Sin fuente autorizada configurada"
@@ -146,11 +151,6 @@
     {
       "tmdbId": 980431,
       "title": "La leyenda de Aang: El último Airbender",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 634649,
-      "title": "Spider-Man: No Way Home",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -164,14 +164,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1630409,
-      "title": "El cobrador de deudas",
-      "reason": "Votos 39 por debajo del mínimo (50)"
-    },
-    {
       "tmdbId": 1311031,
       "title": "Guardianes de la noche: Kimetsu no Yaiba La fortaleza infinita",
       "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1630409,
+      "title": "El cobrador de deudas",
+      "reason": "Votos 39 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1727780,
