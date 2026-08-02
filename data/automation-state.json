@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-08-02T01:13:55.226Z",
+  "lastRunAt": "2026-08-02T04:38:50.328Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -26,8 +26,8 @@
     1284465,
     980431,
     634649,
-    1375646,
     1481343,
+    1375646,
     1630409,
     1311031,
     1727780,
@@ -155,13 +155,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1375646,
-      "title": "Zona Cero",
+      "tmdbId": 1481343,
+      "title": "La Boca del Diablo",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1481343,
-      "title": "La Boca del Diablo",
+      "tmdbId": 1375646,
+      "title": "Zona Cero",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -177,7 +177,7 @@
     {
       "tmdbId": 1727780,
       "title": "Borderline",
-      "reason": "Votos 6 por debajo del mínimo (50)"
+      "reason": "Votos 7 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 687163,

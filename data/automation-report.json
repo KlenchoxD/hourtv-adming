@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-02T01:13:54.045Z",
-  "durationMs": 1185,
+  "generatedAt": "2026-08-02T04:38:47.164Z",
+  "durationMs": 3169,
   "dryRun": false,
   "moviesFound": 32,
   "moviesDiscarded": 30,
@@ -128,13 +128,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1375646,
-      "title": "Zona Cero",
+      "tmdbId": 1481343,
+      "title": "La Boca del Diablo",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1481343,
-      "title": "La Boca del Diablo",
+      "tmdbId": 1375646,
+      "title": "Zona Cero",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -150,7 +150,7 @@
     {
       "tmdbId": 1727780,
       "title": "Borderline",
-      "reason": "Votos 6 por debajo del mínimo (50)"
+      "reason": "Votos 7 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 687163,
