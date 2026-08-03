@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-03T06:53:04.814Z",
-  "durationMs": 3014,
+  "generatedAt": "2026-08-03T10:34:04.405Z",
+  "durationMs": 2766,
   "dryRun": false,
   "moviesFound": 31,
   "moviesDiscarded": 29,
@@ -123,13 +123,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 980431,
-      "title": "La leyenda de Aang: El último Airbender",
+      "tmdbId": 1481343,
+      "title": "La Boca del Diablo",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1481343,
-      "title": "La Boca del Diablo",
+      "tmdbId": 980431,
+      "title": "La leyenda de Aang: El último Airbender",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -153,8 +153,8 @@
       "reason": "Votos 8 por debajo del mínimo (50)"
     },
     {
-      "tmdbId": 687163,
-      "title": "Proyecto Salvación",
+      "tmdbId": 557,
+      "title": "Spider-Man",
       "reason": "Sin fuente autorizada configurada"
     }
   ]
