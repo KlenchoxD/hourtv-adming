@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-08-02T23:09:07.438Z",
+  "lastRunAt": "2026-08-03T00:10:33.592Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -135,7 +135,7 @@
     },
     {
       "tmdbId": 1368337,
-      "title": "La odisea",
+      "title": "La Odisea",
       "reason": "Sin fuente autorizada configurada"
     },
     {
