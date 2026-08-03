@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-08-03T03:52:11.111Z",
+  "lastRunAt": "2026-08-03T06:53:07.823Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -9,8 +9,8 @@
     1339713,
     1108427,
     1084244,
-    1315772,
     1083381,
+    1315772,
     1273221,
     1564614,
     1314481,
@@ -171,12 +171,12 @@
     {
       "tmdbId": 1630409,
       "title": "El cobrador de deudas",
-      "reason": "Votos 45 por debajo del mínimo (50)"
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1727780,
       "title": "Borderline",
-      "reason": "Votos 7 por debajo del mínimo (50)"
+      "reason": "Votos 8 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 687163,
