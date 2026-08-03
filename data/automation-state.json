@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-08-03T16:04:18.101Z",
+  "lastRunAt": "2026-08-03T18:03:25.378Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -29,9 +29,8 @@
     980431,
     1375646,
     1311031,
+    1698863,
     1630409,
-    1727780,
-    557,
     1335666
   ],
   "tmdbIdsPublished": [],
@@ -169,18 +168,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1698863,
+      "title": "The Odyssey",
+      "reason": "Rating 5.1 por debajo del mínimo (5.5)"
+    },
+    {
       "tmdbId": 1630409,
       "title": "El cobrador de deudas",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1727780,
-      "title": "Borderline",
-      "reason": "Votos 9 por debajo del mínimo (50)"
-    },
-    {
-      "tmdbId": 557,
-      "title": "Spider-Man",
       "reason": "Sin fuente autorizada configurada"
     }
   ]
