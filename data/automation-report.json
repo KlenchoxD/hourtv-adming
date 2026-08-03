@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-03T10:34:04.405Z",
-  "durationMs": 2766,
+  "generatedAt": "2026-08-03T13:30:14.034Z",
+  "durationMs": 1195,
   "dryRun": false,
   "moviesFound": 31,
   "moviesDiscarded": 29,
@@ -150,7 +150,7 @@
     {
       "tmdbId": 1727780,
       "title": "Borderline",
-      "reason": "Votos 8 por debajo del mínimo (50)"
+      "reason": "Votos 9 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 557,
