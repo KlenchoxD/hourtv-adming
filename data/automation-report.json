@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-03T13:30:14.034Z",
-  "durationMs": 1195,
+  "generatedAt": "2026-08-03T16:04:14.625Z",
+  "durationMs": 3481,
   "dryRun": false,
   "moviesFound": 31,
   "moviesDiscarded": 29,
@@ -53,13 +53,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1273221,
-      "title": "Scary Movie",
+      "tmdbId": 1564614,
+      "title": "Leviticus",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1564614,
-      "title": "Leviticus",
+      "tmdbId": 1273221,
+      "title": "Scary Movie",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -73,9 +73,9 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 949838,
-      "title": "72 horas",
-      "reason": "Sin fuente autorizada configurada"
+      "tmdbId": 1510795,
+      "title": "Shake, Rattle & Roll 17: El origen del mal",
+      "reason": "Rating 3 por debajo del mínimo (5.5)"
     },
     {
       "tmdbId": 936075,
@@ -83,14 +83,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 931285,
-      "title": "Mortal Kombat II",
+      "tmdbId": 949838,
+      "title": "72 horas",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1510795,
-      "title": "Shake, Rattle & Roll 17: El origen del mal",
-      "reason": "Rating 3.3 por debajo del mínimo (5.5)"
+      "tmdbId": 931285,
+      "title": "Mortal Kombat II",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1304313,
@@ -103,8 +103,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1301421,
-      "title": "Las ovejas detectives",
+      "tmdbId": 1122573,
+      "title": "En la zona gris",
       "reason": "Sin fuente autorizada configurada"
     },
     {

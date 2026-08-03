@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-08-03T13:30:15.225Z",
+  "lastRunAt": "2026-08-03T16:04:18.101Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -9,19 +9,19 @@
     1339713,
     1108427,
     1084244,
-    1083381,
     1315772,
-    1273221,
+    1083381,
     1564614,
+    1273221,
     1314481,
     1228710,
-    949838,
-    936075,
-    931285,
     1510795,
+    936075,
+    949838,
+    931285,
     1304313,
     1007757,
-    1301421,
+    1122573,
     1368337,
     634649,
     1284465,
@@ -79,13 +79,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1273221,
-      "title": "Scary Movie",
+      "tmdbId": 1564614,
+      "title": "Leviticus",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1564614,
-      "title": "Leviticus",
+      "tmdbId": 1273221,
+      "title": "Scary Movie",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -99,9 +99,9 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 949838,
-      "title": "72 horas",
-      "reason": "Sin fuente autorizada configurada"
+      "tmdbId": 1510795,
+      "title": "Shake, Rattle & Roll 17: El origen del mal",
+      "reason": "Rating 3 por debajo del mínimo (5.5)"
     },
     {
       "tmdbId": 936075,
@@ -109,14 +109,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 931285,
-      "title": "Mortal Kombat II",
+      "tmdbId": 949838,
+      "title": "72 horas",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1510795,
-      "title": "Shake, Rattle & Roll 17: El origen del mal",
-      "reason": "Rating 3.3 por debajo del mínimo (5.5)"
+      "tmdbId": 931285,
+      "title": "Mortal Kombat II",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1304313,
@@ -129,8 +129,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1301421,
-      "title": "Las ovejas detectives",
+      "tmdbId": 1122573,
+      "title": "En la zona gris",
       "reason": "Sin fuente autorizada configurada"
     },
     {
