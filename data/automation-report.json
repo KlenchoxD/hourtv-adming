@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-04T06:40:45.140Z",
-  "durationMs": 2975,
+  "generatedAt": "2026-08-04T09:27:55.067Z",
+  "durationMs": 3946,
   "dryRun": false,
   "moviesFound": 30,
   "moviesDiscarded": 28,
@@ -103,8 +103,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1122573,
-      "title": "En la zona gris",
+      "tmdbId": 1301421,
+      "title": "Las ovejas detectives",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -148,8 +148,8 @@
       "reason": "Votos 8 por debajo del mínimo (50)"
     },
     {
-      "tmdbId": 1630409,
-      "title": "El cobrador de deudas",
+      "tmdbId": 557,
+      "title": "Spider-Man",
       "reason": "Sin fuente autorizada configurada"
     }
   ]

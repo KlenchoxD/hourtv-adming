@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-08-04T06:40:48.110Z",
+  "lastRunAt": "2026-08-04T09:27:59.008Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -21,7 +21,7 @@
     931285,
     1304313,
     1007757,
-    1122573,
+    1301421,
     1368337,
     634649,
     1284465,
@@ -30,7 +30,7 @@
     1375646,
     1311031,
     1698863,
-    1630409,
+    557,
     1335666
   ],
   "tmdbIdsPublished": [],
@@ -128,8 +128,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1122573,
-      "title": "En la zona gris",
+      "tmdbId": 1301421,
+      "title": "Las ovejas detectives",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -173,8 +173,8 @@
       "reason": "Votos 8 por debajo del mínimo (50)"
     },
     {
-      "tmdbId": 1630409,
-      "title": "El cobrador de deudas",
+      "tmdbId": 557,
+      "title": "Spider-Man",
       "reason": "Sin fuente autorizada configurada"
     }
   ]
