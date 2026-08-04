@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-08-04T17:22:17.538Z",
+  "lastRunAt": "2026-08-04T19:04:44.279Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -27,9 +27,9 @@
     1284465,
     1481343,
     980431,
+    1698863,
     1375646,
     1311031,
-    1698863,
     557,
     1335666
   ],
@@ -158,6 +158,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1698863,
+      "title": "The Odyssey",
+      "reason": "Votos 8 por debajo del mínimo (50)"
+    },
+    {
       "tmdbId": 1375646,
       "title": "Zona Cero",
       "reason": "Sin fuente autorizada configurada"
@@ -166,11 +171,6 @@
       "tmdbId": 1311031,
       "title": "Guardianes de la noche: Kimetsu no Yaiba La fortaleza infinita",
       "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1698863,
-      "title": "The Odyssey",
-      "reason": "Votos 8 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 557,
