@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-08-05T08:00:00.911Z",
+  "lastRunAt": "2026-08-05T10:41:13.500Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -14,6 +14,7 @@
     1564614,
     1273221,
     1314481,
+    1212763,
     1510795,
     1228710,
     936075,
@@ -21,16 +22,15 @@
     931285,
     1304313,
     1007757,
-    1301421,
     1368337,
     634649,
     1284465,
     1481343,
-    980431,
     1698863,
+    980431,
     1375646,
-    1311031,
     557,
+    315635,
     1335666
   ],
   "tmdbIdsPublished": [],
@@ -93,6 +93,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1212763,
+      "title": "Posesión infernal. En llamas",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1510795,
       "title": "Shake, Rattle & Roll 17: El origen del mal",
       "reason": "Rating 3 por debajo del mínimo (5.5)"
@@ -128,11 +133,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1301421,
-      "title": "Las ovejas detectives",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1368337,
       "title": "La Odisea",
       "reason": "Sin fuente autorizada configurada"
@@ -153,14 +153,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 980431,
-      "title": "La leyenda de Aang: El último Airbender",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1698863,
       "title": "The Odyssey",
       "reason": "Votos 8 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 980431,
+      "title": "La leyenda de Aang: El último Airbender",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1375646,
@@ -168,13 +168,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1311031,
-      "title": "Guardianes de la noche: Kimetsu no Yaiba La fortaleza infinita",
+      "tmdbId": 557,
+      "title": "Spider-Man",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 557,
-      "title": "Spider-Man",
+      "tmdbId": 315635,
+      "title": "Spider-Man: Homecoming",
       "reason": "Sin fuente autorizada configurada"
     }
   ]

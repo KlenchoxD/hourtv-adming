@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-05T07:59:57.871Z",
-  "durationMs": 3045,
+  "generatedAt": "2026-08-05T10:41:10.705Z",
+  "durationMs": 2800,
   "dryRun": false,
   "moviesFound": 30,
   "moviesDiscarded": 28,
@@ -68,6 +68,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1212763,
+      "title": "Posesión infernal. En llamas",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1510795,
       "title": "Shake, Rattle & Roll 17: El origen del mal",
       "reason": "Rating 3 por debajo del mínimo (5.5)"
@@ -103,11 +108,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1301421,
-      "title": "Las ovejas detectives",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1368337,
       "title": "La Odisea",
       "reason": "Sin fuente autorizada configurada"
@@ -128,14 +128,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 980431,
-      "title": "La leyenda de Aang: El último Airbender",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1698863,
       "title": "The Odyssey",
       "reason": "Votos 8 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 980431,
+      "title": "La leyenda de Aang: El último Airbender",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1375646,
@@ -143,13 +143,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1311031,
-      "title": "Guardianes de la noche: Kimetsu no Yaiba La fortaleza infinita",
+      "tmdbId": 557,
+      "title": "Spider-Man",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 557,
-      "title": "Spider-Man",
+      "tmdbId": 315635,
+      "title": "Spider-Man: Homecoming",
       "reason": "Sin fuente autorizada configurada"
     }
   ]
