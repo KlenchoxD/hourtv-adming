@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-08-05T18:03:34.248Z",
-  "durationMs": 1007,
+  "generatedAt": "2026-08-05T19:52:16.171Z",
+  "durationMs": 3288,
   "dryRun": false,
-  "moviesFound": 30,
-  "moviesDiscarded": 28,
+  "moviesFound": 31,
+  "moviesDiscarded": 29,
   "moviesAdded": 0,
   "moviesEnriched": 0,
   "duplicates": 2,
@@ -78,23 +78,23 @@
       "reason": "Rating 3 por debajo del mínimo (5.5)"
     },
     {
-      "tmdbId": 1228710,
-      "title": "The Mandalorian and Grogu",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 936075,
       "title": "Michael",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 949838,
-      "title": "72 horas",
+      "tmdbId": 1228710,
+      "title": "The Mandalorian and Grogu",
       "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 931285,
       "title": "Mortal Kombat II",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 949838,
+      "title": "72 horas",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -138,8 +138,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1375646,
-      "title": "Zona Cero",
+      "tmdbId": 315635,
+      "title": "Spider-Man: Homecoming",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -148,8 +148,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 315635,
-      "title": "Spider-Man: Homecoming",
+      "tmdbId": 47612,
+      "title": "El paraíso de las damas",
+      "reason": "Votos 36 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 1375646,
+      "title": "Zona Cero",
       "reason": "Sin fuente autorizada configurada"
     }
   ]
