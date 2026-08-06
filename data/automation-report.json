@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-06T00:49:45.680Z",
-  "durationMs": 1716,
+  "generatedAt": "2026-08-06T03:59:09.502Z",
+  "durationMs": 2152,
   "dryRun": false,
   "moviesFound": 31,
   "moviesDiscarded": 29,
@@ -34,7 +34,7 @@
     },
     {
       "tmdbId": 1339713,
-      "title": "Obsession",
+      "title": "Obsesión",
       "reason": "Sin fuente autorizada configurada"
     },
     {
