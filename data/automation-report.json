@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-07T07:59:42.501Z",
-  "durationMs": 3035,
+  "generatedAt": "2026-08-07T09:03:31.460Z",
+  "durationMs": 1599,
   "dryRun": false,
   "moviesFound": 32,
   "moviesDiscarded": 30,
@@ -118,14 +118,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1284465,
-      "title": "La muerte de Robin Hood",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1698863,
       "title": "The Odyssey",
       "reason": "Votos 9 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 1284465,
+      "title": "La muerte de Robin Hood",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1481343,
@@ -136,11 +136,6 @@
       "tmdbId": 47612,
       "title": "El paraíso de las damas",
       "reason": "Votos 36 por debajo del mínimo (50)"
-    },
-    {
-      "tmdbId": 980431,
-      "title": "La leyenda de Aang: El último Airbender",
-      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 315635,
@@ -155,6 +150,11 @@
     {
       "tmdbId": 557,
       "title": "Spider-Man",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 980431,
+      "title": "La leyenda de Aang: El último Airbender",
       "reason": "Sin fuente autorizada configurada"
     },
     {

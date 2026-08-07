@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-08-07T07:59:45.532Z",
+  "lastRunAt": "2026-08-07T09:03:33.054Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -24,14 +24,14 @@
     1007757,
     1368337,
     634649,
-    1284465,
     1698863,
+    1284465,
     1481343,
     47612,
-    980431,
     315635,
     82976,
     557,
+    980431,
     1375646,
     1335666
   ],
@@ -145,14 +145,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1284465,
-      "title": "La muerte de Robin Hood",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1698863,
       "title": "The Odyssey",
       "reason": "Votos 9 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 1284465,
+      "title": "La muerte de Robin Hood",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1481343,
@@ -163,11 +163,6 @@
       "tmdbId": 47612,
       "title": "El paraíso de las damas",
       "reason": "Votos 36 por debajo del mínimo (50)"
-    },
-    {
-      "tmdbId": 980431,
-      "title": "La leyenda de Aang: El último Airbender",
-      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 315635,
@@ -182,6 +177,11 @@
     {
       "tmdbId": 557,
       "title": "Spider-Man",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 980431,
+      "title": "La leyenda de Aang: El último Airbender",
       "reason": "Sin fuente autorizada configurada"
     },
     {
