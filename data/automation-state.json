@@ -1,20 +1,20 @@
 {
-  "lastRunAt": "2026-08-06T15:39:04.777Z",
+  "lastRunAt": "2026-08-07T00:36:43.420Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
     1081003,
     1275779,
-    454639,
     1339713,
+    454639,
     1084244,
     1108427,
     1315772,
     1083381,
-    1564614,
-    1273221,
-    1314481,
     1212763,
+    1273221,
+    1564614,
+    1314481,
     1510795,
     936075,
     1228710,
@@ -25,12 +25,13 @@
     1368337,
     634649,
     1284465,
-    1481343,
     1698863,
+    1481343,
+    47612,
     980431,
     315635,
+    82976,
     557,
-    47612,
     1375646,
     1335666
   ],
@@ -54,13 +55,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 454639,
-      "title": "He-Man y los masters del universo",
+      "tmdbId": 1339713,
+      "title": "Obsesión",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1339713,
-      "title": "Obsesión",
+      "tmdbId": 454639,
+      "title": "He-Man y los Masters del Universo",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -79,8 +80,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1564614,
-      "title": "Leviticus",
+      "tmdbId": 1212763,
+      "title": "Posesión infernal. En llamas",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -89,13 +90,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1314481,
-      "title": "El diablo viste de Prada 2",
+      "tmdbId": 1564614,
+      "title": "Leviticus",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1212763,
-      "title": "Posesión infernal. En llamas",
+      "tmdbId": 1314481,
+      "title": "El diablo viste de Prada 2",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -149,14 +150,19 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1698863,
+      "title": "The Odyssey",
+      "reason": "Votos 9 por debajo del mínimo (50)"
+    },
+    {
       "tmdbId": 1481343,
       "title": "La Boca del Diablo",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1698863,
-      "title": "The Odyssey",
-      "reason": "Votos 8 por debajo del mínimo (50)"
+      "tmdbId": 47612,
+      "title": "El paraíso de las damas",
+      "reason": "Votos 36 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 980431,
@@ -169,14 +175,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 82976,
+      "title": "La profesional y la debutante",
+      "reason": "Rating 4.8 por debajo del mínimo (5.5)"
+    },
+    {
       "tmdbId": 557,
       "title": "Spider-Man",
       "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 47612,
-      "title": "El paraíso de las damas",
-      "reason": "Votos 36 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1375646,
