@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-07T15:49:30.819Z",
-  "durationMs": 606,
+  "generatedAt": "2026-08-07T16:43:55.559Z",
+  "durationMs": 772,
   "dryRun": false,
   "moviesFound": 32,
   "moviesDiscarded": 30,
@@ -138,14 +138,19 @@
       "reason": "Votos 36 por debajo del mínimo (50)"
     },
     {
-      "tmdbId": 315635,
-      "title": "Spider-Man: Homecoming",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 82976,
       "title": "La profesional y la debutante",
       "reason": "Rating 4.8 por debajo del mínimo (5.5)"
+    },
+    {
+      "tmdbId": 1375646,
+      "title": "Zona Cero",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 315635,
+      "title": "Spider-Man: Homecoming",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 557,
@@ -155,11 +160,6 @@
     {
       "tmdbId": 980431,
       "title": "La leyenda de Aang: El último Airbender",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1375646,
-      "title": "Zona Cero",
       "reason": "Sin fuente autorizada configurada"
     }
   ]
