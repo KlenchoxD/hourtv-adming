@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-07T16:43:55.559Z",
-  "durationMs": 772,
+  "generatedAt": "2026-08-07T17:34:41.807Z",
+  "durationMs": 635,
   "dryRun": false,
   "moviesFound": 32,
   "moviesDiscarded": 30,
@@ -23,23 +23,23 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1275779,
-      "title": "El día de la revelación",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1339713,
       "title": "Obsesión",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 454639,
-      "title": "He-Man y los Masters del Universo",
+      "tmdbId": 1275779,
+      "title": "El día de la revelación",
       "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1084244,
       "title": "Toy Story 5",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 454639,
+      "title": "He-Man y los Masters del Universo",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -68,14 +68,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1314481,
-      "title": "El diablo viste de Prada 2",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1510795,
       "title": "Shake, Rattle & Roll 17: El origen del mal",
       "reason": "Rating 3 por debajo del mínimo (5.5)"
+    },
+    {
+      "tmdbId": 1314481,
+      "title": "El diablo viste de Prada 2",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 936075,
