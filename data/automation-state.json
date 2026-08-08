@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-08-08T07:34:27.244Z",
+  "lastRunAt": "2026-08-08T08:20:39.681Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -14,6 +14,7 @@
     1212763,
     1273221,
     1564614,
+    1284041,
     1510795,
     1314481,
     936075,
@@ -21,7 +22,6 @@
     931285,
     949838,
     1304313,
-    1007757,
     1368337,
     634649,
     1284465,
@@ -92,6 +92,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1284041,
+      "title": "La última casa",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1510795,
       "title": "Shake, Rattle & Roll 17: El origen del mal",
       "reason": "Rating 3 por debajo del mínimo (5.5)"
@@ -124,11 +129,6 @@
     {
       "tmdbId": 1304313,
       "title": "La momia de Lee Cronin",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1007757,
-      "title": "Intercambiados",
       "reason": "Sin fuente autorizada configurada"
     },
     {
