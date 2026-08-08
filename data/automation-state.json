@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-08-08T20:19:19.129Z",
+  "lastRunAt": "2026-08-08T20:56:20.341Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -100,7 +100,7 @@
     {
       "tmdbId": 1510795,
       "title": "Shake, Rattle & Roll 17: El origen del mal",
-      "reason": "Rating 3 por debajo del mínimo (5.5)"
+      "reason": "Rating 4 por debajo del mínimo (5.5)"
     },
     {
       "tmdbId": 1314481,
