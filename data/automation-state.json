@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-08-07T23:46:26.675Z",
+  "lastRunAt": "2026-08-08T01:01:18.056Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -24,11 +24,8 @@
     1007757,
     1368337,
     634649,
-    1698863,
     1284465,
     1481343,
-    47612,
-    82976,
     1375646,
     315635,
     557,
@@ -145,11 +142,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1698863,
-      "title": "The Odyssey",
-      "reason": "Votos 9 por debajo del mínimo (50)"
-    },
-    {
       "tmdbId": 1284465,
       "title": "La muerte de Robin Hood",
       "reason": "Sin fuente autorizada configurada"
@@ -158,16 +150,6 @@
       "tmdbId": 1481343,
       "title": "La Boca del Diablo",
       "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 47612,
-      "title": "El paraíso de las damas",
-      "reason": "Votos 36 por debajo del mínimo (50)"
-    },
-    {
-      "tmdbId": 82976,
-      "title": "La profesional y la debutante",
-      "reason": "Rating 4.8 por debajo del mínimo (5.5)"
     },
     {
       "tmdbId": 1375646,
