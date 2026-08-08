@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-08-08T10:22:47.174Z",
-  "durationMs": 1285,
+  "generatedAt": "2026-08-08T10:58:17.551Z",
+  "durationMs": 562,
   "dryRun": false,
-  "moviesFound": 29,
-  "moviesDiscarded": 27,
+  "moviesFound": 30,
+  "moviesDiscarded": 28,
   "moviesAdded": 0,
   "moviesEnriched": 0,
   "duplicates": 2,
@@ -138,13 +138,18 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 557,
-      "title": "Spider-Man",
-      "reason": "Sin fuente autorizada configurada"
+      "tmdbId": 1698863,
+      "title": "The Odyssey",
+      "reason": "Votos 9 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 980431,
       "title": "La leyenda de Aang: El último Airbender",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 557,
+      "title": "Spider-Man",
       "reason": "Sin fuente autorizada configurada"
     }
   ]
