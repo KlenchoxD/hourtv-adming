@@ -1,17 +1,17 @@
 {
-  "lastRunAt": "2026-08-08T14:56:13.256Z",
+  "lastRunAt": "2026-08-08T15:24:13.667Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
     1081003,
-    1339713,
     1275779,
+    1339713,
     1084244,
-    454639,
     1108427,
     1315772,
-    1083381,
+    454639,
     1212763,
+    1083381,
     1273221,
     1564614,
     1284041,
@@ -48,23 +48,18 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1339713,
-      "title": "Obsesión",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1275779,
       "title": "El día de la revelación",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1084244,
-      "title": "Toy Story 5",
+      "tmdbId": 1339713,
+      "title": "Obsesión",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 454639,
-      "title": "He-Man y los Masters del Universo",
+      "tmdbId": 1084244,
+      "title": "Toy Story 5",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -75,6 +70,11 @@
     {
       "tmdbId": 1315772,
       "title": "Minions & Monsters",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 454639,
+      "title": "He-Man y los Masters del Universo",
       "reason": "Sin fuente autorizada configurada"
     },
     {

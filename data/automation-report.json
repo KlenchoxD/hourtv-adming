@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-08T14:56:12.649Z",
-  "durationMs": 612,
+  "generatedAt": "2026-08-08T15:24:13.049Z",
+  "durationMs": 623,
   "dryRun": false,
   "moviesFound": 30,
   "moviesDiscarded": 28,
@@ -23,23 +23,18 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1339713,
-      "title": "Obsesión",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1275779,
       "title": "El día de la revelación",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1084244,
-      "title": "Toy Story 5",
+      "tmdbId": 1339713,
+      "title": "Obsesión",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 454639,
-      "title": "He-Man y los Masters del Universo",
+      "tmdbId": 1084244,
+      "title": "Toy Story 5",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -50,6 +45,11 @@
     {
       "tmdbId": 1315772,
       "title": "Minions & Monsters",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 454639,
+      "title": "He-Man y los Masters del Universo",
       "reason": "Sin fuente autorizada configurada"
     },
     {
