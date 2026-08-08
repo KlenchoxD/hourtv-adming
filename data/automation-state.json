@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-08-08T13:31:14.370Z",
+  "lastRunAt": "2026-08-08T14:16:35.091Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -28,8 +28,9 @@
     1481343,
     1375646,
     315635,
-    557,
+    1698863,
     980431,
+    557,
     1335666
   ],
   "tmdbIdsPublished": [],
@@ -162,13 +163,18 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 557,
-      "title": "Spider-Man",
-      "reason": "Sin fuente autorizada configurada"
+      "tmdbId": 1698863,
+      "title": "The Odyssey",
+      "reason": "Votos 9 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 980431,
       "title": "La leyenda de Aang: El último Airbender",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 557,
+      "title": "Spider-Man",
       "reason": "Sin fuente autorizada configurada"
     }
   ]
