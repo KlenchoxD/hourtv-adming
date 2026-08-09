@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-08-09T16:06:07.704Z",
-  "durationMs": 1004,
+  "generatedAt": "2026-08-09T16:52:17.506Z",
+  "durationMs": 1453,
   "dryRun": false,
-  "moviesFound": 29,
-  "moviesDiscarded": 27,
+  "moviesFound": 30,
+  "moviesDiscarded": 28,
   "moviesAdded": 0,
   "moviesEnriched": 0,
   "duplicates": 2,
@@ -123,18 +123,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1481343,
-      "title": "La Boca del Diablo",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1375646,
       "title": "Zona Cero",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 315635,
-      "title": "Spider-Man: Homecoming",
+      "tmdbId": 1481343,
+      "title": "La Boca del Diablo",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -143,8 +138,18 @@
       "reason": "Votos 9 por debajo del mínimo (50)"
     },
     {
+      "tmdbId": 315635,
+      "title": "Spider-Man: Homecoming",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 557,
       "title": "Spider-Man",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1307118,
+      "title": "Soulm8te",
       "reason": "Sin fuente autorizada configurada"
     }
   ]
