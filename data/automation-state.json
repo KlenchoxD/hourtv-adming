@@ -1,20 +1,20 @@
 {
-  "lastRunAt": "2026-08-09T07:31:33.792Z",
+  "lastRunAt": "2026-08-09T08:21:40.760Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
     1081003,
     1275779,
-    1339713,
     1084244,
+    1339713,
+    1284041,
     1108427,
     1315772,
     454639,
-    1212763,
     1083381,
+    1212763,
     1273221,
     1564614,
-    1284041,
     1510795,
     1314481,
     936075,
@@ -30,7 +30,6 @@
     315635,
     1698863,
     557,
-    980431,
     1335666
   ],
   "tmdbIdsPublished": [],
@@ -53,13 +52,18 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1084244,
+      "title": "Toy Story 5",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1339713,
       "title": "Obsesión",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1084244,
-      "title": "Toy Story 5",
+      "tmdbId": 1284041,
+      "title": "La última casa",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -90,11 +94,6 @@
     {
       "tmdbId": 1564614,
       "title": "Leviticus",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1284041,
-      "title": "La última casa",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -170,11 +169,6 @@
     {
       "tmdbId": 557,
       "title": "Spider-Man",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 980431,
-      "title": "La leyenda de Aang: El último Airbender",
       "reason": "Sin fuente autorizada configurada"
     }
   ]

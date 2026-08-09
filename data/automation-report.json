@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-08-09T07:31:30.465Z",
-  "durationMs": 3330,
+  "generatedAt": "2026-08-09T08:21:38.682Z",
+  "durationMs": 2083,
   "dryRun": false,
-  "moviesFound": 30,
-  "moviesDiscarded": 28,
+  "moviesFound": 29,
+  "moviesDiscarded": 27,
   "moviesAdded": 0,
   "moviesEnriched": 0,
   "duplicates": 2,
@@ -28,13 +28,18 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1084244,
+      "title": "Toy Story 5",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1339713,
       "title": "Obsesión",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1084244,
-      "title": "Toy Story 5",
+      "tmdbId": 1284041,
+      "title": "La última casa",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -65,11 +70,6 @@
     {
       "tmdbId": 1564614,
       "title": "Leviticus",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1284041,
-      "title": "La última casa",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -145,11 +145,6 @@
     {
       "tmdbId": 557,
       "title": "Spider-Man",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 980431,
-      "title": "La leyenda de Aang: El último Airbender",
       "reason": "Sin fuente autorizada configurada"
     }
   ]
