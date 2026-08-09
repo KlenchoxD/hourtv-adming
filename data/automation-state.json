@@ -1,20 +1,20 @@
 {
-  "lastRunAt": "2026-08-09T11:42:11.821Z",
+  "lastRunAt": "2026-08-09T12:02:29.364Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
     1081003,
     1275779,
-    1084244,
     1339713,
-    1284041,
+    1084244,
     1108427,
     1315772,
     454639,
-    1083381,
     1212763,
+    1083381,
     1273221,
     1564614,
+    1284041,
     1510795,
     1314481,
     936075,
@@ -52,18 +52,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1084244,
-      "title": "Toy Story 5",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1339713,
       "title": "Obsesión",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1284041,
-      "title": "La última casa",
+      "tmdbId": 1084244,
+      "title": "Toy Story 5",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -94,6 +89,11 @@
     {
       "tmdbId": 1564614,
       "title": "Leviticus",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1284041,
+      "title": "La última casa",
       "reason": "Sin fuente autorizada configurada"
     },
     {

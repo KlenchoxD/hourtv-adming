@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-09T11:42:11.080Z",
-  "durationMs": 745,
+  "generatedAt": "2026-08-09T12:02:28.113Z",
+  "durationMs": 1256,
   "dryRun": false,
   "moviesFound": 29,
   "moviesDiscarded": 27,
@@ -28,18 +28,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1084244,
-      "title": "Toy Story 5",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1339713,
       "title": "Obsesión",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1284041,
-      "title": "La última casa",
+      "tmdbId": 1084244,
+      "title": "Toy Story 5",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -70,6 +65,11 @@
     {
       "tmdbId": 1564614,
       "title": "Leviticus",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1284041,
+      "title": "La última casa",
       "reason": "Sin fuente autorizada configurada"
     },
     {
