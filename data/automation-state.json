@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-08-09T15:44:35.124Z",
+  "lastRunAt": "2026-08-09T16:06:08.703Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -25,12 +25,11 @@
     1368337,
     634649,
     1284465,
-    1375646,
     1481343,
-    1698863,
+    1375646,
     315635,
+    1698863,
     557,
-    1307118,
     1335666
   ],
   "tmdbIdsPublished": [],
@@ -148,13 +147,18 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1481343,
+      "title": "La Boca del Diablo",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1375646,
       "title": "Zona Cero",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1481343,
-      "title": "La Boca del Diablo",
+      "tmdbId": 315635,
+      "title": "Spider-Man: Homecoming",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -163,18 +167,8 @@
       "reason": "Votos 9 por debajo del mínimo (50)"
     },
     {
-      "tmdbId": 315635,
-      "title": "Spider-Man: Homecoming",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 557,
       "title": "Spider-Man",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1307118,
-      "title": "Soulm8te",
       "reason": "Sin fuente autorizada configurada"
     }
   ]
