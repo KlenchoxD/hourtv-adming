@@ -1,19 +1,19 @@
 {
-  "lastRunAt": "2026-08-10T06:56:25.145Z",
+  "lastRunAt": "2026-08-10T08:23:48.573Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
     1081003,
+    1284041,
     1084244,
     1275779,
     1339713,
-    1284041,
     1212763,
     1315772,
     1108427,
-    454639,
     1083381,
     1273221,
+    454639,
     1564614,
     1314481,
     1510795,
@@ -48,6 +48,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1284041,
+      "title": "La última casa",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1084244,
       "title": "Toy Story 5",
       "reason": "Sin fuente autorizada configurada"
@@ -60,11 +65,6 @@
     {
       "tmdbId": 1339713,
       "title": "Obsesión",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1284041,
-      "title": "La última casa",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -83,13 +83,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 454639,
-      "title": "He-Man y los Masters del Universo",
+      "tmdbId": 1273221,
+      "title": "Scary Movie",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1273221,
-      "title": "Scary Movie",
+      "tmdbId": 454639,
+      "title": "He-Man y los Masters del Universo",
       "reason": "Sin fuente autorizada configurada"
     },
     {
