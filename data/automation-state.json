@@ -1,27 +1,27 @@
 {
-  "lastRunAt": "2026-08-10T15:29:34.445Z",
+  "lastRunAt": "2026-08-10T16:23:59.143Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
     1081003,
     1284041,
     1084244,
-    1275779,
     1339713,
-    1212763,
     1315772,
+    1275779,
+    1212763,
     1108427,
     1083381,
-    1273221,
     454639,
     1564614,
-    1314481,
+    1273221,
     1510795,
-    936075,
     931285,
+    1314481,
     1228710,
+    936075,
     949838,
-    1304313,
+    1007757,
     1368337,
     634649,
     1284465,
@@ -58,18 +58,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1275779,
-      "title": "El día de la revelación",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1339713,
       "title": "Obsesión",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1212763,
-      "title": "Posesión infernal. En llamas",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -78,13 +68,18 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1108427,
-      "title": "Vaiana",
+      "tmdbId": 1275779,
+      "title": "El día de la revelación",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1273221,
-      "title": "Scary Movie",
+      "tmdbId": 1212763,
+      "title": "Posesión infernal. En llamas",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1108427,
+      "title": "Vaiana",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -98,8 +93,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1314481,
-      "title": "El diablo viste de Prada 2",
+      "tmdbId": 1273221,
+      "title": "Scary Movie",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -108,13 +103,13 @@
       "reason": "Rating 4 por debajo del mínimo (5.5)"
     },
     {
-      "tmdbId": 936075,
-      "title": "Michael",
+      "tmdbId": 931285,
+      "title": "Mortal Kombat II",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 931285,
-      "title": "Mortal Kombat II",
+      "tmdbId": 1314481,
+      "title": "El diablo viste de Prada 2",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -123,13 +118,18 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 936075,
+      "title": "Michael",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 949838,
       "title": "72 horas",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1304313,
-      "title": "La momia de Lee Cronin",
+      "tmdbId": 1007757,
+      "title": "Intercambiados",
       "reason": "Sin fuente autorizada configurada"
     },
     {
