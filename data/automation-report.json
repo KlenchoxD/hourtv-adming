@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-10T20:06:32.280Z",
-  "durationMs": 917,
+  "generatedAt": "2026-08-10T20:59:36.078Z",
+  "durationMs": 1390,
   "dryRun": false,
   "moviesFound": 30,
   "moviesDiscarded": 28,
@@ -123,8 +123,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1375646,
-      "title": "Zona Cero",
+      "tmdbId": 315635,
+      "title": "Spider-Man: Homecoming",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -133,23 +133,23 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1375646,
+      "title": "Zona Cero",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1698863,
       "title": "La odisea",
       "reason": "Votos 13 por debajo del mínimo (50)"
     },
     {
-      "tmdbId": 315635,
-      "title": "Spider-Man: Homecoming",
-      "reason": "Sin fuente autorizada configurada"
+      "tmdbId": 1599191,
+      "title": "仙逆剧场版 弑仙之战",
+      "reason": "Sin fecha de estreno válida"
     },
     {
-      "tmdbId": 557,
-      "title": "Spider-Man",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1307118,
-      "title": "Soulm8te",
+      "tmdbId": 980431,
+      "title": "La leyenda de Aang: El último Airbender",
       "reason": "Sin fuente autorizada configurada"
     }
   ]

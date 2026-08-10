@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-08-10T20:06:33.192Z",
+  "lastRunAt": "2026-08-10T20:59:37.464Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -25,12 +25,12 @@
     1368337,
     634649,
     1284465,
-    1375646,
-    1481343,
-    1698863,
     315635,
-    557,
-    1307118,
+    1481343,
+    1375646,
+    1698863,
+    1599191,
+    980431,
     1335666
   ],
   "tmdbIdsPublished": [],
@@ -148,8 +148,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1375646,
-      "title": "Zona Cero",
+      "tmdbId": 315635,
+      "title": "Spider-Man: Homecoming",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -158,23 +158,23 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1375646,
+      "title": "Zona Cero",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1698863,
       "title": "La odisea",
       "reason": "Votos 13 por debajo del mínimo (50)"
     },
     {
-      "tmdbId": 315635,
-      "title": "Spider-Man: Homecoming",
-      "reason": "Sin fuente autorizada configurada"
+      "tmdbId": 1599191,
+      "title": "仙逆剧场版 弑仙之战",
+      "reason": "Sin fecha de estreno válida"
     },
     {
-      "tmdbId": 557,
-      "title": "Spider-Man",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1307118,
-      "title": "Soulm8te",
+      "tmdbId": 980431,
+      "title": "La leyenda de Aang: El último Airbender",
       "reason": "Sin fuente autorizada configurada"
     }
   ]
