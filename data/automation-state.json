@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-08-10T02:05:57.760Z",
+  "lastRunAt": "2026-08-10T04:05:55.154Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -160,7 +160,7 @@
     {
       "tmdbId": 1698863,
       "title": "La odisea",
-      "reason": "Votos 9 por debajo del mínimo (50)"
+      "reason": "Votos 11 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 315635,
