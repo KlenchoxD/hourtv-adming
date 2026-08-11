@@ -1,27 +1,27 @@
 {
-  "lastRunAt": "2026-08-11T16:33:57.848Z",
+  "lastRunAt": "2026-08-11T17:38:51.165Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
     1284041,
-    1084244,
     1081003,
-    1339713,
-    1315772,
-    1275779,
+    1084244,
     1212763,
+    1339713,
+    1275779,
+    1315772,
     1108427,
     1083381,
     454639,
-    1564614,
     1273221,
-    1510795,
-    931285,
+    1564614,
     1314481,
-    1228710,
+    1510795,
     936075,
-    949838,
+    931285,
+    1228710,
     950028,
+    949838,
     1368337,
     634649,
     1284465,
@@ -48,13 +48,18 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1081003,
+      "title": "Supergirl",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1084244,
       "title": "Toy Story 5",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1081003,
-      "title": "Supergirl",
+      "tmdbId": 1212763,
+      "title": "Posesión infernal. En llamas",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -63,18 +68,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1315772,
-      "title": "Minions & Monsters",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1275779,
       "title": "El día de la revelación",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1212763,
-      "title": "Posesión infernal. En llamas",
+      "tmdbId": 1315772,
+      "title": "Minions & Monsters",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -88,23 +88,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1564614,
-      "title": "Leviticus",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1273221,
       "title": "Scary Movie",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1510795,
-      "title": "Shake, Rattle & Roll 17: El origen del mal",
-      "reason": "Rating 4 por debajo del mínimo (5.5)"
-    },
-    {
-      "tmdbId": 931285,
-      "title": "Mortal Kombat II",
+      "tmdbId": 1564614,
+      "title": "Leviticus",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -113,9 +103,9 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1228710,
-      "title": "The Mandalorian and Grogu",
-      "reason": "Sin fuente autorizada configurada"
+      "tmdbId": 1510795,
+      "title": "Shake, Rattle & Roll 17: El origen del mal",
+      "reason": "Rating 4 por debajo del mínimo (5.5)"
     },
     {
       "tmdbId": 936075,
@@ -123,13 +113,23 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 949838,
-      "title": "72 horas",
+      "tmdbId": 931285,
+      "title": "Mortal Kombat II",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1228710,
+      "title": "The Mandalorian and Grogu",
       "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 950028,
       "title": "La invitación",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 949838,
+      "title": "72 horas",
       "reason": "Sin fuente autorizada configurada"
     },
     {
