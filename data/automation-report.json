@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-11T14:42:21.685Z",
-  "durationMs": 3524,
+  "generatedAt": "2026-08-11T15:40:05.912Z",
+  "durationMs": 1294,
   "dryRun": false,
   "moviesFound": 30,
   "moviesDiscarded": 28,
@@ -140,7 +140,7 @@
     {
       "tmdbId": 1698863,
       "title": "La odisea",
-      "reason": "Votos 14 por debajo del mínimo (50)"
+      "reason": "Votos 15 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1599191,
