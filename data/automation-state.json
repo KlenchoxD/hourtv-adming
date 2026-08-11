@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-08-11T17:38:51.165Z",
+  "lastRunAt": "2026-08-11T18:33:40.088Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -24,13 +24,14 @@
     949838,
     1368337,
     634649,
+    1375646,
     1284465,
     315635,
-    1481343,
-    1375646,
-    1698863,
     1599191,
-    980431,
+    1481343,
+    1307118,
+    557,
+    1698863,
     1335666
   ],
   "tmdbIdsPublished": [],
@@ -143,6 +144,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1375646,
+      "title": "Zona Cero",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1284465,
       "title": "La muerte de Robin Hood",
       "reason": "Sin fuente autorizada configurada"
@@ -153,29 +159,29 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1599191,
+      "title": "仙逆剧场版 弑仙之战",
+      "reason": "Sin fecha de estreno válida"
+    },
+    {
       "tmdbId": 1481343,
       "title": "La Boca del Diablo",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1375646,
-      "title": "Zona Cero",
+      "tmdbId": 1307118,
+      "title": "Soulm8te",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 557,
+      "title": "Spider-Man",
       "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1698863,
       "title": "La odisea",
       "reason": "Votos 15 por debajo del mínimo (50)"
-    },
-    {
-      "tmdbId": 1599191,
-      "title": "仙逆剧场版 弑仙之战",
-      "reason": "Sin fecha de estreno válida"
-    },
-    {
-      "tmdbId": 980431,
-      "title": "La leyenda de Aang: El último Airbender",
-      "reason": "Sin fuente autorizada configurada"
     }
   ]
 }
