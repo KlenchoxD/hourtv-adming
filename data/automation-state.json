@@ -1,10 +1,10 @@
 {
-  "lastRunAt": "2026-08-10T23:49:15.132Z",
+  "lastRunAt": "2026-08-11T01:06:15.756Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
-    1081003,
     1284041,
+    1081003,
     1084244,
     1339713,
     1315772,
@@ -43,13 +43,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1081003,
-      "title": "Supergirl",
+      "tmdbId": 1284041,
+      "title": "La última casa",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1284041,
-      "title": "La última casa",
+      "tmdbId": 1081003,
+      "title": "Supergirl",
       "reason": "Sin fuente autorizada configurada"
     },
     {

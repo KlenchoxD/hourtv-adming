@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-10T23:49:14.626Z",
-  "durationMs": 511,
+  "generatedAt": "2026-08-11T01:06:12.954Z",
+  "durationMs": 2806,
   "dryRun": false,
   "moviesFound": 30,
   "moviesDiscarded": 28,
@@ -18,13 +18,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1081003,
-      "title": "Supergirl",
+      "tmdbId": 1284041,
+      "title": "La última casa",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1284041,
-      "title": "La última casa",
+      "tmdbId": 1081003,
+      "title": "Supergirl",
       "reason": "Sin fuente autorizada configurada"
     },
     {
