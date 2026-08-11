@@ -1,11 +1,11 @@
 {
-  "lastRunAt": "2026-08-11T07:52:23.823Z",
+  "lastRunAt": "2026-08-11T08:44:50.122Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
     1284041,
-    1081003,
     1084244,
+    1081003,
     1339713,
     1315772,
     1275779,
@@ -21,7 +21,7 @@
     1228710,
     936075,
     949838,
-    1007757,
+    950028,
     1368337,
     634649,
     1284465,
@@ -48,13 +48,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1081003,
-      "title": "Supergirl",
+      "tmdbId": 1084244,
+      "title": "Toy Story 5",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1084244,
-      "title": "Toy Story 5",
+      "tmdbId": 1081003,
+      "title": "Supergirl",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -128,8 +128,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1007757,
-      "title": "Intercambiados",
+      "tmdbId": 950028,
+      "title": "La invitación",
       "reason": "Sin fuente autorizada configurada"
     },
     {
