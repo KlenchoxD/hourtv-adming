@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-08-12T15:40:17.505Z",
-  "durationMs": 2265,
+  "generatedAt": "2026-08-12T16:34:00.978Z",
+  "durationMs": 1955,
   "dryRun": false,
-  "moviesFound": 31,
-  "moviesDiscarded": 29,
+  "moviesFound": 30,
+  "moviesDiscarded": 28,
   "moviesAdded": 0,
   "moviesEnriched": 0,
   "duplicates": 2,
@@ -151,11 +151,6 @@
       "tmdbId": 557,
       "title": "Spider-Man",
       "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1698863,
-      "title": "La odisea",
-      "reason": "Votos 15 por debajo del mínimo (50)"
     }
   ]
 }
