@@ -1,15 +1,15 @@
 {
-  "lastRunAt": "2026-08-12T09:30:37.640Z",
+  "lastRunAt": "2026-08-12T10:41:24.019Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
     1284041,
+    1315772,
     1081003,
     1084244,
     1212763,
-    1339713,
     1275779,
-    1315772,
+    1339713,
     1108427,
     1083381,
     454639,
@@ -49,6 +49,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1315772,
+      "title": "Minions & Monsters",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1081003,
       "title": "Supergirl",
       "reason": "Sin fuente autorizada configurada"
@@ -64,18 +69,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1339713,
-      "title": "Obsesión",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1275779,
       "title": "El día de la revelación",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1315772,
-      "title": "Minions & Monsters",
+      "tmdbId": 1339713,
+      "title": "Obsesión",
       "reason": "Sin fuente autorizada configurada"
     },
     {

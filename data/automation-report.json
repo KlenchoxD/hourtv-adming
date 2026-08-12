@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-12T09:30:35.004Z",
-  "durationMs": 2641,
+  "generatedAt": "2026-08-12T10:41:21.202Z",
+  "durationMs": 2822,
   "dryRun": false,
   "moviesFound": 31,
   "moviesDiscarded": 29,
@@ -23,6 +23,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1315772,
+      "title": "Minions & Monsters",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1081003,
       "title": "Supergirl",
       "reason": "Sin fuente autorizada configurada"
@@ -38,18 +43,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1339713,
-      "title": "Obsesión",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1275779,
       "title": "El día de la revelación",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1315772,
-      "title": "Minions & Monsters",
+      "tmdbId": 1339713,
+      "title": "Obsesión",
       "reason": "Sin fuente autorizada configurada"
     },
     {
