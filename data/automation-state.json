@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-08-12T23:42:43.264Z",
+  "lastRunAt": "2026-08-13T00:43:38.715Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -21,7 +21,7 @@
     936075,
     931285,
     1228710,
-    949838,
+    1101383,
     1368337,
     634649,
     1375646,
@@ -128,9 +128,9 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 949838,
-      "title": "72 horas",
-      "reason": "Sin fuente autorizada configurada"
+      "tmdbId": 1101383,
+      "title": "El final de Oak Street",
+      "reason": "Votos 34 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1368337,
