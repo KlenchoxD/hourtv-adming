@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-14T05:19:00.306Z",
-  "durationMs": 924,
+  "generatedAt": "2026-08-14T06:51:08.741Z",
+  "durationMs": 2860,
   "dryRun": false,
   "moviesFound": 30,
   "moviesDiscarded": 28,
@@ -63,6 +63,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1101383,
+      "title": "El final de Oak Street",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 454639,
       "title": "He-Man y los Masters del Universo",
       "reason": "Sin fuente autorizada configurada"
@@ -70,11 +75,6 @@
     {
       "tmdbId": 1564614,
       "title": "Leviticus",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1101383,
-      "title": "El final de Oak Street",
       "reason": "Sin fuente autorizada configurada"
     },
     {

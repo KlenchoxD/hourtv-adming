@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-08-14T05:19:01.226Z",
+  "lastRunAt": "2026-08-14T06:51:11.596Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -13,9 +13,9 @@
     1108427,
     1083381,
     1273221,
+    1101383,
     454639,
     1564614,
-    1101383,
     950028,
     1314481,
     936075,
@@ -88,6 +88,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1101383,
+      "title": "El final de Oak Street",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 454639,
       "title": "He-Man y los Masters del Universo",
       "reason": "Sin fuente autorizada configurada"
@@ -95,11 +100,6 @@
     {
       "tmdbId": 1564614,
       "title": "Leviticus",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1101383,
-      "title": "El final de Oak Street",
       "reason": "Sin fuente autorizada configurada"
     },
     {
