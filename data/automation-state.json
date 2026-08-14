@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-08-14T06:51:11.596Z",
+  "lastRunAt": "2026-08-14T08:08:05.996Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -29,8 +29,8 @@
     315635,
     1599191,
     1307118,
-    1481343,
     557,
+    1481343,
     1335666
   ],
   "tmdbIdsPublished": [],
@@ -168,13 +168,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1481343,
-      "title": "La Boca del Diablo",
+      "tmdbId": 557,
+      "title": "Spider-Man",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 557,
-      "title": "Spider-Man",
+      "tmdbId": 1481343,
+      "title": "La Boca del Diablo",
       "reason": "Sin fuente autorizada configurada"
     }
   ]
