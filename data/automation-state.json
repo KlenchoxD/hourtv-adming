@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-08-13T23:46:40.422Z",
+  "lastRunAt": "2026-08-14T01:14:12.479Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -100,7 +100,7 @@
     {
       "tmdbId": 1101383,
       "title": "El final de Oak Street",
-      "reason": "Sin fuente autorizada configurada"
+      "reason": "Votos 44 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 950028,
