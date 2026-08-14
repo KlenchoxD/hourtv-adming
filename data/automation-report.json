@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-14T01:14:11.001Z",
-  "durationMs": 1483,
+  "generatedAt": "2026-08-14T03:30:35.785Z",
+  "durationMs": 1803,
   "dryRun": false,
   "moviesFound": 30,
   "moviesDiscarded": 28,
@@ -75,7 +75,7 @@
     {
       "tmdbId": 1101383,
       "title": "El final de Oak Street",
-      "reason": "Votos 44 por debajo del mínimo (50)"
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 950028,
