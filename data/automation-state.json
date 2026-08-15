@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-08-15T07:50:30.336Z",
+  "lastRunAt": "2026-08-15T08:17:41.251Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -28,9 +28,9 @@
     1284465,
     315635,
     1599191,
-    1307118,
     1481343,
     557,
+    1307118,
     1335666
   ],
   "tmdbIdsPublished": [],
@@ -163,11 +163,6 @@
       "reason": "Sin fecha de estreno válida"
     },
     {
-      "tmdbId": 1307118,
-      "title": "Soulm8te",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1481343,
       "title": "La Boca del Diablo",
       "reason": "Sin fuente autorizada configurada"
@@ -175,6 +170,11 @@
     {
       "tmdbId": 557,
       "title": "Spider-Man",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1307118,
+      "title": "Soulm8te",
       "reason": "Sin fuente autorizada configurada"
     }
   ]

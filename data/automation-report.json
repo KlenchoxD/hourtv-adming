@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-15T07:50:29.188Z",
-  "durationMs": 1151,
+  "generatedAt": "2026-08-15T08:17:40.834Z",
+  "durationMs": 422,
   "dryRun": false,
   "moviesFound": 30,
   "moviesDiscarded": 28,
@@ -138,11 +138,6 @@
       "reason": "Sin fecha de estreno válida"
     },
     {
-      "tmdbId": 1307118,
-      "title": "Soulm8te",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1481343,
       "title": "La Boca del Diablo",
       "reason": "Sin fuente autorizada configurada"
@@ -150,6 +145,11 @@
     {
       "tmdbId": 557,
       "title": "Spider-Man",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1307118,
+      "title": "Soulm8te",
       "reason": "Sin fuente autorizada configurada"
     }
   ]
