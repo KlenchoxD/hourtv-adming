@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-15T22:44:47.165Z",
-  "durationMs": 1174,
+  "generatedAt": "2026-08-15T22:59:43.767Z",
+  "durationMs": 717,
   "dryRun": false,
   "moviesFound": 29,
   "moviesDiscarded": 27,
@@ -95,7 +95,7 @@
     {
       "tmdbId": 1510795,
       "title": "Shake, Rattle & Roll 17: El origen del mal",
-      "reason": "Rating 4 por debajo del mínimo (5.5)"
+      "reason": "Rating 5 por debajo del mínimo (5.5)"
     },
     {
       "tmdbId": 931285,
