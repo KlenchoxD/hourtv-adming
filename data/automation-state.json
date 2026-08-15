@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-08-15T19:55:25.516Z",
+  "lastRunAt": "2026-08-15T20:13:37.964Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -8,15 +8,15 @@
     1084244,
     1339713,
     1212763,
-    1108427,
     1275779,
     1081003,
+    1108427,
     1101383,
-    1083381,
     1273221,
-    950028,
+    1083381,
     1564614,
     454639,
+    950028,
     1314481,
     936075,
     1510795,
@@ -67,11 +67,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1108427,
-      "title": "Vaiana",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1275779,
       "title": "El día de la revelación",
       "reason": "Sin fuente autorizada configurada"
@@ -79,6 +74,11 @@
     {
       "tmdbId": 1081003,
       "title": "Supergirl",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1108427,
+      "title": "Vaiana",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -92,11 +92,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 950028,
-      "title": "La invitación",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1564614,
       "title": "Leviticus",
       "reason": "Sin fuente autorizada configurada"
@@ -104,6 +99,11 @@
     {
       "tmdbId": 454639,
       "title": "He-Man y los Masters del Universo",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 950028,
+      "title": "La invitación",
       "reason": "Sin fuente autorizada configurada"
     },
     {
