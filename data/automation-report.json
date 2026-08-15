@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-15T06:41:15.483Z",
-  "durationMs": 667,
+  "generatedAt": "2026-08-15T07:15:39.395Z",
+  "durationMs": 649,
   "dryRun": false,
   "moviesFound": 30,
   "moviesDiscarded": 28,
@@ -58,13 +58,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1273221,
-      "title": "Scary Movie",
+      "tmdbId": 1101383,
+      "title": "El final de Oak Street",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1101383,
-      "title": "El final de Oak Street",
+      "tmdbId": 1273221,
+      "title": "Scary Movie",
       "reason": "Sin fuente autorizada configurada"
     },
     {

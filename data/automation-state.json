@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-08-15T06:41:16.145Z",
+  "lastRunAt": "2026-08-15T07:15:40.039Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -11,9 +11,9 @@
     1275779,
     1081003,
     1108427,
+    1101383,
     1273221,
     1083381,
-    1101383,
     1564614,
     454639,
     950028,
@@ -83,13 +83,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1273221,
-      "title": "Scary Movie",
+      "tmdbId": 1101383,
+      "title": "El final de Oak Street",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1101383,
-      "title": "El final de Oak Street",
+      "tmdbId": 1273221,
+      "title": "Scary Movie",
       "reason": "Sin fuente autorizada configurada"
     },
     {
