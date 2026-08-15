@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-08-15T16:14:19.787Z",
+  "lastRunAt": "2026-08-15T16:42:28.401Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -28,8 +28,7 @@
     1284465,
     315635,
     1599191,
-    1481343,
-    557,
+    1323244,
     1307118,
     1335666
   ],
@@ -163,14 +162,9 @@
       "reason": "Sin fecha de estreno válida"
     },
     {
-      "tmdbId": 1481343,
-      "title": "La Boca del Diablo",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 557,
-      "title": "Spider-Man",
-      "reason": "Sin fuente autorizada configurada"
+      "tmdbId": 1323244,
+      "title": "La señal del apocalipsis",
+      "reason": "Rating 4 por debajo del mínimo (5.5)"
     },
     {
       "tmdbId": 1307118,
