@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-15T20:39:06.017Z",
-  "durationMs": 777,
+  "generatedAt": "2026-08-15T20:57:48.051Z",
+  "durationMs": 987,
   "dryRun": false,
   "moviesFound": 29,
   "moviesDiscarded": 27,
@@ -43,6 +43,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1108427,
+      "title": "Vaiana",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1275779,
       "title": "El día de la revelación",
       "reason": "Sin fuente autorizada configurada"
@@ -50,11 +55,6 @@
     {
       "tmdbId": 1081003,
       "title": "Supergirl",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1108427,
-      "title": "Vaiana",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -68,6 +68,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 950028,
+      "title": "La invitación",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1564614,
       "title": "Leviticus",
       "reason": "Sin fuente autorizada configurada"
@@ -75,11 +80,6 @@
     {
       "tmdbId": 454639,
       "title": "He-Man y los Masters del Universo",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 950028,
-      "title": "La invitación",
       "reason": "Sin fuente autorizada configurada"
     },
     {
