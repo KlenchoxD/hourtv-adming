@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-16T20:56:57.760Z",
-  "durationMs": 675,
+  "generatedAt": "2026-08-16T21:16:25.622Z",
+  "durationMs": 668,
   "dryRun": false,
   "moviesFound": 29,
   "moviesDiscarded": 27,
@@ -128,24 +128,24 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1323244,
-      "title": "La señal del apocalipsis",
-      "reason": "Rating 4 por debajo del mínimo (5.5)"
-    },
-    {
       "tmdbId": 315635,
       "title": "Spider-Man: Homecoming",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1481343,
-      "title": "La Boca del Diablo",
       "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1599191,
       "title": "仙逆剧场版 弑仙之战",
       "reason": "Sin fecha de estreno válida"
+    },
+    {
+      "tmdbId": 1323244,
+      "title": "La señal del apocalipsis",
+      "reason": "Rating 4 por debajo del mínimo (5.5)"
+    },
+    {
+      "tmdbId": 1307118,
+      "title": "Soulm8te",
+      "reason": "Sin fuente autorizada configurada"
     }
   ]
 }
