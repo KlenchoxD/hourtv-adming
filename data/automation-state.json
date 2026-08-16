@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-08-16T17:54:08.494Z",
+  "lastRunAt": "2026-08-16T18:16:43.330Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -9,27 +9,27 @@
     1084244,
     1212763,
     1101383,
-    1108427,
     1275779,
+    1108427,
     1081003,
     1083381,
     1273221,
     950028,
-    1564614,
     454639,
+    1564614,
     1314481,
-    936075,
     1510795,
+    936075,
+    1504358,
     931285,
-    1228710,
     1368337,
     634649,
     1375646,
     1284465,
-    315635,
-    1599191,
     1323244,
-    1307118,
+    315635,
+    1481343,
+    1599191,
     1335666
   ],
   "tmdbIdsPublished": [],
@@ -72,13 +72,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1108427,
-      "title": "Vaiana",
+      "tmdbId": 1275779,
+      "title": "El día de la revelación",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1275779,
-      "title": "El día de la revelación",
+      "tmdbId": 1108427,
+      "title": "Vaiana",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -97,13 +97,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1564614,
-      "title": "Leviticus",
+      "tmdbId": 454639,
+      "title": "He-Man y los Masters del Universo",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 454639,
-      "title": "He-Man y los Masters del Universo",
+      "tmdbId": 1564614,
+      "title": "Leviticus",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -112,23 +112,23 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 936075,
-      "title": "Michael",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1510795,
       "title": "Shake, Rattle & Roll 17: El origen del mal",
       "reason": "Rating 4.9 por debajo del mínimo (5.5)"
     },
     {
-      "tmdbId": 931285,
-      "title": "Mortal Kombat II",
+      "tmdbId": 936075,
+      "title": "Michael",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1228710,
-      "title": "The Mandalorian and Grogu",
+      "tmdbId": 1504358,
+      "title": "No se desea buena suerte",
+      "reason": "Votos 22 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 931285,
+      "title": "Mortal Kombat II",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -152,24 +152,24 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1323244,
+      "title": "La señal del apocalipsis",
+      "reason": "Rating 4 por debajo del mínimo (5.5)"
+    },
+    {
       "tmdbId": 315635,
       "title": "Spider-Man: Homecoming",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1481343,
+      "title": "La Boca del Diablo",
       "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1599191,
       "title": "仙逆剧场版 弑仙之战",
       "reason": "Sin fecha de estreno válida"
-    },
-    {
-      "tmdbId": 1323244,
-      "title": "La señal del apocalipsis",
-      "reason": "Rating 4 por debajo del mínimo (5.5)"
-    },
-    {
-      "tmdbId": 1307118,
-      "title": "Soulm8te",
-      "reason": "Sin fuente autorizada configurada"
     }
   ]
 }
