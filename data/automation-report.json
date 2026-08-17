@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-17T07:13:59.615Z",
-  "durationMs": 559,
+  "generatedAt": "2026-08-17T08:01:02.058Z",
+  "durationMs": 1070,
   "dryRun": false,
   "moviesFound": 29,
   "moviesDiscarded": 27,
@@ -138,14 +138,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1481343,
-      "title": "La Boca del Diablo",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1599191,
       "title": "仙逆剧场版 弑仙之战",
       "reason": "Sin fecha de estreno válida"
+    },
+    {
+      "tmdbId": 1481343,
+      "title": "La Boca del Diablo",
+      "reason": "Sin fuente autorizada configurada"
     }
   ]
 }

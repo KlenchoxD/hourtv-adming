@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-08-17T07:14:00.169Z",
+  "lastRunAt": "2026-08-17T08:01:03.123Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -28,8 +28,8 @@
     1284465,
     1323244,
     315635,
-    1481343,
     1599191,
+    1481343,
     1335666
   ],
   "tmdbIdsPublished": [],
@@ -162,14 +162,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1481343,
-      "title": "La Boca del Diablo",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1599191,
       "title": "仙逆剧场版 弑仙之战",
       "reason": "Sin fecha de estreno válida"
+    },
+    {
+      "tmdbId": 1481343,
+      "title": "La Boca del Diablo",
+      "reason": "Sin fuente autorizada configurada"
     }
   ]
 }
