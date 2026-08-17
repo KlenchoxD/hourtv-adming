@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-08-17T19:39:29.883Z",
+  "lastRunAt": "2026-08-17T19:57:26.941Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -24,12 +24,12 @@
     1228710,
     1368337,
     634649,
-    1375646,
     1323244,
+    1375646,
     1284465,
     315635,
-    1599191,
-    1481343,
+    1307118,
+    82023,
     1335666
   ],
   "tmdbIdsPublished": [],
@@ -142,14 +142,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1375646,
-      "title": "Zona Cero",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1323244,
       "title": "La señal del apocalipsis",
       "reason": "Rating 2.3 por debajo del mínimo (5.5)"
+    },
+    {
+      "tmdbId": 1375646,
+      "title": "Zona Cero",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1284465,
@@ -162,13 +162,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1599191,
-      "title": "仙逆剧场版 弑仙之战",
-      "reason": "Sin fecha de estreno válida"
+      "tmdbId": 1307118,
+      "title": "Soulm8te",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1481343,
-      "title": "La Boca del Diablo",
+      "tmdbId": 82023,
+      "title": "Hotel Desire",
       "reason": "Sin fuente autorizada configurada"
     }
   ]
