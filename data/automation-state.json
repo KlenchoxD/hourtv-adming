@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-08-17T10:15:08.981Z",
+  "lastRunAt": "2026-08-17T10:49:06.222Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -7,8 +7,8 @@
     1315772,
     1339713,
     1084244,
-    1212763,
     1101383,
+    1212763,
     1275779,
     1108427,
     1081003,
@@ -62,13 +62,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1212763,
-      "title": "Posesión infernal. En llamas",
+      "tmdbId": 1101383,
+      "title": "El final de Oak Street",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1101383,
-      "title": "El final de Oak Street",
+      "tmdbId": 1212763,
+      "title": "Posesión infernal. En llamas",
       "reason": "Sin fuente autorizada configurada"
     },
     {

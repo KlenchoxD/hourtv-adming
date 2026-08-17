@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-17T10:15:07.229Z",
-  "durationMs": 1755,
+  "generatedAt": "2026-08-17T10:49:05.154Z",
+  "durationMs": 1072,
   "dryRun": false,
   "moviesFound": 29,
   "moviesDiscarded": 27,
@@ -38,13 +38,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1212763,
-      "title": "Posesión infernal. En llamas",
+      "tmdbId": 1101383,
+      "title": "El final de Oak Street",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1101383,
-      "title": "El final de Oak Street",
+      "tmdbId": 1212763,
+      "title": "Posesión infernal. En llamas",
       "reason": "Sin fuente autorizada configurada"
     },
     {
