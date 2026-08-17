@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-08-17T12:26:26.169Z",
+  "lastRunAt": "2026-08-17T13:14:55.994Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -25,8 +25,8 @@
     1368337,
     634649,
     1375646,
-    1284465,
     1323244,
+    1284465,
     315635,
     1599191,
     1481343,
@@ -147,14 +147,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1284465,
-      "title": "La muerte de Robin Hood",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1323244,
       "title": "La señal del apocalipsis",
       "reason": "Rating 2.3 por debajo del mínimo (5.5)"
+    },
+    {
+      "tmdbId": 1284465,
+      "title": "La muerte de Robin Hood",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 315635,
