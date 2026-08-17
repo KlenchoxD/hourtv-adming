@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-08-17T00:46:59.429Z",
+  "lastRunAt": "2026-08-17T02:15:35.588Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -124,7 +124,7 @@
     {
       "tmdbId": 1504358,
       "title": "No se desea buena suerte",
-      "reason": "Votos 22 por debajo del mínimo (50)"
+      "reason": "Votos 23 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 931285,
