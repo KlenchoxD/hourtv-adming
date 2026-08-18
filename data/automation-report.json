@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-18T08:51:17.142Z",
-  "durationMs": 1949,
+  "generatedAt": "2026-08-18T09:23:37.866Z",
+  "durationMs": 2681,
   "dryRun": false,
   "moviesFound": 29,
   "moviesDiscarded": 27,
@@ -48,13 +48,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1212763,
-      "title": "Posesión infernal. En llamas",
+      "tmdbId": 1275779,
+      "title": "El día de la revelación",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1275779,
-      "title": "El día de la revelación",
+      "tmdbId": 1212763,
+      "title": "Posesión infernal. En llamas",
       "reason": "Sin fuente autorizada configurada"
     },
     {

@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-08-18T08:51:19.086Z",
+  "lastRunAt": "2026-08-18T09:23:40.540Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -9,8 +9,8 @@
     1339713,
     1101383,
     1108427,
-    1212763,
     1275779,
+    1212763,
     1081003,
     1083381,
     1273221,
@@ -72,13 +72,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1212763,
-      "title": "Posesión infernal. En llamas",
+      "tmdbId": 1275779,
+      "title": "El día de la revelación",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1275779,
-      "title": "El día de la revelación",
+      "tmdbId": 1212763,
+      "title": "Posesión infernal. En llamas",
       "reason": "Sin fuente autorizada configurada"
     },
     {
