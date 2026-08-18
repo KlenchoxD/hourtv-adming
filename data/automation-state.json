@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-08-18T21:15:29.385Z",
+  "lastRunAt": "2026-08-18T21:44:56.768Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -144,7 +144,7 @@
     {
       "tmdbId": 1323244,
       "title": "La señal del apocalipsis",
-      "reason": "Rating 5.4 por debajo del mínimo (5.5)"
+      "reason": "Rating 2.3 por debajo del mínimo (5.5)"
     },
     {
       "tmdbId": 1375646,
