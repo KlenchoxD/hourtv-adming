@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-18T15:23:00.947Z",
-  "durationMs": 2331,
+  "generatedAt": "2026-08-18T15:54:39.101Z",
+  "durationMs": 1089,
   "dryRun": false,
   "moviesFound": 29,
   "moviesDiscarded": 27,
@@ -23,13 +23,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1284041,
-      "title": "La última casa",
+      "tmdbId": 1084244,
+      "title": "Toy Story 5",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1084244,
-      "title": "Toy Story 5",
+      "tmdbId": 1284041,
+      "title": "La última casa",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -43,6 +43,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1212763,
+      "title": "Posesión infernal. En llamas",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1108427,
       "title": "Vaiana",
       "reason": "Sin fuente autorizada configurada"
@@ -50,11 +55,6 @@
     {
       "tmdbId": 1275779,
       "title": "El día de la revelación",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1212763,
-      "title": "Posesión infernal. En llamas",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -98,9 +98,9 @@
       "reason": "Rating 5.2 por debajo del mínimo (5.5)"
     },
     {
-      "tmdbId": 931285,
-      "title": "Mortal Kombat II",
-      "reason": "Sin fuente autorizada configurada"
+      "tmdbId": 1504358,
+      "title": "No se desea buena suerte",
+      "reason": "Votos 30 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1228710,
