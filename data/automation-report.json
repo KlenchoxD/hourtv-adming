@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-18T19:05:55.838Z",
-  "durationMs": 667,
+  "generatedAt": "2026-08-18T19:37:59.907Z",
+  "durationMs": 1632,
   "dryRun": false,
   "moviesFound": 29,
   "moviesDiscarded": 27,
@@ -100,7 +100,7 @@
     {
       "tmdbId": 1504358,
       "title": "No se desea buena suerte",
-      "reason": "Votos 30 por debajo del mínimo (50)"
+      "reason": "Votos 32 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1228710,
@@ -120,7 +120,7 @@
     {
       "tmdbId": 1323244,
       "title": "La señal del apocalipsis",
-      "reason": "Rating 2.3 por debajo del mínimo (5.5)"
+      "reason": "Rating 5.4 por debajo del mínimo (5.5)"
     },
     {
       "tmdbId": 1375646,
