@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-17T23:59:18.706Z",
-  "durationMs": 549,
+  "generatedAt": "2026-08-18T01:22:16.259Z",
+  "durationMs": 2486,
   "dryRun": false,
   "moviesFound": 29,
   "moviesDiscarded": 27,
@@ -28,13 +28,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1339713,
-      "title": "Obsesión",
+      "tmdbId": 1084244,
+      "title": "Toy Story 5",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1084244,
-      "title": "Toy Story 5",
+      "tmdbId": 1339713,
+      "title": "Obsesión",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -95,7 +95,7 @@
     {
       "tmdbId": 1510795,
       "title": "Shake, Rattle & Roll 17: El origen del mal",
-      "reason": "Rating 4.8 por debajo del mínimo (5.5)"
+      "reason": "Rating 5.2 por debajo del mínimo (5.5)"
     },
     {
       "tmdbId": 931285,

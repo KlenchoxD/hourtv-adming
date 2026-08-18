@@ -1,12 +1,12 @@
 {
-  "lastRunAt": "2026-08-17T23:59:19.250Z",
+  "lastRunAt": "2026-08-18T01:22:18.743Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
     1315772,
     1284041,
-    1339713,
     1084244,
+    1339713,
     1101383,
     1108427,
     1212763,
@@ -52,13 +52,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1339713,
-      "title": "Obsesión",
+      "tmdbId": 1084244,
+      "title": "Toy Story 5",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1084244,
-      "title": "Toy Story 5",
+      "tmdbId": 1339713,
+      "title": "Obsesión",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -119,7 +119,7 @@
     {
       "tmdbId": 1510795,
       "title": "Shake, Rattle & Roll 17: El origen del mal",
-      "reason": "Rating 4.8 por debajo del mínimo (5.5)"
+      "reason": "Rating 5.2 por debajo del mínimo (5.5)"
     },
     {
       "tmdbId": 931285,
