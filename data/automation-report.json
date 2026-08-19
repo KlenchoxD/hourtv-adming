@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-19T16:54:22.675Z",
-  "durationMs": 2628,
+  "generatedAt": "2026-08-19T17:19:27.159Z",
+  "durationMs": 752,
   "dryRun": false,
   "moviesFound": 29,
   "moviesDiscarded": 27,
@@ -133,8 +133,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 315635,
-      "title": "Spider-Man: Homecoming",
+      "tmdbId": 82023,
+      "title": "Hotel Desire",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -143,8 +143,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 82023,
-      "title": "Hotel Desire",
+      "tmdbId": 315635,
+      "title": "Spider-Man: Homecoming",
       "reason": "Sin fuente autorizada configurada"
     }
   ]
