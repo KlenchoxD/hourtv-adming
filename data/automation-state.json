@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-08-19T15:22:58.840Z",
+  "lastRunAt": "2026-08-19T15:54:57.871Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -27,9 +27,9 @@
     1323244,
     1375646,
     1284465,
-    315635,
-    1307118,
     82023,
+    1307118,
+    315635,
     1335666
   ],
   "tmdbIdsPublished": [],
@@ -157,8 +157,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 315635,
-      "title": "Spider-Man: Homecoming",
+      "tmdbId": 82023,
+      "title": "Hotel Desire",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -167,8 +167,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 82023,
-      "title": "Hotel Desire",
+      "tmdbId": 315635,
+      "title": "Spider-Man: Homecoming",
       "reason": "Sin fuente autorizada configurada"
     }
   ]
