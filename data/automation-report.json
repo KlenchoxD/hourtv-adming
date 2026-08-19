@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-19T14:04:37.284Z",
-  "durationMs": 532,
+  "generatedAt": "2026-08-19T14:51:03.670Z",
+  "durationMs": 1911,
   "dryRun": false,
   "moviesFound": 29,
   "moviesDiscarded": 27,
@@ -18,13 +18,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1315772,
-      "title": "Minions & Monsters",
+      "tmdbId": 1084244,
+      "title": "Toy Story 5",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1084244,
-      "title": "Toy Story 5",
+      "tmdbId": 1315772,
+      "title": "Minions & Monsters",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -43,11 +43,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1212763,
-      "title": "Posesión infernal. En llamas",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1108427,
       "title": "Vaiana",
       "reason": "Sin fuente autorizada configurada"
@@ -55,6 +50,11 @@
     {
       "tmdbId": 1275779,
       "title": "El día de la revelación",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1212763,
+      "title": "Posesión infernal. En llamas",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -68,13 +68,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 950028,
-      "title": "La invitación",
+      "tmdbId": 454639,
+      "title": "He-Man y los Masters del Universo",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 454639,
-      "title": "He-Man y los Masters del Universo",
+      "tmdbId": 950028,
+      "title": "La invitación",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -93,14 +93,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1504358,
+      "title": "No se desea buena suerte",
+      "reason": "Votos 35 por debajo del mínimo (50)"
+    },
+    {
       "tmdbId": 1510795,
       "title": "Shake, Rattle & Roll 17: El origen del mal",
       "reason": "Rating 5.2 por debajo del mínimo (5.5)"
-    },
-    {
-      "tmdbId": 1504358,
-      "title": "No se desea buena suerte",
-      "reason": "Votos 34 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1228710,

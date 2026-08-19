@@ -1,26 +1,26 @@
 {
-  "lastRunAt": "2026-08-19T14:04:37.811Z",
+  "lastRunAt": "2026-08-19T14:51:05.576Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
-    1315772,
     1084244,
+    1315772,
     1284041,
     1339713,
     1101383,
-    1212763,
     1108427,
     1275779,
+    1212763,
     1081003,
     1083381,
     1273221,
-    950028,
     454639,
+    950028,
     1564614,
     936075,
     1314481,
-    1510795,
     1504358,
+    1510795,
     1228710,
     1368337,
     634649,
@@ -42,13 +42,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1315772,
-      "title": "Minions & Monsters",
+      "tmdbId": 1084244,
+      "title": "Toy Story 5",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1084244,
-      "title": "Toy Story 5",
+      "tmdbId": 1315772,
+      "title": "Minions & Monsters",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -67,11 +67,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1212763,
-      "title": "Posesión infernal. En llamas",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1108427,
       "title": "Vaiana",
       "reason": "Sin fuente autorizada configurada"
@@ -79,6 +74,11 @@
     {
       "tmdbId": 1275779,
       "title": "El día de la revelación",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1212763,
+      "title": "Posesión infernal. En llamas",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -92,13 +92,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 950028,
-      "title": "La invitación",
+      "tmdbId": 454639,
+      "title": "He-Man y los Masters del Universo",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 454639,
-      "title": "He-Man y los Masters del Universo",
+      "tmdbId": 950028,
+      "title": "La invitación",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -117,14 +117,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1504358,
+      "title": "No se desea buena suerte",
+      "reason": "Votos 35 por debajo del mínimo (50)"
+    },
+    {
       "tmdbId": 1510795,
       "title": "Shake, Rattle & Roll 17: El origen del mal",
       "reason": "Rating 5.2 por debajo del mínimo (5.5)"
-    },
-    {
-      "tmdbId": 1504358,
-      "title": "No se desea buena suerte",
-      "reason": "Votos 34 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1228710,
