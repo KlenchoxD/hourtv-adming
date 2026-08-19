@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-19T08:00:16.718Z",
-  "durationMs": 915,
+  "generatedAt": "2026-08-19T08:43:50.565Z",
+  "durationMs": 807,
   "dryRun": false,
   "moviesFound": 29,
   "moviesDiscarded": 27,
@@ -100,7 +100,7 @@
     {
       "tmdbId": 1504358,
       "title": "No se desea buena suerte",
-      "reason": "Votos 32 por debajo del mínimo (50)"
+      "reason": "Votos 34 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1228710,
