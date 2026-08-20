@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-08-20T20:19:27.687Z",
+  "lastRunAt": "2026-08-20T20:54:12.560Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -28,9 +28,8 @@
     1375646,
     1284465,
     82023,
-    1307118,
     1003596,
-    315635,
+    687163,
     1335666
   ],
   "tmdbIdsPublished": [],
@@ -163,18 +162,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1307118,
-      "title": "Soulm8te",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1003596,
       "title": "Vengadores: Doomsday",
       "reason": "Rating 0 por debajo del mínimo (5.5)"
     },
     {
-      "tmdbId": 315635,
-      "title": "Spider-Man: Homecoming",
+      "tmdbId": 687163,
+      "title": "Proyecto Salvación",
       "reason": "Sin fuente autorizada configurada"
     }
   ]
