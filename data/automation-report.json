@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-08-20T04:50:49.337Z",
-  "durationMs": 1008,
+  "generatedAt": "2026-08-20T05:22:43.804Z",
+  "durationMs": 1114,
   "dryRun": false,
-  "moviesFound": 30,
-  "moviesDiscarded": 28,
+  "moviesFound": 29,
+  "moviesDiscarded": 27,
   "moviesAdded": 0,
   "moviesEnriched": 0,
   "duplicates": 2,
@@ -141,11 +141,6 @@
       "tmdbId": 1307118,
       "title": "Soulm8te",
       "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1003596,
-      "title": "Vengadores: Doomsday",
-      "reason": "Rating 0 por debajo del mínimo (5.5)"
     },
     {
       "tmdbId": 315635,
