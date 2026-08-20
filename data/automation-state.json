@@ -1,12 +1,12 @@
 {
-  "lastRunAt": "2026-08-20T15:47:11.717Z",
+  "lastRunAt": "2026-08-20T16:24:50.133Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
     1084244,
     1315772,
-    1284041,
     1339713,
+    1284041,
     1101383,
     1108427,
     1275779,
@@ -15,12 +15,12 @@
     1083381,
     1273221,
     454639,
-    1564614,
+    1523145,
     950028,
+    1564614,
     936075,
     1314481,
     1504358,
-    1510795,
     1228710,
     1368337,
     634649,
@@ -53,13 +53,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1284041,
-      "title": "La última casa",
+      "tmdbId": 1339713,
+      "title": "Obsesión",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1339713,
-      "title": "Obsesión",
+      "tmdbId": 1284041,
+      "title": "La última casa",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -98,13 +98,18 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1564614,
-      "title": "Leviticus",
+      "tmdbId": 1523145,
+      "title": "Tu corazón se romperá",
       "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 950028,
       "title": "La invitación",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1564614,
+      "title": "Leviticus",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -121,11 +126,6 @@
       "tmdbId": 1504358,
       "title": "No se desea buena suerte",
       "reason": "Votos 37 por debajo del mínimo (50)"
-    },
-    {
-      "tmdbId": 1510795,
-      "title": "Shake, Rattle & Roll 17: El origen del mal",
-      "reason": "Rating 5.1 por debajo del mínimo (5.5)"
     },
     {
       "tmdbId": 1228710,

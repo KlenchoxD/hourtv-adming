@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-20T15:47:09.307Z",
-  "durationMs": 2413,
+  "generatedAt": "2026-08-20T16:24:46.912Z",
+  "durationMs": 3225,
   "dryRun": false,
   "moviesFound": 30,
   "moviesDiscarded": 28,
@@ -28,13 +28,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1284041,
-      "title": "La última casa",
+      "tmdbId": 1339713,
+      "title": "Obsesión",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1339713,
-      "title": "Obsesión",
+      "tmdbId": 1284041,
+      "title": "La última casa",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -73,13 +73,18 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1564614,
-      "title": "Leviticus",
+      "tmdbId": 1523145,
+      "title": "Tu corazón se romperá",
       "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 950028,
       "title": "La invitación",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1564614,
+      "title": "Leviticus",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -96,11 +101,6 @@
       "tmdbId": 1504358,
       "title": "No se desea buena suerte",
       "reason": "Votos 37 por debajo del mínimo (50)"
-    },
-    {
-      "tmdbId": 1510795,
-      "title": "Shake, Rattle & Roll 17: El origen del mal",
-      "reason": "Rating 5.1 por debajo del mínimo (5.5)"
     },
     {
       "tmdbId": 1228710,
