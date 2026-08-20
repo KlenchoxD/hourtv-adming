@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-08-20T08:03:37.659Z",
+  "lastRunAt": "2026-08-20T08:54:30.359Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -15,8 +15,8 @@
     1083381,
     1273221,
     454639,
-    950028,
     1564614,
+    950028,
     936075,
     1314481,
     1504358,
@@ -98,13 +98,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 950028,
-      "title": "La invitación",
+      "tmdbId": 1564614,
+      "title": "Leviticus",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1564614,
-      "title": "Leviticus",
+      "tmdbId": 950028,
+      "title": "La invitación",
       "reason": "Sin fuente autorizada configurada"
     },
     {
