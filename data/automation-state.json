@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-08-20T05:22:44.913Z",
+  "lastRunAt": "2026-08-20T05:54:22.169Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -29,6 +29,7 @@
     1284465,
     82023,
     1307118,
+    1003596,
     315635,
     1335666
   ],
@@ -165,6 +166,11 @@
       "tmdbId": 1307118,
       "title": "Soulm8te",
       "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1003596,
+      "title": "Vengadores: Doomsday",
+      "reason": "Rating 0 por debajo del mínimo (5.5)"
     },
     {
       "tmdbId": 315635,
