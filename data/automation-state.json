@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-08-21T05:55:52.121Z",
+  "lastRunAt": "2026-08-21T06:35:13.255Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -125,7 +125,7 @@
     {
       "tmdbId": 1504358,
       "title": "No se desea buena suerte",
-      "reason": "Votos 38 por debajo del mínimo (50)"
+      "reason": "Votos 41 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1228710,
@@ -155,7 +155,7 @@
     {
       "tmdbId": 1288445,
       "title": "El motín",
-      "reason": "Votos 35 por debajo del mínimo (50)"
+      "reason": "Votos 45 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1284465,
