@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-08-21T11:59:48.063Z",
+  "lastRunAt": "2026-08-21T12:55:37.307Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -29,8 +29,8 @@
     1288445,
     1284465,
     82023,
-    1003596,
     687163,
+    1003596,
     1335666
   ],
   "tmdbIdsPublished": [],
@@ -155,7 +155,7 @@
     {
       "tmdbId": 1288445,
       "title": "El motín",
-      "reason": "Votos 45 por debajo del mínimo (50)"
+      "reason": "Votos 47 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1284465,
@@ -168,14 +168,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1003596,
-      "title": "Vengadores: Doomsday",
-      "reason": "Rating 0 por debajo del mínimo (5.5)"
-    },
-    {
       "tmdbId": 687163,
       "title": "Proyecto Salvación",
       "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1003596,
+      "title": "Vengadores: Doomsday",
+      "reason": "Rating 0 por debajo del mínimo (5.5)"
     }
   ]
 }
