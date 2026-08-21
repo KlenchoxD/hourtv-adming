@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-08-21T19:19:53.648Z",
+  "lastRunAt": "2026-08-21T19:45:12.248Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -23,14 +23,14 @@
     1228710,
     1291595,
     1368337,
-    634649,
     1323244,
+    634649,
     1375646,
     1288445,
     1284465,
     82023,
-    687163,
     1003596,
+    687163,
     1335666
   ],
   "tmdbIdsPublished": [],
@@ -138,14 +138,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 634649,
-      "title": "Spider-Man: No Way Home",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1323244,
       "title": "La señal del apocalipsis",
       "reason": "Rating 5 por debajo del mínimo (5.5)"
+    },
+    {
+      "tmdbId": 634649,
+      "title": "Spider-Man: No Way Home",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1375646,
@@ -168,14 +168,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 687163,
-      "title": "Proyecto Salvación",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1003596,
       "title": "Vengadores: Doomsday",
       "reason": "Rating 0 por debajo del mínimo (5.5)"
+    },
+    {
+      "tmdbId": 687163,
+      "title": "Proyecto Salvación",
+      "reason": "Sin fuente autorizada configurada"
     }
   ]
 }
