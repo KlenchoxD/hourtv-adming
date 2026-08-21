@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-08-21T20:50:36.343Z",
+  "lastRunAt": "2026-08-21T21:15:35.818Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -155,7 +155,7 @@
     {
       "tmdbId": 1288445,
       "title": "El motín",
-      "reason": "Votos 47 por debajo del mínimo (50)"
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1284465,

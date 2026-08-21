@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-21T20:50:35.934Z",
-  "durationMs": 414,
+  "generatedAt": "2026-08-21T21:15:35.418Z",
+  "durationMs": 404,
   "dryRun": false,
   "moviesFound": 30,
   "moviesDiscarded": 28,
@@ -130,7 +130,7 @@
     {
       "tmdbId": 1288445,
       "title": "El motín",
-      "reason": "Votos 47 por debajo del mínimo (50)"
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1284465,
