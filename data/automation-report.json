@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-21T22:15:03.798Z",
-  "durationMs": 789,
+  "generatedAt": "2026-08-21T22:43:18.034Z",
+  "durationMs": 773,
   "dryRun": false,
   "moviesFound": 30,
   "moviesDiscarded": 28,
@@ -113,14 +113,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 634649,
-      "title": "Spider-Man: No Way Home",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1323244,
       "title": "La señal del apocalipsis",
       "reason": "Rating 5 por debajo del mínimo (5.5)"
+    },
+    {
+      "tmdbId": 634649,
+      "title": "Spider-Man: No Way Home",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1375646,
@@ -143,14 +143,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 687163,
-      "title": "Proyecto Salvación",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1003596,
       "title": "Vengadores: Doomsday",
       "reason": "Rating 0 por debajo del mínimo (5.5)"
+    },
+    {
+      "tmdbId": 687163,
+      "title": "Proyecto Salvación",
+      "reason": "Sin fuente autorizada configurada"
     }
   ]
 }
