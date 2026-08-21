@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-08-21T11:04:15.417Z",
+  "lastRunAt": "2026-08-21T11:38:38.246Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -149,7 +149,7 @@
     },
     {
       "tmdbId": 1375646,
-      "title": "Zona Cero",
+      "title": "Colony",
       "reason": "Sin fuente autorizada configurada"
     },
     {
