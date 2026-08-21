@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-08-21T04:09:06.864Z",
-  "durationMs": 1246,
+  "generatedAt": "2026-08-21T04:56:46.955Z",
+  "durationMs": 2951,
   "dryRun": false,
-  "moviesFound": 29,
-  "moviesDiscarded": 27,
+  "moviesFound": 30,
+  "moviesDiscarded": 28,
   "moviesAdded": 0,
   "moviesEnriched": 0,
   "duplicates": 2,
@@ -100,7 +100,7 @@
     {
       "tmdbId": 1504358,
       "title": "No se desea buena suerte",
-      "reason": "Votos 38 por debajo del mínimo (50)"
+      "reason": "Votos 41 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1228710,
@@ -126,6 +126,11 @@
       "tmdbId": 1375646,
       "title": "Zona Cero",
       "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1288445,
+      "title": "El motín",
+      "reason": "Votos 35 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1284465,

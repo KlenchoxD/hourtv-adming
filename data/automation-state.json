@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-08-21T04:09:08.105Z",
+  "lastRunAt": "2026-08-21T04:56:49.901Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -26,6 +26,7 @@
     634649,
     1323244,
     1375646,
+    1288445,
     1284465,
     82023,
     1003596,
@@ -124,7 +125,7 @@
     {
       "tmdbId": 1504358,
       "title": "No se desea buena suerte",
-      "reason": "Votos 38 por debajo del mínimo (50)"
+      "reason": "Votos 41 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1228710,
@@ -150,6 +151,11 @@
       "tmdbId": 1375646,
       "title": "Zona Cero",
       "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1288445,
+      "title": "El motín",
+      "reason": "Votos 35 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1284465,
