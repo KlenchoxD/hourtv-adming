@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-21T16:59:26.936Z",
-  "durationMs": 1519,
+  "generatedAt": "2026-08-21T17:31:59.726Z",
+  "durationMs": 489,
   "dryRun": false,
   "moviesFound": 30,
   "moviesDiscarded": 28,
@@ -33,6 +33,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1108427,
+      "title": "Vaiana",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1284041,
       "title": "La última casa",
       "reason": "Sin fuente autorizada configurada"
@@ -40,11 +45,6 @@
     {
       "tmdbId": 1101383,
       "title": "El final de Oak Street",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1108427,
-      "title": "Vaiana",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -68,23 +68,23 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 454639,
-      "title": "He-Man y los Masters del Universo",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1523145,
       "title": "Tu corazón se romperá",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 950028,
-      "title": "La invitación",
+      "tmdbId": 454639,
+      "title": "He-Man y los Masters del Universo",
       "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1564614,
       "title": "Leviticus",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 950028,
+      "title": "La invitación",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -98,14 +98,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1504358,
-      "title": "No se desea buena suerte",
-      "reason": "Votos 41 por debajo del mínimo (50)"
-    },
-    {
       "tmdbId": 1228710,
       "title": "The Mandalorian and Grogu",
       "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1291595,
+      "title": "Insidious: Fuera del más allá",
+      "reason": "Votos 16 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1368337,

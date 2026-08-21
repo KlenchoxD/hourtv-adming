@@ -1,27 +1,27 @@
 {
-  "lastRunAt": "2026-08-21T16:59:28.450Z",
+  "lastRunAt": "2026-08-21T17:32:00.212Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
     1084244,
     1315772,
     1339713,
+    1108427,
     1284041,
     1101383,
-    1108427,
     1275779,
     1212763,
     1083381,
     1081003,
     1273221,
-    454639,
     1523145,
-    950028,
+    454639,
     1564614,
+    950028,
     936075,
     1314481,
-    1504358,
     1228710,
+    1291595,
     1368337,
     634649,
     1323244,
@@ -58,6 +58,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1108427,
+      "title": "Vaiana",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1284041,
       "title": "La última casa",
       "reason": "Sin fuente autorizada configurada"
@@ -65,11 +70,6 @@
     {
       "tmdbId": 1101383,
       "title": "El final de Oak Street",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1108427,
-      "title": "Vaiana",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -93,23 +93,23 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 454639,
-      "title": "He-Man y los Masters del Universo",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1523145,
       "title": "Tu corazón se romperá",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 950028,
-      "title": "La invitación",
+      "tmdbId": 454639,
+      "title": "He-Man y los Masters del Universo",
       "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1564614,
       "title": "Leviticus",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 950028,
+      "title": "La invitación",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -123,14 +123,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1504358,
-      "title": "No se desea buena suerte",
-      "reason": "Votos 41 por debajo del mínimo (50)"
-    },
-    {
       "tmdbId": 1228710,
       "title": "The Mandalorian and Grogu",
       "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1291595,
+      "title": "Insidious: Fuera del más allá",
+      "reason": "Votos 16 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1368337,
