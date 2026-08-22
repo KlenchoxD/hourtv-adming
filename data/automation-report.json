@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-22T18:21:57.570Z",
-  "durationMs": 706,
+  "generatedAt": "2026-08-22T18:55:58.980Z",
+  "durationMs": 712,
   "dryRun": false,
   "moviesFound": 30,
   "moviesDiscarded": 28,
@@ -118,6 +118,11 @@
       "reason": "Rating 5.1 por debajo del mínimo (5.5)"
     },
     {
+      "tmdbId": 1288445,
+      "title": "El motín",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 634649,
       "title": "Spider-Man: No Way Home",
       "reason": "Sin fuente autorizada configurada"
@@ -125,11 +130,6 @@
     {
       "tmdbId": 1375646,
       "title": "Colony",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1288445,
-      "title": "El motín",
       "reason": "Sin fuente autorizada configurada"
     },
     {

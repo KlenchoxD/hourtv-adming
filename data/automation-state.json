@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-08-22T18:21:58.272Z",
+  "lastRunAt": "2026-08-22T18:55:59.689Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -24,9 +24,9 @@
     931285,
     1368337,
     1323244,
+    1288445,
     634649,
     1375646,
-    1288445,
     1284465,
     82023,
     687163,
@@ -143,6 +143,11 @@
       "reason": "Rating 5.1 por debajo del mínimo (5.5)"
     },
     {
+      "tmdbId": 1288445,
+      "title": "El motín",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 634649,
       "title": "Spider-Man: No Way Home",
       "reason": "Sin fuente autorizada configurada"
@@ -150,11 +155,6 @@
     {
       "tmdbId": 1375646,
       "title": "Colony",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1288445,
-      "title": "El motín",
       "reason": "Sin fuente autorizada configurada"
     },
     {
