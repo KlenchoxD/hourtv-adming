@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-22T03:13:01.353Z",
-  "durationMs": 940,
+  "generatedAt": "2026-08-22T03:56:20.258Z",
+  "durationMs": 1181,
   "dryRun": false,
   "moviesFound": 30,
   "moviesDiscarded": 28,
@@ -143,14 +143,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1003596,
-      "title": "Vengadores: Doomsday",
-      "reason": "Rating 0 por debajo del mínimo (5.5)"
-    },
-    {
       "tmdbId": 687163,
       "title": "Proyecto Salvación",
       "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1003596,
+      "title": "Vengadores: Doomsday",
+      "reason": "Rating 0 por debajo del mínimo (5.5)"
     }
   ]
 }
