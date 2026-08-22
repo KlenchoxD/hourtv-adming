@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-22T21:35:41.818Z",
-  "durationMs": 1244,
+  "generatedAt": "2026-08-22T21:55:57.736Z",
+  "durationMs": 623,
   "dryRun": false,
   "moviesFound": 30,
   "moviesDiscarded": 28,
@@ -85,7 +85,7 @@
     {
       "tmdbId": 1291595,
       "title": "Insidious: Fuera del más allá",
-      "reason": "Votos 27 por debajo del mínimo (50)"
+      "reason": "Votos 32 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 950028,
@@ -115,7 +115,7 @@
     {
       "tmdbId": 1323244,
       "title": "La señal del apocalipsis",
-      "reason": "Rating 5.1 por debajo del mínimo (5.5)"
+      "reason": "Rating 4.4 por debajo del mínimo (5.5)"
     },
     {
       "tmdbId": 1288445,
