@@ -1,12 +1,12 @@
 {
-  "lastRunAt": "2026-08-22T15:57:12.298Z",
+  "lastRunAt": "2026-08-22T16:20:14.560Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
     1084244,
-    1315772,
     1339713,
     1108427,
+    1315772,
     1284041,
     1101383,
     1275779,
@@ -17,11 +17,11 @@
     1523145,
     454639,
     1564614,
+    1291595,
     950028,
     1314481,
     1228710,
-    1291595,
-    1504358,
+    931285,
     1368337,
     1323244,
     634649,
@@ -48,11 +48,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1315772,
-      "title": "Minions & Monsters",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1339713,
       "title": "Obsesión",
       "reason": "Sin fuente autorizada configurada"
@@ -60,6 +55,11 @@
     {
       "tmdbId": 1108427,
       "title": "Vaiana",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1315772,
+      "title": "Minions & Monsters",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -108,6 +108,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1291595,
+      "title": "Insidious: Fuera del más allá",
+      "reason": "Votos 27 por debajo del mínimo (50)"
+    },
+    {
       "tmdbId": 950028,
       "title": "La invitación",
       "reason": "Sin fuente autorizada configurada"
@@ -123,14 +128,9 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1291595,
-      "title": "Insidious: Fuera del más allá",
-      "reason": "Votos 27 por debajo del mínimo (50)"
-    },
-    {
-      "tmdbId": 1504358,
-      "title": "No se desea buena suerte",
-      "reason": "Votos 47 por debajo del mínimo (50)"
+      "tmdbId": 931285,
+      "title": "Mortal Kombat II",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1368337,
