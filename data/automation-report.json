@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-21T23:57:56.048Z",
-  "durationMs": 2487,
+  "generatedAt": "2026-08-22T01:10:41.469Z",
+  "durationMs": 4958,
   "dryRun": false,
   "moviesFound": 30,
   "moviesDiscarded": 28,
@@ -88,11 +88,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 936075,
-      "title": "Michael",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1314481,
       "title": "El diablo viste de Prada 2",
       "reason": "Sin fuente autorizada configurada"
@@ -105,7 +100,12 @@
     {
       "tmdbId": 1291595,
       "title": "Insidious: Fuera del más allá",
-      "reason": "Votos 19 por debajo del mínimo (50)"
+      "reason": "Votos 22 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 1504358,
+      "title": "No se desea buena suerte",
+      "reason": "Votos 44 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1368337,

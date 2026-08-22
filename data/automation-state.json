@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-08-21T23:57:58.530Z",
+  "lastRunAt": "2026-08-22T01:10:46.423Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -18,10 +18,10 @@
     454639,
     1564614,
     950028,
-    936075,
     1314481,
     1228710,
     1291595,
+    1504358,
     1368337,
     1323244,
     634649,
@@ -113,11 +113,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 936075,
-      "title": "Michael",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1314481,
       "title": "El diablo viste de Prada 2",
       "reason": "Sin fuente autorizada configurada"
@@ -130,7 +125,12 @@
     {
       "tmdbId": 1291595,
       "title": "Insidious: Fuera del más allá",
-      "reason": "Votos 19 por debajo del mínimo (50)"
+      "reason": "Votos 22 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 1504358,
+      "title": "No se desea buena suerte",
+      "reason": "Votos 44 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1368337,
