@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-22T15:43:10.534Z",
-  "durationMs": 546,
+  "generatedAt": "2026-08-22T15:57:11.662Z",
+  "durationMs": 639,
   "dryRun": false,
   "moviesFound": 30,
   "moviesDiscarded": 28,
@@ -23,6 +23,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1315772,
+      "title": "Minions & Monsters",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1339713,
       "title": "Obsesión",
       "reason": "Sin fuente autorizada configurada"
@@ -30,11 +35,6 @@
     {
       "tmdbId": 1108427,
       "title": "Vaiana",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1315772,
-      "title": "Minions & Monsters",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -83,11 +83,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1291595,
-      "title": "Insidious: Fuera del más allá",
-      "reason": "Votos 27 por debajo del mínimo (50)"
-    },
-    {
       "tmdbId": 950028,
       "title": "La invitación",
       "reason": "Sin fuente autorizada configurada"
@@ -103,9 +98,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 931285,
-      "title": "Mortal Kombat II",
-      "reason": "Sin fuente autorizada configurada"
+      "tmdbId": 1291595,
+      "title": "Insidious: Fuera del más allá",
+      "reason": "Votos 27 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 1504358,
+      "title": "No se desea buena suerte",
+      "reason": "Votos 47 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1368337,
@@ -115,7 +115,7 @@
     {
       "tmdbId": 1323244,
       "title": "La señal del apocalipsis",
-      "reason": "Rating 5.4 por debajo del mínimo (5.5)"
+      "reason": "Rating 5.1 por debajo del mínimo (5.5)"
     },
     {
       "tmdbId": 634649,
