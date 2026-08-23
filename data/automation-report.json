@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-23T07:59:39.516Z",
-  "durationMs": 356,
+  "generatedAt": "2026-08-23T08:34:30.323Z",
+  "durationMs": 584,
   "dryRun": false,
   "moviesFound": 30,
   "moviesDiscarded": 28,
@@ -78,14 +78,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1564614,
-      "title": "Leviticus",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1291595,
       "title": "Insidious: Fuera del más allá",
       "reason": "Votos 32 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 1564614,
+      "title": "Leviticus",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 950028,
