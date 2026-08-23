@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-08-23T18:17:26.868Z",
+  "lastRunAt": "2026-08-23T18:55:08.061Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -104,7 +104,7 @@
     {
       "tmdbId": 1291595,
       "title": "Insidious: Fuera del más allá",
-      "reason": "Votos 39 por debajo del mínimo (50)"
+      "reason": "Votos 40 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1564614,
@@ -138,13 +138,13 @@
     },
     {
       "tmdbId": 1288445,
-      "title": "Codigo: Venganza",
+      "title": "El motín",
       "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1323244,
       "title": "La señal del apocalipsis",
-      "reason": "Rating 4.9 por debajo del mínimo (5.5)"
+      "reason": "Rating 4.5 por debajo del mínimo (5.5)"
     },
     {
       "tmdbId": 634649,
