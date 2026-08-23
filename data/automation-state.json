@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-08-23T15:59:10.017Z",
+  "lastRunAt": "2026-08-23T16:28:53.440Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -23,14 +23,13 @@
     1228710,
     931285,
     1368337,
-    1323244,
     1288445,
+    1323244,
     634649,
     1375646,
     1284465,
     82023,
     687163,
-    1003596,
     1335666
   ],
   "tmdbIdsPublished": [],
@@ -138,14 +137,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1323244,
-      "title": "La señal del apocalipsis",
-      "reason": "Rating 4.5 por debajo del mínimo (5.5)"
-    },
-    {
       "tmdbId": 1288445,
       "title": "Codigo: Venganza",
       "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1323244,
+      "title": "La señal del apocalipsis",
+      "reason": "Rating 4.5 por debajo del mínimo (5.5)"
     },
     {
       "tmdbId": 634649,
@@ -171,11 +170,6 @@
       "tmdbId": 687163,
       "title": "Proyecto Salvación",
       "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1003596,
-      "title": "Vengadores: Doomsday",
-      "reason": "Rating 0 por debajo del mínimo (5.5)"
     }
   ]
 }
