@@ -1,25 +1,25 @@
 {
-  "lastRunAt": "2026-08-23T14:36:27.251Z",
+  "lastRunAt": "2026-08-23T14:58:35.233Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
     1084244,
     1339713,
-    1108427,
     1315772,
+    1108427,
     1284041,
-    1101383,
     1275779,
-    1212763,
+    1101383,
     1083381,
+    1212763,
     1081003,
     1273221,
     1523145,
     454639,
     1291595,
     1564614,
-    950028,
     1314481,
+    950028,
     1228710,
     931285,
     1368337,
@@ -53,13 +53,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1108427,
-      "title": "Vaiana",
+      "tmdbId": 1315772,
+      "title": "Minions & Monsters",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1315772,
-      "title": "Minions & Monsters",
+      "tmdbId": 1108427,
+      "title": "Vaiana",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -68,13 +68,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1101383,
-      "title": "El final de Oak Street",
+      "tmdbId": 1275779,
+      "title": "El día de la revelación",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1275779,
-      "title": "El día de la revelación",
+      "tmdbId": 1101383,
+      "title": "El final de Oak Street",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -113,13 +113,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 950028,
-      "title": "La invitación",
+      "tmdbId": 1314481,
+      "title": "El diablo viste de Prada 2",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1314481,
-      "title": "El diablo viste de Prada 2",
+      "tmdbId": 950028,
+      "title": "La invitación",
       "reason": "Sin fuente autorizada configurada"
     },
     {

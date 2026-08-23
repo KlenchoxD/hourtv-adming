@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-23T14:36:26.467Z",
-  "durationMs": 788,
+  "generatedAt": "2026-08-23T14:58:34.700Z",
+  "durationMs": 538,
   "dryRun": false,
   "moviesFound": 30,
   "moviesDiscarded": 28,
@@ -28,13 +28,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1108427,
-      "title": "Vaiana",
+      "tmdbId": 1315772,
+      "title": "Minions & Monsters",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1315772,
-      "title": "Minions & Monsters",
+      "tmdbId": 1108427,
+      "title": "Vaiana",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -43,13 +43,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1101383,
-      "title": "El final de Oak Street",
+      "tmdbId": 1275779,
+      "title": "El día de la revelación",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1275779,
-      "title": "El día de la revelación",
+      "tmdbId": 1101383,
+      "title": "El final de Oak Street",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -88,13 +88,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 950028,
-      "title": "La invitación",
+      "tmdbId": 1314481,
+      "title": "El diablo viste de Prada 2",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1314481,
-      "title": "El diablo viste de Prada 2",
+      "tmdbId": 950028,
+      "title": "La invitación",
       "reason": "Sin fuente autorizada configurada"
     },
     {
