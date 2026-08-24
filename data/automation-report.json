@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-24T23:43:29.380Z",
-  "durationMs": 1468,
+  "generatedAt": "2026-08-24T23:58:35.270Z",
+  "durationMs": 1382,
   "dryRun": false,
   "moviesFound": 30,
   "moviesDiscarded": 28,
@@ -80,7 +80,7 @@
     {
       "tmdbId": 1291595,
       "title": "Insidious: Fuera del más allá",
-      "reason": "Sin fuente autorizada configurada"
+      "reason": "Votos 48 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1564614,
