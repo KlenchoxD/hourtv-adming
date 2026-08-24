@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-08-24T15:08:12.790Z",
-  "durationMs": 1216,
+  "generatedAt": "2026-08-24T15:53:22.983Z",
+  "durationMs": 1166,
   "dryRun": false,
-  "moviesFound": 29,
-  "moviesDiscarded": 27,
+  "moviesFound": 30,
+  "moviesDiscarded": 28,
   "moviesAdded": 0,
   "moviesEnriched": 0,
   "duplicates": 2,
@@ -128,13 +128,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1375646,
-      "title": "Colony",
-      "reason": "Sin fuente autorizada configurada"
+      "tmdbId": 1621552,
+      "title": "La captura",
+      "reason": "Votos 32 por debajo del mínimo (50)"
     },
     {
-      "tmdbId": 1284465,
-      "title": "La muerte de Robin Hood",
+      "tmdbId": 1375646,
+      "title": "Colony",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -143,9 +143,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 687163,
-      "title": "Proyecto Salvación",
+      "tmdbId": 1284465,
+      "title": "La muerte de Robin Hood",
       "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1285366,
+      "title": "愛のぬくもり",
+      "reason": "Votos 4 por debajo del mínimo (50)"
     }
   ]
 }
