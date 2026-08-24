@@ -1,27 +1,27 @@
 {
-  "lastRunAt": "2026-08-24T17:44:33.672Z",
+  "lastRunAt": "2026-08-24T18:05:50.735Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
     1084244,
     1339713,
-    1315772,
     1108427,
-    1284041,
+    1315772,
     1275779,
-    1101383,
-    1212763,
+    1284041,
     1083381,
+    1212763,
+    1101383,
     1081003,
     1273221,
-    1523145,
     454639,
+    1523145,
     1291595,
     1564614,
     1314481,
     950028,
     1228710,
-    931285,
+    1301421,
     1368337,
     1288445,
     1323244,
@@ -53,18 +53,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1315772,
-      "title": "Minions & Monsters",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1108427,
       "title": "Vaiana",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1284041,
-      "title": "La última casa",
+      "tmdbId": 1315772,
+      "title": "Minions & Monsters",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -73,13 +68,18 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1101383,
-      "title": "El final de Oak Street",
+      "tmdbId": 1284041,
+      "title": "La última casa",
       "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1212763,
       "title": "Posesión infernal. En llamas",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1101383,
+      "title": "El final de Oak Street",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -93,13 +93,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1523145,
-      "title": "Tu corazón se romperá",
+      "tmdbId": 454639,
+      "title": "He-Man y los Masters del Universo",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 454639,
-      "title": "He-Man y los Masters del Universo",
+      "tmdbId": 1523145,
+      "title": "Tu corazón se romperá",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -128,8 +128,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 931285,
-      "title": "Mortal Kombat II",
+      "tmdbId": 1301421,
+      "title": "Las ovejas detectives",
       "reason": "Sin fuente autorizada configurada"
     },
     {
