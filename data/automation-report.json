@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-24T17:04:01.513Z",
-  "durationMs": 2797,
+  "generatedAt": "2026-08-24T17:44:33.042Z",
+  "durationMs": 635,
   "dryRun": false,
   "moviesFound": 30,
   "moviesDiscarded": 28,
@@ -120,7 +120,7 @@
     {
       "tmdbId": 1323244,
       "title": "La señal del apocalipsis",
-      "reason": "Rating 4.7 por debajo del mínimo (5.5)"
+      "reason": "Rating 4.9 por debajo del mínimo (5.5)"
     },
     {
       "tmdbId": 634649,
