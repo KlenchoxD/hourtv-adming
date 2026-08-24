@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-08-24T18:05:50.735Z",
+  "lastRunAt": "2026-08-24T18:57:31.454Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -26,11 +26,10 @@
     1288445,
     1323244,
     634649,
-    1621552,
     1375646,
-    82023,
     1284465,
-    1285366,
+    82023,
+    687163,
     1335666
   ],
   "tmdbIdsPublished": [],
@@ -153,18 +152,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1621552,
-      "title": "La captura",
-      "reason": "Votos 32 por debajo del mínimo (50)"
-    },
-    {
       "tmdbId": 1375646,
       "title": "Colony",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 82023,
-      "title": "Hotel Desire",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -173,9 +162,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1285366,
-      "title": "愛のぬくもり",
-      "reason": "Votos 4 por debajo del mínimo (50)"
+      "tmdbId": 82023,
+      "title": "Hotel Desire",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 687163,
+      "title": "Proyecto Salvación",
+      "reason": "Sin fuente autorizada configurada"
     }
   ]
 }

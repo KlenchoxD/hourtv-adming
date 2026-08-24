@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-08-24T18:05:48.731Z",
-  "durationMs": 2008,
+  "generatedAt": "2026-08-24T18:57:30.090Z",
+  "durationMs": 1368,
   "dryRun": false,
-  "moviesFound": 30,
-  "moviesDiscarded": 28,
+  "moviesFound": 29,
+  "moviesDiscarded": 27,
   "moviesAdded": 0,
   "moviesEnriched": 0,
   "duplicates": 2,
@@ -128,18 +128,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1621552,
-      "title": "La captura",
-      "reason": "Votos 32 por debajo del mínimo (50)"
-    },
-    {
       "tmdbId": 1375646,
       "title": "Colony",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 82023,
-      "title": "Hotel Desire",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -148,9 +138,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1285366,
-      "title": "愛のぬくもり",
-      "reason": "Votos 4 por debajo del mínimo (50)"
+      "tmdbId": 82023,
+      "title": "Hotel Desire",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 687163,
+      "title": "Proyecto Salvación",
+      "reason": "Sin fuente autorizada configurada"
     }
   ]
 }
