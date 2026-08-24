@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-08-24T22:17:20.120Z",
+  "lastRunAt": "2026-08-24T22:51:03.970Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -105,7 +105,7 @@
     {
       "tmdbId": 1291595,
       "title": "Insidious: Fuera del más allá",
-      "reason": "Votos 48 por debajo del mínimo (50)"
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1564614,
