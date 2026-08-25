@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-08-25T08:57:48.657Z",
+  "lastRunAt": "2026-08-25T09:33:42.037Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -155,7 +155,7 @@
     {
       "tmdbId": 1621552,
       "title": "La captura",
-      "reason": "Sin fuente autorizada configurada"
+      "reason": "Votos 36 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1375646,
