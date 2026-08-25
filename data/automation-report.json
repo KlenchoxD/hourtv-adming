@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-25T04:51:36.706Z",
-  "durationMs": 614,
+  "generatedAt": "2026-08-25T05:24:24.040Z",
+  "durationMs": 1629,
   "dryRun": false,
   "moviesFound": 30,
   "moviesDiscarded": 28,
@@ -130,7 +130,7 @@
     {
       "tmdbId": 1621552,
       "title": "La captura",
-      "reason": "Votos 36 por debajo del mínimo (50)"
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1375646,
