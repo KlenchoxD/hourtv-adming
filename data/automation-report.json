@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-25T13:33:00.199Z",
-  "durationMs": 1495,
+  "generatedAt": "2026-08-25T14:26:22.855Z",
+  "durationMs": 581,
   "dryRun": false,
   "moviesFound": 30,
   "moviesDiscarded": 28,
@@ -38,23 +38,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1284041,
-      "title": "La última casa",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1275779,
       "title": "El día de la revelación",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1101383,
-      "title": "El final de Oak Street",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1273221,
-      "title": "Scary Movie",
+      "tmdbId": 1284041,
+      "title": "La última casa",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -68,8 +58,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 454639,
-      "title": "He-Man y los Masters del Universo",
+      "tmdbId": 1101383,
+      "title": "El final de Oak Street",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -78,8 +68,18 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1273221,
+      "title": "Scary Movie",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1291595,
       "title": "Insidious: Fuera del más allá",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 454639,
+      "title": "He-Man y los Masters del Universo",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -93,18 +93,18 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1228710,
-      "title": "The Mandalorian and Grogu",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 950028,
       "title": "La invitación",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1301421,
-      "title": "Las ovejas detectives",
+      "tmdbId": 1228710,
+      "title": "The Mandalorian and Grogu",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 931285,
+      "title": "Mortal Kombat II",
       "reason": "Sin fuente autorizada configurada"
     },
     {
