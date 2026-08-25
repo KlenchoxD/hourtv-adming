@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-24T23:58:35.270Z",
-  "durationMs": 1382,
+  "generatedAt": "2026-08-25T01:17:42.658Z",
+  "durationMs": 921,
   "dryRun": false,
   "moviesFound": 30,
   "moviesDiscarded": 28,
@@ -58,13 +58,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1081003,
-      "title": "Supergirl",
+      "tmdbId": 1273221,
+      "title": "Scary Movie",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1273221,
-      "title": "Scary Movie",
+      "tmdbId": 1081003,
+      "title": "Supergirl",
       "reason": "Sin fuente autorizada configurada"
     },
     {
