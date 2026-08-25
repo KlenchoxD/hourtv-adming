@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-08-25T21:59:10.330Z",
+  "lastRunAt": "2026-08-25T22:29:58.568Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -13,9 +13,9 @@
     1212763,
     1081003,
     1101383,
-    1523145,
     1273221,
     1291595,
+    1523145,
     454639,
     1564614,
     1314481,
@@ -88,11 +88,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1523145,
-      "title": "Tu corazón se romperá",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1273221,
       "title": "Scary Movie",
       "reason": "Sin fuente autorizada configurada"
@@ -100,6 +95,11 @@
     {
       "tmdbId": 1291595,
       "title": "Insidious: Fuera del más allá",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1523145,
+      "title": "Tu corazón se romperá",
       "reason": "Sin fuente autorizada configurada"
     },
     {
