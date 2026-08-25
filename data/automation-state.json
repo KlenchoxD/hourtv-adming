@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-08-25T11:19:33.862Z",
+  "lastRunAt": "2026-08-25T11:52:15.242Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -25,8 +25,8 @@
     1368337,
     1288445,
     1323244,
-    634649,
     1621552,
+    634649,
     1375646,
     82023,
     1284465,
@@ -148,13 +148,13 @@
       "reason": "Rating 5.4 por debajo del mínimo (5.5)"
     },
     {
-      "tmdbId": 634649,
-      "title": "Spider-Man: No Way Home",
+      "tmdbId": 1621552,
+      "title": "La captura",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1621552,
-      "title": "La captura",
+      "tmdbId": 634649,
+      "title": "Spider-Man: No Way Home",
       "reason": "Sin fuente autorizada configurada"
     },
     {
