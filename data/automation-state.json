@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-08-25T07:28:59.405Z",
+  "lastRunAt": "2026-08-25T08:07:49.859Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -7,20 +7,20 @@
     1339713,
     1108427,
     1315772,
-    1275779,
     1284041,
     1083381,
-    1212763,
+    1275779,
     1101383,
     1273221,
+    1212763,
     1081003,
     454639,
     1523145,
     1291595,
     1564614,
     1314481,
-    950028,
     1228710,
+    950028,
     1301421,
     1368337,
     1288445,
@@ -63,18 +63,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1275779,
-      "title": "El día de la revelación",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1284041,
       "title": "La última casa",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1212763,
-      "title": "Posesión infernal. En llamas",
+      "tmdbId": 1275779,
+      "title": "El día de la revelación",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -85,6 +80,11 @@
     {
       "tmdbId": 1273221,
       "title": "Scary Movie",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1212763,
+      "title": "Posesión infernal. En llamas",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -118,13 +118,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 950028,
-      "title": "La invitación",
+      "tmdbId": 1228710,
+      "title": "The Mandalorian and Grogu",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1228710,
-      "title": "The Mandalorian and Grogu",
+      "tmdbId": 950028,
+      "title": "La invitación",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -155,7 +155,7 @@
     {
       "tmdbId": 1621552,
       "title": "La captura",
-      "reason": "Votos 36 por debajo del mínimo (50)"
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1375646,
