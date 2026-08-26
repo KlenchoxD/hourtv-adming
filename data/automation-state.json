@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-08-26T16:35:38.671Z",
+  "lastRunAt": "2026-08-26T18:23:48.723Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -7,21 +7,21 @@
     1339713,
     1108427,
     1315772,
-    1275779,
-    1083381,
-    1284041,
     1212763,
+    1083381,
+    1275779,
+    1284041,
     1101383,
-    1081003,
     1273221,
+    1081003,
     1291595,
-    1523145,
     454639,
-    1564614,
+    1523145,
     1314481,
-    950028,
+    1564614,
     1228710,
-    931285,
+    950028,
+    1301421,
     1368337,
     1288445,
     1323244,
@@ -64,6 +64,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1212763,
+      "title": "Posesión infernal: En llamas",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1275779,
       "title": "El día de la revelación",
       "reason": "Sin fuente autorizada configurada"
@@ -74,18 +79,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1212763,
-      "title": "Posesión infernal: En llamas",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1101383,
       "title": "El final de Oak Street",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1081003,
-      "title": "Supergirl",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -94,13 +89,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1291595,
-      "title": "Insidious: Fuera del más allá",
+      "tmdbId": 1081003,
+      "title": "Supergirl",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1523145,
-      "title": "Tu corazón se romperá",
+      "tmdbId": 1291595,
+      "title": "Insidious: Fuera del más allá",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -109,8 +104,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1564614,
-      "title": "Leviticus",
+      "tmdbId": 1523145,
+      "title": "Tu corazón se romperá",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -119,8 +114,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 950028,
-      "title": "La invitación",
+      "tmdbId": 1564614,
+      "title": "Leviticus",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -129,8 +124,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 931285,
-      "title": "Mortal Kombat II",
+      "tmdbId": 950028,
+      "title": "La invitación",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1301421,
+      "title": "Las ovejas detectives",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -146,7 +146,7 @@
     {
       "tmdbId": 1323244,
       "title": "La señal del apocalipsis",
-      "reason": "Votos 44 por debajo del mínimo (50)"
+      "reason": "Votos 46 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1621552,

@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-26T16:35:36.499Z",
-  "durationMs": 2177,
+  "generatedAt": "2026-08-26T18:23:47.436Z",
+  "durationMs": 1292,
   "dryRun": false,
   "moviesFound": 31,
   "moviesDiscarded": 29,
@@ -38,6 +38,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1212763,
+      "title": "Posesión infernal: En llamas",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1275779,
       "title": "El día de la revelación",
       "reason": "Sin fuente autorizada configurada"
@@ -48,18 +53,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1212763,
-      "title": "Posesión infernal: En llamas",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1101383,
       "title": "El final de Oak Street",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1081003,
-      "title": "Supergirl",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -68,13 +63,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1291595,
-      "title": "Insidious: Fuera del más allá",
+      "tmdbId": 1081003,
+      "title": "Supergirl",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1523145,
-      "title": "Tu corazón se romperá",
+      "tmdbId": 1291595,
+      "title": "Insidious: Fuera del más allá",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -83,8 +78,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1564614,
-      "title": "Leviticus",
+      "tmdbId": 1523145,
+      "title": "Tu corazón se romperá",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -93,8 +88,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 950028,
-      "title": "La invitación",
+      "tmdbId": 1564614,
+      "title": "Leviticus",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -103,8 +98,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 931285,
-      "title": "Mortal Kombat II",
+      "tmdbId": 950028,
+      "title": "La invitación",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1301421,
+      "title": "Las ovejas detectives",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -120,7 +120,7 @@
     {
       "tmdbId": 1323244,
       "title": "La señal del apocalipsis",
-      "reason": "Votos 44 por debajo del mínimo (50)"
+      "reason": "Votos 46 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1621552,
