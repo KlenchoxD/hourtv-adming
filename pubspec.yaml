@@ -36,3 +36,6 @@ flutter:
     - assets/
     - assets/data/
     - assets/branding/
+    - assets/design/
+    - assets/figma/phase-3-1/
+    - assets/fonts/
