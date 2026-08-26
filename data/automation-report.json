@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-26T20:24:40.721Z",
-  "durationMs": 6338,
+  "generatedAt": "2026-08-26T23:53:43.661Z",
+  "durationMs": 3217,
   "dryRun": false,
   "moviesFound": 32,
   "moviesDiscarded": 30,
@@ -160,7 +160,7 @@
     {
       "tmdbId": 1130948,
       "title": "Rosebush Pruning",
-      "reason": "Votos 22 por debajo del mínimo (50)"
+      "reason": "Votos 23 por debajo del mínimo (50)"
     }
   ]
 }
