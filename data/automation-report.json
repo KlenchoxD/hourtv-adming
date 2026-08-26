@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-26T09:08:54.996Z",
-  "durationMs": 773,
+  "generatedAt": "2026-08-26T09:55:08.901Z",
+  "durationMs": 3445,
   "dryRun": false,
   "moviesFound": 30,
   "moviesDiscarded": 28,
@@ -53,13 +53,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1081003,
-      "title": "Supergirl",
+      "tmdbId": 1101383,
+      "title": "El final de Oak Street",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1101383,
-      "title": "El final de Oak Street",
+      "tmdbId": 1081003,
+      "title": "Supergirl",
       "reason": "Sin fuente autorizada configurada"
     },
     {
