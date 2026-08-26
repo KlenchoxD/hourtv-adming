@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-08-26T10:59:52.840Z",
-  "durationMs": 3115,
+  "generatedAt": "2026-08-26T11:33:45.764Z",
+  "durationMs": 1877,
   "dryRun": false,
-  "moviesFound": 30,
-  "moviesDiscarded": 28,
+  "moviesFound": 31,
+  "moviesDiscarded": 29,
   "moviesAdded": 0,
   "moviesEnriched": 0,
   "duplicates": 2,
@@ -151,6 +151,11 @@
       "tmdbId": 1285366,
       "title": "愛のぬくもり",
       "reason": "Votos 4 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 840464,
+      "title": "Greenland 2",
+      "reason": "Sin fuente autorizada configurada"
     }
   ]
 }

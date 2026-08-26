@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-08-26T10:59:55.949Z",
+  "lastRunAt": "2026-08-26T11:33:47.636Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -31,6 +31,7 @@
     82023,
     1284465,
     1285366,
+    840464,
     1335666
   ],
   "tmdbIdsPublished": [],
@@ -176,6 +177,11 @@
       "tmdbId": 1285366,
       "title": "愛のぬくもり",
       "reason": "Votos 4 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 840464,
+      "title": "Greenland 2",
+      "reason": "Sin fuente autorizada configurada"
     }
   ]
 }
