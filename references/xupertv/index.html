@@ -1,0 +1,2846 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>UltraPelis - Películas</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: #151525;
+            color: #fff;
+            overflow-x: hidden;
+            min-height: 100vh;
+            -webkit-touch-callout: none;
+        }
+
+        img {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-touch-callout: none;
+            pointer-events: auto;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 0;
+            padding-bottom: 65px;
+        }
+
+        .header {
+            background: #0d0d1b;
+            backdrop-filter: blur(10px);
+            padding: 15px 10px 10px 1px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-icons {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            font-weight: 700;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            flex: 1;
+        }
+
+        .header-logo {
+            width: 80px;
+            height: 25px;
+            object-fit: contain;
+        }
+
+        .header-filter-icon {
+            font-size: 17px;
+            cursor: pointer;
+            padding: 5px;
+            transition: transform 0.2s ease;
+        }
+
+        .header-filter-icon:active {
+            transform: scale(0.9);
+        }
+
+        .header-filter-icon.active {
+            color: #4305ee;
+        }
+
+        .header-search-icon {
+            font-size: 17px;
+            cursor: pointer;
+            padding: 5px;
+            transition: transform 0.2s ease;
+        }
+
+        .header-search-icon:active {
+            transform: scale(0.9);
+        }
+
+        .header-search-icon.active {
+            color: #4305ee;
+        }
+
+        .category-header {
+            background: #0d0d1b;
+            backdrop-filter: blur(10px);
+            padding: 9px;
+            display: flex;
+            gap: 15px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            position: sticky;
+            top: 50px;
+            z-index: 99;
+        }
+
+        .category-header::-webkit-scrollbar {
+            display: none;
+        }
+
+        .category-item {
+            font-size: 14px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.7);
+            white-space: nowrap;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .category-item:hover,
+        .category-item:active {
+            color: #fff;
+        }
+
+        .category-item.active {
+            color: #4305ee;
+        }
+
+        .banner-section {
+            width: 100%;
+            padding: 10px 15px 15px 15px;
+            margin-bottom: 20px;
+        }
+
+        .banner {
+            width: 100%;
+            height: 220px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 5px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .banner-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 1s ease-in-out;
+        }
+
+        .banner img.slide-out-left {
+            transform: translateX(-100%);
+        }
+
+        .banner img.slide-in-right {
+            transform: translateX(100%);
+        }
+
+        .banner img.slide-in-center {
+            transform: translateX(0);
+        }
+
+        .section-title {
+            padding: 0 15px 15px 15px;
+            margin-top: -20px;
+            font-size: 20px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .section-title:not(:first-of-type) {
+            margin-top: 20px;
+        }
+
+        .movies-container {
+            overflow-x: auto;
+            overflow-y: hidden;
+            padding: 0;
+            margin-top: -10px;
+            margin-bottom: 30px;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .movies-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .movies-grid {
+            display: flex;
+            gap: 8px;
+            padding: 0 15px;
+            width: max-content;
+        }
+
+        #favoritosMoviesGrid {
+            display: grid;
+            grid-template-columns: repeat(3, 130px);
+            gap: 8px;
+            padding: 0 15px;
+            width: 100%;
+            justify-content: center;
+        }
+
+        #favoritosMoviesGrid .movie-card {
+            width: 130px;
+        }
+
+        #favoritosMoviesGrid .movie-poster {
+            width: 130px;
+            height: 175px;
+            object-fit: cover;
+        }
+
+        @media (min-width: 480px) {
+            .movies-grid {
+                gap: 10px;
+            }
+
+            #favoritosMoviesGrid {
+                gap: 10px;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .movies-grid {
+                gap: 12px;
+            }
+
+            #favoritosMoviesGrid {
+                gap: 12px;
+            }
+        }
+
+        .movie-card {
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            width: 130px;
+        }
+
+        .movie-card:active {
+            transform: scale(0.95);
+        }
+
+        .movie-poster {
+            width: 130px;
+            height: 175px;
+            object-fit: cover;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border-radius: 8px;
+            display: block;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-touch-callout: none;
+            pointer-events: auto;
+        }
+
+        .movie-title {
+            font-size: 13px;
+            font-weight: 400;
+            margin-top: 8px;
+            text-align: center;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            width: 100%;
+        }
+
+        .movie-detail-page {
+            display: none;
+            min-height: 100vh;
+            background: #151525;
+        }
+
+        .movie-detail-page.active {
+            display: block;
+        }
+
+        .detail-container {
+            padding: 0;
+            max-width: 100%;
+        }
+
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%;
+            background: #000;
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .title-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 20px 20px 0 10px;
+            margin-top: 8px;
+        }
+
+        .detail-title {
+            font-size: 18px;
+            font-weight: 400;
+            margin: 0;
+            margin-bottom: 5px;
+            flex: 1;
+        }
+
+        .favorite-icon-btn {
+            background: transparent;
+            border: none;
+            color: #4305ee;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .favorite-icon-btn:active {
+            transform: scale(0.9);
+        }
+
+        .favorite-icon-btn.active {
+            color: #ff1e1e;
+        }
+
+        .detail-meta {
+            margin: 0 20px 15px 10px;
+            margin-top: 5px;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .detail-meta .separator {
+            color: rgba(255, 255, 255, 0.3);
+            margin: 0 5px;
+        }
+
+        .detail-info {
+            background: transparent;
+            padding: 0;
+            border-radius: 0;
+            margin: 0;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .info-label {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .info-value {
+            font-weight: 600;
+        }
+
+        .detail-description {
+            padding: 0;
+            line-height: 1.6;
+            margin: 0 20px 15px 10px;
+            font-size: 13px;
+        }
+
+        .detail-description.collapsed {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .read-more-btn {
+            background: transparent;
+            border: none;
+            color: #4305ee;
+            font-size: 11px;
+            font-weight: 400;
+            cursor: pointer;
+            padding: 5px 0;
+            margin-top: 5px;
+        }
+
+        .read-more-btn:active {
+            opacity: 0.7;
+        }
+
+        .detail-cast {
+            margin: 0 20px 15px 10px;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .cast-item {
+            margin-bottom: 8px;
+        }
+
+        .cast-label {
+            color: rgba(255, 255, 255, 0.6);
+            margin-right: 5px;
+        }
+
+        .recommendations-section {
+            margin-top: 30px;
+        }
+
+        .separator-line {
+            height: 1px;
+            background: rgba(255, 255, 255, 0.2);
+            margin: 0 20px 20px 20px;
+        }
+
+        .recommendations-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin: 0 20px 15px 20px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .recommendations-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 130px);
+            gap: 12px;
+            padding: 0;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            justify-content: center;
+            margin: 0 auto 20px auto;
+            max-width: fit-content;
+        }
+
+        .recommendations-grid::-webkit-scrollbar {
+            display: none;
+        }
+
+        .recommendations-grid .movie-title {
+            font-weight: 400;
+        }
+
+        .tab {
+            background: rgba(67, 5, 238, 0.2);
+            border: 1px solid #4305ee;
+            color: #fff;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .tab:hover {
+            background: rgba(67, 5, 238, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .tab:active {
+            transform: translateY(0);
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 40px 20px;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 16px;
+            width: 100%;
+            min-width: 100%;
+            flex-shrink: 0;
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #1b1b1c;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 5px 0;
+            padding-bottom: calc(10px + env(safe-area-inset-bottom));
+            z-index: 100;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-button {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+            border: none;
+            color: rgba(255, 255, 255, 0.6);
+            cursor: pointer;
+            padding: 8px 20px;
+            transition: all 0.3s ease;
+            flex: 1;
+            gap: 2px;
+        }
+
+        .nav-button i {
+            font-size: 22px;
+            margin-bottom: 1px;
+        }
+
+        .nav-button span {
+            font-size: 10px;
+            font-weight: 500;
+        }
+
+        .nav-button:active {
+            transform: scale(0.95);
+        }
+
+        .nav-button.active {
+            color: #4305ee;
+        }
+
+        .nav-button.active i {
+            color: #4305ee;
+        }
+
+        .movie-detail-page {
+            padding-bottom: 65px;
+        }
+
+        .settings-page {
+            min-height: 100vh;
+            background: #151525;
+            padding: 20px;
+            padding-top: 70px;
+            padding-bottom: 65px;
+        }
+
+        .settings-user-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px 20px;
+            margin-bottom: 30px;
+        }
+
+        .settings-user-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+
+        .settings-user-avatar i {
+            font-size: 36px;
+            color: #fff;
+        }
+
+        .settings-user-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .settings-section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 15px;
+            padding: 0 15px;
+        }
+
+        .settings-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 1px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .settings-menu-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.03);
+            cursor: pointer;
+            transition: background 0.2s ease;
+            gap: 15px;
+        }
+
+        .settings-menu-item:active {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .settings-menu-item i:first-child {
+            font-size: 20px;
+            color: #4305ee;
+            width: 24px;
+            text-align: center;
+        }
+
+        .settings-menu-item span {
+            flex: 1;
+            font-size: 16px;
+            color: #fff;
+            font-weight: 400;
+        }
+
+        .settings-menu-arrow {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .search-page {
+            min-height: 100vh;
+            background: #151525;
+            padding-top: 0;
+            padding-bottom: 65px;
+        }
+
+        .search-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 15px;
+            background: #0d0d1b;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            margin-top: 0;
+        }
+
+        .search-back-btn {
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 8px;
+            transition: transform 0.2s ease;
+        }
+
+        .search-back-btn:active {
+            transform: scale(0.9);
+        }
+
+        .search-input-container {
+            flex: 1;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .search-input {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 10px 15px;
+            color: #fff;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .search-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .search-input:focus {
+            border-color: #4305ee;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .search-btn {
+            background: #4305ee;
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 18px;
+            cursor: pointer;
+            padding: 10px 20px;
+            transition: background 0.3s ease;
+        }
+
+        .search-btn:active {
+            background: #3404c7;
+        }
+
+        .search-content {
+            padding: 20px 15px;
+        }
+
+        .search-section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .search-section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #fff;
+            margin: 0;
+            margin-bottom: 20px;
+        }
+
+        .clear-history-btn {
+            background: transparent;
+            border: none;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 16px;
+            cursor: pointer;
+            padding: 5px 10px;
+            transition: color 0.2s ease;
+        }
+
+        .clear-history-btn:active {
+            color: #ff1e1e;
+            transform: scale(0.95);
+        }
+
+        .search-history-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+
+        .search-history-item {
+            background: transparent;
+            padding: 12px 20px;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            transition: all 0.2s ease;
+        }
+
+        .search-history-item:active {
+            transform: scale(0.98);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .search-history-item i {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 14px;
+        }
+
+        .popular-searches-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1px;
+        }
+
+        .popular-search-item {
+            background: transparent;
+            padding: 12px 0;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: transform 0.2s ease;
+        }
+
+        .popular-search-item:active {
+            transform: scale(0.98);
+        }
+
+        .popular-search-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 14px;
+            color: #fff;
+            flex-shrink: 0;
+        }
+
+        .popular-search-number.number-1 {
+            background: #ff1e1e;
+        }
+
+        .popular-search-number.number-2 {
+            background: #ffd700;
+        }
+
+        .popular-search-number.number-3 {
+            background: #00ff00;
+        }
+
+        .popular-search-number.number-4,
+        .popular-search-number.number-5,
+        .popular-search-number.number-6,
+        .popular-search-number.number-7,
+        .popular-search-number.number-8,
+        .popular-search-number.number-9,
+        .popular-search-number.number-10 {
+            background: #808080;
+        }
+
+        .search-results-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 130px);
+            gap: 12px;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .search-results-grid .movie-card {
+            width: 130px;
+        }
+
+        .search-results-grid .movie-poster {
+            width: 130px;
+            height: 175px;
+        }
+
+        .no-search-results {
+            text-align: center;
+            padding: 40px 20px;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 16px;
+        }
+
+        .filter-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0d0d1b;
+            z-index: 1000;
+            display: none;
+            animation: fadeIn 0.3s ease;
+            overflow-y: auto;
+            padding: 20px;
+            padding-top: 60px;
+            padding-bottom: 80px;
+        }
+
+        .filter-overlay.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .filter-panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .filter-panel-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .filter-close-btn {
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 5px;
+            transition: transform 0.2s ease;
+        }
+
+        .filter-close-btn:active {
+            transform: scale(0.9);
+        }
+
+        .filter-categories-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1px;
+        }
+
+        .filter-category-item {
+            background: transparent;
+            padding: 15px 20px;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .filter-category-item:active {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .filter-category-item i {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 18px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .filter-category-item span {
+            flex: 1;
+        }
+
+        /* Solo mostrar en pantallas de teléfono */
+        @media (min-width: 768px) {
+            body::before {
+                content: "Esta app está diseñada solo para dispositivos móviles. Por favor, abre esta página en tu teléfono.";
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: #1a1a2e;
+                z-index: 10000;
+                padding: 20px;
+                text-align: center;
+                font-size: 18px;
+                color: #fff;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="https://files.catbox.moe/r46jme.png" alt="Logo" class="header-logo"> <!-- Logo de la app -->
+            <div class="header-icons">
+                <i class="fas fa-filter header-filter-icon" id="headerFilterIcon"></i>
+                <i class="fas fa-search header-search-icon" id="headerSearchIcon"></i>
+            </div>
+        </div>
+        <!-- Categorías de películas -->
+        <div class="category-header">
+            <span class="category-item active">Recomendado</span>
+            <span class="category-item">Infantil</span>
+            <span class="category-item">Terror</span>
+            <span class="category-item">Acción</span>
+            <span class="category-item">Comedia</span>
+            <span class="category-item">Romance</span>
+            <span class="category-item">Aventura</span>
+        </div>
+
+        <div class="banner-section">
+            <div class="banner" id="bannerContainer">
+                <img id="bannerImage1" class="banner-slide"
+                    src="https://image.tmdb.org/t/p/w1280/kHOfxq7cMTXyLbj0UmdoGhT540O.jpg" alt="Banner">
+                <img id="bannerImage2" class="banner-slide" style="display: none;" src="" alt="Banner">
+            </div>
+        </div>
+        <!-- Secciones -->
+        <h2 class="section-title" id="titleTodos" style="display: none;">Todos</h2>
+
+        <div class="movies-container" id="containerTodos" style="display: none;">
+            <div class="movies-grid" id="todosMoviesGrid"></div>
+        </div>
+
+        <h2 class="section-title" id="titleEstrenos">Estrenos 2025</h2>
+
+        <div class="movies-container" id="containerEstrenos">
+            <div class="movies-grid" id="moviesGrid"></div>
+        </div>
+
+        <h2 class="section-title" id="titlePopulares">Películas Más Populares</h2>
+
+        <div class="movies-container" id="containerPopulares">
+            <div class="movies-grid" id="popularMoviesGrid"></div>
+        </div>
+
+        <h2 class="section-title" id="titleAntiguas">Películas Antiguas</h2>
+
+        <div class="movies-container" id="containerAntiguas">
+            <div class="movies-grid" id="oldMoviesGrid"></div>
+        </div>
+
+        <h2 class="section-title" id="titleHorror">Para No Dormir</h2>
+
+        <div class="movies-container" id="containerHorror">
+            <div class="movies-grid" id="horrorMoviesGrid"></div>
+        </div>
+
+        <h2 class="section-title" id="titleFavoritos" style="display: none;">Tus películas Favoritas:</h2>
+
+        <div id="containerFavoritos" style="display: none; padding: 0; margin-top: -10px; margin-bottom: 30px;">
+            <div id="favoritosMoviesGrid"></div>
+        </div>
+    </div>
+
+    <!-- Página de detalle de película -->
+    <div class="movie-detail-page" id="movieDetailPage">
+        <div class="detail-container">
+            <div class="video-wrapper">
+                <iframe id="movieIframe" src="" frameborder="0" allowfullscreen></iframe>
+            </div>
+            <div class="title-row">
+                <h1 class="detail-title" id="detailTitle"></h1>
+                <button class="favorite-icon-btn" id="favoriteIconBtn" onclick="toggleFavoriteFromIcon()">
+                    <i class="far fa-heart" id="favoriteIcon"></i>
+                </button>
+            </div>
+            <div class="detail-meta" id="detailMeta"></div>
+            <div class="detail-description" id="detailDescription"></div>
+            <div class="detail-cast" id="detailCast"></div>
+            <div class="detail-info" id="detailInfo"></div>
+
+            <!-- Separador y recomendaciones -->
+            <div class="recommendations-section">
+                <div class="separator-line"></div>
+                <h2 class="recommendations-title">También podría gustarte</h2>
+                <div class="recommendations-grid" id="recommendationsGrid"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Página de búsqueda -->
+    <div class="search-page" id="searchPage" style="display: none;">
+        <div class="search-header">
+            <button class="search-back-btn" onclick="closeSearchPage()">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <div class="search-input-container">
+                <input type="text" class="search-input" id="searchInput" placeholder="Buscar película..."
+                    onkeypress="handleSearchKeyPress(event)">
+                <button class="search-btn" onclick="performSearch()">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="search-content">
+            <!-- Historial de búsquedas (solo se muestra cuando no hay búsqueda activa) -->
+            <div id="searchHistorySection">
+                <div class="search-section-header">
+                    <h3 class="search-section-title">Historial de búsquedas</h3>
+                    <button class="clear-history-btn" onclick="clearSearchHistory()" id="clearHistoryBtn"
+                        style="display: none;">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+                <div class="search-history-list" id="searchHistoryList"></div>
+            </div>
+
+            <!-- Búsquedas populares (solo se muestra cuando no hay búsqueda activa) -->
+            <div id="popularSearchesSection">
+                <h3 class="search-section-title">Búsquedas populares</h3>
+                <div class="popular-searches-list" id="popularSearchesList"></div>
+            </div>
+
+            <!-- Resultados de búsqueda -->
+            <div id="searchResultsSection" style="display: none;">
+                <h3 class="search-section-title" id="searchResultsTitle"></h3>
+                <div class="search-results-grid" id="searchResultsGrid"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Página de configuración -->
+    <div class="settings-page" id="settingsPage" style="display: none;">
+        <div class="settings-user-section">
+            <div class="settings-user-avatar">
+                <i class="fas fa-user"></i>
+            </div>
+            <div class="settings-user-name">Usuario invitado</div>
+        </div>
+
+        <h3 class="settings-section-title">Más Funciones</h3>
+
+        <div class="settings-menu">
+            <div class="settings-menu-item">
+                <i class="fas fa-paint-brush"></i>
+                <span>Personalización</span>
+                <i class="fas fa-chevron-right settings-menu-arrow"></i>
+            </div>
+            <div class="settings-menu-item">
+                <i class="fab fa-facebook"></i>
+                <span>Facebook</span>
+                <i class="fas fa-chevron-right settings-menu-arrow"></i>
+            </div>
+            <div class="settings-menu-item">
+                <i class="fab fa-instagram"></i>
+                <span>Instagram</span>
+                <i class="fas fa-chevron-right settings-menu-arrow"></i>
+            </div>
+            <div class="settings-menu-item">
+                <i class="fas fa-globe"></i>
+                <span>Web</span>
+                <i class="fas fa-chevron-right settings-menu-arrow"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- Panel de filtros -->
+    <div class="filter-overlay" id="filterOverlay">
+        <div class="filter-panel-header">
+            <h2 class="filter-panel-title">Categorías</h2>
+            <button class="filter-close-btn" onclick="closeFilterPanel()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="filter-categories-list" id="filterCategoriesList"></div>
+    </div>
+
+    <!-- Barra de navegación inferior -->
+    <div class="bottom-nav">
+        <button class="nav-button active" id="navHome" onclick="navigateToHome()">
+            <i class="fas fa-home"></i>
+        </button>
+        <button class="nav-button" id="navFavorites" onclick="navigateToFavorites()">
+            <i class="fas fa-heart"></i>
+        </button>
+        <button class="nav-button" id="navSettings" onclick="navigateToSettings()">
+            <i class="fas fa-cog"></i>
+        </button>
+    </div>
+
+    <script>
+        // Base de datos de películas
+        const movies = [
+            {
+                "id": "cazadores-del-fin-del-mundo",
+                "titulo": "Cazadores Del Fin Del Mundo",
+                "portada": "https://image.tmdb.org/t/p/w500/6VTnUQx6nY3UsZUV0BQX5S6l1Nq.jpg",
+                "banner": "https://image.tmdb.org/t/p/w1280/kHOfxq7cMTXyLbj0UmdoGhT540O.jpg",
+                "categorias": [
+                    "Ciencia ficción",
+                    "Acción",
+                    "Comedia"
+                ],
+                "descripcion": "Un grupo de cazadores de tesoros postapocalípticos busca reliquias antiguas en una tierra que ha quedado casi destruida por una enorme erupción solar.",
+                "año": "2025",
+                "pais": [
+                    "United States of America"
+                ],
+                "director": [
+                    "J.J. Perry"
+                ],
+                "actores": [
+                    "Dave Bautista",
+                    "Ольга Куриленко",
+                    "Kristofer Hivju",
+                    "Samuel L. Jackson",
+                    "Daniel Bernhardt",
+                    "Eden Epstein",
+                    "George Somner",
+                    "Sergio Freijo",
+                    "Lukáš Frlajs",
+                    "Phil Zimmerman"
+                ],
+                "calificacion": 6.8,
+                "videomp4": "https://drive.google.com/file/d/1dBAjMtN9efNXkAGunHScUOzH7M8V8SfR/preview"
+            },
+            {
+                "id": "una-pelicula-de-minecraft",
+                "titulo": "Una película de Minecraft",
+                "portada": "https://image.tmdb.org/t/p/w500/rZYYmjgyF5UP1AVsvhzzDOFLCwG.jpg",
+                "banner": "https://image.tmdb.org/t/p/w1280/2Nti3gYAX513wvhp8IiLL6ZDyOm.jpg",
+                "categorias": [
+                    "Familia",
+                    "Fantasía",
+                    "Comedia",
+                    "Aventura",
+                    "Acción"
+                ],
+                "descripcion": "Henry, Natalie, Dawn y Garrett, cuatro inadaptados, son arrastrados a un misterioso portal hacia el extraño y cúbico mundo principal. Para volver a casa, tendrán que dominar este mundo con la ayuda de un artesano inesperado y experto llamado, Steve, mientras se embarcan en una búsqueda mágica.",
+                "año": "2025",
+                "pais": [
+                    "Sweden",
+                    "United States of America"
+                ],
+                "director": [
+                    "Jared Hess"
+                ],
+                "actores": [
+                    "Jason Momoa",
+                    "Jack Black",
+                    "Sebastian Eugene Hansen",
+                    "Emma Myers",
+                    "Danielle Brooks",
+                    "Jennifer Coolidge",
+                    "Rachel House",
+                    "Allan Henry",
+                    "Bram Scott-Breheny",
+                    "Moana Williams"
+                ],
+                "calificacion": 6.4,
+                "videomp4": "video.mp4"
+            },
+            {
+                "id": "blanca-nieves",
+                "titulo": "Blanca Nieves",
+                "portada": "https://image.tmdb.org/t/p/w500/sm91FNDF6OOKU4hT9BDW6EMoyDB.jpg",
+                "banner": "https://image.tmdb.org/t/p/w1280/tyfO9jHgkhypUFizRVYD0bytPjP.jpg",
+                "categorias": [
+                    "Familia",
+                    "Fantasía"
+                ],
+                "descripcion": "Una adaptación en vivo del clásico cuento de hadas sobre una hermosa joven princesa que, mientras es acosada por una reina celosa, busca refugio en la casa de siete enanos en la campiña alemana.",
+                "año": "2025",
+                "pais": [
+                    "United States of America"
+                ],
+                "director": [
+                    "Marc Webb"
+                ],
+                "actores": [
+                    "Rachel Zegler",
+                    "Gal Gadot",
+                    "Andrew Burnap",
+                    "Andrew Barth Feldman",
+                    "Jeremy Swift",
+                    "Jason Kravits",
+                    "Martin Klebba",
+                    "George Salazar",
+                    "Tituss Burgess",
+                    "Andy Grotelueschen"
+                ],
+                "calificacion": 4.3,
+                "videomp4": "video.mp4"
+            },
+            {
+                "id": "shrek-4-para-siempre",
+                "titulo": "Shrek 4: Para Siempre",
+                "portada": "https://image.tmdb.org/t/p/w500/3MyKXb1ozCfq61tPNKpIggwvP6J.jpg",
+                "banner": "https://image.tmdb.org/t/p/w1280/uzzTystB8lL0mRDII5Sfs5HxgkI.jpg",
+                "categorias": [
+                    "Comedia",
+                    "Aventura",
+                    "Fantasía",
+                    "Animación",
+                    "Familia"
+                ],
+                "descripcion": "Rumpelstiltskin engaña a un Shrek agobiado por la crisis de la mediana edad para que se deje borrar de la existencia y sea trasladado a una oscura línea temporal alternativa en la que Rumpelstiltskin gobierna de forma suprema.",
+                "año": "2010",
+                "pais": [
+                    "United States of America"
+                ],
+                "director": [
+                    "Mike Mitchell"
+                ],
+                "actores": [
+                    "Mike Myers",
+                    "Eddie Murphy",
+                    "Cameron Diaz",
+                    "Antonio Banderas",
+                    "Walt Dohrn",
+                    "Julie Andrews",
+                    "John Cleese",
+                    "Jon Hamm",
+                    "Jane Lynch",
+                    "Craig Robinson"
+                ],
+                "calificacion": 6.4,
+                "videomp4": "video.mp4"
+            },
+            {
+                "id": "coco",
+                "titulo": "Coco",
+                "portada": "https://image.tmdb.org/t/p/w500/oburjHqzOrTtDLYbLunKLwUHhk1.jpg",
+                "banner": "https://image.tmdb.org/t/p/w1280/wSJHuSD7ojzoXifWjOAjxV7UpEL.jpg",
+                "categorias": [
+                    "Familia",
+                    "Animación",
+                    "Música",
+                    "Aventura"
+                ],
+                "descripcion": "A pesar de la desconcertante prohibición de la generación de música de su familia, Miguel sueña con convertirse en un músico consumado como su ídolo, Ernesto de la Cruz. Desesperado por demostrar su talento, Miguel se encuentra en la deslumbrante y colorida Tierra de los Muertos siguiendo una misteriosa cadena de eventos. En el camino, se encuentra con el encantador y tramposo Héctor. Juntos, realizan un viaje extraordinario para descubrir la historia real detrás de la familia de Miguel.",
+                "año": "2017",
+                "pais": [
+                    "United States of America"
+                ],
+                "director": [
+                    "Lee Unkrich"
+                ],
+                "actores": [
+                    "Anthony Gonzalez",
+                    "Gael García Bernal",
+                    "Benjamin Bratt",
+                    "Alanna Ubach",
+                    "Renée Victor",
+                    "Jaime Camil",
+                    "Alfonso Arau",
+                    "Herbert Siguenza",
+                    "Gabriel Iglesias",
+                    "Lombardo Boyar"
+                ],
+                "calificacion": 8.2,
+                "videomp4": "video.mp4"
+            },
+            {
+                "id": "it-eso",
+                "titulo": "It (Eso)",
+                "portada": "https://image.tmdb.org/t/p/w500/p77sfJRQyqxvTDy6ulGLnw0uAhh.jpg",
+                "banner": "https://image.tmdb.org/t/p/w1280/rAQcPrEaPzDRVNX7XX5TWyxCGFN.jpg",
+                "categorias": [
+                    "Terror",
+                    "Suspense"
+                ],
+                "descripcion": "En el verano de 1989, un grupo de niños maltratados se unieron para destruir a un monstruo cambia-formas, que se disfraza de payaso y se aprovecha de los niños de Derry, su pequeño pueblo de Maine.",
+                "año": "2017",
+                "pais": [
+                    "United States of America"
+                ],
+                "director": [
+                    "Andy Muschietti"
+                ],
+                "actores": [
+                    "Bill Skarsgård",
+                    "Jaeden Martell",
+                    "Sophia Lillis",
+                    "Jeremy Ray Taylor",
+                    "Finn Wolfhard",
+                    "Jack Dylan Grazer",
+                    "Chosen Jacobs",
+                    "Wyatt Oleff",
+                    "Nicholas Hamilton",
+                    "Jackson Robert Scott"
+                ],
+                "calificacion": 7.2,
+                "videomp4": "video.mp4"
+            },
+            {
+                "id": "ratatouille",
+                "titulo": "Ratatouille",
+                "portada": "https://image.tmdb.org/t/p/w500/nGUelOVetiRpY2wTBMHTbrTIGYC.jpg",
+                "banner": "https://image.tmdb.org/t/p/w1280/xgDj56UWyeWQcxQ44f5A3RTWuSs.jpg",
+                "categorias": [
+                    "Animación",
+                    "Comedia",
+                    "Familia",
+                    "Fantasía"
+                ],
+                "descripcion": "Remy, una simpática rata, sueña en convertirse en un chef que pueda crear sus obras culinarias a su gusto. Pero cuando termina en la alcantarilla debajo de uno de los mejores restaurantes de París, el Roedor Gourmet, se encuentra en el lugar ideal para hacer realidad su sueño.",
+                "año": "2007",
+                "pais": [
+                    "United States of America"
+                ],
+                "director": [
+                    "Brad Bird"
+                ],
+                "actores": [
+                    "Patton Oswalt",
+                    "Ian Holm",
+                    "Lou Romano",
+                    "Brian Dennehy",
+                    "Peter Sohn",
+                    "Peter O'Toole",
+                    "Brad Garrett",
+                    "Janeane Garofalo",
+                    "Will Arnett",
+                    "Julius Callahan"
+                ],
+                "calificacion": 7.8,
+                "videomp4": "video.mp4"
+            },
+            {
+                "id": "yo-antes-de-ti",
+                "titulo": "Yo Antes de Ti",
+                "portada": "https://image.tmdb.org/t/p/w500/5vftJe6vqxhx4DPJcGbzSy1QJRI.jpg",
+                "banner": "https://image.tmdb.org/t/p/w1280/3WK7p9EdZmmvB1IbB2Vw9Rf4lXH.jpg",
+                "categorias": [
+                    "Drama",
+                    "Romance"
+                ],
+                "descripcion": "La joven y peculiar Louisa «Lou» Clark pasa de un empleo a otro para ayudar a mantener a su familia. Su alegre actitud se pone a prueba cuando ella se convierte en proveedor de cuidados para Will Traynor, un joven y adinerado banquero que quedó paralizado en un accidente dos años atrás. La perspectiva cínica de Will comienza a cambiar cuando Louisa le muestra que vale la pena vivir. Conforme se fortalece su vínculo, sus vidas y corazones cambian en maneras que ninguno de los dos jamás hubiera imaginado.",
+                "año": "2016",
+                "pais": [
+                    "United States of America"
+                ],
+                "director": [
+                    "Thea Sharrock"
+                ],
+                "actores": [
+                    "Emilia Clarke",
+                    "Sam Claflin",
+                    "Janet McTeer",
+                    "Charles Dance",
+                    "Brendan Coyle",
+                    "Jenna Coleman",
+                    "Matthew Lewis",
+                    "Samantha Spiro",
+                    "Stephen Peacocke",
+                    "Vanessa Kirby"
+                ],
+                "calificacion": 7.9,
+                "videomp4": "video.mp4"
+            },
+            {
+                "id": "capitan-america-un-nuevo-mundo",
+                "titulo": "Capitán América: Un nuevo mundo",
+                "portada": "https://image.tmdb.org/t/p/w500/vUNj55xlF0pSU5FU3yDHC6L5wVX.jpg",
+                "banner": "https://image.tmdb.org/t/p/w1280/8eifdha9GQeZAkexgtD45546XKx.jpg",
+                "categorias": [
+                    "Acción",
+                    "Suspense",
+                    "Ciencia ficción"
+                ],
+                "descripcion": "Tras reunirse con el recientemente electo presidente de los Estados Unidos Thaddeus Ross, Sam se encuentra en medio de un conflicto internacional. Debe descubrir la razón de un nefasto complot mundial antes de que el verdadero artífice detrás del mismo haga que el mundo entero entre en caos.",
+                "año": "2025",
+                "pais": [
+                    "United States of America"
+                ],
+                "director": [
+                    "Julius Onah"
+                ],
+                "actores": [
+                    "Anthony Mackie",
+                    "Harrison Ford",
+                    "Danny Ramirez",
+                    "Shira Haas",
+                    "Tim Blake Nelson",
+                    "Carl Lumbly",
+                    "Giancarlo Esposito",
+                    "Liv Tyler",
+                    "Xosha Roquemore",
+                    "Jóhannes Haukur Jóhannesson"
+                ],
+                "calificacion": 6,
+                "videomp4": "video.mp4"
+            },
+            {
+                "id": "forrest-gump",
+                "titulo": "Forrest Gump",
+                "portada": "https://image.tmdb.org/t/p/w500/oiqKEhEfxl9knzWXvWecJKN3aj6.jpg",
+                "banner": "https://image.tmdb.org/t/p/w1280/67HggiWaP9ZLv5sPYmyRV37yAJM.jpg",
+                "categorias": [
+                    "Comedia",
+                    "Drama",
+                    "Romance"
+                ],
+                "descripcion": "Basada en la novela homónima del escritor Winston Groom, la película fue dirigida por Robert Zemeckis y protagonizada por Tom Hanks. La historia describe varias décadas de la vida de Forrest Gump, un nativo de Alabama que sufre de una leve discapacidad intelectual.",
+                "año": "1994",
+                "pais": [
+                    "United States of America"
+                ],
+                "director": [
+                    "Robert Zemeckis"
+                ],
+                "actores": [
+                    "Tom Hanks",
+                    "Robin Wright",
+                    "Gary Sinise",
+                    "Sally Field",
+                    "Mykelti Williamson",
+                    "Michael Conner Humphreys",
+                    "Hanna Hall",
+                    "Haley Joel Osment",
+                    "Siobhan Fallon Hogan",
+                    "Rebecca Williams"
+                ],
+                "calificacion": 8.5,
+                "videomp4": "video.mp4"
+            },
+            {
+                "id": "duna-parte-dos",
+                "titulo": "Duna: Parte dos",
+                "portada": "https://image.tmdb.org/t/p/w500/6o5cJjA4srfvU52UKWaqPUuPPgl.jpg",
+                "banner": "https://image.tmdb.org/t/p/w1280/xOMo8BRK7PfcJv9JCnx7s5hj0PX.jpg",
+                "categorias": [
+                    "Ciencia ficción",
+                    "Aventura"
+                ],
+                "descripcion": "Sigue la mítica jornada de Paul Atreides mientras se une con Chani y los Fremen en su camino hacia la venganza contra los conspiradores que destruyeron a su familia. Enfrentado a una elección entre el amor de su vida y el destino del universo conocido, Paul se esfuerza por prevenir un terrible futuro que solo él puede prever.",
+                "año": "2024",
+                "pais": [
+                    "United States of America"
+                ],
+                "director": [
+                    "Denis Villeneuve"
+                ],
+                "actores": [
+                    "Timothée Chalamet",
+                    "Zendaya",
+                    "Rebecca Ferguson",
+                    "Javier Bardem",
+                    "Josh Brolin",
+                    "Austin Butler",
+                    "Florence Pugh",
+                    "Dave Bautista",
+                    "Christopher Walken",
+                    "Léa Seydoux"
+                ],
+                "calificacion": 8.1,
+                "videomp4": "video.mp4"
+            },
+            {
+                "id": "el-padrino",
+                "titulo": "El Padrino",
+                "portada": "https://image.tmdb.org/t/p/w500/tUeZeWzbw37sOIpDsuK8qq8Unor.jpg",
+                "banner": "https://image.tmdb.org/t/p/w1280/jdHsptJbtalEuVhCV5i7kSC3g0x.jpg",
+                "categorias": [
+                    "Drama",
+                    "Crimen"
+                ],
+                "descripcion": "Don Vito Corleone es el respetado y temido jefe de una de las cinco familias de la mafia de Nueva York. Tiene cuatro hijos: una chica, Connie, y tres varones: el impulsivo Sonny, el pusilánime Freddie y Michael, que no quiere saber nada de los negocios de su padre. Cuando Corleone, siempre aconsejado por su consejero Tom Hagen, se niega a intervenir en el negocio de las drogas, el jefe de otra banda ordena su asesinato. Empieza entonces una violenta y cruenta guerra entre las familias mafiosas.",
+                "año": "1972",
+                "pais": [
+                    "United States of America"
+                ],
+                "director": [
+                    "Francis Ford Coppola"
+                ],
+                "actores": [
+                    "Marlon Brando",
+                    "Al Pacino",
+                    "James Caan",
+                    "Robert Duvall",
+                    "Richard S. Castellano",
+                    "Diane Keaton",
+                    "Talia Shire",
+                    "Gianni Russo",
+                    "Sterling Hayden",
+                    "John Marley"
+                ],
+                "calificacion": 8.7,
+                "videomp4": "video.mp4"
+            },
+            {
+                "id": "el-conjuro-4-ultimos-ritos",
+                "titulo": "El Conjuro 4: Últimos ritos",
+                "portada": "https://image.tmdb.org/t/p/w500/dyW5mX4wwDoZWgTYObx6pg9V0i9.jpg",
+                "banner": "https://image.tmdb.org/t/p/w1280/tcBX2dtkNozZ0uDLVaxXrE6rqyN.jpg",
+                "categorias": [
+                    "Terror"
+                ],
+                "descripcion": "En 1986, los investigadores paranormales, Ed y Lorraine Warren, salen de su retiro para investigar, junto con su hija adulta Judy y su compañero Tony, el caso Smurl, una entidad demoníaca más oscura.",
+                "año": "2025",
+                "pais": [
+                    "United States of America"
+                ],
+                "director": [
+                    "Michael Chaves"
+                ],
+                "actores": [
+                    "Vera Farmiga",
+                    "Patrick Wilson",
+                    "Mia Tomlinson",
+                    "Ben Hardy",
+                    "Rebecca Calder",
+                    "Tilly Walker",
+                    "Elliot Cowan",
+                    "Shannon Kook",
+                    "Steve Coulter",
+                    "Kíla Lord Cassidy"
+                ],
+                "calificacion": 7,
+                "videomp4": "video.mp4"
+            },
+            {
+                "id": "the-jester-2",
+                "titulo": "The Jester 2",
+                "portada": "https://image.tmdb.org/t/p/w500/47dsw1jSOV0Be5zmy7CtLhYpqU.jpg",
+                "banner": "https://image.tmdb.org/t/p/w1280/yZtnGzfZER0QU7ZG4r4RaZAaXJH.jpg",
+                "categorias": [
+                    "Terror",
+                    "Suspense",
+                    "Crimen"
+                ],
+                "descripcion": "Cuando la maga adolescente Max se cruza con el siniestro Bufón en la noche de Halloween, debe ser más astuta que un asesino sobrenatural cuya magia es demasiado real y cuyos trucos siempre acaban en sangre.",
+                "año": "2025",
+                "pais": [
+                    "United States of America"
+                ],
+                "director": [
+                    "Colin Krawchuk"
+                ],
+                "actores": [
+                    "Michael Sheffield",
+                    "Kaitlyn Trentham",
+                    "Dingani Beza",
+                    "Hassen Kacem",
+                    "Jessica Ambuehl",
+                    "Charles Mckee",
+                    "Patrick Loree"
+                ],
+                "calificacion": 6.8,
+                "videomp4": "video.mp4"
+            },
+            {
+                "id": "telefono-negro-2",
+                "titulo": "Teléfono negro 2",
+                "portada": "https://image.tmdb.org/t/p/w500/A6QNBDV1u3oaq3guBHGKcEJkYkX.jpg",
+                "banner": "https://image.tmdb.org/t/p/w1280/GNeuKnbZRZj5JhKfnJOPyKJuVA.jpg",
+                "categorias": [
+                    "Terror",
+                    "Suspense"
+                ],
+                "descripcion": "A sus 17 años, Finney Blake lucha por su vida tras su cautiverio. Sin embargo, su hermana Gwen empieza a recibir llamadas de un teléfono negro en sus sueños y visiones inquietantes qué los conduce a ambos en un campamento de invierno.",
+                "año": "2025",
+                "pais": [
+                    "United States of America"
+                ],
+                "director": [
+                    "Scott Derrickson"
+                ],
+                "actores": [
+                    "Ethan Hawke",
+                    "Mason Thames",
+                    "Madeleine McGraw",
+                    "Demián Bichir",
+                    "Miguel Mora",
+                    "Jeremy Davies",
+                    "Arianna Rivas",
+                    "Maev Beaty",
+                    "Graham Abbey",
+                    "James Ransone"
+                ],
+                "calificacion": 7.1,
+                "videomp4": "video.mp4"
+            },
+            {
+                "id": "bob-esponja-3-al-rescate",
+                "titulo": "Bob Esponja 3: Al Rescate",
+                "portada": "https://image.tmdb.org/t/p/w500/fi2pg2mtAZwhq3qVuAs6PztjnHT.jpg",
+                "banner": "https://image.tmdb.org/t/p/w1280/wu1uilmhM4TdluKi2ytfz8gidHf.jpg",
+                "categorias": [
+                    "Familia",
+                    "Comedia",
+                    "Aventura",
+                    "Animación"
+                ],
+                "descripcion": "Los amigos son lo más importante para Bob Esponja, por lo que no dudará en salir de la comodidad de su hogar en Fondo de Bikini, junto con Patricio, para adentrarse en un mundo desconocido, arriesgando sus vidas, para salvar a su amigo de la infancia, Gary, de las garras del rey Poseidón que le ha secuestrado en la Ciudad Perdida de la Atlantida. ¿Serán capaces de lograrlo?",
+                "año": "2020",
+                "pais": [
+                    "United States of America",
+                    "Canada"
+                ],
+                "director": [
+                    "Tim Hill"
+                ],
+                "actores": [
+                    "Tom Kenny",
+                    "Bill Fagerbakke",
+                    "Rodger Bumpass",
+                    "Mr. Lawrence",
+                    "Keanu Reeves",
+                    "Clancy Brown",
+                    "Carolyn Lawrence",
+                    "Matt Berry",
+                    "Jill Talley",
+                    "Mary Jo Catlett"
+                ],
+                "calificacion": 7.4,
+                "videomp4": "video.mp4"
+            },
+            {
+                "id": "captain-hook-the-cursed-tides",
+                "titulo": "Captain Hook - The Cursed Tides",
+                "portada": "https://image.tmdb.org/t/p/w500/bcP7FtskwsNp1ikpMQJzDPjofP5.jpg",
+                "banner": "https://image.tmdb.org/t/p/w1280/ygOR390GzOX5Quv0kAAcUNDG7fp.jpg",
+                "categorias": [
+                    "Aventura",
+                    "Acción",
+                    "Terror"
+                ],
+                "descripcion": "",
+                "año": "2025",
+                "pais": [
+                    "United Kingdom"
+                ],
+                "director": [
+                    "Lars Janssen"
+                ],
+                "actores": [
+                    "Sean Cronin",
+                    "Ewen Weatherburn",
+                    "Cameron Ashplant",
+                    "Richard Rowden",
+                    "Destiny Viva",
+                    "Brandon Ashplant",
+                    "Dean Marshall",
+                    "Dave Hyett",
+                    "John Craggs"
+                ],
+                "calificacion": 4.8,
+                "videomp4": "drive.mp4"
+            }
+        ];
+
+        let currentCategory = "all";
+        let searchTerm = "";
+        let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+        let searchHistory = JSON.parse(localStorage.getItem("searchHistory")) || [];
+
+        const moviesGrid = document.getElementById("moviesGrid");
+        const popularMoviesGrid = document.getElementById("popularMoviesGrid");
+        const oldMoviesGrid = document.getElementById("oldMoviesGrid");
+        const horrorMoviesGrid = document.getElementById("horrorMoviesGrid");
+        const movieDetailPage = document.getElementById("movieDetailPage");
+        const mainContainer = document.querySelector(".container");
+
+        // Contenedores de secciones
+        const containerTodos = document.getElementById("containerTodos");
+        const titleTodos = document.getElementById("titleTodos");
+        const todosMoviesGrid = document.getElementById("todosMoviesGrid");
+        const containerEstrenos = document.getElementById("containerEstrenos");
+        const titleEstrenos = document.getElementById("titleEstrenos");
+        const containerPopulares = document.getElementById("containerPopulares");
+        const titlePopulares = document.getElementById("titlePopulares");
+        const containerAntiguas = document.getElementById("containerAntiguas");
+        const titleAntiguas = document.getElementById("titleAntiguas");
+        const containerHorror = document.getElementById("containerHorror");
+        const titleHorror = document.getElementById("titleHorror");
+        const containerFavoritos = document.getElementById("containerFavoritos");
+        const titleFavoritos = document.getElementById("titleFavoritos");
+        const favoritosMoviesGrid = document.getElementById("favoritosMoviesGrid");
+        const bannerSection = document.querySelector(".banner-section");
+
+        // Mapeo de categorías
+        const categoryMap = {
+            "Recomendado": "all",
+            "Infantil": "Animación",
+            "Terror": "Terror",
+            "Acción": "Acción",
+            "Comedia": "Comedia",
+            "Romance": "Romance",
+            "Aventura": "Aventura",
+            "Favoritos": "favorites"
+        };
+
+        // Función genérica para renderizar películas
+        function renderMoviesInGrid(filteredMovies, gridElement) {
+            if (filteredMovies.length === 0) {
+                gridElement.innerHTML = '<div class="no-results">No se encontraron películas</div>';
+                return;
+            }
+
+            gridElement.innerHTML = filteredMovies.map(movie => `
+                <div class="movie-card" onclick="openDetailPage('${movie.id}')">
+                    <img src="${movie.portada}" alt="${movie.titulo}" class="movie-poster" 
+                         onerror="this.onerror=null; this.style.display='none';">
+                    <div class="movie-title">${movie.titulo}</div>
+                </div>
+            `).join("");
+        }
+
+        // Renderizar todas las secciones
+        function renderAllSections() {
+            // Estrenos 2025
+            let estrenosMovies = movies.filter(movie => movie.año === "2025");
+            renderMoviesInGrid(estrenosMovies, moviesGrid);
+
+            // Películas más populares (calificación 8 o más)
+            let popularMovies = movies.filter(movie => movie.calificacion && parseFloat(movie.calificacion) >= 8);
+            renderMoviesInGrid(popularMovies, popularMoviesGrid);
+
+            // Películas antiguas (desde 2010 hacia abajo)
+            let oldMovies = movies.filter(movie => parseInt(movie.año) <= 2010);
+            renderMoviesInGrid(oldMovies, oldMoviesGrid);
+
+            // Para no dormir (terror) - buscar en categorías
+            let horrorMovies = movies.filter(movie =>
+                movie.categorias && movie.categorias.some(cat => cat.toLowerCase() === "terror")
+            );
+            renderMoviesInGrid(horrorMovies, horrorMoviesGrid);
+        }
+
+        // Renderizar películas para las categorías principales
+        function renderMovies() {
+            let filteredMovies = movies;
+
+            // Filtrar por categoría
+            if (currentCategory === "favorites") {
+                filteredMovies = movies.filter(movie => favorites.includes(movie.id));
+            } else if (currentCategory !== "all") {
+                filteredMovies = movies.filter(movie =>
+                    movie.categorias && movie.categorias.some(cat =>
+                        cat.toLowerCase() === currentCategory.toLowerCase()
+                    )
+                );
+            }
+
+            // Filtrar por búsqueda
+            if (searchTerm) {
+                filteredMovies = filteredMovies.filter(movie =>
+                    movie.titulo.toLowerCase().includes(searchTerm.toLowerCase())
+                );
+            }
+
+            renderMoviesInGrid(filteredMovies, moviesGrid);
+        }
+
+        // Renderizar las tres secciones para una categoría específica
+        function renderCategorySections() {
+            // Filtrar películas por categoría
+            let categoryMovies;
+            let categoryDisplayName = "";
+
+            // Si la categoría es "Animación" (Infantil), buscar también "Familia"
+            if (currentCategory.toLowerCase() === "animación") {
+                categoryMovies = movies.filter(movie =>
+                    movie.categorias && movie.categorias.some(cat =>
+                        cat.toLowerCase() === "animación" || cat.toLowerCase() === "familia"
+                    )
+                );
+                categoryDisplayName = "Animación";
+            } else {
+                categoryMovies = movies.filter(movie =>
+                    movie.categorias && movie.categorias.some(cat =>
+                        cat.toLowerCase() === currentCategory.toLowerCase()
+                    )
+                );
+
+                // Obtener el nombre real de la categoría desde la base de datos
+                if (categoryMovies.length > 0 && categoryMovies[0].categorias) {
+                    const foundCategory = categoryMovies[0].categorias.find(cat =>
+                        cat.toLowerCase() === currentCategory.toLowerCase()
+                    );
+                    categoryDisplayName = foundCategory || currentCategory.charAt(0).toUpperCase() + currentCategory.slice(1);
+                } else {
+                    categoryDisplayName = currentCategory.charAt(0).toUpperCase() + currentCategory.slice(1);
+                }
+            }
+
+            // Actualizar título de "Todos"
+            titleTodos.textContent = `Todo en ${categoryDisplayName}`;
+
+            // Todos de la categoría
+            renderMoviesInGrid(categoryMovies, todosMoviesGrid);
+
+            // Estrenos 2025 de la categoría
+            let estrenosMovies = categoryMovies.filter(movie => movie.año === "2025");
+            renderMoviesInGrid(estrenosMovies, moviesGrid);
+
+            // Populares de la categoría (calificación 8 o más)
+            let popularMovies = categoryMovies.filter(movie =>
+                movie.calificacion && parseFloat(movie.calificacion) >= 8
+            );
+            renderMoviesInGrid(popularMovies, popularMoviesGrid);
+
+            // Antiguas de la categoría (desde 2010 hacia abajo)
+            let oldMovies = categoryMovies.filter(movie =>
+                parseInt(movie.año) <= 2010
+            );
+            renderMoviesInGrid(oldMovies, oldMoviesGrid);
+        }
+
+        // Abrir página de detalle de película (función global)
+        window.openDetailPage = function (movieId) {
+            const movie = movies.find(m => m.id === movieId);
+            if (!movie) return;
+
+            // Guardar el contexto anterior si no estamos ya en una película
+            if (!window.location.search.includes('movie=')) {
+                window.previousContext = window.location.search;
+            }
+
+            // Guardar el ID de la película actual para el botón de favorito
+            window.currentMovieId = movieId;
+            const isFavorite = favorites.includes(movieId);
+
+            // Actualizar ícono de favorito
+            const favoriteIcon = document.getElementById("favoriteIcon");
+            const favoriteBtn = document.getElementById("favoriteIconBtn");
+            if (favoriteIcon && favoriteBtn) {
+                if (isFavorite) {
+                    favoriteIcon.className = "fas fa-heart";
+                    favoriteBtn.classList.add("active");
+                } else {
+                    favoriteIcon.className = "far fa-heart";
+                    favoriteBtn.classList.remove("active");
+                }
+            }
+
+            // Mostrar título con calificación
+            document.getElementById("detailTitle").innerHTML = `
+                <span>${movie.titulo}</span>
+                <span style="margin-left: 5px; color: #FFD700; font-size: 14px;">${movie.calificacion || ""}</span>
+            `;
+
+            // Mostrar meta: países | año | categorías
+            const paises = movie.pais ? movie.pais.join(", ") : "N/A";
+            const año = movie.año || "N/A";
+            const categorias = movie.categorias ? movie.categorias.join(", ") : "N/A";
+            document.getElementById("detailMeta").innerHTML = `${paises} <span class="separator">❘</span> ${año} <span class="separator">❘</span> ${categorias}`;
+
+            // Configurar video (solo iframes)
+            const videoWrapper = movieDetailPage.querySelector(".video-wrapper");
+            if (movie.videomp4) {
+                videoWrapper.innerHTML = `<iframe name="xumerpelis" width="100%" height="100%" src="${movie.videomp4}" scrolling="no" marginwidth="0" marginheight="0" style="position: absolute; top: 0; left: 0; border: 0px none #ffffff;"></iframe>`;
+            } else {
+                const iframe = document.getElementById("movieIframe");
+                if (iframe) {
+                    iframe.src = movie.videoUrl || "";
+                }
+            }
+
+            // Mostrar Director y Actores
+            const allActors = movie.actores || [];
+            const firstThreeActors = allActors.slice(0, 3);
+            const hasMoreActors = allActors.length > 3;
+
+            let actorsHTML = '';
+            if (hasMoreActors) {
+                actorsHTML = `${firstThreeActors.join(", ")} <button class="read-more-btn" onclick="expandActors('${movieId}')">Ver más...</button>`;
+            } else {
+                actorsHTML = allActors.length > 0 ? allActors.join(", ") : "N/A";
+            }
+
+            document.getElementById("detailCast").innerHTML = `
+                <div class="cast-item">
+                    <span class="cast-label">Director:</span>
+                    <span>${movie.director ? movie.director.join(", ") : "N/A"}</span>
+                </div>
+                <div class="cast-item">
+                    <span class="cast-label">Actores:</span>
+                    <span id="actorsDisplay">${actorsHTML}</span>
+                </div>
+            `;
+
+            document.getElementById("detailInfo").innerHTML = ``;
+            // Configurar descripción con "ver más"
+            const descElement = document.getElementById("detailDescription");
+            const fullDescription = movie.descripcion;
+            descElement.innerHTML = fullDescription;
+
+            // Verificar si la descripción necesita truncarse
+            setTimeout(() => {
+                const descHeight = descElement.scrollHeight;
+                const lineHeight = parseInt(getComputedStyle(descElement).lineHeight);
+                const maxLines = 3;
+                const maxHeight = lineHeight * maxLines;
+
+                if (descHeight > maxHeight) {
+                    descElement.classList.add("collapsed");
+                    descElement.innerHTML = fullDescription + '<br><button class="read-more-btn" onclick="expandDescription()">Ver más...</button>';
+                }
+            }, 100);
+
+            // Mostrar recomendaciones
+            renderRecommendations(movieId);
+
+            // Ocultar contenedor principal y mostrar página de detalle
+            mainContainer.style.display = "none";
+            movieDetailPage.classList.add("active");
+            document.getElementById("settingsPage").style.display = "none";
+            document.getElementById("searchPage").style.display = "none";
+
+            // Ocultar barra de navegación inferior y ajustar padding
+            const bottomNav = document.querySelector(".bottom-nav");
+            if (bottomNav) {
+                bottomNav.style.display = "none";
+            }
+            // Eliminar padding inferior cuando la barra está oculta
+            movieDetailPage.style.paddingBottom = "20px";
+
+            // Actualizar URL con el ID de la película
+            window.history.pushState({}, '', `?movie=${movie.id}`);
+
+            // Actualizar botones de navegación (mantener home activo)
+            updateNavButtons("home");
+        }
+
+        // Función para expandir descripción
+        function expandDescription() {
+            const descElement = document.getElementById("detailDescription");
+            const fullText = descElement.textContent;
+            descElement.classList.remove("collapsed");
+            descElement.innerHTML = fullText;
+        }
+
+        // Función para expandir actores
+        function expandActors(movieId) {
+            const movie = movies.find(m => m.id === movieId);
+            if (movie && movie.actores) {
+                document.getElementById("actorsDisplay").innerHTML = movie.actores.join(", ");
+            }
+        }
+
+        // Renderizar recomendaciones basadas en la película actual
+        function renderRecommendations(currentMovieId) {
+            const currentMovie = movies.find(m => m.id === currentMovieId);
+            if (!currentMovie) return;
+
+            // Obtener películas relacionadas (misma categoría)
+            const relatedMovies = movies.filter(movie =>
+                movie.id !== currentMovieId &&
+                movie.categorias &&
+                movie.categorias.some(cat =>
+                    currentMovie.categorias && currentMovie.categorias.includes(cat)
+                )
+            );
+
+            // Si no hay suficientes películas relacionadas, tomar películas aleatorias
+            const recommendations = relatedMovies.length >= 6
+                ? relatedMovies.slice(0, 6)
+                : [...relatedMovies, ...movies.filter(m => m.id !== currentMovieId).slice(0, 6 - relatedMovies.length)];
+
+            const recommendationsGrid = document.getElementById("recommendationsGrid");
+            if (recommendationsGrid) {
+                recommendationsGrid.innerHTML = recommendations.map(movie => `
+                    <div class="movie-card" onclick="openDetailPage('${movie.id}')">
+                        <img src="${movie.portada}" alt="${movie.titulo}" class="movie-poster">
+                        <div class="movie-title">${movie.titulo}</div>
+                    </div>
+                `).join("");
+            }
+        }
+
+        // Toggle favoritos desde el ícono
+        function toggleFavoriteFromIcon() {
+            if (window.currentMovieId) {
+                toggleFavorite(window.currentMovieId);
+            }
+        }
+
+        // Toggle favoritos
+        function toggleFavorite(movieId) {
+            const index = favorites.indexOf(movieId);
+            const isFavorite = index > -1;
+
+            if (isFavorite) {
+                favorites.splice(index, 1);
+            } else {
+                favorites.push(movieId);
+            }
+            localStorage.setItem("favorites", JSON.stringify(favorites));
+
+            // Actualizar ícono de favorito
+            const favoriteIcon = document.getElementById("favoriteIcon");
+            const favoriteBtn = document.getElementById("favoriteIconBtn");
+            if (favoriteIcon && favoriteBtn) {
+                if (!isFavorite) {
+                    favoriteIcon.className = "fas fa-heart";
+                    favoriteBtn.classList.add("active");
+                } else {
+                    favoriteIcon.className = "far fa-heart";
+                    favoriteBtn.classList.remove("active");
+                }
+            }
+
+            // Actualizar las secciones según el contexto
+            if (searchTerm) {
+                // Si estamos buscando, solo renderizar la búsqueda
+                renderMovies();
+            } else if (currentCategory === "all") {
+                // Si estamos en "Recomendado", mostrar todas las secciones
+                renderAllSections();
+            } else {
+                // Si estamos en una categoría específica, usar renderMovies
+                renderMovies();
+            }
+        }
+
+        // Función para mostrar vista de favoritos
+        function showFavoritesView() {
+            // Ocultar banner
+            if (bannerSection) {
+                bannerSection.style.display = "none";
+            }
+
+            // Ocultar todas las secciones principales
+            containerTodos.style.display = "none";
+            titleTodos.style.display = "none";
+            containerEstrenos.style.display = "none";
+            titleEstrenos.style.display = "none";
+            containerPopulares.style.display = "none";
+            titlePopulares.style.display = "none";
+            containerAntiguas.style.display = "none";
+            titleAntiguas.style.display = "none";
+            containerHorror.style.display = "none";
+            titleHorror.style.display = "none";
+
+            // Mostrar sección de favoritos
+            containerFavoritos.style.display = "block";
+            titleFavoritos.style.display = "block";
+
+            // Renderizar películas favoritas en grid normal (3 columnas)
+            const favoritosMovies = movies.filter(movie => favorites.includes(movie.id));
+            if (favoritosMovies.length === 0) {
+                favoritosMoviesGrid.innerHTML = '<div class="no-results">No tienes películas favoritas aún</div>';
+            } else {
+                favoritosMoviesGrid.innerHTML = favoritosMovies.map(movie => `
+                    <div class="movie-card" onclick="openDetailPage('${movie.id}')">
+                        <img src="${movie.portada}" alt="${movie.titulo}" class="movie-poster"
+                         onerror="this.onerror=null; this.style.display='none';">
+                        <div class="movie-title">${movie.titulo}</div>
+                    </div>
+                `).join("");
+            }
+
+            // Actualizar categoría activa
+            currentCategory = "favorites";
+            document.querySelectorAll(".category-item").forEach(i => i.classList.remove("active"));
+            // No hay categoría de favoritos en el encabezado, se accede desde la barra inferior
+        }
+
+        // Función para mostrar vista normal
+        function showNormalView() {
+            // Ocultar página de configuración
+            document.getElementById("settingsPage").style.display = "none";
+
+            // Mostrar banner
+            if (bannerSection) {
+                bannerSection.style.display = "block";
+            }
+
+            // Ocultar sección de favoritos
+            containerFavoritos.style.display = "none";
+            titleFavoritos.style.display = "none";
+
+            // Mostrar secciones principales
+            if (currentCategory === "all") {
+                toggleSections(true);
+                renderAllSections();
+            } else {
+                toggleSections(false, true);
+                renderCategorySections();
+            }
+        }
+
+        // Función para mostrar/ocultar secciones
+        function toggleSections(showAll, showCategorySections = false) {
+            if (showAll) {
+                // Mostrar todas las secciones (Recomendado)
+                containerTodos.style.display = "none";
+                titleTodos.style.display = "none";
+                containerEstrenos.style.display = "block";
+                titleEstrenos.style.display = "block";
+                containerPopulares.style.display = "block";
+                titlePopulares.style.display = "block";
+                containerAntiguas.style.display = "block";
+                titleAntiguas.style.display = "block";
+                containerHorror.style.display = "block";
+                titleHorror.style.display = "block";
+            } else if (showCategorySections) {
+                // Mostrar solo las secciones para categorías (Todos, Estrenos, Populares, Antiguas)
+                containerTodos.style.display = "block";
+                titleTodos.style.display = "block";
+                containerEstrenos.style.display = "block";
+                titleEstrenos.style.display = "block";
+                containerPopulares.style.display = "block";
+                titlePopulares.style.display = "block";
+                containerAntiguas.style.display = "block";
+                titleAntiguas.style.display = "block";
+                containerHorror.style.display = "none";
+                titleHorror.style.display = "none";
+            } else {
+                // Ocultar todas excepto Estrenos (para búsqueda)
+                containerTodos.style.display = "none";
+                titleTodos.style.display = "none";
+                containerEstrenos.style.display = "block";
+                titleEstrenos.style.display = "block";
+                containerPopulares.style.display = "none";
+                titlePopulares.style.display = "none";
+                containerAntiguas.style.display = "none";
+                titleAntiguas.style.display = "none";
+                containerHorror.style.display = "none";
+                titleHorror.style.display = "none";
+            }
+        }
+
+        // Event listeners para categorías
+        document.querySelectorAll(".category-item").forEach(item => {
+            item.addEventListener("click", () => {
+                const categoryText = item.textContent;
+
+                // Limpiar parámetros de URL
+                window.history.pushState({}, '', window.location.pathname);
+
+                document.querySelectorAll(".category-item").forEach(i => i.classList.remove("active"));
+                item.classList.add("active");
+                currentCategory = categoryMap[categoryText] || "all";
+
+                // Actualizar botón de navegación a "home" cuando se selecciona una categoría
+                updateNavButtons("home");
+
+                // Mostrar vista normal
+                showNormalView();
+
+                // Mostrar secciones según la categoría
+                if (currentCategory !== "all" && currentCategory !== "favorites") {
+                    // Mostrar las tres secciones para la categoría (Estrenos, Populares, Antiguas)
+                    toggleSections(false, true);
+                    renderCategorySections();
+                } else if (currentCategory === "all") {
+                    toggleSections(true);
+                    renderAllSections();
+                }
+            });
+        });
+
+        // Event listener para búsqueda
+        const searchIcon = document.getElementById("headerSearchIcon");
+        searchIcon.addEventListener("click", () => {
+            // Abrir página de búsqueda
+            window.history.pushState({}, '', '?search');
+            openSearchPage();
+        });
+
+        // Event listener para filtro
+        const filterIcon = document.getElementById("headerFilterIcon");
+        filterIcon.addEventListener("click", () => {
+            openFilterPanel();
+        });
+
+        // Mapa de iconos por categoría
+        const categoryIcons = {
+            "Acción": "fa-fist-raised",
+            "Animación": "fa-film",
+            "Aventura": "fa-mountain",
+            "Ciencia ficción": "fa-rocket",
+            "Comedia": "fa-laugh",
+            "Crimen": "fa-user-secret",
+            "Drama": "fa-theater-masks",
+            "Familia": "fa-child",
+            "Fantasía": "fa-magic",
+            "Música": "fa-music",
+            "Romance": "fa-heart",
+            "Suspense": "fa-search",
+            "Terror": "fa-ghost"
+        };
+
+        // Función para abrir panel de filtros
+        function openFilterPanel() {
+            const overlay = document.getElementById("filterOverlay");
+            const filterCategoriesList = document.getElementById("filterCategoriesList");
+
+            // Extraer todas las categorías únicas de la base de datos
+            const allCategories = new Set();
+            movies.forEach(movie => {
+                if (movie.categorias) {
+                    movie.categorias.forEach(cat => allCategories.add(cat));
+                }
+            });
+
+            // Convertir a array y ordenar alfabéticamente
+            const categoriesArray = Array.from(allCategories).sort();
+
+            // Renderizar categorías
+            filterCategoriesList.innerHTML = categoriesArray.map(category => {
+                const icon = categoryIcons[category] || "fa-tag";
+                return `
+                    <div class="filter-category-item" onclick="navigateToCategory('${category}')">
+                        <i class="fas ${icon}"></i>
+                        <span>${category}</span>
+                    </div>
+                `;
+            }).join("");
+
+            overlay.classList.add("active");
+            filterIcon.classList.add("active");
+        }
+
+        // Función para cerrar panel de filtros
+        window.closeFilterPanel = function () {
+            const overlay = document.getElementById("filterOverlay");
+            overlay.classList.remove("active");
+            filterIcon.classList.remove("active");
+        }
+
+        // Función para navegar a una categoría
+        window.navigateToCategory = function (categoryName) {
+            // Cerrar panel de filtros
+            closeFilterPanel();
+
+            // Actualizar URL con la categoría
+            window.history.pushState({}, '', `?category=${encodeURIComponent(categoryName.toLowerCase())}`);
+
+            // Establecer la categoría actual
+            currentCategory = categoryName.toLowerCase();
+
+            // Actualizar categoría activa en el header
+            document.querySelectorAll(".category-item").forEach(i => i.classList.remove("active"));
+
+            // Mostrar vista normal con las secciones de la categoría
+            showNormalView();
+            toggleSections(false, true);
+            renderCategorySections();
+
+            // Actualizar botones de navegación
+            updateNavButtons("home");
+        }
+
+        // Función para abrir página de búsqueda
+        function openSearchPage() {
+            // Ocultar todas las páginas
+            mainContainer.style.display = "none";
+            movieDetailPage.classList.remove("active");
+            document.getElementById("settingsPage").style.display = "none";
+            document.getElementById("searchPage").style.display = "block";
+
+            // Ocultar barra de navegación
+            const bottomNav = document.querySelector(".bottom-nav");
+            if (bottomNav) {
+                bottomNav.style.display = "none";
+            }
+
+            // Mostrar búsquedas populares
+            showPopularSearches();
+        }
+
+        // Función para cerrar página de búsqueda
+        window.closeSearchPage = function () {
+            document.getElementById("searchPage").style.display = "none";
+            mainContainer.style.display = "block";
+
+            // Mostrar barra de navegación
+            const bottomNav = document.querySelector(".bottom-nav");
+            if (bottomNav) {
+                bottomNav.style.display = "flex";
+            }
+
+            // Limpiar búsqueda y volver a vista normal
+            searchTerm = "";
+            const searchInput = document.getElementById("searchInput");
+            if (searchInput) {
+                searchInput.value = "";
+            }
+
+            // Limpiar URL
+            window.history.pushState({}, '', window.location.pathname);
+
+            // Mostrar vista normal
+            showNormalView();
+            toggleSections(true);
+            renderAllSections();
+
+            // Actualizar botones
+            updateNavButtons("home");
+            document.getElementById("headerSearchIcon").classList.remove("active");
+        }
+
+        // Función para mostrar búsquedas populares (películas aleatorias)
+        function showPopularSearches() {
+            const popularSearchesList = document.getElementById("popularSearchesList");
+            const popularSearchesSection = document.getElementById("popularSearchesSection");
+            const searchResultsSection = document.getElementById("searchResultsSection");
+
+            // Ocultar resultados de búsqueda
+            searchResultsSection.style.display = "none";
+            popularSearchesSection.style.display = "block";
+
+            // Mostrar historial de búsquedas
+            showSearchHistory();
+
+            // Obtener 10 películas aleatorias
+            const shuffled = [...movies].sort(() => 0.5 - Math.random());
+            const popularMovies = shuffled.slice(0, 10);
+
+            popularSearchesList.innerHTML = popularMovies.map((movie, index) => {
+                const number = index + 1;
+                return `
+                    <div class="popular-search-item" onclick="searchMovieTitle('${movie.titulo.replace(/'/g, "\\'")}')">
+                        <span class="popular-search-number number-${number}">${number}</span>
+                        <span>${movie.titulo}</span>
+                    </div>
+                `;
+            }).join("");
+        }
+
+        // Función para mostrar historial de búsquedas
+        function showSearchHistory() {
+            const searchHistoryList = document.getElementById("searchHistoryList");
+            const searchHistorySection = document.getElementById("searchHistorySection");
+            const clearHistoryBtn = document.getElementById("clearHistoryBtn");
+
+            // Cargar historial desde localStorage
+            searchHistory = JSON.parse(localStorage.getItem("searchHistory")) || [];
+
+            if (searchHistory.length === 0) {
+                // Si no hay historial, ocultar la sección
+                searchHistorySection.style.display = "none";
+                return;
+            }
+
+            // Mostrar sección de historial
+            searchHistorySection.style.display = "block";
+            clearHistoryBtn.style.display = "block";
+
+            // Mostrar últimas 4 búsquedas (más recientes primero)
+            const recentSearches = searchHistory.slice(-4).reverse();
+
+            searchHistoryList.innerHTML = recentSearches.map(query => `
+                <div class="search-history-item" onclick="searchMovieTitle('${query.replace(/'/g, "\\'")}')">
+                    <i class="fas fa-clock"></i>
+                    <span>${query}</span>
+                </div>
+            `).join("");
+        }
+
+        // Función para agregar búsqueda al historial
+        function addToSearchHistory(query) {
+            // Evitar agregar búsquedas vacías
+            if (!query || !query.trim()) return;
+
+            // Normalizar la búsqueda
+            const normalizedQuery = query.trim();
+
+            // Remover duplicados (si existe, removerlo primero para agregarlo al final)
+            searchHistory = searchHistory.filter(item =>
+                normalizeText(item) !== normalizeText(normalizedQuery)
+            );
+
+            // Agregar al final del historial
+            searchHistory.push(normalizedQuery);
+
+            // Mantener solo las últimas 10 búsquedas
+            if (searchHistory.length > 10) {
+                searchHistory = searchHistory.slice(-10);
+            }
+
+            // Guardar en localStorage
+            localStorage.setItem("searchHistory", JSON.stringify(searchHistory));
+        }
+
+        // Función para limpiar historial de búsquedas
+        window.clearSearchHistory = function () {
+            searchHistory = [];
+            localStorage.removeItem("searchHistory");
+
+            // Actualizar la vista
+            showSearchHistory();
+        }
+
+        // Función para buscar por título (desde búsquedas populares)
+        window.searchMovieTitle = function (title) {
+            const searchInput = document.getElementById("searchInput");
+            if (searchInput) {
+                searchInput.value = title;
+                performSearch();
+            }
+        }
+
+        // Función para normalizar texto (quitar tildes y convertir a minúsculas)
+        function normalizeText(text) {
+            return text
+                .toLowerCase()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "") // Quitar tildes
+                .trim();
+        }
+
+        // Función para realizar búsqueda
+        window.performSearch = function () {
+            const searchInput = document.getElementById("searchInput");
+            const query = searchInput ? searchInput.value.trim() : "";
+            const popularSearchesSection = document.getElementById("popularSearchesSection");
+            const searchResultsSection = document.getElementById("searchResultsSection");
+            const searchResultsGrid = document.getElementById("searchResultsGrid");
+            const searchResultsTitle = document.getElementById("searchResultsTitle");
+
+            if (!query) {
+                // Si no hay búsqueda, mostrar búsquedas populares
+                showPopularSearches();
+                return;
+            }
+
+            // Agregar búsqueda al historial
+            addToSearchHistory(query);
+
+            // Normalizar la búsqueda
+            const normalizedQuery = normalizeText(query);
+            const searchWords = normalizedQuery.split(/\s+/).filter(word => word.length > 0);
+
+            // Buscar películas que coincidan con alguna palabra clave
+            const results = movies.filter(movie => {
+                const normalizedTitle = normalizeText(movie.titulo);
+                // Buscar si alguna palabra de la búsqueda está en el título
+                return searchWords.some(word => normalizedTitle.includes(word));
+            });
+
+            // Ocultar búsquedas populares e historial y mostrar resultados
+            popularSearchesSection.style.display = "none";
+            document.getElementById("searchHistorySection").style.display = "none";
+            searchResultsSection.style.display = "block";
+
+            // Mostrar resultados
+            if (results.length === 0) {
+                searchResultsTitle.textContent = `No se encontraron resultados para "${query}"`;
+                searchResultsGrid.innerHTML = '<div class="no-search-results">No se encontraron películas</div>';
+            } else {
+                searchResultsTitle.textContent = `Resultados para "${query}" (${results.length})`;
+                searchResultsGrid.innerHTML = results.map(movie => `
+                    <div class="movie-card" onclick="openDetailPage('${movie.id}')">
+                        <img src="${movie.portada}" alt="${movie.titulo}" class="movie-poster"
+                         onerror="this.onerror=null; this.style.display='none';">
+                        <div class="movie-title">${movie.titulo}</div>
+                    </div>
+                `).join("");
+            }
+        }
+
+        // Función para manejar Enter en el input de búsqueda
+        window.handleSearchKeyPress = function (event) {
+            if (event.key === "Enter") {
+                performSearch();
+            }
+        }
+
+        // Función para cargar película desde URL
+        function loadMovieFromURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const movieId = urlParams.get('movie');
+            const categoryParam = urlParams.get('category');
+            const searchString = window.location.search;
+            const bottomNav = document.querySelector(".bottom-nav");
+
+            // Ocultar todas las páginas especiales
+            document.getElementById("settingsPage").style.display = "none";
+            document.getElementById("searchPage").style.display = "none";
+
+            // Si hay ID de película, usar la función global openDetailPage
+            if (movieId) {
+                openDetailPage(movieId);
+                updateNavButtons("home");
+                // La barra se oculta dentro de openDetailPage
+                return;
+            }
+
+            // Si estamos saliendo de una película, ocultar página de detalle
+            movieDetailPage.classList.remove("active");
+            mainContainer.style.display = "block";
+
+            // Mostrar barra de navegación cuando salimos de una película y restaurar padding
+            if (bottomNav) {
+                bottomNav.style.display = "flex";
+            }
+            // Restaurar padding inferior cuando la barra está visible
+            movieDetailPage.style.paddingBottom = "65px";
+
+            // Si hay parámetro de categoría en la URL
+            if (categoryParam) {
+                currentCategory = categoryParam;
+                showNormalView();
+                toggleSections(false, true);
+                renderCategorySections();
+                updateNavButtons("home");
+                return;
+            }
+
+            // Si hay parámetro de búsqueda en la URL
+            if (searchString.includes('search')) {
+                openSearchPage();
+                // La barra se oculta dentro de openSearchPage
+                return;
+            }
+
+            // Si hay parámetro de favoritos en la URL (ej: ?favoritos), mostrar vista de favoritos
+            if (searchString.includes('favoritos')) {
+                showFavoritesView();
+                updateNavButtons("favorites");
+                return;
+            }
+
+            // Si no hay parámetros, mostrar vista normal
+            showNormalView();
+            updateNavButtons("home");
+        }
+
+        // Variables para trackear banners
+        let currentBannerIndex = 1;
+        let lastBannerMovieId = null;
+
+        // Función para establecer banner inicial desde la base de datos
+        function setInitialBanner() {
+            const bannerImage1 = document.getElementById("bannerImage1");
+            const bannerContainer = document.getElementById("bannerContainer");
+            if (!bannerImage1) return;
+
+            // Obtener películas que tengan banner
+            const moviesWithBanners = movies.filter(movie => movie.banner);
+
+            if (moviesWithBanners.length > 0) {
+                // Seleccionar película aleatoria
+                const randomMovie = moviesWithBanners[Math.floor(Math.random() * moviesWithBanners.length)];
+
+                // Establecer banner inicial
+                bannerImage1.src = randomMovie.banner;
+                bannerImage1.alt = randomMovie.titulo;
+
+                // Guardar ID de la película
+                lastBannerMovieId = randomMovie.id;
+
+                // Hacer clickeable el banner
+                if (bannerContainer) {
+                    bannerContainer.onclick = () => openDetailPage(randomMovie.id);
+                }
+            }
+        }
+
+        // Función para cambiar banner aleatorio con transición de deslizamiento
+        function changeBannerRandom() {
+            const bannerImage1 = document.getElementById("bannerImage1");
+            const bannerImage2 = document.getElementById("bannerImage2");
+            const bannerContainer = document.getElementById("bannerContainer");
+
+            if (!bannerImage1 || !bannerImage2) return;
+
+            // Obtener películas que tengan banner
+            const moviesWithBanners = movies.filter(movie => movie.banner);
+
+            if (moviesWithBanners.length > 0) {
+                let randomMovie;
+
+                // Seleccionar película aleatoria que no sea la anterior
+                do {
+                    randomMovie = moviesWithBanners[Math.floor(Math.random() * moviesWithBanners.length)];
+                } while (randomMovie.id === lastBannerMovieId && moviesWithBanners.length > 1);
+
+                // Guardar ID de la nueva película
+                lastBannerMovieId = randomMovie.id;
+
+                // Determinar qué banner es el visible y cuál el oculto
+                const visibleBanner = currentBannerIndex === 1 ? bannerImage1 : bannerImage2;
+                const hiddenBanner = currentBannerIndex === 1 ? bannerImage2 : bannerImage1;
+
+                // Preparar nueva imagen en el banner oculto (desde la derecha)
+                hiddenBanner.src = randomMovie.banner;
+                hiddenBanner.alt = randomMovie.titulo;
+                hiddenBanner.style.display = "block";
+                hiddenBanner.classList.remove("slide-in-center", "slide-out-left");
+                hiddenBanner.classList.add("slide-in-right");
+
+                // Forzar repaint para aplicar slide-in-right
+                void hiddenBanner.offsetWidth;
+
+                // Animar banners
+                visibleBanner.classList.remove("slide-in-center");
+                visibleBanner.classList.add("slide-out-left");
+
+                hiddenBanner.classList.remove("slide-in-right");
+                hiddenBanner.classList.add("slide-in-center");
+
+                // Hacer clickeable el banner
+                if (bannerContainer) {
+                    bannerContainer.onclick = () => openDetailPage(randomMovie.id);
+                }
+
+                // Después de la transición, ocultar banner anterior y limpiar clases
+                setTimeout(() => {
+                    visibleBanner.style.display = "none";
+                    visibleBanner.classList.remove("slide-out-left");
+
+                    // Cambiar índice
+                    currentBannerIndex = currentBannerIndex === 1 ? 2 : 1;
+                }, 1000);
+            }
+        }
+
+        // Iniciar rotación de banners cada 3 segundos
+        function startBannerRotation() {
+            // Cambiar banner cada 3 segundos
+            setInterval(() => {
+                changeBannerRandom();
+            }, 3000);
+        }
+
+        // Funciones de navegación para la barra inferior
+        window.navigateToHome = function () {
+            // Ocultar todas las páginas
+            movieDetailPage.classList.remove("active");
+            mainContainer.style.display = "block";
+            document.getElementById("settingsPage").style.display = "none";
+
+            // Mostrar barra de navegación y restaurar padding
+            const bottomNav = document.querySelector(".bottom-nav");
+            if (bottomNav) {
+                bottomNav.style.display = "flex";
+            }
+            // Restaurar padding inferior cuando la barra está visible
+            movieDetailPage.style.paddingBottom = "65px";
+
+            // Resetear categoría a "Recomendado"
+            currentCategory = "all";
+            searchTerm = "";
+
+            // Actualizar categorías activas
+            document.querySelectorAll(".category-item").forEach(i => i.classList.remove("active"));
+            document.querySelectorAll(".category-item")[0].classList.add("active");
+
+            // Limpiar URL
+            window.history.pushState({}, '', window.location.pathname);
+
+            // Mostrar vista normal con todas las secciones
+            showNormalView();
+            toggleSections(true);
+            renderAllSections();
+
+            // Actualizar botones de navegación
+            updateNavButtons("home");
+        };
+
+        window.navigateToFavorites = function () {
+            // Ocultar todas las páginas
+            movieDetailPage.classList.remove("active");
+            mainContainer.style.display = "block";
+            document.getElementById("settingsPage").style.display = "none";
+
+            // Mostrar barra de navegación y restaurar padding
+            const bottomNav = document.querySelector(".bottom-nav");
+            if (bottomNav) {
+                bottomNav.style.display = "flex";
+            }
+            // Restaurar padding inferior cuando la barra está visible
+            movieDetailPage.style.paddingBottom = "65px";
+
+            // Ir a favoritos
+            window.history.pushState({}, '', '?favoritos');
+            showFavoritesView();
+
+            // Actualizar botones de navegación
+            updateNavButtons("favorites");
+        };
+
+        window.navigateToSettings = function () {
+            // Ocultar todas las páginas
+            movieDetailPage.classList.remove("active");
+            mainContainer.style.display = "none";
+            document.getElementById("settingsPage").style.display = "block";
+
+            // Mostrar barra de navegación y restaurar padding
+            const bottomNav = document.querySelector(".bottom-nav");
+            if (bottomNav) {
+                bottomNav.style.display = "flex";
+            }
+            // Restaurar padding inferior cuando la barra está visible
+            movieDetailPage.style.paddingBottom = "65px";
+
+            // Actualizar botones de navegación
+            updateNavButtons("settings");
+        };
+
+        // Función para actualizar el estado activo de los botones de navegación
+        function updateNavButtons(activePage) {
+            document.querySelectorAll(".nav-button").forEach(btn => btn.classList.remove("active"));
+
+            if (activePage === "home") {
+                document.getElementById("navHome").classList.add("active");
+            } else if (activePage === "favorites") {
+                document.getElementById("navFavorites").classList.add("active");
+            } else if (activePage === "settings") {
+                document.getElementById("navSettings").classList.add("active");
+            }
+        }
+
+        // Cargar inicial (loadMovieFromURL decidirá qué mostrar)
+        loadMovieFromURL();
+
+        // Establecer banner inicial desde la base de datos y luego iniciar rotación
+        setInitialBanner();
+
+        // Iniciar rotación de banners
+        startBannerRotation();
+
+        // Listener para navegación del navegador (atrás/adelante)
+        window.addEventListener("popstate", () => {
+            loadMovieFromURL();
+
+            // Actualizar botones de navegación según la URL
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('movie')) {
+                updateNavButtons("home");
+            } else if (window.location.search.includes('favoritos')) {
+                updateNavButtons("favorites");
+            } else {
+                updateNavButtons("home");
+            }
+        });
+
+        // Prevenir zoom en iOS
+        document.addEventListener("gesturestart", function (e) {
+            e.preventDefault();
+        });
+
+        document.addEventListener("gesturechange", function (e) {
+            e.preventDefault();
+        });
+
+        document.addEventListener("gestureend", function (e) {
+            e.preventDefault();
+        });
+    </script>
+</body>
+
+</html>
