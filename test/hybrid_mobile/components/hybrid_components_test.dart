@@ -58,6 +58,14 @@ void main() {
     );
 
     expect(_selectedSemantics(tester), 1);
+    expect(
+      tester.widget<Text>(find.text('Recomendado')).style?.color,
+      HybridMobileTokens.accent,
+    );
+    expect(
+      tester.widget<Text>(find.text('Infantil')).style?.color,
+      HybridMobileTokens.textSecondary,
+    );
     await tester.tap(find.text('Terror'));
     await tester.pump();
     expect(selected, 'Terror');
@@ -172,8 +180,10 @@ void main() {
 
     expect(find.text('Estrenos 2025'), findsOneWidget);
     expect(find.text('Ver todo'), findsOneWidget);
-    expect(tester.getTopLeft(find.text('Estrenos 2025')).dy,
-        tester.getTopLeft(find.text('Ver todo')).dy);
+    expect(
+      tester.getTopLeft(find.text('Estrenos 2025')).dy,
+      tester.getTopLeft(find.text('Ver todo')).dy,
+    );
   });
 
   testWidgets('component kit matches the 393px visual baseline', (
@@ -245,10 +255,7 @@ class _ComponentGoldenHarness extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.fromLTRB(16, 18, 16, 10),
-          child: HybridSectionHeader(
-            title: 'Estrenos 2025',
-            onViewAll: () {},
-          ),
+          child: HybridSectionHeader(title: 'Estrenos 2025', onViewAll: () {}),
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),

@@ -4,11 +4,15 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../hybrid_mobile/data/hybrid_catalog_controller.dart';
+import '../hybrid_mobile/data/hybrid_catalog_models.dart';
 import '../hybrid_mobile/hybrid_mobile_destination.dart';
+import '../hybrid_mobile/hybrid_mobile_scope.dart';
 import '../hybrid_mobile/hybrid_mobile_shell.dart';
+import '../hybrid_mobile/screens/hybrid_home_screen.dart';
 import '../models/channel.dart';
 import '../services/content_store.dart';
 import '../services/device_type.dart';
+import '../services/xtream_service.dart';
 import '../studio_ui/data/studio_profile_repository.dart';
 
 import 'hourtv_artwork.dart';
@@ -274,15 +278,15 @@ class _HourTvNewShellState extends State<HourTvNewShell> {
   ) {
     if (_booting) return const _BootLoading();
     return switch (destination) {
-      HybridMobileDestination.home => _HomePage(
-        movies: movies,
-        series: series,
-        store: store,
-        preview: showingPreview,
-        phone: true,
-        tablet: false,
-        onSearch: () {},
-        tv: false,
+      HybridMobileDestination.home => HybridHomeScreen(
+        catalog: _hybridCatalog,
+        onFilter: () => HybridMobileScope.of(
+          context,
+        ).navigation.selectDestination(HybridMobileDestination.search),
+        onSearch: () => HybridMobileScope.of(
+          context,
+        ).navigation.selectDestination(HybridMobileDestination.search),
+        onOpenDetails: (item) => _openHybridDetails(context, item),
       ),
       HybridMobileDestination.liveTv => HourTvLivePage(
         channels: live,
@@ -321,6 +325,22 @@ class _HourTvNewShellState extends State<HourTvNewShell> {
         onLoggedOut: () {},
       ),
     };
+  }
+
+  void _openHybridDetails(BuildContext context, HybridMediaItem item) {
+    final source = item.source;
+    final Widget details;
+    if (source is XtreamSeries) {
+      details = HourTvSeriesDetailPage(series: source);
+    } else if (source is Channel) {
+      final series = hourTvResolveSeries(source, store.series);
+      details = series == null
+          ? HourTvDetailPage(channel: source, preview: showingPreview)
+          : HourTvSeriesDetailPage(series: series);
+    } else {
+      return;
+    }
+    HybridMobileScope.of(context).navigation.pushDetails(details);
   }
 
   Widget _sectionBody({

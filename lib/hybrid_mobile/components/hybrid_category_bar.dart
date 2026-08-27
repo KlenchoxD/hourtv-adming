@@ -22,7 +22,7 @@ class HybridCategoryBar extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: HybridMobileTokens.md),
         scrollDirection: Axis.horizontal,
         itemCount: categories.length,
-        separatorBuilder: (_, _) => const SizedBox(width: HybridMobileTokens.sm),
+        separatorBuilder: (_, _) => const SizedBox(width: 15),
         itemBuilder: (context, index) {
           final category = categories[index];
           final isSelected = category == selected;
@@ -31,37 +31,27 @@ class HybridCategoryBar extends StatelessWidget {
             button: true,
             selected: isSelected,
             child: ExcludeSemantics(
-              child: Center(
-                child: Material(
-                  color: isSelected
-                      ? HybridMobileTokens.accent
-                      : HybridMobileTokens.surface,
-                  borderRadius: BorderRadius.circular(
-                    HybridMobileTokens.radiusRound,
+              child: InkWell(
+                key: ValueKey<String>('hybrid-category-$category'),
+                onTap: () => onSelected(category),
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
+                focusColor: Colors.transparent,
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(
+                    minHeight: HybridMobileTokens.minTouchTarget,
                   ),
-                  child: InkWell(
-                    key: ValueKey<String>('hybrid-category-$category'),
-                    onTap: () => onSelected(category),
-                    borderRadius: BorderRadius.circular(
-                      HybridMobileTokens.radiusRound,
-                    ),
-                    splashColor: Colors.transparent,
-                    highlightColor: HybridMobileTokens.accentSoft,
-                    focusColor: Colors.transparent,
-                    child: ConstrainedBox(
-                      constraints: const BoxConstraints(minHeight: 36),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: HybridMobileTokens.lg,
-                          vertical: HybridMobileTokens.sm,
-                        ),
-                        child: Text(
-                          category,
-                          style: HybridMobileTypography.label.copyWith(
-                            fontWeight: isSelected
-                                ? FontWeight.w700
-                                : FontWeight.w500,
-                          ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 4),
+                    child: Center(
+                      child: Text(
+                        category,
+                        style: HybridMobileTypography.label.copyWith(
+                          color: isSelected
+                              ? HybridMobileTokens.accent
+                              : HybridMobileTokens.textSecondary,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
                     ),
