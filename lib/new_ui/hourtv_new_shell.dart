@@ -9,6 +9,7 @@ import '../hybrid_mobile/hybrid_mobile_destination.dart';
 import '../hybrid_mobile/hybrid_mobile_scope.dart';
 import '../hybrid_mobile/hybrid_mobile_shell.dart';
 import '../hybrid_mobile/screens/hybrid_home_screen.dart';
+import '../hybrid_mobile/screens/hybrid_search_screen.dart';
 import '../models/channel.dart';
 import '../services/content_store.dart';
 import '../services/device_type.dart';
@@ -296,16 +297,12 @@ class _HourTvNewShellState extends State<HourTvNewShell> {
         tv: false,
         backController: _liveBack,
       ),
-      HybridMobileDestination.search => _CatalogPage(
-        title: 'Buscar',
-        subtitle: 'Películas, series o géneros',
-        items: [...movies, ...series],
-        store: store,
-        preview: showingPreview,
-        phone: true,
-        tablet: false,
-        tv: false,
-        searchAutofocus: true,
+      HybridMobileDestination.search => HybridSearchScreen(
+        catalog: _hybridCatalog,
+        onBack: () => HybridMobileScope.of(
+          context,
+        ).navigation.selectDestination(HybridMobileDestination.home),
+        onOpenDetails: (item) => _openHybridDetails(context, item),
       ),
       HybridMobileDestination.library => _CatalogPage(
         title: 'Mi lista',

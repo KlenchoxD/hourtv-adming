@@ -10,5 +10,6 @@ export 'hybrid_mobile_destination.dart';
 export 'hybrid_mobile_scope.dart';
 export 'hybrid_mobile_shell.dart';
 export 'screens/hybrid_home_screen.dart';
+export 'screens/hybrid_search_screen.dart';
 export 'theme/hybrid_mobile_theme.dart';
 export 'theme/hybrid_mobile_tokens.dart';
