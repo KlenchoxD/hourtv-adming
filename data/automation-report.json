@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-08-27T06:20:57.148Z",
-  "durationMs": 3016,
+  "generatedAt": "2026-08-27T17:43:42.528Z",
+  "durationMs": 2996,
   "dryRun": false,
-  "moviesFound": 32,
-  "moviesDiscarded": 30,
+  "moviesFound": 33,
+  "moviesDiscarded": 31,
   "moviesAdded": 0,
   "moviesEnriched": 0,
   "duplicates": 2,
@@ -53,11 +53,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1101383,
-      "title": "El final de Oak Street",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1273221,
       "title": "Scary Movie",
       "reason": "Sin fuente autorizada configurada"
@@ -65,6 +60,16 @@
     {
       "tmdbId": 1081003,
       "title": "Supergirl",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1101383,
+      "title": "El final de Oak Street",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1523145,
+      "title": "Tu corazón se romperá",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -78,8 +83,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1523145,
-      "title": "Tu corazón se romperá",
+      "tmdbId": 1384216,
+      "title": "La constelación del perro",
+      "reason": "Votos 34 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 1127384,
+      "title": "En mar abierto",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -95,16 +105,6 @@
     {
       "tmdbId": 1228710,
       "title": "The Mandalorian and Grogu",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 950028,
-      "title": "La invitación",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1301421,
-      "title": "Las ovejas detectives",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -128,13 +128,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 634649,
-      "title": "Spider-Man: No Way Home",
-      "reason": "Sin fuente autorizada configurada"
+      "tmdbId": 1516698,
+      "title": "Sunrise. El último amanecer",
+      "reason": "Votos 19 por debajo del mínimo (50)"
     },
     {
-      "tmdbId": 1375646,
-      "title": "Colony",
+      "tmdbId": 634649,
+      "title": "Spider-Man: No Way Home",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -143,14 +143,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1375646,
+      "title": "Colony",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 391312,
       "title": "喪服の女　崩れる",
       "reason": "Sin sinopsis"
-    },
-    {
-      "tmdbId": 1284465,
-      "title": "La muerte de Robin Hood",
-      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1232569,
@@ -158,9 +158,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1284465,
+      "title": "La muerte de Robin Hood",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1130948,
       "title": "Rosebush Pruning",
-      "reason": "Votos 23 por debajo del mínimo (50)"
+      "reason": "Votos 26 por debajo del mínimo (50)"
     }
   ]
 }
