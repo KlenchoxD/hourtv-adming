@@ -3,9 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../hybrid_mobile/data/hybrid_catalog_controller.dart';
+import '../hybrid_mobile/hybrid_mobile_destination.dart';
+import '../hybrid_mobile/hybrid_mobile_shell.dart';
 import '../models/channel.dart';
 import '../services/content_store.dart';
 import '../services/device_type.dart';
+import '../studio_ui/data/studio_profile_repository.dart';
 
 import 'hourtv_artwork.dart';
 import 'hourtv_focusable.dart';
@@ -25,7 +29,12 @@ const _green = Color(0xFF00D6A0);
 enum _Section { home, movies, series, search, live, list, profile }
 
 class HourTvNewShell extends StatefulWidget {
-  const HourTvNewShell({super.key});
+  const HourTvNewShell({
+    super.key,
+    @visibleForTesting this.forcePhoneForTesting,
+  });
+
+  final bool? forcePhoneForTesting;
 
   @override
   State<HourTvNewShell> createState() => _HourTvNewShellState();
@@ -33,6 +42,9 @@ class HourTvNewShell extends StatefulWidget {
 
 class _HourTvNewShellState extends State<HourTvNewShell> {
   final ContentStore store = ContentStore.instance;
+  final StudioProfileRepository _studioProfiles = StudioProfileRepository();
+  late final ContentStoreHybridCatalogSource _hybridCatalogSource;
+  late final HybridCatalogController _hybridCatalog;
   _Section section = _Section.home;
   bool _loaded = false;
   final LiveBackController _liveBack = LiveBackController();
@@ -67,6 +79,8 @@ class _HourTvNewShellState extends State<HourTvNewShell> {
   @override
   void initState() {
     super.initState();
+    _hybridCatalogSource = ContentStoreHybridCatalogSource(store: store);
+    _hybridCatalog = HybridCatalogController(source: _hybridCatalogSource);
     store.addListener(_refresh);
     // Marca cuando termina la carga inicial: hasta entonces mostramos un
     // loading, nunca el catalogo de PREVIEW (evita el parpadeo del demo).
@@ -81,6 +95,8 @@ class _HourTvNewShellState extends State<HourTvNewShell> {
   @override
   void dispose() {
     store.removeListener(_refresh);
+    _hybridCatalog.dispose();
+    _hybridCatalogSource.dispose();
     for (final node in _railFocusNodes.values) {
       node.dispose();
     }
@@ -184,9 +200,18 @@ class _HourTvNewShellState extends State<HourTvNewShell> {
 
   @override
   Widget build(BuildContext context) {
-    final phone = DeviceProfile.isPhone(context);
+    final phone = widget.forcePhoneForTesting ?? DeviceProfile.isPhone(context);
     final tablet = DeviceProfile.isTablet(context);
     final tv = DeviceProfile.isTv(context);
+
+    if (phone) {
+      return HybridMobileShell(
+        catalog: _hybridCatalog,
+        profileRepository: _studioProfiles,
+        destinationBuilder: _hybridDestinationBody,
+      );
+    }
+
     final body = _booting
         ? const _BootLoading()
         : _sectionBody(phone: phone, tablet: tablet, tv: tv);
@@ -241,6 +266,61 @@ class _HourTvNewShellState extends State<HourTvNewShell> {
             : null,
       ),
     );
+  }
+
+  Widget _hybridDestinationBody(
+    BuildContext context,
+    HybridMobileDestination destination,
+  ) {
+    if (_booting) return const _BootLoading();
+    return switch (destination) {
+      HybridMobileDestination.home => _HomePage(
+        movies: movies,
+        series: series,
+        store: store,
+        preview: showingPreview,
+        phone: true,
+        tablet: false,
+        onSearch: () {},
+        tv: false,
+      ),
+      HybridMobileDestination.liveTv => HourTvLivePage(
+        channels: live,
+        preview: store.all.where((c) => c.type == MediaType.live).isEmpty,
+        phone: true,
+        tablet: false,
+        tv: false,
+        backController: _liveBack,
+      ),
+      HybridMobileDestination.search => _CatalogPage(
+        title: 'Buscar',
+        subtitle: 'Películas, series o géneros',
+        items: [...movies, ...series],
+        store: store,
+        preview: showingPreview,
+        phone: true,
+        tablet: false,
+        tv: false,
+        searchAutofocus: true,
+      ),
+      HybridMobileDestination.library => _CatalogPage(
+        title: 'Mi lista',
+        subtitle: 'Tus favoritos, siempre a mano',
+        items: store.favorites,
+        store: store,
+        preview: false,
+        phone: true,
+        tablet: false,
+        tv: false,
+        emptyMessage: 'Todavía no agregaste contenido a Mi lista.',
+      ),
+      HybridMobileDestination.profile => HourTvProfilePage(
+        phone: true,
+        tablet: false,
+        tv: false,
+        onLoggedOut: () {},
+      ),
+    };
   }
 
   Widget _sectionBody({
