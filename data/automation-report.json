@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-08-28T01:46:29.977Z",
-  "durationMs": 2643,
+  "generatedAt": "2026-08-28T13:37:02.845Z",
+  "durationMs": 3222,
   "dryRun": false,
-  "moviesFound": 33,
-  "moviesDiscarded": 31,
+  "moviesFound": 34,
+  "moviesDiscarded": 32,
   "moviesAdded": 0,
   "moviesEnriched": 0,
   "duplicates": 2,
@@ -18,13 +18,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1084244,
-      "title": "Toy Story 5",
+      "tmdbId": 1339713,
+      "title": "Obsesión",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1339713,
-      "title": "Obsesión",
+      "tmdbId": 1084244,
+      "title": "Toy Story 5",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -38,13 +38,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1212763,
-      "title": "Posesión infernal: En llamas",
+      "tmdbId": 1275779,
+      "title": "El día de la revelación",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1275779,
-      "title": "El día de la revelación",
+      "tmdbId": 1212763,
+      "title": "Posesión infernal: En llamas",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -58,6 +58,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1523145,
+      "title": "Tu corazón se romperá",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1081003,
       "title": "Supergirl",
       "reason": "Sin fuente autorizada configurada"
@@ -68,8 +73,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1523145,
-      "title": "Tu corazón se romperá",
+      "tmdbId": 454639,
+      "title": "He-Man y los Masters del Universo",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -78,14 +83,9 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 454639,
-      "title": "He-Man y los Masters del Universo",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1384216,
       "title": "La constelación del perro",
-      "reason": "Votos 48 por debajo del mínimo (50)"
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1127384,
@@ -123,14 +123,19 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1516698,
+      "title": "Sunrise. El último amanecer",
+      "reason": "Votos 32 por debajo del mínimo (50)"
+    },
+    {
       "tmdbId": 1323244,
       "title": "La señal del apocalipsis",
       "reason": "Votos 46 por debajo del mínimo (50)"
     },
     {
-      "tmdbId": 1516698,
-      "title": "Sunrise. El último amanecer",
-      "reason": "Votos 25 por debajo del mínimo (50)"
+      "tmdbId": 1213243,
+      "title": "Tóxico: Un cuento de hadas para adultos",
+      "reason": "Sin sinopsis"
     },
     {
       "tmdbId": 634649,
@@ -143,13 +148,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1375646,
-      "title": "Colony",
+      "tmdbId": 1232569,
+      "title": "Pinocho esta Desquiciado",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1232569,
-      "title": "Pinocho esta Desquiciado",
+      "tmdbId": 1375646,
+      "title": "Colony",
       "reason": "Sin fuente autorizada configurada"
     },
     {
