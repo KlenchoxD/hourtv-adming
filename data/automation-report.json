@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-28T13:37:02.845Z",
-  "durationMs": 3222,
+  "generatedAt": "2026-08-28T23:11:56.001Z",
+  "durationMs": 3832,
   "dryRun": false,
   "moviesFound": 34,
   "moviesDiscarded": 32,
@@ -18,13 +18,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1339713,
-      "title": "Obsesión",
+      "tmdbId": 1084244,
+      "title": "Toy Story 5",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1084244,
-      "title": "Toy Story 5",
+      "tmdbId": 1339713,
+      "title": "Obsesión",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -93,13 +93,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1564614,
-      "title": "Leviticus",
+      "tmdbId": 1228710,
+      "title": "The Mandalorian and Grogu",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1228710,
-      "title": "The Mandalorian and Grogu",
+      "tmdbId": 1564614,
+      "title": "Leviticus",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -143,24 +143,24 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 82023,
-      "title": "Hotel Desire",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1232569,
       "title": "Pinocho esta Desquiciado",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1375646,
-      "title": "Colony",
+      "tmdbId": 82023,
+      "title": "Hotel Desire",
       "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1285366,
       "title": "愛のぬくもり",
       "reason": "Votos 4 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 1375646,
+      "title": "Colony",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1130948,

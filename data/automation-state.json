@@ -1,10 +1,10 @@
 {
-  "lastRunAt": "2026-08-28T13:37:06.061Z",
+  "lastRunAt": "2026-08-28T23:11:59.828Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
-    1339713,
     1084244,
+    1339713,
     1108427,
     1315772,
     1083381,
@@ -19,8 +19,8 @@
     1291595,
     1384216,
     1127384,
-    1564614,
     1228710,
+    1564614,
     1301421,
     1368337,
     1288445,
@@ -29,10 +29,10 @@
     1323244,
     1213243,
     634649,
-    82023,
     1232569,
-    1375646,
+    82023,
     1285366,
+    1375646,
     1130948,
     1284465,
     1335666
@@ -47,13 +47,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1339713,
-      "title": "Obsesión",
+      "tmdbId": 1084244,
+      "title": "Toy Story 5",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1084244,
-      "title": "Toy Story 5",
+      "tmdbId": 1339713,
+      "title": "Obsesión",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -122,13 +122,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1564614,
-      "title": "Leviticus",
+      "tmdbId": 1228710,
+      "title": "The Mandalorian and Grogu",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1228710,
-      "title": "The Mandalorian and Grogu",
+      "tmdbId": 1564614,
+      "title": "Leviticus",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -172,24 +172,24 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 82023,
-      "title": "Hotel Desire",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1232569,
       "title": "Pinocho esta Desquiciado",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1375646,
-      "title": "Colony",
+      "tmdbId": 82023,
+      "title": "Hotel Desire",
       "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1285366,
       "title": "愛のぬくもり",
       "reason": "Votos 4 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 1375646,
+      "title": "Colony",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1130948,
