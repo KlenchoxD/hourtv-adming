@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-27T17:43:42.528Z",
-  "durationMs": 2996,
+  "generatedAt": "2026-08-28T01:46:29.977Z",
+  "durationMs": 2643,
   "dryRun": false,
   "moviesFound": 33,
   "moviesDiscarded": 31,
@@ -85,16 +85,11 @@
     {
       "tmdbId": 1384216,
       "title": "La constelación del perro",
-      "reason": "Votos 34 por debajo del mínimo (50)"
+      "reason": "Votos 48 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1127384,
       "title": "En mar abierto",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1314481,
-      "title": "El diablo viste de Prada 2",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -108,6 +103,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1301421,
+      "title": "Las ovejas detectives",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1368337,
       "title": "La Odisea",
       "reason": "Sin fuente autorizada configurada"
@@ -118,19 +118,19 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1323244,
-      "title": "La señal del apocalipsis",
-      "reason": "Votos 46 por debajo del mínimo (50)"
-    },
-    {
       "tmdbId": 1621552,
       "title": "La captura",
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1323244,
+      "title": "La señal del apocalipsis",
+      "reason": "Votos 46 por debajo del mínimo (50)"
+    },
+    {
       "tmdbId": 1516698,
       "title": "Sunrise. El último amanecer",
-      "reason": "Votos 19 por debajo del mínimo (50)"
+      "reason": "Votos 25 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 634649,
@@ -148,24 +148,24 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 391312,
-      "title": "喪服の女　崩れる",
-      "reason": "Sin sinopsis"
-    },
-    {
       "tmdbId": 1232569,
       "title": "Pinocho esta Desquiciado",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1284465,
-      "title": "La muerte de Robin Hood",
-      "reason": "Sin fuente autorizada configurada"
+      "tmdbId": 1285366,
+      "title": "愛のぬくもり",
+      "reason": "Votos 4 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1130948,
       "title": "Rosebush Pruning",
-      "reason": "Votos 26 por debajo del mínimo (50)"
+      "reason": "Votos 28 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 1284465,
+      "title": "La muerte de Robin Hood",
+      "reason": "Sin fuente autorizada configurada"
     }
   ]
 }
