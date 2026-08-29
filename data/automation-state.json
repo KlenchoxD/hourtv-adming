@@ -1,24 +1,24 @@
 {
-  "lastRunAt": "2026-08-29T11:02:40.158Z",
+  "lastRunAt": "2026-08-29T15:36:59.691Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
-    1084244,
     1339713,
+    1084244,
     1108427,
     1315772,
     1083381,
     1275779,
-    1212763,
     860508,
-    1284041,
+    1212763,
     1273221,
-    1523145,
     1081003,
-    1101383,
+    1523145,
+    1284041,
+    1384216,
     454639,
     1291595,
-    1384216,
+    1101383,
     1127384,
     1204680,
     1228710,
@@ -47,13 +47,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1084244,
-      "title": "Toy Story 5",
+      "tmdbId": 1339713,
+      "title": "Obsesión",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1339713,
-      "title": "Obsesión",
+      "tmdbId": 1084244,
+      "title": "Toy Story 5",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -72,18 +72,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1212763,
-      "title": "Posesión infernal: En llamas",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 860508,
       "title": "Susurran tu nombre",
-      "reason": "Votos 31 por debajo del mínimo (50)"
+      "reason": "Votos 38 por debajo del mínimo (50)"
     },
     {
-      "tmdbId": 1284041,
-      "title": "La última casa",
+      "tmdbId": 1212763,
+      "title": "Posesión infernal: En llamas",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -92,18 +87,23 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1523145,
-      "title": "Tu corazón se romperá",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1081003,
       "title": "Supergirl",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1101383,
-      "title": "El final de Oak Street",
+      "tmdbId": 1523145,
+      "title": "Tu corazón se romperá",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1284041,
+      "title": "La última casa",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1384216,
+      "title": "La constelación del perro",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -117,8 +117,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1384216,
-      "title": "La constelación del perro",
+      "tmdbId": 1101383,
+      "title": "El final de Oak Street",
       "reason": "Sin fuente autorizada configurada"
     },
     {

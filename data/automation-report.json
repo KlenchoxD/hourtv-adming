@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-29T11:02:37.253Z",
-  "durationMs": 2910,
+  "generatedAt": "2026-08-29T15:36:56.842Z",
+  "durationMs": 2854,
   "dryRun": false,
   "moviesFound": 34,
   "moviesDiscarded": 32,
@@ -18,13 +18,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1084244,
-      "title": "Toy Story 5",
+      "tmdbId": 1339713,
+      "title": "Obsesión",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1339713,
-      "title": "Obsesión",
+      "tmdbId": 1084244,
+      "title": "Toy Story 5",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -43,18 +43,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1212763,
-      "title": "Posesión infernal: En llamas",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 860508,
       "title": "Susurran tu nombre",
-      "reason": "Votos 31 por debajo del mínimo (50)"
+      "reason": "Votos 38 por debajo del mínimo (50)"
     },
     {
-      "tmdbId": 1284041,
-      "title": "La última casa",
+      "tmdbId": 1212763,
+      "title": "Posesión infernal: En llamas",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -63,18 +58,23 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1523145,
-      "title": "Tu corazón se romperá",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1081003,
       "title": "Supergirl",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1101383,
-      "title": "El final de Oak Street",
+      "tmdbId": 1523145,
+      "title": "Tu corazón se romperá",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1284041,
+      "title": "La última casa",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1384216,
+      "title": "La constelación del perro",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -88,8 +88,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1384216,
-      "title": "La constelación del perro",
+      "tmdbId": 1101383,
+      "title": "El final de Oak Street",
       "reason": "Sin fuente autorizada configurada"
     },
     {
