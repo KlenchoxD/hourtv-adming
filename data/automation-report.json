@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-28T23:11:56.001Z",
-  "durationMs": 3832,
+  "generatedAt": "2026-08-29T04:09:23.812Z",
+  "durationMs": 3104,
   "dryRun": false,
   "moviesFound": 34,
   "moviesDiscarded": 32,
@@ -48,6 +48,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 860508,
+      "title": "Susurran tu nombre",
+      "reason": "Votos 18 por debajo del mínimo (50)"
+    },
+    {
       "tmdbId": 1284041,
       "title": "La última casa",
       "reason": "Sin fuente autorizada configurada"
@@ -93,18 +98,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1204680,
+      "title": "Coyote vs. Acme",
+      "reason": "Votos 20 por debajo del mínimo (50)"
+    },
+    {
       "tmdbId": 1228710,
       "title": "The Mandalorian and Grogu",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1564614,
-      "title": "Leviticus",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1301421,
-      "title": "Las ovejas detectives",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -125,7 +125,7 @@
     {
       "tmdbId": 1516698,
       "title": "Sunrise. El último amanecer",
-      "reason": "Votos 32 por debajo del mínimo (50)"
+      "reason": "Votos 37 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1323244,
