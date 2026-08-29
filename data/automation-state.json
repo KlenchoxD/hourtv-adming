@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-08-29T15:36:59.691Z",
+  "lastRunAt": "2026-08-29T18:51:21.530Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -24,17 +24,17 @@
     1228710,
     1368337,
     1288445,
-    1621552,
     1516698,
+    1621552,
     1323244,
     1213243,
+    1285366,
     1232569,
     634649,
     82023,
-    1285366,
-    1375646,
     1130948,
-    1284465,
+    1375646,
+    1560520,
     1335666
   ],
   "tmdbIdsPublished": [],
@@ -129,7 +129,7 @@
     {
       "tmdbId": 1204680,
       "title": "Coyote vs. Acme",
-      "reason": "Votos 27 por debajo del mínimo (50)"
+      "reason": "Votos 29 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1228710,
@@ -147,14 +147,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1516698,
+      "title": "Sunrise. El último amanecer",
+      "reason": "Votos 44 por debajo del mínimo (50)"
+    },
+    {
       "tmdbId": 1621552,
       "title": "La captura",
       "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1516698,
-      "title": "Sunrise. El último amanecer",
-      "reason": "Votos 40 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1323244,
@@ -165,6 +165,11 @@
       "tmdbId": 1213243,
       "title": "Tóxico: Un cuento de hadas para adultos",
       "reason": "Sin sinopsis"
+    },
+    {
+      "tmdbId": 1285366,
+      "title": "愛のぬくもり",
+      "reason": "Votos 4 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1232569,
@@ -182,9 +187,9 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1285366,
-      "title": "愛のぬくもり",
-      "reason": "Votos 4 por debajo del mínimo (50)"
+      "tmdbId": 1130948,
+      "title": "Rosebush Pruning",
+      "reason": "Votos 29 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1375646,
@@ -192,13 +197,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1130948,
-      "title": "Rosebush Pruning",
-      "reason": "Votos 29 por debajo del mínimo (50)"
-    },
-    {
-      "tmdbId": 1284465,
-      "title": "La muerte de Robin Hood",
+      "tmdbId": 1560520,
+      "title": "Batman: Knightfall Part 1: Knightfall",
       "reason": "Sin fuente autorizada configurada"
     }
   ]

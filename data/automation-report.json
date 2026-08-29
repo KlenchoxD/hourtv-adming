@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-29T15:36:56.842Z",
-  "durationMs": 2854,
+  "generatedAt": "2026-08-29T18:51:18.114Z",
+  "durationMs": 3420,
   "dryRun": false,
   "moviesFound": 34,
   "moviesDiscarded": 32,
@@ -100,7 +100,7 @@
     {
       "tmdbId": 1204680,
       "title": "Coyote vs. Acme",
-      "reason": "Votos 27 por debajo del mínimo (50)"
+      "reason": "Votos 29 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1228710,
@@ -118,14 +118,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1516698,
+      "title": "Sunrise. El último amanecer",
+      "reason": "Votos 44 por debajo del mínimo (50)"
+    },
+    {
       "tmdbId": 1621552,
       "title": "La captura",
       "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1516698,
-      "title": "Sunrise. El último amanecer",
-      "reason": "Votos 40 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1323244,
@@ -136,6 +136,11 @@
       "tmdbId": 1213243,
       "title": "Tóxico: Un cuento de hadas para adultos",
       "reason": "Sin sinopsis"
+    },
+    {
+      "tmdbId": 1285366,
+      "title": "愛のぬくもり",
+      "reason": "Votos 4 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1232569,
@@ -153,9 +158,9 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1285366,
-      "title": "愛のぬくもり",
-      "reason": "Votos 4 por debajo del mínimo (50)"
+      "tmdbId": 1130948,
+      "title": "Rosebush Pruning",
+      "reason": "Votos 29 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1375646,
@@ -163,13 +168,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1130948,
-      "title": "Rosebush Pruning",
-      "reason": "Votos 29 por debajo del mínimo (50)"
-    },
-    {
-      "tmdbId": 1284465,
-      "title": "La muerte de Robin Hood",
+      "tmdbId": 1560520,
+      "title": "Batman: Knightfall Part 1: Knightfall",
       "reason": "Sin fuente autorizada configurada"
     }
   ]
