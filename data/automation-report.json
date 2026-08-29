@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-29T21:25:46.396Z",
-  "durationMs": 2353,
+  "generatedAt": "2026-08-29T23:28:41.762Z",
+  "durationMs": 2897,
   "dryRun": false,
   "moviesFound": 34,
   "moviesDiscarded": 32,
@@ -120,7 +120,7 @@
     {
       "tmdbId": 1516698,
       "title": "Sunrise. El último amanecer",
-      "reason": "Votos 44 por debajo del mínimo (50)"
+      "reason": "Votos 46 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1621552,
