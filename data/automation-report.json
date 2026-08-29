@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-29T04:09:23.812Z",
-  "durationMs": 3104,
+  "generatedAt": "2026-08-29T11:02:37.253Z",
+  "durationMs": 2910,
   "dryRun": false,
   "moviesFound": 34,
   "moviesDiscarded": 32,
@@ -50,7 +50,7 @@
     {
       "tmdbId": 860508,
       "title": "Susurran tu nombre",
-      "reason": "Votos 18 por debajo del mínimo (50)"
+      "reason": "Votos 31 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1284041,
@@ -100,7 +100,7 @@
     {
       "tmdbId": 1204680,
       "title": "Coyote vs. Acme",
-      "reason": "Votos 20 por debajo del mínimo (50)"
+      "reason": "Votos 27 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1228710,
@@ -125,12 +125,12 @@
     {
       "tmdbId": 1516698,
       "title": "Sunrise. El último amanecer",
-      "reason": "Votos 37 por debajo del mínimo (50)"
+      "reason": "Votos 40 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1323244,
       "title": "La señal del apocalipsis",
-      "reason": "Votos 46 por debajo del mínimo (50)"
+      "reason": "Votos 47 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1213243,
@@ -138,13 +138,13 @@
       "reason": "Sin sinopsis"
     },
     {
-      "tmdbId": 634649,
-      "title": "Spider-Man: No Way Home",
+      "tmdbId": 1232569,
+      "title": "Pinocho esta Desquiciado",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1232569,
-      "title": "Pinocho esta Desquiciado",
+      "tmdbId": 634649,
+      "title": "Spider-Man: No Way Home",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -165,7 +165,7 @@
     {
       "tmdbId": 1130948,
       "title": "Rosebush Pruning",
-      "reason": "Votos 28 por debajo del mínimo (50)"
+      "reason": "Votos 29 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1284465,
