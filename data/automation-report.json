@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-29T18:51:18.114Z",
-  "durationMs": 3420,
+  "generatedAt": "2026-08-29T21:25:46.396Z",
+  "durationMs": 2353,
   "dryRun": false,
   "moviesFound": 34,
   "moviesDiscarded": 32,
@@ -45,7 +45,7 @@
     {
       "tmdbId": 860508,
       "title": "Susurran tu nombre",
-      "reason": "Votos 38 por debajo del mínimo (50)"
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1212763,
@@ -160,7 +160,7 @@
     {
       "tmdbId": 1130948,
       "title": "Rosebush Pruning",
-      "reason": "Votos 29 por debajo del mínimo (50)"
+      "reason": "Votos 30 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1375646,

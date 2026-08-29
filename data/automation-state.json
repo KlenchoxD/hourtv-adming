@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-08-29T18:51:21.530Z",
+  "lastRunAt": "2026-08-29T21:25:48.744Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -74,7 +74,7 @@
     {
       "tmdbId": 860508,
       "title": "Susurran tu nombre",
-      "reason": "Votos 38 por debajo del mínimo (50)"
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1212763,
@@ -189,7 +189,7 @@
     {
       "tmdbId": 1130948,
       "title": "Rosebush Pruning",
-      "reason": "Votos 29 por debajo del mínimo (50)"
+      "reason": "Votos 30 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1375646,
