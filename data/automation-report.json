@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-29T23:28:41.762Z",
-  "durationMs": 2897,
+  "generatedAt": "2026-08-30T01:29:06.721Z",
+  "durationMs": 1727,
   "dryRun": false,
   "moviesFound": 34,
   "moviesDiscarded": 32,
@@ -100,7 +100,7 @@
     {
       "tmdbId": 1204680,
       "title": "Coyote vs. Acme",
-      "reason": "Votos 29 por debajo del mínimo (50)"
+      "reason": "Votos 33 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1228710,
@@ -130,7 +130,7 @@
     {
       "tmdbId": 1323244,
       "title": "La señal del apocalipsis",
-      "reason": "Votos 47 por debajo del mínimo (50)"
+      "reason": "Votos 49 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1213243,
