@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-30T01:29:06.721Z",
-  "durationMs": 1727,
+  "generatedAt": "2026-08-30T07:10:11.846Z",
+  "durationMs": 4023,
   "dryRun": false,
   "moviesFound": 34,
   "moviesDiscarded": 32,
@@ -83,9 +83,9 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1291595,
-      "title": "Insidious: Fuera del más allá",
-      "reason": "Sin fuente autorizada configurada"
+      "tmdbId": 1204680,
+      "title": "Coyote vs. Acme",
+      "reason": "Votos 33 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1101383,
@@ -98,9 +98,9 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1204680,
-      "title": "Coyote vs. Acme",
-      "reason": "Votos 33 por debajo del mínimo (50)"
+      "tmdbId": 1291595,
+      "title": "Insidious: Fuera del más allá",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1228710,
@@ -120,7 +120,7 @@
     {
       "tmdbId": 1516698,
       "title": "Sunrise. El último amanecer",
-      "reason": "Votos 46 por debajo del mínimo (50)"
+      "reason": "Votos 48 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1621552,
@@ -128,14 +128,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1323244,
-      "title": "La señal del apocalipsis",
-      "reason": "Votos 49 por debajo del mínimo (50)"
-    },
-    {
       "tmdbId": 1213243,
       "title": "Tóxico: Un cuento de hadas para adultos",
       "reason": "Sin sinopsis"
+    },
+    {
+      "tmdbId": 1323244,
+      "title": "La señal del apocalipsis",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1285366,
