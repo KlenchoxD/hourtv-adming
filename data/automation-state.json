@@ -1,15 +1,15 @@
 {
-  "lastRunAt": "2026-08-30T07:10:15.864Z",
+  "lastRunAt": "2026-08-30T12:51:11.013Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
     1339713,
     1084244,
-    1108427,
+    860508,
     1315772,
+    1108427,
     1083381,
     1275779,
-    860508,
     1212763,
     1273221,
     1081003,
@@ -57,8 +57,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1108427,
-      "title": "Vaiana",
+      "tmdbId": 860508,
+      "title": "Susurran tu nombre",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -67,13 +67,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1275779,
-      "title": "El día de la revelación",
+      "tmdbId": 1108427,
+      "title": "Vaiana",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 860508,
-      "title": "Susurran tu nombre",
+      "tmdbId": 1275779,
+      "title": "El día de la revelación",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -114,7 +114,7 @@
     {
       "tmdbId": 1204680,
       "title": "Coyote vs. Acme",
-      "reason": "Votos 33 por debajo del mínimo (50)"
+      "reason": "Votos 37 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1101383,
@@ -149,7 +149,7 @@
     {
       "tmdbId": 1516698,
       "title": "Sunrise. El último amanecer",
-      "reason": "Votos 48 por debajo del mínimo (50)"
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1621552,
