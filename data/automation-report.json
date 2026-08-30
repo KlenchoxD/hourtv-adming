@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-08-30T12:51:07.689Z",
-  "durationMs": 3329,
+  "generatedAt": "2026-08-30T17:05:41.772Z",
+  "durationMs": 2020,
   "dryRun": false,
-  "moviesFound": 34,
-  "moviesDiscarded": 32,
+  "moviesFound": 33,
+  "moviesDiscarded": 31,
   "moviesAdded": 0,
   "moviesEnriched": 0,
   "duplicates": 2,
@@ -85,7 +85,7 @@
     {
       "tmdbId": 1204680,
       "title": "Coyote vs. Acme",
-      "reason": "Votos 37 por debajo del mínimo (50)"
+      "reason": "Votos 39 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1101383,
@@ -165,11 +165,6 @@
     {
       "tmdbId": 1375646,
       "title": "Colony",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1560520,
-      "title": "Batman: Knightfall Part 1: Knightfall",
       "reason": "Sin fuente autorizada configurada"
     }
   ]

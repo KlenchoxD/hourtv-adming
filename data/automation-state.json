@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-08-30T12:51:11.013Z",
+  "lastRunAt": "2026-08-30T17:05:43.789Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -34,7 +34,6 @@
     82023,
     1130948,
     1375646,
-    1560520,
     1335666
   ],
   "tmdbIdsPublished": [],
@@ -114,7 +113,7 @@
     {
       "tmdbId": 1204680,
       "title": "Coyote vs. Acme",
-      "reason": "Votos 37 por debajo del mínimo (50)"
+      "reason": "Votos 39 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1101383,
@@ -194,11 +193,6 @@
     {
       "tmdbId": 1375646,
       "title": "Colony",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1560520,
-      "title": "Batman: Knightfall Part 1: Knightfall",
       "reason": "Sin fuente autorizada configurada"
     }
   ]
