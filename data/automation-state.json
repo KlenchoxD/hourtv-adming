@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-08-30T19:49:43.187Z",
+  "lastRunAt": "2026-08-30T22:16:09.747Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -24,12 +24,12 @@
     1228710,
     1368337,
     1288445,
-    1516698,
     1621552,
+    1516698,
     1213243,
     1323244,
-    1285366,
     1232569,
+    1285366,
     634649,
     82023,
     1130948,
@@ -146,13 +146,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1516698,
-      "title": "Sunrise. El último amanecer",
+      "tmdbId": 1621552,
+      "title": "La captura",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1621552,
-      "title": "La captura",
+      "tmdbId": 1516698,
+      "title": "Sunrise. El último amanecer",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -166,14 +166,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1285366,
-      "title": "愛のぬくもり",
-      "reason": "Votos 4 por debajo del mínimo (50)"
-    },
-    {
       "tmdbId": 1232569,
       "title": "Pinocho esta Desquiciado",
       "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1285366,
+      "title": "愛のぬくもり",
+      "reason": "Votos 4 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 634649,

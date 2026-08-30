@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-30T19:49:39.759Z",
-  "durationMs": 3433,
+  "generatedAt": "2026-08-30T22:16:06.910Z",
+  "durationMs": 2842,
   "dryRun": false,
   "moviesFound": 33,
   "moviesDiscarded": 31,
@@ -118,13 +118,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1516698,
-      "title": "Sunrise. El último amanecer",
+      "tmdbId": 1621552,
+      "title": "La captura",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1621552,
-      "title": "La captura",
+      "tmdbId": 1516698,
+      "title": "Sunrise. El último amanecer",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -138,14 +138,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1285366,
-      "title": "愛のぬくもり",
-      "reason": "Votos 4 por debajo del mínimo (50)"
-    },
-    {
       "tmdbId": 1232569,
       "title": "Pinocho esta Desquiciado",
       "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1285366,
+      "title": "愛のぬくもり",
+      "reason": "Votos 4 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 634649,
