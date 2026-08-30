@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-08-30T17:05:43.789Z",
+  "lastRunAt": "2026-08-30T19:49:43.187Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -113,7 +113,7 @@
     {
       "tmdbId": 1204680,
       "title": "Coyote vs. Acme",
-      "reason": "Votos 39 por debajo del mínimo (50)"
+      "reason": "Votos 40 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1101383,

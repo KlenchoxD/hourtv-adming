@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-30T17:05:41.772Z",
-  "durationMs": 2020,
+  "generatedAt": "2026-08-30T19:49:39.759Z",
+  "durationMs": 3433,
   "dryRun": false,
   "moviesFound": 33,
   "moviesDiscarded": 31,
@@ -85,7 +85,7 @@
     {
       "tmdbId": 1204680,
       "title": "Coyote vs. Acme",
-      "reason": "Votos 39 por debajo del mínimo (50)"
+      "reason": "Votos 40 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1101383,
