@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-08-31T13:47:29.006Z",
-  "durationMs": 3392,
+  "generatedAt": "2026-08-31T19:45:50.618Z",
+  "durationMs": 3713,
   "dryRun": false,
-  "moviesFound": 33,
-  "moviesDiscarded": 31,
+  "moviesFound": 34,
+  "moviesDiscarded": 32,
   "moviesAdded": 0,
   "moviesEnriched": 0,
   "duplicates": 2,
@@ -33,13 +33,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1315772,
-      "title": "Minions & Monsters",
+      "tmdbId": 1108427,
+      "title": "Vaiana",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1108427,
-      "title": "Vaiana",
+      "tmdbId": 1315772,
+      "title": "Minions & Monsters",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -58,18 +58,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1212763,
-      "title": "Posesión infernal: En llamas",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1273221,
       "title": "Scary Movie",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1284041,
-      "title": "La última casa",
+      "tmdbId": 1212763,
+      "title": "Posesión infernal: En llamas",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -78,18 +73,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1284041,
+      "title": "La última casa",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 454639,
       "title": "He-Man y los Masters del Universo",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1523145,
-      "title": "Tu corazón se romperá",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1101383,
-      "title": "El final de Oak Street",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -100,6 +90,16 @@
     {
       "tmdbId": 1291595,
       "title": "Insidious: Fuera del más allá",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1523145,
+      "title": "Tu corazón se romperá",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1101383,
+      "title": "El final de Oak Street",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -118,13 +118,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1621552,
-      "title": "La captura",
+      "tmdbId": 1516698,
+      "title": "Sunrise. El último amanecer",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1516698,
-      "title": "Sunrise. El último amanecer",
+      "tmdbId": 1621552,
+      "title": "La captura",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -148,6 +148,11 @@
       "reason": "Votos 4 por debajo del mínimo (50)"
     },
     {
+      "tmdbId": 1375646,
+      "title": "Colony",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1560520,
       "title": "Batman: Knightfall Part 1: Knightfall",
       "reason": "Sin fuente autorizada configurada"
@@ -158,14 +163,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 82023,
-      "title": "Hotel Desire",
-      "reason": "Sin fuente autorizada configurada"
+      "tmdbId": 1393326,
+      "title": "Ghost in the Cell",
+      "reason": "Votos 37 por debajo del mínimo (50)"
     },
     {
-      "tmdbId": 1130948,
-      "title": "Rosebush Pruning",
-      "reason": "Votos 30 por debajo del mínimo (50)"
+      "tmdbId": 1514682,
+      "title": "Above & Below",
+      "reason": "Votos 9 por debajo del mínimo (50)"
     }
   ]
 }

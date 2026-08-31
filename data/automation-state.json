@@ -1,39 +1,40 @@
 {
-  "lastRunAt": "2026-08-31T13:47:32.393Z",
+  "lastRunAt": "2026-08-31T19:45:54.327Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
     1339713,
     1084244,
     860508,
-    1315772,
     1108427,
+    1315772,
     1083381,
     1275779,
     1204680,
     1384216,
-    1212763,
     1273221,
-    1284041,
+    1212763,
     1081003,
+    1284041,
     454639,
-    1523145,
-    1101383,
     1127384,
     1291595,
+    1523145,
+    1101383,
     1228710,
     1368337,
     1288445,
-    1621552,
     1516698,
+    1621552,
     1213243,
     1323244,
     1232569,
     1285366,
+    1375646,
     1560520,
     634649,
-    82023,
-    1130948,
+    1393326,
+    1514682,
     1335666
   ],
   "tmdbIdsPublished": [],
@@ -61,13 +62,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1315772,
-      "title": "Minions & Monsters",
+      "tmdbId": 1108427,
+      "title": "Vaiana",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1108427,
-      "title": "Vaiana",
+      "tmdbId": 1315772,
+      "title": "Minions & Monsters",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -86,18 +87,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1212763,
-      "title": "Posesión infernal: En llamas",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1273221,
       "title": "Scary Movie",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1284041,
-      "title": "La última casa",
+      "tmdbId": 1212763,
+      "title": "Posesión infernal: En llamas",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -106,18 +102,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1284041,
+      "title": "La última casa",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 454639,
       "title": "He-Man y los Masters del Universo",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1523145,
-      "title": "Tu corazón se romperá",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1101383,
-      "title": "El final de Oak Street",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -128,6 +119,16 @@
     {
       "tmdbId": 1291595,
       "title": "Insidious: Fuera del más allá",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1523145,
+      "title": "Tu corazón se romperá",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1101383,
+      "title": "El final de Oak Street",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -146,13 +147,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1621552,
-      "title": "La captura",
+      "tmdbId": 1516698,
+      "title": "Sunrise. El último amanecer",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1516698,
-      "title": "Sunrise. El último amanecer",
+      "tmdbId": 1621552,
+      "title": "La captura",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -176,6 +177,11 @@
       "reason": "Votos 4 por debajo del mínimo (50)"
     },
     {
+      "tmdbId": 1375646,
+      "title": "Colony",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1560520,
       "title": "Batman: Knightfall Part 1: Knightfall",
       "reason": "Sin fuente autorizada configurada"
@@ -186,14 +192,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 82023,
-      "title": "Hotel Desire",
-      "reason": "Sin fuente autorizada configurada"
+      "tmdbId": 1393326,
+      "title": "Ghost in the Cell",
+      "reason": "Votos 37 por debajo del mínimo (50)"
     },
     {
-      "tmdbId": 1130948,
-      "title": "Rosebush Pruning",
-      "reason": "Votos 30 por debajo del mínimo (50)"
+      "tmdbId": 1514682,
+      "title": "Above & Below",
+      "reason": "Votos 9 por debajo del mínimo (50)"
     }
   ]
 }
