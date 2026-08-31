@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-08-31T00:41:55.949Z",
+  "lastRunAt": "2026-08-31T06:12:09.272Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -10,14 +10,14 @@
     1108427,
     1083381,
     1275779,
+    1204680,
     1384216,
     1212763,
     1273221,
-    1081003,
     1284041,
+    1081003,
     454639,
     1523145,
-    1204680,
     1101383,
     1127384,
     1291595,
@@ -30,10 +30,10 @@
     1323244,
     1232569,
     1285366,
+    1560520,
     634649,
     82023,
     1130948,
-    1375646,
     1335666
   ],
   "tmdbIdsPublished": [],
@@ -76,6 +76,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1204680,
+      "title": "Coyote vs. Acme",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1384216,
       "title": "La constelación del perro",
       "reason": "Sin fuente autorizada configurada"
@@ -91,13 +96,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1081003,
-      "title": "Supergirl",
+      "tmdbId": 1284041,
+      "title": "La última casa",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1284041,
-      "title": "La última casa",
+      "tmdbId": 1081003,
+      "title": "Supergirl",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -109,11 +114,6 @@
       "tmdbId": 1523145,
       "title": "Tu corazón se romperá",
       "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1204680,
-      "title": "Coyote vs. Acme",
-      "reason": "Votos 40 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1101383,
@@ -163,7 +163,7 @@
     {
       "tmdbId": 1323244,
       "title": "La señal del apocalipsis",
-      "reason": "Sin fuente autorizada configurada"
+      "reason": "Rating 5.4 por debajo del mínimo (5.5)"
     },
     {
       "tmdbId": 1232569,
@@ -174,6 +174,11 @@
       "tmdbId": 1285366,
       "title": "愛のぬくもり",
       "reason": "Votos 4 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 1560520,
+      "title": "Batman: Knightfall Part 1: Knightfall",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 634649,
@@ -189,11 +194,6 @@
       "tmdbId": 1130948,
       "title": "Rosebush Pruning",
       "reason": "Votos 30 por debajo del mínimo (50)"
-    },
-    {
-      "tmdbId": 1375646,
-      "title": "Colony",
-      "reason": "Sin fuente autorizada configurada"
     }
   ]
 }
