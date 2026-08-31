@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-30T22:16:06.910Z",
-  "durationMs": 2842,
+  "generatedAt": "2026-08-31T00:41:52.623Z",
+  "durationMs": 3329,
   "dryRun": false,
   "moviesFound": 33,
   "moviesDiscarded": 31,
@@ -48,6 +48,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1384216,
+      "title": "La constelación del perro",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1212763,
       "title": "Posesión infernal: En llamas",
       "reason": "Sin fuente autorizada configurada"
@@ -63,23 +68,18 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1523145,
-      "title": "Tu corazón se romperá",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1284041,
       "title": "La última casa",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1384216,
-      "title": "La constelación del perro",
+      "tmdbId": 454639,
+      "title": "He-Man y los Masters del Universo",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 454639,
-      "title": "He-Man y los Masters del Universo",
+      "tmdbId": 1523145,
+      "title": "Tu corazón se romperá",
       "reason": "Sin fuente autorizada configurada"
     },
     {
