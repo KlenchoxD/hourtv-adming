@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-09-01T02:02:24.188Z",
+  "lastRunAt": "2026-09-01T07:46:33.216Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -18,9 +18,9 @@
     1284041,
     454639,
     1127384,
-    1291595,
     1523145,
     1101383,
+    1291595,
     1228710,
     1368337,
     1288445,
@@ -117,11 +117,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1291595,
-      "title": "Insidious: Fuera del más allá",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1523145,
       "title": "Tu corazón se romperá",
       "reason": "Sin fuente autorizada configurada"
@@ -129,6 +124,11 @@
     {
       "tmdbId": 1101383,
       "title": "El final de Oak Street",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1291595,
+      "title": "Insidious: Fuera del más allá",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -164,7 +164,7 @@
     {
       "tmdbId": 1323244,
       "title": "La señal del apocalipsis",
-      "reason": "Rating 5.4 por debajo del mínimo (5.5)"
+      "reason": "Rating 5.3 por debajo del mínimo (5.5)"
     },
     {
       "tmdbId": 1232569,
