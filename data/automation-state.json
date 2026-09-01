@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-09-01T17:04:57.876Z",
+  "lastRunAt": "2026-09-01T19:55:12.951Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -27,14 +27,14 @@
     1516698,
     1621552,
     1213243,
-    1323244,
     1232569,
     1285366,
+    1323244,
     1375646,
     1560520,
-    634649,
     1393326,
     1514682,
+    634649,
     1335666
   ],
   "tmdbIdsPublished": [],
@@ -162,11 +162,6 @@
       "reason": "Sin sinopsis"
     },
     {
-      "tmdbId": 1323244,
-      "title": "La señal del apocalipsis",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1232569,
       "title": "Pinocho: Desatado",
       "reason": "Sin fuente autorizada configurada"
@@ -175,6 +170,11 @@
       "tmdbId": 1285366,
       "title": "愛のぬくもり",
       "reason": "Votos 4 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 1323244,
+      "title": "La señal del apocalipsis",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1375646,
@@ -187,11 +187,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 634649,
-      "title": "Spider-Man: No Way Home",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1393326,
       "title": "Ghost in the Cell",
       "reason": "Votos 38 por debajo del mínimo (50)"
@@ -200,6 +195,11 @@
       "tmdbId": 1514682,
       "title": "Above & Below",
       "reason": "Votos 10 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 634649,
+      "title": "Spider-Man: No Way Home",
+      "reason": "Sin fuente autorizada configurada"
     }
   ]
 }
