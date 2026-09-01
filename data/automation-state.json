@@ -1,25 +1,25 @@
 {
-  "lastRunAt": "2026-09-01T12:54:51.412Z",
+  "lastRunAt": "2026-09-01T17:04:57.876Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
     1339713,
-    1084244,
     860508,
+    1084244,
     1108427,
     1315772,
     1204680,
     1083381,
-    1275779,
     1384216,
+    1275779,
     1273221,
-    1212763,
     1081003,
-    1284041,
     454639,
+    1212763,
+    1101383,
+    1284041,
     1127384,
     1523145,
-    1101383,
     1291595,
     1228710,
     1368337,
@@ -52,13 +52,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1084244,
-      "title": "Toy Story 5",
+      "tmdbId": 860508,
+      "title": "Susurran tu nombre",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 860508,
-      "title": "Susurran tu nombre",
+      "tmdbId": 1084244,
+      "title": "Toy Story 5",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -77,13 +77,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1275779,
-      "title": "El día de la revelación",
+      "tmdbId": 1384216,
+      "title": "La constelación del perro",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1384216,
-      "title": "La constelación del perro",
+      "tmdbId": 1275779,
+      "title": "El día de la revelación",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -92,23 +92,28 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1212763,
-      "title": "Posesión infernal: En llamas",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1081003,
       "title": "Supergirl",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1284041,
-      "title": "La última casa",
+      "tmdbId": 454639,
+      "title": "He-Man y los Masters del Universo",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 454639,
-      "title": "He-Man y los Masters del Universo",
+      "tmdbId": 1212763,
+      "title": "Posesión infernal: En llamas",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1101383,
+      "title": "El final de Oak Street",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1284041,
+      "title": "La última casa",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -119,11 +124,6 @@
     {
       "tmdbId": 1523145,
       "title": "Tu corazón se romperá",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1101383,
-      "title": "El final de Oak Street",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -164,7 +164,7 @@
     {
       "tmdbId": 1323244,
       "title": "La señal del apocalipsis",
-      "reason": "Rating 5.3 por debajo del mínimo (5.5)"
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1232569,
@@ -194,7 +194,7 @@
     {
       "tmdbId": 1393326,
       "title": "Ghost in the Cell",
-      "reason": "Votos 37 por debajo del mínimo (50)"
+      "reason": "Votos 38 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1514682,
