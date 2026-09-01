@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-09-01T07:46:32.414Z",
-  "durationMs": 807,
+  "generatedAt": "2026-09-01T12:54:48.683Z",
+  "durationMs": 2734,
   "dryRun": false,
   "moviesFound": 34,
   "moviesDiscarded": 32,
@@ -139,7 +139,7 @@
     },
     {
       "tmdbId": 1232569,
-      "title": "Pinocho esta Desquiciado",
+      "title": "Pinocho: Desatado",
       "reason": "Sin fuente autorizada configurada"
     },
     {
