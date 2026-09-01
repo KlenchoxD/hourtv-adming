@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-31T23:31:15.858Z",
-  "durationMs": 3572,
+  "generatedAt": "2026-09-01T02:02:22.660Z",
+  "durationMs": 1532,
   "dryRun": false,
   "moviesFound": 34,
   "moviesDiscarded": 32,
@@ -43,13 +43,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1275779,
-      "title": "El día de la revelación",
+      "tmdbId": 1204680,
+      "title": "Coyote vs. Acme",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1204680,
-      "title": "Coyote vs. Acme",
+      "tmdbId": 1275779,
+      "title": "El día de la revelación",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -170,7 +170,7 @@
     {
       "tmdbId": 1514682,
       "title": "Above & Below",
-      "reason": "Votos 9 por debajo del mínimo (50)"
+      "reason": "Votos 10 por debajo del mínimo (50)"
     }
   ]
 }

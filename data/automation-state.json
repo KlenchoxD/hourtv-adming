@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-08-31T23:31:19.427Z",
+  "lastRunAt": "2026-09-01T02:02:24.188Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -8,9 +8,9 @@
     860508,
     1108427,
     1315772,
+    1204680,
     1083381,
     1275779,
-    1204680,
     1384216,
     1273221,
     1212763,
@@ -72,13 +72,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1275779,
-      "title": "El día de la revelación",
+      "tmdbId": 1204680,
+      "title": "Coyote vs. Acme",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1204680,
-      "title": "Coyote vs. Acme",
+      "tmdbId": 1275779,
+      "title": "El día de la revelación",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -199,7 +199,7 @@
     {
       "tmdbId": 1514682,
       "title": "Above & Below",
-      "reason": "Votos 9 por debajo del mínimo (50)"
+      "reason": "Votos 10 por debajo del mínimo (50)"
     }
   ]
 }
