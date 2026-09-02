@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-09-02T04:50:10.507Z",
-  "durationMs": 3341,
+  "generatedAt": "2026-09-02T09:12:27.565Z",
+  "durationMs": 2301,
   "dryRun": false,
   "moviesFound": 34,
   "moviesDiscarded": 32,
@@ -15,6 +15,11 @@
     {
       "tmdbId": 969681,
       "title": "Spider-Man: Brand New Day",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1204680,
+      "title": "Coyote vs. Acme",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -43,18 +48,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1204680,
-      "title": "Coyote vs. Acme",
+      "tmdbId": 1275779,
+      "title": "El día de la revelación",
       "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1384216,
       "title": "La constelación del perro",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1275779,
-      "title": "El día de la revelación",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -140,7 +140,7 @@
     {
       "tmdbId": 1285366,
       "title": "愛のぬくもり",
-      "reason": "Votos 4 por debajo del mínimo (50)"
+      "reason": "Rating 5.2 por debajo del mínimo (5.5)"
     },
     {
       "tmdbId": 1323244,
@@ -160,7 +160,7 @@
     {
       "tmdbId": 1393326,
       "title": "Ghost in the Cell",
-      "reason": "Votos 38 por debajo del mínimo (50)"
+      "reason": "Votos 39 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1514682,

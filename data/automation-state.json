@@ -1,17 +1,17 @@
 {
-  "lastRunAt": "2026-09-02T04:50:13.843Z",
+  "lastRunAt": "2026-09-02T09:12:29.861Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
+    1204680,
     1339713,
     860508,
     1084244,
     1108427,
     1315772,
-    1204680,
     1083381,
-    1384216,
     1275779,
+    1384216,
     1273221,
     1081003,
     454639,
@@ -47,6 +47,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1204680,
+      "title": "Coyote vs. Acme",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1339713,
       "title": "Obsesión",
       "reason": "Sin fuente autorizada configurada"
@@ -72,18 +77,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1204680,
-      "title": "Coyote vs. Acme",
+      "tmdbId": 1275779,
+      "title": "El día de la revelación",
       "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1384216,
       "title": "La constelación del perro",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1275779,
-      "title": "El día de la revelación",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -169,7 +169,7 @@
     {
       "tmdbId": 1285366,
       "title": "愛のぬくもり",
-      "reason": "Votos 4 por debajo del mínimo (50)"
+      "reason": "Rating 5.2 por debajo del mínimo (5.5)"
     },
     {
       "tmdbId": 1323244,
@@ -189,7 +189,7 @@
     {
       "tmdbId": 1393326,
       "title": "Ghost in the Cell",
-      "reason": "Votos 38 por debajo del mínimo (50)"
+      "reason": "Votos 39 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1514682,
