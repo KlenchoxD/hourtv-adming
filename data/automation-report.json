@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-09-02T13:39:46.322Z",
-  "durationMs": 3266,
+  "generatedAt": "2026-09-02T17:20:28.623Z",
+  "durationMs": 3929,
   "dryRun": false,
   "moviesFound": 34,
   "moviesDiscarded": 32,
@@ -128,6 +128,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1285366,
+      "title": "愛のぬくもり",
+      "reason": "Rating 5.2 por debajo del mínimo (5.5)"
+    },
+    {
       "tmdbId": 1213243,
       "title": "Tóxico: Un cuento de hadas para adultos",
       "reason": "Sin sinopsis"
@@ -136,11 +141,6 @@
       "tmdbId": 1232569,
       "title": "Pinocho: Desatado",
       "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1285366,
-      "title": "愛のぬくもり",
-      "reason": "Rating 5.2 por debajo del mínimo (5.5)"
     },
     {
       "tmdbId": 1323244,

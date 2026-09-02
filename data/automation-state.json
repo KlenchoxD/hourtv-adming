@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-09-02T13:39:49.584Z",
+  "lastRunAt": "2026-09-02T17:20:32.549Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -26,9 +26,9 @@
     1288445,
     1516698,
     1621552,
+    1285366,
     1213243,
     1232569,
-    1285366,
     1323244,
     1375646,
     1560520,
@@ -157,6 +157,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1285366,
+      "title": "愛のぬくもり",
+      "reason": "Rating 5.2 por debajo del mínimo (5.5)"
+    },
+    {
       "tmdbId": 1213243,
       "title": "Tóxico: Un cuento de hadas para adultos",
       "reason": "Sin sinopsis"
@@ -165,11 +170,6 @@
       "tmdbId": 1232569,
       "title": "Pinocho: Desatado",
       "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1285366,
-      "title": "愛のぬくもり",
-      "reason": "Rating 5.2 por debajo del mínimo (5.5)"
     },
     {
       "tmdbId": 1323244,
