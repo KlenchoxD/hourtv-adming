@@ -1,26 +1,26 @@
 {
-  "lastRunAt": "2026-09-02T17:20:32.549Z",
+  "lastRunAt": "2026-09-02T19:56:19.104Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
     1204680,
-    1339713,
     860508,
+    1339713,
     1084244,
-    1108427,
     1315772,
+    1108427,
     1083381,
-    1275779,
     1384216,
+    1275779,
     1273221,
     1081003,
     454639,
-    1212763,
-    1101383,
     1284041,
     1127384,
-    1523145,
+    1101383,
+    1212763,
     1291595,
+    1523145,
     1228710,
     1368337,
     1288445,
@@ -52,13 +52,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1339713,
-      "title": "Obsesión",
+      "tmdbId": 860508,
+      "title": "Susurran tu nombre",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 860508,
-      "title": "Susurran tu nombre",
+      "tmdbId": 1339713,
+      "title": "Obsesión",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -67,23 +67,23 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1108427,
-      "title": "Vaiana",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1315772,
       "title": "Minions & Monsters",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1275779,
-      "title": "El día de la revelación",
+      "tmdbId": 1108427,
+      "title": "Vaiana",
       "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1384216,
       "title": "La constelación del perro",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1275779,
+      "title": "El día de la revelación",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -102,16 +102,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1212763,
-      "title": "Posesión infernal: En llamas",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1101383,
-      "title": "El final de Oak Street",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1284041,
       "title": "La última casa",
       "reason": "Sin fuente autorizada configurada"
@@ -122,13 +112,23 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1523145,
-      "title": "Tu corazón se romperá",
+      "tmdbId": 1101383,
+      "title": "El final de Oak Street",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1212763,
+      "title": "Posesión infernal: En llamas",
       "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1291595,
       "title": "Insidious: Fuera del más allá",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1523145,
+      "title": "Tu corazón se romperá",
       "reason": "Sin fuente autorizada configurada"
     },
     {
