@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-09-03T09:20:10.842Z",
+  "lastRunAt": "2026-09-03T13:41:53.168Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -10,14 +10,14 @@
     1315772,
     1108427,
     1083381,
-    1384216,
     1275779,
+    1384216,
     1273221,
     1081003,
     454639,
-    1284041,
     1127384,
     1101383,
+    1284041,
     1212763,
     1291595,
     1523145,
@@ -77,13 +77,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1384216,
-      "title": "La constelación del perro",
+      "tmdbId": 1275779,
+      "title": "El día de la revelación",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1275779,
-      "title": "El día de la revelación",
+      "tmdbId": 1384216,
+      "title": "La constelación del perro",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -102,11 +102,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1284041,
-      "title": "La última casa",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1127384,
       "title": "En mar abierto",
       "reason": "Sin fuente autorizada configurada"
@@ -114,6 +109,11 @@
     {
       "tmdbId": 1101383,
       "title": "El final de Oak Street",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1284041,
+      "title": "La última casa",
       "reason": "Sin fuente autorizada configurada"
     },
     {

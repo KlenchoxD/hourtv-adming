@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-09-03T09:20:08.469Z",
-  "durationMs": 2378,
+  "generatedAt": "2026-09-03T13:41:50.296Z",
+  "durationMs": 2877,
   "dryRun": false,
   "moviesFound": 34,
   "moviesDiscarded": 32,
@@ -48,13 +48,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1384216,
-      "title": "La constelación del perro",
+      "tmdbId": 1275779,
+      "title": "El día de la revelación",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1275779,
-      "title": "El día de la revelación",
+      "tmdbId": 1384216,
+      "title": "La constelación del perro",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -73,11 +73,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1284041,
-      "title": "La última casa",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1127384,
       "title": "En mar abierto",
       "reason": "Sin fuente autorizada configurada"
@@ -85,6 +80,11 @@
     {
       "tmdbId": 1101383,
       "title": "El final de Oak Street",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1284041,
+      "title": "La última casa",
       "reason": "Sin fuente autorizada configurada"
     },
     {
