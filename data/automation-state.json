@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-09-03T13:41:53.168Z",
+  "lastRunAt": "2026-09-03T17:14:43.831Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -25,16 +25,16 @@
     1368337,
     1288445,
     1516698,
-    1621552,
     1285366,
     1213243,
+    1621552,
     1232569,
-    1323244,
     1375646,
-    1560520,
-    1386315,
+    1323244,
     1393326,
+    1386315,
     1514682,
+    1560520,
     1335666
   ],
   "tmdbIdsPublished": [],
@@ -152,11 +152,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1621552,
-      "title": "La captura",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1285366,
       "title": "愛のぬくもり",
       "reason": "Rating 5.2 por debajo del mínimo (5.5)"
@@ -167,13 +162,13 @@
       "reason": "Sin sinopsis"
     },
     {
-      "tmdbId": 1232569,
-      "title": "Pinocho: Desatado",
+      "tmdbId": 1621552,
+      "title": "La captura",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1323244,
-      "title": "La señal del apocalipsis",
+      "tmdbId": 1232569,
+      "title": "Pinocho: Desatado",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -182,14 +177,9 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1560520,
-      "title": "Batman: Knightfall Part 1: Knightfall",
+      "tmdbId": 1323244,
+      "title": "La señal del apocalipsis",
       "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1386315,
-      "title": "A la carrera",
-      "reason": "Votos 43 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1393326,
@@ -197,9 +187,19 @@
       "reason": "Votos 40 por debajo del mínimo (50)"
     },
     {
+      "tmdbId": 1386315,
+      "title": "A la carrera",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1514682,
       "title": "Above & Below",
       "reason": "Votos 13 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 1560520,
+      "title": "Batman: Knightfall Part 1: Knightfall",
+      "reason": "Sin fuente autorizada configurada"
     }
   ]
 }

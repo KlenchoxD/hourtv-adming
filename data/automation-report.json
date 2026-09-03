@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-09-03T13:41:50.296Z",
-  "durationMs": 2877,
+  "generatedAt": "2026-09-03T17:14:42.171Z",
+  "durationMs": 1665,
   "dryRun": false,
   "moviesFound": 34,
   "moviesDiscarded": 32,
@@ -123,11 +123,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1621552,
-      "title": "La captura",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1285366,
       "title": "愛のぬくもり",
       "reason": "Rating 5.2 por debajo del mínimo (5.5)"
@@ -138,13 +133,13 @@
       "reason": "Sin sinopsis"
     },
     {
-      "tmdbId": 1232569,
-      "title": "Pinocho: Desatado",
+      "tmdbId": 1621552,
+      "title": "La captura",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1323244,
-      "title": "La señal del apocalipsis",
+      "tmdbId": 1232569,
+      "title": "Pinocho: Desatado",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -153,14 +148,9 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1560520,
-      "title": "Batman: Knightfall Part 1: Knightfall",
+      "tmdbId": 1323244,
+      "title": "La señal del apocalipsis",
       "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1386315,
-      "title": "A la carrera",
-      "reason": "Votos 43 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1393326,
@@ -168,9 +158,19 @@
       "reason": "Votos 40 por debajo del mínimo (50)"
     },
     {
+      "tmdbId": 1386315,
+      "title": "A la carrera",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1514682,
       "title": "Above & Below",
       "reason": "Votos 13 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 1560520,
+      "title": "Batman: Knightfall Part 1: Knightfall",
+      "reason": "Sin fuente autorizada configurada"
     }
   ]
 }
