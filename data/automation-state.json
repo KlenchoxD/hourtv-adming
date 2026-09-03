@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-09-03T17:14:43.831Z",
+  "lastRunAt": "2026-09-03T19:51:29.770Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -14,14 +14,14 @@
     1384216,
     1273221,
     1081003,
-    454639,
     1127384,
-    1101383,
+    454639,
     1284041,
+    1228710,
+    1101383,
     1212763,
     1291595,
     1523145,
-    1228710,
     1368337,
     1288445,
     1516698,
@@ -97,23 +97,28 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 454639,
-      "title": "He-Man y los Masters del Universo",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1127384,
       "title": "En mar abierto",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1101383,
-      "title": "El final de Oak Street",
+      "tmdbId": 454639,
+      "title": "He-Man y los Masters del Universo",
       "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1284041,
       "title": "La última casa",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1228710,
+      "title": "The Mandalorian and Grogu",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1101383,
+      "title": "El final de Oak Street",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -129,11 +134,6 @@
     {
       "tmdbId": 1523145,
       "title": "Tu corazón se romperá",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1228710,
-      "title": "The Mandalorian and Grogu",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -184,7 +184,7 @@
     {
       "tmdbId": 1393326,
       "title": "Ghost in the Cell",
-      "reason": "Votos 40 por debajo del mínimo (50)"
+      "reason": "Votos 41 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1386315,
