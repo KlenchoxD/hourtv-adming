@@ -664,44 +664,32 @@
     },
     {
       "id": "tmdb-1083381",
-      "title": "Backrooms",
-      "plot": "Una puerta extraña aparece en el sótano de una sala de exposición de muebles.",
-      "cast": "Chiwetel Ejiofor, Renate Reinsve, Mark Duplass, Finn Bennett, Lukita Maxwell, Avan Jogia, Robert Bobroczkyi, Ember Ambrose, Krista Kosonen, Philip Granger",
+      "title": "Backrooms: Sin salida",
+      "plot": "Una misteriosa anomalía conduce a una dimensión compuesta por interminables pasillos, oficinas vacías y espacios que desafían toda lógica. Cuando una terapeuta decide adentrarse en ese inquietante laberinto para encontrar a un paciente desaparecido, deberá enfrentarse a un entorno donde las leyes de la realidad parecen romperse y cada decisión puede conducir a un lugar aún más perturbador. La película transforma el fenómeno viral de los Backrooms en un thriller psicológico de terror que apuesta por la tensión, la atmósfera opresiva y el miedo a lo desconocido, evitando depender únicamente de los sobresaltos tradicionales.",
+      "cast": "Chiwetel Ejiofor, Renate Reinsve, Mark Duplass, Finn Bennett, Lukita Maxwell",
       "director": "Kane Parsons",
       "writer": "Will Soodik",
-      "releaseDate": "2026-05-27",
+      "releaseDate": "2026-05-29",
       "year": "2026",
-      "genre": "Terror, Misterio, Ciencia ficción",
+      "genre": "Terror, Ciencia ficción, Thriller psicológico, Metraje encontrado",
       "rating": 7,
-      "duration": "105 min",
-      "poster": "https://image.tmdb.org/t/p/w780/A6otDtTWkCUa7cN8DExxO91ziOK.jpg",
-      "backdrop": "https://image.tmdb.org/t/p/w1280/dqmMWNWfLnExDRpMtIMqI97GQFR.jpg",
+      "duration": "110 min",
+      "poster": "https://i.pinimg.com/736x/3d/ad/ed/3dadedbe3535cebfd75acafa89885d6a.jpg",
       "categories": [
-        "terror",
-        "aventura",
+        "recomendado",
         "estrenos",
         "populares",
-        "recomendado"
+        "terror",
+        "aventura"
       ],
       "featured": true,
       "servers": [
         {
-          "name": "Streamwish",
-          "url": "https://streamwish.to/e/uscs7h3xbbo9",
-          "language": "Español Latino"
-        },
-        {
-          "name": "Streamwish",
-          "url": "https://streamwish.to/e/2jel88xzez9s",
-          "language": "Subtitulado"
-        },
-        {
-          "name": "Streamwish",
-          "url": "https://streamwish.to/e/e94tq2gvehr0",
+          "name": "Servidor 1",
+          "url": "https://barmonrey.com/player/v6GW8AcMnOBvdDa/",
           "language": "Español"
         }
-      ],
-      "tmdbId": 1083381
+      ]
     },
     {
       "id": "tmdb-1335666",
@@ -745,6 +733,326 @@
         }
       ],
       "tmdbId": 1335666
+    },
+    {
+      "id": "cd9d6c06f4c94e49a37fda1542852d98",
+      "title": "Boulevard (2026)",
+      "plot": "Vive la historia de Boulevard (2026) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
+      "poster": "https://sun9-35.userapi.com/s/v1/ig2/7jhUcxMudMN_f7eCj9ZZY0iy38MMtI_SXgZdtSR7_sr5sOzd_wzsBcy79tLnerFLutALLSgnsqnjqSksJu4hM35d.jpg?quality=95&as=32x48,48x72,72x108,108x162,160x240,240x360,300x450&from=bu&u=2Yu83izyF_MozFry-DfMYdUg8iijIhO2PmEFwqXLIPE&cs=300x0",
+      "servers": [
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/aaE1bbCfURYhc4i/",
+          "language": "Idioma sin identificar"
+        }
+      ]
+    },
+    {
+      "id": "379e2a559d3b4014a2cb7d8df57ff660",
+      "title": "Obsesión (2025) | Blog de Pelis",
+      "plot": "Vive la historia de Obsesión (2025) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
+      "poster": "https://blogdepelis.net/wp-content/uploads/2026/07/OBSESION.jpg",
+      "categories": [
+        "Películas"
+      ],
+      "servers": [
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/bO7XFMfvdoFzOyY/",
+          "language": "Idioma sin identificar"
+        }
+      ]
+    },
+    {
+      "id": "8889f6e1010a4fa7b478fad06fcad29b",
+      "title": "Backrooms: Sin salida (2026) | Blog de Pelis",
+      "plot": "Vive la historia de Backrooms: Sin salida (2026) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
+      "poster": "https://blogdepelis.net/wp-content/uploads/2026/07/backrooms.jpg",
+      "categories": [
+        "Películas"
+      ],
+      "servers": [
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/v6GW8AcMnOBvdDa/",
+          "language": "Idioma sin identificar"
+        }
+      ]
+    },
+    {
+      "id": "44a1eefca2624a1ab6e225d05fb8df38",
+      "title": "La voluntad de Dios (2026) | Blog de Pelis",
+      "plot": "Vive la historia de La voluntad de Dios (2026) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
+      "poster": "https://blogdepelis.net/wp-content/uploads/2026/07/DIOS.jpg",
+      "categories": [
+        "Películas"
+      ],
+      "servers": [
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/9tWSj5PNyVLHEto/",
+          "language": "Idioma sin identificar"
+        }
+      ]
+    },
+    {
+      "id": "9c5c98ced772481cbe73862056dfaa34",
+      "title": "Toy Story 5 (2026) | Blog de Pelis",
+      "plot": "Vive la historia de Toy Story 5 (2026) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
+      "poster": "https://blogdepelis.net/wp-content/uploads/2026/06/ts5.jpg",
+      "categories": [
+        "Películas"
+      ],
+      "servers": [
+        {
+          "name": "OK.ru",
+          "url": "https://ok.ru/videoembed/14820121316017?nochat=1",
+          "language": "Idioma sin identificar"
+        },
+        {
+          "name": "OK.ru",
+          "url": "https://barmonrey.com/player/E4jSC0B5gtlBDyN/",
+          "language": "Idioma sin identificar"
+        },
+        {
+          "name": "OK.ru",
+          "url": "https://barmonrey.com/player/kiQ2SyiGDLgn7rA/",
+          "language": "Idioma sin identificar"
+        }
+      ]
+    },
+    {
+      "id": "1c68347ce40b4ac2b356d77ea0b76a56",
+      "title": "El demonio neón (2016) | Blog de Pelis",
+      "plot": "Vive la historia de El demonio neón (2016) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
+      "poster": "https://blogdepelis.net/wp-content/uploads/2026/07/NEON.jpg",
+      "categories": [
+        "Películas"
+      ],
+      "servers": [
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/oVHStuc864hSzeY/",
+          "language": "Idioma sin identificar"
+        }
+      ]
+    },
+    {
+      "id": "0856300b94024e0aa010c33939e28b57",
+      "title": "Ahora estamos solos (2018) | Blog de Pelis",
+      "plot": "Vive la historia de Ahora estamos solos (2018) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
+      "poster": "https://blogdepelis.net/wp-content/uploads/2026/07/SOLOS.jpg",
+      "categories": [
+        "Películas"
+      ],
+      "servers": [
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/YoTr40tCg8mXunx/",
+          "language": "Idioma sin identificar"
+        }
+      ]
+    },
+    {
+      "id": "df0f5b1cca7849239353ab87214af965",
+      "title": "Normal (2026)",
+      "plot": "Vive la historia de Normal (2026) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
+      "poster": "https://blogdepelis.net/wp-content/uploads/2026/07/NORMAL.jpg",
+      "categories": [
+        "Películas"
+      ],
+      "servers": [
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/EQ5EA3j2Eq2Yeah/",
+          "language": "Idioma sin identificar"
+        }
+      ]
+    },
+    {
+      "id": "639ac59d93304037b37920b8b2294315",
+      "title": "Deseo en Manhattan (2025)",
+      "plot": "Vive la historia de Deseo en Manhattan (2025) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
+      "poster": "https://blogdepelis.net/wp-content/uploads/2026/07/MANHATAN.jpg",
+      "categories": [
+        "Películas"
+      ],
+      "servers": [
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/BaKU2fiHfyjAgBa/",
+          "language": "Idioma sin identificar"
+        }
+      ]
+    },
+    {
+      "id": "3a2a7748aced4939bb018d904945ccef",
+      "title": "Proyecto: El internado (2026)",
+      "plot": "Vive la historia de Proyecto: El internado (2026) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
+      "poster": "https://blogdepelis.net/wp-content/uploads/2026/07/INTERNADO.jpg",
+      "categories": [
+        "Películas"
+      ],
+      "servers": [
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/xmxBipIip0Uq6Oo/",
+          "language": "Idioma sin identificar"
+        }
+      ]
+    },
+    {
+      "id": "f55981ce2af74f0d862c06809cb75237",
+      "title": "El pasajero del diablo (2026)",
+      "plot": "Vive la historia de El pasajero del diablo (2026) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
+      "poster": "https://blogdepelis.net/wp-content/uploads/2026/07/PASAJERODIABLO.jpg",
+      "categories": [
+        "Películas"
+      ],
+      "servers": [
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/jEzGGZmXNiSIy9K/",
+          "language": "Idioma sin identificar"
+        }
+      ]
+    },
+    {
+      "id": "517073e1b6c64fac98640e3bef948546",
+      "title": "Ad Astra: Hacia las estrellas (2019)",
+      "plot": "Vive la historia de Ad Astra: Hacia las estrellas (2019) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes",
+      "poster": "https://blogdepelis.net/wp-content/uploads/2026/07/ADASTRA.jpg",
+      "categories": [
+        "Películas"
+      ],
+      "servers": [
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/gPgojHHrHOmV1wu/",
+          "language": "Idioma sin identificar"
+        }
+      ]
+    },
+    {
+      "id": "da9e1b73ba44447e9c28a8b3b5696c7e",
+      "title": "Winx Club: El misterio del abismo (2014)",
+      "plot": "Vive la historia de Winx Club: El misterio del abismo (2014) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los",
+      "poster": "https://blogdepelis.net/wp-content/uploads/2026/07/WINXULTIMA.jpg",
+      "categories": [
+        "Películas"
+      ],
+      "servers": [
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/RJ8fdnrh83IJzgx/",
+          "language": "Idioma sin identificar"
+        }
+      ]
+    },
+    {
+      "id": "aaa5985cad0e4450a8925dacbc558488",
+      "title": "Winx Club: La aventura mágica (2010)",
+      "plot": "Vive la historia de Winx Club: La aventura mágica (2010) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes",
+      "poster": "https://blogdepelis.net/wp-content/uploads/2026/07/WINX2.jpg",
+      "categories": [
+        "Películas"
+      ],
+      "servers": [
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/OSRlO48uiQPAryc/",
+          "language": "Idioma sin identificar"
+        }
+      ]
+    },
+    {
+      "id": "a28207927eb24c8cbcb2355fa1518961",
+      "title": "Winx Club: El secreto del reino perdido (2007)",
+      "plot": "Vive la historia de Winx Club: El secreto del reino perdido (2007) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los",
+      "poster": "https://blogdepelis.net/wp-content/uploads/2026/07/REINOPERDIDO.jpg",
+      "categories": [
+        "Películas"
+      ],
+      "servers": [
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/4qTuVONv9WIyO0b/",
+          "language": "Idioma sin identificar"
+        }
+      ]
+    },
+    {
+      "id": "0e683dd611824f6bb12fdb69344cfd13",
+      "title": "La princesa encantada 3: El misterio del tesoro encantado (1998)",
+      "plot": "Vive la historia de La princesa encantada 3: El misterio del tesoro encantado (1998) y disfruta este título en Blog de Pelis con una experiencia de cine",
+      "poster": "https://blogdepelis.net/wp-content/uploads/2026/07/PRINCESA3.jpg",
+      "categories": [
+        "Películas"
+      ],
+      "servers": [
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/okPyFjI8Y3OqeT1/",
+          "language": "Idioma sin identificar"
+        }
+      ]
+    },
+    {
+      "id": "2c8e9a067c394b97a84009d67597e84a",
+      "title": "La princesa encantada 2: El secreto del castillo (1997)",
+      "plot": "Vive la historia de La princesa encantada 2: El secreto del castillo (1997) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada",
+      "poster": "https://blogdepelis.net/wp-content/uploads/2026/07/PRINCESA2.jpg",
+      "categories": [
+        "Películas"
+      ],
+      "servers": [
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/kcLLa8owSVO4dbh/",
+          "language": "Idioma sin identificar"
+        }
+      ]
+    },
+    {
+      "id": "tmdb-1083381",
+      "title": "Backrooms",
+      "plot": "Una puerta extraña aparece en el sótano de una sala de exposición de muebles.",
+      "cast": "Chiwetel Ejiofor, Renate Reinsve, Finn Bennett, Lukita Maxwell, Mark Duplass, Avan Jogia, Robert Bobroczkyi, Ember Ambrose, Krista Kosonen, Philip Granger",
+      "director": "Kane Parsons",
+      "writer": "Will Soodik",
+      "releaseDate": "2026-05-27",
+      "year": "2026",
+      "genre": "Terror, Misterio, Ciencia ficción",
+      "rating": 7.1,
+      "duration": "105 min",
+      "poster": "https://image.tmdb.org/t/p/w780/ur2yYTVGPkEDmLdoQ1Obm2RKXuU.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/2aA8iPlMCks3k131ymFBAY6FL0b.jpg",
+      "categories": [
+        "terror",
+        "aventura",
+        "estrenos",
+        "populares",
+        "recomendado"
+      ],
+      "featured": true,
+      "servers": [
+        {
+          "name": "Streamwish",
+          "url": "https://streamwish.to/e/uscs7h3xbbo9",
+          "language": "Español Latino"
+        },
+        {
+          "name": "Streamwish",
+          "url": "https://streamwish.to/e/2jel88xzez9s",
+          "language": "Subtitulado"
+        },
+        {
+          "name": "Streamwish",
+          "url": "https://streamwish.to/e/e94tq2gvehr0",
+          "language": "Español"
+        }
+      ],
+      "tmdbId": 1083381
     }
   ],
   "series": [
@@ -780,6 +1088,441 @@
                   "name": "Servidor 1",
                   "url": "https://voe.sx/e/2suzh7well4u",
                   "language": "Español"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "337671fc5b494464a540c11c68a14f6b",
+      "title": "La casa del dragón - Temporada 3 (2026) | Blog de Pelis",
+      "plot": "Vive la historia de La casa del dragón - Temporada 3 (2026) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los",
+      "poster": "https://blogdepelis.net/wp-content/uploads/2026/07/CASADRAGON3.jpg",
+      "seasons": [
+        {
+          "number": 3,
+          "episodes": [
+            {
+              "number": 1,
+              "title": "Capítulo 1",
+              "servers": [
+                {
+                  "name": "Barmonrey",
+                  "url": "https://barmonrey.com/player/Q62LrQf9ftBZnxT/",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 2,
+              "title": "Capítulo 2",
+              "servers": [
+                {
+                  "name": "Barmonrey",
+                  "url": "https://barmonrey.com/player/ZRGQfYbX9zpLnrM/",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 3,
+              "title": "Capítulo 3",
+              "servers": [
+                {
+                  "name": "Barmonrey",
+                  "url": "https://barmonrey.com/player/NoEKbvQx6WHJ7RK/",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 4,
+              "title": "Capítulo 4",
+              "servers": [
+                {
+                  "name": "Barmonrey",
+                  "url": "https://barmonrey.com/player/EYClpX6RD4P85xP/",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "13e3492a56874e3082441c30d06f2cfb",
+      "title": "Los chicos son mejores que las flores - Temporada 1 (2025) | Blog de Pelis",
+      "plot": "Vive la historia de Los chicos son mejores que las flores - Temporada 1 (2025) y disfruta este título en Blog de Pelis con una experiencia de cine online",
+      "poster": "https://blogdepelis.net/wp-content/uploads/2026/06/chicos.jpg",
+      "seasons": [
+        {
+          "number": 1,
+          "episodes": [
+            {
+              "number": 1,
+              "title": "Capítulo 1",
+              "servers": [
+                {
+                  "name": "Voe",
+                  "url": "https://voe.sx/e/xvitexw3tng6",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 2,
+              "title": "Capítulo 2",
+              "servers": [
+                {
+                  "name": "Voe",
+                  "url": "https://voe.sx/e/9o2ods40mqqo",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 3,
+              "title": "Capítulo 3",
+              "servers": [
+                {
+                  "name": "Voe",
+                  "url": "https://voe.sx/e/7rnyfgzlnbqq",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 4,
+              "title": "Capítulo 4",
+              "servers": [
+                {
+                  "name": "Voe",
+                  "url": "https://voe.sx/e/ruytpk0qvtdw",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 5,
+              "title": "Capítulo 5",
+              "servers": [
+                {
+                  "name": "Voe",
+                  "url": "https://voe.sx/e/bk4ogxqgulwp",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 6,
+              "title": "Capítulo 6",
+              "servers": [
+                {
+                  "name": "Voe",
+                  "url": "https://voe.sx/e/tm2lwuyzcnyx",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 7,
+              "title": "Capítulo 7",
+              "servers": [
+                {
+                  "name": "Voe",
+                  "url": "https://voe.sx/e/tnsuhxfwzvtc",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 8,
+              "title": "Capítulo 8",
+              "servers": [
+                {
+                  "name": "Voe",
+                  "url": "https://voe.sx/e/j1tlm4vvxfou",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 9,
+              "title": "Capítulo 9",
+              "servers": [
+                {
+                  "name": "Voe",
+                  "url": "https://voe.sx/e/ommktfjoxzxe",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 10,
+              "title": "Capítulo 10",
+              "servers": [
+                {
+                  "name": "Voe",
+                  "url": "https://voe.sx/e/jxefokchkqhz",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 11,
+              "title": "Capítulo 11",
+              "servers": [
+                {
+                  "name": "Voe",
+                  "url": "https://voe.sx/e/naszpgseqq2l",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 12,
+              "title": "Capítulo 12",
+              "servers": [
+                {
+                  "name": "Voe",
+                  "url": "https://voe.sx/e/yj0yc2zlsu22",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 13,
+              "title": "Capítulo 13",
+              "servers": [
+                {
+                  "name": "Voe",
+                  "url": "https://voe.sx/e/pn9cqmmzttu0",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 14,
+              "title": "Capítulo 14",
+              "servers": [
+                {
+                  "name": "Voe",
+                  "url": "https://voe.sx/e/ffesdtlxyc95",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 15,
+              "title": "Capítulo 15",
+              "servers": [
+                {
+                  "name": "Voe",
+                  "url": "https://voe.sx/e/mvx0mvl7mozo",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 16,
+              "title": "Capítulo 16",
+              "servers": [
+                {
+                  "name": "Voe",
+                  "url": "https://voe.sx/e/1uet63bp1q1q",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 17,
+              "title": "Capítulo 17",
+              "servers": [
+                {
+                  "name": "Voe",
+                  "url": "https://voe.sx/e/1481tsc11vma",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 18,
+              "title": "Capítulo 18",
+              "servers": [
+                {
+                  "name": "Voe",
+                  "url": "https://voe.sx/e/ecnsu7potsde",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 19,
+              "title": "Capítulo 19",
+              "servers": [
+                {
+                  "name": "Voe",
+                  "url": "https://voe.sx/e/ppbr9v6tlszt",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 20,
+              "title": "Capítulo 20",
+              "servers": [
+                {
+                  "name": "Voe",
+                  "url": "https://voe.sx/e/bunq61266tpe",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 21,
+              "title": "Capítulo 21",
+              "servers": [
+                {
+                  "name": "Voe",
+                  "url": "https://voe.sx/e/ea2cpg7znivt",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 22,
+              "title": "Capítulo 22",
+              "servers": [
+                {
+                  "name": "Voe",
+                  "url": "https://voe.sx/e/gntgkjirwgam",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 23,
+              "title": "Capítulo 23",
+              "servers": [
+                {
+                  "name": "Voe",
+                  "url": "https://voe.sx/e/gtvzdu4upwos",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 24,
+              "title": "Capítulo 24",
+              "servers": [
+                {
+                  "name": "Voe",
+                  "url": "https://voe.sx/e/vgvx2gzbh7gy",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 25,
+              "title": "Capítulo 25",
+              "servers": [
+                {
+                  "name": "Voe",
+                  "url": "https://voe.sx/e/5zx9ochrxjkh",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "34fa1cd33ddc4b31a020e016b578788a",
+      "title": "Avatar: La leyenda de Aang – Temporada 2 (2026) | Blog de Pelis",
+      "plot": "Vive la historia de Avatar: La leyenda de Aang – Temporada 2 (2026) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para",
+      "poster": "https://blogdepelis.net/wp-content/uploads/2026/06/aang2.jpg",
+      "seasons": [
+        {
+          "number": 2,
+          "episodes": [
+            {
+              "number": 1,
+              "title": "Capítulo 1",
+              "servers": [
+                {
+                  "name": "Barmonrey",
+                  "url": "https://barmonrey.com/player/G0D511Pd1CPfd6q/",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 2,
+              "title": "Capítulo 2",
+              "servers": [
+                {
+                  "name": "Barmonrey",
+                  "url": "https://barmonrey.com/player/QaZvwdZNc36kRVv/",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 3,
+              "title": "Capítulo 3",
+              "servers": [
+                {
+                  "name": "Barmonrey",
+                  "url": "https://barmonrey.com/player/2F5OdTwXNt1T4A0/",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 4,
+              "title": "Capítulo 4",
+              "servers": [
+                {
+                  "name": "Barmonrey",
+                  "url": "https://barmonrey.com/player/8W1Uyk1kTbf48z6/",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 5,
+              "title": "Capítulo 5",
+              "servers": [
+                {
+                  "name": "Barmonrey",
+                  "url": "https://barmonrey.com/player/NolCP0euYj6LUR5/",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 6,
+              "title": "Capítulo 6",
+              "servers": [
+                {
+                  "name": "Barmonrey",
+                  "url": "https://barmonrey.com/player/JBPimWrcatafJ2r/",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 7,
+              "title": "Capítulo 7",
+              "servers": [
+                {
+                  "name": "Barmonrey",
+                  "url": "https://barmonrey.com/player/M2CDt42xvQfLD16/",
+                  "language": "Idioma sin identificar"
                 }
               ]
             }

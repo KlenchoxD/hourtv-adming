@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-07-18T03:29:02.632Z",
-  "durationMs": 2423,
+  "generatedAt": "2026-09-04T04:27:12.805Z",
+  "durationMs": 2511,
   "dryRun": false,
-  "moviesFound": 29,
-  "moviesDiscarded": 27,
+  "moviesFound": 34,
+  "moviesDiscarded": 32,
   "moviesAdded": 0,
   "moviesEnriched": 0,
   "duplicates": 2,
@@ -13,13 +13,23 @@
   "addedTitles": [],
   "skipped": [
     {
-      "tmdbId": 1339713,
-      "title": "Obsesión",
+      "tmdbId": 969681,
+      "title": "Spider-Man: Brand New Day",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1108427,
-      "title": "Vaiana",
+      "tmdbId": 1204680,
+      "title": "Coyote vs. Acme",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 860508,
+      "title": "Susurran tu nombre",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1339713,
+      "title": "Obsesión",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -28,23 +38,28 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1315772,
+      "title": "Minions & Monsters",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1108427,
+      "title": "Vaiana",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1275779,
       "title": "El día de la revelación",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1273221,
-      "title": "Scary Movie",
-      "reason": "Rating 5.4 por debajo del mínimo (5.5)"
-    },
-    {
-      "tmdbId": 1368314,
-      "title": "El pasajero nocturno",
+      "tmdbId": 1384216,
+      "title": "La constelación del perro",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1314481,
-      "title": "El diablo viste de Prada 2",
+      "tmdbId": 1273221,
+      "title": "Scary Movie",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -53,28 +68,18 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1315772,
-      "title": "Minions y monstruos",
+      "tmdbId": 1127384,
+      "title": "En mar abierto",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 936075,
-      "title": "Michael",
+      "tmdbId": 454639,
+      "title": "He-Man y los Masters del Universo",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 931285,
-      "title": "Mortal Kombat II",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1212763,
-      "title": "Posesión infernal: En llamas",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1304313,
-      "title": "La momia de Lee Cronin",
+      "tmdbId": 1284041,
+      "title": "La última casa",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -83,38 +88,18 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1007757,
-      "title": "Intercambiados",
+      "tmdbId": 1101383,
+      "title": "El final de Oak Street",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1595852,
-      "title": "Boulevard",
+      "tmdbId": 1212763,
+      "title": "Posesión infernal: En llamas",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1318447,
-      "title": "Depredador dominante",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1057265,
-      "title": "పెద్ది",
-      "reason": "Sin sinopsis"
-    },
-    {
-      "tmdbId": 1301421,
-      "title": "Las ovejas detectives",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1368337,
-      "title": "La Odisea",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1280738,
-      "title": "The Furious",
+      "tmdbId": 1291595,
+      "title": "Insidious: Fuera del más allá",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -123,28 +108,68 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 687163,
-      "title": "Proyecto Salvación",
+      "tmdbId": 1368337,
+      "title": "La Odisea",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1413976,
-      "title": "Citizen Vigilante",
+      "tmdbId": 1288445,
+      "title": "El motín",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1127384,
-      "title": "En mar abierto",
+      "tmdbId": 1516698,
+      "title": "Sunrise. El último amanecer",
       "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1285366,
       "title": "愛のぬくもり",
-      "reason": "Votos 4 por debajo del mínimo (50)"
+      "reason": "Rating 5.2 por debajo del mínimo (5.5)"
     },
     {
-      "tmdbId": 83533,
-      "title": "Avatar: Fuego y ceniza",
+      "tmdbId": 1213243,
+      "title": "Tóxico: Un cuento de hadas para adultos",
+      "reason": "Sin sinopsis"
+    },
+    {
+      "tmdbId": 1621552,
+      "title": "La captura",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1232569,
+      "title": "Pinocho: Desatado",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1375646,
+      "title": "Colony",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1323244,
+      "title": "La señal del apocalipsis",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1393326,
+      "title": "Ghost in the Cell",
+      "reason": "Votos 41 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 1386315,
+      "title": "A la carrera",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1514682,
+      "title": "Above & Below",
+      "reason": "Votos 14 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 1560520,
+      "title": "Batman: Knightfall Part 1: Knightfall",
       "reason": "Sin fuente autorizada configurada"
     }
   ]
