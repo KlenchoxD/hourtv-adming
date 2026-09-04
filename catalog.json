@@ -749,12 +749,25 @@
     },
     {
       "id": "379e2a559d3b4014a2cb7d8df57ff660",
-      "title": "Obsesión (2025) | Blog de Pelis",
-      "plot": "Vive la historia de Obsesión (2025) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://blogdepelis.net/wp-content/uploads/2026/07/OBSESION.jpg",
+      "title": "Obsesión",
+      "plot": "Claire Peterson, una profesora de literatura recién divorciada, inicia una relación con Noah, un joven atractivo que se muda a la casa de al lado. Lo que comienza como un romance termina convirtiéndose en una peligrosa obsesión cuando Noah desarrolla un comportamiento cada vez más posesivo y perturbador.",
+      "cast": "Michael Johnston, Inde Navarrette, Cooper Tomlinson, Megan Lawless, Andy Richter, Haley Fitzgerald, Darin Toonder, Anthony Pavone",
+      "director": "Curry Barker",
+      "writer": "Curry Barker",
+      "releaseDate": "2026-05-13",
+      "year": "2026",
+      "genre": "Terror, Suspense",
+      "rating": 8.2,
+      "duration": "108 min",
+      "poster": "https://i.pinimg.com/736x/86/cb/05/86cb0506d991ffb4c21444cd8cfb6bf7.jpg",
       "categories": [
-        "Películas"
+        "recomendado",
+        "estrenos",
+        "populares",
+        "terror"
       ],
+      "tmdbId": 1339713,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
@@ -1012,47 +1025,6 @@
           "language": "Idioma sin identificar"
         }
       ]
-    },
-    {
-      "id": "tmdb-1083381",
-      "title": "Backrooms",
-      "plot": "Una puerta extraña aparece en el sótano de una sala de exposición de muebles.",
-      "cast": "Chiwetel Ejiofor, Renate Reinsve, Finn Bennett, Lukita Maxwell, Mark Duplass, Avan Jogia, Robert Bobroczkyi, Ember Ambrose, Krista Kosonen, Philip Granger",
-      "director": "Kane Parsons",
-      "writer": "Will Soodik",
-      "releaseDate": "2026-05-27",
-      "year": "2026",
-      "genre": "Terror, Misterio, Ciencia ficción",
-      "rating": 7.1,
-      "duration": "105 min",
-      "poster": "https://image.tmdb.org/t/p/w780/ur2yYTVGPkEDmLdoQ1Obm2RKXuU.jpg",
-      "backdrop": "https://image.tmdb.org/t/p/w1280/2aA8iPlMCks3k131ymFBAY6FL0b.jpg",
-      "categories": [
-        "terror",
-        "aventura",
-        "estrenos",
-        "populares",
-        "recomendado"
-      ],
-      "featured": true,
-      "servers": [
-        {
-          "name": "Streamwish",
-          "url": "https://streamwish.to/e/uscs7h3xbbo9",
-          "language": "Español Latino"
-        },
-        {
-          "name": "Streamwish",
-          "url": "https://streamwish.to/e/2jel88xzez9s",
-          "language": "Subtitulado"
-        },
-        {
-          "name": "Streamwish",
-          "url": "https://streamwish.to/e/e94tq2gvehr0",
-          "language": "Español"
-        }
-      ],
-      "tmdbId": 1083381
     }
   ],
   "series": [
@@ -1530,5 +1502,7 @@
         }
       ]
     }
-  ]
+  ],
+  "sources": [],
+  "liveChannels": []
 }
