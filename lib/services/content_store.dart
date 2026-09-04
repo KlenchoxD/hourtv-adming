@@ -6,7 +6,6 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:http/http.dart' as http;
 import '../models/channel.dart';
 import '../models/m3u_list.dart';
-import 'archive_service.dart';
 import 'storage_service.dart';
 import 'm3u_parser_service.dart';
 import 'parental_control_service.dart';
@@ -47,7 +46,6 @@ class ContentStore extends ChangeNotifier {
   Set<String> failedSourceNames = {};
 
   bool _started = false;
-  bool _archiveFetched = false;
   bool _refreshing = false;
   bool _networkLoadRunning = false;
   bool _refreshAgain = false;
@@ -102,7 +100,7 @@ class ContentStore extends ChangeNotifier {
         for (final channel in cachedChannels) {
           channel.isFavorite = favorites.contains(channel.url);
         }
-        all = cachedChannels;
+        all = _withoutArchiveMovies(cachedChannels);
         series = cachedSeries;
         _recomputeCountries();
         loading = false;
@@ -113,7 +111,7 @@ class ContentStore extends ChangeNotifier {
     // El catálogo remoto cacheado o el asset local también se leen sin red.
     final localSources = await _loadAssetSources();
     if (all.isEmpty && localSources.channels.isNotEmpty) {
-      all = localSources.channels;
+      all = _withoutArchiveMovies(localSources.channels);
     }
     if (series.isEmpty && localSources.series.isNotEmpty) {
       series = localSources.series;
@@ -254,7 +252,7 @@ class ContentStore extends ChangeNotifier {
       for (final channel in refreshedChannels) {
         channel.isFavorite = favorites.contains(channel.url);
       }
-      all = refreshedChannels;
+      all = _withoutArchiveMovies(refreshedChannels);
       series = assetSources.series;
       _recomputeCountries();
       loading = false;
@@ -264,7 +262,6 @@ class ContentStore extends ChangeNotifier {
       unawaited(_loadEpg(assetSources.epgUrls));
       await _loadVod(lists, assetSources.series, failed);
       unawaited(_enrichMovies(all));
-      unawaited(_loadArchiveCatalog());
     } catch (exception) {
       if (all.isEmpty && series.isEmpty) {
         error = exception.toString();
@@ -418,39 +415,15 @@ class ContentStore extends ChangeNotifier {
     }
   }
 
-  /// Agrega el catalogo de peliculas de dominio publico de Internet Archive
-  /// (clasicos, terror, ciencia ficcion...) como contenido gratis extra,
-  /// sin que el usuario tenga que configurar nada. Se pide una sola vez por
-  /// sesion (no en cada `maybeRefresh`); lo ya agregado queda cacheado en el
-  /// snapshot normal del catalogo, asi que un reinicio no vuelve a pedirlo
-  /// hasta la siguiente carga completa.
-  Future<void> _loadArchiveCatalog() async {
-    if (_archiveFetched) return;
-    _archiveFetched = true;
-    try {
-      final movies = await ArchiveService.fetchCatalog();
-      if (movies.isEmpty) return;
-      final favorites = StorageService.loadFavorites()
-          .map((channel) => channel.url)
-          .toSet();
-      final existingUrls = all.map((channel) => channel.url).toSet();
-      var addedAny = false;
-      for (final movie in movies) {
-        if (!existingUrls.add(movie.url)) continue;
-        movie.isFavorite = favorites.contains(movie.url);
-        all.add(movie);
-        addedAny = true;
-      }
-      if (addedAny) {
-        _recomputeCountries();
-        notifyListeners();
-        await _persistSnapshot();
-      }
-    } catch (_) {
-      // Sin Internet Archive no pasa nada grave: el resto del catalogo ya
-      // esta cargado y visible.
-    }
-  }
+  /// Solo se muestra lo que entra por el catálogo administrado
+  /// (hourtv-adming: panel + scraper automático) o por las fuentes que el
+  /// propio usuario agrega. Antes tambien se sumaba solo Internet Archive
+  /// como "contenido gratis extra" sin pasar por ahi; se quita el filtro
+  /// para que las peliculas que nunca se dieron de alta en el panel no
+  /// aparezcan, y limpia las que ya hubieran quedado guardadas de una
+  /// version anterior.
+  List<Channel> _withoutArchiveMovies(List<Channel> channels) =>
+      channels.where((c) => !c.url.startsWith('archive:')).toList();
 
   /// Última versión buena del catálogo remoto, disponible sin red.
   String? _cachedRemoteSources() {
