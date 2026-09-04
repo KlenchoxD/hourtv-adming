@@ -213,6 +213,16 @@ class ContentStore extends ChangeNotifier {
       );
 
       final seen = <String>{};
+      // El catalogo del panel (assetSources.channels, se agrega primero) ya
+      // trae poster/sinopsis de TMDB. Si otra fuente (una lista M3U propia)
+      // trae la MISMA pelicula/serie con otra URL, antes convivian como dos
+      // tarjetas separadas -una con caratula real, otra con un fotograma al
+      // azar-. Dedupe tambien por titulo (solo VOD, En Vivo se deja intacto)
+      // para que gane siempre la version del panel.
+      final seenVodTitles = <String>{};
+      String? vodTitleKey(Channel c) => c.type == MediaType.live
+          ? null
+          : TmdbService.normalizeTitle(c.displayName);
       final refreshedChannels = <Channel>[];
       for (final channel in assetSources.channels) {
         // Las pelis/series del panel se deduplican por su id único, NO por url:
@@ -221,7 +231,13 @@ class ContentStore extends ChangeNotifier {
         final key = channel.tvgId?.isNotEmpty == true
             ? 'id:${channel.tvgId}'
             : channel.url;
-        if (seen.add(key)) refreshedChannels.add(channel);
+        if (seen.add(key)) {
+          refreshedChannels.add(channel);
+          final titleKey = vodTitleKey(channel);
+          if (titleKey != null && titleKey.isNotEmpty) {
+            seenVodTitles.add(titleKey);
+          }
+        }
       }
       if (lists.any((list) => list.isStalker)) {
         for (final channel in all.where(
@@ -240,7 +256,18 @@ class ContentStore extends ChangeNotifier {
             ? result.channels
             : all.where((channel) => channel.category == result.list.name);
         for (final channel in sourceChannels) {
-          if (seen.add(channel.url)) refreshedChannels.add(channel);
+          final titleKey = vodTitleKey(channel);
+          if (titleKey != null &&
+              titleKey.isNotEmpty &&
+              seenVodTitles.contains(titleKey)) {
+            continue;
+          }
+          if (seen.add(channel.url)) {
+            refreshedChannels.add(channel);
+            if (titleKey != null && titleKey.isNotEmpty) {
+              seenVodTitles.add(titleKey);
+            }
+          }
         }
       }
 
@@ -359,11 +386,29 @@ class ContentStore extends ChangeNotifier {
       }
     }
     final favorites = StorageService.loadFavorites().map((c) => c.url).toSet();
+    // Mismo criterio que en _refreshContent: si la cuenta Xtream/Stalker del
+    // usuario trae una pelicula/serie que el catalogo del panel ya tiene por
+    // otra URL, se descarta la copia (sin poster/sinopsis reales) en vez de
+    // mostrar las dos.
+    final existingVodTitles = {
+      for (final c in all)
+        if (c.type != MediaType.live)
+          TmdbService.normalizeTitle(c.displayName),
+    }..removeWhere((t) => t.isEmpty);
     for (final channel in [...movies, ...stalkerChannels]) {
       if (byUrl.containsKey(channel.url)) continue;
+      if (channel.type != MediaType.live &&
+          existingVodTitles.contains(
+            TmdbService.normalizeTitle(channel.displayName),
+          )) {
+        continue;
+      }
       channel.isFavorite = favorites.contains(channel.url);
       all.add(channel);
       byUrl[channel.url] = channel;
+      if (channel.type != MediaType.live) {
+        existingVodTitles.add(TmdbService.normalizeTitle(channel.displayName));
+      }
     }
     final seenSeries = <String>{};
     series = [
