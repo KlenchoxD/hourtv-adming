@@ -447,6 +447,17 @@ function fill(id,value){
     el.dispatchEvent(new Event('input'));
   }
 }
+// Igual que fill(), pero reemplaza el valor aunque ya haya uno: para la
+// miniatura, la carátula de TMDB es la que de verdad importa que quede bien
+// (a diferencia de sinopsis/reparto, donde lo escrito a mano manda), así que
+// "Autocompletar ficha" la actualiza aunque el catálogo ya trajera una.
+function set(id,value){
+  const el=document.getElementById(id);
+  if(el&&value!=null&&value!==''){
+    el.value=value;
+    el.dispatchEvent(new Event('input'));
+  }
+}
 // true si TMDB reporta este id en tendencia esta semana. Misma fuente que
 // "Sincronizar tendencias", consultada aparte porque autocompletar es por
 // un solo título, no todo el catálogo.
@@ -469,7 +480,7 @@ async function tmdbPick(type,id){
     fill('f_year',info.year);
     fill('f_rating',info.rating);
     fill('f_duration',info.duration);
-    fill('f_poster',info.poster);
+    set('f_poster',info.poster);
     fill('f_backdrop',info.backdrop);
     document.getElementById('f_tmdb_id').value=info.tmdbId;
     document.getElementById('f_tmdb_type').value=info.tmdbType;
