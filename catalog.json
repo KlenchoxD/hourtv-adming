@@ -778,12 +778,25 @@
     },
     {
       "id": "44a1eefca2624a1ab6e225d05fb8df38",
-      "title": "La voluntad de Dios (2026) | Blog de Pelis",
-      "plot": "Vive la historia de La voluntad de Dios (2026) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://blogdepelis.net/wp-content/uploads/2026/07/DIOS.jpg",
+      "title": "La voluntad de Dios",
+      "plot": "La película sigue a dos gemelas unidas por un vínculo inquebrantable mientras cumplen la última voluntad de su madre moribunda: dar caza al monstruoso padre que destruyó a su familia. Su búsqueda se desarrolla como un thriller audaz y estilizado, que entrelaza un humor mordaz con un suspense siniestro, donde la devoción fraternal se convierte en un arma letal y la justicia exige sangre.",
+      "cast": "Kara Young, Mallori Johnson, Vivica A. Fox, Sterling K. Brown, Janelle Monáe, Mykelti Williamson, Erika Alexander, Xavier Mills",
+      "director": "Aleshea Harris",
+      "writer": "Aleshea Harris",
+      "releaseDate": "2026-05-14",
+      "year": "2026",
+      "genre": "Drama, Suspense",
+      "rating": 5.9,
+      "duration": "100 min",
+      "poster": "https://image.tmdb.org/t/p/w500/fp1PpiHH7HqM1p5eYqNeHhKV5mQ.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/kmS3arkEsybCEw0ddWhDVQxCXf5.jpg",
       "categories": [
-        "Películas"
+        "estrenos",
+        "terror",
+        "drama"
       ],
+      "tmdbId": 1380316,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
@@ -794,12 +807,28 @@
     },
     {
       "id": "9c5c98ced772481cbe73862056dfaa34",
-      "title": "Toy Story 5 (2026) | Blog de Pelis",
-      "plot": "Vive la historia de Toy Story 5 (2026) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://blogdepelis.net/wp-content/uploads/2026/06/ts5.jpg",
+      "title": "Toy Story 5",
+      "plot": "Los juguetes de Bonnie se enfrentan a otra amenaza cuando la niña recibe una tableta llamada Lilypad, la cual absorbe toda su atención y pone en peligro el juego tradicional. Todos deben unirse para competir contra la tecnología y recuperar su lugar.",
+      "cast": "Joan Cusack, Tom Hanks, Tim Allen, Conan O'Brien, Scarlett Spears, Greta Lee, Shelby Rabara, Mykal-Michelle Harris",
+      "director": "Andrew Stanton",
+      "writer": "Andrew Stanton",
+      "releaseDate": "2026-06-17",
+      "year": "2026",
+      "genre": "Animación, Familia, Comedia, Aventura",
+      "rating": 8.3,
+      "duration": "102 min",
+      "poster": "https://image.tmdb.org/t/p/w500/pTjZfbFVWUIwUM5OzX3LVh84ejU.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/8sSKdEmlmqF4kJUd28SqthXC4yZ.jpg",
       "categories": [
-        "Películas"
+        "recomendado",
+        "estrenos",
+        "comedia",
+        "aventura",
+        "infantil"
       ],
+      "featured": true,
+      "tmdbId": 1084244,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "OK.ru",
@@ -1125,12 +1154,24 @@
     },
     {
       "id": "2c8e9a067c394b97a84009d67597e84a",
-      "title": "La princesa encantada 2: El secreto del castillo (1997)",
-      "plot": "Vive la historia de La princesa encantada 2: El secreto del castillo (1997) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada",
-      "poster": "https://blogdepelis.net/wp-content/uploads/2026/07/PRINCESA2.jpg",
+      "title": "La princesa encantada 2: El secreto del castillo",
+      "plot": "El primer aniversario de la boda entre la princesa Odette y el príncipe Deerk es interrumpido por unos incendios. El malvado Clavius está detrás de todo, y su plan es conquistar el mundo y su siguiente acción es secuestrar a la reina Uberta. Derek y Odette se dispondrán a rescatarla.",
+      "cast": "Michelle Nicastro, Douglas Sills, Steve Vinovich, Joseph Medrano, James Arrington, Rosie Mann, Jake Williamson",
+      "director": "Richard Rich",
+      "writer": "Brian Nissen",
+      "releaseDate": "1997-06-19",
+      "year": "1997",
+      "genre": "Familia, Fantasía, Animación, Romance",
+      "rating": 6,
+      "duration": "71 min",
+      "poster": "https://image.tmdb.org/t/p/w500/baMeQSxukVdPVQUSGhtKe6fA4aR.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/ue9NbWclKr7r3EuT0xSGKSSJ7R0.jpg",
       "categories": [
-        "Películas"
+        "romance",
+        "infantil"
       ],
+      "tmdbId": 54113,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
