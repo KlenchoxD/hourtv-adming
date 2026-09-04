@@ -777,22 +777,6 @@
       ]
     },
     {
-      "id": "8889f6e1010a4fa7b478fad06fcad29b",
-      "title": "Backrooms: Sin salida (2026) | Blog de Pelis",
-      "plot": "Vive la historia de Backrooms: Sin salida (2026) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://blogdepelis.net/wp-content/uploads/2026/07/backrooms.jpg",
-      "categories": [
-        "Películas"
-      ],
-      "servers": [
-        {
-          "name": "Barmonrey",
-          "url": "https://barmonrey.com/player/v6GW8AcMnOBvdDa/",
-          "language": "Idioma sin identificar"
-        }
-      ]
-    },
-    {
       "id": "44a1eefca2624a1ab6e225d05fb8df38",
       "title": "La voluntad de Dios (2026) | Blog de Pelis",
       "plot": "Vive la historia de La voluntad de Dios (2026) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
@@ -836,12 +820,23 @@
     },
     {
       "id": "1c68347ce40b4ac2b356d77ea0b76a56",
-      "title": "El demonio neón (2016) | Blog de Pelis",
-      "plot": "Vive la historia de El demonio neón (2016) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://blogdepelis.net/wp-content/uploads/2026/07/NEON.jpg",
+      "title": "El demonio neón",
+      "plot": "Jesse, una joven aspirante a modelo, se muda a Los Ángeles para perseguir su sueño de triunfar en la industria de la moda. Su belleza y juventud despiertan fascinación y envidia entre otras modelos, llevándola a un mundo cada vez más oscuro, competitivo y peligroso.",
+      "cast": "Elle Fanning, Karl Glusman, Jena Malone, Bella Heathcote, Abbey Lee, Desmond Harrington, Keanu Reeves, Christina Hendricks",
+      "director": "Nicolas Winding Refn",
+      "writer": "Nicolas Winding Refn",
+      "releaseDate": "2016-06-08",
+      "year": "2016",
+      "genre": "Terror, Suspense",
+      "rating": 6.5,
+      "duration": "118 min",
+      "poster": "https://i.pinimg.com/1200x/d7/32/b1/d732b15aa9602ed9d545726e98ffe06e.jpg",
       "categories": [
-        "Películas"
+        "populares",
+        "terror"
       ],
+      "tmdbId": 301365,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
