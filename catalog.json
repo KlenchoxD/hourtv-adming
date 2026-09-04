@@ -749,32 +749,29 @@
     },
     {
       "id": "379e2a559d3b4014a2cb7d8df57ff660",
-      "title": "Obsesión (2025) | Blog de Pelis",
-      "plot": "Vive la historia de Obsesión (2025) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://blogdepelis.net/wp-content/uploads/2026/07/OBSESION.jpg",
+      "title": "Obsesión",
+      "plot": "Claire Peterson, una profesora de literatura recién divorciada, inicia una relación con Noah, un joven atractivo que se muda a la casa de al lado. Lo que comienza como un romance termina convirtiéndose en una peligrosa obsesión cuando Noah desarrolla un comportamiento cada vez más posesivo y perturbador.",
+      "cast": "Michael Johnston, Inde Navarrette, Cooper Tomlinson, Megan Lawless, Andy Richter, Haley Fitzgerald, Darin Toonder, Anthony Pavone",
+      "director": "Curry Barker",
+      "writer": "Curry Barker",
+      "releaseDate": "2026-05-13",
+      "year": "2026",
+      "genre": "Terror, Suspense",
+      "rating": 8.2,
+      "duration": "108 min",
+      "poster": "https://i.pinimg.com/736x/86/cb/05/86cb0506d991ffb4c21444cd8cfb6bf7.jpg",
       "categories": [
-        "Películas"
+        "recomendado",
+        "estrenos",
+        "populares",
+        "terror"
       ],
+      "tmdbId": 1339713,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
           "url": "https://barmonrey.com/player/bO7XFMfvdoFzOyY/",
-          "language": "Idioma sin identificar"
-        }
-      ]
-    },
-    {
-      "id": "8889f6e1010a4fa7b478fad06fcad29b",
-      "title": "Backrooms: Sin salida (2026) | Blog de Pelis",
-      "plot": "Vive la historia de Backrooms: Sin salida (2026) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://blogdepelis.net/wp-content/uploads/2026/07/backrooms.jpg",
-      "categories": [
-        "Películas"
-      ],
-      "servers": [
-        {
-          "name": "Barmonrey",
-          "url": "https://barmonrey.com/player/v6GW8AcMnOBvdDa/",
           "language": "Idioma sin identificar"
         }
       ]
@@ -823,12 +820,23 @@
     },
     {
       "id": "1c68347ce40b4ac2b356d77ea0b76a56",
-      "title": "El demonio neón (2016) | Blog de Pelis",
-      "plot": "Vive la historia de El demonio neón (2016) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://blogdepelis.net/wp-content/uploads/2026/07/NEON.jpg",
+      "title": "El demonio neón",
+      "plot": "Jesse, una joven aspirante a modelo, se muda a Los Ángeles para perseguir su sueño de triunfar en la industria de la moda. Su belleza y juventud despiertan fascinación y envidia entre otras modelos, llevándola a un mundo cada vez más oscuro, competitivo y peligroso.",
+      "cast": "Elle Fanning, Karl Glusman, Jena Malone, Bella Heathcote, Abbey Lee, Desmond Harrington, Keanu Reeves, Christina Hendricks",
+      "director": "Nicolas Winding Refn",
+      "writer": "Nicolas Winding Refn",
+      "releaseDate": "2016-06-08",
+      "year": "2016",
+      "genre": "Terror, Suspense",
+      "rating": 6.5,
+      "duration": "118 min",
+      "poster": "https://i.pinimg.com/1200x/d7/32/b1/d732b15aa9602ed9d545726e98ffe06e.jpg",
       "categories": [
-        "Películas"
+        "populares",
+        "terror"
       ],
+      "tmdbId": 301365,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
@@ -839,12 +847,24 @@
     },
     {
       "id": "0856300b94024e0aa010c33939e28b57",
-      "title": "Ahora estamos solos (2018) | Blog de Pelis",
+      "title": "¿Estamos solos?.",
       "plot": "Vive la historia de Ahora estamos solos (2018) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://blogdepelis.net/wp-content/uploads/2026/07/SOLOS.jpg",
+      "cast": "Peter Dinklage, Elle Fanning, Paul Giamatti, Charlotte Gainsbourg, Elaine Apruzzese",
+      "director": "Reed Morano",
+      "writer": "Mike Makowsky",
+      "releaseDate": "2018-09-14",
+      "year": "2018",
+      "genre": "Drama, Ciencia ficción, Misterio",
+      "rating": 5.8,
+      "duration": "93 min",
+      "poster": "https://media.themoviedb.org/t/p/w300_and_h450_face/bBnZZEnKalzu2ns1y31kkSUOThP.jpg",
       "categories": [
-        "Películas"
+        "terror",
+        "aventura",
+        "drama"
       ],
+      "tmdbId": 451877,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
@@ -855,12 +875,25 @@
     },
     {
       "id": "df0f5b1cca7849239353ab87214af965",
-      "title": "Normal (2026)",
-      "plot": "Vive la historia de Normal (2026) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://blogdepelis.net/wp-content/uploads/2026/07/NORMAL.jpg",
+      "title": "Normal",
+      "plot": "Ulysses, un sheriff interino con un pasado problemático, llega al tranquilo pueblo de Normal. Cuando un robo a un banco altera la aparente calma del lugar, queda al descubierto un oscuro secreto que involucra a toda la comunidad. Ahora Ulysses tendrá que luchar por sobrevivir mientras descubre que Normal está lejos de ser un pueblo normal.",
+      "cast": "Bob Odenkirk, Henry Winkler, Lena Headey, Billy MacLellan, Ryan Allen, Reena Jolly, Brendan Fletcher, Peter Shinkoda",
+      "director": "Ben Wheatley",
+      "writer": "Derek Kolstad",
+      "releaseDate": "2026-04-16",
+      "year": "2026",
+      "genre": "Acción, Crimen, Suspense, Western",
+      "rating": 7.3,
+      "duration": "91 min",
+      "poster": "https://media.themoviedb.org/t/p/w300_and_h450_face/1KmqwmCPrrs06qHFmwx4kzB58kJ.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/1nHaO4rTv1E6xVJYIMGP9nmLxE9.jpg",
       "categories": [
-        "Películas"
+        "terror",
+        "accion",
+        "drama"
       ],
+      "tmdbId": 1242332,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
@@ -1026,7 +1059,7 @@
       "rating": 7.1,
       "duration": "105 min",
       "poster": "https://image.tmdb.org/t/p/w780/ur2yYTVGPkEDmLdoQ1Obm2RKXuU.jpg",
-      "backdrop": "https://image.tmdb.org/t/p/w1280/2aA8iPlMCks3k131ymFBAY6FL0b.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/dqmMWNWfLnExDRpMtIMqI97GQFR.jpg",
       "categories": [
         "terror",
         "aventura",
@@ -1034,7 +1067,6 @@
         "populares",
         "recomendado"
       ],
-      "featured": true,
       "servers": [
         {
           "name": "Streamwish",
