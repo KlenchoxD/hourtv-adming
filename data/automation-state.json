@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-09-04T16:51:23.999Z",
+  "lastRunAt": "2026-09-04T19:14:20.338Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -37,8 +37,10 @@
     1560520,
     1335666
   ],
-  "tmdbIdsPublished": [],
-  "totalMoviesInCatalog": 44,
+  "tmdbIdsPublished": [
+    1083381
+  ],
+  "totalMoviesInCatalog": 43,
   "errorsSummary": [],
   "skipped": [
     {
@@ -54,11 +56,6 @@
     {
       "tmdbId": 860508,
       "title": "Susurran tu nombre",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1339713,
-      "title": "Obsesión",
       "reason": "Sin fuente autorizada configurada"
     },
     {

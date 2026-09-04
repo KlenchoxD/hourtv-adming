@@ -1,16 +1,18 @@
 {
-  "generatedAt": "2026-09-04T16:51:20.524Z",
-  "durationMs": 3480,
+  "generatedAt": "2026-09-04T19:14:16.255Z",
+  "durationMs": 4087,
   "dryRun": false,
   "moviesFound": 34,
-  "moviesDiscarded": 32,
-  "moviesAdded": 0,
+  "moviesDiscarded": 31,
+  "moviesAdded": 1,
   "moviesEnriched": 0,
   "duplicates": 2,
   "tmdbErrors": 0,
   "providerErrors": 0,
-  "invalidSources": 0,
-  "addedTitles": [],
+  "invalidSources": 6,
+  "addedTitles": [
+    "Backrooms"
+  ],
   "skipped": [
     {
       "tmdbId": 969681,
@@ -25,11 +27,6 @@
     {
       "tmdbId": 860508,
       "title": "Susurran tu nombre",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1339713,
-      "title": "Obsesión",
       "reason": "Sin fuente autorizada configurada"
     },
     {
