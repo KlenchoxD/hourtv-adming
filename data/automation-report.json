@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-09-04T13:10:37.648Z",
-  "durationMs": 2826,
+  "generatedAt": "2026-09-04T16:51:20.524Z",
+  "durationMs": 3480,
   "dryRun": false,
   "moviesFound": 34,
   "moviesDiscarded": 32,
@@ -68,8 +68,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1127384,
-      "title": "En mar abierto",
+      "tmdbId": 1228710,
+      "title": "The Mandalorian and Grogu",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -78,8 +78,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1228710,
-      "title": "The Mandalorian and Grogu",
+      "tmdbId": 1127384,
+      "title": "En mar abierto",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -123,11 +123,6 @@
       "reason": "Rating 5.2 por debajo del mínimo (5.5)"
     },
     {
-      "tmdbId": 1621552,
-      "title": "La captura",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1516698,
       "title": "Sunrise. El último amanecer",
       "reason": "Sin fuente autorizada configurada"
@@ -143,8 +138,8 @@
       "reason": "Sin sinopsis"
     },
     {
-      "tmdbId": 1232569,
-      "title": "Pinocho: Desatado",
+      "tmdbId": 1621552,
+      "title": "La captura",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -153,19 +148,24 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1393326,
+      "title": "Ghost in the Cell",
+      "reason": "Votos 42 por debajo del mínimo (50)"
+    },
+    {
       "tmdbId": 1323244,
       "title": "La señal del apocalipsis",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1393326,
-      "title": "Ghost in the Cell",
-      "reason": "Votos 41 por debajo del mínimo (50)"
+      "tmdbId": 1232569,
+      "title": "Pinocho: Desatado",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1514682,
       "title": "Above & Below",
-      "reason": "Votos 15 por debajo del mínimo (50)"
+      "reason": "Votos 20 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1560520,
