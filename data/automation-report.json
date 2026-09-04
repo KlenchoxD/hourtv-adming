@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-09-04T04:27:12.805Z",
-  "durationMs": 2511,
+  "generatedAt": "2026-09-04T09:00:00.485Z",
+  "durationMs": 3312,
   "dryRun": false,
   "moviesFound": 34,
   "moviesDiscarded": 32,
@@ -78,13 +78,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1284041,
-      "title": "La última casa",
+      "tmdbId": 1228710,
+      "title": "The Mandalorian and Grogu",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1228710,
-      "title": "The Mandalorian and Grogu",
+      "tmdbId": 1284041,
+      "title": "La última casa",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -118,24 +118,29 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1516698,
-      "title": "Sunrise. El último amanecer",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1285366,
       "title": "愛のぬくもり",
       "reason": "Rating 5.2 por debajo del mínimo (5.5)"
     },
     {
-      "tmdbId": 1213243,
-      "title": "Tóxico: Un cuento de hadas para adultos",
-      "reason": "Sin sinopsis"
-    },
-    {
       "tmdbId": 1621552,
       "title": "La captura",
       "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1516698,
+      "title": "Sunrise. El último amanecer",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1386315,
+      "title": "A la carrera",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1213243,
+      "title": "Tóxico: Un cuento de hadas para adultos",
+      "reason": "Sin sinopsis"
     },
     {
       "tmdbId": 1232569,
@@ -158,14 +163,9 @@
       "reason": "Votos 41 por debajo del mínimo (50)"
     },
     {
-      "tmdbId": 1386315,
-      "title": "A la carrera",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1514682,
       "title": "Above & Below",
-      "reason": "Votos 14 por debajo del mínimo (50)"
+      "reason": "Votos 15 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1560520,
