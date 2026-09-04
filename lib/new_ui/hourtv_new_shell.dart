@@ -1,20 +1,13 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../hybrid_mobile/data/hybrid_catalog_controller.dart';
-import '../hybrid_mobile/data/hybrid_catalog_models.dart';
-import '../hybrid_mobile/hybrid_mobile_destination.dart';
-import '../hybrid_mobile/hybrid_mobile_scope.dart';
-import '../hybrid_mobile/hybrid_mobile_shell.dart';
-import '../hybrid_mobile/screens/hybrid_home_screen.dart';
-import '../hybrid_mobile/screens/hybrid_search_screen.dart';
 import '../models/channel.dart';
 import '../services/content_store.dart';
 import '../services/device_type.dart';
-import '../services/xtream_service.dart';
-import '../studio_ui/data/studio_profile_repository.dart';
 
 import 'hourtv_artwork.dart';
 import 'hourtv_focusable.dart';
@@ -24,22 +17,16 @@ import 'hourtv_profile_page.dart';
 import 'hourtv_search_keyboard.dart';
 import 'hourtv_series_detail_page.dart';
 
-const _red = Color(0xFFF20A1A);
+const _red = Color(0xFF00C781);
 const _black = Color(0xFF050505);
-const _surface = Color(0xFF101012);
-const _line = Color(0xFF25252A);
+const _surface = Color(0xFF101412);
+const _line = Color(0xFF27302C);
 const _muted = Color(0xFFA6A6B0);
-const _green = Color(0xFF00D6A0);
 
 enum _Section { home, movies, series, search, live, list, profile }
 
 class HourTvNewShell extends StatefulWidget {
-  const HourTvNewShell({
-    super.key,
-    @visibleForTesting this.forcePhoneForTesting,
-  });
-
-  final bool? forcePhoneForTesting;
+  const HourTvNewShell({super.key});
 
   @override
   State<HourTvNewShell> createState() => _HourTvNewShellState();
@@ -47,9 +34,6 @@ class HourTvNewShell extends StatefulWidget {
 
 class _HourTvNewShellState extends State<HourTvNewShell> {
   final ContentStore store = ContentStore.instance;
-  final StudioProfileRepository _studioProfiles = StudioProfileRepository();
-  late final ContentStoreHybridCatalogSource _hybridCatalogSource;
-  late final HybridCatalogController _hybridCatalog;
   _Section section = _Section.home;
   bool _loaded = false;
   final LiveBackController _liveBack = LiveBackController();
@@ -84,8 +68,6 @@ class _HourTvNewShellState extends State<HourTvNewShell> {
   @override
   void initState() {
     super.initState();
-    _hybridCatalogSource = ContentStoreHybridCatalogSource(store: store);
-    _hybridCatalog = HybridCatalogController(source: _hybridCatalogSource);
     store.addListener(_refresh);
     // Marca cuando termina la carga inicial: hasta entonces mostramos un
     // loading, nunca el catalogo de PREVIEW (evita el parpadeo del demo).
@@ -95,13 +77,12 @@ class _HourTvNewShellState extends State<HourTvNewShell> {
   }
 
   /// Aun cargando el catalogo real y todavia sin contenido: mostrar loading.
-  bool get _booting => !_loaded && store.movies.isEmpty && store.all.isEmpty;
+  bool get _booting =>
+      !_loaded && store.movies.isEmpty && store.visibleAll.isEmpty;
 
   @override
   void dispose() {
     store.removeListener(_refresh);
-    _hybridCatalog.dispose();
-    _hybridCatalogSource.dispose();
     for (final node in _railFocusNodes.values) {
       node.dispose();
     }
@@ -135,11 +116,11 @@ class _HourTvNewShellState extends State<HourTvNewShell> {
       store.movies.isEmpty ? PreviewCatalog.movies : store.movies;
 
   List<Channel> get series {
-    final direct = store.all
+    final direct = store.visibleAll
         .where((item) => item.type == MediaType.series)
         .toList();
     final favoriteUrls = store.favorites.map((item) => item.url).toSet();
-    final converted = store.series
+    final converted = store.visibleSeries
         .map(hourTvSeriesChannel)
         .map(
           (item) => item.copyWith(isFavorite: favoriteUrls.contains(item.url)),
@@ -153,11 +134,11 @@ class _HourTvNewShellState extends State<HourTvNewShell> {
   }
 
   bool get showingSeriesPreview =>
-      store.series.isEmpty &&
-      store.all.where((item) => item.type == MediaType.series).isEmpty;
+      store.visibleSeries.isEmpty &&
+      store.visibleAll.where((item) => item.type == MediaType.series).isEmpty;
 
   List<Channel> get live {
-    final real = store.all
+    final real = store.visibleAll
         .where((item) => item.type == MediaType.live)
         .toList();
     return real.isEmpty ? PreviewCatalog.live : real;
@@ -176,28 +157,16 @@ class _HourTvNewShellState extends State<HourTvNewShell> {
     // 2. La seccion actual puede consumir el back (En Vivo: salir de extendido).
     if (section == _Section.live && _liveBack.handleBack()) return;
 
-    if (!DeviceProfile.isPhone(context)) {
-      // TV/tablet/desktop, back por capas:
-      // 1) foco en el contenido -> foco al rail, en la MISMA seccion (no
-      //    redirige a Inicio, eso es justo lo que no se queria).
-      // 2) foco ya en el rail pero en otro item -> a Inicio (un paso mas,
-      //    evita salir de golpe sin querer).
-      // 3) foco en el rail y ya en Inicio -> recien ahi sale de la app.
-      if (!_railFocused) {
-        _railFocusNodes[section]!.requestFocus();
-        return;
-      }
-      if (_railFocusNodes[_Section.home]?.hasFocus != true) {
-        _railFocusNodes[_Section.home]!.requestFocus();
-        return;
-      }
-      SystemNavigator.pop();
+    // TV/tablet/desktop, back por capas:
+    // 1) foco en el contenido -> foco al rail, en la MISMA seccion.
+    // 2) foco ya en el rail pero en otro item -> a Inicio.
+    // 3) foco en el rail y ya en Inicio -> salir de la app.
+    if (!_railFocused) {
+      _railFocusNodes[section]!.requestFocus();
       return;
     }
-
-    // 3. Telefono (sin rail): capas por seccion -> Inicio -> salir.
-    if (section != _Section.home) {
-      setState(() => section = _Section.home);
+    if (_railFocusNodes[_Section.home]?.hasFocus != true) {
+      _railFocusNodes[_Section.home]!.requestFocus();
       return;
     }
     SystemNavigator.pop();
@@ -205,26 +174,14 @@ class _HourTvNewShellState extends State<HourTvNewShell> {
 
   @override
   Widget build(BuildContext context) {
-    final phone = widget.forcePhoneForTesting ?? DeviceProfile.isPhone(context);
     final tablet = DeviceProfile.isTablet(context);
     final tv = DeviceProfile.isTv(context);
 
-    if (phone) {
-      return HybridMobileShell(
-        catalog: _hybridCatalog,
-        profileRepository: _studioProfiles,
-        destinationBuilder: _hybridDestinationBody,
-      );
-    }
-
     final body = _booting
         ? const _BootLoading()
-        : _sectionBody(phone: phone, tablet: tablet, tv: tv);
+        : _sectionBody(phone: false, tablet: tablet, tv: tv);
 
     return PopScope(
-      // Nunca dejamos que el back del sistema salga directo: lo manejamos por
-      // capas y solo salimos de la app cuando ya estamos en Inicio sin nada
-      // abierto.
       canPop: false,
       onPopInvokedWithResult: (didPop, _) {
         if (didPop) return;
@@ -232,112 +189,29 @@ class _HourTvNewShellState extends State<HourTvNewShell> {
       },
       child: Scaffold(
         backgroundColor: _black,
-        body: phone
-            ? SafeArea(bottom: false, child: body)
-            : Row(
-                children: [
-                  _SideRail(
-                    current: section,
-                    visualListenable: _railVisual,
-                    tv: tv,
-                    focusNodes: _railFocusNodes,
-                    onHover: _onRailHover,
-                    onRailFocus: _onRailFocus,
-                    onSelect: (value) => setState(() {
-                      section = value;
-                      _updateRailVisual();
-                    }),
-                  ),
-                  Expanded(
-                    // En Vivo es pantalla completa a proposito (estilo
-                    // Netflix): el video debe llegar hasta el borde real,
-                    // sin dejar franjas negras arriba/abajo por la barra de
-                    // estado. El resto de secciones si necesita el inset:
-                    // sin esto, en tablets con status bar visible el titulo
-                    // y el contenido de arriba quedaban tapados por los
-                    // iconos de la barra (la unica seccion protegida era el
-                    // rail, que ya trae su propio SafeArea).
-                    child: section == _Section.live
-                        ? body
-                        : SafeArea(left: false, child: body),
-                  ),
-                ],
-              ),
-        bottomNavigationBar: phone
-            ? _BottomNav(
-                current: section,
-                onSelect: (value) => setState(() => section = value),
-              )
-            : null,
+        body: Row(
+          children: [
+            _SideRail(
+              current: section,
+              visualListenable: _railVisual,
+              tv: tv,
+              focusNodes: _railFocusNodes,
+              onHover: _onRailHover,
+              onRailFocus: _onRailFocus,
+              onSelect: (value) => setState(() {
+                section = value;
+                _updateRailVisual();
+              }),
+            ),
+            Expanded(
+              child: section == _Section.live
+                  ? body
+                  : SafeArea(left: false, child: body),
+            ),
+          ],
+        ),
       ),
     );
-  }
-
-  Widget _hybridDestinationBody(
-    BuildContext context,
-    HybridMobileDestination destination,
-  ) {
-    if (_booting) return const _BootLoading();
-    return switch (destination) {
-      HybridMobileDestination.home => HybridHomeScreen(
-        catalog: _hybridCatalog,
-        onFilter: () => HybridMobileScope.of(
-          context,
-        ).navigation.selectDestination(HybridMobileDestination.search),
-        onSearch: () => HybridMobileScope.of(
-          context,
-        ).navigation.selectDestination(HybridMobileDestination.search),
-        onOpenDetails: (item) => _openHybridDetails(context, item),
-      ),
-      HybridMobileDestination.liveTv => HourTvLivePage(
-        channels: live,
-        preview: store.all.where((c) => c.type == MediaType.live).isEmpty,
-        phone: true,
-        tablet: false,
-        tv: false,
-        backController: _liveBack,
-      ),
-      HybridMobileDestination.search => HybridSearchScreen(
-        catalog: _hybridCatalog,
-        onBack: () => HybridMobileScope.of(
-          context,
-        ).navigation.selectDestination(HybridMobileDestination.home),
-        onOpenDetails: (item) => _openHybridDetails(context, item),
-      ),
-      HybridMobileDestination.library => _CatalogPage(
-        title: 'Mi lista',
-        subtitle: 'Tus favoritos, siempre a mano',
-        items: store.favorites,
-        store: store,
-        preview: false,
-        phone: true,
-        tablet: false,
-        tv: false,
-        emptyMessage: 'Todavía no agregaste contenido a Mi lista.',
-      ),
-      HybridMobileDestination.profile => HourTvProfilePage(
-        phone: true,
-        tablet: false,
-        tv: false,
-        onLoggedOut: () {},
-      ),
-    };
-  }
-
-  void _openHybridDetails(BuildContext context, HybridMediaItem item) {
-    final source = item.source;
-    final Widget details;
-    if (source is XtreamSeries) {
-      details = HourTvSeriesDetailPage(series: source);
-    } else if (source is Channel) {
-      final series = hourTvResolveSeries(source, store.series);
-      details = series == null
-          ? HourTvDetailPage(channel: source, preview: showingPreview)
-          : HourTvSeriesDetailPage(series: series);
-    } else {
-      return;
-    }
-    HybridMobileScope.of(context).navigation.pushDetails(details);
   }
 
   Widget _sectionBody({
@@ -394,7 +268,9 @@ class _HourTvNewShellState extends State<HourTvNewShell> {
       case _Section.live:
         return HourTvLivePage(
           channels: live,
-          preview: store.all.where((c) => c.type == MediaType.live).isEmpty,
+          preview: store.visibleAll
+              .where((c) => c.type == MediaType.live)
+              .isEmpty,
           phone: phone,
           tablet: tablet,
           tv: tv,
@@ -506,7 +382,9 @@ class _SideRail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder<({bool expanded, bool hidden, bool railFocused})>(
+    return ValueListenableBuilder<
+      ({bool expanded, bool hidden, bool railFocused})
+    >(
       valueListenable: visualListenable,
       builder: (context, visual, _) {
         // Colapsado a iconos (88); se EXPANDE (208) cuando el foco del control
@@ -553,7 +431,10 @@ class _SideRail extends StatelessWidget {
                             child: Align(
                               // Centrado siempre, expandido o colapsado.
                               alignment: Alignment.center,
-                              child: HourTvLogo(height: expanded ? 54 : 42),
+                              child: HourTvLogo(
+                                height: expanded ? 54 : 42,
+                                compact: !expanded,
+                              ),
                             ),
                           ),
                           const SizedBox(height: 12),
@@ -691,61 +572,6 @@ class _RailItemState extends State<_RailItem> {
   }
 }
 
-class _BottomNav extends StatelessWidget {
-  const _BottomNav({required this.current, required this.onSelect});
-  final _Section current;
-  final ValueChanged<_Section> onSelect;
-
-  @override
-  Widget build(BuildContext context) {
-    // Sin "Buscar": la lupa de Inicio ya lleva a la busqueda, tener los dos
-    // accesos era redundante.
-    const items = <(_Section, IconData, String)>[
-      (_Section.home, Icons.home_rounded, 'Inicio'),
-      (_Section.live, Icons.live_tv_rounded, 'TV'),
-      (_Section.list, Icons.favorite_border_rounded, 'Mi lista'),
-      (_Section.profile, Icons.person_outline_rounded, 'Perfil'),
-    ];
-    return Container(
-      height: 72 + MediaQuery.paddingOf(context).bottom,
-      padding: EdgeInsets.only(bottom: MediaQuery.paddingOf(context).bottom),
-      decoration: const BoxDecoration(
-        color: Color(0xFF0C0C0E),
-        border: Border(top: BorderSide(color: _line)),
-      ),
-      child: Row(
-        children: [
-          for (final item in items)
-            Expanded(
-              child: InkWell(
-                onTap: () => onSelect(item.$1),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      item.$2,
-                      color: current == item.$1 ? _red : _muted,
-                      size: 24,
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      item.$3,
-                      style: TextStyle(
-                        color: current == item.$1 ? Colors.white : _muted,
-                        fontSize: 10,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-        ],
-      ),
-    );
-  }
-}
-
 class _HomePage extends StatelessWidget {
   const _HomePage({
     required this.movies,
@@ -784,6 +610,16 @@ class _HomePage extends StatelessWidget {
         SliverToBoxAdapter(
           child: _TopBar(phone: phone, onSearch: onSearch),
         ),
+        if (preview && store.error != null)
+          SliverPadding(
+            padding: EdgeInsets.fromLTRB(
+              phone ? 16 : (tv ? 34 : 28),
+              0,
+              phone ? 16 : (tv ? 34 : 28),
+              12,
+            ),
+            sliver: const SliverToBoxAdapter(child: _LoadErrorBanner()),
+          ),
         SliverToBoxAdapter(
           child: _Hero(
             channel: featured,
@@ -850,11 +686,52 @@ class _TopBar extends StatelessWidget {
         children: [
           const HourTvLogo(height: 42),
           const Spacer(),
-          _RoundButton(icon: Icons.search_rounded, onTap: onSearch),
+          _RoundButton(
+            icon: Icons.search_rounded,
+            onTap: onSearch,
+            label: 'Buscar',
+          ),
         ],
       ),
     );
   }
+}
+
+/// Se muestra cuando el catalogo real no pudo cargar y la pantalla cae al
+/// contenido de muestra: antes eso pasaba en silencio, sin forma de saber si
+/// la fuente esta rota o si la app no tiene ninguna configurada.
+class _LoadErrorBanner extends StatelessWidget {
+  const _LoadErrorBanner();
+
+  @override
+  Widget build(BuildContext context) => Container(
+    padding: const EdgeInsets.all(14),
+    decoration: BoxDecoration(
+      color: const Color(0xFFFF4D4F).withValues(alpha: .12),
+      borderRadius: BorderRadius.circular(12),
+      border: Border.all(
+        color: const Color(0xFFFF4D4F).withValues(alpha: .4),
+      ),
+    ),
+    child: Row(
+      children: [
+        const Icon(Icons.wifi_off_rounded, color: Color(0xFFFF4D4F)),
+        const SizedBox(width: 12),
+        const Expanded(
+          child: Text(
+            'No pudimos cargar el catálogo real. Mostrando contenido de '
+            'muestra: revisá tu conexión o tus fuentes en Ajustes.',
+            style: TextStyle(color: Colors.white, fontSize: 12.5, height: 1.3),
+          ),
+        ),
+        const SizedBox(width: 8),
+        TextButton(
+          onPressed: () => unawaited(ContentStore.instance.reload()),
+          child: const Text('Reintentar'),
+        ),
+      ],
+    ),
+  );
 }
 
 class _Hero extends StatelessWidget {
@@ -939,32 +816,12 @@ class _Hero extends StatelessWidget {
                       : CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Wrap(
-                      alignment: phone
-                          ? WrapAlignment.center
-                          : WrapAlignment.start,
-                      crossAxisAlignment: WrapCrossAlignment.center,
-                      spacing: 10,
-                      runSpacing: 6,
-                      children: [
-                        const _Badge(text: 'HOURTV ORIGINAL'),
-                        const Text(
-                          '98% COINCIDENCIA',
-                          style: TextStyle(
-                            color: _green,
-                            fontSize: 11,
-                            fontWeight: FontWeight.w900,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 9),
                     Text(
                       channel.displayName,
                       textAlign: phone ? TextAlign.center : TextAlign.left,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      style: GoogleFonts.inter(
+                      style: GoogleFonts.robotoSerif(
                         color: Colors.white,
                         fontWeight: FontWeight.w900,
                         fontSize: phone ? 30 : (tv ? 46 : 40),
@@ -972,19 +829,17 @@ class _Hero extends StatelessWidget {
                         letterSpacing: -1.3,
                       ),
                     ),
-                    const SizedBox(height: 10),
-                    Text(
-                      [
-                        channel.year ?? '2026',
-                        '16+',
-                        channel.duration ?? '2h 15m',
-                      ].join('   •   '),
-                      style: TextStyle(
-                        color: Colors.white.withValues(alpha: .82),
-                        fontSize: phone ? 11 : 13,
-                        fontWeight: FontWeight.w600,
+                    if (_heroMeta(channel).isNotEmpty) ...[
+                      const SizedBox(height: 10),
+                      Text(
+                        _heroMeta(channel).join('   •   '),
+                        style: TextStyle(
+                          color: Colors.white.withValues(alpha: .82),
+                          fontSize: phone ? 11 : 13,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
-                    ),
+                    ],
                     const SizedBox(height: 16),
                     Row(
                       mainAxisSize: phone ? MainAxisSize.max : MainAxisSize.min,
@@ -1000,10 +855,10 @@ class _Hero extends StatelessWidget {
                         ),
                         const SizedBox(width: 10),
                         _OutlineButton(
-                          label: phone ? '' : 'Mi lista',
+                          label: phone ? '' : 'Favorito',
                           icon: channel.isFavorite
-                              ? Icons.check_rounded
-                              : Icons.add_rounded,
+                              ? Icons.favorite_rounded
+                              : Icons.favorite_border_rounded,
                           onTap: preview
                               ? null
                               : () => store.toggleFavorite(channel),
@@ -1019,6 +874,13 @@ class _Hero extends StatelessWidget {
       ),
     );
   }
+
+  /// Año y duracion reales del canal, solo los que existan. Antes se
+  /// completaba con valores inventados ('2026', '2h 15m') cuando faltaban.
+  static List<String> _heroMeta(Channel channel) => [
+    if ((channel.year ?? '').trim().isNotEmpty) channel.year!.trim(),
+    if ((channel.duration ?? '').trim().isNotEmpty) channel.duration!.trim(),
+  ];
 }
 
 class _MediaRow extends StatelessWidget {
@@ -1121,61 +983,62 @@ class _MediaCardState extends State<_MediaCard> {
   @override
   Widget build(BuildContext context) {
     // El resalte de foco va SOLO en la caratula (borde rojo limpio), nunca
-    // alrededor del titulo. Escala suave para que no desborde a las vecinas.
+    // alrededor del titulo. La tarjeta no escala: en TV, 1.04 convertia una
+    // celda de 220x386 en 229x401 y rompia la uniformidad de la grilla.
     // RepaintBoundary aisla el repintado por tarjeta (menos jank al desplazar).
     return RepaintBoundary(
       child: SizedBox(
-      width: widget.width,
-      child: TvFocusable(
-        onTap: widget.onTap,
-        decorated: false,
-        scale: 1.04,
-        borderRadius: BorderRadius.circular(9),
-        onFocusChange: (value) => setState(() => _focused = value),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            AnimatedContainer(
-              duration: const Duration(milliseconds: 150),
-              width: widget.width,
-              height: widget.imageHeight,
-              clipBehavior: Clip.antiAlias,
-              decoration: BoxDecoration(
-                color: _surface,
-                borderRadius: BorderRadius.circular(9),
-                border: Border.all(
-                  color: _focused ? _red : _line,
-                  width: _focused ? 2.5 : 1,
+        width: widget.width,
+        child: TvFocusable(
+          onTap: widget.onTap,
+          decorated: false,
+          scale: 1,
+          borderRadius: BorderRadius.circular(9),
+          onFocusChange: (value) => setState(() => _focused = value),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 150),
+                width: widget.width,
+                height: widget.imageHeight,
+                clipBehavior: Clip.antiAlias,
+                decoration: BoxDecoration(
+                  color: _surface,
+                  borderRadius: BorderRadius.circular(9),
+                  border: Border.all(
+                    color: _focused ? _red : _line,
+                    width: _focused ? 2.5 : 1,
+                  ),
+                ),
+                child: _Artwork(
+                  url: widget.landscape
+                      ? (widget.channel.backdrop ?? widget.channel.logo)
+                      : widget.channel.logo,
+                  // La portada (poster) se ve COMPLETA, sin recortar cabeza ni
+                  // pies: "cover" rellenaba la tarjeta pero cortaba el arte
+                  // cuando el poster real no coincidia exacto con el aspect
+                  // ratio de la celda. El banner horizontal si usa cover: ahi
+                  // el recorte de bordes es el comportamiento esperado.
+                  fit: widget.landscape ? BoxFit.cover : BoxFit.contain,
+                  adaptive: !widget.landscape,
                 ),
               ),
-              child: _Artwork(
-                url: widget.landscape
-                    ? (widget.channel.backdrop ?? widget.channel.logo)
-                    : widget.channel.logo,
-                // La portada (poster) se ve COMPLETA, sin recortar cabeza ni
-                // pies: "cover" rellenaba la tarjeta pero cortaba el arte
-                // cuando el poster real no coincidia exacto con el aspect
-                // ratio de la celda. El banner horizontal si usa cover: ahi
-                // el recorte de bordes es el comportamiento esperado.
-                fit: widget.landscape ? BoxFit.cover : BoxFit.contain,
-                adaptive: !widget.landscape,
+              const SizedBox(height: 7),
+              Text(
+                widget.channel.displayName,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  color: _focused ? Colors.white : const Color(0xFFD6D6DB),
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
-            ),
-            const SizedBox(height: 7),
-            Text(
-              widget.channel.displayName,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                color: _focused ? Colors.white : const Color(0xFFD6D6DB),
-                fontSize: 12,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
-    ),
     );
   }
 }
@@ -1249,7 +1112,7 @@ class _CatalogPageState extends State<_CatalogPage> {
               children: [
                 Text(
                   widget.title,
-                  style: GoogleFonts.inter(
+                  style: GoogleFonts.robotoSerif(
                     color: Colors.white,
                     fontWeight: FontWeight.w900,
                     fontSize: 34,
@@ -1271,48 +1134,64 @@ class _CatalogPageState extends State<_CatalogPage> {
         ),
         // Derecha: grid de resultados con su propio scroll.
         Expanded(
-          child: filtered.isEmpty
-              ? _EmptyState(message: widget.emptyMessage)
-              : Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 34, 30, 20),
-                  child: LayoutBuilder(
-                    builder: (context, constraints) {
-                      const columns = 4;
-                      const gap = 14.0;
-                      final cardWidth =
-                          (constraints.maxWidth - gap * (columns - 1)) /
-                          columns;
-                      final imageHeight = cardWidth * 1.5;
-                      final aspect = cardWidth / (imageHeight + 27);
-                      return GridView.builder(
-                        padding: EdgeInsets.zero,
-                        itemCount: filtered.length,
-                        gridDelegate:
-                            SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: columns,
-                              crossAxisSpacing: gap,
-                              mainAxisSpacing: 20,
-                              childAspectRatio: aspect,
-                            ),
-                        itemBuilder: (context, index) {
-                          final item = filtered[index];
-                          return _MediaCard(
-                            channel: item,
-                            width: double.infinity,
-                            imageHeight: imageHeight,
-                            landscape: false,
-                            onTap: () => _open(
-                              context,
-                              item,
-                              widget.store,
-                              widget.preview,
-                            ),
-                          );
-                        },
-                      );
-                    },
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(0, 34, 30, 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Resultados · ${filtered.length} ${filtered.length == 1 ? 'título' : 'títulos'}',
+                  style: GoogleFonts.robotoSerif(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w800,
                   ),
                 ),
+                const SizedBox(height: 14),
+                Expanded(
+                  child: filtered.isEmpty
+                      ? _EmptyState(message: widget.emptyMessage)
+                      : LayoutBuilder(
+                          builder: (context, constraints) {
+                            const columns = 4;
+                            const gap = 14.0;
+                            final cardWidth =
+                                (constraints.maxWidth - gap * (columns - 1)) /
+                                columns;
+                            final imageHeight = cardWidth * 1.5;
+                            final aspect = cardWidth / (imageHeight + 27);
+                            return GridView.builder(
+                              padding: EdgeInsets.zero,
+                              itemCount: filtered.length,
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: columns,
+                                    crossAxisSpacing: gap,
+                                    mainAxisSpacing: 20,
+                                    childAspectRatio: aspect,
+                                  ),
+                              itemBuilder: (context, index) {
+                                final item = filtered[index];
+                                return _MediaCard(
+                                  channel: item,
+                                  width: double.infinity,
+                                  imageHeight: imageHeight,
+                                  landscape: false,
+                                  onTap: () => _open(
+                                    context,
+                                    item,
+                                    widget.store,
+                                    widget.preview,
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                        ),
+                ),
+              ],
+            ),
+          ),
         ),
       ],
     );
@@ -1321,10 +1200,7 @@ class _CatalogPageState extends State<_CatalogPage> {
   @override
   Widget build(BuildContext context) {
     final filtered = widget.items
-        .where(
-          (item) =>
-              item.displayName.toLowerCase().contains(query.toLowerCase()),
-        )
+        .where((item) => matchesTvSearch(item.displayName, query))
         .toList();
     // Búsqueda en TV: teclado a la izquierda + pósters a la derecha (estilo
     // Netflix), ambos visibles sin tener que bajar.
@@ -1369,7 +1245,7 @@ class _CatalogPageState extends State<_CatalogPage> {
                 if (widget.phone) const SizedBox(height: 22),
                 Text(
                   widget.title,
-                  style: GoogleFonts.inter(
+                  style: GoogleFonts.robotoSerif(
                     color: Colors.white,
                     fontWeight: FontWeight.w900,
                     fontSize: widget.phone ? 28 : (widget.tv ? 38 : 34),
@@ -1479,24 +1355,63 @@ class _EmptyState extends StatelessWidget {
 }
 
 class HourTvLogo extends StatelessWidget {
-  const HourTvLogo({super.key, this.height = 48});
+  const HourTvLogo({super.key, this.height = 48, this.compact = false});
   final double height;
+  // El rail colapsado (~60px de ancho) no tiene espacio para "Hour" + la
+  // pastilla: en ese caso se muestra solo la pastilla "TV".
+  final bool compact;
 
   @override
   Widget build(BuildContext context) {
-    return Image.asset(
-      'assets/branding/hourtv_logo.png',
-      height: height,
-      fit: BoxFit.contain,
-      alignment: Alignment.centerLeft,
-      filterQuality: FilterQuality.high,
-      errorBuilder: (_, _, _) => Text(
-        'HOUR TV',
-        style: GoogleFonts.inter(
-          color: Colors.white,
-          fontWeight: FontWeight.w900,
+    // Mismo tratamiento que en movil: "TV" va dentro de una pastilla verde
+    // solida. En texto plano la marca se confundia con cualquier titulo.
+    final size = height * 0.42;
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        if (!compact) ...[
+          Text(
+            'Hour',
+            style: GoogleFonts.robotoSerif(
+              color: Colors.white,
+              fontSize: size,
+              height: 1,
+              fontWeight: FontWeight.w900,
+              letterSpacing: -0.8,
+            ),
+          ),
+          SizedBox(width: size * 0.14),
+        ],
+        DecoratedBox(
+          decoration: BoxDecoration(
+            color: _red,
+            borderRadius: BorderRadius.circular(size * 0.3),
+            boxShadow: [
+              BoxShadow(
+                color: _red.withValues(alpha: .45),
+                blurRadius: size * 0.5,
+              ),
+            ],
+          ),
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: size * 0.22,
+              vertical: size * 0.1,
+            ),
+            child: Text(
+              'TV',
+              style: GoogleFonts.robotoSerif(
+                color: const Color(0xFF050505),
+                fontSize: size * 0.82,
+                height: 1,
+                fontWeight: FontWeight.w900,
+                letterSpacing: -0.4,
+              ),
+            ),
+          ),
         ),
-      ),
+      ],
     );
   }
 }
@@ -1543,30 +1458,6 @@ class _ArtworkFallback extends StatelessWidget {
           Icons.play_arrow_rounded,
           color: Color(0x55FFFFFF),
           size: 46,
-        ),
-      ),
-    );
-  }
-}
-
-class _Badge extends StatelessWidget {
-  const _Badge({required this.text});
-  final String text;
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 5),
-      decoration: BoxDecoration(
-        color: _red,
-        borderRadius: BorderRadius.circular(4),
-      ),
-      child: Text(
-        text,
-        style: const TextStyle(
-          color: Colors.white,
-          fontSize: 9,
-          fontWeight: FontWeight.w900,
-          letterSpacing: .6,
         ),
       ),
     );
@@ -1714,9 +1605,14 @@ class _HeroButtonState extends State<_HeroButton> {
 }
 
 class _RoundButton extends StatelessWidget {
-  const _RoundButton({required this.icon, required this.onTap});
+  const _RoundButton({
+    required this.icon,
+    required this.onTap,
+    required this.label,
+  });
   final IconData icon;
   final VoidCallback onTap;
+  final String label;
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -1725,7 +1621,7 @@ class _RoundButton extends StatelessWidget {
       child: IconButton(
         onPressed: onTap,
         icon: Icon(icon, color: Colors.white),
-        tooltip: '',
+        tooltip: label,
       ),
     );
   }
@@ -1737,7 +1633,7 @@ void _open(
   ContentStore store,
   bool preview,
 ) {
-  final series = hourTvResolveSeries(channel, store.series);
+  final series = hourTvResolveSeries(channel, store.visibleSeries);
   if (series != null) {
     Navigator.of(context).push(
       MaterialPageRoute(builder: (_) => HourTvSeriesDetailPage(series: series)),

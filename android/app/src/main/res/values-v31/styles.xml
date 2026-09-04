@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Android 12+ ignora windowBackground para el splash y arma el suyo
+         propio con el icono del launcher, estirandolo mucho mas grande de
+         lo que mide (192px como maximo) -> se ve pixelado. Esto le da un
+         icono dedicado de mayor resolucion (splash_icon.png, 512px) para
+         que se vea nitido en esa presentacion mas grande. -->
+    <style name="LaunchTheme" parent="@android:style/Theme.Light.NoTitleBar">
+        <item name="android:windowBackground">@drawable/launch_background</item>
+        <item name="android:windowSplashScreenBackground">@color/hourtv_splash_background</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/splash_icon</item>
+        <item name="android:windowSplashScreenIconBackgroundColor">@color/hourtv_splash_background</item>
+    </style>
+</resources>

@@ -120,6 +120,9 @@ class Channel {
   String? forcedType; // 'movie' | 'series' para VOD que no se detecta por URL
   bool isFavorite;
   DateTime? lastWatched;
+  // Fraccion 0..1 reproducida la ultima vez (VOD). Null = nunca empezado.
+  // Alimenta "Continuar viendo"; no aplica a En Vivo.
+  double? progressFraction;
   EpgProgram? currentProgram;
   EpgProgram? nextProgram;
   String? plot;
@@ -151,6 +154,7 @@ class Channel {
     this.forcedType,
     this.isFavorite = false,
     this.lastWatched,
+    this.progressFraction,
     this.currentProgram,
     this.nextProgram,
     this.plot,
@@ -227,6 +231,7 @@ class Channel {
     'forcedType': forcedType,
     'isFavorite': isFavorite,
     'lastWatched': lastWatched?.toIso8601String(),
+    'progressFraction': progressFraction,
     'plot': plot,
     'year': year,
     'rating': rating,
@@ -258,6 +263,7 @@ class Channel {
     lastWatched: json['lastWatched'] != null
         ? DateTime.tryParse(json['lastWatched'])
         : null,
+    progressFraction: (json['progressFraction'] as num?)?.toDouble(),
     plot: json['plot']?.toString(),
     year: json['year']?.toString(),
     rating: json['rating']?.toString(),
@@ -296,6 +302,7 @@ class Channel {
     String? forcedType,
     bool? isFavorite,
     DateTime? lastWatched,
+    double? progressFraction,
     EpgProgram? currentProgram,
     EpgProgram? nextProgram,
     String? plot,
@@ -326,6 +333,7 @@ class Channel {
       forcedType: forcedType ?? this.forcedType,
       isFavorite: isFavorite ?? this.isFavorite,
       lastWatched: lastWatched ?? this.lastWatched,
+      progressFraction: progressFraction ?? this.progressFraction,
       currentProgram: currentProgram ?? this.currentProgram,
       nextProgram: nextProgram ?? this.nextProgram,
       plot: plot ?? this.plot,

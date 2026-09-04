@@ -60,4 +60,18 @@ void main() {
       expect(restoredSeries.single.episodes, hasLength(1));
     },
   );
+
+  test('persiste "Me gusta" por canal, separado de favoritos', () async {
+    SharedPreferences.setMockInitialValues({});
+    await StorageService.init();
+
+    const url = 'https://vod.test/liked-movie.mp4';
+    expect(StorageService.loadLikedUrls(), isNot(contains(url)));
+
+    expect(await StorageService.toggleLiked(url), isTrue);
+    expect(StorageService.loadLikedUrls(), contains(url));
+
+    expect(await StorageService.toggleLiked(url), isFalse);
+    expect(StorageService.loadLikedUrls(), isNot(contains(url)));
+  });
 }

@@ -50,15 +50,4 @@ class DeviceProfile {
   static bool isTablet(BuildContext context) =>
       of(context) == DeviceType.tablet;
   static bool isPhone(BuildContext context) => of(context) == DeviceType.phone;
-
-  static bool isRemoteOnly(BuildContext context) => isTv(context);
-
-  static double uiScale(BuildContext context) => switch (of(context)) {
-    DeviceType.tv => 1.5,
-    DeviceType.desktop => 1.0,
-    DeviceType.tablet => 1.15,
-    DeviceType.phone => 1.0,
-  };
-
-  static double overscan(BuildContext context) => isTv(context) ? 24.0 : 0.0;
 }

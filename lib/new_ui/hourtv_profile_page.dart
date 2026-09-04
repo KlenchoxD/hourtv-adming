@@ -3,14 +3,18 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../services/content_store.dart';
+import '../services/parental_control_service.dart';
 import '../services/storage_service.dart';
 import 'hourtv_focusable.dart';
+import 'hourtv_parental_gate.dart';
+import 'hourtv_profile_avatar.dart';
 import 'hourtv_settings_language_page.dart';
 import 'hourtv_settings_page.dart';
 import 'hourtv_settings_parental_page.dart';
 import 'hourtv_settings_playback_page.dart';
 
-const _red = Color(0xFFF20A1A);
+const _red = Color(0xFF00C781);
 const _surface = Color(0xFF111113);
 const _line = Color(0xFF29292E);
 const _muted = Color(0xFFA6A6B0);
@@ -41,12 +45,6 @@ class HourTvProfilePage extends StatefulWidget {
 
 class _HourTvProfilePageState extends State<HourTvProfilePage> {
   String profile = 'Invitado';
-
-  static const profiles = <(String, IconData)>[
-    ('Invitado', Icons.person_rounded),
-    ('Cinéfilo', Icons.local_movies_rounded),
-    ('Kids', Icons.child_care_rounded),
-  ];
 
   /// Los subtitulos de cada tarjeta se calculan del ajuste GUARDADO, no son
   /// texto fijo: antes "Control parental" decia siempre "Desactivado" aunque
@@ -94,14 +92,51 @@ class _HourTvProfilePageState extends State<HourTvProfilePage> {
     )).toString();
   }
 
-  void _selectProfile(String value) {
-    setState(() => profile = value);
-    unawaited(StorageService.saveSetting('activeProfile', value));
+  // Marca si el modo restringido esta activo PORQUE lo activo el perfil
+  // Kids, para poder devolverlo a como estaba al salir en vez de dejarlo
+  // activado (o desactivarlo si el usuario ya lo tenia prendido aparte).
+  static const _kidsAutoRestrictedKey = 'kidsAutoRestricted';
+
+  /// Al salir de un perfil infantil hacia el selector: si el modo
+  /// restringido esta activo, pide el PIN antes de dejar salir (si no,
+  /// cambiar de perfil seria la forma de saltarse el filtro). Solo lo
+  /// desactiva si fue el perfil infantil quien lo prendio; si el usuario ya
+  /// lo tenia activado aparte, queda como estaba.
+  Future<bool> _exitKidsMode() async {
+    if (!ParentalControlService.isEnabled) return true;
+    final wasAutoRestricted =
+        StorageService.getSetting(_kidsAutoRestrictedKey, defaultValue: false) ==
+        true;
+    final pin = await requestParentalPin(context, title: 'Salir del perfil Kids');
+    if (pin == null || !mounted) return false;
+    if (!ParentalControlService.verifyPin(pin)) {
+      _message('PIN incorrecto.');
+      return false;
+    }
+    if (wasAutoRestricted) {
+      await StorageService.saveSetting(ParentalControlService.enabledKey, false);
+      await StorageService.saveSetting(_kidsAutoRestrictedKey, false);
+      ContentStore.instance.refreshParentalFilter();
+    }
+    return true;
   }
 
-  Future<void> _cycleProfile() async {
-    final current = profiles.indexWhere((item) => item.$1 == profile);
-    _selectProfile(profiles[(current + 1) % profiles.length].$1);
+  void _message(String message) {
+    if (!mounted) return;
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(message)));
+  }
+
+  /// Vuelve al selector de perfil (la raiz de la app lo escucha via
+  /// `StorageService.hasChosenProfile`), sin marcar sesion como cerrada:
+  /// ahi se puede elegir otro perfil ya creado o crear uno nuevo.
+  Future<void> _switchProfile() async {
+    if (StorageService.activeProfileIsKids && !await _exitKidsMode()) return;
+    if (!mounted) return;
+    await StorageService.clearChosenProfile();
+    if (!mounted) return;
+    Navigator.of(context, rootNavigator: true).popUntil((r) => r.isFirst);
   }
 
   Future<void> _logout() async {
@@ -114,8 +149,9 @@ class _HourTvProfilePageState extends State<HourTvProfilePage> {
           style: TextStyle(color: Colors.white),
         ),
         content: const Text(
-          'Esto vuelve el perfil activo a Invitado. HourTV no usa cuentas '
-          'con usuario y contraseña: el perfil es local a este dispositivo.',
+          'Vas a volver a la pantalla de elegir perfil. HourTV no usa '
+          'cuentas con usuario y contraseña: el perfil es local a este '
+          'dispositivo.',
           style: TextStyle(color: _muted),
         ),
         actions: [
@@ -132,16 +168,13 @@ class _HourTvProfilePageState extends State<HourTvProfilePage> {
       ),
     );
     if (confirmed != true || !mounted) return;
-    _selectProfile('Invitado');
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Sesión cerrada.')),
-    );
+    await _switchProfile();
     widget.onLoggedOut?.call();
   }
 
   Widget _switchProfileButton({required bool isTv}) {
     final button = OutlinedButton.icon(
-      onPressed: _cycleProfile,
+      onPressed: () => unawaited(_switchProfile()),
       style: OutlinedButton.styleFrom(
         foregroundColor: Colors.white,
         side: const BorderSide(color: _line),
@@ -152,7 +185,7 @@ class _HourTvProfilePageState extends State<HourTvProfilePage> {
     );
     if (!isTv) return button;
     return TvFocusable(
-      onTap: _cycleProfile,
+      onTap: () => unawaited(_switchProfile()),
       borderRadius: BorderRadius.circular(10),
       child: button,
     );
@@ -196,24 +229,16 @@ class _HourTvProfilePageState extends State<HourTvProfilePage> {
                 _title('Tu Perfil', 28),
                 const SizedBox(height: 20),
                 _profileCard(compact: true),
-                const SizedBox(height: 24),
-                const Text(
-                  'CAMBIAR DE PERFIL',
-                  style: TextStyle(
-                    color: _muted,
-                    fontSize: 11,
-                    fontWeight: FontWeight.w800,
-                    letterSpacing: 1.1,
+                const SizedBox(height: 16),
+                OutlinedButton.icon(
+                  onPressed: () => unawaited(_switchProfile()),
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: Colors.white,
+                    side: const BorderSide(color: _line),
+                    minimumSize: const Size.fromHeight(46),
                   ),
-                ),
-                const SizedBox(height: 10),
-                Row(
-                  children: [
-                    for (var index = 0; index < profiles.length; index++) ...[
-                      if (index > 0) const SizedBox(width: 10),
-                      Expanded(child: _mobileProfile(profiles[index])),
-                    ],
-                  ],
+                  icon: const Icon(Icons.switch_account_rounded),
+                  label: const Text('Cambiar de perfil'),
                 ),
                 const SizedBox(height: 24),
                 // Mismos apartados que en TV: antes el Perfil de telefono solo
@@ -272,7 +297,11 @@ class _HourTvProfilePageState extends State<HourTvProfilePage> {
                         decoration: _panelDecoration(),
                         child: Column(
                           children: [
-                            _avatar(40, Icons.local_movies_rounded),
+                            HourTvProfileAvatar(
+                              profileName: profile,
+                              avatarSeed: StorageService.activeProfileAvatarId,
+                              radius: 40,
+                            ),
                             const SizedBox(height: 15),
                             Text(
                               profile,
@@ -283,25 +312,9 @@ class _HourTvProfilePageState extends State<HourTvProfilePage> {
                                 fontWeight: FontWeight.w900,
                               ),
                             ),
-                            const SizedBox(height: 5),
-                            const Text(
-                              'Plan Premium · 4K HDR',
-                              style: TextStyle(
-                                color: _red,
-                                fontSize: 11,
-                                fontWeight: FontWeight.w800,
-                              ),
-                            ),
                             const SizedBox(height: 18),
                             OutlinedButton(
-                              onPressed: () {
-                                final current = profiles.indexWhere(
-                                  (item) => item.$1 == profile,
-                                );
-                                _selectProfile(
-                                  profiles[(current + 1) % profiles.length].$1,
-                                );
-                              },
+                              onPressed: () => unawaited(_switchProfile()),
                               style: OutlinedButton.styleFrom(
                                 foregroundColor: Colors.white,
                                 side: const BorderSide(color: _line),
@@ -373,7 +386,11 @@ class _HourTvProfilePageState extends State<HourTvProfilePage> {
                   children: [
                     Row(
                       children: [
-                        _avatar(isTv ? 48 : 42, Icons.person_rounded),
+                        HourTvProfileAvatar(
+                          profileName: profile,
+                          avatarSeed: StorageService.activeProfileAvatarId,
+                          radius: isTv ? 48 : 42,
+                        ),
                         const SizedBox(width: 22),
                         Expanded(
                           child: Column(
@@ -391,15 +408,11 @@ class _HourTvProfilePageState extends State<HourTvProfilePage> {
                               const SizedBox(height: 5),
                               Text(
                                 profile,
-                                style: GoogleFonts.inter(
+                                style: GoogleFonts.robotoSerif(
                                   color: Colors.white,
                                   fontSize: isTv ? 48 : 40,
                                   fontWeight: FontWeight.w900,
                                 ),
-                              ),
-                              const Text(
-                                'Suscripción Premium · Ultra HD 4K',
-                                style: TextStyle(color: _muted, fontSize: 16),
                               ),
                             ],
                           ),
@@ -558,7 +571,11 @@ class _HourTvProfilePageState extends State<HourTvProfilePage> {
       decoration: _panelDecoration(),
       child: Row(
         children: [
-          _avatar(compact ? 32 : 38, Icons.person_rounded),
+          HourTvProfileAvatar(
+            profileName: profile,
+            avatarSeed: StorageService.activeProfileAvatarId,
+            radius: compact ? 32 : 38,
+          ),
           const SizedBox(width: 14),
           Expanded(
             child: Column(
@@ -572,20 +589,6 @@ class _HourTvProfilePageState extends State<HourTvProfilePage> {
                     fontWeight: FontWeight.w900,
                   ),
                 ),
-                const SizedBox(height: 4),
-                const Text(
-                  'Suscripción Premium · 4K HDR',
-                  style: TextStyle(color: _muted, fontSize: 12),
-                ),
-                const SizedBox(height: 3),
-                const Text(
-                  'ID: HTV-3000',
-                  style: TextStyle(
-                    color: _red,
-                    fontSize: 11,
-                    fontWeight: FontWeight.w900,
-                  ),
-                ),
               ],
             ),
           ),
@@ -594,50 +597,9 @@ class _HourTvProfilePageState extends State<HourTvProfilePage> {
     );
   }
 
-  Widget _mobileProfile((String, IconData) item) {
-    final selected = item.$1 == profile;
-    return InkWell(
-      onTap: () => _selectProfile(item.$1),
-      borderRadius: BorderRadius.circular(13),
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 160),
-        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 6),
-        decoration: BoxDecoration(
-          color: _surface,
-          borderRadius: BorderRadius.circular(13),
-          border: Border.all(color: selected ? _red : _line, width: 2),
-        ),
-        child: Column(
-          children: [
-            Icon(item.$2, color: selected ? Colors.white : _muted, size: 27),
-            const SizedBox(height: 6),
-            Text(
-              item.$1,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                color: selected ? Colors.white : _muted,
-                fontSize: 11,
-                fontWeight: FontWeight.w800,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _avatar(double radius, IconData icon) {
-    return CircleAvatar(
-      radius: radius,
-      backgroundColor: _red,
-      child: Icon(icon, color: Colors.white, size: radius),
-    );
-  }
-
   Widget _title(String value, double size) => Text(
     value,
-    style: GoogleFonts.inter(
+    style: GoogleFonts.robotoSerif(
       color: Colors.white,
       fontSize: size,
       fontWeight: FontWeight.w900,

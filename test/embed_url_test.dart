@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:streamtv/screens/player_screen.dart';
+import 'package:streamtv/new_ui/hourtv_player_screen.dart';
 
 void main() {
   test('paginas embed se detectan como no-directas', () {

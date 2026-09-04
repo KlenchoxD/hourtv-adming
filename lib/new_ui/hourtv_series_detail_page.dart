@@ -11,13 +11,13 @@ import '../services/share_service.dart';
 import '../services/xtream_service.dart';
 import 'hourtv_focusable.dart';
 import 'hourtv_player_screen.dart';
+import 'hourtv_parental_gate.dart';
 
 const _black = Color(0xFF050505);
 const _surface = Color(0xFF111113);
 const _line = Color(0xFF29292E);
 const _muted = Color(0xFFA6A6B0);
-const _red = Color(0xFFF20A1A);
-const _green = Color(0xFF00D6A0);
+const _red = Color(0xFF00C781);
 
 String _seriesKey(XtreamSeries series) =>
     'hourtv-series:${Uri.encodeComponent(series.host)}:${Uri.encodeComponent(series.seriesId)}';
@@ -67,6 +67,9 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
   bool loading = true;
   String? error;
   String? season;
+  // Sin esto, un doble-toque rapido en "Reproducir" (o dos episodios
+  // seguidos antes de que abra el primero) empuja el reproductor dos veces.
+  bool _opening = false;
 
   Channel get channel {
     final item = hourTvSeriesChannel(widget.series);
@@ -147,12 +150,20 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
     );
   }
 
-  void _play(Channel episode) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (_) => PlayerScreen(channel: episode, allChannels: episodes),
-      ),
-    );
+  Future<void> _play(Channel episode) async {
+    if (_opening) return;
+    _opening = true;
+    try {
+      if (!await ensureParentalAccess(context, channel) || !mounted) return;
+      await Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (_) =>
+              PlayerScreen(channel: episode, allChannels: episodes),
+        ),
+      );
+    } finally {
+      _opening = false;
+    }
   }
 
   @override
@@ -171,7 +182,9 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
       slivers: [
         SliverToBoxAdapter(
           child: SizedBox(
-            height: _heroHeight(context, 430),
+            // Antes 430 (identico al tope del hero del Inicio); se achica para
+            // que el detalle no parezca una copia de esa misma franja.
+            height: _heroHeight(context, 320),
             child: Stack(
               fit: StackFit.expand,
               children: [
@@ -334,14 +347,25 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
           crossAxisAlignment: WrapCrossAlignment.center,
           children: [
             _badge('SERIE'),
-            const Text(
-              '98% COINCIDENCIA',
-              style: TextStyle(
-                color: _green,
-                fontSize: 11,
-                fontWeight: FontWeight.w900,
+            if ((widget.series.rating ?? '').trim().isNotEmpty)
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(
+                    Icons.star_rounded,
+                    color: Color(0xFFF5C518),
+                    size: 16,
+                  ),
+                  const SizedBox(width: 3),
+                  Text(
+                    widget.series.rating!.trim(),
+                    style: const TextStyle(
+                      color: Colors.white70,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ],
               ),
-            ),
           ],
         ),
         const SizedBox(height: 12),
@@ -353,7 +377,7 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
           // Igual que en el detalle de pelicula: height 1.12 en vez de .98
           // (las dos lineas se tocaban) y sombra para despegar el titulo de
           // la imagen que tiene detras.
-          style: GoogleFonts.inter(
+          style: GoogleFonts.robotoSerif(
             color: Colors.white,
             fontWeight: FontWeight.w900,
             fontSize: phone ? 30 : (tv ? 52 : 42),
@@ -371,8 +395,8 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
         const SizedBox(height: 10),
         Text(
           [
-            widget.series.year ?? 'Serie',
-            widget.series.rating ?? '16+',
+            if ((widget.series.year ?? '').trim().isNotEmpty)
+              widget.series.year!.trim(),
             '${seasons.length} temporada${seasons.length == 1 ? '' : 's'}',
           ].join('  •  '),
           textAlign: phone ? TextAlign.center : TextAlign.left,
@@ -401,22 +425,25 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
                     : () => _play(episodes.first),
                 style: FilledButton.styleFrom(
                   backgroundColor: _red,
-                  foregroundColor: Colors.white,
-                  minimumSize: Size(tv ? 190 : 150, tv ? 56 : 48),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
+                  // Blanco sobre el verde de marca casi no hacia contraste.
+                  foregroundColor: Colors.black,
+                  minimumSize: Size(tv ? 190 : 156, tv ? 56 : 52),
+                  elevation: 4,
+                  shadowColor: _red.withValues(alpha: .5),
+                  shape: const StadiumBorder(),
                 ),
                 icon: const Icon(Icons.play_arrow_rounded),
                 label: const Text(
-                  'Reproducir',
-                  style: TextStyle(fontWeight: FontWeight.w900),
+                  'REPRODUCIR',
+                  style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: .3),
                 ),
               ),
             ),
             const SizedBox(width: 10),
             _action(
-              item.isFavorite ? Icons.check_rounded : Icons.add_rounded,
+              item.isFavorite
+                  ? Icons.favorite_rounded
+                  : Icons.favorite_border_rounded,
               _favorite,
               active: item.isFavorite,
             ),
@@ -463,7 +490,7 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
       children: [
         Text(
           'Episodios',
-          style: GoogleFonts.inter(
+          style: GoogleFonts.robotoSerif(
             color: Colors.white,
             fontSize: tv ? 26 : 22,
             fontWeight: FontWeight.w900,
@@ -618,14 +645,32 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
     );
   }
 
-  Widget _back() => IconButton(
-    onPressed: () => Navigator.pop(context),
-    style: IconButton.styleFrom(
-      backgroundColor: const Color(0xB3101012),
-      foregroundColor: Colors.white,
-      side: const BorderSide(color: _red, width: 1.4),
+  // Mismo boton rediseñado que en el detalle de pelicula: cuadrado redondeado
+  // con borde sutil, en vez del circulo con borde de acento grueso de antes.
+  Widget _back() => Tooltip(
+    message: 'Volver',
+    child: Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: () => Navigator.pop(context),
+        borderRadius: BorderRadius.circular(12),
+        child: Container(
+          width: 40,
+          height: 40,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: const Color(0x8C101012),
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: Colors.white24),
+          ),
+          child: const Icon(
+            Icons.arrow_back_rounded,
+            color: Colors.white,
+            size: 20,
+          ),
+        ),
+      ),
     ),
-    icon: const Icon(Icons.chevron_left_rounded),
   );
 
   // Mismo rediseño circular que en el detalle de pelicula: relleno rojo y

@@ -6,12 +6,15 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:http/http.dart' as http;
 import '../models/channel.dart';
 import '../models/m3u_list.dart';
+import 'archive_service.dart';
 import 'storage_service.dart';
 import 'm3u_parser_service.dart';
+import 'parental_control_service.dart';
 import 'xtream_service.dart';
 import 'stalker_service.dart';
 import 'catalog_parser.dart';
 import 'epg_service.dart';
+import 'tmdb_service.dart';
 
 /// Agrupacion de canales por país (para el selector EN VIVO).
 class CountryBucket {
@@ -38,12 +41,18 @@ class ContentStore extends ChangeNotifier {
   bool vodLoading = false;
   bool epgLoading = false;
   String? error;
+  // Nombres de fuentes (M3U/Xtream/Stalker) que fallaron por completo en el
+  // ultimo intento de carga. Antes se tragaban en silencio y el usuario solo
+  // veia "menos contenido" sin saber por que.
+  Set<String> failedSourceNames = {};
 
   bool _started = false;
+  bool _archiveFetched = false;
   bool _refreshing = false;
   bool _networkLoadRunning = false;
   bool _refreshAgain = false;
   DateTime? _lastLoad;
+  Set<String> _trendingTitles = {};
 
   /// Carga una sola vez (la primera pestaña que la pida dispara la carga).
   Future<void> ensureLoaded() async {
@@ -117,6 +126,14 @@ class ContentStore extends ChangeNotifier {
 
     // La red siempre queda fuera de la ruta crítica del arranque.
     unawaited(_refreshContent(localSources));
+    unawaited(_refreshTrending());
+  }
+
+  Future<void> _refreshTrending() async {
+    final titles = await TmdbService.trendingTitles();
+    if (titles.isEmpty || titles.length == _trendingTitles.length) return;
+    _trendingTitles = titles;
+    notifyListeners();
   }
 
   /// "Solo por Wi‑Fi" (Perfil > Configuracion) antes no restringia nada: se
@@ -153,6 +170,7 @@ class ContentStore extends ChangeNotifier {
       return;
     }
     _networkLoadRunning = true;
+    final failed = <String>{};
     try {
       final saved = StorageService.loadLists();
       final userLists = saved.where((list) => !list.isDefault).toList();
@@ -215,6 +233,11 @@ class ContentStore extends ChangeNotifier {
         }
       }
       for (final result in results) {
+        // Solo se avisa de fuentes que el usuario agrego: una lista por
+        // defecto caida es cosa nuestra, no algo que el usuario deba "arreglar".
+        if (!result.success && !result.list.isDefault) {
+          failed.add(result.list.name);
+        }
         final sourceChannels = result.success
             ? result.channels
             : all.where((channel) => channel.category == result.list.name);
@@ -239,7 +262,9 @@ class ContentStore extends ChangeNotifier {
       await _persistSnapshot();
 
       unawaited(_loadEpg(assetSources.epgUrls));
-      await _loadVod(lists, assetSources.series);
+      await _loadVod(lists, assetSources.series, failed);
+      unawaited(_enrichMovies(all));
+      unawaited(_loadArchiveCatalog());
     } catch (exception) {
       if (all.isEmpty && series.isEmpty) {
         error = exception.toString();
@@ -247,6 +272,8 @@ class ContentStore extends ChangeNotifier {
         notifyListeners();
       }
     } finally {
+      failedSourceNames = failed;
+      notifyListeners();
       _networkLoadRunning = false;
       if (_refreshAgain) {
         _refreshAgain = false;
@@ -265,6 +292,7 @@ class ContentStore extends ChangeNotifier {
   Future<void> _loadVod(
     List<M3UList> lists,
     List<XtreamSeries> catalogSeries,
+    Set<String> failed,
   ) async {
     final accounts = lists.where((l) => l.isXtream).toList();
     final portals = lists.where((l) => l.isStalker).toList();
@@ -276,10 +304,12 @@ class ContentStore extends ChangeNotifier {
     final stalkerChannels = <Channel>[];
     final ser = <XtreamSeries>[];
     for (final a in accounts) {
+      var ok = false;
       try {
         movies.addAll(
           await XtreamService.fetchMovies(a.host!, a.username!, a.password!),
         );
+        ok = true;
       } catch (_) {}
       try {
         liveMetadata.addAll(
@@ -290,6 +320,7 @@ class ContentStore extends ChangeNotifier {
             userAgent: a.userAgent,
           ),
         );
+        ok = true;
       } catch (_) {}
       try {
         ser.addAll(
@@ -299,7 +330,11 @@ class ContentStore extends ChangeNotifier {
             a.password!,
           ),
         );
+        ok = true;
       } catch (_) {}
+      // Solo se avisa si las TRES peticiones fallaron: la cuenta esta
+      // realmente caida, no solo un endpoint suyo con un problema puntual.
+      if (!ok) failed.add(a.name);
     }
     for (final portal in portals) {
       try {
@@ -310,7 +345,9 @@ class ContentStore extends ChangeNotifier {
             sourceName: portal.name,
           ),
         );
-      } catch (_) {}
+      } catch (_) {
+        failed.add(portal.name);
+      }
     }
 
     final byUrl = {for (final channel in all) channel.url: channel};
@@ -340,6 +377,79 @@ class ContentStore extends ChangeNotifier {
     _recomputeCountries();
     notifyListeners();
     await _persistSnapshot();
+  }
+
+  /// Completa sinopsis/año/rating/reparto de las peliculas que llegaron sin
+  /// esos datos (comun en listas M3U simples y en Archive), sin pedirle
+  /// nada al usuario: primero intenta la propia info del servidor Xtream
+  /// (gratis, sin API key) y si no aplica cae a TMDB por titulo. Corre en
+  /// segundo plano tras la carga inicial, en tandas acotadas para no
+  /// saturar la red ni pegarle de una a cientos de titulos.
+  Future<void> _enrichMovies(List<Channel> movies) async {
+    final needing = movies
+        .where(
+          (c) =>
+              c.type == MediaType.movie &&
+              [c.plot, c.year, c.rating].any((v) => (v ?? '').trim().isEmpty),
+        )
+        .take(80)
+        .toList();
+    if (needing.isEmpty) return;
+
+    var changedAny = false;
+    const batchSize = 6;
+    for (var i = 0; i < needing.length; i += batchSize) {
+      final batch = needing.skip(i).take(batchSize);
+      final results = await Future.wait(
+        batch.map((movie) async {
+          try {
+            if (await XtreamService.enrichMovieMetadata(movie)) return true;
+            return await TmdbService.enrich(movie);
+          } catch (_) {
+            return false;
+          }
+        }),
+      );
+      if (results.any((changed) => changed)) changedAny = true;
+    }
+    if (changedAny) {
+      notifyListeners();
+      await _persistSnapshot();
+    }
+  }
+
+  /// Agrega el catalogo de peliculas de dominio publico de Internet Archive
+  /// (clasicos, terror, ciencia ficcion...) como contenido gratis extra,
+  /// sin que el usuario tenga que configurar nada. Se pide una sola vez por
+  /// sesion (no en cada `maybeRefresh`); lo ya agregado queda cacheado en el
+  /// snapshot normal del catalogo, asi que un reinicio no vuelve a pedirlo
+  /// hasta la siguiente carga completa.
+  Future<void> _loadArchiveCatalog() async {
+    if (_archiveFetched) return;
+    _archiveFetched = true;
+    try {
+      final movies = await ArchiveService.fetchCatalog();
+      if (movies.isEmpty) return;
+      final favorites = StorageService.loadFavorites()
+          .map((channel) => channel.url)
+          .toSet();
+      final existingUrls = all.map((channel) => channel.url).toSet();
+      var addedAny = false;
+      for (final movie in movies) {
+        if (!existingUrls.add(movie.url)) continue;
+        movie.isFavorite = favorites.contains(movie.url);
+        all.add(movie);
+        addedAny = true;
+      }
+      if (addedAny) {
+        _recomputeCountries();
+        notifyListeners();
+        await _persistSnapshot();
+      }
+    } catch (_) {
+      // Sin Internet Archive no pasa nada grave: el resto del catalogo ya
+      // esta cargado y visible.
+    }
   }
 
   /// Última versión buena del catálogo remoto, disponible sin red.
@@ -433,7 +543,7 @@ class ContentStore extends ChangeNotifier {
   void _recomputeCountries() {
     final counts = <String, int>{};
     int total = 0;
-    for (final ch in all) {
+    for (final ch in visibleAll) {
       if (ch.type != MediaType.live) continue;
       total++;
       final code = ch.countryCode ?? 'zz';
@@ -461,14 +571,64 @@ class ContentStore extends ChangeNotifier {
 
   // -------- Accesores para el catálogo (Inicio) --------
 
+  /// Vista pública del catálogo. La fuente completa permanece en memoria y
+  /// almacenamiento; el modo restringido solo oculta entradas explícitamente
+  /// adultas en los consumidores de UI.
+  List<Channel>? _visibleAllCache;
+  List<Channel>? _visibleAllSource;
+  int _visibleAllLength = -1;
+  bool _visibleAllRestricted = false;
+
+  /// Se memoriza porque la UI lee este getter varias veces por build y filtrar
+  /// el catalogo completo en cada lectura era lo que trababa el modo
+  /// restringido. El cache se invalida si `all` se reemplaza, si le crecen
+  /// elementos, o si cambia el estado del control parental.
+  List<Channel> get visibleAll {
+    final restricted = ParentalControlService.isEnabled;
+    final cached = _visibleAllCache;
+    if (cached != null &&
+        identical(_visibleAllSource, all) &&
+        _visibleAllLength == all.length &&
+        _visibleAllRestricted == restricted) {
+      return cached;
+    }
+    final filtered = ParentalControlService.filterChannels(all);
+    _visibleAllCache = filtered;
+    _visibleAllSource = all;
+    _visibleAllLength = all.length;
+    _visibleAllRestricted = restricted;
+    return filtered;
+  }
+
+  List<XtreamSeries> get visibleSeries =>
+      ParentalControlService.filterSeries(series);
+
+  bool get hasRawMovies => all.any((item) => item.type == MediaType.movie);
+
+  void refreshParentalFilter() {
+    _recomputeCountries();
+    notifyListeners();
+  }
+
+  void refreshProfileData() {
+    final favoriteUrls = StorageService.loadFavorites()
+        .map((item) => item.url)
+        .toSet();
+    for (final channel in all) {
+      channel.isFavorite = favoriteUrls.contains(channel.url);
+    }
+    notifyListeners();
+  }
+
   List<Channel> get movies =>
-      all.where((c) => c.type == MediaType.movie).toList();
+      visibleAll.where((c) => c.type == MediaType.movie).toList();
 
   /// Géneros canónicos de películas. Los nombres de fuentes y filas editoriales
   /// se agrupan como "Películas" para no contaminar los chips de Inicio.
   static const List<String> _movieGenreOrder = [
     'Infantil',
     'Anime',
+    'K-Drama',
     'Acción',
     'Aventura',
     'Comedia',
@@ -490,6 +650,13 @@ class ContentStore extends ChangeNotifier {
     final value = raw.trim().toLowerCase();
     if (value.isEmpty) return null;
     if (value.contains('anime')) return 'Anime';
+    if (value.contains('k-drama') ||
+        value.contains('kdrama') ||
+        value.contains('dorama') ||
+        value.contains('korean drama') ||
+        value.contains('drama coreano')) {
+      return 'K-Drama';
+    }
     if (value.contains('infantil') ||
         value.contains('family') ||
         value.contains('familia') ||
@@ -578,9 +745,53 @@ class ContentStore extends ChangeNotifier {
         .toList();
   }
 
-  List<Channel> live(String genre) =>
-      all.where((c) => c.type == MediaType.live && c.genre == genre).toList();
-  List<Channel> liveByCountry(String code) => all
+  // `series` (arriba) ya es la lista cruda de XtreamSeries: esta es la
+  // proyeccion como Channel VOD, igual a como Mi Biblioteca filtra series.
+  List<Channel> get seriesChannels =>
+      visibleAll.where((c) => c.type == MediaType.series).toList();
+
+  List<Channel> _nonLiveByCanonicalGenre(String genre) => visibleAll
+      .where((c) => c.type != MediaType.live)
+      .where((c) => _genresForMovie(c).contains(genre))
+      .toList();
+
+  /// Anime y K-Drama pueden venir como película o como serie: a diferencia
+  /// de `moviesByGenre` (solo películas), estas dos filas del Inicio buscan
+  /// en todo el catálogo VOD.
+  List<Channel> get anime => _nonLiveByCanonicalGenre('Anime');
+
+  List<Channel> get kDramas => _nonLiveByCanonicalGenre('K-Drama');
+
+  /// Primero cruza el catálogo contra lo que TMDB marca en tendencia esta
+  /// semana (popularidad real, no solo de este dispositivo). Sin conexión o
+  /// sin coincidencias, cae a lo mas reproducido localmente (tambien real,
+  /// via `StorageService.loadWatchCounts`) para que la fila no desaparezca.
+  List<Channel> get trending {
+    if (_trendingTitles.isNotEmpty) {
+      final byTmdb = visibleAll
+          .where((c) => c.type != MediaType.live)
+          .where(
+            (c) => _trendingTitles.contains(
+              TmdbService.normalizeTitle(c.displayName),
+            ),
+          )
+          .toList();
+      if (byTmdb.isNotEmpty) return byTmdb;
+    }
+    final counts = StorageService.loadWatchCounts();
+    final candidates = visibleAll
+        .where((c) => c.type != MediaType.live && (counts[c.url] ?? 0) > 0)
+        .toList();
+    candidates.sort(
+      (a, b) => (counts[b.url] ?? 0).compareTo(counts[a.url] ?? 0),
+    );
+    return candidates;
+  }
+
+  List<Channel> live(String genre) => visibleAll
+      .where((c) => c.type == MediaType.live && c.genre == genre)
+      .toList();
+  List<Channel> liveByCountry(String code) => visibleAll
       .where((c) => c.type == MediaType.live && (c.countryCode ?? 'zz') == code)
       .toList();
   List<Channel> get favorites {
@@ -603,7 +814,7 @@ class ContentStore extends ChangeNotifier {
     for (final favorite in activeByUrl.values) {
       if (seen.add(favorite.url)) result.add(favorite);
     }
-    return result;
+    return ParentalControlService.filterChannels(result);
   }
 
   Future<void> toggleFavorite(Channel ch) async {
@@ -611,6 +822,48 @@ class ContentStore extends ChangeNotifier {
     final i = all.indexWhere((c) => c.url == ch.url);
     if (i >= 0) all[i].isFavorite = fav;
     notifyListeners();
+  }
+
+  /// Todo lo reproducido recientemente, mas nuevo primero (para "Historial").
+  List<Channel> get history {
+    final saved = StorageService.loadRecent();
+    final activeByUrl = {for (final channel in all) channel.url: channel};
+    final seen = <String>{};
+    final result = <Channel>[];
+    for (final item in saved) {
+      final active = activeByUrl[item.url];
+      final merged = active ?? item;
+      merged.lastWatched = item.lastWatched;
+      merged.progressFraction = item.progressFraction;
+      if (seen.add(merged.url)) result.add(merged);
+    }
+    return ParentalControlService.filterChannels(result);
+  }
+
+  /// VOD empezado pero no terminado, para la fila "Continuar viendo". En Vivo
+  /// no aplica: no tiene sentido "continuar" un canal en directo.
+  List<Channel> get continueWatching => history.where((item) {
+    if (item.type == MediaType.live) return false;
+    final fraction = item.progressFraction;
+    return fraction != null && fraction > 0.02 && fraction < 0.95;
+  }).toList();
+
+  /// Guarda cuanto se avanzo en `channel` para que "Continuar viendo" refleje
+  /// progreso real. Se llama desde el reproductor, no desde la UI.
+  /// [notify] en false para los ticks periodicos durante la reproduccion:
+  /// solo persiste, sin avisar a listeners (el shell de teléfono sigue vivo
+  /// detras del reproductor y un notify cada ~10s lo reconstruye entero de
+  /// fondo sin necesidad, mientras "Continuar viendo" no esta ni visible).
+  /// El guardado final (al salir del reproductor) si notifica, para que la
+  /// fila refleje el progreso real al volver a Inicio.
+  Future<void> updatePlaybackProgress(
+    Channel channel,
+    double fraction, {
+    bool notify = true,
+  }) async {
+    channel.progressFraction = fraction;
+    await StorageService.updateRecentProgress(channel.url, fraction);
+    if (notify) notifyListeners();
   }
 }
 

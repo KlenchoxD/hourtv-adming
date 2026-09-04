@@ -54,3 +54,18 @@ automation/dist/
 automation/*.log
 automation/tools/__pycache__/
 automation/tools/own-catalog.generated.json
+
+# Material de referencia/scratch de sesiones de trabajo con IA: prototipos
+# externos (con su propio node_modules), reportes de revisión y notas de
+# handoff. No es codigo fuente de la app, no va al repo.
+.codex-review/
+.codex/
+.pnpm-store/
+.tools/
+ai-studio-app/
+chat-work-light-vscode/
+AI_STUDIO_LIVE_WORKFLOW.md
+HANDOFF.md
+# Fuente original del logo: ya copiada a assets/branding/ y a los iconos de
+# android/, no hace falta versionarla aparte.
+/Logo/

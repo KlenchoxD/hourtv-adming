@@ -2,27 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AppColors {
-  // Fondos: negro neutro (estilo Netflix)
-  static const Color primaryDark = Color(0xFF0B0B0B);
-  static const Color surfaceDark = Color(0xFF141414);
-  static const Color cardDark = Color(0xFF1F1F1F);
-  static const Color cardElevated = Color(0xFF2B2B2B);
+  // Paleta oficial HourTV sincronizada con el Design System de Figma.
+  static const Color primaryDark = Color(0xFF050505);
+  static const Color surfaceDark = Color(0xFF101412);
+  static const Color cardDark = Color(0xFF151917);
+  static const Color cardElevated = Color(0xFF1B211E);
 
-  // Acento de marca: rojo
-  static const Color accent = Color(0xFFE50914);
-  static const Color accentSecondary = Color(0xFFFF3341);
-  static const Color accentLight = Color(0xFFFF6B74);
+  static const Color accent = Color(0xFF00C781);
+  static const Color accentSecondary = Color(0xFF00B876);
+  static const Color accentLight = Color(0xFF69E6B9);
 
-  // Texto (blanco/gris neutro)
   static const Color textPrimary = Color(0xFFF5F5F5);
-  static const Color textSecondary = Color(0xFFB3B3B3);
-  static const Color textMuted = Color(0xFF6F6F6F);
+  static const Color textSecondary = Color(0xFFC4C8C6);
+  static const Color textMuted = Color(0xFFA8ADAB);
 
   // Estados
   static const Color success = Color(0xFF2DD4A8);
   static const Color error = Color(0xFFFF3B5C);
   static const Color warning = Color(0xFFFFB23E);
-  static const Color live = Color(0xFFE50914); // "LIVE" rojo (misma familia que el acento)
+  static const Color live = Color(0xFFFF4D4F);
 }
 
 class AppTheme {
@@ -45,14 +43,22 @@ class AppTheme {
 
   /// Tarjeta con estilo glass (vidrio esmerilado sutil).
   static BoxDecoration glassCard({bool active = false}) => BoxDecoration(
-    color: active ? AppColors.accent.withValues(alpha: 0.12) : AppColors.cardDark,
+    color: active
+        ? AppColors.accent.withValues(alpha: 0.12)
+        : AppColors.cardDark,
     borderRadius: BorderRadius.circular(18),
     border: Border.all(
-      color: active ? AppColors.accent.withValues(alpha: 0.6) : Colors.white.withValues(alpha: 0.06),
+      color: active
+          ? AppColors.accent.withValues(alpha: 0.6)
+          : Colors.white.withValues(alpha: 0.06),
       width: active ? 1.5 : 1,
     ),
     boxShadow: [
-      BoxShadow(color: Colors.black.withValues(alpha: 0.35), blurRadius: 16, offset: const Offset(0, 6)),
+      BoxShadow(
+        color: Colors.black.withValues(alpha: 0.35),
+        blurRadius: 16,
+        offset: const Offset(0, 6),
+      ),
     ],
   );
 
@@ -81,22 +87,43 @@ class AppTheme {
     );
 
     return base.copyWith(
-      textTheme: GoogleFonts.outfitTextTheme(base.textTheme).apply(
-        bodyColor: AppColors.textPrimary,
-        displayColor: AppColors.textPrimary,
-      ).copyWith(
-        headlineLarge: GoogleFonts.outfit(color: AppColors.textPrimary, fontWeight: FontWeight.w700, letterSpacing: -0.5),
-        headlineMedium: GoogleFonts.outfit(color: AppColors.textPrimary, fontWeight: FontWeight.w700, letterSpacing: -0.5),
-        titleLarge: GoogleFonts.outfit(color: AppColors.textPrimary, fontWeight: FontWeight.w600, letterSpacing: -0.3),
-        titleMedium: GoogleFonts.outfit(color: AppColors.textPrimary, fontWeight: FontWeight.w600),
-        bodyLarge: GoogleFonts.outfit(color: AppColors.textPrimary),
-        bodyMedium: GoogleFonts.outfit(color: AppColors.textSecondary),
-        bodySmall: GoogleFonts.outfit(color: AppColors.textMuted),
-      ),
+      textTheme: GoogleFonts.interTextTheme(base.textTheme)
+          .apply(
+            bodyColor: AppColors.textPrimary,
+            displayColor: AppColors.textPrimary,
+          )
+          .copyWith(
+            headlineLarge: GoogleFonts.inter(
+              color: AppColors.textPrimary,
+              fontWeight: FontWeight.w700,
+              letterSpacing: -0.5,
+            ),
+            headlineMedium: GoogleFonts.inter(
+              color: AppColors.textPrimary,
+              fontWeight: FontWeight.w700,
+              letterSpacing: -0.5,
+            ),
+            titleLarge: GoogleFonts.inter(
+              color: AppColors.textPrimary,
+              fontWeight: FontWeight.w600,
+              letterSpacing: -0.3,
+            ),
+            titleMedium: GoogleFonts.inter(
+              color: AppColors.textPrimary,
+              fontWeight: FontWeight.w600,
+            ),
+            bodyLarge: GoogleFonts.inter(color: AppColors.textPrimary),
+            bodyMedium: GoogleFonts.inter(color: AppColors.textSecondary),
+            bodySmall: GoogleFonts.inter(color: AppColors.textMuted),
+          ),
       appBarTheme: AppBarTheme(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        titleTextStyle: GoogleFonts.outfit(color: AppColors.textPrimary, fontSize: 20, fontWeight: FontWeight.w700),
+        titleTextStyle: GoogleFonts.inter(
+          color: AppColors.textPrimary,
+          fontSize: 20,
+          fontWeight: FontWeight.w700,
+        ),
         iconTheme: const IconThemeData(color: AppColors.textPrimary),
       ),
       cardTheme: CardThemeData(
@@ -107,9 +134,18 @@ class AppTheme {
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: AppColors.cardDark,
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: BorderSide.none),
-        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.06))),
-        focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: const BorderSide(color: AppColors.accent, width: 1.5)),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16),
+          borderSide: BorderSide.none,
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16),
+          borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.06)),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16),
+          borderSide: const BorderSide(color: AppColors.accent, width: 1.5),
+        ),
         hintStyle: const TextStyle(color: AppColors.textMuted),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
@@ -117,8 +153,10 @@ class AppTheme {
           backgroundColor: AppColors.accent,
           foregroundColor: Colors.white,
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-          textStyle: GoogleFonts.outfit(fontWeight: FontWeight.w600),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(14),
+          ),
+          textStyle: GoogleFonts.inter(fontWeight: FontWeight.w600),
         ),
       ),
       snackBarTheme: SnackBarThemeData(

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Mismo negro que HourTvMobileTokens.deepBlack en Flutter, para que el
+         splash nativo no desentone con la primera pantalla de la app. -->
+    <color name="hourtv_splash_background">#FF050505</color>
+</resources>

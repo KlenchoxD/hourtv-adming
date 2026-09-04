@@ -8,16 +8,24 @@ import 'hourtv_settings_kit.dart';
 enum _Stage { idle, checking, upToDate, available, downloading, ready, error }
 
 class HourTvUpdatePage extends StatefulWidget {
-  const HourTvUpdatePage({super.key});
+  const HourTvUpdatePage({super.key, this.preloadedInfo});
+
+  /// Cuando la app ya detecto una actualizacion sola al abrirse y el
+  /// usuario toco "Actualizar" en ese aviso, se llega aca con el resultado
+  /// ya en mano: evita mostrar "Buscando…" y obligar a tocar de nuevo
+  /// "Buscar actualizaciones" para lo mismo que ya se encontro.
+  final UpdateInfo? preloadedInfo;
 
   @override
   State<HourTvUpdatePage> createState() => _HourTvUpdatePageState();
 }
 
 class _HourTvUpdatePageState extends State<HourTvUpdatePage> {
-  _Stage _stage = _Stage.idle;
+  late var _stage = widget.preloadedInfo != null
+      ? _Stage.available
+      : _Stage.idle;
   String? _currentVersion;
-  UpdateInfo? _info;
+  late var _info = widget.preloadedInfo;
   String? _error;
   double _progress = 0;
   String? _downloadedPath;
@@ -28,6 +36,10 @@ class _HourTvUpdatePageState extends State<HourTvUpdatePage> {
     PackageInfo.fromPlatform().then((info) {
       if (mounted) setState(() => _currentVersion = info.version);
     });
+    // Ya vio el aviso: el punto verde en "Perfil" de la barra inferior no
+    // tiene que seguir insistiendo, la decision de actualizar ahora es suya
+    // desde esta pantalla.
+    UpdateService.instance.hasUpdateAvailable.value = false;
   }
 
   Future<void> _check() async {
@@ -140,7 +152,7 @@ class _HourTvUpdatePageState extends State<HourTvUpdatePage> {
         return [
           const SettingsInfoRow(
             icon: Icons.check_circle_rounded,
-            iconColor: Color(0xFF00D6A0),
+            iconColor: Color(0xFF00C781),
             title: 'Ya tienes la última versión',
             subtitle: 'No hay actualizaciones disponibles por ahora.',
           ),
@@ -195,7 +207,7 @@ class _HourTvUpdatePageState extends State<HourTvUpdatePage> {
         return [
           const SettingsInfoRow(
             icon: Icons.check_circle_rounded,
-            iconColor: Color(0xFF00D6A0),
+            iconColor: Color(0xFF00C781),
             title: 'Descarga lista',
             subtitle:
                 'Toca instalar y confirma en el instalador de Android.',

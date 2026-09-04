@@ -3,12 +3,13 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_chrome_cast/flutter_chrome_cast.dart';
 
+import '../models/channel.dart';
 import '../services/cast_service.dart';
 
-const _red = Color(0xFFF20A1A);
+const _red = Color(0xFF00C781);
 const _black = Color(0xFF050505);
-const _surface = Color(0xFF101012);
-const _line = Color(0xFF25252A);
+const _surface = Color(0xFF101412);
+const _line = Color(0xFF27302C);
 const _muted = Color(0xFFA6A6B0);
 
 /// Panel de transmision propio de HourTV.
@@ -27,6 +28,10 @@ Future<bool> showCastSheet(
   Duration Function()? position,
   Duration? Function()? duration,
 
+  /// Tipo de contenido conocido por la app (En Vivo/pelicula/serie), para
+  /// no depender solo de la extension de la URL al decidir el tipo MIME.
+  MediaType? mediaType,
+
   /// Motivo por el que este contenido no se puede transmitir, si aplica. Se
   /// muestra en lugar de la lista: es mas honesto que ofrecer dispositivos a
   /// los que el envio va a fallar.
@@ -42,6 +47,7 @@ Future<bool> showCastSheet(
       posterUrl: posterUrl,
       position: position,
       duration: duration,
+      mediaType: mediaType,
       blockedReason: blockedReason,
     ),
   );
@@ -55,6 +61,7 @@ class _CastSheet extends StatefulWidget {
     this.posterUrl,
     this.position,
     this.duration,
+    this.mediaType,
     this.blockedReason,
   });
 
@@ -63,6 +70,7 @@ class _CastSheet extends StatefulWidget {
   final String? posterUrl;
   final Duration Function()? position;
   final Duration? Function()? duration;
+  final MediaType? mediaType;
   final String? blockedReason;
 
   @override
@@ -140,6 +148,7 @@ class _CastSheetState extends State<_CastSheet> {
         posterUrl: widget.posterUrl,
         position: widget.position?.call() ?? Duration.zero,
         duration: widget.duration?.call(),
+        mediaType: widget.mediaType,
       );
       if (!mounted) return;
       setState(() {
@@ -152,6 +161,10 @@ class _CastSheetState extends State<_CastSheet> {
         'teléfono y el televisor estén en la misma red Wi-Fi.',
       );
     } on FormatException catch (error) {
+      _fail(error.message);
+    } on StateError catch (error) {
+      // El dispositivo se conecto pero el video no cargo (rechazado por
+      // formato, cabeceras no soportadas, o el receptor nunca confirmo).
       _fail(error.message);
     } catch (error) {
       _fail('No se pudo conectar con ${device.friendlyName}. $error');
@@ -243,6 +256,7 @@ class _CastSheetState extends State<_CastSheet> {
         ),
       ),
       IconButton(
+        tooltip: 'Cerrar',
         onPressed: () => Navigator.pop(context, _connectedDevice != null),
         icon: const Icon(Icons.close_rounded, color: _muted),
       ),
@@ -270,7 +284,7 @@ class _CastSheetState extends State<_CastSheet> {
         false,
       ),
       _Phase.connecting => (_red, 'Conectando con $_connectingTo…', true),
-      _Phase.connected => (const Color(0xFF3ED98A), 'Conectado', false),
+      _Phase.connected => (const Color(0xFF69E6B9), 'Conectado', false),
     };
     return Row(
       children: [
@@ -393,13 +407,13 @@ class _CastSheetState extends State<_CastSheet> {
     decoration: BoxDecoration(
       color: _surface,
       borderRadius: BorderRadius.circular(11),
-      border: Border.all(color: const Color(0xFF3ED98A)),
+      border: Border.all(color: const Color(0xFF69E6B9)),
     ),
     child: Row(
       children: [
         const Icon(
           Icons.cast_connected_rounded,
-          color: Color(0xFF3ED98A),
+          color: Color(0xFF69E6B9),
           size: 21,
         ),
         const SizedBox(width: 11),

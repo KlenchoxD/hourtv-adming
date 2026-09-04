@@ -8,10 +8,10 @@ import 'hourtv_focusable.dart';
 // hourtv_profile_page.dart): nada de Scaffold+AppBar de Material por
 // defecto, todo con estos colores y TvFocusable para que el control
 // remoto muestre foco real (borde rojo), no un InkWell mudo.
-const kSetRed = Color(0xFFF20A1A);
+const kSetRed = Color(0xFF00C781);
 const kSetBlack = Color(0xFF050505);
-const kSetSurface = Color(0xFF101012);
-const kSetLine = Color(0xFF25252A);
+const kSetSurface = Color(0xFF101412);
+const kSetLine = Color(0xFF27302C);
 const kSetMuted = Color(0xFFA6A6B0);
 
 /// Estructura comun de toda pantalla de ajustes dentro de Perfil: fondo
@@ -51,7 +51,7 @@ class HourTvSettingsScaffold extends StatelessWidget {
                         children: [
                           Text(
                             title,
-                            style: GoogleFonts.inter(
+                            style: GoogleFonts.robotoSerif(
                               color: Colors.white,
                               fontWeight: FontWeight.w900,
                               fontSize: 28,
@@ -220,10 +220,7 @@ class _SettingsRowState extends State<_SettingsRow> {
                       const SizedBox(height: 3),
                       Text(
                         widget.subtitle!,
-                        style: const TextStyle(
-                          color: kSetMuted,
-                          fontSize: 12,
-                        ),
+                        style: const TextStyle(color: kSetMuted, fontSize: 12),
                       ),
                     ],
                   ],

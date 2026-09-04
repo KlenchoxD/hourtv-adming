@@ -9,7 +9,7 @@ const _black = Color(0xFF000000);
 const _surface = Color(0xFF111113);
 const _line = Color(0xFF2A2A2E);
 const _muted = Color(0xFFA6A6B0);
-const _red = Color(0xFFF20A1A);
+const _red = Color(0xFF00C781);
 
 /// Controles Chromecast con el lenguaje visual rojo/negro de HourTV.
 class CastControlsScreen extends StatefulWidget {
@@ -220,6 +220,7 @@ class _CastControlsScreenState extends State<CastControlsScreen> {
                             Icons.replay_10_rounded,
                             () =>
                                 _seek(_position - const Duration(seconds: 10)),
+                            label: 'Retroceder 10 segundos',
                           ),
                           const SizedBox(width: 20),
                           IconButton.filled(
@@ -229,6 +230,7 @@ class _CastControlsScreenState extends State<CastControlsScreen> {
                               minimumSize: const Size(68, 68),
                             ),
                             iconSize: 40,
+                            tooltip: _playing ? 'Pausar' : 'Reproducir',
                             onPressed: _toggle,
                             icon: Icon(
                               _playing
@@ -241,6 +243,7 @@ class _CastControlsScreenState extends State<CastControlsScreen> {
                             Icons.forward_10_rounded,
                             () =>
                                 _seek(_position + const Duration(seconds: 10)),
+                            label: 'Adelantar 10 segundos',
                           ),
                         ],
                       ),
@@ -289,12 +292,17 @@ class _CastControlsScreenState extends State<CastControlsScreen> {
     );
   }
 
-  Widget _control(IconData icon, VoidCallback onPressed) => IconButton(
+  Widget _control(
+    IconData icon,
+    VoidCallback onPressed, {
+    required String label,
+  }) => IconButton(
     style: IconButton.styleFrom(
       backgroundColor: const Color(0xFF1C1C1F),
       foregroundColor: Colors.white,
       minimumSize: const Size(52, 52),
     ),
+    tooltip: label,
     onPressed: onPressed,
     icon: Icon(icon),
   );

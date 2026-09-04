@@ -14,13 +14,15 @@ import '../services/archive_service.dart';
 import '../services/stalker_service.dart';
 import '../services/device_type.dart';
 import '../services/cast_service.dart';
+import '../services/content_store.dart';
 import '../services/embed_resolver.dart';
+import '../services/playback_source_fallback.dart';
 import 'hourtv_focusable.dart';
 import 'hourtv_cast_controls_screen.dart';
 import 'hourtv_cast_sheet.dart';
 
-const _hourRed = Color(0xFFF20A1A);
-const _hourSurface = Color(0xFF101012);
+const _hourRed = Color(0xFF00C781);
+const _hourSurface = Color(0xFF101412);
 const _hourMuted = Color(0xFFA6A6B0);
 const _hourError = Color(0xFFFF5A66);
 
@@ -59,6 +61,9 @@ class _PlayerScreenState extends State<PlayerScreen> {
   ChewieController? _cc;
   bool _loading = true;
   String? _err;
+  // Texto crudo del error, para quien administra sus propias fuentes IPTV y
+  // necesita el detalle tecnico. Se muestra chico y apagado bajo el mensaje.
+  String? _errDetail;
   bool _showList = false;
   int _idx = 0;
   final _screenFocus = FocusNode();
@@ -74,6 +79,16 @@ class _PlayerScreenState extends State<PlayerScreen> {
   String? _gestureLabel;
   String? _activeServerUrl;
   String? _resolvedPlaybackUrl;
+  // El receptor Chromecast por defecto no puede enviar cabeceras HTTP
+  // personalizadas (Referer/User-Agent) al pedir el video: si la
+  // reproduccion actual depende de eso (paginas embed resueltas), transmitir
+  // siempre va a fallar en el televisor aunque el link sea valido aca.
+  bool _resolvedPlaybackNeedsHeaders = false;
+  // Orden de mirrors a probar para el canal actual; se reconstruye en cada
+  // llamada "fresca" a _init (cambio de canal, seleccion manual de servidor,
+  // botón Reintentar) y se recorre sola cuando un mirror falla en caliente.
+  PlaybackSourcePlan? _sourcePlan;
+  bool _recoveringFromPlaybackError = false;
   // Estilo de subtitulos elegido en Perfil > Idioma y subtitulos. Chewie solo
   // pinta subtitulos dentro de sus controles (y aqui van desactivados), asi
   // que HourTV dibuja la linea de subtitulo con este estilo.
@@ -162,7 +177,12 @@ class _PlayerScreenState extends State<PlayerScreen> {
 
   void _onVideoProgress() {
     final controller = _vc;
-    if (controller == null || !controller.value.isInitialized || _isLive) {
+    if (controller == null) return;
+    if (controller.value.hasError) {
+      _handlePlaybackError(controller);
+      return;
+    }
+    if (!controller.value.isInitialized || _isLive) {
       return;
     }
     final value = controller.value;
@@ -175,6 +195,20 @@ class _PlayerScreenState extends State<PlayerScreen> {
     final remaining = duration - value.position;
     final completed =
         value.isCompleted || remaining <= const Duration(milliseconds: 450);
+    // Progreso real para "Continuar viendo": cada ~10s, y siempre al terminar
+    // (asi el titulo sale de la fila en vez de quedar marcado a medias).
+    if (completed || second % 10 == 0) {
+      final fraction = (value.position.inMilliseconds /
+              duration.inMilliseconds)
+          .clamp(0.0, 1.0);
+      unawaited(
+        ContentStore.instance.updatePlaybackProgress(
+          _currentChannel,
+          fraction,
+          notify: false,
+        ),
+      );
+    }
     if (completed) {
       _nextEpisodeCountdown.value = null;
       _creditsMode.value = false;
@@ -245,12 +279,21 @@ class _PlayerScreenState extends State<PlayerScreen> {
     _showChromeControls();
   }
 
-  Future<void> _init(Channel ch, {String? streamUrl}) async {
+  Future<void> _init(
+    Channel ch, {
+    String? streamUrl,
+    bool isFallbackAttempt = false,
+  }) async {
     final targetUrl = streamUrl ?? ch.url;
+    if (!isFallbackAttempt) {
+      _sourcePlan = PlaybackSourcePlan.forChannel(ch, preferredUrl: streamUrl);
+    }
+    _recoveringFromPlaybackError = false;
     _resetEpisodeUi();
     setState(() {
       _loading = true;
       _err = null;
+      _errDetail = null;
       _activeServerUrl = targetUrl;
       _embedUrl = null;
     });
@@ -277,6 +320,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
           playHeaders = resolved.headers;
         } else {
           _resolvedPlaybackUrl = targetUrl;
+          _resolvedPlaybackNeedsHeaders = true;
           _createEmbedController(targetUrl);
           setState(() => _loading = false);
           return;
@@ -285,6 +329,8 @@ class _PlayerScreenState extends State<PlayerScreen> {
       if (playUrl.startsWith('archive:')) {
         final resolved = await ArchiveService.resolveStream(playUrl);
         if (resolved == null) {
+          if (!mounted) return;
+          if (await _tryFallback(ch, targetUrl)) return;
           setState(() {
             _err = 'No se pudo obtener el vídeo de esta película.';
             _loading = false;
@@ -295,6 +341,8 @@ class _PlayerScreenState extends State<PlayerScreen> {
       } else if (playUrl.startsWith('stalker:')) {
         final resolved = await StalkerService.resolveStream(playUrl);
         if (resolved == null) {
+          if (!mounted) return;
+          if (await _tryFallback(ch, targetUrl)) return;
           setState(() {
             _err = 'No se pudo crear el enlace temporal de este canal.';
             _loading = false;
@@ -304,6 +352,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
         playUrl = resolved;
       }
       _resolvedPlaybackUrl = playUrl;
+      _resolvedPlaybackNeedsHeaders = playHeaders.isNotEmpty;
       _vc = VideoPlayerController.networkUrl(
         Uri.parse(playUrl),
         httpHeaders: playHeaders,
@@ -354,11 +403,48 @@ class _PlayerScreenState extends State<PlayerScreen> {
       // laterales se quedaban visibles para siempre al entrar a una peli.
       _showChromeControls();
     } catch (e) {
+      if (await _tryFallback(ch, targetUrl)) return;
       setState(() {
-        _err = e.toString();
+        _err = playbackErrorMessage(e.toString());
+        _errDetail = e.toString();
         _loading = false;
       });
     }
+  }
+
+  /// Si `failedUrl` es la fuente activa del plan y quedan mirrors por probar,
+  /// reintenta con el siguiente sin repetir preroll ni volver a contar la
+  /// reproduccion (no pasa por `_playChannel`). Devuelve true si se lanzo un
+  /// reintento, false si no habia plan/mirrors y el llamador debe mostrar error.
+  Future<bool> _tryFallback(Channel ch, String failedUrl) async {
+    final plan = _sourcePlan;
+    if (!mounted || plan == null || plan.current != failedUrl || !plan.hasNext) {
+      return false;
+    }
+    final nextUrl = plan.advance();
+    if (nextUrl == null) return false;
+    await _init(ch, streamUrl: nextUrl, isFallbackAttempt: true);
+    return true;
+  }
+
+  /// Fuente ya reproduciendose que falla en caliente (stream caido, red
+  /// interrumpida): intenta el siguiente mirror antes de rendirse.
+  void _handlePlaybackError(VideoPlayerController controller) {
+    if (_recoveringFromPlaybackError) return;
+    final failedUrl = _activeServerUrl;
+    if (failedUrl == null) return;
+    _recoveringFromPlaybackError = true;
+    unawaited(() async {
+      final handled = await _tryFallback(_currentChannel, failedUrl);
+      if (!handled && mounted) {
+        final detail = controller.value.errorDescription;
+        setState(() {
+          _err = playbackErrorMessage(detail);
+          _errDetail = detail;
+          _loading = false;
+        });
+      }
+    }());
   }
 
   Widget _lg(Channel ch) => ch.logo != null
@@ -446,6 +532,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
               child: Row(
                 children: [
                   IconButton(
+                    tooltip: 'Volver',
                     icon: const Icon(
                       Icons.arrow_back_rounded,
                       color: Colors.white,
@@ -696,12 +783,15 @@ class _PlayerScreenState extends State<PlayerScreen> {
     // Motivos reales por los que este contenido no se puede enviar. Se pasan
     // al panel para explicarlos ahi en vez de ofrecer dispositivos que van a
     // fallar al cargar el video.
-    final blocked = CastService.needsUnsupportedHeaders(channel.userAgent)
-        ? 'Este servidor exige un User-Agent personalizado y el receptor '
-              'predeterminado de Chromecast no permite enviar esa cabecera, '
-              'así que el televisor rechazaría el vídeo.'
+    final blocked =
+        (CastService.needsUnsupportedHeaders(channel.userAgent) ||
+            _resolvedPlaybackNeedsHeaders)
+        ? 'Este servidor exige cabeceras personalizadas (User-Agent o '
+              'Referer) y el receptor predeterminado de Chromecast no '
+              'permite enviarlas, así que el televisor rechazaría el vídeo.'
         : (!CastService.isNetworkUrl(streamUrl) ||
-              CastService.contentTypeFor(streamUrl) == null)
+              CastService.contentTypeFor(streamUrl, mediaType: channel.type) ==
+                  null)
         ? 'Este servidor no expone una URL HLS (.m3u8) ni MP4, que son los '
               'únicos formatos que acepta Chromecast.'
         : null;
@@ -713,6 +803,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
       posterUrl: channel.backdrop ?? channel.logo,
       position: () => _vc?.value.position ?? Duration.zero,
       duration: () => _vc?.value.duration,
+      mediaType: channel.type,
       blockedReason: blocked,
     );
     if (!mounted || !connected) return;
@@ -1314,6 +1405,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
                                   child: _nb(
                                     Icons.chevron_left,
                                     () => _chg(-1),
+                                    label: 'Canal anterior',
                                   ),
                                 ),
                               ),
@@ -1325,6 +1417,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
                                   child: _nb(
                                     Icons.chevron_right,
                                     () => _chg(1),
+                                    label: 'Canal siguiente',
                                   ),
                                 ),
                               ),
@@ -1985,6 +2078,19 @@ class _PlayerScreenState extends State<PlayerScreen> {
           textAlign: TextAlign.center,
         ),
       ),
+      if (_errDetail != null && _errDetail!.trim().isNotEmpty) ...[
+        const SizedBox(height: 10),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 32),
+          child: Text(
+            _errDetail!,
+            maxLines: 3,
+            overflow: TextOverflow.ellipsis,
+            textAlign: TextAlign.center,
+            style: const TextStyle(color: Colors.white30, fontSize: 11),
+          ),
+        ),
+      ],
       const SizedBox(height: 24),
       ElevatedButton.icon(
         onPressed: () =>
@@ -1994,19 +2100,24 @@ class _PlayerScreenState extends State<PlayerScreen> {
       ),
     ],
   );
-  Widget _nb(IconData ic, VoidCallback on) => TvFocusable(
-    onTap: on,
-    borderRadius: BorderRadius.circular(22),
-    child: Container(
-      width: 44,
-      height: 44,
-      decoration: BoxDecoration(
-        color: Colors.black54,
-        borderRadius: BorderRadius.circular(22),
-      ),
-      child: Icon(ic, color: Colors.white, size: 28),
-    ),
-  );
+  Widget _nb(IconData ic, VoidCallback on, {required String label}) =>
+      Semantics(
+        button: true,
+        label: label,
+        child: TvFocusable(
+          onTap: on,
+          borderRadius: BorderRadius.circular(22),
+          child: Container(
+            width: 44,
+            height: 44,
+            decoration: BoxDecoration(
+              color: Colors.black54,
+              borderRadius: BorderRadius.circular(22),
+            ),
+            child: Icon(ic, color: Colors.white, size: 28),
+          ),
+        ),
+      );
 
   Widget _tvTransport() {
     final controller = _vc;
@@ -2255,6 +2366,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
       child: Row(
         children: [
           IconButton(
+            tooltip: 'Volver',
             icon: const Icon(Icons.arrow_back, color: Colors.white),
             onPressed: () => Navigator.pop(context),
           ),
@@ -2370,6 +2482,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
               onPressed: () => setState(() => _showList = !_showList),
             ),
           IconButton(
+            tooltip: ch.isFavorite ? 'Quitar de favoritos' : 'Favorito',
             icon: Icon(
               ch.isFavorite ? Icons.favorite : Icons.favorite_border,
               color: _hourRed,
@@ -2492,8 +2605,27 @@ class _PlayerScreenState extends State<PlayerScreen> {
     ),
   );
 
+  /// Guarda la posicion actual al salir del reproductor, para no perder
+  /// hasta 10s de avance en "Continuar viendo" si el usuario sale antes del
+  /// proximo tick periodico.
+  void _persistFinalProgress() {
+    final controller = _vc;
+    if (controller == null || _isLive || !controller.value.isInitialized) {
+      return;
+    }
+    final duration = controller.value.duration;
+    if (duration <= Duration.zero) return;
+    final fraction = (controller.value.position.inMilliseconds /
+            duration.inMilliseconds)
+        .clamp(0.0, 1.0);
+    unawaited(
+      ContentStore.instance.updatePlaybackProgress(_currentChannel, fraction),
+    );
+  }
+
   @override
   void dispose() {
+    _persistFinalProgress();
     _chromeTimer?.cancel();
     _gestureTimer?.cancel();
     _castDevicesSubscription?.cancel();
@@ -2518,6 +2650,55 @@ class _PlayerScreenState extends State<PlayerScreen> {
     }
     super.dispose();
   }
+}
+
+/// Traduce el error crudo de ExoPlayer/Dart a algo que el usuario pueda
+/// entender y accionar. Antes se pintaba `e.toString()` tal cual, o sea
+/// cosas como "PlatformException(VideoError, ... ExoPlaybackException:
+/// Source error, null, null)": ni el usuario sabe que hacer ni dice nada
+/// sobre la causa real (cuenta vencida, canal caido, formato no soportado).
+String playbackErrorMessage(String? raw) {
+  final value = (raw ?? '').toLowerCase();
+  if (value.isEmpty) {
+    return 'No se pudo reproducir este contenido.';
+  }
+  if (value.contains('403') || value.contains('401')) {
+    return 'El servidor rechazó la conexión. La cuenta puede haber vencido '
+        'o estar en uso en otro dispositivo.';
+  }
+  if (value.contains('404')) {
+    return 'Este enlace ya no existe en el servidor. Probá con otro '
+        'servidor del mismo título.';
+  }
+  if (value.contains('failed host lookup') ||
+      value.contains('no address associated') ||
+      value.contains('socketexception') ||
+      value.contains('connection refused') ||
+      value.contains('network is unreachable')) {
+    return 'No se pudo contactar al servidor. Revisá tu conexión a internet '
+        'o si la fuente sigue activa.';
+  }
+  if (value.contains('timeout') || value.contains('timed out')) {
+    return 'El servidor tardó demasiado en responder. Probá de nuevo o usá '
+        'otro servidor.';
+  }
+  if (value.contains('cleartext')) {
+    return 'El sistema bloqueó este servidor por usar HTTP sin cifrar.';
+  }
+  if (value.contains('handshake') || value.contains('certificate')) {
+    return 'El certificado de seguridad del servidor no es válido.';
+  }
+  if (value.contains('unrecognizedinputformat') ||
+      value.contains('none of the available extractors') ||
+      value.contains('src_not_supported') ||
+      value.contains('parsererror')) {
+    return 'Este formato de video no se puede reproducir en este dispositivo.';
+  }
+  if (RegExp(r'\b5\d\d\b').hasMatch(value)) {
+    return 'El servidor de la fuente está fallando. Probá más tarde o con '
+        'otro servidor.';
+  }
+  return 'No se pudo reproducir este contenido. Probá con otro servidor.';
 }
 
 /// Extensiones de stream directo que ExoPlayer reproduce nativamente.

@@ -7,10 +7,10 @@ import '../services/stalker_service.dart';
 import '../services/storage_service.dart';
 import '../services/xtream_service.dart';
 
-const _red = Color(0xFFF20A1A);
+const _red = Color(0xFF00C781);
 const _black = Color(0xFF050505);
-const _surface = Color(0xFF101012);
-const _line = Color(0xFF25252A);
+const _surface = Color(0xFF101412);
+const _line = Color(0xFF27302C);
 const _muted = Color(0xFFA6A6B0);
 
 class HourTvSourcesPage extends StatefulWidget {
@@ -31,7 +31,7 @@ class _HourTvSourcesPageState extends State<HourTvSourcesPage> {
   }
 
   Future<void> _save(M3UList? source) async {
-    if (source == null) return;
+    if (source == null || !mounted) return;
     setState(() {
       sources = [...sources, source];
       syncing = true;
@@ -68,7 +68,7 @@ class _HourTvSourcesPageState extends State<HourTvSourcesPage> {
         ],
       ),
     );
-    if (confirm != true) return;
+    if (confirm != true || !mounted) return;
     setState(() {
       sources = [...sources]..removeAt(index);
       syncing = true;
@@ -87,6 +87,7 @@ class _HourTvSourcesPageState extends State<HourTvSourcesPage> {
         backgroundColor: _black,
         surfaceTintColor: Colors.transparent,
         leading: IconButton(
+          tooltip: 'Volver',
           icon: const Icon(Icons.arrow_back_rounded),
           onPressed: () => Navigator.pop(context),
         ),
@@ -280,8 +281,10 @@ class _HourTvSourcesPageState extends State<HourTvSourcesPage> {
         ),
       ),
     );
-    name.dispose();
-    url.dispose();
+    // Sin dispose: la transicion de cierre del dialogo puede seguir
+    // animando el TextField mas alla del pop y liberar el controller ahi
+    // crashea ("used after being disposed"). Son de un solo uso, el
+    // garbage collector se encarga.
     return result;
   }
 
@@ -381,10 +384,7 @@ class _HourTvSourcesPageState extends State<HourTvSourcesPage> {
         ),
       ),
     );
-    name.dispose();
-    host.dispose();
-    user.dispose();
-    password.dispose();
+    // Sin dispose, mismo motivo que en _m3uDialog.
     return result;
   }
 
@@ -481,9 +481,7 @@ class _HourTvSourcesPageState extends State<HourTvSourcesPage> {
         ),
       ),
     );
-    name.dispose();
-    host.dispose();
-    mac.dispose();
+    // Sin dispose, mismo motivo que en _m3uDialog.
     return result;
   }
 
@@ -581,16 +579,22 @@ class _SavedSource extends StatelessWidget {
     final type = source.isXtream
         ? 'Xtream'
         : (source.isStalker ? 'Stalker' : 'M3U');
+    final failed = ContentStore.instance.failedSourceNames.contains(
+      source.name,
+    );
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 13),
       decoration: BoxDecoration(
         color: _surface,
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: _line),
+        border: Border.all(color: failed ? _red : _line),
       ),
       child: Row(
         children: [
-          const Icon(Icons.check_circle_rounded, color: Color(0xFF00D6A0)),
+          Icon(
+            failed ? Icons.error_outline_rounded : Icons.check_circle_rounded,
+            color: failed ? _red : const Color(0xFF00C781),
+          ),
           const SizedBox(width: 13),
           Expanded(
             child: Column(
@@ -607,14 +611,20 @@ class _SavedSource extends StatelessWidget {
                 ),
                 const SizedBox(height: 3),
                 Text(
-                  '$type · ${source.isDefault ? "HourTV" : "Personal"}',
-                  style: const TextStyle(color: _muted, fontSize: 12),
+                  failed
+                      ? 'No se pudo conectar en el último intento'
+                      : '$type · ${source.isDefault ? "HourTV" : "Personal"}',
+                  style: TextStyle(
+                    color: failed ? _red : _muted,
+                    fontSize: 12,
+                  ),
                 ),
               ],
             ),
           ),
           if (onDelete != null)
             IconButton(
+              tooltip: 'Eliminar fuente',
               onPressed: onDelete,
               icon: const Icon(Icons.delete_outline_rounded, color: _muted),
             ),

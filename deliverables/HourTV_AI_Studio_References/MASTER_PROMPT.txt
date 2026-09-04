@@ -1,0 +1,130 @@
+Actúa como Senior Product Designer, UX Architect y Frontend Prototyper especializado en plataformas premium de streaming.
+
+Crea un prototipo visual interactivo, completo y responsive para la versión Android de HourTV.
+
+Las imágenes adjuntas corresponden a la versión TV de HourTV. Úsalas para conservar identidad, colores, jerarquía, contenido y arquitectura. No copies literalmente la distribución TV: adapta cada pantalla a Android táctil y vertical.
+
+No generes un collage ni una explicación estática. Construye una aplicación navegable, con cada pantalla como ruta independiente y con controles funcionales sobre datos de demostración compartidos.
+
+No diseñes tablet, desktop ni TV en esta entrega. La arquitectura debe poder adaptarse después a esas plataformas mediante un mismo modelo de contenido, destinos, tokens y componentes semánticos, cambiando únicamente el shell de navegación y las reglas responsive.
+
+IDENTIDAD VISUAL
+
+- Deep Black: #050505
+- Background Primary: #080A09
+- Surface Primary: #101412
+- Surface Control: #151917
+- Border Subtle: #27302C
+- Brand Emerald: #00C781
+- Text Primary: #F5F5F5
+- Text Secondary: #C4C8C6
+- Text Muted: #A8ADAB
+- Inter como tipografía principal
+- Sistema de espaciado de 8 puntos
+- Verde esmeralda como único acento principal
+- Sin rojo como color de marca
+- Sombras mínimas; evitar blur y glow excesivos
+- Conservar el logo HourTV adjunto
+
+VIEWPORTS
+
+Diseña con referencia principal 412×915 px y adapta correctamente a 360×800, 390×844 y 480×960. Usa safe areas, padding horizontal de 16–20 px, contenedores fluidos, aspect ratio reservado, truncado elegante y ningún overflow horizontal accidental.
+
+GRUPOS Y RUTAS OBLIGATORIOS
+
+1. Android / System States
+2. Android / Acceso
+3. Android / Inicio
+4. Android / Buscar
+5. Android / Detalles
+6. Android / Mi Biblioteca
+7. Android / TV
+8. Android / Perfil
+9. Android / Reproductor
+
+ANDROID / SYSTEM STATES
+
+Incluye Loading inicial, skeleton, sin conexión, error de carga, contenido vacío, sin resultados, contenido restringido y reintentar. Las animaciones deben usar principalmente transform y opacity, evitar saltos de layout y respetar reduced motion.
+
+ANDROID / ACCESO
+
+Incluye bienvenida, inicio de sesión, campos, validación, error y loading. No inventes pagos, suscripciones ni redes sociales. Los campos deben tener labels visibles, estados Default/Focused/Filled/Error/Disabled y targets mínimos de 48 px.
+
+ANDROID / INICIO
+
+Construye: header compacto con logo, buscar y avatar; navegación o categorías; Hero cinematográfico; Continuar viendo; HourTV Originals; Tendencias ahora; Películas recomendadas; Series recomendadas; navegación inferior.
+
+El Hero debe contener arte original, gradiente oscuro, título, metadata, descripción breve, Reproducir y Mi lista. Ambos botones deben tener contenido perfectamente centrado, tamaño base consistente y estados reales. Los carruseles deben desplazarse horizontalmente y la pantalla verticalmente.
+
+ANDROID / BUSCAR
+
+Incluye campo de búsqueda, historial/sugerencias, tendencias sin consulta, resultados en tiempo real, loading, error y sin resultados. Usa el teclado del sistema Android, no el teclado TV. El contador debe coincidir con los resultados reales. Borrar elimina un carácter; limpiar elimina toda la consulta. Ningún resultado debe quedar preseleccionado. Tocar un resultado abre Detalles.
+
+ANDROID / DETALLES
+
+Usa una plantilla compartida para película, serie, anime y novela: Hero; título y metadata; Reproducir; Mi lista; acciones secundarias; Sinopsis; información principal; ¿Por qué verla?; Tráilers; Reparto; También te puede gustar; Crítica editorial; Detalles técnicos expandibles.
+
+Para series añade selector de temporada y episodios con imagen, número y título. No muestres duración ni descripción del episodio si no son necesarias. Título, metadata y acciones deben permanecer en la misma posición entre tipos de contenido.
+
+ANDROID / MI BIBLIOTECA
+
+Incluye Mi lista, Continuar viendo, Películas, Series, filtros, orden, estado vacío, eliminación y snackbar. El selector de orden debe funcionar con Más recientes, Más antiguas y A–Z. No puede ser un control muerto.
+
+ANDROID / TV
+
+Incluye reproductor, canal actual, canales, logos correctos, programación actual/siguiente, guía EPG, favoritos, pantalla completa, loading, error de señal y reintentar. En pantalla completa, swipe o controles anterior/siguiente cambian de canal. Los controles aparecen al tocar y desaparecen por inactividad.
+
+ANDROID / PERFIL
+
+Incluye header completo con avatar, nombre, información secundaria y plan; Reproducción y calidad; Idioma y subtítulos; Notificaciones; Control parental; Cerrar sesión. El header debe crecer con el contenido. Usa una familia coherente de iconos; no sustituyas iconos por pequeños textos improvisados como 4K, CC o PIN.
+
+ANDROID / REPRODUCTOR
+
+Diseña principalmente en landscape 16:9. Incluye Controls Visible, Controls Hidden, Paused, Audio & Subtitles, Next Content, Skip Intro, Skip Recap, Loading y Playback Error. Controles: volver, título, Play/Pause, ±10 segundos, timeline, tiempos, subtítulos, audio, calidad y pantalla completa. Targets mínimos 48 px; progreso fino; gradientes solo con HUD visible; ningún overlay debe dejar pasar un toque hacia contenido inferior.
+
+NAVEGACIÓN
+
+Mantén los destinos actuales. Android usa header y navegación inferior, no Navigation Rail. La navegación inferior conserva orden, posición y tamaño entre pantallas. La sección activa usa esmeralda y las inactivas gris. Volver cierra primero overlays o paneles y después regresa. Las transiciones no deben mostrar contenido anterior debajo ni producir lag.
+
+COMPONENTES COMPARTIDOS
+
+Crea App Header, Bottom Navigation, Hero, Primary Button, Secondary Button, Icon Button, Category Tab, Filter Control, Sort Selector, Search Field, Avatar, Poster Card, Landscape Card, Continue Watching Card, Channel Card, Episode Card, Section Header, Settings Row, Empty State, Loading State, Snackbar, Modal Sheet y Player Controls.
+
+Cada componente debe tener los estados que correspondan: Default, Pressed, Selected, Disabled, Loading y Error. Selected y Pressed no pueden verse iguales. No dupliques componentes por pantalla.
+
+CONSISTENCIA Y ERRORES A EVITAR
+
+- Mismo tamaño y aspect ratio para cards equivalentes.
+- Títulos, metadata y acciones alineados consistentemente.
+- Botones centrados.
+- Ninguna primera tarjeta preseleccionada.
+- Ningún filtro o foco residual al regresar a una pantalla.
+- Ninguna selección simultánea accidental.
+- Ninguna línea, borde o indicador ajeno.
+- Ninguna documentación flotante sobre la UI.
+- Ninguna capa vieja visible debajo.
+- Ninguna tarjeta debe cambiar la geometría del grid al recibir foco o presión.
+- Ningún cambio brusco de fondo.
+- Ningún contenido recortado.
+- Scroll vertical real y carouseles horizontales reales.
+
+RENDIMIENTO
+
+Optimiza para Android de gama baja: lazy loading, imágenes optimizadas, aspect ratio reservado, skeletons ligeros, caché de imágenes, listas eficientes, renderizado de elementos visibles, animaciones de 150–250 ms basadas en transform/opacity, debounce en búsqueda y ausencia de filtros o sombras pesadas. Evita rebuilds innecesarios, layout shift, parpadeos y caídas perceptibles de FPS.
+
+ACCESIBILIDAD
+
+Touch target mínimo 48×48 px, contraste suficiente, labels accesibles, orden lógico, escalado de fuente, safe areas, reduced motion y estados que no dependan solo del color.
+
+CONTENIDO
+
+Usa arte y títulos ficticios originales. Puedes usar El último amanecer, Frontera Roja, Sombras de hielo, La voz infinita, Código Órbita y Memoria de cristal. No uses personajes, posters ni logos protegidos de terceros. Mantén los mismos contenidos y datos entre Inicio, Buscar, Detalles, Biblioteca y Reproductor.
+
+ENTREGA
+
+Entrega un prototipo Android navegable con rutas separadas, componentes compartidos, datos compartidos, reglas responsive y un selector de pantallas exclusivamente para revisión fuera de la interfaz del producto.
+
+Antes de declarar terminado, prueba navegación, botones, filtros, selector de orden, búsqueda, overlays, scroll, loading, TV en vivo y reproductor. Reporta pantallas creadas, rutas funcionales, componentes compartidos, problemas corregidos, rendimiento y compatibilidad entre viewports.
+
+Construye primero el prototipo. No respondas únicamente con explicaciones.
+

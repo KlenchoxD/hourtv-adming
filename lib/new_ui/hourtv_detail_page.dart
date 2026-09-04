@@ -1,7 +1,5 @@
 import 'dart:async';
 
-import 'dart:ui' show ImageFilter;
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -12,17 +10,32 @@ import '../models/channel.dart';
 import '../services/cast_service.dart';
 import '../services/content_store.dart';
 import '../services/device_type.dart';
+import '../services/storage_service.dart';
 import 'hourtv_artwork.dart';
 import 'hourtv_cast_controls_screen.dart';
 import 'hourtv_cast_sheet.dart';
 import 'hourtv_focusable.dart';
 import 'hourtv_player_screen.dart';
+import 'hourtv_parental_gate.dart';
 
-const _red = Color(0xFFF20A1A);
+const _red = Color(0xFF00C781);
 const _black = Color(0xFF050505);
-const _surface = Color(0xFF101012);
-const _line = Color(0xFF25252A);
-const _muted = Color(0xFFA6A6B0);
+const _surface = Color(0xFF101412);
+const _line = Color(0xFF27302C);
+const _muted = Color(0xFFA8ADAB);
+
+/// Compara el reparto con la sinopsis ignorando espacios y puntuación.
+/// Algunos proveedores copian el argumento completo en el campo de actores.
+bool isDistinctDetailCast(String cast, String? plot) {
+  final plotValue = plot?.trim();
+  if (plotValue == null || plotValue.isEmpty) return true;
+  String normalize(String value) => value
+      .toLowerCase()
+      .replaceAll(RegExp(r'[^a-z0-9áéíóúüñ]+', unicode: true), ' ')
+      .replaceAll(RegExp(r'\s+'), ' ')
+      .trim();
+  return normalize(cast) != normalize(plotValue);
+}
 
 class HourTvDetailPage extends StatefulWidget {
   const HourTvDetailPage({
@@ -45,6 +58,11 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
   bool plotExpanded = false;
   bool castExpanded = false;
   bool castDeviceAvailable = false;
+  // Sin esto, un doble-toque rapido en "Reproducir" empuja el reproductor
+  // dos veces (el gate de PIN parental es async incluso cuando esta
+  // desactivado y devuelve al toque, dejando una ventana breve para el
+  // segundo toque).
+  bool _opening = false;
   StreamSubscription<List<GoogleCastDevice>>? _castDevicesSub;
   final FocusNode tvFocus = FocusNode();
 
@@ -52,24 +70,41 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
   ContentStore get store => ContentStore.instance;
 
   List<Channel> get related {
-    final genre = (channel.genre ?? '').toLowerCase();
-    final candidates = store.movies
-        .where((item) {
-          if (item.url == channel.url) return false;
-          if (genre.isEmpty) return true;
-          return (item.genre ?? '').toLowerCase().contains(genre) ||
-              item.categories.any(
-                (value) => value.toLowerCase().contains(genre),
-              );
-        })
-        .take(6)
+    // `channel.genre` suele venir como varios generos separados por coma
+    // ("Acción, Aventura, Ciencia ficción..."). Antes se comparaba esa
+    // cadena completa contra el genero (casi siempre uno solo) de cada otro
+    // titulo, asi que solo coincidia si algun otro titulo tenia exactamente
+    // los mismos generos combinados: en la practica, "Relacionados" salia en
+    // unas fichas si y en otras no, sin ningun criterio visible para el
+    // usuario. Ahora se compara genero por genero.
+    final genres = (channel.genre ?? '')
+        .toLowerCase()
+        .split(RegExp(r'[,/]'))
+        .map((value) => value.trim())
+        .where((value) => value.isNotEmpty)
         .toList();
-    return candidates;
+    final others = store.movies.where((item) => item.url != channel.url);
+    final byGenre = others.where((item) {
+      if (genres.isEmpty) return false;
+      final itemGenres = [
+        (item.genre ?? '').toLowerCase(),
+        ...item.categories.map((value) => value.toLowerCase()),
+      ];
+      return genres.any(
+        (genre) => itemGenres.any((value) => value.contains(genre)),
+      );
+    });
+    // Si no hay ningun otro titulo con un genero en comun, se muestra otro
+    // contenido igual: la seccion no debe desaparecer solo porque el genero
+    // de esta ficha es poco frecuente en el catalogo.
+    final candidates = byGenre.isNotEmpty ? byGenre : others;
+    return candidates.take(6).toList();
   }
 
   @override
   void initState() {
     super.initState();
+    liked = StorageService.loadLikedUrls().contains(channel.url);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
       if (DeviceProfile.isTv(context)) tvFocus.requestFocus();
@@ -107,7 +142,7 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
     super.dispose();
   }
 
-  void play() {
+  Future<void> play() async {
     if (widget.preview) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -118,17 +153,34 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
       );
       return;
     }
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (_) => PlayerScreen(channel: channel, allChannels: store.all),
-      ),
-    );
+    if (_opening) return;
+    _opening = true;
+    try {
+      if (!await ensureParentalAccess(context, channel) || !mounted) return;
+      await Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (_) =>
+              PlayerScreen(channel: channel, allChannels: store.visibleAll),
+        ),
+      );
+    } finally {
+      _opening = false;
+    }
   }
 
   Future<void> favorite() async {
     if (widget.preview) return;
     await store.toggleFavorite(channel);
     if (mounted) setState(() {});
+  }
+
+  Future<void> toggleLiked() async {
+    if (widget.preview) {
+      setState(() => liked = !liked);
+      return;
+    }
+    final nowLiked = await StorageService.toggleLiked(channel.url);
+    if (mounted) setState(() => liked = nowLiked);
   }
 
   /// Envia el contenido a un TV por Chromecast/Cast, no comparte texto: el
@@ -150,7 +202,8 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
     final streamUrl = channel.url;
     final blocked =
         !CastService.isNetworkUrl(streamUrl) ||
-            CastService.contentTypeFor(streamUrl) == null
+            CastService.contentTypeFor(streamUrl, mediaType: channel.type) ==
+                null
         ? 'Este contenido no expone una URL HLS (.m3u8) ni MP4, que son los '
               'únicos formatos que acepta Chromecast.'
         : null;
@@ -159,6 +212,7 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
       title: channel.displayName,
       streamUrl: () => streamUrl,
       posterUrl: channel.backdrop ?? channel.logo,
+      mediaType: channel.type,
       blockedReason: blocked,
     );
     if (!mounted || !connected) return;
@@ -249,10 +303,11 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
   }
 
   Widget phoneLayout() {
-    // La cabecera ocupa algo mas de media pantalla: suficiente para que la
-    // imagen respire y el titulo caiga sobre ella, no debajo de un hueco.
+    // Antes ocupaba .58 de la pantalla (hasta 560px), casi identico al hero
+    // del Inicio: la pantalla de detalles parecia una copia de esa misma
+    // franja en vez de una vista propia. Se reduce para que se distinga.
     final screen = MediaQuery.sizeOf(context).height;
-    final headerHeight = (screen * .58).clamp(360.0, 560.0);
+    final headerHeight = (screen * .42).clamp(280.0, 380.0);
     return Scaffold(
       backgroundColor: _black,
       body: CustomScrollView(
@@ -303,7 +358,7 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
                     const SizedBox(height: 26),
                     _relatedRow(portrait: true, cardWidth: 112),
                   ],
-                  const SizedBox(height: 48),
+                  const SizedBox(height: 96),
                 ],
               ),
             ),
@@ -338,8 +393,6 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          _badge(),
-                          const SizedBox(height: 10),
                           _title(42),
                           const SizedBox(height: 10),
                           _meta(),
@@ -426,8 +479,6 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            _badge(),
-                            const SizedBox(height: 12),
                             _title(52),
                             const SizedBox(height: 12),
                             _meta(),
@@ -463,14 +514,6 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
                                 _castSection(),
                                 const SizedBox(height: 18),
                                 _genres(),
-                                const SizedBox(height: 14),
-                                Text(
-                                  'Clasificación: ${channel.rating ?? '16+'}',
-                                  style: const TextStyle(
-                                    color: _muted,
-                                    fontSize: 13,
-                                  ),
-                                ),
                               ],
                             ),
                           ),
@@ -522,8 +565,6 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        _badge(),
-                        const SizedBox(height: 14),
                         _title(60),
                         const SizedBox(height: 14),
                         _meta(),
@@ -636,16 +677,30 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
           (MediaQuery.paddingOf(context).top > 12
               ? MediaQuery.paddingOf(context).top + 10
               : 26),
-      child: IconButton(
-        onPressed: () => Navigator.pop(context),
-        // Colores oficiales de HourTV (negro/rojo), no el azul/teal por
-        // defecto de filledTonal en Material 3.
-        style: IconButton.styleFrom(
-          backgroundColor: _black.withValues(alpha: .55),
-          foregroundColor: Colors.white,
-          side: const BorderSide(color: _red, width: 1.4),
+      child: Tooltip(
+        message: close ? 'Cerrar' : 'Volver',
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: () => Navigator.pop(context),
+            borderRadius: BorderRadius.circular(12),
+            child: Container(
+              width: 40,
+              height: 40,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: _black.withValues(alpha: .55),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: Colors.white24),
+              ),
+              child: Icon(
+                close ? Icons.close_rounded : Icons.arrow_back_rounded,
+                color: Colors.white,
+                size: 20,
+              ),
+            ),
+          ),
         ),
-        icon: Icon(close ? Icons.close_rounded : Icons.chevron_left_rounded),
       ),
     );
   }
@@ -754,24 +809,7 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
 
   Widget _metaText(String value) => Text(
     value,
-    style: const TextStyle(color: Colors.white70, fontWeight: FontWeight.w700),
-  );
-
-  Widget _badge() => Container(
-    padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 5),
-    decoration: BoxDecoration(
-      color: _red,
-      borderRadius: BorderRadius.circular(4),
-    ),
-    child: const Text(
-      'EXCLUSIVO DE HOURTV',
-      style: TextStyle(
-        color: Colors.white,
-        fontSize: 9,
-        fontWeight: FontWeight.w900,
-        letterSpacing: .7,
-      ),
-    ),
+    style: const TextStyle(color: _muted, fontWeight: FontWeight.w500),
   );
 
   Widget _actions({bool phone = false, bool desktop = false}) {
@@ -779,14 +817,20 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
       onPressed: play,
       style: FilledButton.styleFrom(
         backgroundColor: desktop ? Colors.white : _red,
-        foregroundColor: desktop ? Colors.black : Colors.white,
-        minimumSize: const Size(158, 48),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        // Texto blanco sobre el verde de marca casi no hacia contraste
+        // (se perdia contra el fondo); negro es lo que ya se usa en el
+        // resto de la app para texto sobre superficies emerald (el logo,
+        // los botones de HourTvButton).
+        foregroundColor: Colors.black,
+        minimumSize: const Size(158, 52),
+        elevation: desktop ? 0 : 4,
+        shadowColor: _red.withValues(alpha: .5),
+        shape: const StadiumBorder(),
       ),
       icon: const Icon(Icons.play_arrow_rounded),
       label: const Text(
-        'Reproducir',
-        style: TextStyle(fontWeight: FontWeight.w900),
+        'REPRODUCIR',
+        style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: .3),
       ),
     );
 
@@ -799,27 +843,37 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
         children: [
           SizedBox(height: 50, child: playButton),
           const SizedBox(height: 16),
+          // Cada accion en su propio Expanded: en pantallas angostas (~360dp)
+          // las tres etiquetas ("Favorito"/"Me gusta"/"Transmitir") con
+          // spaceEvenly desbordaban el Row por su ancho intrinseco.
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              _labelledAction(
-                channel.isFavorite ? Icons.check_rounded : Icons.add_rounded,
-                'Mi lista',
-                favorite,
-                active: channel.isFavorite,
+              Expanded(
+                child: _labelledAction(
+                  channel.isFavorite
+                      ? Icons.favorite_rounded
+                      : Icons.favorite_border_rounded,
+                  'Favorito',
+                  favorite,
+                  active: channel.isFavorite,
+                ),
               ),
-              _labelledAction(
-                Icons.thumb_up_alt_rounded,
-                'Me gusta',
-                () => setState(() => liked = !liked),
-                active: liked,
+              Expanded(
+                child: _labelledAction(
+                  Icons.thumb_up_alt_rounded,
+                  'Me gusta',
+                  () => unawaited(toggleLiked()),
+                  active: liked,
+                ),
               ),
-              _labelledAction(
-                Icons.cast_rounded,
-                'Transmitir',
-                () => unawaited(castToDevice()),
-                // Deshabilitado mientras no se detecte ningun dispositivo.
-                enabled: castDeviceAvailable,
+              Expanded(
+                child: _labelledAction(
+                  Icons.cast_rounded,
+                  'Transmitir',
+                  () => unawaited(castToDevice()),
+                  // Deshabilitado mientras no se detecte ningun dispositivo.
+                  enabled: castDeviceAvailable,
+                ),
               ),
             ],
           ),
@@ -832,21 +886,33 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
         playButton,
         const SizedBox(width: 10),
         _roundAction(
-          channel.isFavorite ? Icons.check_rounded : Icons.add_rounded,
+          channel.isFavorite
+              ? Icons.favorite_rounded
+              : Icons.favorite_border_rounded,
           favorite,
+          label: channel.isFavorite ? 'Quitar de favoritos' : 'Favorito',
+          active: channel.isFavorite,
         ),
         const SizedBox(width: 8),
         _roundAction(
           Icons.thumb_up_alt_rounded,
-          () => setState(() => liked = !liked),
+          () => unawaited(toggleLiked()),
+          label: 'Me gusta',
           active: liked,
         ),
         const SizedBox(width: 8),
-        _roundAction(Icons.cast_rounded, () => unawaited(castToDevice())),
+        _roundAction(
+          Icons.cast_rounded,
+          () => unawaited(castToDevice()),
+          label: 'Transmitir',
+        ),
       ],
     );
   }
 
+  // Antes solo cambiaba el color del icono en seco (sin ninguna transicion):
+  // se sentia tieso al tocar. Ahora el circulo de fondo anima igual que
+  // `_roundAction` (version escritorio), con sombra cuando queda activo.
   Widget _labelledAction(
     IconData icon,
     String label,
@@ -854,34 +920,58 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
     bool active = false,
     bool enabled = true,
   }) {
-    final color = !enabled
-        ? Colors.white24
-        : active
-        ? _red
-        : Colors.white;
     return Semantics(
       button: true,
       enabled: enabled,
       label: label,
-      child: InkWell(
-        onTap: enabled ? onTap : null,
-        borderRadius: BorderRadius.circular(10),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(icon, color: color, size: 26),
-              const SizedBox(height: 5),
-              Text(
-                label,
-                style: TextStyle(
-                  color: enabled ? _muted : Colors.white24,
-                  fontSize: 11.5,
-                  fontWeight: FontWeight.w600,
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: enabled ? onTap : null,
+          customBorder: const CircleBorder(),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                AnimatedContainer(
+                  duration: const Duration(milliseconds: 200),
+                  curve: Curves.easeOut,
+                  width: 48,
+                  height: 48,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: active ? _red : _surface,
+                    border: Border.all(color: active ? _red : _line),
+                    boxShadow: active
+                        ? [
+                            BoxShadow(
+                              color: _red.withValues(alpha: .45),
+                              blurRadius: 14,
+                              spreadRadius: 1,
+                            ),
+                          ]
+                        : null,
+                  ),
+                  child: Icon(
+                    icon,
+                    color: enabled ? Colors.white : Colors.white24,
+                    size: 22,
+                  ),
                 ),
-              ),
-            ],
+                const SizedBox(height: 6),
+                Text(
+                  label,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: enabled ? _muted : Colors.white24,
+                    fontSize: 11.5,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -894,15 +984,18 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
   Widget _roundAction(
     IconData icon,
     VoidCallback onTap, {
+    required String label,
     bool active = false,
-  }) => Material(
+  }) => Tooltip(
+    message: label,
+    child: Material(
     color: Colors.transparent,
     child: InkWell(
       onTap: onTap,
       customBorder: const CircleBorder(),
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
-        curve: Curves.easeOutCubic,
+        curve: Curves.easeOut,
         width: 48,
         height: 48,
         decoration: BoxDecoration(
@@ -922,6 +1015,7 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
         child: Icon(icon, color: Colors.white, size: 22),
       ),
     ),
+    ),
   );
 
   // Una sola sinopsis, la de `plot`. Se acabo el texto de relleno inventado
@@ -931,7 +1025,7 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
     if (plot == null || plot.isEmpty) return const SizedBox.shrink();
     final style = TextStyle(
       color: Colors.white.withValues(alpha: .82),
-      height: 1.5,
+      height: 1.6,
       fontSize: large ? 17 : 14,
     );
     // En las vistas que piden un recorte fijo (TV, escritorio) se respeta.
@@ -1007,6 +1101,9 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
   Widget _castSection() {
     final cast = channel.cast?.trim();
     if (cast == null || cast.isEmpty) return const SizedBox.shrink();
+    // Algunos proveedores copian la sinopsis completa en el campo de actores:
+    // mostrar "Reparto" con el mismo texto que "Sinopsis" no aporta nada.
+    if (!isDistinctDetailCast(cast, channel.plot)) return const SizedBox.shrink();
     return Padding(
       padding: const EdgeInsets.only(top: 22),
       child: Column(
@@ -1134,11 +1231,12 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
-          'Relacionado',
+          'RELACIONADO',
           style: TextStyle(
             color: Colors.white,
             fontSize: 18,
             fontWeight: FontWeight.w900,
+            letterSpacing: .3,
           ),
         ),
         const SizedBox(height: 12),
@@ -1166,11 +1264,12 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       const Text(
-        'Relacionado',
+        'RELACIONADO',
         style: TextStyle(
           color: Colors.white,
           fontSize: 21,
           fontWeight: FontWeight.w900,
+          letterSpacing: .3,
         ),
       ),
       const SizedBox(height: 14),
@@ -1218,40 +1317,20 @@ class _CinematicBackdrop extends StatelessWidget {
       children: [
         if (url == null || url.trim().isEmpty)
           const ColoredBox(color: _surface)
-        else if (hasBackdrop)
+        else
+          // Mismo tratamiento que el hero del Inicio: cover a toda la caja.
+          // Antes, sin backdrop horizontal, el poster se mostraba chico y
+          // nitido sobre un fondo desenfocado con marco alrededor — parecia
+          // la foto de una pagina, no una imagen a pantalla completa.
+          // topCenter porque el poster (vertical) recortado al centro corta
+          // justo la cara del protagonista.
           CachedNetworkImage(
             imageUrl: url,
             memCacheWidth: 900,
             fit: BoxFit.cover,
+            alignment: hasBackdrop ? Alignment.center : Alignment.topCenter,
             errorWidget: (_, _, _) => const ColoredBox(color: _surface),
-          )
-        else ...[
-          // Fondo: el mismo poster ampliado, desenfocado y oscurecido. Se
-          // decodifica pequeno a proposito (el desenfoque tapa la falta de
-          // resolucion y evita cargar dos veces la imagen a tamano completo).
-          ImageFiltered(
-            imageFilter: ImageFilter.blur(sigmaX: 26, sigmaY: 26),
-            child: CachedNetworkImage(
-              imageUrl: url,
-              memCacheWidth: 120,
-              fit: BoxFit.cover,
-              errorWidget: (_, _, _) => const ColoredBox(color: _surface),
-            ),
           ),
-          const ColoredBox(color: Color(0x8A000000)),
-          // Delante, el poster completo y nitido.
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(0, 26, 0, 74),
-              child: CachedNetworkImage(
-                imageUrl: url,
-                memCacheWidth: 620,
-                fit: BoxFit.contain,
-                errorWidget: (_, _, _) => const SizedBox.shrink(),
-              ),
-            ),
-          ),
-        ],
         // Degradado inferior: funde la imagen con el negro de la pagina y da
         // fondo legible al titulo.
         const DecoratedBox(

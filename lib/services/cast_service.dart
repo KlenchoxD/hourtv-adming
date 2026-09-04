@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_chrome_cast/flutter_chrome_cast.dart';
 
+import '../models/channel.dart';
+
 class CastService {
   CastService._();
 
@@ -66,10 +68,11 @@ class CastService {
     String? posterUrl,
     Duration position = Duration.zero,
     Duration? duration,
+    MediaType? mediaType,
   }) async {
     if (!_available) throw StateError('Google Cast no está disponible.');
     final uri = Uri.parse(url);
-    final contentType = contentTypeFor(url);
+    final contentType = contentTypeFor(url, mediaType: mediaType);
     if (contentType == null || !isNetworkUrl(url)) {
       throw const FormatException(
         'El formato de este servidor no es casteable.',
@@ -114,6 +117,36 @@ class CastService {
       autoPlay: true,
       playPosition: position,
     );
+
+    // `loadMedia` solo confirma que el comando salió, no que el receptor
+    // pudo abrir el video: antes de esto, un formato o cabecera rechazados
+    // dejaban al televisor sin mostrar nada mientras la app igual marcaba
+    // "Conectado" y pausaba el video local. Se espera el primer estado real
+    // del receptor antes de dar la carga por buena.
+    try {
+      await GoogleCastRemoteMediaClient.instance.mediaStatusStream
+          .firstWhere((status) {
+            final state = status?.playerState;
+            if (state == CastMediaPlayerState.playing ||
+                state == CastMediaPlayerState.buffering ||
+                state == CastMediaPlayerState.paused) {
+              return true;
+            }
+            if (state == CastMediaPlayerState.idle &&
+                status?.idleReason == GoogleCastMediaIdleReason.error) {
+              throw StateError(
+                'El televisor rechazó este video (formato no compatible).',
+              );
+            }
+            return false;
+          })
+          .timeout(const Duration(seconds: 12));
+    } on TimeoutException {
+      throw StateError(
+        'El televisor no confirmó la reproducción. Puede que este video no '
+        'sea compatible con Chromecast.',
+      );
+    }
   }
 
   Future<void> disconnect() async {
@@ -129,11 +162,20 @@ class CastService {
   static bool needsUnsupportedHeaders(String? userAgent) =>
       userAgent != null && userAgent.trim().isNotEmpty;
 
-  static String? contentTypeFor(String value) {
+  /// Deduce el tipo MIME a partir de la extension de la URL. Muchas fuentes
+  /// IPTV sirven HLS/MP4 sin extension visible (query string, redirecciones,
+  /// tokens); cuando ya sabemos que tipo de contenido es (`mediaType`, tomado
+  /// del propio Channel en vez de adivinar por string), no rechazamos el cast
+  /// solo por no encontrar sufijo: En Vivo es HLS casi siempre, VOD es MP4.
+  static String? contentTypeFor(String value, {MediaType? mediaType}) {
     final path = Uri.tryParse(value)?.path.toLowerCase() ?? '';
     if (path.endsWith('.m3u8')) return 'application/x-mpegURL';
     if (path.endsWith('.mp4') || path.endsWith('.m4v')) return 'video/mp4';
     if (path.endsWith('.webm')) return 'video/webm';
+    if (mediaType == MediaType.live) return 'application/x-mpegURL';
+    if (mediaType == MediaType.movie || mediaType == MediaType.series) {
+      return 'video/mp4';
+    }
     return null;
   }
 }

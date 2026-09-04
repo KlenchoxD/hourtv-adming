@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-const _hourTvRed = Color(0xFFF20A1A);
+const _hourTvRed = Color(0xFF00C781);
 
 /// Elemento interactivo del diseño nuevo para control remoto, teclado y toque.
 class TvFocusable extends StatefulWidget {
@@ -13,6 +13,7 @@ class TvFocusable extends StatefulWidget {
     this.autofocus = false,
     this.focusNode,
     this.onFocusChange,
+    this.onKeyEvent,
     this.decorated = true,
     this.scale = 1.07,
   });
@@ -23,6 +24,7 @@ class TvFocusable extends StatefulWidget {
   final bool autofocus;
   final FocusNode? focusNode;
   final ValueChanged<bool>? onFocusChange;
+  final FocusOnKeyEventCallback? onKeyEvent;
 
   /// Si es false, no dibuja borde/glow propios (solo escala + foco + tecla);
   /// el hijo decide su resalte. Util cuando el borde debe ir solo en la
@@ -74,6 +76,10 @@ class _TvFocusableState extends State<TvFocusable> {
   }
 
   KeyEventResult _onKey(FocusNode _, KeyEvent event) {
+    final customResult = widget.onKeyEvent?.call(_node, event);
+    if (customResult != null && customResult != KeyEventResult.ignored) {
+      return customResult;
+    }
     if (event is! KeyDownEvent) return KeyEventResult.ignored;
     final activationKeys = {
       LogicalKeyboardKey.select,

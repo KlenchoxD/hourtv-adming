@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:open_filex/open_filex.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -48,6 +49,12 @@ class UpdateService {
 
   static const _owner = 'KlenchoxD';
   static const _repo = 'hourtv-adming';
+
+  /// Punto verde en el icono de "Perfil" de la barra inferior mientras haya
+  /// una actualización sin revisar: se apaga en cuanto la persona entra a
+  /// la pantalla de Actualizaciones, no cuando termina de instalarla (ya
+  /// vio el aviso, la decisión de actualizar ahora es suya).
+  final ValueNotifier<bool> hasUpdateAvailable = ValueNotifier<bool>(false);
 
   Future<UpdateCheckResult> checkForUpdate() async {
     final http.Response response;
