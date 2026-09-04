@@ -448,9 +448,10 @@ function fill(id,value){
   }
 }
 // Igual que fill(), pero reemplaza el valor aunque ya haya uno: para la
-// miniatura, la carátula de TMDB es la que de verdad importa que quede bien
-// (a diferencia de sinopsis/reparto, donde lo escrito a mano manda), así que
-// "Autocompletar ficha" la actualiza aunque el catálogo ya trajera una.
+// miniatura y la sinopsis, lo que trae TMDB es lo que de verdad importa que
+// quede bien (a diferencia de reparto/director, donde lo escrito a mano
+// manda), así que "Autocompletar ficha" las actualiza aunque el catálogo ya
+// trajera algo puesto ahí.
 function set(id,value){
   const el=document.getElementById(id);
   if(el&&value!=null&&value!==''){
@@ -471,7 +472,7 @@ async function tmdbPick(type,id){
   const box=document.getElementById('tmdb_results');
   try{
     const info=await tmdbApi('action=detail&type='+type+'&id='+id);
-    fill('f_plot',info.plot);
+    set('f_plot',info.plot);
     fill('f_cast',info.cast);
     fill('f_director',info.director);
     fill('f_writer',info.writer);
