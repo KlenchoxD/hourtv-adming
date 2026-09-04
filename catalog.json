@@ -875,12 +875,25 @@
     },
     {
       "id": "df0f5b1cca7849239353ab87214af965",
-      "title": "Normal (2026)",
-      "plot": "Vive la historia de Normal (2026) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://blogdepelis.net/wp-content/uploads/2026/07/NORMAL.jpg",
+      "title": "Normal",
+      "plot": "Ulysses, un sheriff interino con un pasado problemático, llega al tranquilo pueblo de Normal. Cuando un robo a un banco altera la aparente calma del lugar, queda al descubierto un oscuro secreto que involucra a toda la comunidad. Ahora Ulysses tendrá que luchar por sobrevivir mientras descubre que Normal está lejos de ser un pueblo normal.",
+      "cast": "Bob Odenkirk, Henry Winkler, Lena Headey, Billy MacLellan, Ryan Allen, Reena Jolly, Brendan Fletcher, Peter Shinkoda",
+      "director": "Ben Wheatley",
+      "writer": "Derek Kolstad",
+      "releaseDate": "2026-04-16",
+      "year": "2026",
+      "genre": "Acción, Crimen, Suspense, Western",
+      "rating": 7.3,
+      "duration": "91 min",
+      "poster": "https://media.themoviedb.org/t/p/w300_and_h450_face/1KmqwmCPrrs06qHFmwx4kzB58kJ.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/1nHaO4rTv1E6xVJYIMGP9nmLxE9.jpg",
       "categories": [
-        "Películas"
+        "terror",
+        "accion",
+        "drama"
       ],
+      "tmdbId": 1242332,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
