@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-09-04T19:14:20.338Z",
+  "lastRunAt": "2026-09-04T21:30:32.556Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -56,11 +56,6 @@
     {
       "tmdbId": 860508,
       "title": "Susurran tu nombre",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1084244,
-      "title": "Toy Story 5",
       "reason": "Sin fuente autorizada configurada"
     },
     {
