@@ -932,12 +932,23 @@
     },
     {
       "id": "3a2a7748aced4939bb018d904945ccef",
-      "title": "Proyecto: El internado (2026)",
-      "plot": "Vive la historia de Proyecto: El internado (2026) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://blogdepelis.net/wp-content/uploads/2026/07/INTERNADO.jpg",
+      "title": "Proyecto: El internado",
+      "plot": "Una asesina entrenada por la CIA recluta a otros graduados de su programa secreto de la infancia, The Internship, para destruir violentamente la organización. La CIA contraataca con fuerza letal.",
+      "cast": "Lizzy Greene, Megan Boone, Sky Katz, Philip Winchester, Alix Villaret, Ollie Roddy, Kaine Buffonge, Will Pierson",
+      "director": "James Bamford",
+      "writer": "J. D. Zeik",
+      "releaseDate": "2026-01-13",
+      "year": "2026",
+      "genre": "Acción",
+      "rating": 6.5,
+      "duration": "91 min",
+      "poster": "https://image.tmdb.org/t/p/w500/i7iL6HZykQGNg6uaFTwxlmgilz5.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/eUERZRVjCTNdgnESlQxyaOJ2d4K.jpg",
       "categories": [
-        "Películas"
+        "accion"
       ],
+      "tmdbId": 1584215,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
@@ -948,12 +959,24 @@
     },
     {
       "id": "f55981ce2af74f0d862c06809cb75237",
-      "title": "El pasajero del diablo (2026)",
-      "plot": "Vive la historia de El pasajero del diablo (2026) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://blogdepelis.net/wp-content/uploads/2026/07/PASAJERODIABLO.jpg",
+      "title": "El pasajero del diablo",
+      "plot": "Después de presenciar un brutal accidente nocturno en la carretera, una joven pareja comprende que algo los ha seguido. Una presencia demoníaca, conocida como El Pasajero Nocturno, se ha unido a ellos y no se detendrá hasta reclamarlos a ambos, convirtiendo su viaje en una auténtica pesadilla.",
+      "cast": "Jacob Scipio, Lou Llobell, Melissa Leo, Joseph Lopez, Miles Fowler, Alan Trong, Devielle Johnson, James William Clark",
+      "director": "André Øvredal",
+      "writer": "T. W. Burgess",
+      "releaseDate": "2026-05-20",
+      "year": "2026",
+      "genre": "Terror, Suspense",
+      "rating": 7.3,
+      "duration": "94 min",
+      "poster": "https://image.tmdb.org/t/p/w500/iX8D97TG8gVvHZ8S4clcdpCX7Uv.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/3pDfu71mrzSuFYyIfnKEjt8z4BC.jpg",
       "categories": [
-        "Películas"
+        "estrenos",
+        "terror"
       ],
+      "tmdbId": 1368314,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
@@ -964,12 +987,25 @@
     },
     {
       "id": "517073e1b6c64fac98640e3bef948546",
-      "title": "Ad Astra: Hacia las estrellas (2019)",
-      "plot": "Vive la historia de Ad Astra: Hacia las estrellas (2019) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes",
-      "poster": "https://blogdepelis.net/wp-content/uploads/2026/07/ADASTRA.jpg",
+      "title": "Ad Astra: Hacia las estrellas",
+      "plot": "El futuro cercano, un tiempo en el que tanto la esperanza como la adversidad impulsan a la humanidad a mirar hacia las estrellas y más allá. Mientras un misterioso fenómeno amenaza con destruir la vida en el planeta Tierra, el astronauta Roy McBride emprende una misión a través de la inmensidad del espacio y sus muchos peligros para descubrir la verdad sobre una expedición perdida que décadas antes afrontó audazmente el vacío y el silencio en busca de lo desconocido.",
+      "cast": "Brad Pitt, Tommy Lee Jones, Liv Tyler, Ruth Negga, Donald Sutherland, Kimberly Elise, Loren Dean, Donnie Keshawarz",
+      "director": "James Gray",
+      "writer": "James Gray",
+      "releaseDate": "2019-09-17",
+      "year": "2019",
+      "genre": "Ciencia ficción, Drama",
+      "rating": 6.1,
+      "duration": "123 min",
+      "poster": "https://image.tmdb.org/t/p/w500/kK6Oq4JywUNXmJ299efUkv1h6Mn.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/AeDS2MKGFy6QcjgWbJBde0Ga6Hd.jpg",
       "categories": [
-        "Películas"
+        "populares",
+        "aventura",
+        "drama"
       ],
+      "tmdbId": 419704,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
@@ -980,12 +1016,23 @@
     },
     {
       "id": "da9e1b73ba44447e9c28a8b3b5696c7e",
-      "title": "Winx Club: El misterio del abismo (2014)",
-      "plot": "Vive la historia de Winx Club: El misterio del abismo (2014) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los",
-      "poster": "https://blogdepelis.net/wp-content/uploads/2026/07/WINXULTIMA.jpg",
+      "title": "Winx Club: El misterio del abismo",
+      "plot": "Los archienemigos del Club Winx se alían a una ninfa malvada para conseguir la poderosa Perla de los Abismos.",
+      "cast": "Letizia Ciampa, Perla Liberatori, Ilaria Latini, Gemma Donati, Domitilla D'Amico, Laura Lenghi, Marco Vivio, Emanuela Rossi",
+      "director": "Iginio Straffi",
+      "writer": "Iginio Straffi",
+      "releaseDate": "2014-09-04",
+      "year": "2014",
+      "genre": "Familia, Fantasía, Animación",
+      "rating": 7.3,
+      "duration": "83 min",
+      "poster": "https://image.tmdb.org/t/p/w500/1Y3b0Z6siR2fD76ar7C3iWc6WK5.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/foJfwojh06hmLypxluaN4sr1b5O.jpg",
       "categories": [
-        "Películas"
+        "infantil"
       ],
+      "tmdbId": 290841,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
@@ -996,12 +1043,23 @@
     },
     {
       "id": "aaa5985cad0e4450a8925dacbc558488",
-      "title": "Winx Club: La aventura mágica (2010)",
-      "plot": "Vive la historia de Winx Club: La aventura mágica (2010) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes",
-      "poster": "https://blogdepelis.net/wp-content/uploads/2026/07/WINX2.jpg",
+      "title": "Winx Club: La aventura mágica",
+      "plot": "Bloom es una princesa que vive en un cuento de hadas. Después de encontrar a sus verdaderos padres, se encuentra en su verdadero hogar. Bloom tiene todo lo que desea, pero pronto se cansa de esa lujosa vida. Un día, tres malvadas brujas lo cambiarán todo, tanto que Bloom se verá obligada a casarse con un príncipe que ni siquiera conoce.",
+      "cast": "Letizia Ciampa, Perla Liberatori, Ilaria Latini, Gemma Donati, Emiliano Coltorti, Domitilla D'Amico, Tatiana Dessi, Valeria Vidali",
+      "director": "Iginio Straffi",
+      "writer": "Alessandro Bilotta",
+      "releaseDate": "2010-10-29",
+      "year": "2010",
+      "genre": "Animación, Familia",
+      "rating": 7.2,
+      "duration": "87 min",
+      "poster": "https://image.tmdb.org/t/p/w500/muraB56GWhkIeqCyhScuZjgShRe.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/wwPz0aBv5ZMU4Nzl8E9zfjPHfus.jpg",
       "categories": [
-        "Películas"
+        "infantil"
       ],
+      "tmdbId": 74658,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
@@ -1012,12 +1070,23 @@
     },
     {
       "id": "a28207927eb24c8cbcb2355fa1518961",
-      "title": "Winx Club: El secreto del reino perdido (2007)",
-      "plot": "Vive la historia de Winx Club: El secreto del reino perdido (2007) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los",
-      "poster": "https://blogdepelis.net/wp-content/uploads/2026/07/REINOPERDIDO.jpg",
+      "title": "Winx Club: El secreto del reino perdido",
+      "plot": "Hace 16 años, los magos guerreros más poderosos de la Dimensión Mágica se sacrificaron para luchar contra el mal absoluto. Ahora, el destino de todo un reino se encuentra en manos de una joven muchacha: Bloom, el hada con el signo del Dragón. Acompañada como siempre por sus amigas del Winx Club, Bloom debe enfrentarse a su mayor desafío: debe entrar en la dimensión oscura y luchar contra el mal absoluto con el fin de devolver a sus padres a la vida y revelar finalmente el misterio vinculado a sus orígenes. ¿Conseguirán Bloom, Flora, Stella, Aisha, Musa y Tecna derrotar a las criaturas más terroríficas de sus pesadillas y encontrar al último rey de Domino? ¿Y podrá Bloom salvar el reino perdido y convertirse en Princesa de Domino?",
+      "cast": "Letizia Ciampa, Perla Liberatori, Ilaria Latini, Gemma Donati, Domitilla D'Amico, Laura Lenghi, Marco Vivio, Gianfranco Miranda",
+      "director": "Iginio Straffi",
+      "writer": "Iginio Straffi",
+      "releaseDate": "2007-11-29",
+      "year": "2007",
+      "genre": "Fantasía, Animación, Familia",
+      "rating": 7.3,
+      "duration": "85 min",
+      "poster": "https://image.tmdb.org/t/p/w500/yowrgcOqxXNY82YVx2pyrLLcrp7.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/pz5iPl72ORLQiS6Z5tBe8BGoC5d.jpg",
       "categories": [
-        "Películas"
+        "infantil"
       ],
+      "tmdbId": 80797,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
@@ -1028,12 +1097,24 @@
     },
     {
       "id": "0e683dd611824f6bb12fdb69344cfd13",
-      "title": "La princesa encantada 3: El misterio del tesoro encantado (1998)",
-      "plot": "Vive la historia de La princesa encantada 3: El misterio del tesoro encantado (1998) y disfruta este título en Blog de Pelis con una experiencia de cine",
-      "poster": "https://blogdepelis.net/wp-content/uploads/2026/07/PRINCESA3.jpg",
+      "title": "La princesa encantada 3: El misterio del tesoro encantado",
+      "plot": "La princesa Odette y el príncipe Derek preparan un gran festival, en el que tendrán lugar diferentes atracciones, competiciones y degustación de los más exquisitos manjares, todo ello con motivo de la conmemoración de las Fiestas del Reino del Lago. No obstante sus planes están en peligro ya que ambos han despertado la envidia de la terrible bruja del bosque Zelda, la cual, cegada por su ira, encierra a Odette en una inexpugnable bola de fuego, y a Derek le hace caer en una peligrosa trampa. La simpática cuadrilla formada por la Tortuga Veloz, la rana Jean Bob, el pájaro Puffin y Whizzer son la única esperanza para liberar a los príncipes y devolver la paz al Reino del Lago.",
+      "cast": "Michelle Nicastro, Brian Nissen, Joseph Medrano, Steve Vinovich, Christy Landers, Katja Zoch, Donald Sage Mackay, Doug Stone",
+      "director": "Richard Rich",
+      "writer": "Brian Nissen",
+      "releaseDate": "1998-08-04",
+      "year": "1998",
+      "genre": "Familia, Fantasía, Animación, Misterio",
+      "rating": 6,
+      "duration": "71 min",
+      "poster": "https://image.tmdb.org/t/p/w500/kzmFrHuvxRXN8HWaOZMa6cOf0Yc.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/pRBZaDEt0cAr3vIPgk3k1BTVQ4t.jpg",
       "categories": [
-        "Películas"
+        "terror",
+        "infantil"
       ],
+      "tmdbId": 28302,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
