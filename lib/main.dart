@@ -9,6 +9,7 @@ import 'mobile_ui/hourtv_mobile_theme.dart';
 import 'new_ui/hourtv_new_shell.dart';
 import 'new_ui/hourtv_profile_gate.dart';
 import 'new_ui/hourtv_settings_update_page.dart';
+import 'services/content_store.dart';
 import 'services/device_type.dart';
 import 'services/iptv_server_service.dart';
 import 'services/storage_service.dart';
@@ -147,8 +148,31 @@ class _AppShell extends StatefulWidget {
   State<_AppShell> createState() => _AppShellState();
 }
 
-class _AppShellState extends State<_AppShell> {
+class _AppShellState extends State<_AppShell> with WidgetsBindingObserver {
   var _checkedForUpdate = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    // `ContentStore.maybeRefresh` ya existia (comentario y todo) pero nada
+    // la llamaba: publicar contenido nuevo desde el panel de administracion
+    // nunca llegaba a una app que ya estaba abierta, habia que cerrarla del
+    // todo y volver a entrar para verlo. Aca es donde debia engancharse.
+    if (state == AppLifecycleState.resumed) {
+      unawaited(ContentStore.instance.maybeRefresh());
+    }
+  }
 
   @override
   void didChangeDependencies() {

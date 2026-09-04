@@ -436,9 +436,25 @@ async function tmdbSearch(){
 }
 
 // Rellena SOLO los campos vacíos: lo que ya escribiste a mano manda.
+// Dispara 'input' a mano: asignar .value por JS no lo hace solo, y la
+// vista previa de carátula/fondo (imageField) depende de ese evento para
+// actualizarse. Sin esto, la URL quedaba bien guardada pero la imagen
+// parecía no haberse autocompletado porque la miniatura nunca cambiaba.
 function fill(id,value){
   const el=document.getElementById(id);
-  if(el&&value!=null&&value!==''&&!el.value)el.value=value;
+  if(el&&value!=null&&value!==''&&!el.value){
+    el.value=value;
+    el.dispatchEvent(new Event('input'));
+  }
+}
+// true si TMDB reporta este id en tendencia esta semana. Misma fuente que
+// "Sincronizar tendencias", consultada aparte porque autocompletar es por
+// un solo título, no todo el catálogo.
+async function isTrending(tmdbId){
+  try{
+    const data=await tmdbApi('action=trending&window=week');
+    return data.results.some(r=>r.tmdbId===Number(tmdbId));
+  }catch(e){return false}
 }
 async function tmdbPick(type,id){
   const box=document.getElementById('tmdb_results');
@@ -458,9 +474,15 @@ async function tmdbPick(type,id){
     document.getElementById('f_tmdb_id').value=info.tmdbId;
     document.getElementById('f_tmdb_type').value=info.tmdbType;
     setCategoryChips(classify(info));
+    // Destacado (banner grande de Inicio): se autoselecciona solo si TMDB
+    // reporta el título en tendencia. No se desmarca si ya estaba marcado
+    // a mano por otra razón.
+    const trending=await isTrending(info.tmdbId);
+    const featured=document.getElementById('f_featured');
+    if(featured&&trending)featured.checked=true;
     box.innerHTML='';
-    document.getElementById('tmdb_state').textContent='Vinculado a TMDB #'+info.tmdbId+' · ficha y categorías rellenadas';
-    toast('Ficha completada desde TMDB');
+    document.getElementById('tmdb_state').textContent='Vinculado a TMDB #'+info.tmdbId+' · ficha y categorías rellenadas'+(trending?' · en tendencia':'');
+    toast('Ficha completada desde TMDB'+(trending?' (en tendencia: Destacado marcado)':''));
   }catch(e){box.innerHTML='<div style="color:var(--accent);font-size:12px;padding:8px 0">'+esc(e.message)+'</div>'}
 }
 
@@ -884,20 +906,43 @@ function putCatalog(sha){
     content, branch:cfg.branch, ...(sha?{sha}:{})
   })});
 }
+// Fusiona lo que llegó del catálogo remoto (por ejemplo, títulos nuevos que
+// agregó el scraper automático mientras editabas aquí) con el catálogo local:
+// se conserva la versión local de cada elemento ya presente (es lo que se
+// está publicando a propósito), y se añade lo que solo existe en remoto.
+function mergeCatalogs(local,remote){
+  const merged=normalize(local);
+  ['movies','series','sources','liveChannels'].forEach(key=>{
+    const localList=merged[key]||[];
+    const remoteList=(remote&&remote[key])||[];
+    const localIds=new Set(localList.map(it=>it&&it.id).filter(Boolean));
+    const onlyRemote=remoteList.filter(it=>it&&it.id&&!localIds.has(it.id));
+    merged[key]=[...localList,...onlyRemote];
+  });
+  return merged;
+}
 async function publish(){
   if(!cfg.token){toast('Configura GitHub primero','err');openConfig();return}
   try{
     let res=await putCatalog(await currentSha());
-    // Si el sha estaba desincronizado, GitHub devuelve el sha correcto en el
-    // mensaje (o lo re-pedimos) y reintentamos una vez. Evita el error
-    // "catalog.json does not match ...".
+    // 409/422 = el catálogo remoto cambió desde que se cargó aquí. Antes
+    // esto solo pedía un sha fresco y reenviaba el MISMO catálogo local,
+    // borrando en silencio cualquier título que el scraper automático
+    // hubiera agregado justo en ese momento. Ahora se trae lo remoto, se
+    // fusiona con lo local, y recién con eso se reintenta.
     if(res.status===409||res.status===422){
-      const e=await res.clone().json().catch(()=>({}));
-      const m=/([0-9a-f]{40})/i.exec(e.message||'');
-      const fresh=m?m[1]:await currentSha();
-      if(fresh)res=await putCatalog(fresh);
+      const g=await ghApi('GET');
+      if(g.ok){
+        const data=await g.json();
+        const content=decodeURIComponent(escape(atob(data.content.replace(/\n/g,''))));
+        const remote=normalize(JSON.parse(content));
+        catalog=mergeCatalogs(catalog,remote);
+        save();render();
+        res=await putCatalog(data.sha);
+        if(res.ok)toast('Se fusionaron títulos nuevos del catálogo automático antes de publicar','warn');
+      }
     }
-    if(res.ok){window._sha=(await res.json()).content.sha;toast('¡Publicado! La app lo verá al recargar.','ok')}
+    if(res.ok){window._sha=(await res.json()).content.sha;toast('¡Publicado! La app lo verá solo con volver a primer plano.','ok')}
     else{const e=await res.json().catch(()=>({}));toast('Error: '+(e.message||res.status),'err')}
   }catch(e){toast('Fallo al publicar','err')}
 }
