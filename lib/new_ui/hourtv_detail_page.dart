@@ -322,19 +322,31 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
                   // El boton atras va superpuesto DENTRO de la imagen. No se
                   // reserva franja negra para el.
                   _backButton(left: 12, top: 8),
-                  // Titulo y metadatos pegados al borde inferior de la
-                  // imagen, donde el degradado ya es negro solido.
+                  // Poster + titulo/metadatos pegados al borde inferior de la
+                  // imagen, donde el degradado ya es negro solido. En una
+                  // sola Row para que el poster y el bloque de texto queden
+                  // alineados por abajo sin calcular alturas a mano.
                   Positioned(
                     left: 16,
                     right: 16,
                     bottom: 14,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        _title(28),
-                        const SizedBox(height: 8),
-                        _meta(),
+                        _heroPoster(),
+                        if (_heroPosterUrl != null)
+                          const SizedBox(width: 12),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              _title(28),
+                              const SizedBox(height: 8),
+                              _meta(),
+                            ],
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -364,6 +376,29 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  // Poster vertical chico superpuesto al backdrop del hero de movil (esquina
+  // inferior izquierda), 2:3, esquinas redondeadas. Si el canal no trae
+  // poster (channel.logo), no ocupa espacio: el titulo usa el ancho completo.
+  String? get _heroPosterUrl {
+    final logo = channel.logo;
+    return (logo != null && logo.trim().isNotEmpty) ? logo : null;
+  }
+
+  Widget _heroPoster() {
+    final url = _heroPosterUrl;
+    if (url == null) return const SizedBox.shrink();
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(8),
+      child: CachedNetworkImage(
+        imageUrl: url,
+        width: 72,
+        height: 108,
+        fit: BoxFit.cover,
+        errorWidget: (_, _, _) => const SizedBox.shrink(),
       ),
     );
   }
