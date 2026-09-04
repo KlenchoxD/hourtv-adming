@@ -847,12 +847,24 @@
     },
     {
       "id": "0856300b94024e0aa010c33939e28b57",
-      "title": "Ahora estamos solos (2018) | Blog de Pelis",
+      "title": "¿Estamos solos?.",
       "plot": "Vive la historia de Ahora estamos solos (2018) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://blogdepelis.net/wp-content/uploads/2026/07/SOLOS.jpg",
+      "cast": "Peter Dinklage, Elle Fanning, Paul Giamatti, Charlotte Gainsbourg, Elaine Apruzzese",
+      "director": "Reed Morano",
+      "writer": "Mike Makowsky",
+      "releaseDate": "2018-09-14",
+      "year": "2018",
+      "genre": "Drama, Ciencia ficción, Misterio",
+      "rating": 5.8,
+      "duration": "93 min",
+      "poster": "https://media.themoviedb.org/t/p/w300_and_h450_face/bBnZZEnKalzu2ns1y31kkSUOThP.jpg",
       "categories": [
-        "Películas"
+        "terror",
+        "aventura",
+        "drama"
       ],
+      "tmdbId": 451877,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
