@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-09-05T01:10:21.109Z",
-  "durationMs": 2836,
+  "generatedAt": "2026-09-05T05:43:28.009Z",
+  "durationMs": 2944,
   "dryRun": false,
   "moviesFound": 34,
-  "moviesDiscarded": 30,
+  "moviesDiscarded": 29,
   "moviesAdded": 0,
   "moviesEnriched": 0,
-  "duplicates": 4,
+  "duplicates": 5,
   "tmdbErrors": 0,
   "providerErrors": 0,
   "invalidSources": 0,
@@ -20,11 +20,6 @@
     {
       "tmdbId": 1204680,
       "title": "Coyote vs. Acme",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 860508,
-      "title": "Susurran tu nombre",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -113,13 +108,13 @@
       "reason": "Rating 5.2 por debajo del mínimo (5.5)"
     },
     {
-      "tmdbId": 1516698,
-      "title": "Sunrise. El último amanecer",
+      "tmdbId": 1386315,
+      "title": "A la carrera",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1386315,
-      "title": "A la carrera",
+      "tmdbId": 1516698,
+      "title": "Sunrise. El último amanecer",
       "reason": "Sin fuente autorizada configurada"
     },
     {
