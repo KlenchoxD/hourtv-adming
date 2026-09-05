@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-09-05T19:29:10.676Z",
+  "lastRunAt": "2026-09-05T21:33:00.544Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -10,30 +10,30 @@
     1315772,
     1108427,
     1137844,
-    1275779,
     1083381,
+    1275779,
     1384216,
     1273221,
     1081003,
     1228710,
     1127384,
-    1284041,
     454639,
-    1212763,
+    1355228,
     1101383,
-    1291595,
+    1284041,
+    1212763,
     1368337,
     1288445,
     1285366,
     1386315,
+    1375646,
     1516698,
     1213243,
     1621552,
-    1375646,
     1393326,
     1323244,
-    1232569,
     1514682,
+    1232569,
     1560520,
     1335666
   ],
@@ -97,19 +97,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1284041,
-      "title": "La última casa",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 454639,
       "title": "He-Man y los Masters del Universo",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1212763,
-      "title": "Posesión infernal: En llamas",
-      "reason": "Sin fuente autorizada configurada"
+      "tmdbId": 1355228,
+      "title": "Gandhari",
+      "reason": "Votos 3 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1101383,
@@ -117,8 +112,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1291595,
-      "title": "Insidious: Fuera del más allá",
+      "tmdbId": 1284041,
+      "title": "La última casa",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1212763,
+      "title": "Posesión infernal: En llamas",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -142,6 +142,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1375646,
+      "title": "Colony",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1516698,
       "title": "Sunrise. El último amanecer",
       "reason": "Sin fuente autorizada configurada"
@@ -157,11 +162,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1375646,
-      "title": "Colony",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1393326,
       "title": "Ghost in the Cell",
       "reason": "Votos 43 por debajo del mínimo (50)"
@@ -172,14 +172,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1514682,
+      "title": "Above & Below",
+      "reason": "Votos 23 por debajo del mínimo (50)"
+    },
+    {
       "tmdbId": 1232569,
       "title": "Pinocho: Desatado",
       "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1514682,
-      "title": "Above & Below",
-      "reason": "Votos 20 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1560520,
