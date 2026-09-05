@@ -1219,6 +1219,57 @@
         }
       ],
       "tmdbId": 1083381
+    },
+    {
+      "id": "80a8bdfa8049421f8f57f1157f5ed575",
+      "title": "Río 2",
+      "plot": "Miles de títulos en alta definición, listos para reproducir.",
+      "poster": "https://rukiatv.onrender.com/assets/icons/icon-512.png",
+      "categories": [
+        "Películas"
+      ],
+      "servers": [
+        {
+          "name": "Vimeus",
+          "url": "https://vimeus.com/e/movie?tmdb=172385&view_key=kH-5ME2UFjOxlrA0PndTJaXKKrxin2IGtm2YPAaQw9M",
+          "language": "Español"
+        },
+        {
+          "name": "PrimeSrc",
+          "url": "https://primesrc.me/embed/movie?tmdb=172385&fallback=true",
+          "language": "Inglés"
+        },
+        {
+          "name": "Filemoon",
+          "url": "https://primesrc.me/embed/movie?tmdb=172385&fallback=false&whitelistServers=Filemoon&serverOrder=Filemoon",
+          "language": "Inglés"
+        },
+        {
+          "name": "Voe",
+          "url": "https://primesrc.me/embed/movie?tmdb=172385&fallback=false&whitelistServers=Voe&serverOrder=Voe",
+          "language": "Inglés"
+        },
+        {
+          "name": "Streamtape",
+          "url": "https://primesrc.me/embed/movie?tmdb=172385&fallback=false&whitelistServers=Streamtape&serverOrder=Streamtape",
+          "language": "Inglés"
+        },
+        {
+          "name": "Dood",
+          "url": "https://primesrc.me/embed/movie?tmdb=172385&fallback=false&whitelistServers=Dood&serverOrder=Dood",
+          "language": "Inglés"
+        },
+        {
+          "name": "Mixdrop",
+          "url": "https://primesrc.me/embed/movie?tmdb=172385&fallback=false&whitelistServers=Mixdrop&serverOrder=Mixdrop",
+          "language": "Inglés"
+        },
+        {
+          "name": "Filelions",
+          "url": "https://primesrc.me/embed/movie?tmdb=172385&fallback=false&whitelistServers=Filelions&serverOrder=Filelions",
+          "language": "Inglés"
+        }
+      ]
     }
   ],
   "series": [
