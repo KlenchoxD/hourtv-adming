@@ -1454,12 +1454,23 @@
     },
     {
       "id": "81702b7466b04f1291a944cedc5f4671",
-      "title": "Carrera contra el tiempo",
-      "plot": "Miles de títulos en alta definición, listos para reproducir.",
-      "poster": "https://rukiatv.onrender.com/assets/icons/icon-512.png",
+      "title": "Estado crítico",
+      "plot": "En China para donar su riñón a su sobrina moribunda, Deacon (VAN DAMME), un ex agente de operaciones encubiertas, se despierta el día antes de la operación para descubrir que ha sido víctima de robo de órganos. Cosido y cabreado, Deacon desciende de su lujoso hotel en busca de su riñón robado y va dejando un camino empapado de sangre a través de los rincones más oscuros de la ciudad – prostíbulos, clubes de lucha, mercados negros en callejones y fincas de multimillonarios de élite. El reloj está corriendo por su sobrina y con cada paso que pierde sangre, Deacon con la ayuda de sus antiguos conexiones del hampa y su hermano civil recorrerá la parte más sórdida de la ciudad, demostrando a todo el que se cruce en su camino que nada significa más para un hombre que su carne y su sangre.",
+      "cast": "Jean-Claude Van Damme, John Ralston, Aki Aleong, Charlotte Peters, Darren Shahlavi, Brahim Achabbakhe, Jason Tobin, Andrew Ng",
+      "director": "Ernie Barbarash",
+      "writer": "Joshua Todd James",
+      "releaseDate": "2015-05-07",
+      "year": "2015",
+      "genre": "Acción",
+      "rating": 5.8,
+      "duration": "104 min",
+      "poster": "https://image.tmdb.org/t/p/w500/pd7njb3EhmyXKv9BWSVIYMq4vOv.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/5KqLlBfhkS58MVQ9ir4ttyGk2i6.jpg",
       "categories": [
-        "Películas"
+        "accion"
       ],
+      "tmdbId": 326284,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Vimeus",
