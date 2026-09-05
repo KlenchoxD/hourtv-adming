@@ -513,6 +513,10 @@ async function tmdbPick(type,id){
   const box=document.getElementById('tmdb_results');
   try{
     const info=await tmdbApi('action=detail&type='+type+'&id='+id);
+    // Ya elegiste este resultado a mano de la lista de búsqueda: el título
+    // que trae TMDB es el correcto para esa ficha, así que reemplaza lo que
+    // hubieras escrito (a diferencia de fill(), que respeta lo ya escrito).
+    set('f_title',info.title);
     set('f_plot',info.plot);
     fill('f_cast',info.cast);
     fill('f_director',info.director);
