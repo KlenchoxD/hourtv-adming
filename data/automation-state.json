@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-09-05T12:53:11.562Z",
+  "lastRunAt": "2026-09-05T15:43:26.703Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -64,7 +64,7 @@
     {
       "tmdbId": 1137844,
       "title": "Mayday",
-      "reason": "Votos 40 por debajo del mínimo (50)"
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1275779,
@@ -164,7 +164,7 @@
     {
       "tmdbId": 1393326,
       "title": "Ghost in the Cell",
-      "reason": "Votos 42 por debajo del mínimo (50)"
+      "reason": "Votos 43 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1323244,

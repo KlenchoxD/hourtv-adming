@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-09-05T12:53:08.781Z",
-  "durationMs": 2787,
+  "generatedAt": "2026-09-05T15:43:23.705Z",
+  "durationMs": 3004,
   "dryRun": false,
   "moviesFound": 34,
   "moviesDiscarded": 29,
@@ -35,7 +35,7 @@
     {
       "tmdbId": 1137844,
       "title": "Mayday",
-      "reason": "Votos 40 por debajo del mínimo (50)"
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1275779,
@@ -135,7 +135,7 @@
     {
       "tmdbId": 1393326,
       "title": "Ghost in the Cell",
-      "reason": "Votos 42 por debajo del mínimo (50)"
+      "reason": "Votos 43 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1323244,
