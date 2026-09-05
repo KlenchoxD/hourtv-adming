@@ -157,11 +157,18 @@ const TABS = [
 let catalog = {version:2, movies:[], series:[], sources:[]};
 let activeTab = 'movies';
 let cfg = JSON.parse(localStorage.getItem('hourtv_admin_cfg')||'{}');
+// IDs eliminados aquí que todavía no se confirmaron publicados. Si al
+// publicar hay conflicto (el catálogo remoto cambió, p.ej. por el scraper
+// automático) se trae y fusiona lo remoto con lo local; sin esta lista, esa
+// fusión traía de vuelta cualquier elemento que solo faltara porque tú lo
+// habías borrado, no porque fuera nuevo.
+let deletedIds = new Set(JSON.parse(localStorage.getItem('hourtv_admin_deleted')||'[]'));
 
 function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7)}
 function esc(s){return String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
 function toast(msg,type){const t=document.getElementById('toast');t.textContent=msg;t.className='toast show '+(type||'');setTimeout(()=>t.className='toast',2600)}
 function save(){localStorage.setItem('hourtv_admin_catalog',JSON.stringify(catalog))}
+function saveDeletedIds(){localStorage.setItem('hourtv_admin_deleted',JSON.stringify([...deletedIds]))}
 
 // ---------- Pendientes ----------
 // Campos clave que Server Hunter no rellena al publicar y que completas a mano.
@@ -513,6 +520,10 @@ async function tmdbPick(type,id){
   const box=document.getElementById('tmdb_results');
   try{
     const info=await tmdbApi('action=detail&type='+type+'&id='+id);
+    // Ya elegiste este resultado a mano de la lista de búsqueda: el título
+    // que trae TMDB es el correcto para esa ficha, así que reemplaza lo que
+    // hubieras escrito (a diferencia de fill(), que respeta lo ya escrito).
+    set('f_title',info.title);
     set('f_plot',info.plot);
     fill('f_cast',info.cast);
     fill('f_director',info.director);
@@ -655,7 +666,7 @@ function openEditor(idx){
       <button class="btn-ghost btn-sm" onclick="closeModal()">✕</button></div>
     <div class="modal-body" id="mbody">${body}</div>
     <div class="modal-foot">
-      ${editing?`<button class="btn-ghost" onclick="removeItem(${idx})" style="color:var(--accent)">Eliminar</button>`:'<span></span>'}
+      ${editing?`<button class="btn-ghost" onclick="removeItem(${idx})" style="color:var(--accent)">Eliminar y publicar</button>`:'<span></span>'}
       <div style="display:flex;gap:10px">
         <button class="btn-ghost" onclick="saveItem(${editing?idx:'null'})">Guardar</button>
         <button class="btn-primary" onclick="saveAndPublish(${editing?idx:'null'})">Guardar y publicar</button>
@@ -835,7 +846,17 @@ function saveItem(idx){
 async function saveAndPublish(idx){
   if(saveItem(idx)===true) await publish();
 }
-function removeItem(idx){if(!confirm('¿Eliminar este elemento?'))return;catalog[activeTab].splice(idx,1);save();closeModal();render()}
+// Borra y publica de inmediato: cuanto más tiempo quede solo en local, más
+// chance de que el bot automático haga otro commit de por medio y haya que
+// pasar por el camino de fusión de publish() (que ya respeta deletedIds,
+// pero es más simple si el borrado nunca llega a quedar pendiente).
+async function removeItem(idx){
+  if(!confirm('¿Eliminar este elemento?'))return;
+  const [removed]=catalog[activeTab].splice(idx,1);
+  if(removed&&removed.id){deletedIds.add(removed.id);saveDeletedIds()}
+  save();closeModal();render();
+  await publish();
+}
 
 // ---------- Import / export ----------
 // URL de la lista IPTV para pegar en apps externas (TiviMate, IPTV Smarters…).
@@ -977,7 +998,7 @@ function mergeCatalogs(local,remote){
     const localList=merged[key]||[];
     const remoteList=(remote&&remote[key])||[];
     const localIds=new Set(localList.map(it=>it&&it.id).filter(Boolean));
-    const onlyRemote=remoteList.filter(it=>it&&it.id&&!localIds.has(it.id));
+    const onlyRemote=remoteList.filter(it=>it&&it.id&&!localIds.has(it.id)&&!deletedIds.has(it.id));
     merged[key]=[...localList,...onlyRemote];
   });
   return merged;
@@ -1003,7 +1024,13 @@ async function publish(){
         if(res.ok)toast('Se fusionaron títulos nuevos del catálogo automático antes de publicar','warn');
       }
     }
-    if(res.ok){window._sha=(await res.json()).content.sha;toast('¡Publicado! La app lo verá solo con volver a primer plano.','ok')}
+    if(res.ok){
+      window._sha=(await res.json()).content.sha;
+      // Ya quedaron fuera del catálogo remoto publicado: no hace falta
+      // seguir protegiéndolos de una futura fusión.
+      deletedIds.clear();saveDeletedIds();
+      toast('¡Publicado! La app lo verá solo con volver a primer plano.','ok');
+    }
     else{const e=await res.json().catch(()=>({}));toast('Error: '+(e.message||res.status),'err')}
   }catch(e){toast('Fallo al publicar','err')}
 }

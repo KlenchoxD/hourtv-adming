@@ -1293,11 +1293,26 @@
     {
       "id": "80a8bdfa8049421f8f57f1157f5ed575",
       "title": "Río 2",
-      "plot": "Miles de títulos en alta definición, listos para reproducir.",
-      "poster": "https://rukiatv.onrender.com/assets/icons/icon-512.png",
+      "plot": "Secuela de la película \"Río\" (2010) dirigida por Carlos Saldanha, encargado también de esta segunda parte.. Blu, Perla y sus pequeños disfrutan de una vida cómoda, alegre y perfecta en la ciudad de Río de Janeiro, Brasil. Pero Perla tiene muy claro que sus hijos deben aprender a vivir como los pájaros libres y salvajes que son, y para ello está convencida de que lo mejor es trasladarse al Amazonas. Una vez allí, Blu tendrá que enfrentarse a sus nuevos vecinos y a la idea terrible de perder a Perla y a sus hijos porque decidan vivir en la naturaleza salvaje para siempre.",
+      "cast": "Jesse Eisenberg, Anne Hathaway, will.i.am, Jamie Foxx, Leslie Mann, George López, Andy Garcia, Bruno Mars",
+      "director": "Carlos Saldanha",
+      "writer": "Don Rhymer",
+      "releaseDate": "2014-03-19",
+      "year": "2014",
+      "genre": "Animación, Aventura, Comedia, Familia",
+      "rating": 6.5,
+      "duration": "101 min",
+      "poster": "https://image.tmdb.org/t/p/w500/n52k2FD0ub5I3goqnj5qr98ROk4.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/eg2jxQ1FFi6ENDfyMIMC5odpcU0.jpg",
       "categories": [
-        "Películas"
+        "populares",
+        "comedia",
+        "aventura",
+        "infantil",
+        "familia"
       ],
+      "tmdbId": 172385,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Vimeus",
@@ -1344,11 +1359,26 @@
     {
       "id": "8d46864d433b4793bb7148a133981814",
       "title": "LEGO Star Wars: The Mandalorian",
-      "plot": "Miles de títulos en alta definición, listos para reproducir.",
-      "poster": "https://rukiatv.onrender.com/assets/icons/icon-512.png",
+      "plot": "Mando recibe una inesperada fiesta sorpresa organizada por sus amigos. Mientras celebran, Peli Motto, Migs Mayfeld, el Mayordomo y Bo-Katan cuentan de una manera divertida y al estilo LEGO las aventuras de Din Djarin y Grogu a través de las tres primeras temporadas de The Mandalorian.",
+      "cast": "Gavin Hammon, Amy Sedaris, Bill Burr, David Pasquesi, Katee Sackhoff, Emily Swallow, Giancarlo Esposito, Matthew Wood",
+      "director": "Chris Buckley",
+      "writer": "Michael Price",
+      "releaseDate": "2026-09-02",
+      "year": "2026",
+      "genre": "Animación, Ciencia ficción, Aventura, Familia, Acción",
+      "rating": 7.7,
+      "duration": "50 min",
+      "poster": "https://image.tmdb.org/t/p/w500/6sUsn029xHGQxO8VAJXfYcHmKB7.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/upecGaCuQOIbSpdz85mrJ395UMg.jpg",
       "categories": [
-        "Películas"
+        "estrenos",
+        "accion",
+        "aventura",
+        "infantil",
+        "familia"
       ],
+      "tmdbId": 1731694,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Vimeus",
@@ -1424,12 +1454,23 @@
     },
     {
       "id": "81702b7466b04f1291a944cedc5f4671",
-      "title": "Carrera contra el tiempo",
-      "plot": "Miles de títulos en alta definición, listos para reproducir.",
-      "poster": "https://rukiatv.onrender.com/assets/icons/icon-512.png",
+      "title": "Estado crítico",
+      "plot": "En China para donar su riñón a su sobrina moribunda, Deacon (VAN DAMME), un ex agente de operaciones encubiertas, se despierta el día antes de la operación para descubrir que ha sido víctima de robo de órganos. Cosido y cabreado, Deacon desciende de su lujoso hotel en busca de su riñón robado y va dejando un camino empapado de sangre a través de los rincones más oscuros de la ciudad – prostíbulos, clubes de lucha, mercados negros en callejones y fincas de multimillonarios de élite. El reloj está corriendo por su sobrina y con cada paso que pierde sangre, Deacon con la ayuda de sus antiguos conexiones del hampa y su hermano civil recorrerá la parte más sórdida de la ciudad, demostrando a todo el que se cruce en su camino que nada significa más para un hombre que su carne y su sangre.",
+      "cast": "Jean-Claude Van Damme, John Ralston, Aki Aleong, Charlotte Peters, Darren Shahlavi, Brahim Achabbakhe, Jason Tobin, Andrew Ng",
+      "director": "Ernie Barbarash",
+      "writer": "Joshua Todd James",
+      "releaseDate": "2015-05-07",
+      "year": "2015",
+      "genre": "Acción",
+      "rating": 5.8,
+      "duration": "104 min",
+      "poster": "https://image.tmdb.org/t/p/w500/pd7njb3EhmyXKv9BWSVIYMq4vOv.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/5KqLlBfhkS58MVQ9ir4ttyGk2i6.jpg",
       "categories": [
-        "Películas"
+        "accion"
       ],
+      "tmdbId": 326284,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Vimeus",
@@ -1506,11 +1547,25 @@
     {
       "id": "3d12967bb58a4d41bd7495fab9f472f4",
       "title": "MOBILE SUIT GUNDAM HATHAWAY El hechizo de una ninfa",
-      "plot": "Miles de títulos en alta definición, listos para reproducir.",
-      "poster": "https://rukiatv.onrender.com/assets/icons/icon-512.png",
+      "plot": "Continúa la lucha de Hathaway Noa contra la Federación Terrestre, culminando en un ataque terrorista a la conferencia gubernamental de Adelaide. Gigi Andalucia sigue siendo clave, su influencia encarna la figura de la \"bruja\".",
+      "cast": "Kensho Ono, Reina Ueda, Junichi Suwabe, Soma Saito, Kenjiro Tsuda, Yui Ishikawa, Fukushi Ochiai, Shunsuke Takeuchi",
+      "director": "Shukou Murase",
+      "writer": "Yasuyuki Muto",
+      "releaseDate": "2026-01-30",
+      "year": "2026",
+      "genre": "Animación, Ciencia ficción, Bélica, Drama",
+      "rating": 7.3,
+      "duration": "115 min",
+      "poster": "https://image.tmdb.org/t/p/w500/nc6N2gh2fjlnY6q4R8ufLqDf10X.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/dp9FPgUwPc2XIXYct2cQ1PgFv7f.jpg",
       "categories": [
-        "Películas"
+        "aventura",
+        "drama",
+        "anime",
+        "bélica"
       ],
+      "tmdbId": 910850,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Vimeus",
@@ -1567,11 +1622,25 @@
     {
       "id": "c8271905f0c1412787a3769910c5cb43",
       "title": "Susurran tu Nombre",
-      "plot": "Miles de títulos en alta definición, listos para reproducir.",
-      "poster": "https://rukiatv.onrender.com/assets/icons/icon-512.png",
+      "plot": "Tras la desaparición de su hijo, un viudo pide ayuda a su distanciado padre, un inspector jubilado que encarceló al asesino en serie relacionado con el caso.",
+      "cast": "Robert De Niro, Michelle Monaghan, Adam Scott, Acston Luca Porto, Michael Keaton, Owen Teague, Hamish Linklater, Will Brill",
+      "director": "James Ashcroft",
+      "writer": "Ben Jacoby",
+      "releaseDate": "2026-08-27",
+      "year": "2026",
+      "genre": "Crimen, Drama, Suspense",
+      "rating": 6.7,
+      "duration": "114 min",
+      "poster": "https://image.tmdb.org/t/p/w500/63n3rBWRs9Bvlo0nJ8oP2ayuusA.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/xSJJQeAp9GBFmiKusysTRG6jQjt.jpg",
       "categories": [
-        "Películas"
+        "estrenos",
+        "terror",
+        "drama"
       ],
+      "featured": true,
+      "tmdbId": 860508,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Vimeus",
@@ -1647,12 +1716,26 @@
     },
     {
       "id": "4052dff0b62f4ab8a200b9734ad64fc9",
-      "title": "Yellow Mirror - La realidad paralela de Homero",
-      "plot": "Miles de títulos en alta definición, listos para reproducir.",
-      "poster": "https://rukiatv.onrender.com/assets/icons/icon-512.png",
+      "title": "Los Simpson: Yellow Mirror: La realidad paralela de Homero",
+      "plot": "Una lámpara defectuosa revela una verdad desgarradora sobre lo que Homer cree que es la realidad, y una tableta con inteligencia artificial se hace amiga de Maggie y la controla. Los Simpson luchan por encontrar la luz a través de dos historias oscuras, curiosas y extrañas.",
+      "cast": "Dan Castellaneta, Nancy Cartwright, Julie Kavner, Yeardley Smith, Patti Harrison, Demi Moore, Harry Shearer, Alex Désert",
+      "director": "Matthew Faughnan",
+      "writer": "Carolyn Omine",
+      "releaseDate": "2026-08-26",
+      "year": "2026",
+      "genre": "Animación, Comedia, Ciencia ficción",
+      "rating": 8.1,
+      "duration": "27 min",
+      "poster": "https://image.tmdb.org/t/p/w500/wybH2AK9kazNW7WYKST1YzUKP75.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/rFjlsx5IygrHmBqr0KsVolAHhy7.jpg",
       "categories": [
-        "Películas"
+        "estrenos",
+        "comedia",
+        "aventura",
+        "infantil"
       ],
+      "tmdbId": 1729723,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Vimeus",
@@ -1668,12 +1751,25 @@
     },
     {
       "id": "954786ced8444110a4fd58f2eb59ec0d",
-      "title": "La ultima escena",
-      "plot": "Miles de títulos en alta definición, listos para reproducir.",
-      "poster": "https://rukiatv.onrender.com/assets/icons/icon-512.png",
+      "title": "La última escena",
+      "plot": "Selen posee el don de ver el futuro en sus sueños. Tras años cambiando el destino de desconocidos, una visión le muestra su propia muerte… y a un hombre que intenta salvarla. Cuando conoce a Kemal, el hombre de su visión, se ve arrastrada a algo mucho más profundo que el destino: el amor. Dividida entre el miedo y el deseo, Selen emprende un viaje en el que el romance y el peligro son inseparables, y donde el despertar de su corazón podría ser la verdadera respuesta.",
+      "cast": "Hilal Altınbilek, Serkan Çayoğlu, Olcay Yusufoğlu, Bora Karakul, Sema Mumcu, Gökçen Gökçebağ, Yiğit Kalkavan, Sedat Savtak",
+      "director": "Ali Bilgin",
+      "writer": "Sema Ergenekon",
+      "releaseDate": "2026-08-28",
+      "year": "2026",
+      "genre": "Drama, Romance",
+      "rating": 5,
+      "duration": "96 min",
+      "poster": "https://image.tmdb.org/t/p/w500/hgGZnBtdQ816FKR7NqMuaC4knjN.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/1lN0J2L4j0U2gtwZtfjET5tYbtc.jpg",
       "categories": [
-        "Películas"
+        "estrenos",
+        "romance",
+        "drama"
       ],
+      "tmdbId": 1550338,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Vimeus",
@@ -1690,11 +1786,23 @@
     {
       "id": "605e9e6bedff4c35bff9c763f71d5a33",
       "title": "Su propio infierno",
-      "plot": "Miles de títulos en alta definición, listos para reproducir.",
-      "poster": "https://rukiatv.onrender.com/assets/icons/icon-512.png",
+      "plot": "La trama gira en torno al personaje de Michael, un hombre que pretende salir de la complicada situación en la que se encuentra tras no haber sido capaz aún de superar el fallecimiento de su madre, un hecho que le provocó graves trastornos mentales y le motivó a meterse en el siempre tenebroso mundo de los narcóticos. El mismo problema experimenta Kris, la persona en la que más confianza ha depositado a lo largo de su existencia, un hombre que posee un gran ingenio para el ámbito de la interpretación pero que también se ha visto abocado al mercado de la drogadicción.",
+      "cast": "Eva Marie Saint, Warren Beatty, Karl Malden, Angela Lansbury, Brandon De Wilde, Constance Ford, Barbara Baxley, Evans Evans",
+      "director": "John Frankenheimer",
+      "writer": "William Inge",
+      "releaseDate": "1962-04-06",
+      "year": "1962",
+      "genre": "Drama",
+      "rating": 6,
+      "duration": "111 min",
+      "poster": "https://image.tmdb.org/t/p/w500/wWtPUOEnYHEId0eWmF4Dp7JiOjR.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/2EWvpA1oRe5mPbs3seCrkPhs6Fr.jpg",
       "categories": [
-        "Películas"
+        "antiguas",
+        "drama"
       ],
+      "tmdbId": 86240,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Vimeus",
@@ -1756,11 +1864,25 @@
     {
       "id": "8b3c882baeab4ae1aad108985433aeca",
       "title": "Motor City",
-      "plot": "Miles de títulos en alta definición, listos para reproducir.",
-      "poster": "https://rukiatv.onrender.com/assets/icons/icon-512.png",
+      "plot": "En el Detroit de los años 70, el romántico de clase trabajadora John Miller es incriminado por un despiadado gángster tras enamorarse de su novia. Tras pasar años en prisión, regresa con una única misión: vengarse.",
+      "cast": "Alan Ritchson, Ben Foster, Shailene Woodley, Lionel Boyce, Amar Chadha-Patel, Pablo Schreiber, Dominic Bogart, Mister Fitzgerald",
+      "director": "Potsy Ponciroli",
+      "writer": "Chad St. John",
+      "releaseDate": "2026-07-23",
+      "year": "2026",
+      "genre": "Acción, Suspense, Crimen",
+      "rating": 6.3,
+      "duration": "104 min",
+      "poster": "https://image.tmdb.org/t/p/w500/9CatrE52P66ODUQmrMlBO7L0D5c.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/l7asYmqOad01F2u0oCMM8nQjoEP.jpg",
       "categories": [
-        "Películas"
+        "estrenos",
+        "terror",
+        "accion",
+        "drama"
       ],
+      "tmdbId": 87513,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Vimeus",
@@ -1848,10 +1970,21 @@
       "id": "fce64fa4cb604e7f922a3b31d577b0b1",
       "title": "The Cowboy Killer",
       "plot": "Miles de títulos en alta definición, listos para reproducir.",
-      "poster": "https://rukiatv.onrender.com/assets/icons/icon-512.png",
+      "cast": "Ed Begley Jr., Stephen Tobolowsky, Richard Riehle, Robert Pine, Robert Carradine, Peter Jason, Fred Stoller, Stuart Pankin",
+      "director": "Jaymes Camery",
+      "writer": "Ben Solenberger",
+      "releaseDate": "2026-07-24",
+      "year": "2026",
+      "genre": "Suspense",
+      "duration": "95 min",
+      "poster": "https://image.tmdb.org/t/p/w500/uz2Jsr5yrkiJHuYK4yb8zSOzvJe.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/ic8eJbTQwOVl0z5CseEj8WyLDlQ.jpg",
       "categories": [
-        "Películas"
+        "estrenos",
+        "terror"
       ],
+      "tmdbId": 1521116,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Vimeus",
@@ -1878,11 +2011,25 @@
     {
       "id": "b943a2947a74461eb23385e44131b93f",
       "title": "LEGO Star Wars Cuentos escalofriantes",
-      "plot": "Miles de títulos en alta definición, listos para reproducir.",
-      "poster": "https://rukiatv.onrender.com/assets/icons/icon-512.png",
+      "plot": "Tras aterrizar de emergencia en el planeta volcánico Mustafar, Poe y BB-8 buscan ayuda en el escalofriante castillo de Darth Vader. Allí encuentran a un intrigante Hutt, un intrépido mecánico y el antiguo asistente de Darth Vader, Vaneé, que les obsequia con tres relatos aterradores ligados a antiguos artefactos y a villanos icónicos de todas las épocas de Star Wars.",
+      "cast": "Jake Green, Raphael Alejandro, Dana Snyder, Tony Hale, Christian Slater, Matt Sloan, Trevor Devall, Mary Elizabeth McGlynn",
+      "director": "Ken Cunningham",
+      "writer": "David Shayne",
+      "releaseDate": "2021-10-01",
+      "year": "2021",
+      "genre": "Animación, Familia, Ciencia ficción, Comedia",
+      "rating": 6.8,
+      "duration": "45 min",
+      "poster": "https://image.tmdb.org/t/p/w500/bcPzH8PjdISs6yrqCIDEEPpRX7O.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/f53Jujiap580mgfefID0T0g2e17.jpg",
       "categories": [
-        "Películas"
+        "comedia",
+        "aventura",
+        "infantil",
+        "familia"
       ],
+      "tmdbId": 857702,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "PrimeSrc",
@@ -1894,11 +2041,25 @@
     {
       "id": "a8cb76824e6f47a49095649d536cd71d",
       "title": "Phineas y Ferb, la película: Candace contra el universo",
-      "plot": "Miles de títulos en alta definición, listos para reproducir.",
-      "poster": "https://rukiatv.onrender.com/assets/icons/icon-512.png",
+      "plot": "Después de fracasar en sus repetidos intentos de pillar a sus hermanos, Phineas y Ferb, la sufridora Candace siente que el universo está en su contra. Cuando Candace es secuestrada por alienígenas, encuentra un planeta lejano, libre de sus pesados hermanos, donde la idolatran como salvadora. Mientras, Phineas y Ferb se disponen a cruzar la galaxia para rescatar a Candace a la vez que descubren los siniestros secretos de los extraterrestres.",
+      "cast": "Ashley French, Vincent Martella, David Errigo Jr., Dan Povenmire, Olivia Olson, Alyson Stoner, Bobby Gaylor, Maulik Pancholy",
+      "director": "Dan Povenmire",
+      "writer": "Kate Kondell",
+      "releaseDate": "2020-06-14",
+      "year": "2020",
+      "genre": "Familia, Animación, Ciencia ficción, Comedia",
+      "rating": 7.2,
+      "duration": "86 min",
+      "poster": "https://image.tmdb.org/t/p/w500/i5rPRIEf88IKSCM2loRy3iN2lQc.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/hXz0u1wEYU7LogAPspwd1o4xBfj.jpg",
       "categories": [
-        "Películas"
+        "comedia",
+        "aventura",
+        "infantil",
+        "familia"
       ],
+      "tmdbId": 594328,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "PrimeSrc",
@@ -1913,44 +2074,28 @@
       ]
     },
     {
-      "id": "e74120c39a6d46debb0a9b27cc41c3a2",
-      "title": "El Rey Mono",
-      "plot": "Miles de títulos en alta definición, listos para reproducir.",
-      "poster": "https://rukiatv.onrender.com/assets/icons/icon-512.png",
-      "categories": [
-        "Películas"
-      ],
-      "servers": [
-        {
-          "name": "Vimeus",
-          "url": "https://vimeus.com/e/movie?tmdb=832502&view_key=SYBnbw6Tuf2IRqRNyCyHOnylQgUnG_EDT1Q7hFaXzdY",
-          "language": "Español"
-        },
-        {
-          "name": "PrimeSrc",
-          "url": "https://primesrc.me/embed/movie?tmdb=832502&fallback=true",
-          "language": "Inglés"
-        },
-        {
-          "name": "Dood",
-          "url": "https://primesrc.me/embed/movie?tmdb=832502&fallback=false&whitelistServers=Dood&serverOrder=Dood",
-          "language": "Inglés"
-        },
-        {
-          "name": "Mixdrop",
-          "url": "https://primesrc.me/embed/movie?tmdb=832502&fallback=false&whitelistServers=Mixdrop&serverOrder=Mixdrop",
-          "language": "Inglés"
-        }
-      ]
-    },
-    {
       "id": "28a0002f741b40b6bf51fbce1025b278",
       "title": "Trollhunters: El despertar de los titanes",
-      "plot": "Miles de títulos en alta definición, listos para reproducir.",
-      "poster": "https://rukiatv.onrender.com/assets/icons/icon-512.png",
+      "plot": "Los héroes de la serie Trollhunters se unen en una épica aventura para luchar contra la Orden de los Arcanos para determinar quién controla el poder de la magia que los une a todos.",
+      "cast": "Emile Hirsch, Lexi Medrano, Charlie Saxton, Kelsey Grammer, Alfred Molina, Steven Yeun, Nick Frost, Colin O'Donoghue",
+      "director": "Johane Matte",
+      "writer": "Guillermo del Toro",
+      "releaseDate": "2021-07-21",
+      "year": "2021",
+      "genre": "Animación, Fantasía, Familia, Acción, Aventura",
+      "rating": 7.6,
+      "duration": "106 min",
+      "poster": "https://image.tmdb.org/t/p/w500/fhhjAX2iDmnZksQWsJ8DdAcDBc5.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/d1i6oB5xdo2a7sOmjprCcElqlrD.jpg",
       "categories": [
-        "Películas"
+        "accion",
+        "aventura",
+        "infantil",
+        "familia",
+        "fantasía"
       ],
+      "tmdbId": 730840,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Vimeus",
@@ -1972,11 +2117,25 @@
     {
       "id": "15493db2c5f74c2782c14939ec009332",
       "title": "Los Minions y sus amigos: Volumen 1",
-      "plot": "Miles de títulos en alta definición, listos para reproducir.",
-      "poster": "https://rukiatv.onrender.com/assets/icons/icon-512.png",
+      "plot": "Esta colección de cortos de los Minions de la franquicia de «Mi villano favorito» incluye minipelículas como «Ruedines», «Cachorro» y «Yellow is the New Black».",
+      "cast": "Pierre Coffin, Raymond S. Persi, Carlos Alazraqui, Tara Strong, Brian T. Delaney, Miranda Cosgrove, Jessica DiCicco, John DiMaggio",
+      "director": "Bruno Chauffard",
+      "writer": "Van Robichaux",
+      "releaseDate": "2022-09-27",
+      "year": "2022",
+      "genre": "Animación, Aventura, Comedia, Familia",
+      "rating": 7,
+      "duration": "44 min",
+      "poster": "https://image.tmdb.org/t/p/w500/aJ41Lkz6zQ9kg6tyebXVNe9gnN5.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/v57iMzSzzM8NsyMqrSmKGToHoCe.jpg",
       "categories": [
-        "Películas"
+        "comedia",
+        "aventura",
+        "infantil",
+        "familia"
       ],
+      "tmdbId": 1029119,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "PrimeSrc",
@@ -2008,11 +2167,25 @@
     {
       "id": "7d32c514d185476c93e45a1b1d8d860d",
       "title": "Titán A.E.",
-      "plot": "Miles de títulos en alta definición, listos para reproducir.",
-      "poster": "https://rukiatv.onrender.com/assets/icons/icon-512.png",
+      "plot": "Año 3208. La Tierra está siendo atacada por los malvados alienígenas Drej, una raza altamente evolucionada hecha de energía pura. En medio del caos, miles de naves han de despegar de la superficie de la Tierra; el científico Sam Tucker llama a su hijo, Cale, un niño de cinco años, y le manda lejos de la Tierra en una nave espacial para que esté a salvo. Tucker se marcha en la nave espacial Titan -la astronave mejor dotada de la galaxia- porque es el único rayo de esperanza ante el desastre que se presagia. De repente, una ráfaga de la nave nodriza de los Drej envía a la Tierra fuera de control.",
+      "cast": "Matt Damon, Bill Pullman, Drew Barrymore, John Leguizamo, Nathan Lane, Janeane Garofalo, Jim Breuer, Ken Hudson Campbell",
+      "director": "Don Bluth",
+      "writer": "Ben Edlund",
+      "releaseDate": "2000-06-16",
+      "year": "2000",
+      "genre": "Animación, Ciencia ficción, Aventura, Familia, Acción",
+      "rating": 6.6,
+      "duration": "94 min",
+      "poster": "https://image.tmdb.org/t/p/w500/cFtHKAqpxRmwyaJydZ7YyK1dzP0.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/t0VWB5Kc5o38w5YYgzReArrGiZ8.jpg",
       "categories": [
-        "Películas"
+        "accion",
+        "aventura",
+        "infantil",
+        "familia"
       ],
+      "tmdbId": 7450,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "PrimeSrc",
@@ -2044,11 +2217,26 @@
     {
       "id": "f30996988d6048abb7e67040f95c2856",
       "title": "Hilda y el Rey de la montaña",
-      "plot": "Miles de títulos en alta definición, listos para reproducir.",
-      "poster": "https://rukiatv.onrender.com/assets/icons/icon-512.png",
+      "plot": "Cuando Hilda se despierta convertida en trol, debe usar todo su ingenio y valentía para volver a casa, transformarse en humana otra vez y salvar la ciudad de Trolberg.",
+      "cast": "Bella Ramsey, Ameerah Falzon-Ojo, Oliver Nelson, Daisy Haggard, Rasmus Hardiker, John Hopkins, Lucy Montgomery, Dino Kelly",
+      "director": "Andy Coyle",
+      "writer": "Luke Pearson",
+      "releaseDate": "2021-12-30",
+      "year": "2021",
+      "genre": "Animación, Aventura, Fantasía, Familia, Drama",
+      "rating": 7.6,
+      "duration": "83 min",
+      "poster": "https://image.tmdb.org/t/p/w500/3vm7LOe7DhkiA7umBhslQy9MdkY.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/892rHLop6XobpTmdJ05UfkWMZpf.jpg",
       "categories": [
-        "Películas"
+        "aventura",
+        "drama",
+        "infantil",
+        "familia",
+        "fantasía"
       ],
+      "tmdbId": 789708,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Vimeus",
@@ -2085,11 +2273,26 @@
     {
       "id": "b835e9c6f0b14640896a9d922f1192e1",
       "title": "Sin tiempo para espiar: Una peli de Una casa de locos",
-      "plot": "Miles de títulos en alta definición, listos para reproducir.",
-      "poster": "https://rukiatv.onrender.com/assets/icons/icon-512.png",
+      "plot": "Lincoln y los Loud están emocionados de dar la bienvenida a su nueva abuela, Myrtle, a la familia con una celebración de boda tropical. Sin embargo, los festejos se ven interrumpidos cuando un viejo enemigo del pasado aparece en la isla, desatando una serie de eventos inesperados.",
+      "cast": "Bentley Griffin, Alex Cazares, Piotr Michael, Brian Stepanek, Amy Sedaris, Jessica DiCicco, Lara Jill Miller, Jill Talley",
+      "director": "Kyle Marshall",
+      "writer": "Whitney Wetta",
+      "releaseDate": "2024-06-21",
+      "year": "2024",
+      "genre": "Animación, Acción, Aventura, Comedia, Familia",
+      "rating": 7.1,
+      "duration": "81 min",
+      "poster": "https://image.tmdb.org/t/p/w500/eIIklEb7D9MrRxsb4vyXnm08d0G.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/nL0q3UcNj4MOMluIUE42bc7PtW0.jpg",
       "categories": [
-        "Películas"
+        "accion",
+        "comedia",
+        "aventura",
+        "infantil",
+        "familia"
       ],
+      "tmdbId": 1280768,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Vimeus",
@@ -2100,6 +2303,41 @@
           "name": "PrimeSrc",
           "url": "https://primesrc.me/embed/movie?tmdb=1280768&fallback=true",
           "language": "Idioma sin identificar"
+        }
+      ]
+    },
+    {
+      "id": "5340b53cf22945b186640b0bc3de2440",
+      "title": "¡Upsss! 2 ¿Y ahora dónde está Noé?",
+      "plot": "La luna de miel ha terminado ... ¡Cómo disfrutamos la fiesta cuando nuestros anfibios amigos Nestria descubrieron su increíble agilidad recién descubierta bajo el agua! Pero, cuando volvemos a visitar a nuestros curiosos y adorables amigos, la supervivencia de todo el reino animal vuelve a estar en juego. En medio de la perspectiva de una nueva tierra en la que vivir y prosperar, sin mencionar los recursos alimenticios en constante disminución, el estado de ánimo a bordo del Arca está cargado de tensiones crecientes, que regularmente se desbordan en la ira del Arca. La frágil paz se rompe con frecuencia con el consiguiente caos general. ¿Cómo pueden ayudar nuestros héroes inverosímiles? ¿Y qué hay debajo de Finny en un océano de posibilidades cuando literalmente cae en una nueva compañía bastante sorprendente?",
+      "cast": "Max Carolan, Dermot Magennis, Tara Flynn, Ava Connolly, Mary Murray, Brendan McDonald, Carly Kane, Alan Stanford",
+      "director": "Toby Genkel",
+      "writer": "Richie Conroy",
+      "releaseDate": "2020-09-24",
+      "year": "2020",
+      "genre": "Animación, Aventura, Comedia, Familia",
+      "rating": 7.6,
+      "duration": "86 min",
+      "poster": "https://image.tmdb.org/t/p/w500/87YGfUYwM4mI2ITWzsHxxBDbOiy.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/oi9k7RySgadRwl8bAdXt7ehnt2f.jpg",
+      "categories": [
+        "comedia",
+        "aventura",
+        "infantil",
+        "familia"
+      ],
+      "tmdbId": 587562,
+      "tmdbType": "movie",
+      "servers": [
+        {
+          "name": "PrimeSrc",
+          "url": "https://primesrc.me/embed/movie?tmdb=587562&fallback=true",
+          "language": "Inglés"
+        },
+        {
+          "name": "Dood",
+          "url": "https://primesrc.me/embed/movie?tmdb=587562&fallback=false&whitelistServers=Dood&serverOrder=Dood",
+          "language": "Inglés"
         }
       ]
     },
@@ -2125,27 +2363,6 @@
         {
           "name": "Dood",
           "url": "https://primesrc.me/embed/movie?tmdb=353595&fallback=false&whitelistServers=Dood&serverOrder=Dood",
-          "language": "Inglés"
-        }
-      ]
-    },
-    {
-      "id": "5340b53cf22945b186640b0bc3de2440",
-      "title": "¡Upsss! 2 ¿Y ahora dónde está Noé?",
-      "plot": "Miles de títulos en alta definición, listos para reproducir.",
-      "poster": "https://rukiatv.onrender.com/assets/icons/icon-512.png",
-      "categories": [
-        "Películas"
-      ],
-      "servers": [
-        {
-          "name": "PrimeSrc",
-          "url": "https://primesrc.me/embed/movie?tmdb=587562&fallback=true",
-          "language": "Inglés"
-        },
-        {
-          "name": "Dood",
-          "url": "https://primesrc.me/embed/movie?tmdb=587562&fallback=false&whitelistServers=Dood&serverOrder=Dood",
           "language": "Inglés"
         }
       ]
@@ -2626,5 +2843,7 @@
         }
       ]
     }
-  ]
+  ],
+  "sources": [],
+  "liveChannels": []
 }
