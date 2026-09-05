@@ -1,27 +1,27 @@
 {
-  "lastRunAt": "2026-09-05T05:43:30.948Z",
+  "lastRunAt": "2026-09-05T09:23:28.379Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
     1204680,
-    860508,
     1339713,
+    860508,
     1084244,
     1315772,
     1108427,
+    1137844,
     1083381,
     1275779,
     1384216,
     1273221,
     1081003,
     1228710,
-    454639,
     1127384,
     1284041,
-    1101383,
+    454639,
     1212763,
+    1101383,
     1291595,
-    1523145,
     1368337,
     1288445,
     1285366,
@@ -62,6 +62,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1137844,
+      "title": "Mayday",
+      "reason": "Votos 40 por debajo del mínimo (50)"
+    },
+    {
       "tmdbId": 1275779,
       "title": "El día de la revelación",
       "reason": "Sin fuente autorizada configurada"
@@ -87,11 +92,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 454639,
-      "title": "He-Man y los Masters del Universo",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1127384,
       "title": "En mar abierto",
       "reason": "Sin fuente autorizada configurada"
@@ -102,8 +102,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1101383,
-      "title": "El final de Oak Street",
+      "tmdbId": 454639,
+      "title": "He-Man y los Masters del Universo",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -112,13 +112,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1291595,
-      "title": "Insidious: Fuera del más allá",
+      "tmdbId": 1101383,
+      "title": "El final de Oak Street",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1523145,
-      "title": "Tu corazón se romperá",
+      "tmdbId": 1291595,
+      "title": "Insidious: Fuera del más allá",
       "reason": "Sin fuente autorizada configurada"
     },
     {
