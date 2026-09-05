@@ -1359,11 +1359,26 @@
     {
       "id": "8d46864d433b4793bb7148a133981814",
       "title": "LEGO Star Wars: The Mandalorian",
-      "plot": "Miles de títulos en alta definición, listos para reproducir.",
-      "poster": "https://rukiatv.onrender.com/assets/icons/icon-512.png",
+      "plot": "Mando recibe una inesperada fiesta sorpresa organizada por sus amigos. Mientras celebran, Peli Motto, Migs Mayfeld, el Mayordomo y Bo-Katan cuentan de una manera divertida y al estilo LEGO las aventuras de Din Djarin y Grogu a través de las tres primeras temporadas de The Mandalorian.",
+      "cast": "Gavin Hammon, Amy Sedaris, Bill Burr, David Pasquesi, Katee Sackhoff, Emily Swallow, Giancarlo Esposito, Matthew Wood",
+      "director": "Chris Buckley",
+      "writer": "Michael Price",
+      "releaseDate": "2026-09-02",
+      "year": "2026",
+      "genre": "Animación, Ciencia ficción, Aventura, Familia, Acción",
+      "rating": 7.7,
+      "duration": "50 min",
+      "poster": "https://image.tmdb.org/t/p/w500/6sUsn029xHGQxO8VAJXfYcHmKB7.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/upecGaCuQOIbSpdz85mrJ395UMg.jpg",
       "categories": [
-        "Películas"
+        "estrenos",
+        "accion",
+        "aventura",
+        "infantil",
+        "familia"
       ],
+      "tmdbId": 1731694,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Vimeus",
