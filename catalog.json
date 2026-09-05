@@ -1611,11 +1611,25 @@
     {
       "id": "c8271905f0c1412787a3769910c5cb43",
       "title": "Susurran tu Nombre",
-      "plot": "Miles de títulos en alta definición, listos para reproducir.",
-      "poster": "https://rukiatv.onrender.com/assets/icons/icon-512.png",
+      "plot": "Tras la desaparición de su hijo, un viudo pide ayuda a su distanciado padre, un inspector jubilado que encarceló al asesino en serie relacionado con el caso.",
+      "cast": "Robert De Niro, Michelle Monaghan, Adam Scott, Acston Luca Porto, Michael Keaton, Owen Teague, Hamish Linklater, Will Brill",
+      "director": "James Ashcroft",
+      "writer": "Ben Jacoby",
+      "releaseDate": "2026-08-27",
+      "year": "2026",
+      "genre": "Crimen, Drama, Suspense",
+      "rating": 6.7,
+      "duration": "114 min",
+      "poster": "https://image.tmdb.org/t/p/w500/63n3rBWRs9Bvlo0nJ8oP2ayuusA.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/xSJJQeAp9GBFmiKusysTRG6jQjt.jpg",
       "categories": [
-        "Películas"
+        "estrenos",
+        "terror",
+        "drama"
       ],
+      "featured": true,
+      "tmdbId": 860508,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Vimeus",
@@ -1691,12 +1705,26 @@
     },
     {
       "id": "4052dff0b62f4ab8a200b9734ad64fc9",
-      "title": "Yellow Mirror - La realidad paralela de Homero",
-      "plot": "Miles de títulos en alta definición, listos para reproducir.",
-      "poster": "https://rukiatv.onrender.com/assets/icons/icon-512.png",
+      "title": "Los Simpson: Yellow Mirror: La realidad paralela de Homero",
+      "plot": "Una lámpara defectuosa revela una verdad desgarradora sobre lo que Homer cree que es la realidad, y una tableta con inteligencia artificial se hace amiga de Maggie y la controla. Los Simpson luchan por encontrar la luz a través de dos historias oscuras, curiosas y extrañas.",
+      "cast": "Dan Castellaneta, Nancy Cartwright, Julie Kavner, Yeardley Smith, Patti Harrison, Demi Moore, Harry Shearer, Alex Désert",
+      "director": "Matthew Faughnan",
+      "writer": "Carolyn Omine",
+      "releaseDate": "2026-08-26",
+      "year": "2026",
+      "genre": "Animación, Comedia, Ciencia ficción",
+      "rating": 8.1,
+      "duration": "27 min",
+      "poster": "https://image.tmdb.org/t/p/w500/wybH2AK9kazNW7WYKST1YzUKP75.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/rFjlsx5IygrHmBqr0KsVolAHhy7.jpg",
       "categories": [
-        "Películas"
+        "estrenos",
+        "comedia",
+        "aventura",
+        "infantil"
       ],
+      "tmdbId": 1729723,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Vimeus",
