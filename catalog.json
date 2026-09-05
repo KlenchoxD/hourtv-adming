@@ -2074,37 +2074,6 @@
       ]
     },
     {
-      "id": "e74120c39a6d46debb0a9b27cc41c3a2",
-      "title": "El Rey Mono",
-      "plot": "Miles de títulos en alta definición, listos para reproducir.",
-      "poster": "https://rukiatv.onrender.com/assets/icons/icon-512.png",
-      "categories": [
-        "Películas"
-      ],
-      "servers": [
-        {
-          "name": "Vimeus",
-          "url": "https://vimeus.com/e/movie?tmdb=832502&view_key=SYBnbw6Tuf2IRqRNyCyHOnylQgUnG_EDT1Q7hFaXzdY",
-          "language": "Español"
-        },
-        {
-          "name": "PrimeSrc",
-          "url": "https://primesrc.me/embed/movie?tmdb=832502&fallback=true",
-          "language": "Inglés"
-        },
-        {
-          "name": "Dood",
-          "url": "https://primesrc.me/embed/movie?tmdb=832502&fallback=false&whitelistServers=Dood&serverOrder=Dood",
-          "language": "Inglés"
-        },
-        {
-          "name": "Mixdrop",
-          "url": "https://primesrc.me/embed/movie?tmdb=832502&fallback=false&whitelistServers=Mixdrop&serverOrder=Mixdrop",
-          "language": "Inglés"
-        }
-      ]
-    },
-    {
       "id": "28a0002f741b40b6bf51fbce1025b278",
       "title": "Trollhunters: El despertar de los titanes",
       "plot": "Los héroes de la serie Trollhunters se unen en una épica aventura para luchar contra la Orden de los Arcanos para determinar quién controla el poder de la magia que los une a todos.",
@@ -2338,32 +2307,6 @@
       ]
     },
     {
-      "id": "ebae22a06704479faa8eb8fc7912a5c0",
-      "title": "Lego DC Superhéroes: Liga de la Justicia – El ataque de la Legión del Mal",
-      "plot": "Miles de títulos en alta definición, listos para reproducir.",
-      "poster": "https://rukiatv.onrender.com/assets/icons/icon-512.png",
-      "categories": [
-        "Películas"
-      ],
-      "servers": [
-        {
-          "name": "Vimeus",
-          "url": "https://vimeus.com/e/movie?tmdb=353595&view_key=XuIgmI0t6ZNQriKur7hrx_Jv3XGZy57X9NT-64MyHow",
-          "language": "Español"
-        },
-        {
-          "name": "PrimeSrc",
-          "url": "https://primesrc.me/embed/movie?tmdb=353595&fallback=true",
-          "language": "Inglés"
-        },
-        {
-          "name": "Dood",
-          "url": "https://primesrc.me/embed/movie?tmdb=353595&fallback=false&whitelistServers=Dood&serverOrder=Dood",
-          "language": "Inglés"
-        }
-      ]
-    },
-    {
       "id": "5340b53cf22945b186640b0bc3de2440",
       "title": "¡Upsss! 2 ¿Y ahora dónde está Noé?",
       "plot": "La luna de miel ha terminado ... ¡Cómo disfrutamos la fiesta cuando nuestros anfibios amigos Nestria descubrieron su increíble agilidad recién descubierta bajo el agua! Pero, cuando volvemos a visitar a nuestros curiosos y adorables amigos, la supervivencia de todo el reino animal vuelve a estar en juego. En medio de la perspectiva de una nueva tierra en la que vivir y prosperar, sin mencionar los recursos alimenticios en constante disminución, el estado de ánimo a bordo del Arca está cargado de tensiones crecientes, que regularmente se desbordan en la ira del Arca. La frágil paz se rompe con frecuencia con el consiguiente caos general. ¿Cómo pueden ayudar nuestros héroes inverosímiles? ¿Y qué hay debajo de Finny en un océano de posibilidades cuando literalmente cae en una nueva compañía bastante sorprendente?",
@@ -2394,6 +2337,32 @@
         {
           "name": "Dood",
           "url": "https://primesrc.me/embed/movie?tmdb=587562&fallback=false&whitelistServers=Dood&serverOrder=Dood",
+          "language": "Inglés"
+        }
+      ]
+    },
+    {
+      "id": "ebae22a06704479faa8eb8fc7912a5c0",
+      "title": "Lego DC Superhéroes: Liga de la Justicia – El ataque de la Legión del Mal",
+      "plot": "Miles de títulos en alta definición, listos para reproducir.",
+      "poster": "https://rukiatv.onrender.com/assets/icons/icon-512.png",
+      "categories": [
+        "Películas"
+      ],
+      "servers": [
+        {
+          "name": "Vimeus",
+          "url": "https://vimeus.com/e/movie?tmdb=353595&view_key=XuIgmI0t6ZNQriKur7hrx_Jv3XGZy57X9NT-64MyHow",
+          "language": "Español"
+        },
+        {
+          "name": "PrimeSrc",
+          "url": "https://primesrc.me/embed/movie?tmdb=353595&fallback=true",
+          "language": "Inglés"
+        },
+        {
+          "name": "Dood",
+          "url": "https://primesrc.me/embed/movie?tmdb=353595&fallback=false&whitelistServers=Dood&serverOrder=Dood",
           "language": "Inglés"
         }
       ]
