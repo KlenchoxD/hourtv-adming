@@ -666,7 +666,7 @@ function openEditor(idx){
       <button class="btn-ghost btn-sm" onclick="closeModal()">✕</button></div>
     <div class="modal-body" id="mbody">${body}</div>
     <div class="modal-foot">
-      ${editing?`<button class="btn-ghost" onclick="removeItem(${idx})" style="color:var(--accent)">Eliminar</button>`:'<span></span>'}
+      ${editing?`<button class="btn-ghost" onclick="removeItem(${idx})" style="color:var(--accent)">Eliminar y publicar</button>`:'<span></span>'}
       <div style="display:flex;gap:10px">
         <button class="btn-ghost" onclick="saveItem(${editing?idx:'null'})">Guardar</button>
         <button class="btn-primary" onclick="saveAndPublish(${editing?idx:'null'})">Guardar y publicar</button>
@@ -846,11 +846,16 @@ function saveItem(idx){
 async function saveAndPublish(idx){
   if(saveItem(idx)===true) await publish();
 }
-function removeItem(idx){
+// Borra y publica de inmediato: cuanto más tiempo quede solo en local, más
+// chance de que el bot automático haga otro commit de por medio y haya que
+// pasar por el camino de fusión de publish() (que ya respeta deletedIds,
+// pero es más simple si el borrado nunca llega a quedar pendiente).
+async function removeItem(idx){
   if(!confirm('¿Eliminar este elemento?'))return;
   const [removed]=catalog[activeTab].splice(idx,1);
   if(removed&&removed.id){deletedIds.add(removed.id);saveDeletedIds()}
   save();closeModal();render();
+  await publish();
 }
 
 // ---------- Import / export ----------
