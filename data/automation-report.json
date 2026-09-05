@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-09-05T21:32:59.905Z",
-  "durationMs": 644,
+  "generatedAt": "2026-09-05T23:17:18.882Z",
+  "durationMs": 3127,
   "dryRun": false,
   "moviesFound": 34,
   "moviesDiscarded": 29,
@@ -75,7 +75,7 @@
     {
       "tmdbId": 1355228,
       "title": "Gandhari",
-      "reason": "Votos 3 por debajo del mínimo (50)"
+      "reason": "Rating 4.6 por debajo del mínimo (5.5)"
     },
     {
       "tmdbId": 1101383,
