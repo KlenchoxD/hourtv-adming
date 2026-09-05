@@ -1293,11 +1293,26 @@
     {
       "id": "80a8bdfa8049421f8f57f1157f5ed575",
       "title": "Río 2",
-      "plot": "Miles de títulos en alta definición, listos para reproducir.",
-      "poster": "https://rukiatv.onrender.com/assets/icons/icon-512.png",
+      "plot": "Secuela de la película \"Río\" (2010) dirigida por Carlos Saldanha, encargado también de esta segunda parte.. Blu, Perla y sus pequeños disfrutan de una vida cómoda, alegre y perfecta en la ciudad de Río de Janeiro, Brasil. Pero Perla tiene muy claro que sus hijos deben aprender a vivir como los pájaros libres y salvajes que son, y para ello está convencida de que lo mejor es trasladarse al Amazonas. Una vez allí, Blu tendrá que enfrentarse a sus nuevos vecinos y a la idea terrible de perder a Perla y a sus hijos porque decidan vivir en la naturaleza salvaje para siempre.",
+      "cast": "Jesse Eisenberg, Anne Hathaway, will.i.am, Jamie Foxx, Leslie Mann, George López, Andy Garcia, Bruno Mars",
+      "director": "Carlos Saldanha",
+      "writer": "Don Rhymer",
+      "releaseDate": "2014-03-19",
+      "year": "2014",
+      "genre": "Animación, Aventura, Comedia, Familia",
+      "rating": 6.5,
+      "duration": "101 min",
+      "poster": "https://image.tmdb.org/t/p/w500/n52k2FD0ub5I3goqnj5qr98ROk4.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/eg2jxQ1FFi6ENDfyMIMC5odpcU0.jpg",
       "categories": [
-        "Películas"
+        "populares",
+        "comedia",
+        "aventura",
+        "infantil",
+        "familia"
       ],
+      "tmdbId": 172385,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Vimeus",
@@ -2626,5 +2641,7 @@
         }
       ]
     }
-  ]
+  ],
+  "sources": [],
+  "liveChannels": []
 }
