@@ -337,22 +337,51 @@ function imageField(id, label, value, previewId, ratio){
 // apliquen; determinan en qué filas aparece la película.
 // "tendencias" no se marca a mano: la pone "Sincronizar tendencias" con los
 // datos reales de TMDB. Se deja visible para poder revisarla y corregirla.
-const CATEGORIES = ['tendencias','recomendado','estrenos','populares','antiguas','terror','accion','comedia','romance','aventura','drama','infantil','anime','novelas'];
+// `let` (no `const`): TMDB tiene generos que no tienen chip fijo aca (Misterio,
+// Fantasía, Guerra...) y antes se perdian en silencio al autocompletar. Ahora
+// se agregan solos la primera vez que aparecen, y quedan guardados.
+let CATEGORIES = ['tendencias','recomendado','estrenos','populares','antiguas','terror','accion','comedia','romance','aventura','drama','infantil','anime','novelas'];
+const _extraCategoriesKey='hourtv_admin_extra_categories';
+function loadExtraCategories(){
+  try{return JSON.parse(localStorage.getItem(_extraCategoriesKey)||'[]')}catch(e){return []}
+}
+function saveExtraCategories(list){
+  try{localStorage.setItem(_extraCategoriesKey,JSON.stringify(list))}catch(e){}
+}
+loadExtraCategories().forEach(c=>{if(!CATEGORIES.includes(c))CATEGORIES.push(c)});
 function categoryChips(selected){
   const sel = (selected||[]).map(c=>String(c).toLowerCase());
   return CATEGORIES.map(c=>
-    `<div class="chip ${sel.includes(c)?'on':''}" data-cat="${c}" onclick="this.classList.toggle('on')">${c}</div>`
-  ).join('');
+    `<div class="chip ${sel.includes(c)?'on':''}" data-cat="${c}" onclick="this.classList.toggle('on')">${esc(c)}</div>`
+  ).join('') + `<div class="chip" onclick="addCustomCategory()">+ nueva</div>`;
 }
 function collectCategories(){
   const on=[...document.querySelectorAll('#f_categories .chip.on')].map(c=>c.dataset.cat);
   return on.length?on:undefined;
 }
-function setCategoryChips(cats){
-  const want=new Set((cats||[]).map(c=>String(c).toLowerCase()));
-  document.querySelectorAll('#f_categories .chip').forEach(chip=>{
-    if(want.has(chip.dataset.cat))chip.classList.add('on');
+// Da de alta categorias que classify() detecto pero que todavia no tenian
+// chip: se agregan a CATEGORIES y se guardan en localStorage para que sigan
+// disponibles despues, en otras peliculas/series y tras recargar la pagina.
+function registerNewCategories(cats){
+  const extra=loadExtraCategories();
+  let changed=false;
+  (cats||[]).forEach(c=>{
+    if(!CATEGORIES.includes(c)){CATEGORIES.push(c);changed=true}
+    if(!extra.includes(c)){extra.push(c);changed=true}
   });
+  if(changed)saveExtraCategories(extra);
+}
+// Boton "+ nueva": alta manual de una categoria que TMDB no trajo pero que
+// el usuario quiere de todos modos.
+function addCustomCategory(){
+  const name=prompt('Nombre de la categoría nueva (ej: misterio)');
+  if(!name)return;
+  const slug=name.trim().toLowerCase();
+  if(!slug)return;
+  registerNewCategories([slug]);
+  const already=collectCategories()||[];
+  document.getElementById('f_categories').innerHTML=
+    categoryChips([...new Set([...already,slug])]);
 }
 
 // ---------- Clasificación automática ----------
@@ -405,6 +434,18 @@ function classify(info){
   // taquillazo ronda 20, así que cualquier umbral fijo sobre ella envejece mal.
   if((info.votes||0)>=2000)cats.add('populares');
   if((info.rating||0)>=7.5&&(info.votes||0)>=500)cats.add('recomendado');
+  // Generos de TMDB sin categoria fija arriba (Misterio, Fantasía, Guerra,
+  // Western, Documental...): antes se perdian en silencio. Se devuelven tal
+  // cual (en minuscula) para que quien llama cree el chip si hace falta;
+  // classify() se mantiene puro (sin tocar el DOM ni localStorage aca).
+  const mappedIds=new Set(Object.keys(TMDB_GENRE_CAT).map(Number));
+  const genreIds=info.genreIds||[];
+  (info.genres||[]).forEach((name,idx)=>{
+    const id=genreIds[idx];
+    if(id!=null&&mappedIds.has(id))return;
+    const slug=String(name||'').trim().toLowerCase();
+    if(slug)cats.add(slug);
+  });
   return [...cats];
 }
 
@@ -485,7 +526,15 @@ async function tmdbPick(type,id){
     fill('f_backdrop',info.backdrop);
     document.getElementById('f_tmdb_id').value=info.tmdbId;
     document.getElementById('f_tmdb_type').value=info.tmdbType;
-    setCategoryChips(classify(info));
+    // Si TMDB trae un genero sin chip fijo (Misterio, Fantasía...), se crea
+    // solo y se autoselecciona (antes se perdia en silencio). Se regenera el
+    // HTML de los chips en vez de solo alternar 'on': un chip nuevo todavia
+    // no existe en el DOM. Lo ya marcado a mano no se pierde.
+    const tmdbCats=classify(info);
+    registerNewCategories(tmdbCats);
+    const alreadyCats=collectCategories()||[];
+    document.getElementById('f_categories').innerHTML=
+      categoryChips([...new Set([...alreadyCats,...tmdbCats])]);
     // Destacado (banner grande de Inicio): se autoselecciona solo si TMDB
     // reporta el título en tendencia. No se desmarca si ya estaba marcado
     // a mano por otra razón.

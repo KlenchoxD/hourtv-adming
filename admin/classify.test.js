@@ -43,6 +43,14 @@ const CASES = [
     ['drama','populares','recomendado'], ['novelas']],
   ['El marginal', {genreIds:[80,18],originCountry:['AR'],originalLanguage:'es',year:2016,votes:300,rating:7.4,episodes:43},
     ['drama'], ['novelas','populares']],
+  // Generos sin chip fijo (Fantasía id 14, Documental id 99): antes se
+  // perdian en silencio al autocompletar. 18 "Drama" SI esta mapeado por id
+  // (TMDB_GENRE_CAT), asi que no debe duplicarse como categoria de nombre
+  // suelto ("drama" ya sale por el id, no por el nombre).
+  ['Un documental cualquiera', {
+    genreIds:[18,14,99], genres:['Drama','Fantasía','Documental'],
+    originCountry:['US'], originalLanguage:'en', year:2020, votes:100, rating:6,
+  }, ['drama','fantasía','documental'], []],
 ];
 
 let failed = 0;
