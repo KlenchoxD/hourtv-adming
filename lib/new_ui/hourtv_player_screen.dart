@@ -624,7 +624,9 @@ class _PlayerScreenState extends State<PlayerScreen> {
     final targetMs = (vc.value.position.inMilliseconds + amount.inMilliseconds)
         .clamp(0, durationMs);
     await vc.seekTo(Duration(milliseconds: targetMs));
-    _showGesture(amount.isNegative ? '-10 s' : '+10 s');
+    _showGesture(
+      '${amount.isNegative ? '-' : '+'}${amount.inSeconds.abs()} s',
+    );
     _showChromeControls();
   }
 
@@ -632,6 +634,21 @@ class _PlayerScreenState extends State<PlayerScreen> {
     final velocity = details.primaryVelocity ?? 0;
     if (velocity.abs() < 120) return;
     unawaited(_seekBy(Duration(seconds: velocity < 0 ? 10 : -10)));
+  }
+
+  // Doble toque estilo Netflix/YouTube: toca dos veces el lado izquierdo del
+  // video para retroceder 5s, el derecho para adelantar 5s. Se guarda dónde
+  // cayó el primer toque del doble-tap porque `onDoubleTap` no trae posición.
+  Offset? _doubleTapPosition;
+  void _onDoubleTapDown(TapDownDetails details) {
+    _doubleTapPosition = details.localPosition;
+  }
+
+  void _onDoubleTapSeek() {
+    final position = _doubleTapPosition;
+    if (position == null) return;
+    final isRightSide = position.dx > MediaQuery.sizeOf(context).width / 2;
+    unawaited(_seekBy(Duration(seconds: isRightSide ? 5 : -5)));
   }
 
   void _onVerticalDragStart(DragStartDetails details) {
@@ -1284,6 +1301,8 @@ class _PlayerScreenState extends State<PlayerScreen> {
             : GestureDetector(
                 behavior: HitTestBehavior.opaque,
                 onTap: _toggleChrome,
+                onDoubleTapDown: _onDoubleTapDown,
+                onDoubleTap: _onDoubleTapSeek,
                 onHorizontalDragEnd: _onHorizontalDragEnd,
                 onVerticalDragStart: _onVerticalDragStart,
                 onVerticalDragUpdate: _onVerticalDragUpdate,
