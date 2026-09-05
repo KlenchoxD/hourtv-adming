@@ -1536,11 +1536,25 @@
     {
       "id": "3d12967bb58a4d41bd7495fab9f472f4",
       "title": "MOBILE SUIT GUNDAM HATHAWAY El hechizo de una ninfa",
-      "plot": "Miles de títulos en alta definición, listos para reproducir.",
-      "poster": "https://rukiatv.onrender.com/assets/icons/icon-512.png",
+      "plot": "Continúa la lucha de Hathaway Noa contra la Federación Terrestre, culminando en un ataque terrorista a la conferencia gubernamental de Adelaide. Gigi Andalucia sigue siendo clave, su influencia encarna la figura de la \"bruja\".",
+      "cast": "Kensho Ono, Reina Ueda, Junichi Suwabe, Soma Saito, Kenjiro Tsuda, Yui Ishikawa, Fukushi Ochiai, Shunsuke Takeuchi",
+      "director": "Shukou Murase",
+      "writer": "Yasuyuki Muto",
+      "releaseDate": "2026-01-30",
+      "year": "2026",
+      "genre": "Animación, Ciencia ficción, Bélica, Drama",
+      "rating": 7.3,
+      "duration": "115 min",
+      "poster": "https://image.tmdb.org/t/p/w500/nc6N2gh2fjlnY6q4R8ufLqDf10X.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/dp9FPgUwPc2XIXYct2cQ1PgFv7f.jpg",
       "categories": [
-        "Películas"
+        "aventura",
+        "drama",
+        "anime",
+        "bélica"
       ],
+      "tmdbId": 910850,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Vimeus",
