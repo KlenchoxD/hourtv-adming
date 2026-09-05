@@ -6,6 +6,7 @@ import 'package:flutter_chrome_cast/flutter_chrome_cast.dart';
 import 'package:video_player/video_player.dart';
 import 'package:chewie/chewie.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 import '../models/channel.dart';
 import '../services/storage_service.dart';
 import '../services/ad_service.dart';
@@ -94,6 +95,11 @@ class _PlayerScreenState extends State<PlayerScreen> {
   // que HourTV dibuja la linea de subtitulo con este estilo.
   double _subtitleScale = 1;
   bool _subtitleBold = false;
+  // Ultimo recurso cuando ni el servidor actual ni ningun mirror se pudo
+  // resolver a un stream directo: se reproduce la pagina embed dentro de un
+  // WebView contenido en vez de dejar la pelicula sin reproducir.
+  String? _embedUrl;
+  WebViewController? _embedController;
   StreamSubscription<List<GoogleCastDevice>>? _castDevicesSubscription;
   StreamSubscription<GoogleCastSession?>? _castSessionSubscription;
   // Solo se guarda si hay sesion activa, para pintar el boton. La lista de
@@ -299,12 +305,14 @@ class _PlayerScreenState extends State<PlayerScreen> {
       _err = null;
       _errDetail = null;
       _activeServerUrl = targetUrl;
+      _embedUrl = null;
     });
     _vc?.removeListener(_onVideoProgress);
     _cc?.dispose();
     _vc?.dispose();
     _cc = null;
     _vc = null;
+    _embedController = null;
     try {
       var playUrl = targetUrl;
       Map<String, String> playHeaders = ch.userAgent?.isNotEmpty == true
@@ -320,17 +328,17 @@ class _PlayerScreenState extends State<PlayerScreen> {
           playUrl = resolved.url;
           playHeaders = resolved.headers;
         } else {
-          // Antes esto caia al WebView de la pagina embed: se veia el
-          // reproductor y los controles del sitio de terceros en vez de los
-          // de HourTV. Ahora se trata como cualquier otro servidor caido:
-          // prueba el siguiente mirror, y solo si no queda ninguno se
-          // muestra el error nativo. El reproductor propio nunca se
-          // reemplaza por el de otra pagina.
+          // Primero se prueba el siguiente mirror (si hay otro servidor
+          // cargado para este titulo, se prefiere resolverlo nativo antes
+          // que caer al WebView). Solo cuando YA NO queda ningun mirror por
+          // probar se usa el WebView como ultimo recurso, para que la
+          // pelicula reproduzca algo en vez de quedar en un error sin salida
+          // (un solo servidor manual que la extraccion no logra resolver).
           if (await _tryFallback(ch, targetUrl)) return;
-          setState(() {
-            _err = 'No se pudo obtener el vídeo de esta película.';
-            _loading = false;
-          });
+          _resolvedPlaybackUrl = targetUrl;
+          _resolvedPlaybackNeedsHeaders = true;
+          _createEmbedController(targetUrl);
+          setState(() => _loading = false);
           return;
         }
       }
@@ -473,6 +481,109 @@ class _PlayerScreenState extends State<PlayerScreen> {
       fontWeight: FontWeight.bold,
     ),
   );
+
+  // Mismo sitio = mismo dominio registrable (ignora subdominios), para permitir
+  // que el player salte a un subdominio propio sin dejar pasar otras marcas.
+  static bool _sameSite(String a, String b) {
+    String reg(String h) {
+      final p = h.toLowerCase().split('.').where((x) => x.isNotEmpty).toList();
+      return p.length <= 2
+          ? h.toLowerCase()
+          : p.sublist(p.length - 2).join('.');
+    }
+
+    return b.isNotEmpty && reg(a) == reg(b);
+  }
+
+  void _createEmbedController(String url) {
+    final host = Uri.tryParse(url)?.host;
+    _embedController = WebViewController()
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      // UA de Chrome real (sin la marca "wv"): muchos hosts embed bloquean el
+      // WebView y se quedan en "Loading..." si detectan el User-Agent nativo.
+      ..setUserAgent(
+        'Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 '
+        '(KHTML, like Gecko) Chrome/124.0.0.0 Mobile Safari/537.36',
+      )
+      ..setBackgroundColor(Colors.black)
+      ..setNavigationDelegate(
+        NavigationDelegate(
+          // Permite el host del embed y sus subdominios/redirecciones internas
+          // (algunos players saltan a otro dominio propio para cargar). Solo
+          // bloquea saltos claramente externos (popups de otra marca).
+          onNavigationRequest: (request) {
+            final target = Uri.tryParse(request.url)?.host ?? '';
+            if (host == null || _sameSite(host, target)) {
+              return NavigationDecision.navigate;
+            }
+            return NavigationDecision.prevent;
+          },
+        ),
+      )
+      ..loadRequest(Uri.parse(url));
+    _embedUrl = url;
+  }
+
+  /// Cuerpo del reproductor cuando ya no queda ningun mirror por probar y el
+  /// ultimo recurso es la pagina embed: el WebView ocupa la pantalla y una
+  /// barra minima permite volver o cambiar de servidor.
+  Widget _embedBody() {
+    final ch = widget.allChannels[_idx];
+    return Stack(
+      children: [
+        Positioned.fill(child: WebViewWidget(controller: _embedController!)),
+        Positioned(
+          top: 0,
+          left: 0,
+          right: 0,
+          child: DecoratedBox(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [Colors.black87, Colors.transparent],
+              ),
+            ),
+            child: SafeArea(
+              bottom: false,
+              child: Row(
+                children: [
+                  IconButton(
+                    tooltip: 'Volver',
+                    icon: const Icon(
+                      Icons.arrow_back_rounded,
+                      color: Colors.white,
+                    ),
+                    onPressed: () => Navigator.of(context).maybePop(),
+                  ),
+                  Expanded(
+                    child: Text(
+                      ch.displayName,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                  if (ch.servers.length > 1)
+                    IconButton(
+                      tooltip: 'Cambiar servidor',
+                      icon: const Icon(
+                        Icons.playlist_play_rounded,
+                        color: Colors.white,
+                      ),
+                      onPressed: () => unawaited(_showServerSelector()),
+                    ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
 
   Future<void> _chg(int direction) async {
     final nextIndex = _idx + direction;
@@ -1168,7 +1279,9 @@ class _PlayerScreenState extends State<PlayerScreen> {
       onKeyEvent: _onKey,
       child: Scaffold(
         backgroundColor: Colors.black,
-        body: GestureDetector(
+        body: (!_loading && _embedUrl != null && _embedController != null)
+            ? _embedBody()
+            : GestureDetector(
                 behavior: HitTestBehavior.opaque,
                 onTap: _toggleChrome,
                 onHorizontalDragEnd: _onHorizontalDragEnd,
