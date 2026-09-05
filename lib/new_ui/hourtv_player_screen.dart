@@ -1589,12 +1589,30 @@ class _PlayerScreenState extends State<PlayerScreen> {
             child: Row(
               children: [
                 IconButton(
+                  tooltip: 'Retroceder 5 segundos',
+                  onPressed: () =>
+                      unawaited(_seekBy(const Duration(seconds: -5))),
+                  icon: const Icon(
+                    Icons.replay_5_rounded,
+                    color: Colors.white,
+                  ),
+                ),
+                IconButton(
                   tooltip: value.isPlaying ? 'Pausar' : 'Reproducir',
                   onPressed: _togglePlayPause,
                   icon: Icon(
                     value.isPlaying
                         ? Icons.pause_rounded
                         : Icons.play_arrow_rounded,
+                    color: Colors.white,
+                  ),
+                ),
+                IconButton(
+                  tooltip: 'Adelantar 5 segundos',
+                  onPressed: () =>
+                      unawaited(_seekBy(const Duration(seconds: 5))),
+                  icon: const Icon(
+                    Icons.forward_5_rounded,
                     color: Colors.white,
                   ),
                 ),
