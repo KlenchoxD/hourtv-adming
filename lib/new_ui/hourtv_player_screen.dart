@@ -68,6 +68,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
   int _idx = 0;
   final _screenFocus = FocusNode();
   bool _forcedLandscape = false;
+  bool _forcedPortrait = false;
   static const _platform = MethodChannel('hourtv/device');
   Timer? _chromeTimer;
   Timer? _gestureTimer;
@@ -152,6 +153,14 @@ class _PlayerScreenState extends State<PlayerScreen> {
         DeviceOrientation.landscapeLeft,
         DeviceOrientation.landscapeRight,
       ]);
+    } else {
+      // Sin esto, el reproductor se quedaba con la preferencia global de la
+      // app (portrait+landscape), asi que giraba solo segun como estuviera
+      // sostenido el telefono en vez de abrir siempre vertical. "Forzar
+      // horizontal" (arriba) sigue siendo el escape hatch para quien
+      // realmente quiera ver todo en horizontal.
+      _forcedPortrait = true;
+      SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     }
   }
 
@@ -2638,7 +2647,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
     _creditsMode.dispose();
     _playbackEnded.dispose();
     _screenFocus.dispose();
-    if (_forcedLandscape) {
+    if (_forcedLandscape || _forcedPortrait) {
       SystemChrome.setPreferredOrientations([
         DeviceOrientation.portraitUp,
         DeviceOrientation.landscapeLeft,
