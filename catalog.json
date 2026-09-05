@@ -1740,12 +1740,25 @@
     },
     {
       "id": "954786ced8444110a4fd58f2eb59ec0d",
-      "title": "La ultima escena",
-      "plot": "Miles de títulos en alta definición, listos para reproducir.",
-      "poster": "https://rukiatv.onrender.com/assets/icons/icon-512.png",
+      "title": "La última escena",
+      "plot": "Selen posee el don de ver el futuro en sus sueños. Tras años cambiando el destino de desconocidos, una visión le muestra su propia muerte… y a un hombre que intenta salvarla. Cuando conoce a Kemal, el hombre de su visión, se ve arrastrada a algo mucho más profundo que el destino: el amor. Dividida entre el miedo y el deseo, Selen emprende un viaje en el que el romance y el peligro son inseparables, y donde el despertar de su corazón podría ser la verdadera respuesta.",
+      "cast": "Hilal Altınbilek, Serkan Çayoğlu, Olcay Yusufoğlu, Bora Karakul, Sema Mumcu, Gökçen Gökçebağ, Yiğit Kalkavan, Sedat Savtak",
+      "director": "Ali Bilgin",
+      "writer": "Sema Ergenekon",
+      "releaseDate": "2026-08-28",
+      "year": "2026",
+      "genre": "Drama, Romance",
+      "rating": 5,
+      "duration": "96 min",
+      "poster": "https://image.tmdb.org/t/p/w500/hgGZnBtdQ816FKR7NqMuaC4knjN.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/1lN0J2L4j0U2gtwZtfjET5tYbtc.jpg",
       "categories": [
-        "Películas"
+        "estrenos",
+        "romance",
+        "drama"
       ],
+      "tmdbId": 1550338,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Vimeus",
@@ -1762,11 +1775,23 @@
     {
       "id": "605e9e6bedff4c35bff9c763f71d5a33",
       "title": "Su propio infierno",
-      "plot": "Miles de títulos en alta definición, listos para reproducir.",
-      "poster": "https://rukiatv.onrender.com/assets/icons/icon-512.png",
+      "plot": "La trama gira en torno al personaje de Michael, un hombre que pretende salir de la complicada situación en la que se encuentra tras no haber sido capaz aún de superar el fallecimiento de su madre, un hecho que le provocó graves trastornos mentales y le motivó a meterse en el siempre tenebroso mundo de los narcóticos. El mismo problema experimenta Kris, la persona en la que más confianza ha depositado a lo largo de su existencia, un hombre que posee un gran ingenio para el ámbito de la interpretación pero que también se ha visto abocado al mercado de la drogadicción.",
+      "cast": "Eva Marie Saint, Warren Beatty, Karl Malden, Angela Lansbury, Brandon De Wilde, Constance Ford, Barbara Baxley, Evans Evans",
+      "director": "John Frankenheimer",
+      "writer": "William Inge",
+      "releaseDate": "1962-04-06",
+      "year": "1962",
+      "genre": "Drama",
+      "rating": 6,
+      "duration": "111 min",
+      "poster": "https://image.tmdb.org/t/p/w500/wWtPUOEnYHEId0eWmF4Dp7JiOjR.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/2EWvpA1oRe5mPbs3seCrkPhs6Fr.jpg",
       "categories": [
-        "Películas"
+        "antiguas",
+        "drama"
       ],
+      "tmdbId": 86240,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Vimeus",
@@ -1828,11 +1853,25 @@
     {
       "id": "8b3c882baeab4ae1aad108985433aeca",
       "title": "Motor City",
-      "plot": "Miles de títulos en alta definición, listos para reproducir.",
-      "poster": "https://rukiatv.onrender.com/assets/icons/icon-512.png",
+      "plot": "En el Detroit de los años 70, el romántico de clase trabajadora John Miller es incriminado por un despiadado gángster tras enamorarse de su novia. Tras pasar años en prisión, regresa con una única misión: vengarse.",
+      "cast": "Alan Ritchson, Ben Foster, Shailene Woodley, Lionel Boyce, Amar Chadha-Patel, Pablo Schreiber, Dominic Bogart, Mister Fitzgerald",
+      "director": "Potsy Ponciroli",
+      "writer": "Chad St. John",
+      "releaseDate": "2026-07-23",
+      "year": "2026",
+      "genre": "Acción, Suspense, Crimen",
+      "rating": 6.3,
+      "duration": "104 min",
+      "poster": "https://image.tmdb.org/t/p/w500/9CatrE52P66ODUQmrMlBO7L0D5c.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/l7asYmqOad01F2u0oCMM8nQjoEP.jpg",
       "categories": [
-        "Películas"
+        "estrenos",
+        "terror",
+        "accion",
+        "drama"
       ],
+      "tmdbId": 87513,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Vimeus",
@@ -1920,10 +1959,21 @@
       "id": "fce64fa4cb604e7f922a3b31d577b0b1",
       "title": "The Cowboy Killer",
       "plot": "Miles de títulos en alta definición, listos para reproducir.",
-      "poster": "https://rukiatv.onrender.com/assets/icons/icon-512.png",
+      "cast": "Ed Begley Jr., Stephen Tobolowsky, Richard Riehle, Robert Pine, Robert Carradine, Peter Jason, Fred Stoller, Stuart Pankin",
+      "director": "Jaymes Camery",
+      "writer": "Ben Solenberger",
+      "releaseDate": "2026-07-24",
+      "year": "2026",
+      "genre": "Suspense",
+      "duration": "95 min",
+      "poster": "https://image.tmdb.org/t/p/w500/uz2Jsr5yrkiJHuYK4yb8zSOzvJe.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/ic8eJbTQwOVl0z5CseEj8WyLDlQ.jpg",
       "categories": [
-        "Películas"
+        "estrenos",
+        "terror"
       ],
+      "tmdbId": 1521116,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Vimeus",
