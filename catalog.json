@@ -773,6 +773,76 @@
           "name": "Barmonrey",
           "url": "https://barmonrey.com/player/bO7XFMfvdoFzOyY/",
           "language": "Idioma sin identificar"
+        },
+        {
+          "name": "Vimeus",
+          "url": "https://vimeus.com/e/movie?tmdb=1339713&view_key=kH-5ME2UFjOxlrA0PndTJaXKKrxin2IGtm2YPAaQw9M",
+          "language": "Español"
+        },
+        {
+          "name": "PrimeSrc",
+          "url": "https://primesrc.me/embed/movie?tmdb=1339713&fallback=true",
+          "language": "Inglés"
+        },
+        {
+          "name": "Filemoon",
+          "url": "https://primesrc.me/embed/movie?tmdb=1339713&fallback=false&whitelistServers=Filemoon&serverOrder=Filemoon",
+          "language": "Inglés"
+        },
+        {
+          "name": "Voe",
+          "url": "https://primesrc.me/embed/movie?tmdb=1339713&fallback=false&whitelistServers=Voe&serverOrder=Voe",
+          "language": "Inglés"
+        },
+        {
+          "name": "Streamtape",
+          "url": "https://primesrc.me/embed/movie?tmdb=1339713&fallback=false&whitelistServers=Streamtape&serverOrder=Streamtape",
+          "language": "Inglés"
+        },
+        {
+          "name": "Streamwish",
+          "url": "https://primesrc.me/embed/movie?tmdb=1339713&fallback=false&whitelistServers=Streamwish&serverOrder=Streamwish",
+          "language": "Inglés"
+        },
+        {
+          "name": "Dood",
+          "url": "https://primesrc.me/embed/movie?tmdb=1339713&fallback=false&whitelistServers=Dood&serverOrder=Dood",
+          "language": "Inglés"
+        },
+        {
+          "name": "Vidara",
+          "url": "https://primesrc.me/embed/movie?tmdb=1339713&fallback=false&whitelistServers=Vidara&serverOrder=Vidara",
+          "language": "Inglés"
+        },
+        {
+          "name": "Luluvdoo",
+          "url": "https://primesrc.me/embed/movie?tmdb=1339713&fallback=false&whitelistServers=Luluvdoo&serverOrder=Luluvdoo",
+          "language": "Inglés"
+        },
+        {
+          "name": "Vidmoly",
+          "url": "https://primesrc.me/embed/movie?tmdb=1339713&fallback=false&whitelistServers=Vidmoly&serverOrder=Vidmoly",
+          "language": "Inglés"
+        },
+        {
+          "name": "Mixdrop",
+          "url": "https://primesrc.me/embed/movie?tmdb=1339713&fallback=false&whitelistServers=Mixdrop&serverOrder=Mixdrop",
+          "language": "Inglés"
+        },
+        {
+          "name": "Filelions",
+          "url": "https://primesrc.me/embed/movie?tmdb=1339713&fallback=false&whitelistServers=Filelions&serverOrder=Filelions",
+          "language": "Inglés"
+        },
+        {
+          "name": "Streamplay",
+          "url": "https://primesrc.me/embed/movie?tmdb=1339713&fallback=false&whitelistServers=Streamplay&serverOrder=Streamplay",
+          "language": "Inglés"
+        },
+        {
+          "name": "VidsST",
+          "url": "https://primesrc.me/embed/movie?tmdb=1339713&fallback=false&whitelistServers=VidsST&serverOrder=VidsST",
+          "language": "Inglés"
         }
       ]
     },
@@ -1267,6 +1337,540 @@
         {
           "name": "Filelions",
           "url": "https://primesrc.me/embed/movie?tmdb=172385&fallback=false&whitelistServers=Filelions&serverOrder=Filelions",
+          "language": "Inglés"
+        }
+      ]
+    },
+    {
+      "id": "8d46864d433b4793bb7148a133981814",
+      "title": "LEGO Star Wars: The Mandalorian",
+      "plot": "Miles de títulos en alta definición, listos para reproducir.",
+      "poster": "https://rukiatv.onrender.com/assets/icons/icon-512.png",
+      "categories": [
+        "Películas"
+      ],
+      "servers": [
+        {
+          "name": "Vimeus",
+          "url": "https://vimeus.com/e/movie?tmdb=1731694&view_key=kH-5ME2UFjOxlrA0PndTJaXKKrxin2IGtm2YPAaQw9M",
+          "language": "Español"
+        },
+        {
+          "name": "PrimeSrc",
+          "url": "https://primesrc.me/embed/movie?tmdb=1731694&fallback=true",
+          "language": "Inglés"
+        },
+        {
+          "name": "Filemoon",
+          "url": "https://primesrc.me/embed/movie?tmdb=1731694&fallback=false&whitelistServers=Filemoon&serverOrder=Filemoon",
+          "language": "Inglés"
+        },
+        {
+          "name": "Voe",
+          "url": "https://primesrc.me/embed/movie?tmdb=1731694&fallback=false&whitelistServers=Voe&serverOrder=Voe",
+          "language": "Inglés"
+        },
+        {
+          "name": "Streamtape",
+          "url": "https://primesrc.me/embed/movie?tmdb=1731694&fallback=false&whitelistServers=Streamtape&serverOrder=Streamtape",
+          "language": "Inglés"
+        },
+        {
+          "name": "Streamwish",
+          "url": "https://primesrc.me/embed/movie?tmdb=1731694&fallback=false&whitelistServers=Streamwish&serverOrder=Streamwish",
+          "language": "Inglés"
+        },
+        {
+          "name": "Dood",
+          "url": "https://primesrc.me/embed/movie?tmdb=1731694&fallback=false&whitelistServers=Dood&serverOrder=Dood",
+          "language": "Inglés"
+        },
+        {
+          "name": "Vidara",
+          "url": "https://primesrc.me/embed/movie?tmdb=1731694&fallback=false&whitelistServers=Vidara&serverOrder=Vidara",
+          "language": "Inglés"
+        },
+        {
+          "name": "Luluvdoo",
+          "url": "https://primesrc.me/embed/movie?tmdb=1731694&fallback=false&whitelistServers=Luluvdoo&serverOrder=Luluvdoo",
+          "language": "Inglés"
+        },
+        {
+          "name": "Vidmoly",
+          "url": "https://primesrc.me/embed/movie?tmdb=1731694&fallback=false&whitelistServers=Vidmoly&serverOrder=Vidmoly",
+          "language": "Inglés"
+        },
+        {
+          "name": "Mixdrop",
+          "url": "https://primesrc.me/embed/movie?tmdb=1731694&fallback=false&whitelistServers=Mixdrop&serverOrder=Mixdrop",
+          "language": "Inglés"
+        },
+        {
+          "name": "Filelions",
+          "url": "https://primesrc.me/embed/movie?tmdb=1731694&fallback=false&whitelistServers=Filelions&serverOrder=Filelions",
+          "language": "Inglés"
+        },
+        {
+          "name": "Streamplay",
+          "url": "https://primesrc.me/embed/movie?tmdb=1731694&fallback=false&whitelistServers=Streamplay&serverOrder=Streamplay",
+          "language": "Inglés"
+        },
+        {
+          "name": "Savefiles",
+          "url": "https://primesrc.me/embed/movie?tmdb=1731694&fallback=false&whitelistServers=Savefiles&serverOrder=Savefiles",
+          "language": "Inglés"
+        }
+      ]
+    },
+    {
+      "id": "81702b7466b04f1291a944cedc5f4671",
+      "title": "Carrera contra el tiempo",
+      "plot": "Miles de títulos en alta definición, listos para reproducir.",
+      "poster": "https://rukiatv.onrender.com/assets/icons/icon-512.png",
+      "categories": [
+        "Películas"
+      ],
+      "servers": [
+        {
+          "name": "Vimeus",
+          "url": "https://vimeus.com/e/movie?tmdb=1386315&view_key=kH-5ME2UFjOxlrA0PndTJaXKKrxin2IGtm2YPAaQw9M",
+          "language": "Español"
+        },
+        {
+          "name": "PrimeSrc",
+          "url": "https://primesrc.me/embed/movie?tmdb=1386315&fallback=true",
+          "language": "Inglés"
+        },
+        {
+          "name": "Filemoon",
+          "url": "https://primesrc.me/embed/movie?tmdb=1386315&fallback=false&whitelistServers=Filemoon&serverOrder=Filemoon",
+          "language": "Inglés"
+        },
+        {
+          "name": "Voe",
+          "url": "https://primesrc.me/embed/movie?tmdb=1386315&fallback=false&whitelistServers=Voe&serverOrder=Voe",
+          "language": "Inglés"
+        },
+        {
+          "name": "Streamtape",
+          "url": "https://primesrc.me/embed/movie?tmdb=1386315&fallback=false&whitelistServers=Streamtape&serverOrder=Streamtape",
+          "language": "Inglés"
+        },
+        {
+          "name": "Streamwish",
+          "url": "https://primesrc.me/embed/movie?tmdb=1386315&fallback=false&whitelistServers=Streamwish&serverOrder=Streamwish",
+          "language": "Inglés"
+        },
+        {
+          "name": "Dood",
+          "url": "https://primesrc.me/embed/movie?tmdb=1386315&fallback=false&whitelistServers=Dood&serverOrder=Dood",
+          "language": "Inglés"
+        },
+        {
+          "name": "Vidara",
+          "url": "https://primesrc.me/embed/movie?tmdb=1386315&fallback=false&whitelistServers=Vidara&serverOrder=Vidara",
+          "language": "Inglés"
+        },
+        {
+          "name": "Luluvdoo",
+          "url": "https://primesrc.me/embed/movie?tmdb=1386315&fallback=false&whitelistServers=Luluvdoo&serverOrder=Luluvdoo",
+          "language": "Inglés"
+        },
+        {
+          "name": "Vidmoly",
+          "url": "https://primesrc.me/embed/movie?tmdb=1386315&fallback=false&whitelistServers=Vidmoly&serverOrder=Vidmoly",
+          "language": "Inglés"
+        },
+        {
+          "name": "Mixdrop",
+          "url": "https://primesrc.me/embed/movie?tmdb=1386315&fallback=false&whitelistServers=Mixdrop&serverOrder=Mixdrop",
+          "language": "Inglés"
+        },
+        {
+          "name": "Filelions",
+          "url": "https://primesrc.me/embed/movie?tmdb=1386315&fallback=false&whitelistServers=Filelions&serverOrder=Filelions",
+          "language": "Inglés"
+        },
+        {
+          "name": "Streamplay",
+          "url": "https://primesrc.me/embed/movie?tmdb=1386315&fallback=false&whitelistServers=Streamplay&serverOrder=Streamplay",
+          "language": "Inglés"
+        },
+        {
+          "name": "Savefiles",
+          "url": "https://primesrc.me/embed/movie?tmdb=1386315&fallback=false&whitelistServers=Savefiles&serverOrder=Savefiles",
+          "language": "Inglés"
+        }
+      ]
+    },
+    {
+      "id": "3d12967bb58a4d41bd7495fab9f472f4",
+      "title": "MOBILE SUIT GUNDAM HATHAWAY El hechizo de una ninfa",
+      "plot": "Miles de títulos en alta definición, listos para reproducir.",
+      "poster": "https://rukiatv.onrender.com/assets/icons/icon-512.png",
+      "categories": [
+        "Películas"
+      ],
+      "servers": [
+        {
+          "name": "Vimeus",
+          "url": "https://vimeus.com/e/movie?tmdb=910850&view_key=kH-5ME2UFjOxlrA0PndTJaXKKrxin2IGtm2YPAaQw9M",
+          "language": "Español"
+        },
+        {
+          "name": "PrimeSrc",
+          "url": "https://primesrc.me/embed/movie?tmdb=910850&fallback=true",
+          "language": "Inglés"
+        },
+        {
+          "name": "Filemoon",
+          "url": "https://primesrc.me/embed/movie?tmdb=910850&fallback=false&whitelistServers=Filemoon&serverOrder=Filemoon",
+          "language": "Inglés"
+        },
+        {
+          "name": "Voe",
+          "url": "https://primesrc.me/embed/movie?tmdb=910850&fallback=false&whitelistServers=Voe&serverOrder=Voe",
+          "language": "Inglés"
+        },
+        {
+          "name": "Streamtape",
+          "url": "https://primesrc.me/embed/movie?tmdb=910850&fallback=false&whitelistServers=Streamtape&serverOrder=Streamtape",
+          "language": "Inglés"
+        },
+        {
+          "name": "Dood",
+          "url": "https://primesrc.me/embed/movie?tmdb=910850&fallback=false&whitelistServers=Dood&serverOrder=Dood",
+          "language": "Inglés"
+        },
+        {
+          "name": "Vidara",
+          "url": "https://primesrc.me/embed/movie?tmdb=910850&fallback=false&whitelistServers=Vidara&serverOrder=Vidara",
+          "language": "Inglés"
+        },
+        {
+          "name": "Luluvdoo",
+          "url": "https://primesrc.me/embed/movie?tmdb=910850&fallback=false&whitelistServers=Luluvdoo&serverOrder=Luluvdoo",
+          "language": "Inglés"
+        },
+        {
+          "name": "Streamplay",
+          "url": "https://primesrc.me/embed/movie?tmdb=910850&fallback=false&whitelistServers=Streamplay&serverOrder=Streamplay",
+          "language": "Inglés"
+        },
+        {
+          "name": "Savefiles",
+          "url": "https://primesrc.me/embed/movie?tmdb=910850&fallback=false&whitelistServers=Savefiles&serverOrder=Savefiles",
+          "language": "Inglés"
+        }
+      ]
+    },
+    {
+      "id": "c8271905f0c1412787a3769910c5cb43",
+      "title": "Susurran tu Nombre",
+      "plot": "Miles de títulos en alta definición, listos para reproducir.",
+      "poster": "https://rukiatv.onrender.com/assets/icons/icon-512.png",
+      "categories": [
+        "Películas"
+      ],
+      "servers": [
+        {
+          "name": "Vimeus",
+          "url": "https://vimeus.com/e/movie?tmdb=860508&view_key=kH-5ME2UFjOxlrA0PndTJaXKKrxin2IGtm2YPAaQw9M",
+          "language": "Español"
+        },
+        {
+          "name": "PrimeSrc",
+          "url": "https://primesrc.me/embed/movie?tmdb=860508&fallback=true",
+          "language": "Inglés"
+        },
+        {
+          "name": "Filemoon",
+          "url": "https://primesrc.me/embed/movie?tmdb=860508&fallback=false&whitelistServers=Filemoon&serverOrder=Filemoon",
+          "language": "Inglés"
+        },
+        {
+          "name": "Voe",
+          "url": "https://primesrc.me/embed/movie?tmdb=860508&fallback=false&whitelistServers=Voe&serverOrder=Voe",
+          "language": "Inglés"
+        },
+        {
+          "name": "Streamtape",
+          "url": "https://primesrc.me/embed/movie?tmdb=860508&fallback=false&whitelistServers=Streamtape&serverOrder=Streamtape",
+          "language": "Inglés"
+        },
+        {
+          "name": "Streamwish",
+          "url": "https://primesrc.me/embed/movie?tmdb=860508&fallback=false&whitelistServers=Streamwish&serverOrder=Streamwish",
+          "language": "Inglés"
+        },
+        {
+          "name": "Dood",
+          "url": "https://primesrc.me/embed/movie?tmdb=860508&fallback=false&whitelistServers=Dood&serverOrder=Dood",
+          "language": "Inglés"
+        },
+        {
+          "name": "Vidara",
+          "url": "https://primesrc.me/embed/movie?tmdb=860508&fallback=false&whitelistServers=Vidara&serverOrder=Vidara",
+          "language": "Inglés"
+        },
+        {
+          "name": "Luluvdoo",
+          "url": "https://primesrc.me/embed/movie?tmdb=860508&fallback=false&whitelistServers=Luluvdoo&serverOrder=Luluvdoo",
+          "language": "Inglés"
+        },
+        {
+          "name": "Vidmoly",
+          "url": "https://primesrc.me/embed/movie?tmdb=860508&fallback=false&whitelistServers=Vidmoly&serverOrder=Vidmoly",
+          "language": "Inglés"
+        },
+        {
+          "name": "Mixdrop",
+          "url": "https://primesrc.me/embed/movie?tmdb=860508&fallback=false&whitelistServers=Mixdrop&serverOrder=Mixdrop",
+          "language": "Inglés"
+        },
+        {
+          "name": "Filelions",
+          "url": "https://primesrc.me/embed/movie?tmdb=860508&fallback=false&whitelistServers=Filelions&serverOrder=Filelions",
+          "language": "Inglés"
+        },
+        {
+          "name": "Streamplay",
+          "url": "https://primesrc.me/embed/movie?tmdb=860508&fallback=false&whitelistServers=Streamplay&serverOrder=Streamplay",
+          "language": "Inglés"
+        },
+        {
+          "name": "Savefiles",
+          "url": "https://primesrc.me/embed/movie?tmdb=860508&fallback=false&whitelistServers=Savefiles&serverOrder=Savefiles",
+          "language": "Inglés"
+        }
+      ]
+    },
+    {
+      "id": "4052dff0b62f4ab8a200b9734ad64fc9",
+      "title": "Yellow Mirror - La realidad paralela de Homero",
+      "plot": "Miles de títulos en alta definición, listos para reproducir.",
+      "poster": "https://rukiatv.onrender.com/assets/icons/icon-512.png",
+      "categories": [
+        "Películas"
+      ],
+      "servers": [
+        {
+          "name": "Vimeus",
+          "url": "https://vimeus.com/e/movie?tmdb=1729723&view_key=kH-5ME2UFjOxlrA0PndTJaXKKrxin2IGtm2YPAaQw9M",
+          "language": "Español"
+        },
+        {
+          "name": "PrimeSrc",
+          "url": "https://primesrc.me/embed/movie?tmdb=1729723&fallback=true",
+          "language": "Idioma sin identificar"
+        }
+      ]
+    },
+    {
+      "id": "954786ced8444110a4fd58f2eb59ec0d",
+      "title": "La ultima escena",
+      "plot": "Miles de títulos en alta definición, listos para reproducir.",
+      "poster": "https://rukiatv.onrender.com/assets/icons/icon-512.png",
+      "categories": [
+        "Películas"
+      ],
+      "servers": [
+        {
+          "name": "Vimeus",
+          "url": "https://vimeus.com/e/movie?tmdb=1550338&view_key=kH-5ME2UFjOxlrA0PndTJaXKKrxin2IGtm2YPAaQw9M",
+          "language": "Español"
+        },
+        {
+          "name": "PrimeSrc",
+          "url": "https://primesrc.me/embed/movie?tmdb=1550338&fallback=true",
+          "language": "Idioma sin identificar"
+        }
+      ]
+    },
+    {
+      "id": "605e9e6bedff4c35bff9c763f71d5a33",
+      "title": "Su propio infierno",
+      "plot": "Miles de títulos en alta definición, listos para reproducir.",
+      "poster": "https://rukiatv.onrender.com/assets/icons/icon-512.png",
+      "categories": [
+        "Películas"
+      ],
+      "servers": [
+        {
+          "name": "Vimeus",
+          "url": "https://vimeus.com/e/movie?tmdb=1469342&view_key=kH-5ME2UFjOxlrA0PndTJaXKKrxin2IGtm2YPAaQw9M",
+          "language": "Español"
+        },
+        {
+          "name": "PrimeSrc",
+          "url": "https://primesrc.me/embed/movie?tmdb=1469342&fallback=true",
+          "language": "Inglés"
+        },
+        {
+          "name": "Filemoon",
+          "url": "https://primesrc.me/embed/movie?tmdb=1469342&fallback=false&whitelistServers=Filemoon&serverOrder=Filemoon",
+          "language": "Inglés"
+        },
+        {
+          "name": "Streamwish",
+          "url": "https://primesrc.me/embed/movie?tmdb=1469342&fallback=false&whitelistServers=Streamwish&serverOrder=Streamwish",
+          "language": "Inglés"
+        },
+        {
+          "name": "Vidara",
+          "url": "https://primesrc.me/embed/movie?tmdb=1469342&fallback=false&whitelistServers=Vidara&serverOrder=Vidara",
+          "language": "Inglés"
+        },
+        {
+          "name": "Luluvdoo",
+          "url": "https://primesrc.me/embed/movie?tmdb=1469342&fallback=false&whitelistServers=Luluvdoo&serverOrder=Luluvdoo",
+          "language": "Inglés"
+        },
+        {
+          "name": "Vidmoly",
+          "url": "https://primesrc.me/embed/movie?tmdb=1469342&fallback=false&whitelistServers=Vidmoly&serverOrder=Vidmoly",
+          "language": "Inglés"
+        },
+        {
+          "name": "Vinovo",
+          "url": "https://primesrc.me/embed/movie?tmdb=1469342&fallback=false&whitelistServers=Vinovo&serverOrder=Vinovo",
+          "language": "Inglés"
+        },
+        {
+          "name": "Filelions",
+          "url": "https://primesrc.me/embed/movie?tmdb=1469342&fallback=false&whitelistServers=Filelions&serverOrder=Filelions",
+          "language": "Inglés"
+        },
+        {
+          "name": "Streamplay",
+          "url": "https://primesrc.me/embed/movie?tmdb=1469342&fallback=false&whitelistServers=Streamplay&serverOrder=Streamplay",
+          "language": "Inglés"
+        },
+        {
+          "name": "VidsST",
+          "url": "https://primesrc.me/embed/movie?tmdb=1469342&fallback=false&whitelistServers=VidsST&serverOrder=VidsST",
+          "language": "Inglés"
+        }
+      ]
+    },
+    {
+      "id": "8b3c882baeab4ae1aad108985433aeca",
+      "title": "Motor City",
+      "plot": "Miles de títulos en alta definición, listos para reproducir.",
+      "poster": "https://rukiatv.onrender.com/assets/icons/icon-512.png",
+      "categories": [
+        "Películas"
+      ],
+      "servers": [
+        {
+          "name": "Vimeus",
+          "url": "https://vimeus.com/e/movie?tmdb=87513&view_key=kH-5ME2UFjOxlrA0PndTJaXKKrxin2IGtm2YPAaQw9M",
+          "language": "Español"
+        },
+        {
+          "name": "PrimeSrc",
+          "url": "https://primesrc.me/embed/movie?tmdb=87513&fallback=true",
+          "language": "Inglés"
+        },
+        {
+          "name": "Filemoon",
+          "url": "https://primesrc.me/embed/movie?tmdb=87513&fallback=false&whitelistServers=Filemoon&serverOrder=Filemoon",
+          "language": "Inglés"
+        },
+        {
+          "name": "Voe",
+          "url": "https://primesrc.me/embed/movie?tmdb=87513&fallback=false&whitelistServers=Voe&serverOrder=Voe",
+          "language": "Inglés"
+        },
+        {
+          "name": "Streamtape",
+          "url": "https://primesrc.me/embed/movie?tmdb=87513&fallback=false&whitelistServers=Streamtape&serverOrder=Streamtape",
+          "language": "Inglés"
+        },
+        {
+          "name": "Streamwish",
+          "url": "https://primesrc.me/embed/movie?tmdb=87513&fallback=false&whitelistServers=Streamwish&serverOrder=Streamwish",
+          "language": "Inglés"
+        },
+        {
+          "name": "Dood",
+          "url": "https://primesrc.me/embed/movie?tmdb=87513&fallback=false&whitelistServers=Dood&serverOrder=Dood",
+          "language": "Inglés"
+        },
+        {
+          "name": "Vidara",
+          "url": "https://primesrc.me/embed/movie?tmdb=87513&fallback=false&whitelistServers=Vidara&serverOrder=Vidara",
+          "language": "Inglés"
+        },
+        {
+          "name": "Luluvdoo",
+          "url": "https://primesrc.me/embed/movie?tmdb=87513&fallback=false&whitelistServers=Luluvdoo&serverOrder=Luluvdoo",
+          "language": "Inglés"
+        },
+        {
+          "name": "Vidmoly",
+          "url": "https://primesrc.me/embed/movie?tmdb=87513&fallback=false&whitelistServers=Vidmoly&serverOrder=Vidmoly",
+          "language": "Inglés"
+        },
+        {
+          "name": "Vinovo",
+          "url": "https://primesrc.me/embed/movie?tmdb=87513&fallback=false&whitelistServers=Vinovo&serverOrder=Vinovo",
+          "language": "Inglés"
+        },
+        {
+          "name": "Mixdrop",
+          "url": "https://primesrc.me/embed/movie?tmdb=87513&fallback=false&whitelistServers=Mixdrop&serverOrder=Mixdrop",
+          "language": "Inglés"
+        },
+        {
+          "name": "Filelions",
+          "url": "https://primesrc.me/embed/movie?tmdb=87513&fallback=false&whitelistServers=Filelions&serverOrder=Filelions",
+          "language": "Inglés"
+        },
+        {
+          "name": "Streamplay",
+          "url": "https://primesrc.me/embed/movie?tmdb=87513&fallback=false&whitelistServers=Streamplay&serverOrder=Streamplay",
+          "language": "Inglés"
+        },
+        {
+          "name": "Savefiles",
+          "url": "https://primesrc.me/embed/movie?tmdb=87513&fallback=false&whitelistServers=Savefiles&serverOrder=Savefiles",
+          "language": "Inglés"
+        },
+        {
+          "name": "UpZur",
+          "url": "https://primesrc.me/embed/movie?tmdb=87513&fallback=false&whitelistServers=UpZur&serverOrder=UpZur",
+          "language": "Inglés"
+        }
+      ]
+    },
+    {
+      "id": "fce64fa4cb604e7f922a3b31d577b0b1",
+      "title": "The Cowboy Killer",
+      "plot": "Miles de títulos en alta definición, listos para reproducir.",
+      "poster": "https://rukiatv.onrender.com/assets/icons/icon-512.png",
+      "categories": [
+        "Películas"
+      ],
+      "servers": [
+        {
+          "name": "Vimeus",
+          "url": "https://vimeus.com/e/movie?tmdb=1521116&view_key=kH-5ME2UFjOxlrA0PndTJaXKKrxin2IGtm2YPAaQw9M",
+          "language": "Español"
+        },
+        {
+          "name": "PrimeSrc",
+          "url": "https://primesrc.me/embed/movie?tmdb=1521116&fallback=true",
+          "language": "Inglés"
+        },
+        {
+          "name": "Dood",
+          "url": "https://primesrc.me/embed/movie?tmdb=1521116&fallback=false&whitelistServers=Dood&serverOrder=Dood",
+          "language": "Inglés"
+        },
+        {
+          "name": "Mixdrop",
+          "url": "https://primesrc.me/embed/movie?tmdb=1521116&fallback=false&whitelistServers=Mixdrop&serverOrder=Mixdrop",
           "language": "Inglés"
         }
       ]
