@@ -56,7 +56,8 @@ class PlayerScreen extends StatefulWidget {
   State<PlayerScreen> createState() => _PlayerScreenState();
 }
 
-class _PlayerScreenState extends State<PlayerScreen> {
+class _PlayerScreenState extends State<PlayerScreen>
+    with WidgetsBindingObserver {
   VideoPlayerController? _vc;
   ChewieController? _cc;
   bool _loading = true;
@@ -123,6 +124,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     if (defaultTargetPlatform == TargetPlatform.android) {
       unawaited(
         SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky),
@@ -130,11 +132,17 @@ class _PlayerScreenState extends State<PlayerScreen> {
     }
     _idx = widget.allChannels.indexWhere((c) => c.url == widget.channel.url);
     if (_idx < 0) _idx = 0;
+    // Aplicar la orientacion sincronicamente en initState (como estaba antes)
+    // no se sostenia de forma confiable en algunos equipos Android: la ruta
+    // todavia esta a mitad de transicion cuando se pide el cambio, y una vez
+    // termina de montarse Android vuelve a evaluar la orientacion "libre" de
+    // la app. Pidiendolo otra vez despues del primer frame (mismo momento en
+    // que ya arranca la reproduccion) es lo que de verdad se queda fijo.
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted) {
-        unawaited(_startInitialPlayback());
-        unawaited(_initializeCast());
-      }
+      if (!mounted) return;
+      _applyOrientationLock();
+      unawaited(_startInitialPlayback());
+      unawaited(_initializeCast());
     });
     _subtitleScale =
         double.tryParse(
@@ -146,14 +154,20 @@ class _PlayerScreenState extends State<PlayerScreen> {
         1.0;
     _subtitleBold =
         StorageService.getSetting('subtitleBold', defaultValue: false) == true;
+    _applyOrientationLock();
+  }
+
+  void _applyOrientationLock() {
     if (widget.forceLandscape ||
         StorageService.getSetting('forceLandscape', defaultValue: false) ==
             true) {
       _forcedLandscape = true;
-      SystemChrome.setPreferredOrientations([
-        DeviceOrientation.landscapeLeft,
-        DeviceOrientation.landscapeRight,
-      ]);
+      unawaited(
+        SystemChrome.setPreferredOrientations([
+          DeviceOrientation.landscapeLeft,
+          DeviceOrientation.landscapeRight,
+        ]),
+      );
     } else {
       // Sin esto, el reproductor se quedaba con la preferencia global de la
       // app (portrait+landscape), asi que giraba solo segun como estuviera
@@ -161,7 +175,9 @@ class _PlayerScreenState extends State<PlayerScreen> {
       // horizontal" (arriba) sigue siendo el escape hatch para quien
       // realmente quiera ver todo en horizontal.
       _forcedPortrait = true;
-      SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+      unawaited(
+        SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]),
+      );
     }
   }
 
@@ -2659,6 +2675,22 @@ class _PlayerScreenState extends State<PlayerScreen> {
     ),
   );
 
+  /// Salir con el boton atras de HourTV dispara `dispose()`, que ya guarda
+  /// la posicion final. Pero apretar inicio o cambiar de app en el celular
+  /// NO desmonta esta pantalla (sigue viva en segundo plano) -> `dispose()`
+  /// nunca corria, y "Continuar viendo" se quedaba con el ultimo tick de
+  /// hace hasta 10s, o directamente vacio si se salio antes del primero.
+  /// `paused`/`inactive` es la señal de que la app esta dejando de verse:
+  /// se guarda ahi tambien, no solo al desmontar el widget.
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.paused ||
+        state == AppLifecycleState.inactive ||
+        state == AppLifecycleState.detached) {
+      _persistFinalProgress();
+    }
+  }
+
   /// Guarda la posicion actual al salir del reproductor, para no perder
   /// hasta 10s de avance en "Continuar viendo" si el usuario sale antes del
   /// proximo tick periodico.
@@ -2679,6 +2711,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     _persistFinalProgress();
     _chromeTimer?.cancel();
     _gestureTimer?.cancel();
