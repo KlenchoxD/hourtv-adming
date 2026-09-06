@@ -3083,6 +3083,25 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "954a061f577a4b9285ae2e8c8dd6d0be",
+      "title": "72 horas",
+      "year": "2026",
+      "plot": "Vive la historia de 72 horas (2026) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
+      "poster": "https://image.tmdb.org/t/p/w1280/hL5EIk48251OXlbIbRJq3yaBHk8.jpg",
+      "servers": [
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/YhdFzJ6eDykvxoB/",
+          "language": "Idioma sin identificar"
+        },
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/YVaO0AZ22qUQJx3/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
