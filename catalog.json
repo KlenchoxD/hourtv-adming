@@ -3403,10 +3403,25 @@
     },
     {
       "id": "ab1ce15bd692424097a05a0ce8de5b44",
-      "title": "Sobre tu cadáver",
+      "title": "Por encima de tu cadáver",
+      "plot": "Una pareja con problemas se dirige a una cabaña remota supuestamente para reconectar, pero cada uno tiene planes secretos para matar al otro. Remake del film noruego de 2021 'El viaje', de Tommy Wirkola.",
+      "cast": "Jason Segel, Samara Weaving, Timothy Olyphant, Juliette Lewis, Keith Jardine, Paul Guilfoyle, Jake Curran, Nikolai Kinski",
+      "director": "Jorma Taccone",
+      "writer": "Nick Kocher",
+      "releaseDate": "2026-03-14",
       "year": "2026",
-      "plot": "Vive la historia de Sobre tu cadáver (2026) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/sb76azrAXr9U13uEQxNP5e3fujY.jpg",
+      "genre": "Acción, Comedia, Suspense",
+      "rating": 6.4,
+      "duration": "105 min",
+      "poster": "https://image.tmdb.org/t/p/w500/sdbBMUVo7ddm5CsJNf11Zb0Oho5.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/sb76azrAXr9U13uEQxNP5e3fujY.jpg",
+      "categories": [
+        "terror",
+        "accion",
+        "comedia"
+      ],
+      "tmdbId": 1390300,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
