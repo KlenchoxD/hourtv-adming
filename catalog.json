@@ -1315,12 +1315,26 @@
     },
     {
       "id": "12bfe964531e4c93b9de9617b46eb105",
-      "title": "Lego Star Wars: The Mandalorian (2026)",
-      "plot": "Vive la historia de Lego Star Wars: The Mandalorian (2026) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes",
-      "poster": "https://image.tmdb.org/t/p/w1280/upecGaCuQOIbSpdz85mrJ395UMg.jpg",
+      "title": "LEGO Star Wars: The Mandalorian",
+      "plot": "El Mandaloriano y Grogu se unen a sus aliados para celebrar una fiesta épica en homenaje a su heroísmo. Mientras los amigos entretienen al público con relatos de sus aventuras, se cierne sobre ellos la amenaza de unos piratas.",
+      "cast": "Gavin Hammon, Amy Sedaris, Bill Burr, David Pasquesi, Katee Sackhoff, Emily Swallow, Giancarlo Esposito, Matthew Wood",
+      "director": "Chris Buckley",
+      "releaseDate": "2026-09-02",
+      "year": "2026",
+      "genre": "Animación, Ciencia ficción, Aventura, Familia, Acción",
+      "rating": 7.3,
+      "duration": "50 min",
+      "poster": "https://image.tmdb.org/t/p/w500/6sUsn029xHGQxO8VAJXfYcHmKB7.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/upecGaCuQOIbSpdz85mrJ395UMg.jpg",
       "categories": [
-        "Películas"
+        "estrenos",
+        "accion",
+        "aventura",
+        "infantil",
+        "familia"
       ],
+      "tmdbId": 1731694,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
