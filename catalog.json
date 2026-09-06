@@ -1877,12 +1877,24 @@
     },
     {
       "id": "16351e21c96245cabcd2e413f24fcc44",
-      "title": "Besar es fácil (2026)",
-      "plot": "Vive la historia de Besar es fácil (2026) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/7yuHdP85F2ZxhKbSoPgCBT9uJT3.jpg",
+      "title": "Besar es fácil",
+      "plot": "Sean, uno de los mejores estudiantes, acepta ser tutor de la rebelde Flora para obtener una carta de recomendación universitaria. Su creciente atracción complica más que solo sus metas académicas.",
+      "cast": "Asher Angel, Paris Berelc, Jennifer Robertson, Tom Keat, Rosalie Turmel, Daniel Falk, Sorika Horng, Mark Ballantyne",
+      "director": "Fawzia Mirza",
+      "writer": "Christine Duann",
+      "releaseDate": "2026-02-13",
+      "year": "2026",
+      "genre": "Romance, Comedia",
+      "rating": 7.5,
+      "duration": "101 min",
+      "poster": "https://image.tmdb.org/t/p/w500/yztYRGaObp3w4coUmvCYzxEvoWn.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/7yuHdP85F2ZxhKbSoPgCBT9uJT3.jpg",
       "categories": [
-        "Películas"
+        "comedia",
+        "romance"
       ],
+      "tmdbId": 1515615,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
