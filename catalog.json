@@ -2335,12 +2335,25 @@
     },
     {
       "id": "6783061c45b14ae6ab4e61bb4b9c1777",
-      "title": "¡La novia! (2026)",
-      "plot": "Vive la historia de ¡La novia! (2026) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/l8rKKMU2M9dDULO9CEtDNdWAEUJ.jpg",
+      "title": "¡La novia!",
+      "plot": "En el Chicago de los años 30, Frankenstein pide ayuda al Dr. Euphronius para crear una compañera. Dan vida a una mujer asesinada como la Novia, lo que desencadena un romance, el interés de la policía y un cambio social radical.",
+      "cast": "Jessie Buckley, Christian Bale, Peter Sarsgaard, John Magaro, Jeannie Berlin, Annette Bening, Jake Gyllenhaal, Penélope Cruz",
+      "director": "Maggie Gyllenhaal",
+      "writer": "Maggie Gyllenhaal",
+      "releaseDate": "2026-03-04",
+      "year": "2026",
+      "genre": "Ciencia ficción, Terror, Fantasía",
+      "rating": 6.1,
+      "duration": "127 min",
+      "poster": "https://image.tmdb.org/t/p/w500/4xC5IfnCekweHkTFjqQsMOC1gca.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/l8rKKMU2M9dDULO9CEtDNdWAEUJ.jpg",
       "categories": [
-        "Películas"
+        "terror",
+        "aventura",
+        "fantasía"
       ],
+      "tmdbId": 1159831,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
