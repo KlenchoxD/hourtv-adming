@@ -2380,12 +2380,25 @@
     },
     {
       "id": "68c20c7d01244d2c98f27c917186795f",
-      "title": "La teoría del caos (2008)",
-      "plot": "Vive la historia de La teoría del caos (2008) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/41jcP1qLW6dxr2FYaaW5jSERVPR.jpg",
+      "title": "¡Vaya caos!",
+      "plot": "Frank (Ryan Reynolds), famoso autor de un best seller de autoayuda, es un joven que lleva una vida muy organizada y que decide vivir la vida sin dejar de planificar absolutamente nada.",
+      "cast": "Ryan Reynolds, Emily Mortimer, Stuart Townsend, Matreya Fedor, Sarah Chalke, Mike Erwin, Constance Zimmer, Elisabeth Harnois",
+      "director": "Marcos Siega",
+      "writer": "Daniel Taplitz",
+      "releaseDate": "2008-04-11",
+      "year": "2008",
+      "genre": "Comedia, Drama, Romance",
+      "rating": 6.4,
+      "duration": "87 min",
+      "poster": "https://image.tmdb.org/t/p/w500/gNsqxvw4QBCWkRBdxbbpTgAgc0b.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/41jcP1qLW6dxr2FYaaW5jSERVPR.jpg",
       "categories": [
-        "Películas"
+        "comedia",
+        "romance",
+        "drama"
       ],
+      "tmdbId": 12912,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
