@@ -1641,12 +1641,23 @@
     },
     {
       "id": "a0d7c37b36e34231bde47b52401d1ad8",
-      "title": "La asistente de la morgue (2026)",
-      "plot": "Vive la historia de La asistente de la morgue (2026) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del",
-      "poster": "https://image.tmdb.org/t/p/w1280/gM1kQRPwOVW1Eos5tVWqcYmHR5S.jpg",
+      "title": "The Mortuary Assistant",
+      "plot": "Rebecca Owens, una licenciada en ciencias mortuorias, acepta un trabajo nocturno en la funeraria River Fields. Lo que comienza como un trabajo rutinario pronto se vuelve siniestro al enfrentarse a terroríficas fuerzas sobrenaturales.",
+      "cast": "Willa Holland, Paul Sparks, John Adams, Mark Steger, Shelly Gibson, Emily Bennett, Keena Ferguson",
+      "director": "Jeremiah Kipp",
+      "writer": "Brian Clarke",
+      "releaseDate": "2026-02-13",
+      "year": "2026",
+      "genre": "Terror, Misterio",
+      "rating": 5.3,
+      "duration": "91 min",
+      "poster": "https://image.tmdb.org/t/p/w500/3loVbnQ9hmay4OA6QjV6yMpHRYf.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/gM1kQRPwOVW1Eos5tVWqcYmHR5S.jpg",
       "categories": [
-        "Películas"
+        "terror"
       ],
+      "tmdbId": 1470130,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
