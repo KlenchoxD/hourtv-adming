@@ -2550,12 +2550,25 @@
     },
     {
       "id": "ab57216d5a8c4f27826077eff26098ea",
-      "title": "La joya de la familia (2005)",
-      "plot": "Vive la historia de La joya de la familia (2005) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/yJav7yjKcYnP7C9QbFLECThWv4a.jpg",
+      "title": "La joya de la familia",
+      "plot": "Los Stone, una familia de Nueva Inglaterra, se reúne en vacaciones. El hijo mayor lleva a casa a su novia para que conozca a sus padres, a sus hermanos y hermanas. Los bohemios Stone reciben a su visitante (una ambiciosa y controladora neoyorquina) con una mezcla de aturdimiento, confusión y hostilidad. Antes de que terminen las vacaciones, hay relaciones que se rompen y otras que se crean, se revelan secretos y la familia Stone va a seguir unida por su extraordinaria capacidad de amar. Sybil Stone es la matriarca y base de la familia Stone, una extrovertida mujer de rompe y rasga que sólo quiere lo mejor para sus cinco hijos. Increíblemente guapa, su cara refleja ahora una reciente nota de fragilidad o de fatiga, lo cual sugiere que quizás Sybil esconda un secreto.",
+      "cast": "Dermot Mulroney, Sarah Jessica Parker, Diane Keaton, Luke Wilson, Claire Danes, Rachel McAdams, Craig T. Nelson, Tyrone Giordano",
+      "director": "Thomas Bezucha",
+      "writer": "Thomas Bezucha",
+      "releaseDate": "2005-12-15",
+      "year": "2005",
+      "genre": "Comedia, Drama, Romance",
+      "rating": 6.3,
+      "duration": "106 min",
+      "poster": "https://image.tmdb.org/t/p/w500/enm5B21tEHkuISdLNSK6cKHJUpB.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/yJav7yjKcYnP7C9QbFLECThWv4a.jpg",
       "categories": [
-        "Películas"
+        "comedia",
+        "romance",
+        "drama"
       ],
+      "tmdbId": 9043,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
