@@ -5634,10 +5634,24 @@
     },
     {
       "id": "56b189b02db84f94846b4df0ba0ace64",
-      "title": "Amores materialistas",
+      "title": "Materialistas",
+      "plot": "Lucy es una joven casamentera de Nueva York que se encarga de unir solteros para encontrar la pareja perfecta. Sin embargo, su mundo se desestabiliza al encontrarse atrapada en un triángulo amoroso con Harry, un apuesto financiero multimillonario, y su exnovio John, un actor de poco éxito.",
+      "cast": "Dakota Johnson, Chris Evans, Pedro Pascal, Zoë Winters, Marin Ireland, Dasha Nekrasova, Emmy Wheeler, Louisa Jacobson",
+      "director": "Celine Song",
+      "writer": "Celine Song",
+      "releaseDate": "2025-06-12",
       "year": "2025",
-      "plot": "Vive la historia de Amores materialistas (2025) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/lqwwGkwJHtz9QgKtz4zeY19YgDg.jpg",
+      "genre": "Romance, Drama",
+      "rating": 6.3,
+      "duration": "116 min",
+      "poster": "https://image.tmdb.org/t/p/w500/u15ytqp6QmHymVVw1xxdodZ5N02.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/lqwwGkwJHtz9QgKtz4zeY19YgDg.jpg",
+      "categories": [
+        "romance",
+        "drama"
+      ],
+      "tmdbId": 1136867,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
