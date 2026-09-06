@@ -3164,10 +3164,24 @@
     },
     {
       "id": "abe54ebfd90444888c1927da8accaae9",
-      "title": "El amor es un viaje en trineo al infierno",
+      "title": "Dos chicas a la fuga",
+      "plot": "Jamie está triste por la ruptura con su novia, mientras que Marian necesita relajarse. En busca de un nuevo comienzo, se embarcan en un inesperado viaje por carretera a Tallahassee. Las cosas se tuercen rápidamente cuando se cruzan con un grupo de criminales ineptos.",
+      "cast": "Margaret Qualley, Geraldine Viswanathan, Beanie Feldstein, Joey Slotnick, C.J. Wilson, Colman Domingo, Pedro Pascal, Bill Camp",
+      "director": "Ethan Coen",
+      "writer": "Tricia Cooke",
+      "releaseDate": "2024-02-22",
       "year": "2024",
-      "plot": "Vive la historia de El amor es un viaje en trineo al infierno (2024) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para",
-      "poster": "https://image.tmdb.org/t/p/w1280/thFSP3fBwqBYUZUyIAmaHuwNkvB.jpg",
+      "genre": "Comedia, Crimen",
+      "rating": 5.5,
+      "duration": "84 min",
+      "poster": "https://image.tmdb.org/t/p/w500/hJVGU3aNDLdhAy7yYa2G1XtdYOx.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/thFSP3fBwqBYUZUyIAmaHuwNkvB.jpg",
+      "categories": [
+        "comedia",
+        "drama"
+      ],
+      "tmdbId": 957304,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
