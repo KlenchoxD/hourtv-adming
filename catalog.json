@@ -3944,18 +3944,25 @@
     },
     {
       "id": "a18e60bcea8c4d40b214f8d45d2661c7",
-      "title": "Marty Supremo",
-      "year": "2025",
-      "tmdb_id": 1317288,
-      "imdb_id": "tt32916440",
-      "genre": "drama",
+      "title": "Marty Supreme",
+      "plot": "Biopic de Marty Reisman, un buscavidas convertido en campeón de ping pong, desde que empezó a jugar por apuestas en Manhattan hasta ganar 22 títulos importantes y convertirse en el más veterano en ganar una competición nacional de deportes de raqueta, con 67 años.",
       "cast": "Timothée Chalamet, Gwyneth Paltrow, Odessa A'zion, Penn Jillette, Kevin O'Leary, Abel Ferrara, Fran Drescher, Sandra Bernhard, Spenser Granese, Philippe Petit, John Catsimatidis",
       "director": "Joshua Safdie",
       "writer": "Joshua Safdie, Ronald Bronstein",
-      "duration": "150 min",
       "releaseDate": "2025-10-06",
-      "plot": "Vive la historia de Marty Supremo (2025) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/6h7w8R4BA7vubEmEEW5vYEjuoz6.jpg",
+      "year": "2025",
+      "genre": "drama",
+      "rating": 7.4,
+      "duration": "150 min",
+      "poster": "https://image.tmdb.org/t/p/w500/mijSU0Rws3tBBbhdE5udxPSaZvF.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/6h7w8R4BA7vubEmEEW5vYEjuoz6.jpg",
+      "categories": [
+        "populares",
+        "terror",
+        "drama"
+      ],
+      "tmdbId": 1317288,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
