@@ -5230,10 +5230,25 @@
     },
     {
       "id": "c2b179baec504f31af7cd68e6a831078",
-      "title": "Atrapado robando",
+      "title": "Bala perdida",
+      "plot": "Cuando su vecino punki Russ le pide que cuide de su gato durante unos días, Hank Thompson se encuentra atrapado en medio de un variopinto grupo de gángsters amenazantes. Todos quieren algo de él; el problema es que él no sabe por qué. Mientras Hank intenta eludir sus cada vez más estrechas garras, tendrá que emplear toda su habilidad para mantenerse con vida el tiempo suficiente para averiguarlo…",
+      "cast": "Austin Butler, Regina King, Zoë Kravitz, Matt Smith, Liev Schreiber, Vincent D'Onofrio, Griffin Dunne, Никита Кукушкин",
+      "director": "Darren Aronofsky",
+      "writer": "Charlie Huston",
+      "releaseDate": "2025-08-26",
       "year": "2025",
-      "plot": "Vive la historia de Atrapado robando (2025) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/41043LV7mfluH8iXEUPVseCDAv5.jpg",
+      "genre": "Crimen, Suspense, Comedia",
+      "rating": 6.8,
+      "duration": "107 min",
+      "poster": "https://image.tmdb.org/t/p/w500/dpEGQKgOeDo9GmmKDnEWjTLTi4u.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/41043LV7mfluH8iXEUPVseCDAv5.jpg",
+      "categories": [
+        "terror",
+        "comedia",
+        "drama"
+      ],
+      "tmdbId": 1245993,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
