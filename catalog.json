@@ -6019,9 +6019,23 @@
     {
       "id": "430c287d43ca4175b992e7426fb66f3b",
       "title": "La lotería del amor",
+      "plot": "Un actor protagoniza un extraño concurso que enloquecerá a sus admiradoras y que consiste en una lotería cuyo premio es él mismo.",
+      "cast": "David Niven, Peggy Cummins, Anne Vernon, Herbert Lom, Charles Victor, Gordon Jackson, Felix Aylmer, Hugh McDermott",
+      "director": "Charles Crichton",
+      "writer": "Harry Kurnitz",
+      "releaseDate": "1954-01-30",
       "year": "1994",
-      "plot": "Vive la historia de La lotería del amor (1994) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/rHqIKBrvmRTExmi7XN31OjRSPKT.jpg",
+      "genre": "Comedia",
+      "rating": 5.1,
+      "duration": "89 min",
+      "poster": "https://image.tmdb.org/t/p/w500/xT3h4xCagLxnnVaNQgxNZdRICO.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/whMLyipEECSRklCvI0z8jGf6c1j.jpg",
+      "categories": [
+        "antiguas",
+        "comedia"
+      ],
+      "tmdbId": 42880,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
