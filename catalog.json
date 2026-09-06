@@ -2582,12 +2582,25 @@
     },
     {
       "id": "f17a6421789847d29206e53c6c086c02",
-      "title": "Dreams: Sueños (2025)",
+      "title": "Dreams: Sueños",
       "plot": "Vive la historia de Dreams: Sueños (2025) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/de3Nk3aylnE8Z4z7lGmVq9IG7qt.jpg",
+      "cast": "Jessica Chastain, Isaac Hernández, Rupert Friend, Marshall Bell, Eligio Meléndez, Mercedes Hernández, Tatiana Ronderos, Bobby August Jr.",
+      "director": "Michel Franco",
+      "writer": "Michel Franco",
+      "releaseDate": "2025-07-10",
+      "year": "2025",
+      "genre": "Romance, Suspense, Drama",
+      "rating": 6.2,
+      "duration": "98 min",
+      "poster": "https://image.tmdb.org/t/p/w500/taMMxgN8SEvuAYAAdpG0v3BtKv5.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/de3Nk3aylnE8Z4z7lGmVq9IG7qt.jpg",
       "categories": [
-        "Películas"
+        "terror",
+        "romance",
+        "drama"
       ],
+      "tmdbId": 1134463,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
