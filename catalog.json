@@ -6145,9 +6145,23 @@
     {
       "id": "88cf0d615d7c4617ab008999083d92a5",
       "title": "Otro pequeño favor",
+      "plot": "Stephanie Smothers y Emily Nelson se reúnen en la hermosa isla de Capri, Italia, para la extravagante boda de Emily con un rico hombre de negocios italiano. Junto con los glamurosos invitados, cabe esperar asesinatos y traiciones en una boda con más giros y vueltas que el camino desde el puerto a la plaza del centro de Capri.",
+      "cast": "Anna Kendrick, Blake Lively, Michele Morrone, Henry Golding, Allison Janney, Elizabeth Perkins, Elena Sofia Ricci, Alex Newell",
+      "director": "Paul Feig",
+      "writer": "Laeta Kalogridis",
+      "releaseDate": "2025-03-07",
       "year": "2025",
-      "plot": "Vive la historia de Otro pequeño favor (2025) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/b6e5Nss2QNoQM4wJv2VppChswNP.jpg",
+      "genre": "Comedia, Suspense, Misterio",
+      "rating": 5.8,
+      "duration": "120 min",
+      "poster": "https://image.tmdb.org/t/p/w500/74kVRS7yqXH9ymdd2DbvQ3MR09C.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/b6e5Nss2QNoQM4wJv2VppChswNP.jpg",
+      "categories": [
+        "terror",
+        "comedia"
+      ],
+      "tmdbId": 974573,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
