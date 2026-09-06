@@ -4760,9 +4760,26 @@
     {
       "id": "8c3e47aa46014e22a83d31f947a645b2",
       "title": "En sueños",
+      "plot": "Stevie y su hermano pequeño Elliot viajan al absurdo mundo de sus sueños para pedirle a Sandman que les conceda un deseo: la familia perfecta.",
+      "cast": "Jolie Hoang-Rappaport, Elias Janssen, Simu Liu, Craig Robinson, Cristin Milioti, Gia Carides, Omid Djalili, SungWon Cho",
+      "director": "Alexander Woo",
+      "writer": "Erik Benson",
+      "releaseDate": "2025-11-07",
       "year": "2025",
-      "plot": "Vive la historia de En sueños (2025) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/cTuFz80FozP54Aob9TYl4mF1wKk.jpg",
+      "genre": "Aventura, Animación, Comedia, Familia, Fantasía",
+      "rating": 7,
+      "duration": "87 min",
+      "poster": "https://image.tmdb.org/t/p/w500/z2v3lNAA2ymrZuKof4J2vqFIBdw.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/cTuFz80FozP54Aob9TYl4mF1wKk.jpg",
+      "categories": [
+        "comedia",
+        "aventura",
+        "infantil",
+        "familia",
+        "fantasía"
+      ],
+      "tmdbId": 1117857,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
