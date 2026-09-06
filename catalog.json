@@ -6395,12 +6395,23 @@
     {
       "id": "ddc1f2fc56134670bbbfb28e8f39e93e",
       "title": "Sólo amigos",
+      "plot": "Chris (Ryan Reynolds) es un buen chico, divertido... gordo y pardillo. El día de la graduación del Instituto decide armarse de valor y confesarle su amor a Jamie (Amy Smart). Pero Jaime le va a partir el corazón: ella le quiere... sólo como amigo. Diez años más tarde, y a muchos kilómetros de distancia de su pueblo natal, Chris se ha convertido en un atractivo y prometedor productor musical. Su éxito con las mujeres le ha hecho olvidar su fracaso con Jamie. O al menos, eso es lo que él cree. Una tormenta invernal en un viaje de negocios con su nueva estrella musical, la ardiente Samantha James (Anna Faris), le obliga a hacer escala en su antiguo pueblo de New Jersey. Muy a su pesar, va a reencontrarse con su familia, sus amigos... y con Jamie.",
+      "cast": "Ryan Reynolds, Amy Smart, Anna Faris, Chris Klein, Christopher Rodriguez Marquette, Julie Hagerty, Amy Matysio, Giacomo Beltrami",
+      "director": "Roger Kumble",
+      "writer": "Adam 'Tex' Davis",
+      "releaseDate": "2005-11-23",
       "year": "2005",
-      "plot": "Vive la historia de Sólo amigos (2005) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/2X9fquknxs3JCTNWDoCLH0hUB3T.jpg",
+      "genre": "Comedia, Romance",
+      "rating": 6.2,
+      "duration": "94 min",
+      "poster": "https://image.tmdb.org/t/p/w500/tn0PgQKC29aIHA0ube945IhEI3J.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/2X9fquknxs3JCTNWDoCLH0hUB3T.jpg",
       "categories": [
-        "Películas"
+        "comedia",
+        "romance"
       ],
+      "tmdbId": 10033,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
