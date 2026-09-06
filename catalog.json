@@ -2021,12 +2021,27 @@
     },
     {
       "id": "e25d4c57a6014225ab3a1118a774adf1",
-      "title": "La princesa encantada (1994)",
-      "plot": "Vive la historia de La princesa encantada (1994) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/hKXmvyBGkyIYfKPAgJdH40q1ozh.jpg",
+      "title": "La princesa Cisne",
+      "plot": "Una bella princesa se convierte en cisne por un hechizo. En su cautiverio se hace amiga de una rana, una tortuga y un pájaro, mientras espera que el desencantamiento llegue a través del amor. Se necesitaron 250 dibujantes y más de 4 años de trabajo para realizarla.",
+      "cast": "Jack Palance, Howard McGillin, Michelle Nicastro, Liz Callaway, John Cleese, Steven Wright, Steve Vinovich, Mark Harelik",
+      "director": "Richard Rich",
+      "writer": "Brian Nissen",
+      "releaseDate": "1994-11-18",
+      "year": "1994",
+      "genre": "Familia, Animación, Fantasía, Aventura, Comedia",
+      "rating": 6.6,
+      "duration": "95 min",
+      "poster": "https://image.tmdb.org/t/p/w500/pLDwJgzjlEJYN0iJF9pcVqxPBnd.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/hKXmvyBGkyIYfKPAgJdH40q1ozh.jpg",
       "categories": [
-        "Películas"
+        "comedia",
+        "aventura",
+        "infantil",
+        "familia",
+        "fantasía"
       ],
+      "tmdbId": 22586,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
