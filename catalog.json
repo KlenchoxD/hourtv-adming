@@ -7562,9 +7562,23 @@
     },
     {
       "id": "828f73c35c31487cb0a5af7854d438ac",
-      "title": "Woo, una abogada extraordinaria - Temporada 1 (2022)",
-      "plot": "Vive la historia de Woo, una abogada extraordinaria - Temporada 1 (2022) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada",
-      "poster": "https://image.tmdb.org/t/p/w1280/tmgtlnBnoFvk52xZBO7Z0pTmN9b.jpg",
+      "title": "Woo, abogada extraordinaria",
+      "plot": "Woo Young-woo, una brillante abogada con autismo, lidia con los retos que le plantean la vida cotidiana y los tribunales cuando se incorpora a un importante bufete.",
+      "cast": "Park Eun-Bin, 강태오, Joo Jong-hyuk, 전배수, Baek Ji-won, 진경, 주현영, 하윤경",
+      "director": "문지원",
+      "releaseDate": "2022-06-29",
+      "year": "2022",
+      "genre": "Drama",
+      "rating": 8.5,
+      "duration": "70 min",
+      "poster": "https://image.tmdb.org/t/p/w500/u81ZZJ1hQdyNtF1NsxmhQVDj6xK.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/39owosjolYd3gKufgM9jMdSSk9t.jpg",
+      "categories": [
+        "recomendado",
+        "drama"
+      ],
+      "tmdbId": 197067,
+      "tmdbType": "tv",
       "seasons": [
         {
           "number": 1,
