@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-09-06T16:23:00.634Z",
-  "durationMs": 2529,
+  "generatedAt": "2026-09-06T18:28:00.245Z",
+  "durationMs": 713,
   "dryRun": false,
   "moviesFound": 33,
   "moviesDiscarded": 24,
@@ -43,6 +43,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1228710,
+      "title": "The Mandalorian and Grogu",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1081003,
       "title": "Supergirl",
       "reason": "Sin fuente autorizada configurada"
@@ -53,24 +58,19 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1228710,
-      "title": "The Mandalorian and Grogu",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1127384,
       "title": "En mar abierto",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 454639,
-      "title": "He-Man y los Masters del Universo",
       "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1355228,
       "title": "Gandhari",
       "reason": "Rating 4.6 por debajo del mínimo (5.5)"
+    },
+    {
+      "tmdbId": 454639,
+      "title": "He-Man y los Masters del Universo",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1101383,
@@ -115,7 +115,7 @@
     {
       "tmdbId": 1393326,
       "title": "Ghost in the Cell",
-      "reason": "Votos 43 por debajo del mínimo (50)"
+      "reason": "Votos 44 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1323244,
