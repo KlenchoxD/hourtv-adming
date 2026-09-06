@@ -604,7 +604,7 @@
     {
       "id": "mrolwgvq0h65l",
       "title": "Mi lista de deseos",
-      "plot": "Tras la muerte de su madre, Alex Rose recibe una inesperada misión: cumplir la lista de sueños que escribió cuando era adolescente antes de poder recibir su herencia. En el camino, enfrentará sus miedos, descubrirá secretos familiares, encontrará nuevas oportunidades y aprenderá que nunca es tarde para perseguir los sueños y abrirle la puerta al verdadero amor.",
+      "plot": "Cuando su madre la envía a una misión para completar su lista de deseos de la adolescencia, una joven desvela secretos familiares, encuentra el amor... y se redescubre.",
       "cast": "Sofia Carson, Kyle Allen, Sebastian de Souza, Connie Britton, José Zúñiga, Jordi Mollà, Marianne Rendón",
       "director": "Adam Brooks",
       "writer": "Adam Brooks, basada en la novela de Lori Nelson Spielman",
@@ -613,7 +613,8 @@
       "genre": "Drama, Romance, Comedia",
       "rating": 6.8,
       "duration": "123 min",
-      "poster": "https://i.pinimg.com/736x/c0/d3/ce/c0d3cef4be7d90c3baf04f4d267ee4ca.jpg",
+      "poster": "https://image.tmdb.org/t/p/w500/r6K6spYEWf7aDGsY4EdkScZW1Hl.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/sulUXRukzh7WSK34y8mnaUcHo3y.jpg",
       "categories": [
         "recomendado",
         "populares",
@@ -621,6 +622,8 @@
         "romance",
         "drama"
       ],
+      "tmdbId": 1254786,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Servidor 1",
