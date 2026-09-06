@@ -9706,6 +9706,86 @@
           ]
         }
       ]
+    },
+    {
+      "id": "e16f8db6a6524b548b0926b7cfa2373e",
+      "title": "Black Mirror - Temporada 7",
+      "year": "2025",
+      "plot": "Vive la historia de Black Mirror - Temporada 7 (2025) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del",
+      "poster": "https://image.tmdb.org/t/p/w1280/dg3OindVAGZBjlT3xYKqIAdukPL.jpg",
+      "seasons": [
+        {
+          "number": 7,
+          "episodes": [
+            {
+              "number": 1,
+              "title": "Capítulo 1",
+              "servers": [
+                {
+                  "name": "Barmonrey",
+                  "url": "https://barmonrey.com/player/OvNJmGUaZxw0Kdo/",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 2,
+              "title": "Capítulo 2",
+              "servers": [
+                {
+                  "name": "Barmonrey",
+                  "url": "https://barmonrey.com/player/piAjHYxfMbyRcZu/",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 3,
+              "title": "Capítulo 3",
+              "servers": [
+                {
+                  "name": "Barmonrey",
+                  "url": "https://barmonrey.com/player/hE2rEHEGAYzBM0k/",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 4,
+              "title": "Capítulo 4",
+              "servers": [
+                {
+                  "name": "Barmonrey",
+                  "url": "https://barmonrey.com/player/hGxESqXHkiiaUy6/",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 5,
+              "title": "Capítulo 5",
+              "servers": [
+                {
+                  "name": "Barmonrey",
+                  "url": "https://barmonrey.com/player/oR6M5oJyaykSK6t/",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 6,
+              "title": "Capítulo 6",
+              "servers": [
+                {
+                  "name": "Barmonrey",
+                  "url": "https://barmonrey.com/player/zg1adYhSf5Uy67X/",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ],
   "sources": [],
