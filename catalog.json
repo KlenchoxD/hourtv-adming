@@ -5696,10 +5696,24 @@
     },
     {
       "id": "644b233a9f3145448b7796d0406fc8cd",
-      "title": "Screamboat: La masacre del ratón",
+      "title": "Screamboat: El barco del terror",
+      "plot": "Un viaje en barco a altas horas de la noche se convierte en una lucha desesperada por la supervivencia en la ciudad de Nueva York cuando un ratón travieso se convierte en una monstruosa realidad.",
+      "cast": "David Howard Thornton, Allison Pittel, Amy Schumacher, Jesse Posey, Jarlath Conroy, Julia Schroeder, Brian Scolaro, Kailey Hyman",
+      "director": "Steven LaMorte",
+      "writer": "Matthew Garcia-Dunn",
+      "releaseDate": "2025-03-20",
       "year": "2025",
-      "plot": "Vive la historia de Screamboat: La masacre del ratón (2025) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los",
-      "poster": "https://image.tmdb.org/t/p/w1280/n6IPjfSwyKqLungH8EHX3ZldodS.jpg",
+      "genre": "Terror, Comedia",
+      "rating": 5,
+      "duration": "102 min",
+      "poster": "https://image.tmdb.org/t/p/w500/dENTTYrOPvbVWUr0gwXsMsoWHTT.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/n6IPjfSwyKqLungH8EHX3ZldodS.jpg",
+      "categories": [
+        "terror",
+        "comedia"
+      ],
+      "tmdbId": 1225572,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
