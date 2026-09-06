@@ -146,6 +146,7 @@
 <div class="overlay" id="overlay"><div class="modal" id="modal"></div></div>
 <div class="toast" id="toast"></div>
 
+<script src="catalog-sync.js"></script>
 <script>
 // ---------- Estado ----------
 const TABS = [
@@ -928,7 +929,7 @@ async function ghApi(method,extra){
   if(!cfg.token||!cfg.owner||!cfg.repo){toast('Configura GitHub primero','err');openConfig();throw new Error('no cfg')}
   const url=`https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${encodeURIComponent(cfg.path).replace(/%2F/g,'/')}`;
   return fetch(url+(method==='GET'?`?ref=${cfg.branch}`:''),{
-    method, headers:{Authorization:`Bearer ${cfg.token}`,Accept:'application/vnd.github+json'},
+    method, cache:'no-store', headers:{Authorization:`Bearer ${cfg.token}`,Accept:'application/vnd.github+json'},
     ...(extra||{})
   });
 }
@@ -973,68 +974,10 @@ async function loadFromGitHub(){
     if(!res.ok){toast('Error '+res.status+' al cargar','err');return}
     const data=await res.json();
     const content=decodeURIComponent(escape(atob(data.content.replace(/\n/g,''))));
-    catalog=normalize(JSON.parse(content));window._sha=data.sha;save();render();
+    catalog=normalize(JSON.parse(content));window._sha=data.sha;catalogBase=JSON.parse(JSON.stringify(catalog));localStorage.setItem("hourtv_admin_base",JSON.stringify(catalogBase));save();render();
     toast('Catálogo cargado desde GitHub','ok');
   }catch(e){toast('No se pudo cargar','err')}
 }
-async function currentSha(){
-  try{const g=await ghApi('GET');if(g.ok)return (await g.json()).sha}catch(e){}
-  return undefined;
-}
-function putCatalog(sha){
-  const content=btoa(unescape(encodeURIComponent(JSON.stringify(catalog,null,2))));
-  return ghApi('PUT',{body:JSON.stringify({
-    message:'Actualizar catálogo desde el panel HourTV',
-    content, branch:cfg.branch, ...(sha?{sha}:{})
-  })});
-}
-// Fusiona lo que llegó del catálogo remoto (por ejemplo, títulos nuevos que
-// agregó el scraper automático mientras editabas aquí) con el catálogo local:
-// se conserva la versión local de cada elemento ya presente (es lo que se
-// está publicando a propósito), y se añade lo que solo existe en remoto.
-function mergeCatalogs(local,remote){
-  const merged=normalize(local);
-  ['movies','series','sources','liveChannels'].forEach(key=>{
-    const localList=merged[key]||[];
-    const remoteList=(remote&&remote[key])||[];
-    const localIds=new Set(localList.map(it=>it&&it.id).filter(Boolean));
-    const onlyRemote=remoteList.filter(it=>it&&it.id&&!localIds.has(it.id)&&!deletedIds.has(it.id));
-    merged[key]=[...localList,...onlyRemote];
-  });
-  return merged;
-}
-async function publish(){
-  if(!cfg.token){toast('Configura GitHub primero','err');openConfig();return}
-  try{
-    let res=await putCatalog(await currentSha());
-    // 409/422 = el catálogo remoto cambió desde que se cargó aquí. Antes
-    // esto solo pedía un sha fresco y reenviaba el MISMO catálogo local,
-    // borrando en silencio cualquier título que el scraper automático
-    // hubiera agregado justo en ese momento. Ahora se trae lo remoto, se
-    // fusiona con lo local, y recién con eso se reintenta.
-    if(res.status===409||res.status===422){
-      const g=await ghApi('GET');
-      if(g.ok){
-        const data=await g.json();
-        const content=decodeURIComponent(escape(atob(data.content.replace(/\n/g,''))));
-        const remote=normalize(JSON.parse(content));
-        catalog=mergeCatalogs(catalog,remote);
-        save();render();
-        res=await putCatalog(data.sha);
-        if(res.ok)toast('Se fusionaron títulos nuevos del catálogo automático antes de publicar','warn');
-      }
-    }
-    if(res.ok){
-      window._sha=(await res.json()).content.sha;
-      // Ya quedaron fuera del catálogo remoto publicado: no hace falta
-      // seguir protegiéndolos de una futura fusión.
-      deletedIds.clear();saveDeletedIds();
-      toast('¡Publicado! La app lo verá solo con volver a primer plano.','ok');
-    }
-    else{const e=await res.json().catch(()=>({}));toast('Error: '+(e.message||res.status),'err')}
-  }catch(e){toast('Fallo al publicar','err')}
-}
-
 // ---------- Init ----------
 (function(){
   const local=localStorage.getItem('hourtv_admin_catalog');
@@ -1042,5 +985,6 @@ async function publish(){
   refreshStatus();render();
 })();
 </script>
+<script src="catalog-publish.js"></script>
 </body>
 </html>
