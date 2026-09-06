@@ -5724,10 +5724,24 @@
     },
     {
       "id": "5c35bd51134245e8bb5d80d922f3098b",
-      "title": "Experta en crisis",
+      "title": "Expertos en crisis",
+      "plot": "Adaptación del documental homónimo de 2005, centrado en las estrategias políticas de Estados Unidos en Sudamérica.",
+      "cast": "Sandra Bullock, Anthony Mackie, Billy Bob Thornton, Zoe Kazan, Scoot McNairy, Ann Dowd, Joaquim de Almeida, Reynaldo Pacheco",
+      "director": "David Gordon Green",
+      "writer": "Peter Straughan",
+      "releaseDate": "2015-09-11",
       "year": "2015",
-      "plot": "Vive la historia de Experta en crisis (2015) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/cZo0oHZA9dG06vkTcYR0khALAHf.jpg",
+      "genre": "Comedia, Drama",
+      "rating": 5.9,
+      "duration": "107 min",
+      "poster": "https://image.tmdb.org/t/p/w500/rem3GC2FtHCItfKqnfzb67YrcrG.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/cZo0oHZA9dG06vkTcYR0khALAHf.jpg",
+      "categories": [
+        "comedia",
+        "drama"
+      ],
+      "tmdbId": 10317,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
