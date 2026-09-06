@@ -3220,10 +3220,27 @@
     },
     {
       "id": "2ebefb0cb5384a22b792ae89d71bad1e",
-      "title": "Descendientes: Un malvado País de las Maravillas",
+      "title": "Los Descendientes: viaje al mundo oscuro",
+      "plot": "Red y Chloe logran cambiar la historia: impiden que la Reina de Corazones se vuelva villana y salvan a Cenicienta. Todo parece irles de maravilla, pero alterar el pasado tiene consecuencias inesperadas. Sombrerero, antiguo amigo de Red, emerge como nuevo villano y captura a la Reina. Para salvarla a ella y al País de las Maravillas, Red y Chloe deben cruzar de nuevo la madriguera y aliarse con Pink, la hermana de Red; Luis, el hijo de Luisa Madrigal, y la banda de villanos de Max, el hijo de Sombrerero.",
+      "cast": "Kylie Cantrall, Malia Baker, Liamani Segura, Rita Ora, Brandy Norwood, Leonardo Nam, Alexandro Byrd, Brendon Tremblay",
+      "director": "Kimmy Gatewood",
+      "writer": "Dan Frey",
+      "releaseDate": "2026-07-16",
       "year": "2026",
-      "plot": "Vive la historia de Descendientes: Un malvado País de las Maravillas (2026) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada",
-      "poster": "https://image.tmdb.org/t/p/w1280/qlfqDJ9Piv5ufzYA8j2319mwKZU.jpg",
+      "genre": "Fantasía, Película de TV, Familia, Aventura",
+      "rating": 7.5,
+      "duration": "98 min",
+      "poster": "https://image.tmdb.org/t/p/w500/pBY8LeKTcgqeWKztgclJvRs8z1T.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/qlfqDJ9Piv5ufzYA8j2319mwKZU.jpg",
+      "categories": [
+        "estrenos",
+        "aventura",
+        "familia",
+        "fantasía",
+        "película de tv"
+      ],
+      "tmdbId": 1318621,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
