@@ -2534,12 +2534,24 @@
     },
     {
       "id": "a5e0f2989dfd4ced994237dd23f6e2f0",
-      "title": "Gente que conocemos en vacaciones (2026)",
-      "plot": "Vive la historia de Gente que conocemos en vacaciones (2026) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los",
-      "poster": "https://image.tmdb.org/t/p/w1280/qa3oDSDZSJKSdIdBgQgEAxO0N88.jpg",
+      "title": "Gente que conocemos en vacaciones",
+      "plot": "Poppy es un espíritu libre y a Alex le gusta planificarlo todo. Tras muchas vacaciones juntos, estos amigos tan diferentes se preguntan si serán la pareja perfecta.",
+      "cast": "Emily Bader, Tom Blyth, Sarah Catherine Hook, Jameela Jamil, Miles Heizer, Tommy Do, Lucien Laviscount, Alan Ruck",
+      "director": "Brett Haley",
+      "writer": "Yulin Kuang",
+      "releaseDate": "2026-01-06",
+      "year": "2026",
+      "genre": "Comedia, Romance",
+      "rating": 7,
+      "duration": "116 min",
+      "poster": "https://image.tmdb.org/t/p/w500/lCbXqv2NOFoV8L0dYjcSz64zlUs.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/qa3oDSDZSJKSdIdBgQgEAxO0N88.jpg",
       "categories": [
-        "Películas"
+        "comedia",
+        "romance"
       ],
+      "tmdbId": 1034716,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
