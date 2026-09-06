@@ -4701,10 +4701,24 @@
     },
     {
       "id": "cf03d3d5f5ef47d9b6e2a68e2f325b1d",
-      "title": "Una navidad muy Jonas Brothers",
+      "title": "Una Navidad muy Jonas Brothers",
+      "plot": "Los Jonas Brothers tratan de llegar a casa a tiempo para pasar la Navidad con sus familias.",
+      "cast": "Kevin Jonas, Joe Jonas, Nick Jonas, Chloe Bennet, Billie Lourd, Laverne Cox, Andrew Barth Feldman, Randall Park",
+      "director": "Jessica Yu",
+      "writer": "Isaac Aptaker",
+      "releaseDate": "2025-11-10",
       "year": "2025",
-      "plot": "Vive la historia de Una navidad muy Jonas Brothers (2025) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes",
-      "poster": "https://image.tmdb.org/t/p/w1280/ajYw16ISz3qsdYTg4zy5rob1iAQ.jpg",
+      "genre": "Comedia, Música",
+      "rating": 6.2,
+      "duration": "78 min",
+      "poster": "https://image.tmdb.org/t/p/w500/rQp9P3CigiN3bgNm0NkYoSl3bMv.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/ajYw16ISz3qsdYTg4zy5rob1iAQ.jpg",
+      "categories": [
+        "comedia",
+        "música"
+      ],
+      "tmdbId": 1425122,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
