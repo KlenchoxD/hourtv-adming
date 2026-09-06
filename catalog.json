@@ -1966,41 +1966,6 @@
           "language": "Idioma sin identificar"
         }
       ]
-    },
-    {
-      "id": "a8cb76824e6f47a49095649d536cd71d",
-      "title": "Phineas y Ferb, la película: Candace contra el universo",
-      "plot": "Después de fracasar en sus repetidos intentos de pillar a sus hermanos, Phineas y Ferb, la sufridora Candace siente que el universo está en su contra. Cuando Candace es secuestrada por alienígenas, encuentra un planeta lejano, libre de sus pesados hermanos, donde la idolatran como salvadora. Mientras, Phineas y Ferb se disponen a cruzar la galaxia para rescatar a Candace a la vez que descubren los siniestros secretos de los extraterrestres.",
-      "cast": "Ashley French, Vincent Martella, David Errigo Jr., Dan Povenmire, Olivia Olson, Alyson Stoner, Bobby Gaylor, Maulik Pancholy",
-      "director": "Dan Povenmire",
-      "writer": "Kate Kondell",
-      "releaseDate": "2020-06-14",
-      "year": "2020",
-      "genre": "Familia, Animación, Ciencia ficción, Comedia",
-      "rating": 7.2,
-      "duration": "86 min",
-      "poster": "https://image.tmdb.org/t/p/w500/i5rPRIEf88IKSCM2loRy3iN2lQc.jpg",
-      "backdrop": "https://image.tmdb.org/t/p/w1280/hXz0u1wEYU7LogAPspwd1o4xBfj.jpg",
-      "categories": [
-        "comedia",
-        "aventura",
-        "infantil",
-        "familia"
-      ],
-      "tmdbId": 594328,
-      "tmdbType": "movie",
-      "servers": [
-        {
-          "name": "PrimeSrc",
-          "url": "https://primesrc.me/embed/movie?tmdb=594328&fallback=true",
-          "language": "Inglés"
-        },
-        {
-          "name": "Dood",
-          "url": "https://primesrc.me/embed/movie?tmdb=594328&fallback=false&whitelistServers=Dood&serverOrder=Dood",
-          "language": "Inglés"
-        }
-      ]
     }
   ],
   "series": [
