@@ -2931,9 +2931,24 @@
     {
       "id": "c07aac637d4941668ff0246e9995374c",
       "title": "Mother Mary",
+      "plot": "La intensa relación entre la cantante de pop Mary y Sam, una antigua amiga suya, diseñadora de moda, que se vuelven a reunir tras la necesidad de la primera de un vestido para su nueva gira de conciertos.",
+      "cast": "Anne Hathaway, Michaela Coel, Hunter Schafer, FKA twigs, Sian Clifford, Kaia Gerber, Alba Baptista, Atheena Frizzell",
+      "director": "David Lowery",
+      "writer": "David Lowery",
+      "releaseDate": "2026-04-16",
       "year": "2026",
-      "plot": "Vive la historia de Mother Mary (2026) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/9eynUDRhChIsgSYLK82aC4zIQ2M.jpg",
+      "genre": "Música, Drama, Suspense",
+      "rating": 5.7,
+      "duration": "112 min",
+      "poster": "https://image.tmdb.org/t/p/w500/d4CWItPJIjdnnRsao1DPBO3u5AD.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/9eynUDRhChIsgSYLK82aC4zIQ2M.jpg",
+      "categories": [
+        "terror",
+        "drama",
+        "música"
+      ],
+      "tmdbId": 1102883,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
