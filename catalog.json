@@ -8430,6 +8430,130 @@
           ]
         }
       ]
+    },
+    {
+      "id": "66c1ca471df949be9b98bf01135063ee",
+      "title": "La maldición de Widow's Bay - Temporada 1",
+      "year": "2026",
+      "plot": "Vive la historia de La maldición de Widow's Bay - Temporada 1 (2026) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para",
+      "poster": "https://image.tmdb.org/t/p/w1280/u6XtMg9Ai9siEbEs0UudPS3EaZY.jpg",
+      "seasons": [
+        {
+          "number": 1,
+          "episodes": [
+            {
+              "number": 1,
+              "title": "Capítulo 1",
+              "servers": [
+                {
+                  "name": "Voe",
+                  "url": "https://voe.sx/e/6nprpjitztgt",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 2,
+              "title": "Capítulo 2",
+              "servers": [
+                {
+                  "name": "Voe",
+                  "url": "https://voe.sx/e/3e5dh81eikil",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 3,
+              "title": "Capítulo 3",
+              "servers": [
+                {
+                  "name": "Voe",
+                  "url": "https://voe.sx/e/1goonq7h9uoh",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 4,
+              "title": "Capítulo 4",
+              "servers": [
+                {
+                  "name": "Voe",
+                  "url": "https://voe.sx/e/ob5fk0fb95ay",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 5,
+              "title": "Capítulo 5",
+              "servers": [
+                {
+                  "name": "Voe",
+                  "url": "https://voe.sx/e/bpvf65bk6kq8",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 6,
+              "title": "Capítulo 6",
+              "servers": [
+                {
+                  "name": "Voe",
+                  "url": "https://voe.sx/e/kpmuz5mt2voj",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 7,
+              "title": "Capítulo 7",
+              "servers": [
+                {
+                  "name": "Voe",
+                  "url": "https://voe.sx/e/ibrjhh4ly6rv",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 8,
+              "title": "Capítulo 8",
+              "servers": [
+                {
+                  "name": "Voe",
+                  "url": "https://voe.sx/e/f0dixinietrt",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 9,
+              "title": "Capítulo 9",
+              "servers": [
+                {
+                  "name": "Voe",
+                  "url": "https://voe.sx/e/aiovjwwzom8m",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 10,
+              "title": "Capítulo 10",
+              "servers": [
+                {
+                  "name": "Voe",
+                  "url": "https://voe.sx/e/qkz2of1we3oq",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ],
   "sources": [],
