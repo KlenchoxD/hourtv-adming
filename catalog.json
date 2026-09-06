@@ -6367,10 +6367,23 @@
     },
     {
       "id": "60395fa2138e498a9f5211761de87ad8",
-      "title": "Baño de sangre",
-      "year": "2024",
+      "title": "Baño de Sangre",
       "plot": "Vive la historia de Baño de sangre (2024) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/nEo4uhFnZgSTQJEmO63NQXyHydD.jpg",
+      "cast": "Francesca Eastwood, Milo Gibson, Olivia Culpo, Oliver Cooper, Nestor Carbonell, Thomas Forbes-Johnson, Andrew Friedman, Lisa Schurga",
+      "director": "Michael Day",
+      "writer": "April Wolfe",
+      "releaseDate": "2024-04-24",
+      "year": "2024",
+      "genre": "Suspense",
+      "rating": 5.2,
+      "duration": "87 min",
+      "poster": "https://image.tmdb.org/t/p/w500/ja4hIJPLXDov3Ud0wpdzTMFYne3.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/nEo4uhFnZgSTQJEmO63NQXyHydD.jpg",
+      "categories": [
+        "terror"
+      ],
+      "tmdbId": 1059643,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
