@@ -5960,10 +5960,25 @@
     },
     {
       "id": "b8ecadf041ae4b3bb7ef08e7172cccb8",
-      "title": "Sicarios en el aire",
+      "title": "Fight or Flight (Sicarios en el aire)",
+      "plot": "Lucas, un mercenario retirado en Tailandia, recibe el encargo inesperado de atrapar a un asesino que va a embarcar en un vuelo rumbo a Estados Unidos. Una vez en el aire, descubre la verdadera identidad del criminal. Pero a bordo del avión hay más de cien sicarios con el mismo objetivo, y mientras Lucas se debate entre abandonar su misión original o colaborar con el misterioso asesino, se desata la locura.",
+      "cast": "Josh Hartnett, Charithra Chandran, Katee Sackhoff, Marko Zaror, 陳鈺藝, Julian Kostov, Hughie O'Donnell, Rebecka Johnston",
+      "director": "James Madigan",
+      "writer": "D.J. Cotrona",
+      "releaseDate": "2025-04-03",
       "year": "2025",
-      "plot": "Vive la historia de Sicarios en el aire (2025) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/jDyNnLyJUOsVgseQgkHPRxpyo4o.jpg",
+      "genre": "Acción, Comedia, Suspense",
+      "rating": 6.3,
+      "duration": "102 min",
+      "poster": "https://image.tmdb.org/t/p/w500/c8yjsPIZV4PLTzlb4G8LFMJT7gt.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/jDyNnLyJUOsVgseQgkHPRxpyo4o.jpg",
+      "categories": [
+        "terror",
+        "accion",
+        "comedia"
+      ],
+      "tmdbId": 1212855,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
