@@ -5896,16 +5896,25 @@
     {
       "id": "6fee33ffdce2465b9ad155d8a63047ad",
       "title": "Lo que le falta a esta estrella",
-      "year": "2025",
-      "tmdb_id": 1165642,
-      "imdb_id": "tt28664733",
-      "genre": "película de animación, cine de ciencia ficción, cine romántico",
+      "plot": "La inmensidad del espacio infinito separa a dos amantes cuando una astronauta abandona la Tierra rumbo a Marte en este romance de animación que recorre todo el cosmos.",
       "cast": "Kim Tae-ri, Hong Kyung, Ahn Young-mi",
       "director": "Han Ji-won",
-      "duration": "96 min",
+      "writer": "한지원",
       "releaseDate": "2025-05-30",
-      "plot": "Vive la historia de Lo que le falta a esta estrella (2025) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes",
-      "poster": "https://image.tmdb.org/t/p/w1280/drSJ0HVuSNFMPq5VzAEHk37BiEC.jpg",
+      "year": "2025",
+      "genre": "película de animación, cine de ciencia ficción, cine romántico",
+      "rating": 7.4,
+      "duration": "96 min",
+      "poster": "https://image.tmdb.org/t/p/w500/6AmW8DglQ5VnOfW1lSMSOyfcwmW.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/drSJ0HVuSNFMPq5VzAEHk37BiEC.jpg",
+      "categories": [
+        "romance",
+        "aventura",
+        "drama",
+        "infantil"
+      ],
+      "tmdbId": 1165642,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
