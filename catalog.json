@@ -8015,6 +8015,108 @@
           ]
         }
       ]
+    },
+    {
+      "id": "8d2fb9496aec477cb55814933c22eb17",
+      "title": "Elle - Temporada 1",
+      "year": "2026",
+      "plot": "Vive la historia de Elle - Temporada 1 (2026) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
+      "poster": "https://image.tmdb.org/t/p/w1280/truh4rtTUdRVYGeT0n17dxvdv41.jpg",
+      "seasons": [
+        {
+          "number": 1,
+          "episodes": [
+            {
+              "number": 1,
+              "title": "Capítulo 1",
+              "servers": [
+                {
+                  "name": "Voe",
+                  "url": "https://voe.sx/e/rin3vthfkjyf",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 2,
+              "title": "Capítulo 2",
+              "servers": [
+                {
+                  "name": "Voe",
+                  "url": "https://voe.sx/e/8r0q8igtzavw",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 3,
+              "title": "Capítulo 3",
+              "servers": [
+                {
+                  "name": "Voe",
+                  "url": "https://voe.sx/e/zzdqogblncsv",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 4,
+              "title": "Capítulo 4",
+              "servers": [
+                {
+                  "name": "Voe",
+                  "url": "https://voe.sx/e/etswtrpl8rm4",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 5,
+              "title": "Capítulo 5",
+              "servers": [
+                {
+                  "name": "Voe",
+                  "url": "https://voe.sx/e/xq6svr2uo9xb",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 6,
+              "title": "Capítulo 6",
+              "servers": [
+                {
+                  "name": "Voe",
+                  "url": "https://voe.sx/e/se0iqx4tq6ha",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 7,
+              "title": "Capítulo 7",
+              "servers": [
+                {
+                  "name": "Voe",
+                  "url": "https://voe.sx/e/rllnfd8meevp",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 8,
+              "title": "Capítulo 8",
+              "servers": [
+                {
+                  "name": "Voe",
+                  "url": "https://voe.sx/e/4dmymshechpy",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ],
   "sources": [],
