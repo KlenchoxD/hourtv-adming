@@ -6448,9 +6448,24 @@
     {
       "id": "d8802e3687064d13b26231f1ed1122bb",
       "title": "Demolición",
+      "plot": "Un exitoso banquero de inversión lucha después de perder a su esposa en un trágico accidente automovilístico. Con la ayuda de un representante de servicio al cliente y su hijo, comienza a reconstruirse a partir de la demolición de la vida que una vez conoció.",
+      "cast": "Jake Gyllenhaal, Naomi Watts, Chris Cooper, Judah Lewis, C.J. Wilson, Polly Draper, Malachy Cleary, Debra Monk",
+      "director": "Jean-Marc Vallée",
+      "writer": "Bryan Sipe",
+      "releaseDate": "2016-04-06",
       "year": "2016",
-      "plot": "Vive la historia de Demolición (2016) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/dapUorbOMzlaB12dACCtaiuaTQz.jpg",
+      "genre": "Comedia, Drama",
+      "rating": 6.9,
+      "duration": "101 min",
+      "poster": "https://image.tmdb.org/t/p/w500/vGAQasaiocRmXkabQuvM2o1kjBB.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/dapUorbOMzlaB12dACCtaiuaTQz.jpg",
+      "categories": [
+        "populares",
+        "comedia",
+        "drama"
+      ],
+      "tmdbId": 303991,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
