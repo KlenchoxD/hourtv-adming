@@ -4384,9 +4384,24 @@
     {
       "id": "f90679cfbe124472acf27c9ee7c98e68",
       "title": "Oh, Hi!",
+      "plot": "La primera escapada romántica de fin de semana de Iris e Isaac se tuerce de la forma más inesperada. Cuando la relación se desmorona, la desesperada esperanza de Iris de que la reticencia de su novio a comprometerse sea simplemente confusión la lleva a tomar medidas cada vez más desquiciadas para consolidar la relación.",
+      "cast": "Molly Gordon, Logan Lerman, Geraldine Viswanathan, John Reynolds, David Cross, Polly Draper, Desmin Borges, Diana Irvine",
+      "director": "Sophie Brooks",
+      "writer": "Sophie Brooks",
+      "releaseDate": "2025-07-25",
       "year": "2025",
-      "plot": "Vive la historia de Oh, Hi! (2025) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/1YeNl4OexgoTqCbwXEYg4ujZmYt.jpg",
+      "genre": "Romance, Comedia, Suspense",
+      "rating": 6.3,
+      "duration": "95 min",
+      "poster": "https://image.tmdb.org/t/p/w500/dHzsxIZhbxNoKSWJ4FAj0jeeDaV.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/1YeNl4OexgoTqCbwXEYg4ujZmYt.jpg",
+      "categories": [
+        "terror",
+        "comedia",
+        "romance"
+      ],
+      "tmdbId": 1339658,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
