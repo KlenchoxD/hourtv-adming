@@ -4730,9 +4730,25 @@
     {
       "id": "d3aec59f49eb4a29901617745d9bf4f5",
       "title": "Una batalla tras otra",
+      "plot": "Un ex revolucionario, tras años apartado de la lucha, se ve obligado a volver a la acción para enfrentar a viejos enemigos en un ambiente cargado de tensión política, racismo y violencia militar... Adaptación modernizada de la novela 'Vineland', de Thomas Pynchon (1990), sobre los movimientos radicales de los años sesenta.",
+      "cast": "Leonardo DiCaprio, Sean Penn, Chase Infiniti, Benicio del Toro, Regina Hall, Teyana Taylor, Wood Harris, Tony Goldwyn",
+      "director": "Paul Thomas Anderson",
+      "writer": "Paul Thomas Anderson",
+      "releaseDate": "2025-09-23",
       "year": "2025",
-      "plot": "Vive la historia de Una batalla tras otra (2025) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/zpEWFNqoN8Qg1SzMMHmaGyOBTdW.jpg",
+      "genre": "Suspense, Crimen, Comedia",
+      "rating": 7.3,
+      "duration": "162 min",
+      "poster": "https://image.tmdb.org/t/p/w500/iZ1499F6hYxDxiqioy8oSUaxipG.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/zpEWFNqoN8Qg1SzMMHmaGyOBTdW.jpg",
+      "categories": [
+        "populares",
+        "terror",
+        "comedia",
+        "drama"
+      ],
+      "tmdbId": 1054867,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
