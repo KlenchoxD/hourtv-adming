@@ -2269,12 +2269,24 @@
     },
     {
       "id": "e4249ef4ee344385bca96602b91a8f72",
-      "title": "¿Quieres ser mi novia? (2026)",
-      "plot": "Vive la historia de ¿Quieres ser mi novia? (2026) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/1ZruuRXztqC3QQybbgbVxVrdNjv.jpg",
+      "title": "¿Quieres ser mi novia?",
+      "plot": "La relación de Javi y Lu enfrenta pruebas cuando surgen tentaciones: una joven con quien Javi tiene química, y un hombre maduro que persigue a Lu. Entre humor y enredos, su amor es puesto a prueba",
+      "cast": "Ludwika Paleta, Juanpa Zurita, Harold Azuara, Yuriria del Valle, Moisés Arizmendi, Claudette Maillé",
+      "director": "Ihtzi Hurtado",
+      "writer": "Ihtzi Hurtado",
+      "releaseDate": "2026-02-12",
+      "year": "2026",
+      "genre": "Comedia, Romance",
+      "rating": 8.6,
+      "duration": "97 min",
+      "poster": "https://image.tmdb.org/t/p/w500/oscW8xV8EhRYj7iAhyVlBohKqxo.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/1ZruuRXztqC3QQybbgbVxVrdNjv.jpg",
       "categories": [
-        "Películas"
+        "comedia",
+        "romance"
       ],
+      "tmdbId": 1601797,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
