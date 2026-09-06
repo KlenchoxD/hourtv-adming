@@ -6047,9 +6047,26 @@
     {
       "id": "5ea2207fccc743bd8b97d46bd4921f56",
       "title": "Una película de Minecraft",
+      "plot": "Cuatro inadaptados se encuentran luchando con problemas ordinarios cuando de repente se ven arrastrados a través de un misterioso portal al Mundo Exterior: un extraño país de las maravillas cúbico que se nutre de la imaginación. Para volver a casa, tendrán que dominar este mundo mientras se embarcan en una búsqueda mágica con un inesperado experto artesano, Steve.",
+      "cast": "Jason Momoa, Jack Black, Sebastian Eugene Hansen, Emma Myers, Danielle Brooks, Jennifer Coolidge, Rachel House, Allan Henry",
+      "director": "Jared Hess",
+      "writer": "Chris Galletta",
+      "releaseDate": "2025-03-31",
       "year": "2025",
-      "plot": "Vive la historia de Una película de Minecraft (2025) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del",
-      "poster": "https://image.tmdb.org/t/p/w1280/2Nti3gYAX513wvhp8IiLL6ZDyOm.jpg",
+      "genre": "Familia, Fantasía, Comedia, Aventura",
+      "rating": 6.2,
+      "duration": "100 min",
+      "poster": "https://image.tmdb.org/t/p/w500/mFjtmmh4RtK9tLv1aPnUsl6st3m.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/2Nti3gYAX513wvhp8IiLL6ZDyOm.jpg",
+      "categories": [
+        "populares",
+        "comedia",
+        "aventura",
+        "familia",
+        "fantasía"
+      ],
+      "tmdbId": 950387,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
