@@ -4147,9 +4147,22 @@
     {
       "id": "058fb4222a3745ecb1a57c2f2905450d",
       "title": "Si pudiera, te daría una patada",
+      "plot": "Con su vida literalmente derrumbándose a su alrededor, Linda intenta lidiar con la misteriosa enfermedad de su hija, su marido ausente, una persona desaparecida y una relación cada vez más hostil con su terapeuta.",
+      "cast": "Rose Byrne, Conan O'Brien, A$AP Rocky, Danielle Macdonald, Delaney Quinn, Mary Bronstein, Ivy Wolk, Mark Stolzenberg",
+      "director": "Mary Bronstein",
+      "writer": "Mary Bronstein",
+      "releaseDate": "2025-10-10",
       "year": "2025",
-      "plot": "Vive la historia de Si pudiera, te daría una patada (2025) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes",
-      "poster": "https://image.tmdb.org/t/p/w1280/eLVKuHGx9k8JgLk5JINQDmh9tRH.jpg",
+      "genre": "Drama",
+      "rating": 6.3,
+      "duration": "113 min",
+      "poster": "https://image.tmdb.org/t/p/w500/dpXbEKk1eMcXRgl62zWhNcZH4BN.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/eLVKuHGx9k8JgLk5JINQDmh9tRH.jpg",
+      "categories": [
+        "drama"
+      ],
+      "tmdbId": 1160360,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
