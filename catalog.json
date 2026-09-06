@@ -1710,12 +1710,27 @@
     },
     {
       "id": "7eb82c63b5e340f399f6b37263cbf518",
-      "title": "Angry Birds: La película (2016)",
-      "plot": "Vive la historia de Angry Birds: La película (2016) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del",
-      "poster": "https://image.tmdb.org/t/p/w1280/o4mhrLxv6I70kvYA42qANGUF7ya.jpg",
+      "title": "Angry Birds: La película",
+      "plot": "Basada en la colección de videojuegos \"Angry Birds\", la historia se desarrolla en una isla poblada por aves felices que no vuelan. En este paraíso, Red, un pájaro con muy mal genio, el veloz Chuck y el volátil Bomb nunca han terminado de encajar. Pero cuando llegan a la isla unos misteriosos cerdos verdes, serán estos tres marginados los que averigüen qué traman los extraños visitantes.",
+      "cast": "Jason Sudeikis, Josh Gad, Danny McBride, Maya Rudolph, Bill Hader, Peter Dinklage, Sean Penn, Keegan-Michael Key",
+      "director": "Clay Kaytis",
+      "writer": "Jon Vitti",
+      "releaseDate": "2016-05-11",
+      "year": "2016",
+      "genre": "Animación, Aventura, Comedia, Familia",
+      "rating": 6.3,
+      "duration": "98 min",
+      "poster": "https://image.tmdb.org/t/p/w500/wHlxud7DzsolgvasBFt6gFHIUwP.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/o4mhrLxv6I70kvYA42qANGUF7ya.jpg",
       "categories": [
-        "Películas"
+        "populares",
+        "comedia",
+        "aventura",
+        "infantil",
+        "familia"
       ],
+      "tmdbId": 153518,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
