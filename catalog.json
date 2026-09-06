@@ -477,8 +477,8 @@
     },
     {
       "id": "mrokxujv2chn6",
-      "title": "El diario de la Princesa",
-      "plot": "Mia Thermopolis es una tímida adolescente que lleva una vida normal hasta que descubre que es la heredera al trono del pequeño reino de Genovia. Guiada por su elegante abuela, la reina Clarisse, Mia deberá aprender las responsabilidades de ser una princesa mientras enfrenta los desafíos de la escuela, la amistad y el primer amor. Una entrañable historia sobre encontrar el valor para ser uno mismo.",
+      "title": "Princesa por sorpresa",
+      "plot": "La vida de Mia Thermopolis, una tímida adolescente que vive en San Francisco, da un vuelco cuando averigua que es la heredera del trono del diminuto principado europeo de Genovia. Su estricta y sabia abuela, la Reina Clarisse Renaldi, irrumpe entonces en su vida con la intención de prepararla para ser princesa, pero Mia no tiene la menor intención de dejar su vida para gobernar un país tan lejano. La reticente princesa se enfrenta al dilema más importante de su vida: seguir con su familia o aceptar sus responsabilidades como princesa.",
       "cast": "Anne Hathaway, Julie Andrews, Hector Elizondo, Heather Matarazzo, Mandy Moore, Caroline Goodall, Robert Schwartzman, Erik von Detten",
       "director": "Garry Marshall",
       "writer": "Gina Wendkos, basada en la novela de Meg Cabot",
@@ -487,14 +487,18 @@
       "genre": "Comedia, Romance, Familiar",
       "rating": 6.4,
       "duration": "115 min",
-      "poster": "https://i.pinimg.com/736x/f3/9e/35/f39e35de0c84e0e6db0ab66a28d03857.jpg",
+      "poster": "https://image.tmdb.org/t/p/w500/s4DYhsEnziYlJy91bbxv1ZhTJFG.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/ktPixrzD9Rbet7Co4uUWxyR9191.jpg",
       "categories": [
         "recomendado",
         "populares",
         "comedia",
         "romance",
-        "infantil"
+        "infantil",
+        "familia"
       ],
+      "tmdbId": 9880,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Servidor 1",
