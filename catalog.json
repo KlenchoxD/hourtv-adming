@@ -5869,9 +5869,22 @@
     {
       "id": "9dd9aa9803b344f6858e1fbe96765e6d",
       "title": "La trampa del ratón",
+      "plot": "Es el 21 cumpleaños de Alex, pero está atrapada en la sala de máquinas recreativas en un turno de noche, así que sus amigos deciden darle una sorpresa, pero un asesino enmascarado vestido de Mickey Mouse decide jugar un juego propio con ellos al que ella debe sobrevivir. Primera película de terror creada tras le caída de Mickey Mouse en el dominio público en su versión de \"Steamboat Willie\" de 1928.",
+      "cast": "Simon Phillips, Sophie McIntosh, Madeline Kelman, Ben Harris, Calum Sywyk, Mireille Gagné, James Laurin, Kayleigh Styles",
+      "director": "Jamie Bailey",
+      "writer": "Simon Phillips",
+      "releaseDate": "2024-08-23",
       "year": "2024",
-      "plot": "Vive la historia de La trampa del ratón (2024) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/o9FgMDfXUQPXh3khwCnDMiX6Cyi.jpg",
+      "genre": "Terror, Suspense",
+      "rating": 4.1,
+      "duration": "80 min",
+      "poster": "https://image.tmdb.org/t/p/w500/9eZkAWx3Qk9BzxfdK97ugqlgzvU.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/o9FgMDfXUQPXh3khwCnDMiX6Cyi.jpg",
+      "categories": [
+        "terror"
+      ],
+      "tmdbId": 1225377,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
