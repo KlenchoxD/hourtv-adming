@@ -4977,10 +4977,24 @@
     },
     {
       "id": "0ecb52a5f83a464593cb9d7755dc6cc1",
-      "title": "Amores compartidos",
+      "title": "Splitsville: Una comedia poco romántica",
+      "plot": "Cuando Ashley le pide el divorcio, el bonachón de Carey acude a sus amigos, Julie y Paul, en busca de apoyo. Su secreto para ser felices es un matrimonio abierto, pero Carey cruza la línea y hace que todas sus relaciones se conviertan en un caos.",
+      "cast": "Kyle Marvin, Michael Angelo Covino, Dakota Johnson, Adria Arjona, Nicholas Braun, David Castañeda, O-T Fagbenle, Charlie Gillespie",
+      "director": "Michael Angelo Covino",
+      "writer": "Michael Angelo Covino",
+      "releaseDate": "2025-08-21",
       "year": "2025",
-      "plot": "Vive la historia de Amores compartidos (2025) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/AbaRJXNmyLjG4tY48k2fhNNmuW4.jpg",
+      "genre": "Comedia, Romance",
+      "rating": 6.3,
+      "duration": "105 min",
+      "poster": "https://image.tmdb.org/t/p/w500/mWEkYlVwThLksrFm7UMy06mEb71.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/AbaRJXNmyLjG4tY48k2fhNNmuW4.jpg",
+      "categories": [
+        "comedia",
+        "romance"
+      ],
+      "tmdbId": 1337562,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
