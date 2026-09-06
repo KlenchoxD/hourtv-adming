@@ -15,8 +15,19 @@ async function publish(){
         if(res.status===404)return {catalog:{},sha:undefined};
         if(!res.ok)throw new Error('No se pudo leer el catálogo actual ('+res.status+'). No se sobrescribió.');
         const data=await res.json();
-        if(!data.sha||typeof data.content!=='string')throw new Error('Respuesta de catálogo incompleta.');
-        return {sha:data.sha,catalog:JSON.parse(decodeURIComponent(escape(atob(data.content.replace(/\n/g,'')))))};
+        if(!data.sha)throw new Error('Respuesta de catálogo incompleta.');
+        let contentStr;
+        if(typeof data.content==='string'&&data.content.length>0){
+          contentStr=data.content;
+        }else{
+          const bRes=await fetch(`https://api.github.com/repos/${cfg.owner}/${cfg.repo}/git/blobs/${data.sha}`,{
+            headers:{Authorization:`Bearer ${cfg.token}`,Accept:'application/vnd.github+json'}
+          });
+          if(!bRes.ok)throw new Error('Error al leer catálogo extenso ('+bRes.status+').');
+          const bData=await bRes.json();
+          contentStr=bData.content;
+        }
+        return {sha:data.sha,catalog:JSON.parse(decodeURIComponent(escape(atob(contentStr.replace(/\n/g,'')))))};
       },
       write:(merged,sha)=>ghApi('PUT',{body:JSON.stringify({message:'Actualizar catálogo desde el panel HourTV',
         branch:cfg.branch,content:btoa(unescape(encodeURIComponent(JSON.stringify(merged,null,2)))),...(sha?{sha}:{})})})

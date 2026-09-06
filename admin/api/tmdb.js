@@ -80,7 +80,7 @@ module.exports = async (req, res) => {
         (year ? '&year=' + encodeURIComponent(year) : '');
       const data = await tmdb('/search/multi', params, a);
       const results = (data.results || []).map(card).filter(Boolean);
-      return res.status(200).json({ results: results.slice(0, 12) });
+      return res.status(200).json({ results });
     }
 
     if (action === 'detail') {
@@ -105,7 +105,7 @@ module.exports = async (req, res) => {
         originalLanguage: data.original_language || '',
         duration: runtime ? runtime + ' min' : null,
         cast: cast
-          .slice(0, 8)
+          .slice(0, 30)
           .map((c) => c.name)
           .join(', '),
         director: (

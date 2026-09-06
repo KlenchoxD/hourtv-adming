@@ -1262,8 +1262,8 @@ let deletedIds = new Set(JSON.parse(localStorage.getItem('hourtv_admin_deleted')
 function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7)}
 function esc(s){return String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
 function toast(msg,type){const t=document.getElementById('toast');t.textContent=msg;t.className='toast show '+(type||'');setTimeout(()=>t.className='toast',2600)}
-function save(){localStorage.setItem('hourtv_admin_catalog',JSON.stringify(catalog))}
-function saveDeletedIds(){localStorage.setItem('hourtv_admin_deleted',JSON.stringify([...deletedIds]))}
+function save(){try{localStorage.setItem('hourtv_admin_catalog',JSON.stringify(catalog))}catch(e){console.warn('Almacenamiento local lleno; los datos se mantienen en memoria para publicar a GitHub.',e)}}
+function saveDeletedIds(){try{localStorage.setItem('hourtv_admin_deleted',JSON.stringify([...deletedIds]))}catch(e){}}
 
 // ---------- Pendientes ----------
 // Campos clave que Server Hunter no rellena al publicar y que completas a mano.
@@ -1761,7 +1761,7 @@ function vodForm(it, isSeries){
   </div>
   <input type="hidden" id="f_tmdb_id" value="${esc(it.tmdbId)}">
   <input type="hidden" id="f_tmdb_type" value="${esc(it.tmdbType)}">
-  <div class="row"><label>Descripción / sinopsis</label><textarea id="f_plot" maxlength="4000" placeholder="De qué trata…">${esc(it.plot||it.description)}</textarea></div>
+  <div class="row"><label>Descripción / sinopsis</label><textarea id="f_plot" placeholder="De qué trata…">${esc(it.plot||it.description)}</textarea></div>
 
   <div class="section-label">Ficha técnica</div>
   <div class="row2">
@@ -2014,7 +2014,7 @@ function fileToBase64(file){
 }
 async function uploadImage(file, targetInputId, previewId){
   if(!cfg.token||!cfg.owner||!cfg.repo){toast('Configura GitHub primero','err');openConfig();return}
-  if(file.size > 8*1024*1024){toast('Imagen muy pesada (máx. 8 MB)','err');return}
+  if(file.size > 50*1024*1024){toast('Imagen muy pesada (máx. 50 MB)','err');return}
   toast('Subiendo imagen…');
   try{
     const ext = (file.name.split('.').pop()||'jpg').toLowerCase().replace(/[^a-z0-9]/g,'')||'jpg';
@@ -2041,10 +2041,24 @@ async function loadFromGitHub(){
     if(res.status===404){toast('El archivo no existe aún — se creará al publicar','warn');return}
     if(!res.ok){toast('Error '+res.status+' al cargar','err');return}
     const data=await res.json();
-    const content=decodeURIComponent(escape(atob(data.content.replace(/\n/g,''))));
-    catalog=normalize(JSON.parse(content));window._sha=data.sha;catalogBase=JSON.parse(JSON.stringify(catalog));localStorage.setItem("hourtv_admin_base",JSON.stringify(catalogBase));save();render();
+    let content;
+    if(typeof data.content==='string' && data.content.length>0){
+      content=decodeURIComponent(escape(atob(data.content.replace(/\n/g,''))));
+    }else if(data.sha){
+      const bRes=await fetch(`https://api.github.com/repos/${cfg.owner}/${cfg.repo}/git/blobs/${data.sha}`,{
+        headers:{Authorization:`Bearer ${cfg.token}`,Accept:'application/vnd.github+json'}
+      });
+      if(!bRes.ok)throw new Error('Error al obtener contenido extenso de GitHub');
+      const bData=await bRes.json();
+      content=decodeURIComponent(escape(atob(bData.content.replace(/\n/g,''))));
+    }else{
+      throw new Error('Respuesta sin contenido');
+    }
+    catalog=normalize(JSON.parse(content));window._sha=data.sha;catalogBase=JSON.parse(JSON.stringify(catalog));
+    try{localStorage.setItem("hourtv_admin_base",JSON.stringify(catalogBase))}catch(e){}
+    save();render();
     toast('Catálogo cargado desde GitHub','ok');
-  }catch(e){toast('No se pudo cargar','err')}
+  }catch(e){toast('No se pudo cargar: '+(e.message||''),'err')}
 }
 
 // ---------- Init ----------
