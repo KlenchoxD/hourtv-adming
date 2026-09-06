@@ -542,8 +542,8 @@
     },
     {
       "id": "mrolqgid0ka6j",
-      "title": "Amor de Medianoche",
-      "plot": "Katie Price es una joven de 17 años que vive con una extraña enfermedad genética que le impide exponerse a la luz del sol. Acostumbrada a salir únicamente por las noches, su vida cambia cuando finalmente conoce a Charlie, el chico del que ha estado enamorada durante años. Juntos vivirán una inolvidable historia de amor, llena de esperanza, desafíos y momentos que cambiarán sus vidas para siempre.",
+      "title": "Amor a medianoche",
+      "plot": "Basada en la película japonesa del 2006 del mismo nombre se centra en Katie, una joven de 17 años de edad, encerrada desde la infancia en su casa durante el día por una rara enfermedad que hace que incluso la mínima cantidad de luz solar sea mortal. El destino interviene cuando conoce a Charlie y se embarcan en un romance de verano.",
       "cast": "Bella Thorne, Patrick Schwarzenegger, Rob Riggle, Quinn Shephard, Suleka Mathew, Tiera Skovbye, Ken Tremblett",
       "director": "Scott Speer",
       "writer": "Eric Kirsten",
@@ -552,13 +552,16 @@
       "genre": "Drama, Romance",
       "rating": 6.6,
       "duration": "91 min",
-      "poster": "https://i.pinimg.com/736x/6a/e4/7d/6ae47d9d1655f6fc419f7068fd281236.jpg",
+      "poster": "https://image.tmdb.org/t/p/w500/jDNSClwYEVwmXfJgYDERvuALlXT.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/9T8sj5io4SGCBTHsk5H8LGcfKVe.jpg",
       "categories": [
         "recomendado",
         "populares",
         "romance",
         "drama"
       ],
+      "tmdbId": 419478,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Servidor 1",
