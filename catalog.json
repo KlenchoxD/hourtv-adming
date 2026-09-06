@@ -2960,9 +2960,23 @@
     {
       "id": "ec8754facebc41ef8355f89922fd4d72",
       "title": "Engendro",
+      "plot": "En el bosque finlandés, Saga y su esposo Jon se embarcan en un nuevo capítulo como padres. La alegría de Saga se ve ensombrecida por las sospechas sobre su bebé, provocando una ruptura mientras ella se enfrenta a la inquietante verdad.",
+      "cast": "Rupert Grint, Seidi Haarla, Pamela Tola, Pirkko Saisio, Rebecca Lacey, John Thomson, Silvia Saloranta, Satu Tuuli Karhu",
+      "director": "Hanna Bergholm",
+      "writer": "Hanna Bergholm",
+      "releaseDate": "2026-07-01",
       "year": "2026",
-      "plot": "Vive la historia de Engendro (2026) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/jVeYae744cR2ogx9ShQ3qXOcRiZ.jpg",
+      "genre": "Terror",
+      "rating": 6,
+      "duration": "92 min",
+      "poster": "https://image.tmdb.org/t/p/w500/cVQFWGIt5PNw3p7AcQOq2Eg39G.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/jVeYae744cR2ogx9ShQ3qXOcRiZ.jpg",
+      "categories": [
+        "estrenos",
+        "terror"
+      ],
+      "tmdbId": 964849,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
