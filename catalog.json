@@ -4644,9 +4644,25 @@
     {
       "id": "c17f869927ce4eb491fac6e1b6acac81",
       "title": "Frankie y los monstruos",
+      "plot": "En un castillo-laboratorio situado en lo alto de la pequeña ciudad de Tarados de Arriba, el más loco de los profesores locos despierta monstruosas creaciones a la Casi-Vida... para luego olvidarse rápidamente de ellas. ¿Quién cuida del castillo? ¿Quién cuida de los monstruos? ¿Quién les enseña a no ser monstruosos, para que la gente del pueblo no forme una turba enfurecida y queme el castillo? Frankie, la primera creación del profesor, un ser diminuto, de cabeza calva cubierta de un mosaico de puntadas, y ojos hipnóticos, hace todo el trabajo, pero el profesor ni siquiera se fija en él. Pero ahora, un destartalado espectáculo de fenómenos ha llegado a la ciudad, y su propietario, Boniface Buscamonstruos, necesita desesperadamente una nueva atracción para atraer a las multitudes. Pronto llega a la puerta del castillo y promete a Frankie fama, fortuna y amor.",
+      "cast": "Asa Butterfield, Joel Fry, Alison Steadman, Rob Brydon, Seth Usdenov, Fern Brady, Tia Bannon, Jamali Maddix",
+      "director": "Steve Hudson",
+      "writer": "Steve Hudson",
+      "releaseDate": "2025-10-16",
       "year": "2025",
-      "plot": "Vive la historia de Frankie y los monstruos (2025) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/zIFFlcvilrrbUlveEbIsFAtUfGT.jpg",
+      "genre": "Animación, Aventura, Familia, Comedia",
+      "rating": 7.1,
+      "duration": "91 min",
+      "poster": "https://image.tmdb.org/t/p/w500/kXsI6DluqNnBfJenlXNuIpiPTOU.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/zIFFlcvilrrbUlveEbIsFAtUfGT.jpg",
+      "categories": [
+        "comedia",
+        "aventura",
+        "infantil",
+        "familia"
+      ],
+      "tmdbId": 1214130,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
