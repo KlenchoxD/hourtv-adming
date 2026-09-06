@@ -2603,12 +2603,24 @@
     },
     {
       "id": "77d1e19cd894423080452ad157b3095a",
-      "title": "10 Dance (2025)",
-      "plot": "Vive la historia de 10 Dance (2025) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/hsuT5b5EcDAVCY3Oe0Iyez2lTES.jpg",
+      "title": "10DANCE",
+      "plot": "Dos bailarines, distintos en todo menos en su arte, deciden entrenar juntos para una competición. Al principio chocan, pero pronto se sienten atraídos.",
+      "cast": "Ryoma Takeuchi, Keita Machida, 土居志央梨, 石井杏奈, 浜田信也, 前田旺志郎, Nadiya Bychkova, Susie Trayling",
+      "director": "大友啓史",
+      "writer": "吉田智子",
+      "releaseDate": "2025-12-17",
+      "year": "2025",
+      "genre": "Romance, Drama",
+      "rating": 7.6,
+      "duration": "127 min",
+      "poster": "https://image.tmdb.org/t/p/w500/iQOIOz8BZ2QLMyFJ7Leo9izSyti.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/hsuT5b5EcDAVCY3Oe0Iyez2lTES.jpg",
       "categories": [
-        "Películas"
+        "romance",
+        "drama"
       ],
+      "tmdbId": 1400032,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
