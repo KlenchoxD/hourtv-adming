@@ -5407,9 +5407,25 @@
     {
       "id": "69a251eb844a42e2bbf2e58f90686d9c",
       "title": "Nadie 2",
+      "plot": "Cuatro años después de enfrentarse involuntariamente a la mafia rusa, Hutch Mansell sigue intentando saldar una deuda de 30 millones de dólares con golpes a criminales internacionales. Agotado y distanciado de su familia, organiza unas vacaciones con su esposa e hijos en Plummerville, el lugar donde solía ir con su hermano de niño. Pero un pequeño altercado los convierte en el objetivo de un peligroso mafioso local y de su corrupto sheriff, poniendo en riesgo toda la familia.",
+      "cast": "Bob Odenkirk, Connie Nielsen, John Ortiz, Colin Hanks, RZA, Colin Salmon, Christopher Lloyd, Sharon Stone",
+      "director": "Timo Tjahjanto",
+      "writer": "Aaron Rabin",
+      "releaseDate": "2025-08-13",
       "year": "2025",
-      "plot": "Vive la historia de Nadie 2 (2025) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/82C04rTiXYZ7c8XZv91Nu53w82Y.jpg",
+      "genre": "Acción, Suspense, Comedia, Crimen",
+      "rating": 6.9,
+      "duration": "89 min",
+      "poster": "https://image.tmdb.org/t/p/w500/qwdBh0102NX5fslXv3L9MSlXqKc.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/82C04rTiXYZ7c8XZv91Nu53w82Y.jpg",
+      "categories": [
+        "terror",
+        "accion",
+        "comedia",
+        "drama"
+      ],
+      "tmdbId": 1007734,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
