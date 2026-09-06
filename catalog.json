@@ -122,7 +122,7 @@
     {
       "id": "mroi2tlyme7vb",
       "title": "La escuela del bien y del mal",
-      "plot": "Las mejores amigas Sophie y Agatha son transportadas a una escuela mágica donde los jóvenes son entrenados para convertirse en héroes o villanos de los cuentos de hadas. Cuando ambas terminan en escuelas opuestas a las que esperaban, deberán desafiar su destino, descubrir quiénes son realmente y demostrar que la verdadera amistad puede cambiar cualquier historia.",
+      "plot": "Un grupo de jóvenes son llevados a una institución donde los entrenan para convertirse en héroes y villanos.",
       "cast": "Sophia Anne Caruso, Sofia Wylie, Charlize Theron, Kerry Washington, Laurence Fishburne, Michelle Yeoh, Jamie Flatters, Kit Young, Earl Cave, Patti LuPone",
       "director": "Paul Feig",
       "writer": "David Magee, Paul Feig, basada en la novela de Soman Chainani",
@@ -131,14 +131,19 @@
       "genre": "Fantasía, Aventura, Acción, Drama",
       "rating": 5.9,
       "duration": "147 min",
-      "poster": "https://i.pinimg.com/1200x/c9/ac/f9/c9acf90a10bdc3566cd5f744caf5a56f.jpg",
+      "poster": "https://image.tmdb.org/t/p/w500/xEOBNSrM5g1SSaOnvpioZF38cuE.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/tSxbUnrnWlR5dQvUgqMI7sACmFD.jpg",
       "categories": [
         "recomendado",
         "populares",
         "accion",
+        "comedia",
         "aventura",
-        "infantil"
+        "infantil",
+        "fantasía"
       ],
+      "tmdbId": 779782,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Servidor 1",
