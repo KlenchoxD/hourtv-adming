@@ -3137,9 +3137,23 @@
     {
       "id": "1b6cb725009345f0a119a1ea301f5c88",
       "title": "Aniversario",
+      "plot": "Cuando Josh, el hijo de Ellen y Paul, presenta a su nueva novia en la fiesta de su vigesimoquinto aniversario, nadie sospecha que es el principio del fin para esta familia feliz. La nueva novia es Liz, una antigua alumna de Ellen que dejó la universidad unos años antes, después de que Ellen la confrontara en clase por su ideología radical.",
+      "cast": "Kyle Chandler, Diane Lane, Zoey Deutch, Daryl McCormack, Phoebe Dynevor, Dylan O'Brien, Mckenna Grace, Madeline Brewer",
+      "director": "Jan Komasa",
+      "writer": "Lori Rosene-Gambino",
+      "releaseDate": "2025-10-29",
       "year": "2025",
-      "plot": "Vive la historia de Aniversario (2025) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/mNUciC3vHhoskveYsO3hiFypqMz.jpg",
+      "genre": "Suspense, Drama",
+      "rating": 6.8,
+      "duration": "112 min",
+      "poster": "https://image.tmdb.org/t/p/w500/ivuxh5CskKOHcjgCmjZRBvxGwBL.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/mNUciC3vHhoskveYsO3hiFypqMz.jpg",
+      "categories": [
+        "terror",
+        "drama"
+      ],
+      "tmdbId": 1126336,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
