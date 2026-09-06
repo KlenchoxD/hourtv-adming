@@ -1404,12 +1404,25 @@
     },
     {
       "id": "773d2901e1974f3492625c854f2375e8",
-      "title": "Una mirada extendida a Grand Theft Auto VI (2026)",
-      "plot": "Vive la historia de Una mirada extendida a Grand Theft Auto VI (2026) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para",
-      "poster": "https://image.tmdb.org/t/p/w1280/po0uFYwWNByHQzHLCVJ6FetkN4M.jpg",
+      "title": "Grand Theft Auto VI: Una mirada extendida",
+      "plot": "No te pierdas la próxima evolución de la revolucionaria saga Grand Theft Auto.",
+      "cast": "Manni L. Perez, Dylan Rourke",
+      "releaseDate": "2026-08-27",
+      "year": "2026",
+      "genre": "Animación, Acción, Aventura, Crimen",
+      "rating": 8.9,
+      "duration": "27 min",
+      "poster": "https://image.tmdb.org/t/p/w500/923Rlahei29QkKDFSKXoGAu6Uj7.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/po0uFYwWNByHQzHLCVJ6FetkN4M.jpg",
       "categories": [
-        "Películas"
+        "estrenos",
+        "accion",
+        "aventura",
+        "drama",
+        "infantil"
       ],
+      "tmdbId": 1744462,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
