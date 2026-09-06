@@ -5436,10 +5436,25 @@
     },
     {
       "id": "e13d880c0d8b474b989906099d721739",
-      "title": "¿Y dónde está el policía?",
+      "title": "Agárralo como puedas",
+      "plot": "El torpe teniente Frank Drebin Jr. intenta resolver un asesinato vinculado a un magnate tecnológico. Mientras investiga, su unidad policial corre peligro de ser cerrada. Con la ayuda de una escritora de crímenes, Frank se verá envuelto en situaciones tan absurdas como explosivas. Película reboot basada en la popular franquicia de comedia \"Agárralo como puedas\" y la serie de televisión \"Police Squad!\".",
+      "cast": "Liam Neeson, Pamela Anderson, Paul Walter Hauser, Danny Huston, CCH Pounder, Kevin Durand, Liza Koshy, Eddie Yu",
+      "director": "Akiva Schaffer",
+      "writer": "Dan Gregor",
+      "releaseDate": "2025-07-30",
       "year": "2025",
-      "plot": "Vive la historia de ¿Y dónde está el policía? (2025) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del",
-      "poster": "https://image.tmdb.org/t/p/w1280/1wi1hcbl6KYqARjdQ4qrBWZdiau.jpg",
+      "genre": "Comedia, Crimen, Acción",
+      "rating": 6.4,
+      "duration": "85 min",
+      "poster": "https://image.tmdb.org/t/p/w500/v8FpKw8mOsHxC0YElkgNNSCzGMl.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/1wi1hcbl6KYqARjdQ4qrBWZdiau.jpg",
+      "categories": [
+        "accion",
+        "comedia",
+        "drama"
+      ],
+      "tmdbId": 1035259,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
