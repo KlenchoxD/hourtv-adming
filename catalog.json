@@ -4613,10 +4613,26 @@
     },
     {
       "id": "e2e66dc73f604a7f9e42d37c39d7a1a8",
-      "title": "Luna azul",
+      "title": "Blue Moon",
+      "plot": "En la noche del 31 de marzo de 1943, el legendario letrista Lorenz Hart se enfrenta a su dañada autoestima en el bar Sardi mientras su antiguo compañero creativo Richard Rodgers acoge la noche inaugural de su exitoso musical '¡Oklahoma!'. Antes de que la noche acabe, Hart se habrá enfrentado tanto a un mundo que ya no valora su talento como a la aparente imposibilidad del amor.",
+      "cast": "Ethan Hawke, Bobby Cannavale, Andrew Scott, Margaret Qualley, Patrick Kennedy, Jonah Lees, Simon Delaney, Giles Surridge",
+      "director": "Richard Linklater",
+      "writer": "Robert Kaplow",
+      "releaseDate": "2025-10-17",
       "year": "2025",
-      "plot": "Vive la historia de Luna azul (2025) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/28PLbMHktbX8TnuEWSiTrRbI4p8.jpg",
+      "genre": "Música, Historia, Drama, Comedia",
+      "rating": 6.6,
+      "duration": "111 min",
+      "poster": "https://image.tmdb.org/t/p/w500/p7pfJYxB1dpfAWkKSrnFjRhTmIG.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/28PLbMHktbX8TnuEWSiTrRbI4p8.jpg",
+      "categories": [
+        "comedia",
+        "drama",
+        "música",
+        "historia"
+      ],
+      "tmdbId": 1299655,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
