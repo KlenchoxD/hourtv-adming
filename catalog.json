@@ -2144,12 +2144,25 @@
     },
     {
       "id": "93a4419f4b8840d6b1cef81f7a24b92b",
-      "title": "El drama (2026)",
-      "plot": "Vive la historia de El drama (2026) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/1oKLEA9JOhvaBwLpqjROisvWMy7.jpg",
+      "title": "El drama",
+      "plot": "Una pareja, en los días previos a su boda, se enfrenta a una crisis cuando unas inesperadas revelaciones desbaratan lo que uno de ellos creía saber sobre el otro.",
+      "cast": "Zendaya, Robert Pattinson, Alana Haim, Mamoudou Athie, Hailey Benton Gates, Sydney Lemmon, Hannah Gross, Anna Baryshnikov",
+      "director": "Kristoffer Borgli",
+      "writer": "Kristoffer Borgli",
+      "releaseDate": "2026-04-01",
+      "year": "2026",
+      "genre": "Romance, Comedia, Drama",
+      "rating": 6.9,
+      "duration": "105 min",
+      "poster": "https://image.tmdb.org/t/p/w500/zgfBYGYCNcOZ51JDbr6tm45H8y0.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/1oKLEA9JOhvaBwLpqjROisvWMy7.jpg",
       "categories": [
-        "Películas"
+        "comedia",
+        "romance",
+        "drama"
       ],
+      "tmdbId": 1325734,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
