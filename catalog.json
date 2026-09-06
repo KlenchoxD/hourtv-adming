@@ -1562,12 +1562,25 @@
     },
     {
       "id": "86a4951b1ad348cdba2a855aafb523c6",
-      "title": "Soulm8te (2026)",
-      "plot": "Vive la historia de Soulm8te (2026) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/7t6f6VxA2ZXbbZSVctgt7bZG2DI.jpg",
+      "title": "Soulm8te",
+      "plot": "Un hombre adquiere un androide con Inteligencia Artificial para hacer frente a la pérdida de su esposa recientemente fallecida. En un intento por crear una pareja verdaderamente sensible, sin darse cuenta convierte a un inofensivo robot del amor en un alma gemela mortal.",
+      "cast": "David Rysdahl, Lily Sullivan, Claudia Doumit, Arty Froushan, Elijah Isaiah Cook, Mara Huf, Emma Ramos, Sydney Blackburn",
+      "director": "Kate Dolan",
+      "writer": "Kate Dolan",
+      "releaseDate": "2026-07-31",
+      "year": "2026",
+      "genre": "Terror, Ciencia ficción, Suspense",
+      "rating": 7.4,
+      "duration": "99 min",
+      "poster": "https://image.tmdb.org/t/p/w500/xeBFjbLFp3vvv49yD2q1Gg64zyb.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/7t6f6VxA2ZXbbZSVctgt7bZG2DI.jpg",
       "categories": [
-        "Películas"
+        "estrenos",
+        "terror",
+        "aventura"
       ],
+      "tmdbId": 1307118,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
