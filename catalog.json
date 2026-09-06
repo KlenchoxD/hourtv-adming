@@ -1644,41 +1644,6 @@
       ]
     },
     {
-      "id": "4052dff0b62f4ab8a200b9734ad64fc9",
-      "title": "Los Simpson: Yellow Mirror: La realidad paralela de Homero",
-      "plot": "Una lámpara defectuosa revela una verdad desgarradora sobre lo que Homer cree que es la realidad, y una tableta con inteligencia artificial se hace amiga de Maggie y la controla. Los Simpson luchan por encontrar la luz a través de dos historias oscuras, curiosas y extrañas.",
-      "cast": "Dan Castellaneta, Nancy Cartwright, Julie Kavner, Yeardley Smith, Patti Harrison, Demi Moore, Harry Shearer, Alex Désert",
-      "director": "Matthew Faughnan",
-      "writer": "Carolyn Omine",
-      "releaseDate": "2026-08-26",
-      "year": "2026",
-      "genre": "Animación, Comedia, Ciencia ficción",
-      "rating": 8.1,
-      "duration": "27 min",
-      "poster": "https://image.tmdb.org/t/p/w500/wybH2AK9kazNW7WYKST1YzUKP75.jpg",
-      "backdrop": "https://image.tmdb.org/t/p/w1280/rFjlsx5IygrHmBqr0KsVolAHhy7.jpg",
-      "categories": [
-        "estrenos",
-        "comedia",
-        "aventura",
-        "infantil"
-      ],
-      "tmdbId": 1729723,
-      "tmdbType": "movie",
-      "servers": [
-        {
-          "name": "Vimeus",
-          "url": "https://vimeus.com/e/movie?tmdb=1729723&view_key=kH-5ME2UFjOxlrA0PndTJaXKKrxin2IGtm2YPAaQw9M",
-          "language": "Español"
-        },
-        {
-          "name": "PrimeSrc",
-          "url": "https://primesrc.me/embed/movie?tmdb=1729723&fallback=true",
-          "language": "Idioma sin identificar"
-        }
-      ]
-    },
-    {
       "id": "b943a2947a74461eb23385e44131b93f",
       "title": "LEGO Star Wars Cuentos escalofriantes",
       "plot": "Tras aterrizar de emergencia en el planeta volcánico Mustafar, Poe y BB-8 buscan ayuda en el escalofriante castillo de Darth Vader. Allí encuentran a un intrigante Hutt, un intrépido mecánico y el antiguo asistente de Darth Vader, Vaneé, que les obsequia con tres relatos aterradores ligados a antiguos artefactos y a villanos icónicos de todas las épocas de Star Wars.",
