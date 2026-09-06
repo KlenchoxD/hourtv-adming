@@ -3158,6 +3158,28 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "df9d2730968149e9954dd19c64f3cb67",
+      "title": "Enola Holmes 3",
+      "year": "2026",
+      "tmdb_id": 1202033,
+      "imdb_id": "tt32278481",
+      "genre": "cine de misterio, cine de suspenso, cine de detectives",
+      "cast": "Louis Partridge, Himesh Patel, Henry Cavill, Helena Bonham Carter, Sharon Duncan Brewster",
+      "director": "Philip Barantini",
+      "writer": "Jack Thorne",
+      "duration": "105 min",
+      "releaseDate": "2026-07-01",
+      "plot": "Vive la historia de Enola Holmes 3 (2026) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
+      "poster": "https://image.tmdb.org/t/p/w1280/jLuGZc84MvPYCQomQg9DI72mstt.jpg",
+      "servers": [
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/1aeBqR4uAOYJIyu/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
