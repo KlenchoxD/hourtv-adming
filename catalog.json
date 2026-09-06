@@ -876,48 +876,6 @@
       ]
     },
     {
-      "id": "9c5c98ced772481cbe73862056dfaa34",
-      "title": "Toy Story 5",
-      "plot": "Los juguetes de Bonnie se enfrentan a otra amenaza cuando la niña recibe una tableta llamada Lilypad, la cual absorbe toda su atención y pone en peligro el juego tradicional. Todos deben unirse para competir contra la tecnología y recuperar su lugar.",
-      "cast": "Joan Cusack, Tom Hanks, Tim Allen, Conan O'Brien, Scarlett Spears, Greta Lee, Shelby Rabara, Mykal-Michelle Harris",
-      "director": "Andrew Stanton",
-      "writer": "Andrew Stanton",
-      "releaseDate": "2026-06-17",
-      "year": "2026",
-      "genre": "Animación, Familia, Comedia, Aventura",
-      "rating": 8.3,
-      "duration": "102 min",
-      "poster": "https://image.tmdb.org/t/p/w500/pTjZfbFVWUIwUM5OzX3LVh84ejU.jpg",
-      "backdrop": "https://image.tmdb.org/t/p/w1280/8sSKdEmlmqF4kJUd28SqthXC4yZ.jpg",
-      "categories": [
-        "recomendado",
-        "estrenos",
-        "comedia",
-        "aventura",
-        "infantil"
-      ],
-      "featured": true,
-      "tmdbId": 1084244,
-      "tmdbType": "movie",
-      "servers": [
-        {
-          "name": "OK.ru",
-          "url": "https://ok.ru/videoembed/14820121316017?nochat=1",
-          "language": "Idioma sin identificar"
-        },
-        {
-          "name": "OK.ru",
-          "url": "https://barmonrey.com/player/E4jSC0B5gtlBDyN/",
-          "language": "Idioma sin identificar"
-        },
-        {
-          "name": "OK.ru",
-          "url": "https://barmonrey.com/player/kiQ2SyiGDLgn7rA/",
-          "language": "Idioma sin identificar"
-        }
-      ]
-    },
-    {
       "id": "1c68347ce40b4ac2b356d77ea0b76a56",
       "title": "El demonio neón",
       "plot": "Jesse, una joven aspirante a modelo, se muda a Los Ángeles para perseguir su sueño de triunfar en la industria de la moda. Su belleza y juventud despiertan fascinación y envidia entre otras modelos, llevándola a un mundo cada vez más oscuro, competitivo y peligroso.",
@@ -2337,32 +2295,6 @@
         {
           "name": "Dood",
           "url": "https://primesrc.me/embed/movie?tmdb=587562&fallback=false&whitelistServers=Dood&serverOrder=Dood",
-          "language": "Inglés"
-        }
-      ]
-    },
-    {
-      "id": "ebae22a06704479faa8eb8fc7912a5c0",
-      "title": "Lego DC Superhéroes: Liga de la Justicia – El ataque de la Legión del Mal",
-      "plot": "Miles de títulos en alta definición, listos para reproducir.",
-      "poster": "https://rukiatv.onrender.com/assets/icons/icon-512.png",
-      "categories": [
-        "Películas"
-      ],
-      "servers": [
-        {
-          "name": "Vimeus",
-          "url": "https://vimeus.com/e/movie?tmdb=353595&view_key=XuIgmI0t6ZNQriKur7hrx_Jv3XGZy57X9NT-64MyHow",
-          "language": "Español"
-        },
-        {
-          "name": "PrimeSrc",
-          "url": "https://primesrc.me/embed/movie?tmdb=353595&fallback=true",
-          "language": "Inglés"
-        },
-        {
-          "name": "Dood",
-          "url": "https://primesrc.me/embed/movie?tmdb=353595&fallback=false&whitelistServers=Dood&serverOrder=Dood",
           "language": "Inglés"
         }
       ]
