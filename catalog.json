@@ -1433,12 +1433,25 @@
     },
     {
       "id": "2717f8c5e1994659ba92f11e9dedc7b1",
-      "title": "Sunrise: El último amanecer (2026)",
-      "plot": "Vive la historia de Sunrise: El último amanecer (2026) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del",
-      "poster": "https://image.tmdb.org/t/p/w1280/5lB7yPaRhJHQ9dx7AnvPUi0GZDU.jpg",
+      "title": "Sunrise. El último amanecer",
+      "plot": "Basada en la aclamada novela, SUNRISE. El último amanecer presenta a Ry, una estudiante con una enfermedad crónica durante un verano en Mallorca con su madre. Tras enamorarse de Julián y empezar a vivir el presente, su enfermedad empeora y los secretos familiares ocultos durante años amenazan con arruinarlo todo antes del fin del verano.",
+      "cast": "Maia Reficco, Fernando Lindez, Eva Longoria, Chloé Sweetlove, Andrés Velencoso, Stefanie Martini, Sabrina Bartlett, Àlex Peracaula",
+      "director": "Carlson Young",
+      "writer": "Anna Klassen",
+      "releaseDate": "2026-08-26",
+      "year": "2026",
+      "genre": "Romance, Drama",
+      "rating": 6.6,
+      "duration": "116 min",
+      "poster": "https://image.tmdb.org/t/p/w500/xf85WDNB5ICqlOqRAHxIdMi3jdZ.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/zFCWfU2ViMIm38G1W8UsnSpqmWn.jpg",
       "categories": [
-        "Películas"
+        "estrenos",
+        "romance",
+        "drama"
       ],
+      "tmdbId": 1516698,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
