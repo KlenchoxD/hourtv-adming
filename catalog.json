@@ -4291,9 +4291,24 @@
     {
       "id": "7e6fa883b7f84b0dbc13fa2e0d475b8f",
       "title": "Anaconda",
+      "plot": "Doug y Griff son muy buenos amigos desde que eran niños y siempre han soñado con hacer un remake de su película favorita de todos los tiempos: el «clásico cinematográfico» Anaconda. Cuando una crisis de mediana edad les anima a lanzarse por fin a la aventura, se adentran en la selva amazónica para empezar a rodar. Pero las cosas se ponen serias cuando aparece una anaconda gigante de verdad, convirtiendo su caótico y cómico plató de rodaje en una situación mortal.",
+      "cast": "Jack Black, Paul Rudd, Steve Zahn, Thandiwe Newton, Daniela Melchior, Selton Mello, Ice Cube, Ione Skye",
+      "director": "Tom Gormican",
+      "writer": "Tom Gormican",
+      "releaseDate": "2025-12-24",
       "year": "2025",
-      "plot": "Vive la historia de Anaconda (2025) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/swxhEJsAWms6X1fDZ4HdbvYBSf9.jpg",
+      "genre": "Aventura, Comedia, Terror",
+      "rating": 5.8,
+      "duration": "100 min",
+      "poster": "https://image.tmdb.org/t/p/w500/zX1KJPiGTrzpFcjfOWlmqdRgpQd.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/swxhEJsAWms6X1fDZ4HdbvYBSf9.jpg",
+      "categories": [
+        "terror",
+        "comedia",
+        "aventura"
+      ],
+      "tmdbId": 1234731,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
