@@ -2566,12 +2566,25 @@
     },
     {
       "id": "2ff3fdbf96e746b5a8376a9041319891",
-      "title": "Wicked: Por siempre (2025)",
-      "plot": "Vive la historia de Wicked: Por siempre (2025) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/cGbPBHKSFO7hSIjxkb3KOaGdOep.jpg",
+      "title": "Wicked Parte II",
+      "plot": "Mientras la multitud alza su clamor contra la Bruja Malvada, Glinda y Elphaba deberán unirse una vez más. Con su singular amistad convertida en el punto de inflexión de su futuro, tendrán que mirarse a los ojos con honestidad y compasión para afrontar su transformación personal y cambiar el destino de todo Oz.",
+      "cast": "Cynthia Erivo, Ariana Grande, Jeff Goldblum, Michelle Yeoh, Jonathan Bailey, Ethan Slater, Marissa Bode, Colman Domingo",
+      "director": "Jon M. Chu",
+      "writer": "Winnie Holzman",
+      "releaseDate": "2025-11-19",
+      "year": "2025",
+      "genre": "Fantasía, Aventura, Romance",
+      "rating": 6.6,
+      "duration": "137 min",
+      "poster": "https://image.tmdb.org/t/p/w500/xBfI3jboJ8zGXpoerp8Xk9ku9JN.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/cGbPBHKSFO7hSIjxkb3KOaGdOep.jpg",
       "categories": [
-        "Películas"
+        "romance",
+        "aventura",
+        "fantasía"
       ],
+      "tmdbId": 967941,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
