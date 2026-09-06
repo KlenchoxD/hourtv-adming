@@ -6238,10 +6238,26 @@
     },
     {
       "id": "ae211f2984a240e29affe0c97a59e00b",
-      "title": "Capitán Fantástico",
+      "title": "Captain Fantastic",
+      "plot": "Ben es un padre que ha pasado diez años viviendo en los remotos bosques situados al noroeste del Pacífico criando a sus seis hijos. Sin embargo un día la familia debe abandonar su modo de vida en la naturaleza y volver a la civilización. Asimilar su nueva situación y adaptarse de nuevo a la sociedad moderna no les va a resultar nada sencillo.",
+      "cast": "Viggo Mortensen, George MacKay, Samantha Isler, Annalise Basso, Nicholas Hamilton, Shree Crooks, Charlie Shotwell, Trin Miller",
+      "director": "Matt Ross",
+      "writer": "Matt Ross",
+      "releaseDate": "2016-07-08",
       "year": "2016",
-      "plot": "Vive la historia de Capitán Fantástico (2016) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/d84M69u6Q202dm6EvhVxbiqrK9f.jpg",
+      "genre": "Drama, Comedia",
+      "rating": 7.9,
+      "duration": "118 min",
+      "poster": "https://image.tmdb.org/t/p/w500/3thX29LhgABdfkpvUb9YOJjRIu4.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/d84M69u6Q202dm6EvhVxbiqrK9f.jpg",
+      "categories": [
+        "recomendado",
+        "populares",
+        "comedia",
+        "drama"
+      ],
+      "tmdbId": 334533,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
