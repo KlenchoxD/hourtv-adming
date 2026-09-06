@@ -10247,6 +10247,108 @@
           ]
         }
       ]
+    },
+    {
+      "id": "0cf6573cd91c41a49472dd7d7974a2ba",
+      "title": "Hazbin Hotel - Temporada 2",
+      "year": "2025",
+      "plot": "Vive la historia de Hazbin Hotel - Temporada 2 (2025) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del",
+      "poster": "https://image.tmdb.org/t/p/w1280/9K6QtLqyocVHgIZe4yqCIl1q2ZR.jpg",
+      "seasons": [
+        {
+          "number": 2,
+          "episodes": [
+            {
+              "number": 1,
+              "title": "Capítulo 1",
+              "servers": [
+                {
+                  "name": "Barmonrey",
+                  "url": "https://barmonrey.com/player/qB1GaHRY4QzkgzD/",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 2,
+              "title": "Capítulo 2",
+              "servers": [
+                {
+                  "name": "Barmonrey",
+                  "url": "https://barmonrey.com/player/2edQIPIJ12ndZPH/",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 3,
+              "title": "Capítulo 3",
+              "servers": [
+                {
+                  "name": "Barmonrey",
+                  "url": "https://barmonrey.com/player/UH4nVbXCL6n0MtL/",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 4,
+              "title": "Capítulo 4",
+              "servers": [
+                {
+                  "name": "Barmonrey",
+                  "url": "https://barmonrey.com/player/XFivLTMZIB6RVXL/",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 5,
+              "title": "Capítulo 5",
+              "servers": [
+                {
+                  "name": "Barmonrey",
+                  "url": "https://barmonrey.com/player/9XPE1hWSG0TGGV3/",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 6,
+              "title": "Capítulo 6",
+              "servers": [
+                {
+                  "name": "Barmonrey",
+                  "url": "https://barmonrey.com/player/0Rf7ZPfhkAUyary/",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 7,
+              "title": "Capítulo 7",
+              "servers": [
+                {
+                  "name": "Barmonrey",
+                  "url": "https://barmonrey.com/player/dR7ZRVHddG8nSOP/",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 8,
+              "title": "Capítulo 8",
+              "servers": [
+                {
+                  "name": "Barmonrey",
+                  "url": "https://barmonrey.com/player/zWIE77K60oYikAM/",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ],
   "sources": [],
