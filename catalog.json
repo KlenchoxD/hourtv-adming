@@ -5749,6 +5749,28 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "ee17745e09364dc2bcf8133c7d7bd8fe",
+      "title": "Happy Gilmore 2",
+      "year": "2025",
+      "tmdb_id": 1263256,
+      "imdb_id": "tt31868189",
+      "genre": "cine de comedia, cine deportivo",
+      "cast": "Christopher McDonald, Nick Swardson, Benny Safdie, Adam Sandler, Sunny Sandler, Julie Bowen, Ben Stiller, Dennis Dugan, Kevin Nealon, Kym Whitley, John Daly",
+      "director": "Kyle Newacheck",
+      "writer": "Tim Herlihy, Adam Sandler",
+      "duration": "114 min",
+      "releaseDate": "2025-07-25",
+      "plot": "Vive la historia de Happy Gilmore 2 (2025) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
+      "poster": "https://image.tmdb.org/t/p/w1280/dRgfr6i95s4qEZkdtWdJP495E75.jpg",
+      "servers": [
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/BxOP6K94bvgayBC/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
