@@ -8689,6 +8689,108 @@
           ]
         }
       ]
+    },
+    {
+      "id": "a27a43f8d29046fdb18019348b4d0734",
+      "title": "Margo tiene problemas de dinero - Temporada 1",
+      "year": "2026",
+      "plot": "Vive la historia de Margo tiene problemas de dinero - Temporada 1 (2026) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada",
+      "poster": "https://image.tmdb.org/t/p/w1280/r1lGjwTRF0RGYFHzvt3SupArmRy.jpg",
+      "seasons": [
+        {
+          "number": 1,
+          "episodes": [
+            {
+              "number": 1,
+              "title": "Capítulo 1",
+              "servers": [
+                {
+                  "name": "Voe",
+                  "url": "https://voe.sx/e/piz3ucenlxfo",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 2,
+              "title": "Capítulo 2",
+              "servers": [
+                {
+                  "name": "Voe",
+                  "url": "https://voe.sx/e/l6atclbanzvq",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 3,
+              "title": "Capítulo 3",
+              "servers": [
+                {
+                  "name": "Voe",
+                  "url": "https://voe.sx/e/idfr1uuovieb",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 4,
+              "title": "Capítulo 4",
+              "servers": [
+                {
+                  "name": "Voe",
+                  "url": "https://voe.sx/e/8nglwzllsbny",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 5,
+              "title": "Capítulo 5",
+              "servers": [
+                {
+                  "name": "Voe",
+                  "url": "https://voe.sx/e/mpii55i37ikx",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 6,
+              "title": "Capítulo 6",
+              "servers": [
+                {
+                  "name": "Voe",
+                  "url": "https://voe.sx/e/v7plq7fhyijg",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 7,
+              "title": "Capítulo 7",
+              "servers": [
+                {
+                  "name": "Voe",
+                  "url": "https://voe.sx/e/aulwmbvonwcu",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 8,
+              "title": "Capítulo 8",
+              "servers": [
+                {
+                  "name": "Voe",
+                  "url": "https://voe.sx/e/5kg3edohm6sj",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ],
   "sources": [],
