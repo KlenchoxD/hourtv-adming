@@ -3030,9 +3030,23 @@
     {
       "id": "9386126d0bc044d3a0a75cc94d5a4f89",
       "title": "La fiera",
+      "plot": "Carlos, Darío y Armando, aficionados a los deportes extremos, descubren la experiencia más cercana a volar: el salto B.A.S.E. con traje de alas. “La Fiera” es la historia de estos amantes del riesgo: un relato real contado desde sus miedos y anhelos; un viaje duro y fascinante, lleno de vértigo y peligro... que también nos conecta con la camaradería y la amistad. Un viaje épico alimentado por la lucha contra uno mismo.",
+      "cast": "Carlos Cuevas, Miguel Bernardeau, Miguel Ángel Silvestre, José Manuel Poga, David Marcé, Nuria Casas, Paloma Bloyd, Candela González",
+      "director": "Salvador Calvo",
+      "writer": "Alejandro Hernández",
+      "releaseDate": "2026-02-06",
       "year": "2026",
-      "plot": "Vive la historia de La fiera (2026) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/vIYxi7G0nK64cgiiVwSV0sFeQ7F.jpg",
+      "genre": "Drama, Aventura",
+      "rating": 6.4,
+      "duration": "113 min",
+      "poster": "https://image.tmdb.org/t/p/w500/wYCJdVniQwV7x61g37ffb6bX99Q.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/vIYxi7G0nK64cgiiVwSV0sFeQ7F.jpg",
+      "categories": [
+        "aventura",
+        "drama"
+      ],
+      "tmdbId": 1588838,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
