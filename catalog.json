@@ -5989,10 +5989,25 @@
     },
     {
       "id": "f6416a63382c4df582dba60e08f945c9",
-      "title": "Mujer valiente",
+      "title": "Mujer Valiente",
+      "plot": "Es una película de acción de héroes orientada a la vida que cuenta la historia de una mujer que alguna vez fue prospecto del boxeo, pero que se convirtió en maestra a plazo fijo y enfrenta la injusticia que tiene que soportar para convertirse en una profesora a tiempo completo.  Basado en el webtoon original de Naver del mismo nombre.",
+      "cast": "신혜선, 이준영, 박정우, 박혁권, 차청화, 손숙, 이중옥, 이찬형",
+      "director": "박진표",
+      "writer": "여지나",
+      "releaseDate": "2023-10-25",
       "year": "2023",
-      "plot": "Vive la historia de Mujer valiente (2023) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/fJRrRn60YzI1hVt4X1BIo6hsM0g.jpg",
+      "genre": "Acción, Drama, Comedia",
+      "rating": 7.6,
+      "duration": "112 min",
+      "poster": "https://image.tmdb.org/t/p/w500/hdqbujWmlmsdVm62Ob8sGuC2kDk.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/fJRrRn60YzI1hVt4X1BIo6hsM0g.jpg",
+      "categories": [
+        "accion",
+        "comedia",
+        "drama"
+      ],
+      "tmdbId": 897160,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
