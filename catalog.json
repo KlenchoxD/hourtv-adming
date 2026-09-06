@@ -1192,43 +1192,25 @@
       ]
     },
     {
-      "id": "b943a2947a74461eb23385e44131b93f",
-      "title": "LEGO Star Wars Cuentos escalofriantes",
-      "plot": "Tras aterrizar de emergencia en el planeta volcánico Mustafar, Poe y BB-8 buscan ayuda en el escalofriante castillo de Darth Vader. Allí encuentran a un intrigante Hutt, un intrépido mecánico y el antiguo asistente de Darth Vader, Vaneé, que les obsequia con tres relatos aterradores ligados a antiguos artefactos y a villanos icónicos de todas las épocas de Star Wars.",
-      "cast": "Jake Green, Raphael Alejandro, Dana Snyder, Tony Hale, Christian Slater, Matt Sloan, Trevor Devall, Mary Elizabeth McGlynn",
-      "director": "Ken Cunningham",
-      "writer": "David Shayne",
-      "releaseDate": "2021-10-01",
-      "year": "2021",
-      "genre": "Animación, Familia, Ciencia ficción, Comedia",
-      "rating": 6.8,
-      "duration": "45 min",
-      "poster": "https://image.tmdb.org/t/p/w500/bcPzH8PjdISs6yrqCIDEEPpRX7O.jpg",
-      "backdrop": "https://image.tmdb.org/t/p/w1280/f53Jujiap580mgfefID0T0g2e17.jpg",
+      "id": "da9572247ce34b60ae928d8ac82820ae",
+      "title": "Híncame el diente",
+      "plot": "'Vampires Suck' es una comedia sobre la ansiedad adolescente. Becca es una adolescente no vampiro que se debate entre dos chicos. Antes de que pueda elegir, Becca debe sortear a su padre, quien avergüenza a su hija por tratarla como si fuera una niña. Mientras tanto, los amigos de Becca deberán lidiar con sus propios problemas amorosos, chocando todos ellos en el baile de graduación. Parodia de la creciente moda de las películas vampíricas, tomando \"Crepúsculo\" como eje.",
+      "cast": "Jenn Proske, Matt Lanter, Chris Riggi, Diedrich Bader, Anneliese Van Der Pol, Ken Jeong, Arielle Kebbel, Kelsey Ledgin",
+      "director": "Jason Friedberg",
+      "writer": "Aaron Seltzer",
+      "releaseDate": "2010-08-18",
+      "year": "2010",
+      "genre": "Comedia, Fantasía",
+      "rating": 4.4,
+      "duration": "82 min",
+      "poster": "https://image.tmdb.org/t/p/w500/m3RvsysFahSo2BI8aeywjYhzcn5.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/uACr2UntrZNqlFpQYFlqbVAb1eW.jpg",
       "categories": [
         "comedia",
-        "aventura",
-        "infantil",
-        "familia"
+        "fantasía"
       ],
-      "tmdbId": 857702,
+      "tmdbId": 40264,
       "tmdbType": "movie",
-      "servers": [
-        {
-          "name": "PrimeSrc",
-          "url": "https://primesrc.me/embed/movie?tmdb=857702&fallback=true",
-          "language": "Idioma sin identificar"
-        }
-      ]
-    },
-    {
-      "id": "da9572247ce34b60ae928d8ac82820ae",
-      "title": "Una loca película de vampiros (2010)",
-      "plot": "Vive la historia de Una loca película de vampiros (2010) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes",
-      "poster": "https://image.tmdb.org/t/p/w1280/uACr2UntrZNqlFpQYFlqbVAb1eW.jpg",
-      "categories": [
-        "Películas"
-      ],
       "servers": [
         {
           "name": "Barmonrey",
