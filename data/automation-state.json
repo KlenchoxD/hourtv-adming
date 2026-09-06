@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-09-06T20:39:24.143Z",
+  "lastRunAt": "2026-09-06T22:20:58.651Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -143,7 +143,7 @@
     {
       "tmdbId": 1213243,
       "title": "Tóxico: Un cuento de hadas para adultos",
-      "reason": "Sin sinopsis"
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1514682,
