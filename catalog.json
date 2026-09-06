@@ -5864,6 +5864,32 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "6fee33ffdce2465b9ad155d8a63047ad",
+      "title": "Lo que le falta a esta estrella",
+      "year": "2025",
+      "tmdb_id": 1165642,
+      "imdb_id": "tt28664733",
+      "genre": "película de animación, cine de ciencia ficción, cine romántico",
+      "cast": "Kim Tae-ri, Hong Kyung, Ahn Young-mi",
+      "director": "Han Ji-won",
+      "duration": "96 min",
+      "releaseDate": "2025-05-30",
+      "plot": "Vive la historia de Lo que le falta a esta estrella (2025) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes",
+      "poster": "https://image.tmdb.org/t/p/w1280/drSJ0HVuSNFMPq5VzAEHk37BiEC.jpg",
+      "servers": [
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/Fp9RmcaEuN65vvV/",
+          "language": "Idioma sin identificar"
+        },
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/grnYHAW7qRjZPE1/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
