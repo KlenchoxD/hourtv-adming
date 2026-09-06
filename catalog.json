@@ -4061,9 +4061,23 @@
     {
       "id": "09b2962ba3a8412bb81e3ce2df2506e0",
       "title": "Super rápidos y mega furiosos",
+      "plot": "Parodia de la franquicia de películas Fast and Furious, dirigida por los creadores de películas como Scary Movie o Epic Movie. El policía encubierto, Paul White, se une a la banda de corredores de carreras ilegales capitaneada por Vin Serento. Su plan es darle una puñalada trapera al capo de la mafia Juan Carlos de la Sol que esconde todo su dinero en un Taco Bell del centro de la ciudad. El plan de la banda tan intrépido como ridículo, consiste en robar el restaurante entero e ir transportándolo a toda velocidad a través de la ciudad. Pero tal como dice Vin Serento, “no es el coche que tú conduces… Es el conductor que conduce el coche el que hace la conducción”.",
+      "cast": "Alex Ashbaugh, Dale Pavinski, Andrea Navedo, Lili Mirojnick, Gonzalo Menendez, Shakira Barrera, Dio Johnson, Shantel Wislawski",
+      "director": "Jason Friedberg",
+      "writer": "Aaron Seltzer",
+      "releaseDate": "2015-03-05",
       "year": "2015",
-      "plot": "Vive la historia de Super rápidos y mega furiosos (2015) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes",
-      "poster": "https://image.tmdb.org/t/p/w1280/v7JSw9XCkdv533TP7VabRZJ63PC.jpg",
+      "genre": "Comedia, Acción",
+      "rating": 5.1,
+      "duration": "99 min",
+      "poster": "https://image.tmdb.org/t/p/w500/65nizg9kZ3kWHvE4QLqUDbBLIXa.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/v7JSw9XCkdv533TP7VabRZJ63PC.jpg",
+      "categories": [
+        "accion",
+        "comedia"
+      ],
+      "tmdbId": 325358,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
