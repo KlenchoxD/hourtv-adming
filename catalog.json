@@ -5811,10 +5811,24 @@
     },
     {
       "id": "c12f53ebd1e14f54812242e58f7b6e50",
-      "title": "Mi yo del futuro",
+      "title": "Mi yo adulta",
+      "plot": "Elliott Labrant, a quien su futuro yo le ha aconsejado que no se enamore, está segura de que puede hacerlo después de recibir el consejo. Hasta que conoce al chico del que le advirtió su yo mayor.",
+      "cast": "Maisy Stella, Aubrey Plaza, Percy Hynes White, Maddie Ziegler, Kerrice Brooks, Maria Dizzia, Alain Goulem, Seth Isaac Johnson",
+      "director": "Megan Park",
+      "writer": "Megan Park",
+      "releaseDate": "2024-09-13",
       "year": "2024",
-      "plot": "Vive la historia de Mi yo del futuro (2024) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/iPHsjvbFyGbeCEDC7u8Ib8U1zS6.jpg",
+      "genre": "Drama, Comedia",
+      "rating": 6.8,
+      "duration": "89 min",
+      "poster": "https://image.tmdb.org/t/p/w500/e6AcxsoQny1iqsEVbrR1IjmDZpA.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/iPHsjvbFyGbeCEDC7u8Ib8U1zS6.jpg",
+      "categories": [
+        "comedia",
+        "drama"
+      ],
+      "tmdbId": 947891,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
