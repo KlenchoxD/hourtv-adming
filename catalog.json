@@ -6078,9 +6078,23 @@
     {
       "id": "a478ace9462541ef9bc6da7a55896cc3",
       "title": "Beethoven 2: La familia crece",
+      "plot": "Como todas las mañanas la familia Newton sale al trabajo: los niños al colegio y los padres a la oficina. Beethoven aprovecha la ocasión para pasear por el parque, y allí se encuentra con Missy, una perra muy coqueta, y entre ellos surge un flechazo. Poco tiempo después tienen unos preciosos cachorros, pero entonces surgirán los problemas.",
+      "cast": "Charles Grodin, Bonnie Hunt, Nicholle Tom, Christopher Castile, Sarah Rose Karr, Debi Mazar, Chris Penn, Chris the Dog",
+      "director": "Rod Daniel",
+      "writer": "Len Blum",
+      "releaseDate": "1993-12-14",
       "year": "1993",
-      "plot": "Vive la historia de Beethoven 2: La familia crece (1993) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes",
-      "poster": "https://image.tmdb.org/t/p/w1280/wN5EnpDUmrusp73qD0fZsOXtqVh.jpg",
+      "genre": "Familia, Comedia",
+      "rating": 5.6,
+      "duration": "89 min",
+      "poster": "https://image.tmdb.org/t/p/w500/lMjoADYBQHNIy3UdufxayFwCB2S.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/wN5EnpDUmrusp73qD0fZsOXtqVh.jpg",
+      "categories": [
+        "comedia",
+        "familia"
+      ],
+      "tmdbId": 10438,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
