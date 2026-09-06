@@ -5508,10 +5508,26 @@
     },
     {
       "id": "ef0246e92fbb4f4bb77aa7187b159429",
-      "title": "Velocidad salvaje",
+      "title": "La conductora",
+      "plot": "La conductora, un irreverente thriller de ritmo frenético, cuenta la historia de una mujer que, en su adolescencia, fue conductora de huidas en coche y que en el presente se ve obligada a revivir su desagradable pasado cuando un antiguo jefe le brinda la oportunidad de salvar la vida de su exnovio, quien nunca ha sido de fiar. La conductora está escrita y dirigida por Shawn Simmons y protagonizada por Samara Weaving en el papel principal de Edie, también conocida como Eenie Meanie.",
+      "cast": "Samara Weaving, Karl Glusman, Andy Garcia, Steve Zahn, Jermaine Fowler, Marshawn Lynch, Randall Park, Mike O'Malley",
+      "director": "Shawn Simmons",
+      "writer": "Shawn Simmons",
+      "releaseDate": "2025-08-21",
       "year": "2025",
-      "plot": "Vive la historia de Velocidad salvaje (2025) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/xk0ck8qmYmevisTmphWIDm1g43p.jpg",
+      "genre": "Acción, Comedia, Crimen, Drama, Suspense",
+      "rating": 6.3,
+      "duration": "106 min",
+      "poster": "https://image.tmdb.org/t/p/w500/nDNvZhJeMSwi8UH8jbpZvLMUfjp.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/xk0ck8qmYmevisTmphWIDm1g43p.jpg",
+      "categories": [
+        "terror",
+        "accion",
+        "comedia",
+        "drama"
+      ],
+      "tmdbId": 1151334,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
