@@ -6115,18 +6115,25 @@
     },
     {
       "id": "f21366cf41ec4286a2fe8d4488888966",
-      "title": "Beethoven",
-      "year": "1992",
-      "tmdb_id": 24478,
-      "imdb_id": "tt0294345",
-      "genre": "cine de comedia",
+      "title": "Beethoven: Uno más de la familia",
+      "plot": "El pobre Beethoven, un perro San Bernardo, escapa milagrosamente de las garras de una banda de ladrones que ha robado la tienda de animales donde estaba. Después de pasar la noche oculto en un frío y húmedo cubo de basura despierta en el hogar de sus sueños: una casa maravillosa con un enorme jardín y niños.",
       "cast": "Judge Reinhold, Julia Sweeney, Greg Pitts, Matt McCoy, Mark Lindsay Chapman, Art LaFleur, Joe Pichler, Michaela Gallo, David M. Evans, Jeff Coopwood, Patrick Bristow, Arlan Jewell",
       "director": "David M. Evans",
       "writer": "John Loy",
-      "duration": "93 min",
       "releaseDate": "2001-01-01",
-      "plot": "Vive la historia de Beethoven (1992) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/dieTafH3G5IxNeyZbBdCOpugNzN.jpg",
+      "year": "1992",
+      "genre": "cine de comedia",
+      "rating": 5.8,
+      "duration": "93 min",
+      "poster": "https://image.tmdb.org/t/p/w500/7GdQs5bc8feiPhgLZYOZ8fs8gsu.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/dieTafH3G5IxNeyZbBdCOpugNzN.jpg",
+      "categories": [
+        "populares",
+        "comedia",
+        "familia"
+      ],
+      "tmdbId": 11806,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
