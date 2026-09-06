@@ -9170,6 +9170,64 @@
           ]
         }
       ]
+    },
+    {
+      "id": "e9dc4ee1c765435294f06681426b50cf",
+      "title": "Malcolm in the Middle: La vida sigue siendo injusta",
+      "year": "2026",
+      "plot": "Vive la historia de Malcolm in the Middle: La vida sigue siendo injusta (2026) y disfruta este título en Blog de Pelis con una experiencia de cine online",
+      "poster": "https://image.tmdb.org/t/p/w1280/uekZzyLReK777QKO9xKwiPOelCQ.jpg",
+      "seasons": [
+        {
+          "number": 1,
+          "episodes": [
+            {
+              "number": 1,
+              "title": "Capítulo 1",
+              "servers": [
+                {
+                  "name": "Barmonrey",
+                  "url": "https://barmonrey.com/player/RIZNYQUAcwieYNd/",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 2,
+              "title": "Capítulo 2",
+              "servers": [
+                {
+                  "name": "Barmonrey",
+                  "url": "https://barmonrey.com/player/YzvfK3307zltfaT/",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 3,
+              "title": "Capítulo 3",
+              "servers": [
+                {
+                  "name": "Barmonrey",
+                  "url": "https://barmonrey.com/player/L6GUFTN9qd3mDPl/",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 4,
+              "title": "Capítulo 4",
+              "servers": [
+                {
+                  "name": "Barmonrey",
+                  "url": "https://barmonrey.com/player/2ISvgFpJz9Cfy29/",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ],
   "sources": [],
