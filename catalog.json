@@ -2619,12 +2619,24 @@
     },
     {
       "id": "e255ae02e13940718ba02f43f9ca70b4",
-      "title": "Merv (2025)",
-      "plot": "Vive la historia de Merv (2025) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/3MphYnIcLOqy5oVkDTZUiaGfPtN.jpg",
+      "title": "Merv",
+      "plot": "Cuando su querido perro Merv pierde la chispa tras su separación, Anna y Russ se ven obligados a aceptar el acuerdo de crianza compartida más incómodo del mundo. Con la esperanza de sacar a Merv de su depresión, Russ lo lleva de escapada a Florida, pero Anna aparece inesperadamente. Mientras Merv recupera el ánimo, parece que curar el corazón roto de su perro despierta otras chispas entre ellos.",
+      "cast": "Zooey Deschanel, Charlie Cox, Ellyn Jameson, Patricia Heaton, David Hunt, Chris Redd, Jasmine Mathews, Victoria Blade",
+      "director": "Jessica Swale",
+      "writer": "Dane Clark",
+      "releaseDate": "2025-12-09",
+      "year": "2025",
+      "genre": "Comedia, Romance",
+      "rating": 5.9,
+      "duration": "105 min",
+      "poster": "https://image.tmdb.org/t/p/w500/mohMJQE9B0JYDIa6UHq7L4H78Jm.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/3MphYnIcLOqy5oVkDTZUiaGfPtN.jpg",
       "categories": [
-        "Películas"
+        "comedia",
+        "romance"
       ],
+      "tmdbId": 1255775,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
