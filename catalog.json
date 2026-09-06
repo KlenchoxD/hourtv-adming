@@ -1678,12 +1678,24 @@
     },
     {
       "id": "7c02ab9329d94c39bbf0d3f030e480b9",
-      "title": "Poseída en el desierto (2025)",
-      "plot": "Vive la historia de Poseída en el desierto (2025) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/dC15RaDX4mmPB0omILrjTKMGy6W.jpg",
+      "title": "Miradas asesinas",
+      "plot": "En 1849, una esclava recién liberada cree que su misteriosa hija caucásica está poseída porque todo lo que toca muere, y convence a un médico viudo para que las lleve en un viaje para encontrar a un sanador de fe que se encuentra en una zona remota.",
+      "cast": "Guy Pearce, DeWanda Wise, Bill Pullman, Raoul Max Trujillo, Ryan de Quintal, Emily Katherine Ford, Jack Alcott, Charlie Talbert",
+      "director": "Ned Crowley",
+      "writer": "Ned Crowley",
+      "releaseDate": "2025-10-03",
+      "year": "2025",
+      "genre": "Suspense, Western",
+      "rating": 5.8,
+      "duration": "108 min",
+      "poster": "https://image.tmdb.org/t/p/w500/jsejtb7ceAGtNxOJOF1lD6qPByr.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/dC15RaDX4mmPB0omILrjTKMGy6W.jpg",
       "categories": [
-        "Películas"
+        "terror",
+        "western"
       ],
+      "tmdbId": 1200320,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
