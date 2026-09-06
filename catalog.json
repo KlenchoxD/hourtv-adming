@@ -1934,12 +1934,25 @@
     },
     {
       "id": "a7f005680e57423c99f59c93c01b3eb3",
-      "title": "Un día lluvioso en Nueva York (2019)",
-      "plot": "Vive la historia de Un día lluvioso en Nueva York (2019) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes",
-      "poster": "https://image.tmdb.org/t/p/w1280/3C6hamStn5HHTNmGmXmmGKHFWhT.jpg",
+      "title": "Día de lluvia en Nueva York",
+      "plot": "Dos jóvenes llegan a Nueva York durante un fin de semana donde se topan con el mal tiempo y una serie de aventuras.",
+      "cast": "Timothée Chalamet, Elle Fanning, Selena Gómez, Jude Law, Diego Luna, Liev Schreiber, Rebecca Hall, Griffin Newman",
+      "director": "Woody Allen",
+      "writer": "Woody Allen",
+      "releaseDate": "2019-07-26",
+      "year": "2019",
+      "genre": "Comedia, Romance",
+      "rating": 6.5,
+      "duration": "92 min",
+      "poster": "https://image.tmdb.org/t/p/w500/ya9ojfuWylP4P6iiaIaxz67Chu0.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/eLGnLVpKN9FeIPtnZ4XDqc3d8Ji.jpg",
       "categories": [
-        "Películas"
+        "populares",
+        "comedia",
+        "romance"
       ],
+      "tmdbId": 475303,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
