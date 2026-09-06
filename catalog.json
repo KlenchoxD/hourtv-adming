@@ -2444,12 +2444,24 @@
     },
     {
       "id": "7d351efbc675429bb1d18d09cd363e65",
-      "title": "Aunque nuestro amor se desvanezca esta noche (2025)",
-      "plot": "Vive la historia de Aunque nuestro amor se desvanezca esta noche (2025) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada",
-      "poster": "https://image.tmdb.org/t/p/w1280/iL5eGI9ctHdUOV4yG6dyGKctSEX.jpg",
+      "title": "Aunque nuestro amor se desvanezca esta noche",
+      "plot": "Una alumna de instituto despierta cada día sin recuerdos del día anterior. Al empezar a salir con un compañero tímido, su historia de amor se renueva con cada amanecer.",
+      "cast": "추영우, 신시아, Cho Yu-jung, 진호은, 조한철, 이채경, 장유상, 윤기창",
+      "director": "김혜영",
+      "writer": "김혜영",
+      "releaseDate": "2025-12-24",
+      "year": "2025",
+      "genre": "Romance, Drama",
+      "rating": 8.5,
+      "duration": "106 min",
+      "poster": "https://image.tmdb.org/t/p/w500/lawtchSE4FQch7kNTA5OiMTZ4F3.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/iL5eGI9ctHdUOV4yG6dyGKctSEX.jpg",
       "categories": [
-        "Películas"
+        "romance",
+        "drama"
       ],
+      "tmdbId": 1466115,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
