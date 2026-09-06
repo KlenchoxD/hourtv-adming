@@ -5931,16 +5931,25 @@
     {
       "id": "495b77376f5048189dcb2fa5749394bd",
       "title": "Lilo y Stitch",
-      "year": "2025",
-      "tmdb_id": 11544,
-      "imdb_id": "tt0275847",
-      "genre": "buddy film, comedia dramática, cine de ciencia ficción, cine de comedia",
+      "plot": "La conmovedora y divertidísima historia de una solitaria niña hawaiana y el extraterrestre fugitivo que la ayuda a reparar su desestructurada familia.",
+      "cast": "Maia Kealoha, Sydney Agudong, Chris Sanders, Zach Galifianakis, Billy Magnussen, Courtney B. Vance, Amy Hill, Tia Carrere",
       "director": "Chris Sanders, Dean DeBlois",
       "writer": "Chris Sanders, Dean DeBlois",
-      "duration": "85 min",
       "releaseDate": "2002-06-21",
-      "plot": "Vive la historia de Lilo y Stitch (2025) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/7Zx3wDG5bBtcfk8lcnCWDOLM4Y4.jpg",
+      "year": "2025",
+      "genre": "buddy film, comedia dramática, cine de ciencia ficción, cine de comedia",
+      "rating": 7.2,
+      "duration": "85 min",
+      "poster": "https://image.tmdb.org/t/p/w500/4oLLOAT55JhAoe73VliaSKFvEEr.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/7Zx3wDG5bBtcfk8lcnCWDOLM4Y4.jpg",
+      "categories": [
+        "populares",
+        "comedia",
+        "aventura",
+        "familia"
+      ],
+      "tmdbId": 552524,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
