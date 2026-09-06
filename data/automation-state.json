@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-09-06T09:59:15.946Z",
+  "lastRunAt": "2026-09-06T13:27:39.201Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -34,7 +34,6 @@
     1323244,
     1514682,
     1232569,
-    1560520,
     1335666
   ],
   "tmdbIdsPublished": [],
@@ -164,11 +163,6 @@
     {
       "tmdbId": 1232569,
       "title": "Pinocho: Desatado",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1560520,
-      "title": "Batman: Knightfall Part 1: Knightfall",
       "reason": "Sin fuente autorizada configurada"
     }
   ]

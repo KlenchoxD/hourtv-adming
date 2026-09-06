@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-09-06T09:59:13.330Z",
-  "durationMs": 2621,
+  "generatedAt": "2026-09-06T13:27:38.556Z",
+  "durationMs": 650,
   "dryRun": false,
-  "moviesFound": 34,
-  "moviesDiscarded": 26,
+  "moviesFound": 33,
+  "moviesDiscarded": 25,
   "moviesAdded": 0,
   "moviesEnriched": 0,
   "duplicates": 8,
@@ -135,11 +135,6 @@
     {
       "tmdbId": 1232569,
       "title": "Pinocho: Desatado",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1560520,
-      "title": "Batman: Knightfall Part 1: Knightfall",
       "reason": "Sin fuente autorizada configurada"
     }
   ]
