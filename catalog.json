@@ -6178,9 +6178,25 @@
     {
       "id": "41ddb988bf20495aaf1fe1e3dc9672aa",
       "title": "Noche de juegos",
+      "plot": "Max y Annie son una pareja que forman parte de un grupo de amigos que queda todas las semanas para una noche de juegos organizada por uno de ellos. En una de esas noches Brooks (Kyle Chandler), el carismático hermano de Max, organiza un misterioso juego en el que sus amigos deberán resolver un asesinato con falsos matones y falsos agentes. Pero, cuando Brooks es secuestrado, los 6 jugadores comienzan a dudar sobre lo que es falso y lo que es real, y se ven inmersos en una noche caótica en la que deberán resolver el caso.",
+      "cast": "Jason Bateman, Rachel McAdams, Kyle Chandler, Sharon Horgan, Billy Magnussen, Lamorne Morris, Kylie Bunbury, Jesse Plemons",
+      "director": "John Francis Daley",
+      "writer": "Mark Perez",
+      "releaseDate": "2018-02-15",
       "year": "2018",
-      "plot": "Vive la historia de Noche de juegos (2018) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/aKPCZwkSZy2ASLo0QKeYmcoplfA.jpg",
+      "genre": "Misterio, Comedia, Crimen",
+      "rating": 6.8,
+      "duration": "100 min",
+      "poster": "https://image.tmdb.org/t/p/w500/cSrbnS7SItBFenF6jrKGhgFAiaq.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/aKPCZwkSZy2ASLo0QKeYmcoplfA.jpg",
+      "categories": [
+        "populares",
+        "terror",
+        "comedia",
+        "drama"
+      ],
+      "tmdbId": 445571,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
@@ -6191,10 +6207,27 @@
     },
     {
       "id": "22828c68cdba4c5c8d92792861d9a2a5",
-      "title": "Medianoche en París",
+      "title": "Midnight in Paris",
+      "plot": "Un escritor norteamericano algo bohemio llega con su prometida Inez y los padres de ésta a París. Mientras vaga por las calles soñando con los felices años 20, cae bajo una especie de hechizo que hace que, a medianoche, en algún lugar del barrio Latino, se vea transportado a otro universo donde va a conocer a personajes que jamás imaginaría iba a conocer...",
+      "cast": "Owen Wilson, Rachel McAdams, Kathy Bates, Kurt Fuller, Adrien Brody, Carla Bruni, Marion Cotillard, Michael Sheen",
+      "director": "Woody Allen",
+      "writer": "Woody Allen",
+      "releaseDate": "2011-05-11",
       "year": "2011",
-      "plot": "Vive la historia de Medianoche en París (2011) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/b5bcKhvN6VP82U5ztNdPfOLiolD.jpg",
+      "genre": "Fantasía, Comedia, Romance",
+      "rating": 7.5,
+      "duration": "99 min",
+      "poster": "https://image.tmdb.org/t/p/w500/paDvLnSZyrDoUVRrUZPjB19zJQZ.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/b5bcKhvN6VP82U5ztNdPfOLiolD.jpg",
+      "categories": [
+        "recomendado",
+        "populares",
+        "comedia",
+        "romance",
+        "fantasía"
+      ],
+      "tmdbId": 59436,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
