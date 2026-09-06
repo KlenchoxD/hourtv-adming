@@ -1625,12 +1625,29 @@
     },
     {
       "id": "d68665ec469c44bc9805f847e4d0fd4c",
-      "title": "Minions & Monstruos (2026)",
-      "plot": "Vive la historia de Minions & Monstruos (2026) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/kkcwhgSFd81QDlXo8ytrpHPQjhy.jpg",
+      "title": "Minions & Monsters",
+      "plot": "Narra la historia de cómo los minions conquistaron la industria de Hollywood, se convirtieron en estrellas de cine, lo perdieron todo, desataron monstruos en el mundo y luego se unieron para intentar salvar al planeta del caos que acababan de crear.",
+      "cast": "Pierre Coffin, Trey Parker, Christoph Waltz, Allison Janney, Jesse Eisenberg, Jeff Bridges, Zoey Deutch, Bobby Moynihan",
+      "director": "Pierre Coffin",
+      "writer": "Brian Lynch",
+      "releaseDate": "2026-06-24",
+      "year": "2026",
+      "genre": "Aventura, Animación, Comedia, Familia, Fantasía",
+      "rating": 7.6,
+      "duration": "90 min",
+      "poster": "https://image.tmdb.org/t/p/w500/tQ8CR2Xuokcg8Pp2R7KDTA5N683.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/kkcwhgSFd81QDlXo8ytrpHPQjhy.jpg",
       "categories": [
-        "Películas"
+        "recomendado",
+        "estrenos",
+        "comedia",
+        "aventura",
+        "infantil",
+        "familia",
+        "fantasía"
       ],
+      "tmdbId": 1315772,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
