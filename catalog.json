@@ -4255,6 +4255,27 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "ca0a3a6971434f6d9c8ca15eb6bdede7",
+      "title": "Zootopia 2",
+      "year": "2025",
+      "tmdb_id": 1084242,
+      "imdb_id": "tt26443597",
+      "genre": "cine de comedia, cine de aventuras, buddy cop, cine familiar",
+      "director": "Jared Bush, Byron Howard",
+      "writer": "Jared Bush",
+      "duration": "108 min",
+      "releaseDate": "2025-11-13",
+      "plot": "Vive la historia de Zootopia 2 (2025) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
+      "poster": "https://image.tmdb.org/t/p/w1280/lgotja3xMoJZbynwHfcQcJAEMWH.jpg",
+      "servers": [
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/RJyIWShUytZ22XK/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
