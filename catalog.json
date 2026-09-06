@@ -9887,6 +9887,53 @@
           ]
         }
       ]
+    },
+    {
+      "id": "41a8397b2a9349cfbbe0b475ce8d20b0",
+      "title": "Black Mirror - Temporada 5",
+      "year": "2019",
+      "plot": "Vive la historia de Black Mirror - Temporada 5 (2019) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del",
+      "poster": "https://image.tmdb.org/t/p/w1280/dg3OindVAGZBjlT3xYKqIAdukPL.jpg",
+      "seasons": [
+        {
+          "number": 5,
+          "episodes": [
+            {
+              "number": 1,
+              "title": "Capítulo 1",
+              "servers": [
+                {
+                  "name": "Barmonrey",
+                  "url": "https://barmonrey.com/player/JvwdKNYv5DNKtvk/",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 2,
+              "title": "Capítulo 2",
+              "servers": [
+                {
+                  "name": "Barmonrey",
+                  "url": "https://barmonrey.com/player/fazG8CJy0NwHHx1/",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 3,
+              "title": "Capítulo 3",
+              "servers": [
+                {
+                  "name": "Barmonrey",
+                  "url": "https://barmonrey.com/player/nPxqxW355Qicaqh/",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ],
   "sources": [],
