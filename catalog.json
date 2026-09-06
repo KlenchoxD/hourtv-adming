@@ -2364,12 +2364,24 @@
     },
     {
       "id": "91593c6713cd46b1b2515b7aec3bef03",
-      "title": "Cumbres borrascosas (2026)",
-      "plot": "Vive la historia de Cumbres borrascosas (2026) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/nHKscpZcAPkh97OsJJjyE5yaVE0.jpg",
+      "title": "“Cumbres Borrascosas”",
+      "plot": "Una apasionada y tumultuosa historia de amor con los páramos de Yorkshire como telón de fondo, que explora la intensa y destructiva relación entre Heathcliff y Catherine Earnshaw.",
+      "cast": "Margot Robbie, Jacob Elordi, Hong Chau, Shazad Latif, Alison Oliver, Martin Clunes, Ewan Mitchell, Amy Morgan",
+      "director": "Emerald Fennell",
+      "writer": "Emerald Fennell",
+      "releaseDate": "2026-02-11",
+      "year": "2026",
+      "genre": "Romance, Drama",
+      "rating": 6.7,
+      "duration": "136 min",
+      "poster": "https://image.tmdb.org/t/p/w500/afGUJcMBJloAUp9uC27MQiqkD7X.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/nHKscpZcAPkh97OsJJjyE5yaVE0.jpg",
       "categories": [
-        "Películas"
+        "romance",
+        "drama"
       ],
+      "tmdbId": 1316092,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
