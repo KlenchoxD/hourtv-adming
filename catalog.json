@@ -1896,48 +1896,6 @@
       ]
     },
     {
-      "id": "fce64fa4cb604e7f922a3b31d577b0b1",
-      "title": "The Cowboy Killer",
-      "plot": "Miles de títulos en alta definición, listos para reproducir.",
-      "cast": "Ed Begley Jr., Stephen Tobolowsky, Richard Riehle, Robert Pine, Robert Carradine, Peter Jason, Fred Stoller, Stuart Pankin",
-      "director": "Jaymes Camery",
-      "writer": "Ben Solenberger",
-      "releaseDate": "2026-07-24",
-      "year": "2026",
-      "genre": "Suspense",
-      "duration": "95 min",
-      "poster": "https://image.tmdb.org/t/p/w500/uz2Jsr5yrkiJHuYK4yb8zSOzvJe.jpg",
-      "backdrop": "https://image.tmdb.org/t/p/w1280/ic8eJbTQwOVl0z5CseEj8WyLDlQ.jpg",
-      "categories": [
-        "estrenos",
-        "terror"
-      ],
-      "tmdbId": 1521116,
-      "tmdbType": "movie",
-      "servers": [
-        {
-          "name": "Vimeus",
-          "url": "https://vimeus.com/e/movie?tmdb=1521116&view_key=kH-5ME2UFjOxlrA0PndTJaXKKrxin2IGtm2YPAaQw9M",
-          "language": "Español"
-        },
-        {
-          "name": "PrimeSrc",
-          "url": "https://primesrc.me/embed/movie?tmdb=1521116&fallback=true",
-          "language": "Inglés"
-        },
-        {
-          "name": "Dood",
-          "url": "https://primesrc.me/embed/movie?tmdb=1521116&fallback=false&whitelistServers=Dood&serverOrder=Dood",
-          "language": "Inglés"
-        },
-        {
-          "name": "Mixdrop",
-          "url": "https://primesrc.me/embed/movie?tmdb=1521116&fallback=false&whitelistServers=Mixdrop&serverOrder=Mixdrop",
-          "language": "Inglés"
-        }
-      ]
-    },
-    {
       "id": "b943a2947a74461eb23385e44131b93f",
       "title": "LEGO Star Wars Cuentos escalofriantes",
       "plot": "Tras aterrizar de emergencia en el planeta volcánico Mustafar, Poe y BB-8 buscan ayuda en el escalofriante castillo de Darth Vader. Allí encuentran a un intrigante Hutt, un intrépido mecánico y el antiguo asistente de Darth Vader, Vaneé, que les obsequia con tres relatos aterradores ligados a antiguos artefactos y a villanos icónicos de todas las épocas de Star Wars.",
