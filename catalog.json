@@ -4498,10 +4498,23 @@
     },
     {
       "id": "781e07c7a31649509608c5e85bb0107d",
-      "title": "Mátate, amor",
+      "title": "Die My Love",
+      "plot": "Intenso drama psicológico y comedia negra que sigue a Grace (Jennifer Lawrence), una joven madre y escritora que comienza a sufrir una profunda depresión posparto tras mudarse con su esposo Jackson (Robert Pattinson) a la zona rural de Montana, buscando una vida más tranquila. A medida que la salud mental de Grace se deteriora, su matrimonio se ve afectado, transitando territorios de psicosis, tensión y desesperación. La película explora con crudeza y complejidad temas de maternidad, salud mental y el impacto de la depresión en la pareja. Dirigida por Lynne Ramsay, el filme está basado en la novela de Ariana Harwicz y fue aclamado en el Festival de Cannes 2025, destacando las actuaciones poderosas de Lawrence y Pattinson, junto a un elenco que incluye a LaKeith Stanfield, Nick Nolte y Sissy Spacek. Con una narrativa inquietante y una atmósfera absorbente, \"Die My Love\" invita a una reflexión profunda sobre las luchas internas y el amor en medio del caos emocional.",
+      "cast": "Jennifer Lawrence, Robert Pattinson, Sissy Spacek, LaKeith Stanfield, Nick Nolte, Gabrielle Rose, Clare Coulter, Sarah Lind",
+      "director": "Lynne Ramsay",
+      "writer": "Lynne Ramsay",
+      "releaseDate": "2025-10-06",
       "year": "2025",
-      "plot": "Vive la historia de Mátate, amor (2025) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/dEkFlZzj2cb5F7SShvqkL54E4lr.jpg",
+      "genre": "Drama",
+      "rating": 6.1,
+      "duration": "118 min",
+      "poster": "https://image.tmdb.org/t/p/w500/SPe4WWcpMgn6ughXDgQPz68v4F.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/dEkFlZzj2cb5F7SShvqkL54E4lr.jpg",
+      "categories": [
+        "drama"
+      ],
+      "tmdbId": 1033148,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
