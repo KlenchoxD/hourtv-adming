@@ -509,8 +509,8 @@
     },
     {
       "id": "mrol0b83o09d1",
-      "title": "El diario de la Princesa 2",
-      "plot": "Ahora convertida en la princesa heredera de Genovia, Mia Thermopolis está lista para asumir el trono. Sin embargo, una antigua ley del reino establece que deberá casarse antes de poder convertirse en reina. Mientras busca al candidato ideal, Mia descubrirá que el verdadero amor no siempre sigue las reglas y que gobernar también significa luchar por aquello en lo que uno cree.",
+      "title": "Princesa por sorpresa 2",
+      "plot": "Mia (Anne Hathaway) ya está preparada para ser princesa de Genovia. Sin embargo, nada más instalarse en el Palacio Real con su bella y sabia abuela, la Reina Clarisse (Julie Andrews), se entera de que tendrá que prepararse inmediatamente para ser reina. Pero, entonces, tendrá que afrontar un peliagudo problema: en Genovia hay una ley que establece que las princesas tienen que casarse antes de ser coronadas; así que Mia tendrá que soportar un desfile de pretendientes cuya única aspiración es ocupar el trono.",
       "cast": "Anne Hathaway, Julie Andrews, Chris Pine, Hector Elizondo, Heather Matarazzo, John Rhys-Davies, Callum Blue, Larry Miller, Kathleen Marshall, Raven-Symoné",
       "director": "Garry Marshall",
       "writer": "Gina Wendkos, Shonda Rhimes, Meg Cabot",
@@ -519,14 +519,19 @@
       "genre": "Comedia, Romance, Familiar",
       "rating": 5.9,
       "duration": "113 min",
-      "poster": "https://i.pinimg.com/1200x/12/12/47/121247b2cef06b85c426f6b0c9333ee3.jpg",
+      "poster": "https://image.tmdb.org/t/p/w500/ndsSUCSqwe8nqdTqJXX4aDrsNM0.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/pmOXaAK8hteMlCiMZyyDJENHCZI.jpg",
       "categories": [
         "recomendado",
         "populares",
         "comedia",
         "romance",
-        "infantil"
+        "drama",
+        "infantil",
+        "familia"
       ],
+      "tmdbId": 11130,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Servidor 1",
