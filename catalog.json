@@ -5202,9 +5202,24 @@
     {
       "id": "ff3c68bc151c4c5a94eed7330edbf929",
       "title": "Eddington",
+      "plot": "En mayo de 2020, la disputa entre el sheriff de un pequeño pueblo y su alcalde prende un auténtico polvorín al enfrentar a los vecinos de Eddington, Nuevo México.",
+      "cast": "Joaquin Phoenix, Deirdre O'Connell, Emma Stone, Micheal Ward, Pedro Pascal, Cameron Mann, Matt Gomez Hidaka, Luke Grimes",
+      "director": "Ari Aster",
+      "writer": "Ari Aster",
+      "releaseDate": "2025-07-16",
       "year": "2025",
-      "plot": "Vive la historia de Eddington (2025) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/5PJkK2iVXRO1ydrtgwuJdevmnOe.jpg",
+      "genre": "Western, Comedia, Crimen",
+      "rating": 6.5,
+      "duration": "148 min",
+      "poster": "https://image.tmdb.org/t/p/w500/2uB5UFi0ZMpFglg0QhMAVKCf27X.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/5PJkK2iVXRO1ydrtgwuJdevmnOe.jpg",
+      "categories": [
+        "comedia",
+        "drama",
+        "western"
+      ],
+      "tmdbId": 648878,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
