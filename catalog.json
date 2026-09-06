@@ -5292,17 +5292,24 @@
     {
       "id": "041bff39f5be48b28e621b28f6c46f7e",
       "title": "Honey Don't!",
-      "year": "2025",
-      "tmdb_id": 1149504,
-      "imdb_id": "tt30645201",
-      "genre": "cine de detectives, cine de comedia, neo-noir, cine lésbico",
+      "plot": "Una comedia negra sobre Honey O'Donahue, una investigadora privada de un pueblo pequeño, que se adentra en una serie de extrañas muertes vinculadas a una misteriosa iglesia.",
       "cast": "Billy Eichner, Margaret Qualley, Aubrey Plaza, Charlie Day, Kristen Connolly, Gabby Beans, Talia Ryder, Don Swayze, Lena Hall, Lera Abova, Kale Browne",
       "director": "Ethan Coen",
       "writer": "Ethan Coen, Tricia Cooke",
-      "duration": "89 min",
       "releaseDate": "2025-05-24",
-      "plot": "Vive la historia de Honey Don't! (2025) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/cjhq1eBLXgKq1xHDFeUnYzu61H6.jpg",
+      "year": "2025",
+      "genre": "cine de detectives, cine de comedia, neo-noir, cine lésbico",
+      "rating": 5.6,
+      "duration": "89 min",
+      "poster": "https://image.tmdb.org/t/p/w500/fJm3kmd9NLZWypMas7g34oNFgbk.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/cjhq1eBLXgKq1xHDFeUnYzu61H6.jpg",
+      "categories": [
+        "terror",
+        "comedia",
+        "drama"
+      ],
+      "tmdbId": 1149504,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
