@@ -1462,12 +1462,27 @@
     },
     {
       "id": "4c3548e083154dd2b9284f35c3547ae4",
-      "title": "LEGO Disney Princesa: Caos mágico (2026)",
-      "plot": "Vive la historia de LEGO Disney Princesa: Caos mágico (2026) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los",
-      "poster": "https://image.tmdb.org/t/p/w1280/iyJc33L3SCOkNrt7lTHITcZtGkx.jpg",
+      "title": "LEGO Disney Princess: Caos Mágico",
+      "plot": "Durante una fuerte tormenta, los personajes de la princesa y sus amigos compinches acogen a los animales necesitados mientras disfrutan de un agradable día en su castillo. Pero cuando los animales se vuelven locos, estalla el caos. Sleuthing descubre a un villano travieso que está detrás de todo esto y, gracias al trabajo en equipo, la rapidez de pensamiento y la ayuda de un amigo inesperado, los personajes de la princesa deberán restablecer el orden y salvar su hogar.",
+      "cast": "Jodi Benson, Auliʻi Cravalho, Mandy Moore, Katherine Von Till, Ming-Na Wen, Linda Larkin, Jim Cummings, Isaac Robinson-Smith",
+      "director": "Randi Rodrigues",
+      "writer": "Rachel Vine",
+      "releaseDate": "2026-08-21",
+      "year": "2026",
+      "genre": "Animación, Fantasía, Comedia, Aventura",
+      "rating": 8,
+      "duration": "22 min",
+      "poster": "https://image.tmdb.org/t/p/w500/21SCsrJ2dd6tnYHMjOFZLt2E4Nl.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/kBrBcgdite6vpa6VkYEcjZuof7z.jpg",
       "categories": [
-        "Películas"
+        "estrenos",
+        "comedia",
+        "aventura",
+        "infantil",
+        "fantasía"
       ],
+      "tmdbId": 1732625,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
