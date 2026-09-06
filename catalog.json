@@ -2057,12 +2057,24 @@
     },
     {
       "id": "cf1c263e89f14469860826d31b1d10e2",
-      "title": "Culpa tuya: Londres (2026)",
-      "plot": "Vive la historia de Culpa tuya: Londres (2026) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/wQOhbCP6H8bO5ddlXDZT207orew.jpg",
+      "title": "Culpa tuya: Londres",
+      "plot": "Noah y Nick regresan más fuertes, unidos y enamorados que nunca. Pero a medida que la vida empieza a tirar de ellos en direcciones diferentes, su relación se enfrenta a su reto más difícil hasta la fecha. Noah se marcha a Oxford para proseguir sus estudios, mientras que Nick se ve consumido por las crecientes exigencias del trabajo. Cuando nuevas personas entran en sus vidas, despertando emociones inesperadas y celos persistentes, empiezan a formarse grietas. La confianza se pone a prueba, las pasiones se desatan y el vínculo que una vez creyeron irrompible empieza a tensarse. Ahora, en una encrucijada, Noah y Nick deben decidir: luchar por el amor que los unió... o arriesgarse a perderlo para siempre.",
+      "cast": "Asha Banks, Matthew Broome, Louisa Binder, Joel Nankervis, Scarlett Rayner, Orlando Norman, Ray Fearon, Enva Lewis",
+      "director": "Dani Girdwood",
+      "releaseDate": "2026-06-17",
+      "year": "2026",
+      "genre": "Romance, Drama",
+      "rating": 7.5,
+      "duration": "123 min",
+      "poster": "https://image.tmdb.org/t/p/w500/oeOmayFaiGz6km5vShPpDBQnZf1.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/wQOhbCP6H8bO5ddlXDZT207orew.jpg",
       "categories": [
-        "Películas"
+        "estrenos",
+        "romance",
+        "drama"
       ],
+      "tmdbId": 1477317,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
