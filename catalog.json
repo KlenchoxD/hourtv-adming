@@ -4232,10 +4232,26 @@
     },
     {
       "id": "60e6eb8dabea48cc918f3f678b53fed8",
-      "title": "Locos por las nueces",
+      "title": "Operación Cacahuete 2. Misión: Salvar el parque",
+      "plot": "Continuación de Operación cacahuete en la que conoceremos las nuevas aventuras de la malhumorada ardilla Surly junto a su fiel compinche, la positiva rata Buddy. En esta ocasión, los amigos tratarán de acabar con los planes del alcalde de Oakton City, que pretende demoler su hogar, el Parque Liberty, para así poder construir un parque de atracciones en la zona.",
+      "cast": "Will Arnett, Maya Rudolph, Bobby Cannavale, Bobby Moynihan, Isabela Merced, Peter Stormare, Gabriel Iglesias, Jeff Dunham",
+      "director": "Cal Brunker",
+      "writer": "Cal Brunker",
+      "releaseDate": "2017-08-11",
       "year": "2014",
-      "plot": "Vive la historia de Locos por las nueces (2014) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/hDyGD9UQn6CDky3jcGXGVnPOGUS.jpg",
+      "genre": "Animación, Familia, Aventura, Comedia",
+      "rating": 6.1,
+      "duration": "95 min",
+      "poster": "https://image.tmdb.org/t/p/w500/zHEA1SxWhIzaqa82FY2GtbJE39p.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/snobCf0u4ex9OKNNFuNQKmGe3gJ.jpg",
+      "categories": [
+        "comedia",
+        "aventura",
+        "infantil",
+        "familia"
+      ],
+      "tmdbId": 335777,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
