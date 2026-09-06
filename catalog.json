@@ -1524,12 +1524,26 @@
     },
     {
       "id": "3e817a8795a84a6a919d3f0734a15667",
-      "title": "No se desea buena suerte (2026)",
-      "plot": "Vive la historia de No se desea buena suerte (2026) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del",
-      "poster": "https://image.tmdb.org/t/p/w1280/yzdMGn8IRHSGuV8AIzw19wkRU2W.jpg",
+      "title": "No se desea buena suerte",
+      "plot": "Sophie Birenbaum está encantada de ser la protagonista del musical de su instituto, hasta que de repente debe enfrentarse a más problemas en casa que en el escenario.",
+      "cast": "Sunny Sandler, Melanie Lynskey, Max Greenfield, Stephanie Beatriz, Bebe Neuwirth, Steve Buscemi, Matan Friedman, Eitan Friedman",
+      "director": "Julia Hart",
+      "writer": "Laura Hankin",
+      "releaseDate": "2026-08-13",
+      "year": "2026",
+      "genre": "Comedia, Música, Drama",
+      "rating": 7.3,
+      "duration": "96 min",
+      "poster": "https://image.tmdb.org/t/p/w500/eSHrRxvVxXH0JYdj2NdBD78FC6B.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/yzdMGn8IRHSGuV8AIzw19wkRU2W.jpg",
       "categories": [
-        "Películas"
+        "estrenos",
+        "comedia",
+        "drama",
+        "música"
       ],
+      "tmdbId": 1504358,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
