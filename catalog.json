@@ -2518,12 +2518,25 @@
     },
     {
       "id": "41148eb1ba3d42beb329701c1a002c4f",
-      "title": "Ganar o morir (1993)",
-      "plot": "Vive la historia de Ganar o morir (1993) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/5VF6N8dPSSPeyQdQoQ53mxDcUjw.jpg",
+      "title": "Sin Escape (Ganar o morir)",
+      "plot": "Un preso logra escapar del furgón policial que le trasladaba y se oculta en las proximidades de una granja. Allí vive una mujer dominada por un terrateniente que quiere apoderarse de sus tierras, y el proscrito no puede evitar intervenir en el asunto aunque suponga arriesgar demasiado.",
+      "cast": "Jean-Claude Van Damme, Rosanna Arquette, Kieran Culkin, Ted Levine, Tiffany Taubman, Edward Blatchford, Anthony Starke, Joss Ackland",
+      "director": "Robert Harmon",
+      "writer": "Joe Eszterhas",
+      "releaseDate": "1993-01-15",
+      "year": "1993",
+      "genre": "Acción, Drama, Suspense",
+      "rating": 6.6,
+      "duration": "94 min",
+      "poster": "https://image.tmdb.org/t/p/w500/1m7Md2MUef2PyAwYT5Z94AbEC5u.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/5VF6N8dPSSPeyQdQoQ53mxDcUjw.jpg",
       "categories": [
-        "Películas"
+        "terror",
+        "accion",
+        "drama"
       ],
+      "tmdbId": 10413,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
