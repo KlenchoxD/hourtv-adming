@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-09-06T18:28:00.955Z",
+  "lastRunAt": "2026-09-06T20:39:24.143Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -24,16 +24,16 @@
     1284041,
     1368337,
     1288445,
-    1285366,
     1386315,
+    1285366,
     1375646,
     1516698,
-    1213243,
-    1621552,
     1393326,
-    1323244,
+    1621552,
+    1506560,
+    1213243,
     1514682,
-    1232569,
+    1323244,
     1335666
   ],
   "tmdbIdsPublished": [],
@@ -121,14 +121,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1285366,
-      "title": "愛のぬくもり",
-      "reason": "Rating 5.2 por debajo del mínimo (5.5)"
-    },
-    {
       "tmdbId": 1386315,
       "title": "A la carrera",
       "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1285366,
+      "title": "愛のぬくもり",
+      "reason": "Rating 5.2 por debajo del mínimo (5.5)"
     },
     {
       "tmdbId": 1375646,
@@ -136,19 +136,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1213243,
-      "title": "Tóxico: Un cuento de hadas para adultos",
-      "reason": "Sin sinopsis"
-    },
-    {
       "tmdbId": 1393326,
       "title": "Ghost in the Cell",
       "reason": "Votos 44 por debajo del mínimo (50)"
     },
     {
-      "tmdbId": 1323244,
-      "title": "La señal del apocalipsis",
-      "reason": "Sin fuente autorizada configurada"
+      "tmdbId": 1213243,
+      "title": "Tóxico: Un cuento de hadas para adultos",
+      "reason": "Sin sinopsis"
     },
     {
       "tmdbId": 1514682,
@@ -156,8 +151,8 @@
       "reason": "Votos 24 por debajo del mínimo (50)"
     },
     {
-      "tmdbId": 1232569,
-      "title": "Pinocho: Desatado",
+      "tmdbId": 1323244,
+      "title": "La señal del apocalipsis",
       "reason": "Sin fuente autorizada configurada"
     }
   ]
