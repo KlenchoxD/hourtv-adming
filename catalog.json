@@ -2499,12 +2499,24 @@
     },
     {
       "id": "0e29a2dd025e45ecad989f9b068061c4",
-      "title": "Ámame, ámame (2026)",
-      "plot": "Vive la historia de Ámame, ámame (2026) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/ohUhHOqW8cM59Ay5UjqplLzJbH3.jpg",
+      "title": "Love Me Love Me",
+      "plot": "Tras la muerte de su hermano, June se muda a Milán para empezar de nuevo. Allí encuentra refugio en Will, el alumno perfecto de su instituto internacional. Pero James, el problemático mejor amigo de Will, que oculta una peligrosa vida en peleas clandestinas de MMA, convierte la rivalidad en una atracción irresistible que obliga a June a elegir entre una vida segura y un amor que lo cambia todo.",
+      "cast": "Pepe Barroso, Mia Jenkins, Luca Melucci, Andrea Guo, Michelangelo Vizzini, Madior Fall, Vanessa Donghi, Elizabeth Kinnear",
+      "director": "Roger Kumble",
+      "writer": "Serena Tateo",
+      "releaseDate": "2026-02-12",
+      "year": "2026",
+      "genre": "Romance, Drama",
+      "rating": 6.1,
+      "duration": "99 min",
+      "poster": "https://image.tmdb.org/t/p/w500/jfwHKRHRE2X4NTexdzblaioHH51.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/ohUhHOqW8cM59Ay5UjqplLzJbH3.jpg",
       "categories": [
-        "Películas"
+        "romance",
+        "drama"
       ],
+      "tmdbId": 1317672,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
