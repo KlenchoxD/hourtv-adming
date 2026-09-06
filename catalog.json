@@ -4937,9 +4937,24 @@
     {
       "id": "6b519fff01904a31af7a4d008953b720",
       "title": "Americana",
+      "plot": "Las vidas de varios forasteros y locales se entrecruzan violentamente cuando una rara camisa de Lakota Ghost aparece en el mercado negro de un pequeño pueblo de Dakota del Sur.",
+      "cast": "Sydney Sweeney, Paul Walter Hauser, Halsey, Simon Rex, Eric Dane, Zahn McClarnon, Derek Hinkey, Toby Huss",
+      "director": "Tony Tost",
+      "writer": "Tony Tost",
+      "releaseDate": "2025-08-15",
       "year": "2025",
-      "plot": "Vive la historia de Americana (2025) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/ice3dNrgJZmyFXs4InhjAJMIGMS.jpg",
+      "genre": "Crimen, Western, Comedia",
+      "rating": 6.2,
+      "duration": "107 min",
+      "poster": "https://image.tmdb.org/t/p/w500/jK4Vcc6CgZE6ZHZNHtg3GuYqUo0.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/ice3dNrgJZmyFXs4InhjAJMIGMS.jpg",
+      "categories": [
+        "comedia",
+        "drama",
+        "western"
+      ],
+      "tmdbId": 934456,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
