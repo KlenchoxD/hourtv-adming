@@ -4173,10 +4173,25 @@
     },
     {
       "id": "dccf6aa8899a4925b7d1af2d23bdb5ff",
-      "title": "Hardcore: Misión extrema",
+      "title": "Hardcore Henry",
+      "plot": "Minuto 1. No recuerdas nada. Tu esposa (Haley Bennett) te acaba de revivir. Te dice que te llamas Henry. Cinco minutos más tarde, te han disparado, la han secuestrado y debes rescatarla. ¿Quién la tiene? Su nombre es Akan (Danila Kozlovsky), un poderoso señor de la guerra que cuenta con un ejército de mercenarios y un plan para dominar el mundo. Estás en la para ti desconocida Moscú y todos te quieren muerto. Todos, menos un misterioso británico llamado Jimmy (Sharlto Copley). Parece que esta de tu lado, pero no estás seguro. Si puedes sobrevivir a la locura y develar el misterio, tal vez puedas descubrir la verdad tras tu identidad.",
+      "cast": "Andrey Dementyev, Sharlto Copley, Danila Kozlovski, Haley Bennett, Tim Roth, Светлана Устинова, Darya Charusha, Oleg Poddubnyy",
+      "director": "Ilya Naishuller",
+      "writer": "Ilya Naishuller",
+      "releaseDate": "2015-09-12",
       "year": "2015",
-      "plot": "Vive la historia de Hardcore: Misión extrema (2015) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del",
-      "poster": "https://image.tmdb.org/t/p/w1280/agxzi8QIXWnZgLxwHck8wdjfYk7.jpg",
+      "genre": "Acción, Aventura, Ciencia ficción",
+      "rating": 6.4,
+      "duration": "94 min",
+      "poster": "https://image.tmdb.org/t/p/w500/wqu4G6sghlca1CGBIa5TXKVtGLP.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/agxzi8QIXWnZgLxwHck8wdjfYk7.jpg",
+      "categories": [
+        "populares",
+        "accion",
+        "aventura"
+      ],
+      "tmdbId": 325348,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
