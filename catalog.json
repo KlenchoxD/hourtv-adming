@@ -155,7 +155,7 @@
     {
       "id": "mroi92clm0oht",
       "title": "Crepúsculo",
-      "plot": "Bella Swan se muda a la pequeña ciudad de Forks para vivir con su padre, donde conoce al misterioso Edward Cullen. A medida que se enamoran, Bella descubre que Edward pertenece a una antigua familia de vampiros que lucha por vivir en paz entre los humanos. Su romance los llevará a enfrentar peligros inesperados que pondrán a prueba su amor y sus vidas.",
+      "plot": "La joven Bella Swan siempre fue una chica muy diferente ya en sus años de niña en Phoenix. Cuando su madre se volvió a casar, la mandó a vivir con su padre, a la pequeña y lluviosa ciudad de Forks, Washington, una población sin ningún aliciente para Bella. Pero entonces conoce en el instituo al misterioso y atractivo Edward Cullen, un joven distinto a los demás que esconde un secreto...",
       "cast": "Kristen Stewart, Robert Pattinson, Billy Burke, Peter Facinelli, Elizabeth Reaser, Ashley Greene, Jackson Rathbone, Nikki Reed, Kellan Lutz, Taylor Lautner, Cam Gigandet, Anna Kendrick",
       "director": "Catherine Hardwicke",
       "writer": "Melissa Rosenberg, basada en la novela de Stephenie Meyer",
@@ -164,14 +164,18 @@
       "genre": "Romance, Fantasía, Drama",
       "rating": 5.3,
       "duration": "122 min",
-      "poster": "https://i.pinimg.com/1200x/1b/8b/c9/1b8bc9a634e0070171fa3c4d498aa603.jpg",
+      "poster": "https://image.tmdb.org/t/p/w500/40ollvfwHaVF85lkkg522SIl3Qc.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/weAYfu6FfrNxEDJ3xH1XpgQcqUv.jpg",
       "categories": [
         "recomendado",
         "populares",
         "romance",
         "aventura",
-        "drama"
+        "drama",
+        "fantasía"
       ],
+      "tmdbId": 8966,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Servidor 1",
