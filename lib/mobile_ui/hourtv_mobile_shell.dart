@@ -8,6 +8,7 @@ import '../models/channel.dart';
 import '../new_ui/hourtv_detail_page.dart';
 import '../new_ui/hourtv_live_page.dart';
 import '../new_ui/hourtv_new_shell.dart' show PreviewCatalog;
+import '../new_ui/hourtv_series_detail_page.dart';
 import '../new_ui/hourtv_profile_avatar.dart';
 import '../new_ui/hourtv_profile_page.dart';
 import '../new_ui/hourtv_settings_language_page.dart';
@@ -17,12 +18,36 @@ import '../new_ui/hourtv_settings_playback_page.dart';
 import '../services/content_store.dart';
 import '../services/device_type.dart';
 import '../services/storage_service.dart';
+import '../services/xtream_service.dart';
 import 'hourtv_mobile_components.dart';
 import 'hourtv_mobile_theme.dart';
 
 enum HourTvMobileDestination { home, live, search, library, profile }
 
 enum HourTvSearchSort { newest, oldest, titleAscending }
+
+List<Channel> hourTvMobileCatalogContent(
+  Iterable<Channel> channels,
+  Iterable<XtreamSeries> structuredSeries, {
+  Set<String> favoriteUrls = const <String>{},
+}) {
+  final output = <Channel>[
+    ...channels.where((item) => item.type != MediaType.live),
+    ...structuredSeries
+        .map(hourTvSeriesChannel)
+        .map(
+          (item) => item.copyWith(isFavorite: favoriteUrls.contains(item.url)),
+        ),
+  ];
+  final seen = <String>{};
+  return [
+    for (final item in output)
+      if (seen.add(
+        '${item.type.name}:${item.displayName.trim().toLowerCase()}',
+      ))
+        item,
+  ];
+}
 
 abstract interface class HourTvSearchHistoryStore {
   Future<List<String>> load();
@@ -93,9 +118,11 @@ class _HourTvMobileShellState extends State<HourTvMobileShell> {
   }
 
   List<Channel> get _allContent {
-    final content = store.visibleAll
-        .where((item) => item.type != MediaType.live)
-        .toList();
+    final content = hourTvMobileCatalogContent(
+      store.visibleAll,
+      store.visibleSeries,
+      favoriteUrls: store.favorites.map((item) => item.url).toSet(),
+    );
     if (content.isNotEmpty) return content;
     return store.loading ? const [] : PreviewCatalog.movies;
   }
@@ -110,6 +137,15 @@ class _HourTvMobileShellState extends State<HourTvMobileShell> {
       _liveChannels.isNotEmpty ? _liveChannels : PreviewCatalog.live;
 
   void _openDetails(Channel channel) {
+    final series = hourTvResolveSeries(channel, store.visibleSeries);
+    if (series != null) {
+      Navigator.of(context).push(
+        MaterialPageRoute<void>(
+          builder: (_) => HourTvSeriesDetailPage(series: series),
+        ),
+      );
+      return;
+    }
     Navigator.of(context).push(
       MaterialPageRoute<void>(
         builder: (_) => HourTvDetailPage(
@@ -321,7 +357,12 @@ class _HourTvMobileHomeState extends State<HourTvMobileHome> {
     // cada una es una categoria real filtrada por el catalogo.
     final rows = <(String, List<Channel>)>[
       ('Películas', widget.store.movies),
-      ('Series', widget.store.seriesChannels),
+      (
+        'Series',
+        widget.allContent
+            .where((item) => item.type == MediaType.series)
+            .toList(),
+      ),
       ('Animes', widget.store.anime),
       ('K-Drama', widget.store.kDramas),
       ('Tendencia', widget.store.trending),

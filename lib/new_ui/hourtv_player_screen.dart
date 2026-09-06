@@ -28,6 +28,12 @@ const _hourError = Color(0xFFFF5A66);
 
 enum _VideoFitMode { automatic, contain, cover }
 
+List<DeviceOrientation> hourTvPlayerOrientations({
+  required bool forceLandscape,
+}) => forceLandscape
+    ? const [DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight]
+    : const [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown];
+
 String _formatPlaybackTime(Duration time) {
   String two(int number) => number.toString().padLeft(2, '0');
   final hours = time.inHours;
@@ -158,15 +164,16 @@ class _PlayerScreenState extends State<PlayerScreen>
   }
 
   void _applyOrientationLock() {
-    if (widget.forceLandscape ||
+    final landscape =
+        widget.forceLandscape ||
         StorageService.getSetting('forceLandscape', defaultValue: false) ==
-            true) {
+            true;
+    if (landscape) {
       _forcedLandscape = true;
       unawaited(
-        SystemChrome.setPreferredOrientations([
-          DeviceOrientation.landscapeLeft,
-          DeviceOrientation.landscapeRight,
-        ]),
+        SystemChrome.setPreferredOrientations(
+          hourTvPlayerOrientations(forceLandscape: true),
+        ),
       );
     } else {
       // Sin esto, el reproductor se quedaba con la preferencia global de la
@@ -176,7 +183,9 @@ class _PlayerScreenState extends State<PlayerScreen>
       // realmente quiera ver todo en horizontal.
       _forcedPortrait = true;
       unawaited(
-        SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]),
+        SystemChrome.setPreferredOrientations(
+          hourTvPlayerOrientations(forceLandscape: false),
+        ),
       );
     }
   }
@@ -224,8 +233,7 @@ class _PlayerScreenState extends State<PlayerScreen>
     // Progreso real para "Continuar viendo": cada ~10s, y siempre al terminar
     // (asi el titulo sale de la fila en vez de quedar marcado a medias).
     if (completed || second % 10 == 0) {
-      final fraction = (value.position.inMilliseconds /
-              duration.inMilliseconds)
+      final fraction = (value.position.inMilliseconds / duration.inMilliseconds)
           .clamp(0.0, 1.0);
       unawaited(
         ContentStore.instance.updatePlaybackProgress(
@@ -450,7 +458,10 @@ class _PlayerScreenState extends State<PlayerScreen>
   /// reintento, false si no habia plan/mirrors y el llamador debe mostrar error.
   Future<bool> _tryFallback(Channel ch, String failedUrl) async {
     final plan = _sourcePlan;
-    if (!mounted || plan == null || plan.current != failedUrl || !plan.hasNext) {
+    if (!mounted ||
+        plan == null ||
+        plan.current != failedUrl ||
+        !plan.hasNext) {
       return false;
     }
     final nextUrl = plan.advance();
@@ -640,9 +651,7 @@ class _PlayerScreenState extends State<PlayerScreen>
     final targetMs = (vc.value.position.inMilliseconds + amount.inMilliseconds)
         .clamp(0, durationMs);
     await vc.seekTo(Duration(milliseconds: targetMs));
-    _showGesture(
-      '${amount.isNegative ? '-' : '+'}${amount.inSeconds.abs()} s',
-    );
+    _showGesture('${amount.isNegative ? '-' : '+'}${amount.inSeconds.abs()} s');
     _showChromeControls();
   }
 
@@ -1740,10 +1749,7 @@ class _PlayerScreenState extends State<PlayerScreen>
                   tooltip: 'Retroceder 5 segundos',
                   onPressed: () =>
                       unawaited(_seekBy(const Duration(seconds: -5))),
-                  icon: const Icon(
-                    Icons.replay_5_rounded,
-                    color: Colors.white,
-                  ),
+                  icon: const Icon(Icons.replay_5_rounded, color: Colors.white),
                 ),
                 IconButton(
                   tooltip: value.isPlaying ? 'Pausar' : 'Reproducir',
@@ -2701,9 +2707,9 @@ class _PlayerScreenState extends State<PlayerScreen>
     }
     final duration = controller.value.duration;
     if (duration <= Duration.zero) return;
-    final fraction = (controller.value.position.inMilliseconds /
-            duration.inMilliseconds)
-        .clamp(0.0, 1.0);
+    final fraction =
+        (controller.value.position.inMilliseconds / duration.inMilliseconds)
+            .clamp(0.0, 1.0);
     unawaited(
       ContentStore.instance.updatePlaybackProgress(_currentChannel, fraction),
     );
