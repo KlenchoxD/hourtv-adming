@@ -315,8 +315,8 @@
     },
     {
       "id": "mrojy3mcgn0pa",
-      "title": "El Cadáver de la Novia",
-      "plot": "En un pequeño pueblo de la época victoriana, el tímido Victor practica sus votos matrimoniales en el bosque y, sin darse cuenta, despierta a Emily, una novia que regresa del mundo de los muertos creyendo que acaba de casarse. Mientras intenta volver con su verdadera prometida, Victor descubrirá una historia llena de amor, sacrificio y segundas oportunidades entre el mundo de los vivos y el de los muertos.",
+      "title": "La novia cadáver",
+      "plot": "Ambientada en un pueblecito europeo en el siglo XIX, esta película de animación fotograma a fotograma cuenta la historia de Victor, un joven que es llevado de repente al infierno, donde se casa con una misteriosa Novia Cadáver, mientras que su verdadera novia, Victoria espera en el mundo de los vivos. A pesar de que la tierra de los muertos resulta ser más colorista que su estricta educación victoriana, Victor aprende que no hay nada en este mundo, ni en el siguiente, que pueda separarle de su único y verdadero amor.",
       "cast": "Johnny Depp, Helena Bonham Carter, Emily Watson, Tracey Ullman, Paul Whitehouse, Joanna Lumley, Albert Finney, Richard E. Grant, Christopher Lee, Michael Gough",
       "director": "Tim Burton, Mike Johnson",
       "writer": "John August, Caroline Thompson, Pamela Pettler",
@@ -325,14 +325,18 @@
       "genre": "Animación, Fantasía, Romance, Musical",
       "rating": 7.4,
       "duration": "77 min",
-      "poster": "https://i.pinimg.com/736x/03/e5/fd/03e5fda3273a5d51362accdd6ff861a9.jpg",
+      "poster": "https://image.tmdb.org/t/p/w500/3ALM0VeZjGUryAqWo6pqohzbLDh.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/v23fWgJUEt8EMmvn19btIacxP8E.jpg",
       "categories": [
         "recomendado",
         "populares",
         "comedia",
         "romance",
-        "infantil"
+        "infantil",
+        "fantasía"
       ],
+      "tmdbId": 3933,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Servidor 1",
@@ -343,8 +347,8 @@
     },
     {
       "id": "mrok428tedbmk",
-      "title": "La Bella y la Bestia",
-      "plot": "Bella, una joven inteligente e independiente, acepta ocupar el lugar de su padre como prisionera en el misterioso castillo de una Bestia. Con el tiempo, descubre que bajo su temible apariencia se esconde un príncipe víctima de una antigua maldición. Mientras el peligro acecha al reino, ambos aprenderán que el verdadero amor va más allá de las apariencias.",
+      "title": "La bella y la bestia",
+      "plot": "Bella, una joven hermosa y brillante, asume el lugar de su padre como prisionero en el castillo de una bestia. Poco a poco, la valiente Bella irá dándose cuenta de que el príncipe bestia no es el malvado ser que todos creen que es y tiene, en realidad, un gran corazón.",
       "cast": "Emma Watson, Dan Stevens, Luke Evans, Kevin Kline, Josh Gad, Ewan McGregor, Ian McKellen, Emma Thompson, Stanley Tucci, Audra McDonald, Gugu Mbatha-Raw",
       "director": "Bill Condon",
       "writer": "Stephen Chbosky, Evan Spiliotopoulos",
@@ -353,14 +357,19 @@
       "genre": "Fantasía, Romance, Musical, Familiar",
       "rating": 7.1,
       "duration": "129 min",
-      "poster": "https://i.pinimg.com/736x/de/8e/38/de8e385538199b48a5c8fc3d5853f43f.jpg",
+      "poster": "https://image.tmdb.org/t/p/w500/aGJkPbMixqD6j0OjbbGouSMbiZO.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/uU1Mt4JWhDvl4vKb3AfxNsorkoM.jpg",
       "categories": [
         "recomendado",
         "populares",
         "romance",
         "aventura",
-        "infantil"
+        "infantil",
+        "familia",
+        "fantasía"
       ],
+      "tmdbId": 321612,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Servidor 1",
