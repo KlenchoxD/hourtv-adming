@@ -2001,56 +2001,6 @@
           "language": "Inglés"
         }
       ]
-    },
-    {
-      "id": "15493db2c5f74c2782c14939ec009332",
-      "title": "Los Minions y sus amigos: Volumen 1",
-      "plot": "Esta colección de cortos de los Minions de la franquicia de «Mi villano favorito» incluye minipelículas como «Ruedines», «Cachorro» y «Yellow is the New Black».",
-      "cast": "Pierre Coffin, Raymond S. Persi, Carlos Alazraqui, Tara Strong, Brian T. Delaney, Miranda Cosgrove, Jessica DiCicco, John DiMaggio",
-      "director": "Bruno Chauffard",
-      "writer": "Van Robichaux",
-      "releaseDate": "2022-09-27",
-      "year": "2022",
-      "genre": "Animación, Aventura, Comedia, Familia",
-      "rating": 7,
-      "duration": "44 min",
-      "poster": "https://image.tmdb.org/t/p/w500/aJ41Lkz6zQ9kg6tyebXVNe9gnN5.jpg",
-      "backdrop": "https://image.tmdb.org/t/p/w1280/v57iMzSzzM8NsyMqrSmKGToHoCe.jpg",
-      "categories": [
-        "comedia",
-        "aventura",
-        "infantil",
-        "familia"
-      ],
-      "tmdbId": 1029119,
-      "tmdbType": "movie",
-      "servers": [
-        {
-          "name": "PrimeSrc",
-          "url": "https://primesrc.me/embed/movie?tmdb=1029119&fallback=true",
-          "language": "Inglés"
-        },
-        {
-          "name": "Voe",
-          "url": "https://primesrc.me/embed/movie?tmdb=1029119&fallback=false&whitelistServers=Voe&serverOrder=Voe",
-          "language": "Inglés"
-        },
-        {
-          "name": "Streamtape",
-          "url": "https://primesrc.me/embed/movie?tmdb=1029119&fallback=false&whitelistServers=Streamtape&serverOrder=Streamtape",
-          "language": "Inglés"
-        },
-        {
-          "name": "Dood",
-          "url": "https://primesrc.me/embed/movie?tmdb=1029119&fallback=false&whitelistServers=Dood&serverOrder=Dood",
-          "language": "Inglés"
-        },
-        {
-          "name": "Luluvdoo",
-          "url": "https://primesrc.me/embed/movie?tmdb=1029119&fallback=false&whitelistServers=Luluvdoo&serverOrder=Luluvdoo",
-          "language": "Inglés"
-        }
-      ]
     }
   ],
   "series": [
