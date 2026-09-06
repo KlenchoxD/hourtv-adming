@@ -5167,10 +5167,25 @@
     },
     {
       "id": "2aebf883c43349e78f0b066c8bc00600",
-      "title": "Otro viernes de locos",
+      "title": "Ponte en mi lugar de nuevo",
+      "plot": "Años después de que Tess y Anna atravesaran una crisis de identidad, Anna ahora tiene una hija y una futura hijastra. Mientras enfrentan los innumerables desafíos que surgen cuando dos familias se fusionan, Tess y Anna descubren que el rayo puede caer dos veces.",
+      "cast": "Lindsay Lohan, Jamie Lee Curtis, Julia Butters, Sophia Hammons, Manny Jacinto, Mark Harmon, Chad Michael Murray, Vanessa Bayer",
+      "director": "Nisha Ganatra",
+      "writer": "Jordan Weiss",
+      "releaseDate": "2025-08-06",
       "year": "2025",
-      "plot": "Vive la historia de Otro viernes de locos (2025) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/yQy9Y3p5INwkfTuHSnzYnz4MCV3.jpg",
+      "genre": "Comedia, Fantasía, Familia",
+      "rating": 6.8,
+      "duration": "110 min",
+      "poster": "https://image.tmdb.org/t/p/w500/sqp4urYCbmSRbMYRt4SSb7oRQGJ.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/yQy9Y3p5INwkfTuHSnzYnz4MCV3.jpg",
+      "categories": [
+        "comedia",
+        "familia",
+        "fantasía"
+      ],
+      "tmdbId": 1125257,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
