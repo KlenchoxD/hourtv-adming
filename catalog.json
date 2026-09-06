@@ -3535,6 +3535,27 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "5093498bf5da41908277dcd6d9482c73",
+      "title": "Super Mario Galaxy: La película",
+      "year": "2026",
+      "tmdb_id": 1226863,
+      "imdb_id": "tt28650488",
+      "genre": "cine de aventuras, cine de comedia",
+      "director": "Aaron Horvath, Michael Jelenic",
+      "writer": "Matthew Fogel",
+      "duration": "98 min",
+      "releaseDate": "2026-04-03",
+      "plot": "Vive la historia de Super Mario Galaxy: La película (2026) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes",
+      "poster": "https://image.tmdb.org/t/p/w1280/kxQiIJ4gVcD3K6o14MJ72p5yRcE.jpg",
+      "servers": [
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/trVaCmXrin6djn2/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
