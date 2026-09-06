@@ -1963,12 +1963,25 @@
     },
     {
       "id": "1ce0538cbedc4d1193ba6479242a001f",
-      "title": "La ironía del amor (2026)",
-      "plot": "Vive la historia de La ironía del amor (2026) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/1Es1fV6Wn4ArpqTRTPs8ydpEkiw.jpg",
+      "title": "La ironía del amor",
+      "plot": "Una crítica musical de 24 años se involucra sentimentalmente con miembros de una banda independiente a la que decide dar a conocer, en un contexto ambientado en la escena musical independiente de Montreal en 2011.",
+      "cast": "Barbie Ferreira, Devon Bostick, Stanley Simons, Juliette Gariépy, Jay Baruchel, Robert Naylor, Isaiah Lehtinen, Aurora Browne",
+      "director": "Chandler Levack",
+      "writer": "Chandler Levack",
+      "releaseDate": "2026-04-17",
+      "year": "2026",
+      "genre": "Comedia, Romance, Drama",
+      "rating": 5.7,
+      "duration": "112 min",
+      "poster": "https://image.tmdb.org/t/p/w500/uvfBXtJ1EB3asfpJcQCN9g9Eijf.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/1Es1fV6Wn4ArpqTRTPs8ydpEkiw.jpg",
       "categories": [
-        "Películas"
+        "comedia",
+        "romance",
+        "drama"
       ],
+      "tmdbId": 1177767,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
