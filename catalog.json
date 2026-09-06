@@ -752,15 +752,18 @@
       "genre": "Terror, Misterio, Ciencia ficción",
       "rating": 7.1,
       "duration": "105 min",
-      "poster": "https://image.tmdb.org/t/p/w780/ur2yYTVGPkEDmLdoQ1Obm2RKXuU.jpg",
+      "poster": "https://image.tmdb.org/t/p/w500/ur2yYTVGPkEDmLdoQ1Obm2RKXuU.jpg",
       "backdrop": "https://image.tmdb.org/t/p/w1280/dqmMWNWfLnExDRpMtIMqI97GQFR.jpg",
       "categories": [
-        "terror",
-        "aventura",
+        "recomendado",
         "estrenos",
         "populares",
-        "recomendado"
+        "terror",
+        "aventura"
       ],
+      "featured": true,
+      "tmdbId": 1083381,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Streamwish",
@@ -777,8 +780,7 @@
           "url": "https://streamwish.to/e/e94tq2gvehr0",
           "language": "Español"
         }
-      ],
-      "tmdbId": 1083381
+      ]
     },
     {
       "id": "tmdb-1335666",
