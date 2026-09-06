@@ -3963,6 +3963,20 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "9751f568e88f47169a0a7a054cdb46e5",
+      "title": "Jack",
+      "year": "1996",
+      "plot": "Vive la historia de Jack (1996) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
+      "poster": "https://image.tmdb.org/t/p/w1280/v9wC8Rf3RHYQ6yKO4yQAlQLHSA6.jpg",
+      "servers": [
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/XUXcrUuSvDMufME/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
