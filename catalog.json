@@ -1285,12 +1285,26 @@
     },
     {
       "id": "08642633ff384015b0e80d20c2b97801",
-      "title": "Mobile Suit Gundam Hathaway: El hechizo de una ninfa (2026)",
-      "plot": "Vive la historia de Mobile Suit Gundam Hathaway: El hechizo de una ninfa (2026) y disfruta este título en Blog de Pelis con una experiencia de cine online",
-      "poster": "https://image.tmdb.org/t/p/w1280/dp9FPgUwPc2XIXYct2cQ1PgFv7f.jpg",
+      "title": "Mobile Suit Gundam Hathaway: La hechicería de la ninfa Circe",
+      "plot": "Continúa la lucha de Hathaway Noa contra la Federación Terrestre, culminando en un ataque terrorista a la conferencia gubernamental de Adelaide. Gigi Andalucia sigue siendo clave, su influencia encarna la figura de la \"bruja\".",
+      "cast": "Kensho Ono, Reina Ueda, Junichi Suwabe, Soma Saito, Kenjiro Tsuda, Yui Ishikawa, Fukushi Ochiai, Shunsuke Takeuchi",
+      "director": "村瀬修功",
+      "writer": "むとうやすゆき",
+      "releaseDate": "2026-01-30",
+      "year": "2026",
+      "genre": "Animación, Ciencia ficción, Bélica, Drama",
+      "rating": 7.3,
+      "duration": "115 min",
+      "poster": "https://image.tmdb.org/t/p/w500/nc6N2gh2fjlnY6q4R8ufLqDf10X.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/dp9FPgUwPc2XIXYct2cQ1PgFv7f.jpg",
       "categories": [
-        "Películas"
+        "aventura",
+        "drama",
+        "anime",
+        "bélica"
       ],
+      "tmdbId": 910850,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
