@@ -1609,12 +1609,28 @@
     },
     {
       "id": "3dfbff02f1264432b5500dca9d37fe7c",
-      "title": "Avatar Aang: El último maestro del aire (2026)",
-      "plot": "Vive la historia de Avatar Aang: El último maestro del aire (2026) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los",
-      "poster": "https://image.tmdb.org/t/p/w1280/ezbrL1dMymKQZw7mDEWa2ZTzN7d.jpg",
+      "title": "Avatar Aang: El último maestro del aire",
+      "plot": "Cuando el Avatar Aang, el último maestro del aire del mundo, descubre un poder ancestral que podría salvar a su cultura de la extinción, él y sus amigos se lanzan a la búsqueda de ese poder antes de que caiga en malas manos.",
+      "cast": "Eric Nam, Dave Bautista, Jessica Matten, Román Zaragoza, Steven Yeun, Dionne Quan, Dee Bradley Baker, Freida Pinto",
+      "director": "Lauren Montgomery",
+      "writer": "Tim Hedrick",
+      "releaseDate": "2026-07-24",
+      "year": "2026",
+      "genre": "Animación, Aventura, Fantasía, Familia",
+      "rating": 9.2,
+      "duration": "99 min",
+      "poster": "https://image.tmdb.org/t/p/w500/gXyICsxc1amVyziopCT4yhnelNv.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/ezbrL1dMymKQZw7mDEWa2ZTzN7d.jpg",
       "categories": [
-        "Películas"
+        "recomendado",
+        "estrenos",
+        "aventura",
+        "infantil",
+        "familia",
+        "fantasía"
       ],
+      "tmdbId": 980431,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
