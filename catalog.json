@@ -2420,12 +2420,25 @@
     },
     {
       "id": "058eede024244e4f98249535a5a2d81a",
-      "title": "Antes del fin del mundo (2025)",
-      "plot": "Vive la historia de Antes del fin del mundo (2025) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/oqbPmvTPL1TzTpFtBz1IoQnxcgM.jpg",
+      "title": "Antes Del Fin Del Mundo",
+      "plot": "Es el fin del mundo. En busca de sentido y emociones en sus últimos días con vida, Rose y Michael se embarcan en un viaje por carretera a través del país mientras un devastador asteroide amenaza con acabar con la vida en la Tierra.",
+      "cast": "Andrew Ortenberg, June Schreiner, Thalia Besson, Dermot Mulroney, Lauren Cohan, Luciana VanDette, Theo Marshall, Eli Samek",
+      "director": "Andrew Johnson",
+      "writer": "Andrew Ortenberg",
+      "releaseDate": "2025-02-07",
+      "year": "2025",
+      "genre": "Romance, Drama, Ciencia ficción",
+      "rating": 6.4,
+      "duration": "108 min",
+      "poster": "https://image.tmdb.org/t/p/w500/9Ahg3uWnIMSdAijrP455lsdlBz4.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/oqbPmvTPL1TzTpFtBz1IoQnxcgM.jpg",
       "categories": [
-        "Películas"
+        "romance",
+        "aventura",
+        "drama"
       ],
+      "tmdbId": 1013301,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
