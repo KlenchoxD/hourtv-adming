@@ -3311,9 +3311,23 @@
     {
       "id": "a66571440e52415281f1073806dbc669",
       "title": "Hermanito",
+      "plot": "La vida perfecta de un tenso agente inmobiliario da un giro radical cuando su adorable y caótico «hermano pequeño» reaparece de repente.",
+      "cast": "John Cena, Eric André, Michelle Monaghan, Christopher Meloni, Sherry Cola, Ego Nwodim, Caleb Hearon, Bryce Gheisar",
+      "director": "Matt Spicer",
+      "writer": "Jarrad Paul",
+      "releaseDate": "2026-06-18",
       "year": "2026",
-      "plot": "Vive la historia de Hermanito (2026) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/bdwv8Hsu4Bnz8aRbH5MQ9clQ0DG.jpg",
+      "genre": "Comedia",
+      "rating": 6.4,
+      "duration": "101 min",
+      "poster": "https://image.tmdb.org/t/p/w500/s8mudAYQcHmVoFSamqyv1Ron527.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/bdwv8Hsu4Bnz8aRbH5MQ9clQ0DG.jpg",
+      "categories": [
+        "estrenos",
+        "comedia"
+      ],
+      "tmdbId": 1397385,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
@@ -3325,9 +3339,25 @@
     {
       "id": "9a7b36e74b7b4788915b41bab3fecb53",
       "title": "Las ovejas detectives",
+      "plot": "Cada noche, un pastor lee en voz alta un asesinato misterioso, fingiendo que sus ovejas pueden entenderlo. Cuando lo encuentran muerto, las ovejas se dan cuenta enseguida de que ha sido un asesinato y creen saber cómo resolverlo.",
+      "cast": "Hugh Jackman, Nicholas Braun, Nicholas Galitzine, Molly Gordon, Julia Louis-Dreyfus, Bryan Cranston, Chris O'Dowd, Regina Hall",
+      "director": "Kyle Balda",
+      "writer": "Craig Mazin",
+      "releaseDate": "2026-04-30",
       "year": "2026",
-      "plot": "Vive la historia de Las ovejas detectives (2026) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/a8uQvrplTkhGJQog6GZ6CqF8An6.jpg",
+      "genre": "Comedia, Familia, Misterio",
+      "rating": 7.9,
+      "duration": "109 min",
+      "poster": "https://image.tmdb.org/t/p/w500/hUj4XFicPaR7Ca1Ljkwz9tK7e0M.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/a8uQvrplTkhGJQog6GZ6CqF8An6.jpg",
+      "categories": [
+        "recomendado",
+        "terror",
+        "comedia",
+        "familia"
+      ],
+      "tmdbId": 1301421,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
