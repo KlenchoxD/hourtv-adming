@@ -3800,10 +3800,25 @@
     },
     {
       "id": "541d214e18e34a4facbc8b4cad30087a",
-      "title": "Alerta extinción",
+      "title": "Turno de noche",
+      "plot": "Cuando un hongo mutante altamente contagioso escapa de una instalación sellada, dos jóvenes empleados, acompañados por un veterano agente de bioterrorismo, deben sobrevivir al turno de noche más alocado de la historia para salvar a la humanidad de la extinción, mientras el microorganismo se propaga y destruye todo a su paso.",
+      "cast": "Georgina Campbell, Joe Keery, Sosie Bacon, Vanessa Redgrave, Lesley Manville, Liam Neeson, Richard Brake, Aaron Heffernan",
+      "director": "Jonny Campbell",
+      "writer": "David Koepp",
+      "releaseDate": "2026-01-22",
       "year": "2026",
-      "plot": "Vive la historia de Alerta extinción (2026) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/puqQGxK9HYITUKhCdREg3XOLlZd.jpg",
+      "genre": "Terror, Ciencia ficción, Comedia",
+      "rating": 6.8,
+      "duration": "99 min",
+      "poster": "https://image.tmdb.org/t/p/w500/bp0tX5Q02YtkFAQI8TMwwsvQs1d.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/puqQGxK9HYITUKhCdREg3XOLlZd.jpg",
+      "categories": [
+        "terror",
+        "comedia",
+        "aventura"
+      ],
+      "tmdbId": 696393,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
