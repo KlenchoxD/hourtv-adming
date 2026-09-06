@@ -3103,9 +3103,24 @@
     {
       "id": "954a061f577a4b9285ae2e8c8dd6d0be",
       "title": "72 horas",
+      "plot": "Para salvar su carrera, un ejecutivo publicitario de 40 años se une a unos veinteañeros en una alocada despedida de soltero en Miami cuando lo añaden por error a un chat grupal.",
+      "cast": "Kevin Hart, Marcello Hernández, Mason Gooding, Kam Patterson, Ben Marshall, Zach Cherry, Michael Mando, Teyana Taylor",
+      "director": "Tim Story",
+      "writer": "Jon Hurwitz",
+      "releaseDate": "2026-07-20",
       "year": "2026",
-      "plot": "Vive la historia de 72 horas (2026) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/hL5EIk48251OXlbIbRJq3yaBHk8.jpg",
+      "genre": "Comedia, Crimen",
+      "rating": 6.8,
+      "duration": "105 min",
+      "poster": "https://image.tmdb.org/t/p/w500/enkyq1gVdQqWaCyAFjFIxjlKvNW.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/hL5EIk48251OXlbIbRJq3yaBHk8.jpg",
+      "categories": [
+        "estrenos",
+        "comedia",
+        "drama"
+      ],
+      "tmdbId": 949838,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
