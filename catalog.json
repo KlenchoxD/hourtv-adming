@@ -4440,10 +4440,25 @@
     },
     {
       "id": "9b5470fdd11b4bd6a56998c4535faeb2",
-      "title": "Familia en renta",
+      "title": "Rental Family (Familia de alquiler)",
+      "plot": "Ambientada en el Tokio actual, sigue a un actor estadounidense que lucha por encontrar un propósito en la vida hasta que consigue un trabajo inusual: trabajar para una agencia japonesa de \"familias de alquiler\", interpretando papeles de suplente para desconocidos. A medida que se sumerge en el mundo de sus clientes, comienza a establecer vínculos genuinos que difuminan las líneas entre la actuación y la realidad. Al enfrentarse a las complejidades morales de su trabajo, redescubre el propósito, la pertenencia y la tranquila belleza de las relaciones humanas.",
+      "cast": "Brendan Fraser, Takehiro Hira, Mari Yamamoto, Shannon Mahina Gorman, 柄本明, Paolo Andrea Di Pietro, 尾関伸嗣, キンタカオ",
+      "director": "Hikari",
+      "writer": "Hikari",
+      "releaseDate": "2025-11-20",
       "year": "2025",
-      "plot": "Vive la historia de Familia en renta (2025) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/euoXeFAOt9o7yAWA9zGZk7DdZWZ.jpg",
+      "genre": "Comedia, Drama",
+      "rating": 7.7,
+      "duration": "110 min",
+      "poster": "https://image.tmdb.org/t/p/w500/tqNMl8WfOFSfxFgznVOH5Ekm84P.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/euoXeFAOt9o7yAWA9zGZk7DdZWZ.jpg",
+      "categories": [
+        "recomendado",
+        "comedia",
+        "drama"
+      ],
+      "tmdbId": 1208348,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
