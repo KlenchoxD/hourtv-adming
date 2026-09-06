@@ -283,8 +283,8 @@
     },
     {
       "id": "mrojui3wxup3u",
-      "title": "Crepúsculo la saga: Amanecer Parte 2",
-      "plot": "Tras convertirse en vampira, Bella Swan comienza una nueva vida junto a Edward Cullen y su hija Renesmee. Sin embargo, una falsa acusación pone a la familia Cullen en la mira de los Volturi, quienes amenazan con destruirlos. Para proteger a los suyos, los Cullen deberán reunir aliados de todo el mundo y enfrentarse a la batalla más importante de sus vidas.",
+      "title": "La saga Crepúsculo: Amanecer - Parte 2",
+      "plot": "Bella concluye su transformación en vampiro y ahora debe familiarizarse con su nueva condición. Con el nacimiento de Renesmee, la familia Cullen deberá protegerse ante la amenaza de los Volturi ya que existe una ley para los vampiros que prohíbe a todos los clanes convertir a niños, pues son difíciles de controlar y pueden generar auténticas masacres que pongan en peligro la secreta existencia de los vampiros... Segunda parte de la adaptación de \"Amanecer\" que supone la quinta entrega de la franquicia cinematográfica Crepúsculo, basada en las novelas de Stephenie Meyer.",
       "cast": "Kristen Stewart, Robert Pattinson, Taylor Lautner, Mackenzie Foy, Billy Burke, Peter Facinelli, Elizabeth Reaser, Ashley Greene, Jackson Rathbone, Nikki Reed, Kellan Lutz, Dakota Fanning, Michael Sheen, Anna Kendrick",
       "director": "Bill Condon",
       "writer": "Melissa Rosenberg, basada en la novela de Stephenie Meyer",
@@ -293,14 +293,18 @@
       "genre": "Romance, Fantasía, Drama, Acción",
       "rating": 5.6,
       "duration": "115 min",
-      "poster": "https://i.pinimg.com/1200x/69/18/a9/6918a9fd4de68699ae73daa90f795b55.jpg",
+      "poster": "https://image.tmdb.org/t/p/w500/pPB3rQx0oBOmj5CHZxLWgexo5nS.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/qkl57wzSFrpi2sRpoc2mZJbMuLP.jpg",
       "categories": [
         "recomendado",
         "populares",
         "accion",
         "romance",
-        "drama"
+        "drama",
+        "fantasía"
       ],
+      "tmdbId": 50620,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Servidor 1",
