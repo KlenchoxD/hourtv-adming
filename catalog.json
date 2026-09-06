@@ -664,32 +664,43 @@
     },
     {
       "id": "tmdb-1083381",
-      "title": "Backrooms: Sin salida",
-      "plot": "Una misteriosa anomalía conduce a una dimensión compuesta por interminables pasillos, oficinas vacías y espacios que desafían toda lógica. Cuando una terapeuta decide adentrarse en ese inquietante laberinto para encontrar a un paciente desaparecido, deberá enfrentarse a un entorno donde las leyes de la realidad parecen romperse y cada decisión puede conducir a un lugar aún más perturbador. La película transforma el fenómeno viral de los Backrooms en un thriller psicológico de terror que apuesta por la tensión, la atmósfera opresiva y el miedo a lo desconocido, evitando depender únicamente de los sobresaltos tradicionales.",
-      "cast": "Chiwetel Ejiofor, Renate Reinsve, Mark Duplass, Finn Bennett, Lukita Maxwell",
+      "title": "Backrooms",
+      "plot": "Una puerta extraña aparece en el sótano de una sala de exposición de muebles.",
+      "cast": "Chiwetel Ejiofor, Renate Reinsve, Finn Bennett, Lukita Maxwell, Mark Duplass, Avan Jogia, Robert Bobroczkyi, Ember Ambrose, Krista Kosonen, Philip Granger",
       "director": "Kane Parsons",
       "writer": "Will Soodik",
-      "releaseDate": "2026-05-29",
+      "releaseDate": "2026-05-27",
       "year": "2026",
-      "genre": "Terror, Ciencia ficción, Thriller psicológico, Metraje encontrado",
-      "rating": 7,
-      "duration": "110 min",
-      "poster": "https://i.pinimg.com/736x/3d/ad/ed/3dadedbe3535cebfd75acafa89885d6a.jpg",
+      "genre": "Terror, Misterio, Ciencia ficción",
+      "rating": 7.1,
+      "duration": "105 min",
+      "poster": "https://image.tmdb.org/t/p/w780/ur2yYTVGPkEDmLdoQ1Obm2RKXuU.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/dqmMWNWfLnExDRpMtIMqI97GQFR.jpg",
       "categories": [
-        "recomendado",
+        "terror",
+        "aventura",
         "estrenos",
         "populares",
-        "terror",
-        "aventura"
+        "recomendado"
       ],
-      "featured": true,
       "servers": [
         {
-          "name": "Servidor 1",
-          "url": "https://barmonrey.com/player/v6GW8AcMnOBvdDa/",
+          "name": "Streamwish",
+          "url": "https://streamwish.to/e/uscs7h3xbbo9",
+          "language": "Español Latino"
+        },
+        {
+          "name": "Streamwish",
+          "url": "https://streamwish.to/e/2jel88xzez9s",
+          "language": "Subtitulado"
+        },
+        {
+          "name": "Streamwish",
+          "url": "https://streamwish.to/e/e94tq2gvehr0",
           "language": "Español"
         }
-      ]
+      ],
+      "tmdbId": 1083381
     },
     {
       "id": "tmdb-1335666",
@@ -1177,185 +1188,6 @@
           "name": "Barmonrey",
           "url": "https://barmonrey.com/player/kcLLa8owSVO4dbh/",
           "language": "Idioma sin identificar"
-        }
-      ]
-    },
-    {
-      "id": "tmdb-1083381",
-      "title": "Backrooms",
-      "plot": "Una puerta extraña aparece en el sótano de una sala de exposición de muebles.",
-      "cast": "Chiwetel Ejiofor, Renate Reinsve, Finn Bennett, Lukita Maxwell, Mark Duplass, Avan Jogia, Robert Bobroczkyi, Ember Ambrose, Krista Kosonen, Philip Granger",
-      "director": "Kane Parsons",
-      "writer": "Will Soodik",
-      "releaseDate": "2026-05-27",
-      "year": "2026",
-      "genre": "Terror, Misterio, Ciencia ficción",
-      "rating": 7.1,
-      "duration": "105 min",
-      "poster": "https://image.tmdb.org/t/p/w780/ur2yYTVGPkEDmLdoQ1Obm2RKXuU.jpg",
-      "backdrop": "https://image.tmdb.org/t/p/w1280/dqmMWNWfLnExDRpMtIMqI97GQFR.jpg",
-      "categories": [
-        "terror",
-        "aventura",
-        "estrenos",
-        "populares",
-        "recomendado"
-      ],
-      "servers": [
-        {
-          "name": "Streamwish",
-          "url": "https://streamwish.to/e/uscs7h3xbbo9",
-          "language": "Español Latino"
-        },
-        {
-          "name": "Streamwish",
-          "url": "https://streamwish.to/e/2jel88xzez9s",
-          "language": "Subtitulado"
-        },
-        {
-          "name": "Streamwish",
-          "url": "https://streamwish.to/e/e94tq2gvehr0",
-          "language": "Español"
-        }
-      ],
-      "tmdbId": 1083381
-    },
-    {
-      "id": "b835e9c6f0b14640896a9d922f1192e1",
-      "title": "Sin tiempo para espiar: Una peli de Una casa de locos",
-      "plot": "Lincoln y los Loud están emocionados de dar la bienvenida a su nueva abuela, Myrtle, a la familia con una celebración de boda tropical. Sin embargo, los festejos se ven interrumpidos cuando un viejo enemigo del pasado aparece en la isla, desatando una serie de eventos inesperados.",
-      "cast": "Bentley Griffin, Alex Cazares, Piotr Michael, Brian Stepanek, Amy Sedaris, Jessica DiCicco, Lara Jill Miller, Jill Talley",
-      "director": "Kyle Marshall",
-      "writer": "Whitney Wetta",
-      "releaseDate": "2024-06-21",
-      "year": "2024",
-      "genre": "Animación, Acción, Aventura, Comedia, Familia",
-      "rating": 7.1,
-      "duration": "81 min",
-      "poster": "https://image.tmdb.org/t/p/w500/eIIklEb7D9MrRxsb4vyXnm08d0G.jpg",
-      "backdrop": "https://image.tmdb.org/t/p/w1280/nL0q3UcNj4MOMluIUE42bc7PtW0.jpg",
-      "categories": [
-        "accion",
-        "comedia",
-        "aventura",
-        "infantil",
-        "familia"
-      ],
-      "tmdbId": 1280768,
-      "tmdbType": "movie",
-      "servers": [
-        {
-          "name": "Vimeus",
-          "url": "https://vimeus.com/e/movie?tmdb=1280768&view_key=pm--irtXUphuYCLlZtsY97frNAFymFpMTEUDJ8T4iB0",
-          "language": "Español"
-        },
-        {
-          "name": "PrimeSrc",
-          "url": "https://primesrc.me/embed/movie?tmdb=1280768&fallback=true",
-          "language": "Idioma sin identificar"
-        }
-      ]
-    },
-    {
-      "id": "5340b53cf22945b186640b0bc3de2440",
-      "title": "¡Upsss! 2 ¿Y ahora dónde está Noé?",
-      "plot": "La luna de miel ha terminado ... ¡Cómo disfrutamos la fiesta cuando nuestros anfibios amigos Nestria descubrieron su increíble agilidad recién descubierta bajo el agua! Pero, cuando volvemos a visitar a nuestros curiosos y adorables amigos, la supervivencia de todo el reino animal vuelve a estar en juego. En medio de la perspectiva de una nueva tierra en la que vivir y prosperar, sin mencionar los recursos alimenticios en constante disminución, el estado de ánimo a bordo del Arca está cargado de tensiones crecientes, que regularmente se desbordan en la ira del Arca. La frágil paz se rompe con frecuencia con el consiguiente caos general. ¿Cómo pueden ayudar nuestros héroes inverosímiles? ¿Y qué hay debajo de Finny en un océano de posibilidades cuando literalmente cae en una nueva compañía bastante sorprendente?",
-      "cast": "Max Carolan, Dermot Magennis, Tara Flynn, Ava Connolly, Mary Murray, Brendan McDonald, Carly Kane, Alan Stanford",
-      "director": "Toby Genkel",
-      "writer": "Richie Conroy",
-      "releaseDate": "2020-09-24",
-      "year": "2020",
-      "genre": "Animación, Aventura, Comedia, Familia",
-      "rating": 7.6,
-      "duration": "86 min",
-      "poster": "https://image.tmdb.org/t/p/w500/87YGfUYwM4mI2ITWzsHxxBDbOiy.jpg",
-      "backdrop": "https://image.tmdb.org/t/p/w1280/oi9k7RySgadRwl8bAdXt7ehnt2f.jpg",
-      "categories": [
-        "comedia",
-        "aventura",
-        "infantil",
-        "familia"
-      ],
-      "tmdbId": 587562,
-      "tmdbType": "movie",
-      "servers": [
-        {
-          "name": "PrimeSrc",
-          "url": "https://primesrc.me/embed/movie?tmdb=587562&fallback=true",
-          "language": "Inglés"
-        },
-        {
-          "name": "Dood",
-          "url": "https://primesrc.me/embed/movie?tmdb=587562&fallback=false&whitelistServers=Dood&serverOrder=Dood",
-          "language": "Inglés"
-        }
-      ]
-    },
-    {
-      "id": "9c5c98ced772481cbe73862056dfaa34",
-      "title": "Toy Story 5",
-      "plot": "Los juguetes de Bonnie se enfrentan a otra amenaza cuando la niña recibe una tableta llamada Lilypad, la cual absorbe toda su atención y pone en peligro el juego tradicional. Todos deben unirse para competir contra la tecnología y recuperar su lugar.",
-      "cast": "Joan Cusack, Tom Hanks, Tim Allen, Conan O'Brien, Scarlett Spears, Greta Lee, Shelby Rabara, Mykal-Michelle Harris",
-      "director": "Andrew Stanton",
-      "writer": "Andrew Stanton",
-      "releaseDate": "2026-06-17",
-      "year": "2026",
-      "genre": "Animación, Familia, Comedia, Aventura",
-      "rating": 8.3,
-      "duration": "102 min",
-      "poster": "https://image.tmdb.org/t/p/w500/pTjZfbFVWUIwUM5OzX3LVh84ejU.jpg",
-      "backdrop": "https://image.tmdb.org/t/p/w1280/8sSKdEmlmqF4kJUd28SqthXC4yZ.jpg",
-      "categories": [
-        "recomendado",
-        "estrenos",
-        "comedia",
-        "aventura",
-        "infantil"
-      ],
-      "featured": true,
-      "tmdbId": 1084244,
-      "tmdbType": "movie",
-      "servers": [
-        {
-          "name": "OK.ru",
-          "url": "https://ok.ru/videoembed/14820121316017?nochat=1",
-          "language": "Idioma sin identificar"
-        },
-        {
-          "name": "OK.ru",
-          "url": "https://barmonrey.com/player/E4jSC0B5gtlBDyN/",
-          "language": "Idioma sin identificar"
-        },
-        {
-          "name": "OK.ru",
-          "url": "https://barmonrey.com/player/kiQ2SyiGDLgn7rA/",
-          "language": "Idioma sin identificar"
-        }
-      ]
-    },
-    {
-      "id": "ebae22a06704479faa8eb8fc7912a5c0",
-      "title": "Lego DC Superhéroes: Liga de la Justicia – El ataque de la Legión del Mal",
-      "plot": "Miles de títulos en alta definición, listos para reproducir.",
-      "poster": "https://rukiatv.onrender.com/assets/icons/icon-512.png",
-      "categories": [
-        "Películas"
-      ],
-      "servers": [
-        {
-          "name": "Vimeus",
-          "url": "https://vimeus.com/e/movie?tmdb=353595&view_key=XuIgmI0t6ZNQriKur7hrx_Jv3XGZy57X9NT-64MyHow",
-          "language": "Español"
-        },
-        {
-          "name": "PrimeSrc",
-          "url": "https://primesrc.me/embed/movie?tmdb=353595&fallback=true",
-          "language": "Inglés"
-        },
-        {
-          "name": "Dood",
-          "url": "https://primesrc.me/embed/movie?tmdb=353595&fallback=false&whitelistServers=Dood&serverOrder=Dood",
-          "language": "Inglés"
         }
       ]
     },
@@ -2171,42 +2003,51 @@
       ]
     },
     {
-      "id": "28a0002f741b40b6bf51fbce1025b278",
-      "title": "Trollhunters: El despertar de los titanes",
-      "plot": "Los héroes de la serie Trollhunters se unen en una épica aventura para luchar contra la Orden de los Arcanos para determinar quién controla el poder de la magia que los une a todos.",
-      "cast": "Emile Hirsch, Lexi Medrano, Charlie Saxton, Kelsey Grammer, Alfred Molina, Steven Yeun, Nick Frost, Colin O'Donoghue",
-      "director": "Johane Matte",
-      "writer": "Guillermo del Toro",
-      "releaseDate": "2021-07-21",
-      "year": "2021",
-      "genre": "Animación, Fantasía, Familia, Acción, Aventura",
-      "rating": 7.6,
-      "duration": "106 min",
-      "poster": "https://image.tmdb.org/t/p/w500/fhhjAX2iDmnZksQWsJ8DdAcDBc5.jpg",
-      "backdrop": "https://image.tmdb.org/t/p/w1280/d1i6oB5xdo2a7sOmjprCcElqlrD.jpg",
+      "id": "15493db2c5f74c2782c14939ec009332",
+      "title": "Los Minions y sus amigos: Volumen 1",
+      "plot": "Esta colección de cortos de los Minions de la franquicia de «Mi villano favorito» incluye minipelículas como «Ruedines», «Cachorro» y «Yellow is the New Black».",
+      "cast": "Pierre Coffin, Raymond S. Persi, Carlos Alazraqui, Tara Strong, Brian T. Delaney, Miranda Cosgrove, Jessica DiCicco, John DiMaggio",
+      "director": "Bruno Chauffard",
+      "writer": "Van Robichaux",
+      "releaseDate": "2022-09-27",
+      "year": "2022",
+      "genre": "Animación, Aventura, Comedia, Familia",
+      "rating": 7,
+      "duration": "44 min",
+      "poster": "https://image.tmdb.org/t/p/w500/aJ41Lkz6zQ9kg6tyebXVNe9gnN5.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/v57iMzSzzM8NsyMqrSmKGToHoCe.jpg",
       "categories": [
-        "accion",
+        "comedia",
         "aventura",
         "infantil",
-        "familia",
-        "fantasía"
+        "familia"
       ],
-      "tmdbId": 730840,
+      "tmdbId": 1029119,
       "tmdbType": "movie",
       "servers": [
         {
-          "name": "Vimeus",
-          "url": "https://vimeus.com/e/movie?tmdb=730840&view_key=mVs9VHHj2c1bZIMODEik-VzdS5IYyk8ThM3PVActV0Y",
-          "language": "Español"
+          "name": "PrimeSrc",
+          "url": "https://primesrc.me/embed/movie?tmdb=1029119&fallback=true",
+          "language": "Inglés"
         },
         {
-          "name": "PrimeSrc",
-          "url": "https://primesrc.me/embed/movie?tmdb=730840&fallback=true",
+          "name": "Voe",
+          "url": "https://primesrc.me/embed/movie?tmdb=1029119&fallback=false&whitelistServers=Voe&serverOrder=Voe",
+          "language": "Inglés"
+        },
+        {
+          "name": "Streamtape",
+          "url": "https://primesrc.me/embed/movie?tmdb=1029119&fallback=false&whitelistServers=Streamtape&serverOrder=Streamtape",
           "language": "Inglés"
         },
         {
           "name": "Dood",
-          "url": "https://primesrc.me/embed/movie?tmdb=730840&fallback=false&whitelistServers=Dood&serverOrder=Dood",
+          "url": "https://primesrc.me/embed/movie?tmdb=1029119&fallback=false&whitelistServers=Dood&serverOrder=Dood",
+          "language": "Inglés"
+        },
+        {
+          "name": "Luluvdoo",
+          "url": "https://primesrc.me/embed/movie?tmdb=1029119&fallback=false&whitelistServers=Luluvdoo&serverOrder=Luluvdoo",
           "language": "Inglés"
         }
       ]
