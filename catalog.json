@@ -2486,12 +2486,25 @@
     },
     {
       "id": "587bba31c4c14079b72505fefe1a70a6",
-      "title": "Beso de tres (2025)",
-      "plot": "Vive la historia de Beso de tres (2025) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/vXYRqIySwaa56quJGRKxXfSaTh0.jpg",
+      "title": "Un juego de tres",
+      "plot": "El eterno enamoramiento de un joven le lleva a un trío inesperado, cree que es su última fantasía hecha realidad. Cuando la fantasía termina, los tres se ven obligados a asumir la responsabilidad de sus actos.",
+      "cast": "Zoey Deutch, Jonah Hauer-King, Ruby Cruz, Jaboukie Young-White, Josh Segarra, Robert Longstreet, Arden Myrin, Kristin Slaysman",
+      "director": "Chad Hartigan",
+      "writer": "Ethan Ogilby",
+      "releaseDate": "2025-09-04",
+      "year": "2025",
+      "genre": "Comedia, Romance, Drama",
+      "rating": 6.4,
+      "duration": "112 min",
+      "poster": "https://image.tmdb.org/t/p/w500/4Ptyvpmnk9RcxxdK610VtXpHf1w.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/vXYRqIySwaa56quJGRKxXfSaTh0.jpg",
       "categories": [
-        "Películas"
+        "comedia",
+        "romance",
+        "drama"
       ],
+      "tmdbId": 993708,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
