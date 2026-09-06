@@ -794,13 +794,15 @@
       "genre": "Drama, Comedia",
       "rating": 6.9,
       "duration": "99 min",
-      "poster": "https://image.tmdb.org/t/p/w780/sLKTSIggQHoFFyRTlKOdHN0LvWS.jpg",
+      "poster": "https://image.tmdb.org/t/p/w500/sLKTSIggQHoFFyRTlKOdHN0LvWS.jpg",
       "backdrop": "https://image.tmdb.org/t/p/w1280/dAU3mJzDLWWZyndByhV7hSIfBiK.jpg",
       "categories": [
-        "drama",
+        "estrenos",
         "comedia",
-        "estrenos"
+        "drama"
       ],
+      "tmdbId": 1335666,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Streamwish",
@@ -822,8 +824,7 @@
           "url": "https://voe.sx/e/6h64bplguech",
           "language": "Español"
         }
-      ],
-      "tmdbId": 1335666
+      ]
     },
     {
       "id": "cd9d6c06f4c94e49a37fda1542852d98",
