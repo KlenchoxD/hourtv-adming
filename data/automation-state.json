@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-09-06T13:27:39.201Z",
+  "lastRunAt": "2026-09-06T16:23:03.160Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -37,7 +37,7 @@
     1335666
   ],
   "tmdbIdsPublished": [],
-  "totalMoviesInCatalog": 95,
+  "totalMoviesInCatalog": 119,
   "errorsSummary": [],
   "skipped": [
     {
@@ -68,11 +68,6 @@
     {
       "tmdbId": 1275779,
       "title": "El día de la revelación",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1273221,
-      "title": "Scary Movie",
       "reason": "Sin fuente autorizada configurada"
     },
     {

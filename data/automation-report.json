@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-09-06T13:27:38.556Z",
-  "durationMs": 650,
+  "generatedAt": "2026-09-06T16:23:00.634Z",
+  "durationMs": 2529,
   "dryRun": false,
   "moviesFound": 33,
-  "moviesDiscarded": 25,
+  "moviesDiscarded": 24,
   "moviesAdded": 0,
   "moviesEnriched": 0,
-  "duplicates": 8,
+  "duplicates": 9,
   "tmdbErrors": 0,
   "providerErrors": 0,
   "invalidSources": 0,
@@ -40,11 +40,6 @@
     {
       "tmdbId": 1275779,
       "title": "El día de la revelación",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1273221,
-      "title": "Scary Movie",
       "reason": "Sin fuente autorizada configurada"
     },
     {
