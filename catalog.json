@@ -1554,12 +1554,27 @@
     },
     {
       "id": "4f3a003cc86241b79e0817dd6c947f6d",
-      "title": "Camp Rock 3 (2026)",
-      "plot": "Vive la historia de Camp Rock 3 (2026) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/vJb3fniB8E0JnSMr1tDyIsb6gPi.jpg",
+      "title": "Camp Rock 3",
+      "plot": "Los Connect 3 buscan un nuevo artista para abrir sus conciertos. La competencia por el puesto desata rivalidades y romances, ya que todos luchan por destacar.",
+      "cast": "Liamani Segura, Malachi Barton, Lumi Pollack, Hudson Stone, Casey Trotter, Brooklynn Pitts, Sherry Cola, Maria Canals-Barrera",
+      "director": "Veronica Rodriguez",
+      "writer": "Eydie Faye",
+      "releaseDate": "2026-08-13",
+      "year": "2026",
+      "genre": "Música, Comedia, Drama, Película de TV",
+      "rating": 6.6,
+      "duration": "93 min",
+      "poster": "https://image.tmdb.org/t/p/w500/lUGn8nzz0wU0zoApaex8WmwaCpT.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/vJb3fniB8E0JnSMr1tDyIsb6gPi.jpg",
       "categories": [
-        "Películas"
+        "estrenos",
+        "comedia",
+        "drama",
+        "película de tv",
+        "música"
       ],
+      "tmdbId": 1493400,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
