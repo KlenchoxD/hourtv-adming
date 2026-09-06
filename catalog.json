@@ -3072,10 +3072,26 @@
     },
     {
       "id": "7718bce41b4d48889b8ab1c5979966f7",
-      "title": "Jackass: La última y nos vamos",
+      "title": "Jackass: Lo mejor para el final",
+      "plot": "Johnny Knoxville, Steve-O y el elenco clásico —junto a los integrantes más jóvenes— se reúnen por última vez en un formato que combina nuevas bromas y acrobacias extremas con escenas inéditas, descartes históricos y material de archivo. Acompañada de comentarios e intervenciones del director Jeff Tremaine, la película funciona como un homenaje caótico, irreverente y nostálgico al legado del grupo y al paso de los años entre sus miembros.",
+      "cast": "Johnny Knoxville, Steve-O, Chris Pontius, Jason 'Wee Man' Acuña, Dave England, Preston Lacy, Ehren McGhehey, Bam Margera",
+      "director": "Jeff Tremaine",
+      "writer": "Jason 'Wee Man' Acuña",
+      "releaseDate": "2026-06-25",
       "year": "2026",
-      "plot": "Vive la historia de Jackass: La última y nos vamos (2026) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes",
-      "poster": "https://image.tmdb.org/t/p/w1280/dUbP1HNdI0aCq1zgRJw28PWSqmk.jpg",
+      "genre": "Acción, Comedia, Documental",
+      "rating": 7.5,
+      "duration": "104 min",
+      "poster": "https://image.tmdb.org/t/p/w500/8sVomxZ7OBnjaHA0C8lAvSq1fr.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/dUbP1HNdI0aCq1zgRJw28PWSqmk.jpg",
+      "categories": [
+        "estrenos",
+        "accion",
+        "comedia",
+        "documental"
+      ],
+      "tmdbId": 1612018,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
