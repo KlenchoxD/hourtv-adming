@@ -2307,12 +2307,24 @@
     },
     {
       "id": "4508a46267b54075b1a854802dcebc9b",
-      "title": "No te olvidaré (2026)",
-      "plot": "Vive la historia de No te olvidaré (2026) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/5rxEnsgriw8z065q51lrvPKYmCL.jpg",
+      "title": "No te olvidaré",
+      "plot": "Cuando los abuelos y tutores de Diem se niegan categóricamente a permitir que la vea, Kenna descubre una compasión inesperada seguida de un sentimiento más profundo y real con Ledger, exjugador de la NFL y propietario de un bar local. A medida que su romance secreto va cobrando forma, surgen problemas para los dos, lo que llevará a Kenna a una situación sentimental desoladora y, en último término, a reavivar la esperanza de una segunda oportunidad.",
+      "cast": "Maika Monroe, Tyriq Withers, Rudy Pankow, Bradley Whitford, Lauren Graham, Zoe Kosovic, Nicholas Duvernay, Jennifer Robertson",
+      "director": "Vanessa Caswill",
+      "writer": "Lauren Levine",
+      "releaseDate": "2026-03-11",
+      "year": "2026",
+      "genre": "Romance, Drama",
+      "rating": 7.8,
+      "duration": "114 min",
+      "poster": "https://image.tmdb.org/t/p/w500/iPJ4V6o5PttdBmHoehdOtWqQ6gx.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/5rxEnsgriw8z065q51lrvPKYmCL.jpg",
       "categories": [
-        "Películas"
+        "romance",
+        "drama"
       ],
+      "tmdbId": 1367642,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
