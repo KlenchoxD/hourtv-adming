@@ -30,8 +30,8 @@
     },
     {
       "id": "mrohdxyiodvnd",
-      "title": "Orgullo y Prejuicio",
-      "plot": "Elizabeth Bennet es una joven inteligente e independiente que vive en la Inglaterra del siglo XIX. Cuando conoce al reservado y adinerado señor Darcy, las primeras impresiones y los prejuicios mutuos complican su relación. A medida que ambos descubren la verdad sobre el otro, deberán superar el orgullo, los malentendidos y las diferencias sociales para encontrar el verdadero amor.",
+      "title": "Orgullo y prejuicio",
+      "plot": "Las cinco hermanas Bennet han sido criadas por una madre obsesionada por encontrarles marido. Pero una de ellas, Lizzie, inteligente y con carácter, desea una vida con perspectivas más abiertas, un anhelo respaldado por su padre. Cuando el señor Bingley, un soltero rico, y su círculo de sofisticados amigos se instalan en una mansión vecina para pasar el verano, las Bennett se entusiasman con la posibilidad de encontrar pretendientes. En el baile de bienvenida, Lizzie conoce al apuesto y elegante señor Darcy, pero, a primera vista, le parece demasiado orgulloso y arrogante.",
       "cast": "Keira Knightley, Matthew Macfadyen, Donald Sutherland, Brenda Blethyn, Rosamund Pike, Jena Malone, Carey Mulligan, Judi Dench, Tom Hollander, Simon Woods",
       "director": "Joe Wright",
       "writer": "Deborah Moggach",
@@ -40,13 +40,16 @@
       "genre": "Drama, Romance",
       "rating": 8.2,
       "duration": "129 min",
-      "poster": "https://i.pinimg.com/736x/b5/c1/78/b5c178999004bfebdafc70bd82d3cde7.jpg",
+      "poster": "https://image.tmdb.org/t/p/w500/oixzLjpyaLagLa8UREts1NiHr6F.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/1Onam6oWyFAUCcoxtdWkACtEiNr.jpg",
       "categories": [
         "recomendado",
         "populares",
         "romance",
         "drama"
       ],
+      "tmdbId": 4348,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Servidor 1",
