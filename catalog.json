@@ -8582,6 +8582,113 @@
           ]
         }
       ]
+    },
+    {
+      "id": "a132e22039ed47a59515cbd70ffd964c",
+      "title": "Los SUPERfrikis - Temporada 1",
+      "year": "2026",
+      "tmdb_id": 259837,
+      "imdb_id": "tt34440854",
+      "genre": "ficción de superhéroes, comedia dramática, action-adventure television series",
+      "cast": "Park Eun-bin, Cha Eun-woo cacas Ió, Kim Hae-suk, Choi Dae-hoon, Im Seong-jae, Son Hyun-joo",
+      "director": "Yoo In-sik",
+      "plot": "Vive la historia de Los SUPERfrikis - Temporada 1 (2026) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes",
+      "poster": "https://image.tmdb.org/t/p/w1280/810mXC0xkxXVtoKIPGGVgO9PuLh.jpg",
+      "seasons": [
+        {
+          "number": 1,
+          "episodes": [
+            {
+              "number": 1,
+              "title": "Capítulo 1",
+              "servers": [
+                {
+                  "name": "Voe",
+                  "url": "https://voe.sx/e/rabhxmz4uoyt",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 2,
+              "title": "Capítulo 2",
+              "servers": [
+                {
+                  "name": "Voe",
+                  "url": "https://voe.sx/e/slyxqcjmvnxl",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 3,
+              "title": "Capítulo 3",
+              "servers": [
+                {
+                  "name": "Voe",
+                  "url": "https://voe.sx/e/iyrdsr9hk4v2",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 4,
+              "title": "Capítulo 4",
+              "servers": [
+                {
+                  "name": "Voe",
+                  "url": "https://voe.sx/e/g6qbyl7ttbvi",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 5,
+              "title": "Capítulo 5",
+              "servers": [
+                {
+                  "name": "Voe",
+                  "url": "https://voe.sx/e/vftththcrsqk",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 6,
+              "title": "Capítulo 6",
+              "servers": [
+                {
+                  "name": "Voe",
+                  "url": "https://voe.sx/e/hnhg574bgemh",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 7,
+              "title": "Capítulo 7",
+              "servers": [
+                {
+                  "name": "Voe",
+                  "url": "https://voe.sx/e/zyawaciurqyn",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 8,
+              "title": "Capítulo 8",
+              "servers": [
+                {
+                  "name": "Voe",
+                  "url": "https://voe.sx/e/k1cbqpse6etm",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ],
   "sources": [],
