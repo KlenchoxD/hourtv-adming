@@ -2392,12 +2392,24 @@
     },
     {
       "id": "6b130fbb2db84d3ea5f0e15cf1e60bc4",
-      "title": "Solo Mio (2026)",
-      "plot": "Vive la historia de Solo Mio (2026) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/eVXBp5BBskAj0RJ6pDSNPcBs1uI.jpg",
+      "title": "Una novia para mi boda",
+      "plot": "Un hombre al que su prometida deja plantado en el altar en Italia decide irse solo de luna de miel.",
+      "cast": "Kevin James, Nicole Grimaudo, Kim Coates, Jonathan Roumie, Alyson Hannigan, Julie Ann Emery, Julee Cerda, Andrea Bocelli",
+      "director": "Charles Kinnane",
+      "writer": "Kevin James",
+      "releaseDate": "2026-02-05",
+      "year": "2026",
+      "genre": "Romance, Comedia",
+      "rating": 7.5,
+      "duration": "96 min",
+      "poster": "https://image.tmdb.org/t/p/w500/3iOvz9wXGvUCb4no5aIvCq2HmlH.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/eVXBp5BBskAj0RJ6pDSNPcBs1uI.jpg",
       "categories": [
-        "Películas"
+        "comedia",
+        "romance"
       ],
+      "tmdbId": 1291335,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
