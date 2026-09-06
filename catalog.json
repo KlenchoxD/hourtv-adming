@@ -5659,6 +5659,25 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "4779bf76858c42139bef941c0fbbff01",
+      "title": "Pitufos",
+      "year": "2025",
+      "plot": "Vive la historia de Pitufos (2025) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
+      "poster": "https://image.tmdb.org/t/p/w1280/9whEVuKte4Qi0LI4TzPf7glinJW.jpg",
+      "servers": [
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/yyYWD7zcN0qGJnY/",
+          "language": "Idioma sin identificar"
+        },
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/8Wqk3ucVLXydGVM/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
