@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-09-06T01:09:03.025Z",
-  "durationMs": 1266,
+  "generatedAt": "2026-09-06T05:55:03.695Z",
+  "durationMs": 459,
   "dryRun": false,
   "moviesFound": 34,
-  "moviesDiscarded": 29,
+  "moviesDiscarded": 26,
   "moviesAdded": 0,
   "moviesEnriched": 0,
-  "duplicates": 5,
+  "duplicates": 8,
   "tmdbErrors": 0,
   "providerErrors": 0,
   "invalidSources": 0,
@@ -23,8 +23,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1315772,
-      "title": "Minions & Monsters",
+      "tmdbId": 1084244,
+      "title": "Toy Story 5",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -83,11 +83,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1284041,
-      "title": "La última casa",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1212763,
       "title": "Posesión infernal: En llamas",
       "reason": "Sin fuente autorizada configurada"
@@ -118,19 +113,9 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1516698,
-      "title": "Sunrise. El último amanecer",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1213243,
       "title": "Tóxico: Un cuento de hadas para adultos",
       "reason": "Sin sinopsis"
-    },
-    {
-      "tmdbId": 1621552,
-      "title": "La captura",
-      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1393326,
@@ -145,7 +130,7 @@
     {
       "tmdbId": 1514682,
       "title": "Above & Below",
-      "reason": "Votos 23 por debajo del mínimo (50)"
+      "reason": "Votos 24 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1232569,
