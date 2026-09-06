@@ -4823,10 +4823,24 @@
     },
     {
       "id": "0608c079632d4c4eb06911e66a66c9f7",
-      "title": "Cuando el cielo se equivoca",
+      "title": "Movida Celestial",
+      "plot": "Gabriel (Keanu Reeves), un ángel bienintencionado, pero bastante inepto, baja a la Tierra con el propósito de ayudar a Arj (Aziz Ansari), un organizador de conciertos en apuros y Jeff (Seth Rogen), un rico inversor de capital riesgo. Aunque las intenciones del angelical Gabriel son buenas, las consecuencias de sus actos no serán las esperadas…",
+      "cast": "Keanu Reeves, Aziz Ansari, Seth Rogen, Keke Palmer, Sandra Oh, Sherry Cola, Stephen McKinley Henderson, Blanca Araceli",
+      "director": "Aziz Ansari",
+      "writer": "Aziz Ansari",
+      "releaseDate": "2025-10-14",
       "year": "2025",
-      "plot": "Vive la historia de Cuando el cielo se equivoca (2025) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del",
-      "poster": "https://image.tmdb.org/t/p/w1280/nkxtuK4alXlGC87FRNDfAZJIFiB.jpg",
+      "genre": "Comedia, Fantasía",
+      "rating": 6.8,
+      "duration": "98 min",
+      "poster": "https://image.tmdb.org/t/p/w500/s8GQrz5POcA0CtDb4HJfqa0P3xH.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/nkxtuK4alXlGC87FRNDfAZJIFiB.jpg",
+      "categories": [
+        "comedia",
+        "fantasía"
+      ],
+      "tmdbId": 1114967,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
