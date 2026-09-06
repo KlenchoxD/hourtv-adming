@@ -3684,10 +3684,28 @@
     },
     {
       "id": "cf80317b01b44e2c8b65877c96bceff3",
-      "title": "Hoppers: Operación castor",
+      "title": "Hoppers",
+      "plot": "Una amante de los animales aprovecha la oportunidad de utilizar una tecnología que coloca su conciencia en un castor robótico, descubriendo misterios dentro del mundo animal que van más allá de lo que podría haber imaginado.",
+      "cast": "Piper Curda, Bobby Moynihan, Jon Hamm, Kathy Najimy, Dave Franco, Eduardo Franco, Aparna Nancherla, Tom Law",
+      "director": "Daniel Chong",
+      "writer": "Jesse Andrews",
+      "releaseDate": "2026-03-04",
       "year": "2026",
-      "plot": "Vive la historia de Hoppers: Operación castor (2026) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del",
-      "poster": "https://image.tmdb.org/t/p/w1280/3Jj0A10NVu2dWnoEL5t5oT79L1Y.jpg",
+      "genre": "Aventura, Animación, Comedia, Familia, Ciencia ficción",
+      "rating": 8.2,
+      "duration": "104 min",
+      "poster": "https://image.tmdb.org/t/p/w500/hJRMZZv1WUKWMYQ73VB8hdFq8tq.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/u53UYu5XG2hNgWGvs3xGhAVzypl.jpg",
+      "categories": [
+        "recomendado",
+        "populares",
+        "comedia",
+        "aventura",
+        "infantil",
+        "familia"
+      ],
+      "tmdbId": 1327819,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
