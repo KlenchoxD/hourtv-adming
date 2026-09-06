@@ -3438,12 +3438,24 @@
     {
       "id": "0dda03c419be4d34aecbcfb1f0d46a0e",
       "title": "En trance",
+      "plot": "Simon (James McAvoy), un empleado de una casa de subastas, se asocia con una banda criminal para robar una valiosa obra de arte. Pero, tras recibir un golpe en la cabeza durante el atraco, descubre, al despertarse, que no recuerda dónde ha escondido el cuadro. Cuando ni las amenazas ni la tortura física logran arrancarle respuesta alguna, el líder de la banda (Vincent Cassel) contrata a una hipnoterapeuta (Rosario Dawson) para que le ayude a recordar.",
+      "cast": "James McAvoy, Vincent Cassel, Rosario Dawson, Danny Sapani, Matt Cross, Wahab Sheikh, Mark Poltimore, Tuppence Middleton",
+      "director": "Danny Boyle",
+      "writer": "John Hodge",
+      "releaseDate": "1975-09-17",
       "year": "2013",
       "genre": "heavy metal, hard rock",
+      "rating": 6.6,
       "duration": "2237 min",
-      "releaseDate": "1975-09-17",
-      "plot": "Vive la historia de En trance (2013) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/aMNSPJv7N8BX1sOyTqOFSEqFIVn.jpg",
+      "poster": "https://image.tmdb.org/t/p/w500/doqPDahogP1zyjOwdmOygCWTCaO.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/qqqnNDiQx62xZsVRZnxhP8GguJf.jpg",
+      "categories": [
+        "populares",
+        "terror",
+        "drama"
+      ],
+      "tmdbId": 68727,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
