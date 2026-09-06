@@ -3555,10 +3555,25 @@
     },
     {
       "id": "8e0dfe17323e49c483bf9675efe3b183",
-      "title": "Proyecto Fin del mundo",
+      "title": "Proyecto Salvación",
+      "plot": "El profesor de ciencias Ryland Grace se despierta en una nave espacial a años luz de casa sin recordar quién es ni cómo ha llegado hasta allí. A medida que recupera la memoria, empieza a descubrir su misión: resolver el enigma de la misteriosa sustancia que provoca la extinción del sol. Deberá recurrir a sus conocimientos científicos y a sus ideas poco ortodoxas para salvar todo lo que hay en la Tierra de la extinción... pero una amistad inesperada significa que quizá no tenga que hacerlo solo.",
+      "cast": "Ryan Gosling, Sandra Hüller, James Ortiz, Lionel Boyce, Milana Vayntrub, Ken Leung, Priya Kansara, Mia Soteriou",
+      "director": "Phil Lord",
+      "writer": "Drew Goddard",
+      "releaseDate": "2026-03-15",
       "year": "2026",
-      "plot": "Vive la historia de Proyecto Fin del mundo (2026) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/8Tfys3mDZVp4tNoH2ktm06a0Tau.jpg",
+      "genre": "Ciencia ficción, Aventura",
+      "rating": 8.6,
+      "duration": "157 min",
+      "poster": "https://image.tmdb.org/t/p/w500/7lwOTxajURKEWO6gI370NTrVdBO.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/8Tfys3mDZVp4tNoH2ktm06a0Tau.jpg",
+      "categories": [
+        "recomendado",
+        "populares",
+        "aventura"
+      ],
+      "tmdbId": 687163,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
