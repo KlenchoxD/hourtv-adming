@@ -5839,10 +5839,25 @@
     },
     {
       "id": "fad3ddff21814a55a7feb6e6a1e50003",
-      "title": "Cuentos extraños",
+      "title": "Freaky Tales",
+      "plot": "Cuatro historias interconectadas ambientadas en 1987 en Oakland, California, relatan el amor por la música, el cine, la gente, los lugares y los recuerdos más allá de nuestro universo conocido.",
+      "cast": "Jay Ellis, Pedro Pascal, Ben Mendelsohn, Normani, Dominique Thorne, Jack Champion, Ji-young Yoo, Angus Cloud",
+      "director": "Ryan Fleck",
+      "writer": "Ryan Fleck",
+      "releaseDate": "2025-04-04",
       "year": "2025",
-      "plot": "Vive la historia de Cuentos extraños (2025) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/elZZLzhDzjRIIkGcIK0FGmZSUaq.jpg",
+      "genre": "Acción, Crimen, Comedia",
+      "rating": 6.3,
+      "duration": "107 min",
+      "poster": "https://image.tmdb.org/t/p/w500/z17yqLUxfyNUGE75uJxFPTCOmvV.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/elZZLzhDzjRIIkGcIK0FGmZSUaq.jpg",
+      "categories": [
+        "accion",
+        "comedia",
+        "drama"
+      ],
+      "tmdbId": 979660,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
