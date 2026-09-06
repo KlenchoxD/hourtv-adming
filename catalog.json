@@ -4002,10 +4002,24 @@
     },
     {
       "id": "41b1a7b5386144a8aaccf3f1602b0a06",
-      "title": "Aquellos viejos tiempos",
+      "title": "Aquellas Juergas Universitarias",
+      "plot": "Un trío de amigos treintañeros, ansiosos por recuperar los tiempos de diversión escandalosa e irresponsable de sus años de universidad, decide empezar, de nuevo, su propia fraternidad fuera del campus. Estos tres amigos son Mitch, Frank y Beanie, cuyas vidas no son exactamente lo que se esperaban; Mitch tiene una novia ninfómana que se mete en la cama con el primero que agarra. Frank se ha casado y su matrimonio nada tiene que ver con las juergas salvajes que organizaba años atrás. Y Beanie es un padre de familia que se muere por recuperar su alocada juventud. Pero las cosas cambian cuando Beanie sugiere que creen su propia fraternidad, en la nueva casa que Mitch tiene junto al campus de la universidad. Una ocasión para revivir tiempos gloriosos, hacer nuevos amigos y de volver a sus viejas, salvajes y desmadradas juergas de estudiantes.",
+      "cast": "Luke Wilson, Will Ferrell, Vince Vaughn, Jeremy Piven, Ellen Pompeo, Craig Kilborn, Perrey Reeves, Sara Tanaka",
+      "director": "Todd Phillips",
+      "writer": "Todd Phillips",
+      "releaseDate": "2003-02-21",
       "year": "2003",
-      "plot": "Vive la historia de Aquellos viejos tiempos (2003) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/2tZVYiosztNM1DAYUF59VPsNp9L.jpg",
+      "genre": "Comedia",
+      "rating": 6.6,
+      "duration": "91 min",
+      "poster": "https://image.tmdb.org/t/p/w500/zthKNXMRZ4WrMLxFCoKPXjNfBYl.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/2tZVYiosztNM1DAYUF59VPsNp9L.jpg",
+      "categories": [
+        "populares",
+        "comedia"
+      ],
+      "tmdbId": 11635,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
