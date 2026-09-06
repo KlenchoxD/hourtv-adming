@@ -3974,9 +3974,24 @@
     {
       "id": "9751f568e88f47169a0a7a054cdb46e5",
       "title": "Jack",
+      "plot": "A causa de un trastorno de envejecimiento inusual que le ha envejecido cuatro veces más rápido que un ser humano normal, un niño entra en el quinto grado por primera vez con el aspecto de un hombre de 40 años de edad.",
+      "cast": "Robin Williams, Diane Lane, Brian Kerwin, Jennifer Lopez, Bill Cosby, Fran Drescher, Adam Zolotin, Irwin Corey",
+      "director": "Francis Ford Coppola",
+      "writer": "James DeMonaco",
+      "releaseDate": "1996-08-09",
       "year": "1996",
-      "plot": "Vive la historia de Jack (1996) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/v9wC8Rf3RHYQ6yKO4yQAlQLHSA6.jpg",
+      "genre": "Comedia, Familia, Drama",
+      "rating": 6.3,
+      "duration": "113 min",
+      "poster": "https://image.tmdb.org/t/p/w500/7DvASQKmMDn4vj1UynhMXD5JexC.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/v9wC8Rf3RHYQ6yKO4yQAlQLHSA6.jpg",
+      "categories": [
+        "comedia",
+        "drama",
+        "familia"
+      ],
+      "tmdbId": 7095,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
