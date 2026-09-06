@@ -4795,10 +4795,24 @@
     },
     {
       "id": "7d77e3dc5bea48fda0e2b6524d9426d0",
-      "title": "Un día fuera de control",
+      "title": "Juegos de niños",
+      "plot": "Brian acaba de ser despedido de su trabajo, y se convierte en un padre que se queda en casa. Acepta una invitación para jugar de otro padre, que resulta ser un bala perdida.",
+      "cast": "Alan Ritchson, Kevin James, Banks Pierce, Benjamin Pajak, Alan Tudyk, Sarah Chalke, Stephen Root, Paul Walter Hauser",
+      "director": "Luke Greenfield",
+      "writer": "Neil Goldman",
+      "releaseDate": "2025-11-04",
       "year": "2025",
-      "plot": "Vive la historia de Un día fuera de control (2025) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/5lQ4euO30sDin5nCifvi0vURFNd.jpg",
+      "genre": "Acción, Comedia",
+      "rating": 6.2,
+      "duration": "93 min",
+      "poster": "https://image.tmdb.org/t/p/w500/sWhglhFoGA0T7n5U6Yi0t8LBGjA.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/5lQ4euO30sDin5nCifvi0vURFNd.jpg",
+      "categories": [
+        "accion",
+        "comedia"
+      ],
+      "tmdbId": 1248226,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
