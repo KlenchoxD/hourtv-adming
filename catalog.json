@@ -5554,6 +5554,32 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "6639cc78ee234afbbacdad53c8112cff",
+      "title": "Elio",
+      "year": "2025",
+      "tmdb_id": 1022787,
+      "imdb_id": "tt4900148",
+      "genre": "cine de ciencia ficción, cine de aventuras, cine de fantasía",
+      "director": "Adrian Molina, Madeline Sharafian, Domee Shi",
+      "writer": "Adrian Molina",
+      "duration": "99 min",
+      "releaseDate": "2025-06-20",
+      "plot": "Vive la historia de Elio (2025) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
+      "poster": "https://image.tmdb.org/t/p/w1280/ukPu5xYOBAnh5H46uK4aQOirW2b.jpg",
+      "servers": [
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/fiKx9lRZ4v152v1/",
+          "language": "Idioma sin identificar"
+        },
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/grnYHAW7qRjZPE1/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
