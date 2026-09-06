@@ -4470,9 +4470,24 @@
     {
       "id": "98868ad8f0764fbaa52f97247bdd6dae",
       "title": "El mejor aficionado del mundo",
+      "plot": "Mirco debe ayudar a su hijo Jason, un niño de diez años, a encontrar su equipo de fútbol favorito. Jason establece una condición: antes de elegir, quiere conocer los 56 clubes de las tres primeras divisiones del fútbol alemán en sus propios estadios. El viaje llevará a padre e hijo por toda Alemania y terminará fortaleciendo su relación.",
+      "cast": "Florian David Fitz, Cecilio Andresen, Aylin Tezel, Joachim Król, Leslie Malton, Milena Dreißig, Michaela Wiebusch, Ilknur Boyraz",
+      "director": "Marc Rothemund",
+      "writer": "Richard Kropf",
+      "releaseDate": "2023-09-28",
       "year": "2023",
-      "plot": "Vive la historia de El mejor aficionado del mundo (2023) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes",
-      "poster": "https://image.tmdb.org/t/p/w1280/ceEx9V0sUiyL2rPc6G7rZXnVtd1.jpg",
+      "genre": "Comedia, Drama, Deportes",
+      "rating": 7,
+      "duration": "109 min",
+      "poster": "https://images.openai.com/static-rsc-4/OaBPHaqer0ImudyYSeLIT5z-ND0iV-4Zu-x6ppTRYtLkpRFqAhKlYZ9d-uFXgrjxJnATkFfeut1WJG2p_tJubAyHul4zRFK9J7kQgwGNlzZ-r11pml3Gu3fwhuGNu8Y4sUaBbpg7Bb7AaOHhD5g5kfBxlgjsvukDx2Sca1aIDdNdNU0pO3jsE17pVyEZm_zV?purpose=fullsize",
+      "backdrop": "https://images.openai.com/static-rsc-4/iocIsB4bWKk-FgVRL5-F8zqwnJ2yTxdvi0vsBMPyvrtDN9wZsxSO8O8uD-4XKfHvQ-eICEoK_6CwMdwp4XkDxMzv4XO1iqeurc1N2SctSlvlaNeFAa1m5YGId1dLK3bnS33odQDFA5uX6Hzs2PPXBf_ypBTM_t8Sk7KU7G8_7wEhaXsK2DomV_GidARZAGEp?purpose=fullsize",
+      "categories": [
+        "recomendado",
+        "populares",
+        "comedia",
+        "drama",
+        "familia"
+      ],
       "servers": [
         {
           "name": "Barmonrey",
