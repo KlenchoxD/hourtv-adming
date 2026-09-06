@@ -14,14 +14,17 @@ plugins {
 // actualizaciones desde GitHub solo son fiables con la keystore propia.
 val keystorePropertiesFile = rootProject.file("key.properties")
 val keystoreProperties = Properties()
-val hasReleaseKeystore = keystorePropertiesFile.exists()
-if (hasReleaseKeystore) {
+if (keystorePropertiesFile.exists()) {
     keystorePropertiesFile.inputStream().use { keystoreProperties.load(it) }
-} else {
+}
+val configuredKeystore = (keystoreProperties["storeFile"] as String?)?.let {
+    rootProject.file(it)
+}
+val hasReleaseKeystore = configuredKeystore?.isFile == true
+if (!hasReleaseKeystore) {
     logger.warn(
-        "HourTV: android/key.properties no existe -> el APK de release se " +
-            "firmara con la llave de DEBUG. Crea la keystore antes de publicar " +
-            "en GitHub Releases o las actualizaciones fallaran por firma."
+        "HourTV: la keystore release configurada no existe -> se usara la " +
+            "llave DEBUG compatible con las versiones publicadas actuales."
     )
 }
 
@@ -53,7 +56,7 @@ android {
     signingConfigs {
         if (hasReleaseKeystore) {
             create("release") {
-                storeFile = keystoreProperties["storeFile"]?.let { file(it) }
+                storeFile = configuredKeystore
                 storePassword = keystoreProperties["storePassword"] as String?
                 keyAlias = keystoreProperties["keyAlias"] as String?
                 keyPassword = keystoreProperties["keyPassword"] as String?

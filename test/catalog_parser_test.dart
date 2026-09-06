@@ -1,9 +1,34 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:streamtv/models/channel.dart';
 import 'package:streamtv/services/catalog_parser.dart';
 
 void main() {
   group('CatalogParser', () {
+    test('el catálogo publicado conserva todas las series y episodios', () {
+      final raw = jsonDecode(File('catalog.json').readAsStringSync());
+      final payload = CatalogParser.parse(raw);
+      final declared = (raw as Map<String, dynamic>)['series'] as List<dynamic>;
+      expect(payload.series.length, declared.length);
+      expect(payload.series, isNotEmpty);
+      expect(
+        payload.series.every((item) => item.episodes?.isNotEmpty == true),
+        isTrue,
+      );
+      expect(
+        payload.series
+            .expand((item) => item.episodes ?? const <Channel>[])
+            .every(
+              (episode) =>
+                  episode.servers.isNotEmpty &&
+                  episode.type == MediaType.series,
+            ),
+        isTrue,
+      );
+    });
+
     test('maps the rich admin catalog', () {
       final payload = CatalogParser.parse({
         'version': 1,
