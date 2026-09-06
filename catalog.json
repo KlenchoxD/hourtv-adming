@@ -747,9 +747,24 @@
     },
     {
       "id": "cd9d6c06f4c94e49a37fda1542852d98",
-      "title": "Boulevard (2026)",
-      "plot": "Vive la historia de Boulevard (2026) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://sun9-35.userapi.com/s/v1/ig2/7jhUcxMudMN_f7eCj9ZZY0iy38MMtI_SXgZdtSR7_sr5sOzd_wzsBcy79tLnerFLutALLSgnsqnjqSksJu4hM35d.jpg?quality=95&as=32x48,48x72,72x108,108x162,160x240,240x360,300x450&from=bu&u=2Yu83izyF_MozFry-DfMYdUg8iijIhO2PmEFwqXLIPE&cs=300x0",
+      "title": "Boulevard",
+      "plot": "Cuando Hasley (Eve Ryan) se muda a una nueva ciudad con su madre, lo último que espera es cruzarse con Luke (Mikel Niso), un joven envuelto en un aura peligrosa y un pasado trágico. Atrapado en sus propios demonios, Luke es todo lo que Hasley debería temer... pero a lo que se siente irremediablemente atraída. A pesar de las sombras que lo rodean, Hasley descubre en Luke una vulnerabilidad y un mundo interior apasionante. Juntos, crearán su propio boulevard: un refugio escondido donde poder ser ellos mismos, cumplir sueños imposibles, atreverse a amar a pesar de los prejuicios, el dolor y las cicatrices que arrastran, y demostrar que el amor es capaz de florecer incluso en los corazones más insospechados.",
+      "cast": "Eve Ryan, Mikel Niso, Esther Acebo, Luis Zahera, Biel Antón, Enzo Oliver, Ainara Helguera, Najwa Khliwa",
+      "director": "Sonia Méndez",
+      "writer": "Javier Ruescas",
+      "releaseDate": "2026-04-10",
+      "year": "2026",
+      "genre": "Romance, Drama",
+      "rating": 7.5,
+      "duration": "113 min",
+      "poster": "https://image.tmdb.org/t/p/w500/qAYDwaHwjeUiPkYOj73EgrY0lNQ.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/98uiDns59GUw26SQSCFmuSHTki3.jpg",
+      "categories": [
+        "romance",
+        "drama"
+      ],
+      "tmdbId": 1595852,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
