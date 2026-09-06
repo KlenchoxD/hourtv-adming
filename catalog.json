@@ -5100,10 +5100,24 @@
     },
     {
       "id": "bec55e7abfd340fc97390a46d4343ae8",
-      "title": "Mantenimiento requerido",
+      "title": "Se requiere mantenimiento",
+      "plot": "Charlie, la independiente dueña de un taller exclusivamente femenino, se ve obligada a reevaluar su futuro cuando una gran corporación de la competencia se instala enfrente. Buscando consuelo, recurre a un confidente en internet, sin saber que es Beau, el rival que amenaza su negocio. Mientras saltan chispas, tanto en internet como fuera de ella, la verdad amenaza con desbaratarlo todo.",
+      "cast": "Madelaine Petsch, Jacob Scipio, Katy O'Brian, Madison Bailey, Matteo Lane, Jim Gaffigan, Naomi J. Ogawa, Inanna Sarkis",
+      "director": "Lacey Uhlemeyer",
+      "writer": "Lacey Uhlemeyer",
+      "releaseDate": "2025-10-07",
       "year": "2025",
-      "plot": "Vive la historia de Mantenimiento requerido (2025) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/uxRCrEMJlfCILQhkcDuDpadkQC9.jpg",
+      "genre": "Romance, Comedia",
+      "rating": 6.1,
+      "duration": "100 min",
+      "poster": "https://image.tmdb.org/t/p/w500/kVcoxXAPfHo58FDwOCOF8NAW4bp.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/uxRCrEMJlfCILQhkcDuDpadkQC9.jpg",
+      "categories": [
+        "comedia",
+        "romance"
+      ],
+      "tmdbId": 1352755,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
