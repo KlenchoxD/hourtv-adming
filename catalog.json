@@ -3647,9 +3647,23 @@
     {
       "id": "a58cad4b0d654cf4bd320bceee071259",
       "title": "Familia a la deriva",
+      "plot": "Para recuperar el tiempo perdido con sus cuatro hijos, un carismático vendedor de coches organiza un viaje en yate por el Caribe que rápidamente se convierte en una aventura descontrolada llena de confusiones, risas y segundas oportunidades.",
+      "cast": "Mauricio Ochmann, Memo Villegas, Irán Castillo, Farah Justiniani, Ana González Bello, Carolina Benrey",
+      "director": "Alfonso Pineda Ulloa",
+      "writer": "Marcos Osorio Vidal",
+      "releaseDate": "2026-01-22",
       "year": "2026",
-      "plot": "Vive la historia de Familia a la deriva (2026) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/rdvqpkgyG3oGPZPj4U5Inpcnuhi.jpg",
+      "genre": "Familia, Comedia",
+      "rating": 8.3,
+      "duration": "98 min",
+      "poster": "https://image.tmdb.org/t/p/w500/eH2FvInHc4hmOJQxdxMcVm8XNty.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/rdvqpkgyG3oGPZPj4U5Inpcnuhi.jpg",
+      "categories": [
+        "comedia",
+        "familia"
+      ],
+      "tmdbId": 1591834,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
