@@ -5,146 +5,1240 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>HourTV — Panel de administración</title>
 <style>
-  :root{
-    --bg:#0b0b0b; --surface:#141414; --card:#1f1f1f; --elev:#2b2b2b;
-    --accent:#e50914; --accent2:#ff3341; --text:#f5f5f5; --muted:#b3b3b3; --dim:#6f6f6f;
-    --ok:#2dd4a8; --warn:#ffb23e; --line:rgba(255,255,255,.08);
+  :root {
+    --bg: #09090b;
+    --surface: #121214;
+    --card: #1a1a1e;
+    --elev: #252529;
+    --elev2: #303036;
+    --accent: #e50914;
+    --accent2: #ff3341;
+    --accent-glow: rgba(229, 9, 20, 0.18);
+    --text: #f4f4f5;
+    --muted: #a1a1aa;
+    --dim: #63636e;
+    --ok: #2dd4a8;
+    --warn: #ffb23e;
+    --line: rgba(255, 255, 255, 0.06);
+    --line-strong: rgba(255, 255, 255, 0.12);
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 18px;
+    --radius-pill: 9999px;
+    --transition: 180ms cubic-bezier(0.4, 0, 0.2, 1);
   }
-  *{box-sizing:border-box}
-  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);font-size:14px}
-  header{position:sticky;top:0;z-index:10;background:#0d0d0d;border-bottom:1px solid var(--line);padding:12px 18px;display:flex;align-items:center;gap:14px}
-  .logo{display:flex;align-items:center;gap:8px;font-weight:800;font-size:18px}
-  .logo .dot{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center}
-  .logo .dot::after{content:'▶';font-size:13px;color:#fff}
-  header .spacer{flex:1}
-  button{font-family:inherit;font-size:14px;border:none;border-radius:8px;padding:9px 16px;cursor:pointer;font-weight:600;transition:.15s}
-  button:active{transform:scale(.97)}
-  .btn-primary{background:var(--accent);color:#fff}
-  .btn-primary:hover{background:var(--accent2)}
-  .btn-ghost{background:transparent;color:var(--muted);border:1px solid var(--line)}
-  .btn-ghost:hover{color:var(--text);border-color:var(--muted)}
-  .btn-sm{padding:6px 11px;font-size:12px}
-  .tabs{display:flex;gap:6px;padding:10px 18px 0;background:#0d0d0d;border-bottom:1px solid var(--line);overflow-x:auto}
-  .tab{background:none;color:var(--muted);border-radius:8px 8px 0 0;padding:10px 16px;font-weight:600;white-space:nowrap;border-bottom:2px solid transparent}
-  .tab.active{color:var(--accent);border-bottom-color:var(--accent)}
-  main{max-width:1100px;margin:0 auto;padding:20px}
-  .toolbar{display:flex;gap:10px;align-items:center;margin-bottom:16px;flex-wrap:wrap}
-  .toolbar input[type=search]{flex:1;min-width:180px}
-  input,textarea,select{width:100%;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:10px 12px;color:var(--text);font-family:inherit;font-size:14px;outline:none}
-  input:focus,textarea:focus,select:focus{border-color:var(--accent)}
-  label{display:block;color:var(--muted);font-size:12px;margin:0 0 5px;font-weight:600}
-  textarea{resize:vertical;min-height:70px}
-  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px}
-  .item{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden;cursor:pointer;transition:.15s}
-  .item:hover{border-color:var(--accent);transform:translateY(-2px)}
-  .item .thumb{width:100%;aspect-ratio:2/3;object-fit:cover;background:var(--elev);display:block}
-  .item .thumb.ch{aspect-ratio:16/9;object-fit:contain;padding:8px}
-  .item .cap{padding:8px 10px}
-  .item .cap b{display:block;font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .item .cap span{color:var(--dim);font-size:11px}
-  .badge{display:inline-block;background:var(--accent);color:#fff;font-size:9px;font-weight:800;padding:2px 6px;border-radius:4px;letter-spacing:.4px;vertical-align:middle}
-  .empty{text-align:center;color:var(--dim);padding:60px 20px}
-  .sourcelist{display:flex;flex-direction:column;gap:10px}
-  .source-row{display:flex;align-items:center;gap:14px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px;cursor:pointer;transition:.15s}
-  .source-row:hover{border-color:var(--accent)}
-  .source-ic{font-size:22px;flex-shrink:0}
-  .pend-thumb{width:40px;height:58px;object-fit:cover;border-radius:6px;flex-shrink:0;background:var(--elev)}
-  .miss-chip{display:inline-block;background:rgba(229,9,20,.14);color:var(--accent2);border:1px solid rgba(229,9,20,.35);border-radius:5px;padding:1px 7px;margin-left:5px;font-size:11px;font-weight:700}
-  .source-info{flex:1;min-width:0}
-  .source-info b{display:block;font-size:14px}
-  .source-info span{color:var(--dim);font-size:12px;word-break:break-all}
-  /* Modal */
-  .overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:50;display:none;align-items:center;justify-content:center;overflow:hidden;padding:clamp(12px,3vh,30px) 16px}
-  .overlay.open{display:flex}
-  .modal{background:var(--surface);border:1px solid var(--line);border-radius:14px;width:100%;max-width:820px;max-height:calc(100dvh - clamp(24px,6vh,60px));display:flex;flex-direction:column;overflow:hidden}
-  .modal-head{display:flex;align-items:center;padding:16px 18px;border-bottom:1px solid var(--line);background:var(--surface);border-radius:14px 14px 0 0;flex:0 0 auto}
-  .modal-head h3{margin:0;font-size:17px;flex:1}
-  .modal-body{padding:18px;overflow-y:auto;min-height:0;overscroll-behavior:contain}
-  .row{margin-bottom:14px}
-  .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-  .row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
-  .row4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-  .rowtype{display:grid;grid-template-columns:160px 1fr;gap:12px}
-  .check{display:flex;align-items:center;gap:10px;color:var(--text);font-size:14px;font-weight:600;cursor:pointer;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:11px 12px}
-  .check input{width:auto;margin:0;accent-color:var(--accent)}
-  .section-label{color:var(--muted);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin:20px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
-  .modal-foot{display:flex;gap:10px;justify-content:space-between;padding:16px 18px;border-top:1px solid var(--line);background:var(--surface);border-radius:0 0 14px 14px;flex:0 0 auto}
-  .chips{display:flex;flex-wrap:wrap;gap:8px}
-  .chip{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:6px 12px;font-size:12px;cursor:pointer;user-select:none}
-  .chip.on{background:var(--accent);color:#fff;border-color:var(--accent)}
-  .servers .srv{display:flex;gap:8px;align-items:center;margin-bottom:8px}
-  .servers .srv input{flex:1}
-  .servers .srv input.nm{max-width:150px}
-  .language-group{background:rgba(255,255,255,.025);border:1px solid var(--line);border-radius:10px;padding:12px;margin-bottom:10px}
-  .language-head{display:flex;gap:8px;align-items:center;margin-bottom:10px;flex-wrap:wrap}
-  .language-head input{flex:1;font-weight:700}
-  .season{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px;margin-bottom:12px}
-  .season .sh{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-  .season .sh input{max-width:80px}
-  .seasons .ep{background:rgba(0,0,0,.22);border:1px solid var(--line);border-radius:9px;padding:10px;margin-bottom:10px}
-  .episode-head{display:grid;grid-template-columns:72px 1fr auto;gap:8px;align-items:center;margin-bottom:10px}
-  .episode-head .nm{max-width:72px}
-  .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--elev);border:1px solid var(--line);border-radius:10px;padding:12px 20px;z-index:100;opacity:0;transition:.3s;pointer-events:none}
-  .toast.show{opacity:1}
-  .toast.ok{border-color:var(--ok)}
-  .toast.err{border-color:var(--accent)}
-  .thumbprev{width:52px;height:78px;object-fit:cover;border-radius:6px;background:var(--elev);flex-shrink:0}
-  .thumbprev.wide{width:120px;height:68px}
-  .imgfield{display:flex;gap:8px;align-items:stretch}
-  .imgfield input[type=text],.imgfield>input{flex:1;min-width:0}
-  .upload-btn{display:flex;align-items:center;justify-content:center;white-space:nowrap;flex-shrink:0;cursor:pointer;background:transparent;color:var(--muted);border:1px solid var(--line);border-radius:8px;padding:0 14px;font-size:13px;font-weight:600}
-  .upload-btn:hover{color:var(--text);border-color:var(--muted)}
-  .hint{color:var(--dim);font-size:12px;line-height:1.5}
-  a{color:var(--accent2)}
-  .status{font-size:12px;color:var(--muted)}
-  .status b{color:var(--ok)}
-  .del{color:var(--accent);background:none;border:none}
-  @media (max-width:700px){
-    header{flex-wrap:wrap}
-    header .spacer{display:none}
-    header .logo{flex:1;min-width:150px}
-    header .status{order:3;width:100%}
-    .overlay{padding:0;align-items:stretch}
-    .modal{max-width:none;max-height:100dvh;min-height:100dvh;border-radius:0;border-left:0;border-right:0}
-    .modal-head{border-radius:0}
-    .modal-foot{border-radius:0;padding-bottom:max(16px,env(safe-area-inset-bottom))}
-    .row2,.row3,.row4,.rowtype{grid-template-columns:1fr}
-    .servers .srv{display:grid;grid-template-columns:minmax(0,1fr) auto}
-    .servers .srv input.nm{grid-column:1/-1;max-width:none}
-    .episode-head{grid-template-columns:64px minmax(0,1fr)}
-    .episode-head button{grid-column:1/-1}
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* ═══ Scrollbar ═══ */
+  ::-webkit-scrollbar { width: 7px; height: 7px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--elev2); border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: #444; }
+
+  /* ═══ Header ═══ */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(9, 9, 11, 0.88);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--line);
+    padding: 0 28px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 800;
+    font-size: 17px;
+    letter-spacing: 0.3px;
+    user-select: none;
+    color: var(--text);
+  }
+  .logo .dot {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--accent), #ff2d3a);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 12px rgba(229, 9, 20, 0.3);
+    flex-shrink: 0;
+  }
+  .logo .dot::after {
+    content: '▶';
+    font-size: 13px;
+    color: #fff;
+    margin-left: 2px;
+  }
+  .logo-accent { color: var(--accent2); }
+  .logo-badge {
+    font-size: 10px;
+    font-weight: 700;
+    background: rgba(229, 9, 20, 0.1);
+    color: var(--accent2);
+    padding: 3px 9px;
+    border-radius: var(--radius-pill);
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    border: 1px solid rgba(229, 9, 20, 0.18);
+  }
+  header .spacer { flex: 1; }
+  .header-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  /* ═══ GitHub Status Chip ═══ */
+  .status-wrap {
+    display: flex;
+    align-items: center;
+  }
+  .gh-status-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-pill);
+    padding: 7px 14px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all var(--transition);
+    user-select: none;
+    font-family: inherit;
+  }
+  .gh-status-chip:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: var(--line-strong);
+    color: var(--text);
+  }
+  .gh-status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .gh-status-chip.connected .gh-status-dot {
+    background: var(--ok);
+    box-shadow: 0 0 8px rgba(45, 212, 168, 0.5);
+  }
+  .gh-status-chip.disconnected .gh-status-dot {
+    background: var(--warn);
+    box-shadow: 0 0 8px rgba(255, 178, 62, 0.4);
+  }
+  .gh-status-chip b {
+    color: var(--text);
+    font-weight: 700;
+  }
+
+  /* ═══ Buttons ═══ */
+  button {
+    font-family: inherit;
+    font-size: 13px;
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: 9px 16px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all var(--transition);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    user-select: none;
+  }
+  button:active { transform: scale(0.97); }
+  .btn-primary {
+    background: var(--accent);
+    color: #fff;
+    box-shadow: 0 1px 8px var(--accent-glow);
+  }
+  .btn-primary:hover {
+    background: #cc0812;
+    box-shadow: 0 2px 14px rgba(229, 9, 20, 0.3);
+  }
+  .btn-ghost {
+    background: var(--card);
+    color: var(--muted);
+    border: 1px solid var(--line);
+  }
+  .btn-ghost:hover {
+    background: var(--elev);
+    border-color: var(--line-strong);
+    color: var(--text);
+  }
+  .btn-sm {
+    padding: 6px 12px;
+    font-size: 12px;
+    border-radius: 7px;
+  }
+  .btn-danger {
+    background: rgba(229, 9, 20, 0.1);
+    color: var(--accent2);
+    border: 1px solid rgba(229, 9, 20, 0.25);
+  }
+  .btn-danger:hover {
+    background: var(--accent);
+    color: #fff;
+  }
+
+  /* ═══ Tabs — Pill / Segmented Navigation ═══ */
+  .tabs-bar {
+    background: var(--surface);
+    border-bottom: 1px solid var(--line);
+    padding: 10px 28px;
+  }
+  .tabs {
+    display: flex;
+    gap: 4px;
+    background: rgba(255, 255, 255, 0.025);
+    border-radius: var(--radius-md);
+    padding: 4px;
+    border: 1px solid var(--line);
+    max-width: 680px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab {
+    background: transparent;
+    color: var(--muted);
+    border-radius: var(--radius-sm);
+    padding: 8px 18px;
+    font-weight: 600;
+    font-size: 13px;
+    white-space: nowrap;
+    border: 1px solid transparent;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all var(--transition);
+    flex: 1;
+    justify-content: center;
+    min-width: 0;
+  }
+  .tab:hover {
+    color: var(--text);
+    background: rgba(255, 255, 255, 0.04);
+  }
+  .tab.active {
+    color: #fff;
+    background: rgba(229, 9, 20, 0.12);
+    border-color: rgba(229, 9, 20, 0.25);
+    box-shadow: inset 0 0 12px rgba(229, 9, 20, 0.06);
+  }
+  .tab:nth-child(1)::before { content: '🎬'; font-size: 13px; }
+  .tab:nth-child(2)::before { content: '📺'; font-size: 13px; }
+  .tab:nth-child(3)::before { content: '⏳'; font-size: 13px; }
+  .tab:nth-child(4)::before { content: '📡'; font-size: 13px; }
+  .tab-count {
+    display: inline-block;
+    padding: 2px 7px;
+    border-radius: var(--radius-pill);
+    font-size: 11px;
+    font-weight: 700;
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--dim);
+    transition: all var(--transition);
+    min-width: 22px;
+    text-align: center;
+  }
+  .tab.active .tab-count {
+    background: rgba(229, 9, 20, 0.2);
+    color: #ff9da4;
+  }
+  .tab-count.tab-warn {
+    background: rgba(255, 178, 62, 0.12);
+    color: var(--warn);
+    border: 1px solid rgba(255, 178, 62, 0.25);
+  }
+
+  /* ═══ Main Layout ═══ */
+  main {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 16px 28px;
+  }
+
+  /* ═══ Toolbar ═══ */
+  .toolbar {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--line);
+  }
+  .toolbar input[type=search] {
+    flex: 1;
+    min-width: 220px;
+  }
+  .search-wrap {
+    position: relative;
+    flex: 1;
+    min-width: 240px;
+  }
+  .search-wrap input {
+    width: 100%;
+    padding-left: 40px;
+  }
+  .search-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--dim);
+    font-size: 14px;
+    pointer-events: none;
+  }
+
+  /* ═══ Content Layout (Grid + Sidebar) ═══ */
+  .content-layout {
+    display: grid;
+    grid-template-columns: 1fr 310px;
+    gap: 28px;
+    align-items: start;
+  }
+  .content-area {
+    min-width: 0;
+  }
+
+  /* ═══ Inputs, textarea, select ═══ */
+  input, textarea, select {
+    width: 100%;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    padding: 10px 14px;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 13px;
+    outline: none;
+    transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
+  }
+  input:focus, textarea:focus, select:focus {
+    border-color: rgba(229, 9, 20, 0.5);
+    box-shadow: 0 0 0 3px rgba(229, 9, 20, 0.1);
+    background: #151518;
+  }
+  input::placeholder, textarea::placeholder {
+    color: var(--dim);
+  }
+  label {
+    display: block;
+    color: var(--muted);
+    font-size: 12px;
+    margin: 0 0 6px;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+  }
+  textarea {
+    resize: vertical;
+    min-height: 85px;
+    line-height: 1.5;
+  }
+
+  /* ═══ VOD Grid & Cards ═══ */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+    gap: 18px;
+  }
+  .item {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 200ms cubic-bezier(0.4, 0, 0.2, 1), border-color 200ms, box-shadow 200ms;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+  .item:hover {
+    border-color: rgba(229, 9, 20, 0.3);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(229, 9, 20, 0.1);
+  }
+  .thumb-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 2/3;
+    background: var(--surface);
+    overflow: hidden;
+  }
+  .thumb-fallback {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: var(--dim);
+    padding: 12px;
+    text-align: center;
+    background: linear-gradient(180deg, #141416 0%, #0e0e10 100%);
+    pointer-events: none;
+  }
+  .thumb-fallback span {
+    font-size: 28px;
+    opacity: 0.5;
+  }
+  .thumb-fallback small {
+    font-size: 11px;
+    color: var(--muted);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    line-height: 1.3;
+  }
+  .item .thumb {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 2/3;
+    object-fit: cover;
+    display: block;
+    position: relative;
+    z-index: 1;
+    background: var(--elev);
+    transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .item:hover .thumb {
+    transform: scale(1.03);
+  }
+  .thumb.broken {
+    display: none !important;
+  }
+  .card-overlay {
+    position: absolute;
+    top: 8px;
+    inset-inline: 8px;
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    pointer-events: none;
+  }
+  .card-chip {
+    padding: 3px 7px;
+    border-radius: 6px;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+  .card-chip.card-rating {
+    background: rgba(0, 0, 0, 0.7);
+    color: #ffd159;
+    border: 1px solid rgba(255, 209, 89, 0.2);
+    margin-left: auto;
+  }
+  .card-chip.card-featured {
+    background: rgba(229, 9, 20, 0.85);
+    color: #fff;
+  }
+  .item .cap {
+    padding: 11px 12px;
+    background: var(--card);
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    border-top: 1px solid var(--line);
+  }
+  .item .cap b {
+    display: block;
+    font-size: 13px;
+    font-weight: 650;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--text);
+  }
+  .item .cap span {
+    color: var(--dim);
+    font-size: 11.5px;
+  }
+
+  /* ═══ Empty state ═══ */
+  .empty {
+    text-align: center;
+    color: var(--dim);
+    padding: 70px 24px;
+    background: var(--surface);
+    border: 1px dashed rgba(255,255,255,0.08);
+    border-radius: var(--radius-lg);
+    font-size: 14px;
+  }
+
+  /* ═══ Source List (IPTV / Pendientes) ═══ */
+  .sourcelist {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .source-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: 14px 18px;
+    cursor: pointer;
+    transition: all var(--transition);
+  }
+  .source-row:hover {
+    border-color: rgba(229, 9, 20, 0.25);
+    background: var(--elev);
+    transform: translateX(3px);
+  }
+  .source-ic {
+    font-size: 20px;
+    flex-shrink: 0;
+    width: 42px;
+    height: 42px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--line);
+  }
+  .pend-thumb-wrap {
+    width: 44px;
+    height: 64px;
+    border-radius: 8px;
+    background: var(--elev);
+    overflow: hidden;
+    position: relative;
+    flex-shrink: 0;
+  }
+  .pend-thumb-fallback {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--dim);
+    font-size: 16px;
+    background: #151518;
+  }
+  .pend-thumb {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: relative;
+    z-index: 1;
+    display: block;
+  }
+  .pend-thumb.broken { display: none !important; }
+  .source-info {
+    flex: 1;
+    min-width: 0;
+  }
+  .source-info b {
+    display: block;
+    font-size: 14px;
+    font-weight: 650;
+    color: var(--text);
+    margin-bottom: 3px;
+  }
+  .source-info span {
+    color: var(--muted);
+    font-size: 12.5px;
+    word-break: break-all;
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .source-type-chip {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-size: 10.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+  }
+  .source-type-chip.live {
+    background: rgba(45, 212, 168, 0.1);
+    color: var(--ok);
+    border: 1px solid rgba(45, 212, 168, 0.2);
+  }
+  .source-type-chip.xtream {
+    background: rgba(96, 165, 250, 0.1);
+    color: #60a5fa;
+    border: 1px solid rgba(96, 165, 250, 0.2);
+  }
+  .source-type-chip.stalker {
+    background: rgba(255, 178, 62, 0.1);
+    color: var(--warn);
+    border: 1px solid rgba(255, 178, 62, 0.2);
+  }
+  .source-url-code {
+    font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+    font-size: 11px;
+    color: var(--muted);
+    background: rgba(255, 255, 255, 0.04);
+    padding: 1px 6px;
+    border-radius: 4px;
+  }
+  .source-arrow {
+    color: var(--dim);
+    font-size: 20px;
+    line-height: 1;
+    margin-left: 8px;
+    transition: transform var(--transition), color var(--transition);
+  }
+  .source-row:hover .source-arrow {
+    color: var(--text);
+    transform: translateX(2px);
+  }
+  .kind-tag {
+    color: var(--muted);
+    font-weight: 600;
+  }
+  .miss-chip {
+    display: inline-flex;
+    align-items: center;
+    background: rgba(229, 9, 20, 0.1);
+    color: var(--accent2);
+    border: 1px solid rgba(229, 9, 20, 0.25);
+    border-radius: 6px;
+    padding: 2px 8px;
+    font-size: 11px;
+    font-weight: 700;
+  }
+  .miss-chip.warn {
+    background: rgba(255, 178, 62, 0.1);
+    color: var(--warn);
+    border-color: rgba(255, 178, 62, 0.25);
+  }
+
+  /* ═══ Modals ═══ */
+  .overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    z-index: 500;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: clamp(12px, 3vh, 32px) 16px;
+  }
+  .overlay.open { display: flex; }
+  .modal {
+    background: var(--surface);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-lg);
+    width: 100%;
+    max-width: 860px;
+    max-height: calc(100dvh - clamp(24px, 6vh, 64px));
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.8);
+    animation: modalIn 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  @keyframes modalIn {
+    from { opacity: 0; transform: scale(0.97) translateY(10px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+  .modal-head {
+    display: flex;
+    align-items: center;
+    padding: 18px 22px;
+    border-bottom: 1px solid var(--line);
+    background: rgba(255, 255, 255, 0.02);
+    flex: 0 0 auto;
+  }
+  .modal-head h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 700;
+    flex: 1;
+    letter-spacing: -0.2px;
+  }
+  .modal-body {
+    padding: 22px;
+    overflow-y: auto;
+    min-height: 0;
+    overscroll-behavior: contain;
+  }
+  .modal-foot {
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 22px;
+    border-top: 1px solid var(--line);
+    background: rgba(255, 255, 255, 0.02);
+    flex: 0 0 auto;
+  }
+
+  /* ═══ Form Layout ═══ */
+  .form-section {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: 16px 18px;
+    margin-bottom: 16px;
+  }
+  .row { margin-bottom: 14px; }
+  .row:last-child { margin-bottom: 0; }
+  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .row3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+  .row4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .rowtype { display: grid; grid-template-columns: 160px 1fr; gap: 12px; }
+  .check {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    padding: 11px 14px;
+    transition: all 150ms ease;
+  }
+  .check:hover {
+    border-color: var(--line-strong);
+    background: var(--elev);
+  }
+  .check input {
+    width: auto;
+    margin: 0;
+    accent-color: var(--accent);
+    cursor: pointer;
+  }
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--muted);
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin: 22px 0 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  /* ═══ Chips (Categories) ═══ */
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .chip {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-pill);
+    padding: 6px 14px;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--muted);
+    cursor: pointer;
+    user-select: none;
+    transition: all var(--transition);
+  }
+  .chip:hover {
+    background: var(--elev);
+    border-color: var(--line-strong);
+    color: var(--text);
+  }
+  .chip.on {
+    background: rgba(229, 9, 20, 0.12);
+    color: #ff8a8f;
+    border-color: rgba(229, 9, 20, 0.3);
+  }
+
+  /* ═══ TMDB Result Cards ═══ */
+  .tmdb-results-box {
+    margin-top: 10px;
+  }
+  .tmdb-results-box .sourcelist {
+    max-height: 280px;
+    overflow-y: auto;
+    padding-right: 4px;
+  }
+  .tmdb-results-box .source-row {
+    padding: 10px 14px;
+    background: rgba(255, 255, 255, 0.02);
+  }
+  .tmdb-results-box .source-row:hover {
+    background: var(--elev);
+  }
+
+  /* ═══ Servers & Language Groups ═══ */
+  .language-group {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    padding: 14px;
+    margin-bottom: 12px;
+  }
+  .language-head {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+  }
+  .language-head input {
+    flex: 1;
+    font-weight: 700;
+    border-color: var(--line-strong);
+  }
+  .servers .srv {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  .servers .srv input { flex: 1; }
+  .servers .srv input.nm { max-width: 150px; }
+  .del {
+    color: var(--accent2);
+    background: rgba(229, 9, 20, 0.06);
+    border: 1px solid rgba(229, 9, 20, 0.15);
+    border-radius: 6px;
+    padding: 6px 10px;
+    transition: all 150ms ease;
+  }
+  .del:hover {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+  }
+
+  /* ═══ Seasons & Episodes ═══ */
+  .season {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: 14px;
+    margin-bottom: 14px;
+  }
+  .season .sh {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  .season .sh input { max-width: 80px; }
+  .seasons .ep {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    padding: 12px;
+    margin-bottom: 10px;
+  }
+  .episode-head {
+    display: grid;
+    grid-template-columns: 72px 1fr auto;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .episode-head .nm { max-width: 72px; }
+
+  /* ═══ Image Field Preview ═══ */
+  .thumbprev {
+    width: 52px;
+    height: 78px;
+    object-fit: cover;
+    border-radius: 6px;
+    background: var(--elev);
+    flex-shrink: 0;
+    border: 1px solid var(--line);
+  }
+  .thumbprev.wide {
+    width: 120px;
+    height: 68px;
+  }
+  .imgfield {
+    display: flex;
+    gap: 10px;
+    align-items: stretch;
+  }
+  .imgfield input[type=text], .imgfield > input {
+    flex: 1;
+    min-width: 0;
+  }
+  .upload-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    flex-shrink: 0;
+    cursor: pointer;
+    background: var(--card);
+    color: var(--muted);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    padding: 0 16px;
+    font-size: 13px;
+    font-weight: 600;
+    transition: all 150ms ease;
+  }
+  .upload-btn:hover {
+    color: var(--text);
+    border-color: var(--line-strong);
+    background: var(--elev);
+  }
+
+  /* ═══ Toasts ═══ */
+  .toast {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    left: auto;
+    transform: translateY(8px);
+    background: var(--card);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-md);
+    padding: 14px 22px;
+    z-index: 1000;
+    opacity: 0;
+    transition: all 220ms cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+    font-weight: 600;
+    font-size: 13px;
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.6);
+    max-width: 90vw;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+  .toast.show {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+  .toast.ok {
+    border-color: rgba(45, 212, 168, 0.3);
+    border-left: 3px solid var(--ok);
+  }
+  .toast.err {
+    border-color: rgba(229, 9, 20, 0.3);
+    border-left: 3px solid var(--accent);
+  }
+  .toast.warn {
+    border-color: rgba(255, 178, 62, 0.3);
+    border-left: 3px solid var(--warn);
+  }
+
+  /* ═══ Info Sidebar (Sticky & Ultra-Compact) ═══ */
+  .info-sidebar {
+    position: sticky;
+    top: 74px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .sb-section {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: 10px 13px;
+  }
+  .sb-title {
+    font-size: 10.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--dim);
+    margin-bottom: 7px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid var(--line);
+  }
+  .sb-stat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+  }
+  .sb-stat {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 5px 8px;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--line);
+  }
+  .sb-stat-icon { font-size: 15px; flex-shrink: 0; }
+  .sb-stat-info { display: flex; flex-direction: column; }
+  .sb-stat-value {
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--text);
+    line-height: 1.1;
+  }
+  .sb-stat-label {
+    font-size: 10px;
+    color: var(--dim);
+    font-weight: 600;
+  }
+  .sb-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 3.5px 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 11.5px;
+  }
+  .sb-row:last-child { border-bottom: none; }
+  .sb-label { color: var(--dim); font-weight: 600; }
+  .sb-value { color: var(--muted); font-weight: 500; font-size: 11px; text-align: right; max-width: 160px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .sb-status-ok { color: var(--ok); font-weight: 700; font-size: 11.5px; }
+  .sb-status-warn { color: var(--warn); font-weight: 700; font-size: 11.5px; }
+  .sb-raw-url {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .sb-raw-url code {
+    display: block;
+    font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+    font-size: 9.5px;
+    color: var(--muted);
+    background: rgba(255, 255, 255, 0.03);
+    padding: 5px 8px;
+    border-radius: 6px;
+    border: 1px solid var(--line);
+    word-break: break-all;
+    line-height: 1.35;
+    max-height: 48px;
+    overflow: hidden;
+  }
+  .sb-raw-url .btn-sm {
+    padding: 5px 10px;
+    font-size: 11px;
+    width: 100%;
+  }
+
+  /* ═══ Footer ═══ */
+  .app-footer {
+    margin: 36px 0 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--dim);
+    font-size: 12px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+  }
+  .app-footer a { color: var(--muted); text-decoration: none; }
+  .app-footer a:hover { text-decoration: underline; }
+
+  /* ═══ Misc ═══ */
+  .hint {
+    color: var(--dim);
+    font-size: 12.5px;
+    line-height: 1.55;
+  }
+  a { color: var(--accent2); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* ═══ Responsive ═══ */
+  @media (max-width: 1024px) {
+    .content-layout {
+      grid-template-columns: 1fr;
+    }
+    .info-sidebar {
+      position: static;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .info-sidebar .sb-section:first-child {
+      grid-column: 1 / -1;
+    }
+  }
+  @media (max-width: 768px) {
+    header {
+      padding: 0 14px;
+      height: 56px;
+      flex-wrap: wrap;
+      height: auto;
+      padding: 10px 14px;
+      gap: 10px;
+    }
+    header .spacer { display: none; }
+    header .logo { flex: 1; min-width: 140px; }
+    .status-wrap { order: 3; width: 100%; justify-content: flex-start; }
+    .header-actions { order: 2; }
+    .tabs-bar { padding: 10px 14px; }
+    .tabs { max-width: none; }
+    .tab { padding: 8px 12px; font-size: 12px; }
+    .tab:nth-child(1)::before,
+    .tab:nth-child(2)::before,
+    .tab:nth-child(3)::before,
+    .tab:nth-child(4)::before { display: none; }
+    main { padding: 16px 14px; }
+    .grid {
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 12px;
+    }
+    .content-layout { gap: 16px; }
+    .info-sidebar {
+      grid-template-columns: 1fr;
+    }
+    .overlay { padding: 0; align-items: stretch; }
+    .modal {
+      max-width: none;
+      max-height: 100dvh;
+      min-height: 100dvh;
+      border-radius: 0;
+      border: none;
+    }
+    .modal-head { border-radius: 0; }
+    .modal-foot { border-radius: 0; padding-bottom: max(16px, env(safe-area-inset-bottom)); }
+    .row2, .row3, .row4, .rowtype { grid-template-columns: 1fr; }
+    .servers .srv { display: grid; grid-template-columns: minmax(0, 1fr) auto; }
+    .servers .srv input.nm { grid-column: 1 / -1; max-width: none; }
+    .episode-head { grid-template-columns: 64px minmax(0, 1fr); }
+    .episode-head button { grid-column: 1 / -1; }
+    .sb-stat-grid { grid-template-columns: 1fr 1fr; }
   }
 </style>
 </head>
 <body>
+
+<!-- ═══ HEADER ═══ -->
 <header>
-  <div class="logo"><div class="dot"></div>HourTV <span style="color:var(--muted);font-weight:400">Admin</span></div>
+  <div class="logo">
+    <div class="dot"></div>
+    HOUR<span class="logo-accent">TV</span>
+    <span class="logo-badge">ADMIN</span>
+  </div>
   <div class="spacer"></div>
-  <span class="status" id="status">Sin conectar</span>
-  <button class="btn-ghost btn-sm" onclick="openConfig()">⚙ GitHub</button>
-  <button class="btn-ghost btn-sm" onclick="loadFromGitHub()">↻ Cargar</button>
-  <button class="btn-primary btn-sm" onclick="publish()">⬆ Publicar</button>
+  <div class="status-wrap" id="status">
+    <button type="button" class="gh-status-chip disconnected" onclick="openConfig()" title="Configurar conexión con GitHub">
+      <span class="gh-status-dot"></span>
+      <span>Sin configurar</span>
+    </button>
+  </div>
+  <div class="header-actions">
+    <button class="btn-ghost btn-sm" onclick="openConfig()">⚙ GitHub</button>
+    <button class="btn-ghost btn-sm" onclick="loadFromGitHub()">↻ Cargar</button>
+    <button class="btn-primary btn-sm" onclick="publish()">⬆ Publicar</button>
+  </div>
 </header>
 
-<div class="tabs" id="tabs"></div>
+<!-- ═══ TABS — Pill Navigation ═══ -->
+<nav class="tabs-bar">
+  <div class="tabs" id="tabs"></div>
+</nav>
+
+<!-- ═══ MAIN ═══ -->
 <main>
   <div class="toolbar">
-    <input type="search" id="search" placeholder="Buscar…" oninput="render()">
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input type="search" id="search" placeholder="Buscar por título…" oninput="render()">
+    </div>
     <button class="btn-primary" onclick="openEditor()">+ Añadir</button>
     <button class="btn-ghost" onclick="syncTrending()">📈 Sincronizar tendencias</button>
     <button class="btn-ghost" onclick="copyIptvUrl()">📺 URL IPTV</button>
     <button class="btn-ghost" onclick="exportJson()">Descargar JSON</button>
-    <label class="btn-ghost" style="cursor:pointer;padding:9px 16px">Importar JSON<input type="file" accept=".json" onchange="importJson(event)" style="display:none"></label>
+    <label class="btn-ghost" style="cursor:pointer;padding:9px 16px;margin:0">Importar JSON<input type="file" accept=".json" onchange="importJson(event)" style="display:none"></label>
   </div>
-  <div id="list"></div>
+  <div class="content-layout">
+    <div class="content-area">
+      <div id="list"></div>
+    </div>
+    <aside class="info-sidebar" id="info-sidebar">
+      <div class="sb-section">
+        <div class="sb-title">📊 Resumen del catálogo</div>
+        <div class="sb-stat-grid">
+          <div class="sb-stat">
+            <span class="sb-stat-icon">🎬</span>
+            <div class="sb-stat-info">
+              <span class="sb-stat-value" id="sb-movies">0</span>
+              <span class="sb-stat-label">Películas</span>
+            </div>
+          </div>
+          <div class="sb-stat">
+            <span class="sb-stat-icon">📺</span>
+            <div class="sb-stat-info">
+              <span class="sb-stat-value" id="sb-series">0</span>
+              <span class="sb-stat-label">Series</span>
+            </div>
+          </div>
+          <div class="sb-stat">
+            <span class="sb-stat-icon">⏳</span>
+            <div class="sb-stat-info">
+              <span class="sb-stat-value" id="sb-pending">0</span>
+              <span class="sb-stat-label">Pendientes</span>
+            </div>
+          </div>
+          <div class="sb-stat">
+            <span class="sb-stat-icon">📡</span>
+            <div class="sb-stat-info">
+              <span class="sb-stat-value" id="sb-live">0</span>
+              <span class="sb-stat-label">En vivo</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="sb-section">
+        <div class="sb-title">🔗 Repositorio</div>
+        <div class="sb-row"><span class="sb-label">Estado</span><span id="sb-gh-status" class="sb-status-warn">Sin configurar</span></div>
+        <div class="sb-row"><span class="sb-label">Repositorio</span><span id="sb-gh-repo" class="sb-value">—</span></div>
+        <div class="sb-row"><span class="sb-label">Rama</span><span id="sb-gh-branch" class="sb-value">—</span></div>
+        <div class="sb-row"><span class="sb-label">Archivo</span><span id="sb-gh-path" class="sb-value">—</span></div>
+      </div>
+      <div class="sb-section">
+        <div class="sb-title">🌐 Enlace público</div>
+        <div class="sb-raw-url">
+          <code id="sb-gh-raw">—</code>
+          <button class="btn-ghost btn-sm" onclick="copySidebarRawUrl()">📋 Copiar URL</button>
+        </div>
+      </div>
+    </aside>
+  </div>
   <!-- Atribución exigida por los términos de uso de la API de TMDB. -->
-  <footer style="margin:34px 0 18px;display:flex;align-items:center;gap:10px;color:var(--dim);font-size:12px">
-    <span>Fichas, categorías y tendencias obtenidas de <a href="https://www.themoviedb.org" target="_blank" rel="noopener" style="color:var(--dim)">TMDB</a>. Este producto usa la API de TMDB pero no está avalado ni certificado por TMDB.</span>
+  <footer class="app-footer">
+    <span>Fichas, categorías y tendencias obtenidas de <a href="https://www.themoviedb.org" target="_blank" rel="noopener">TMDB</a>. Este producto usa la API de TMDB pero no está avalado ni certificado por TMDB.</span>
   </footer>
 </main>
 
 <div class="overlay" id="overlay"><div class="modal" id="modal"></div></div>
 <div class="toast" id="toast"></div>
+
 
 <script src="catalog-sync.js"></script>
 <script>
@@ -197,9 +1291,11 @@ function tabCount(id){return id==='pending'?pendingItems().length:(catalog[id]||
 
 // ---------- Tabs ----------
 function renderTabs(){
-  document.getElementById('tabs').innerHTML = TABS.map(t=>
-    `<button class="tab ${t.id===activeTab?'active':''}" onclick="setTab('${t.id}')">${t.label} <span style="color:var(--dim)">${tabCount(t.id)}</span></button>`
-  ).join('');
+  document.getElementById('tabs').innerHTML = TABS.map(t=>{
+    const count = tabCount(t.id);
+    const isWarn = t.id === 'pending' && count > 0;
+    return `<button class="tab ${t.id===activeTab?'active':''}" onclick="setTab('${t.id}')">${t.label} <span class="tab-count ${isWarn?'tab-warn':''}">${count}</span></button>`;
+  }).join('');
 }
 function setTab(id){activeTab=id;document.getElementById('search').value='';renderTabs();render()}
 
@@ -225,8 +1321,11 @@ function render(){
       const detail=type==='xtream'||type==='stalker'?esc(item.host||''):esc(item.url||'');
       return `<div class="source-row" onclick="openEditor(${idx})">
         <div class="source-ic">📡</div>
-        <div class="source-info"><b>${esc(item.name||'Fuente')}</b><span>${typeLabel}${detail?' · '+detail:''}</span></div>
-        <span style="color:var(--dim);font-size:18px">›</span>
+        <div class="source-info">
+          <b>${esc(item.name||'Fuente')}</b>
+          <span><span class="source-type-chip ${type}">${typeLabel}</span>${detail?' · <code class="source-url-code">'+detail+'</code>':''}</span>
+        </div>
+        <span class="source-arrow">›</span>
       </div>`;
     }).join('');
     return;
@@ -236,9 +1335,22 @@ function render(){
   list.innerHTML=items.map(item=>{
     const idx=realIndex(item);
     const subtitle=isSeries?`${(item.seasons||[]).length} temp.`:(item.year||'');
+    const ratingHtml=item.rating!=null&&item.rating!==''?`<span class="card-chip card-rating">★ ${esc(item.rating)}</span>`:'';
+    const featuredHtml=item.featured?`<span class="card-chip card-featured">★ Destacado</span>`:'';
+    const posterUrl=esc(item.poster||'');
     return `<div class="item" onclick="openEditor(${idx})">
-      <img class="thumb" src="${esc(item.poster||'')}" onerror="this.style.visibility='hidden'">
-      <div class="cap"><b>${esc(item.title)}</b><span>${subtitle}</span></div>
+      <div class="thumb-wrap">
+        <div class="thumb-fallback"><span>🎬</span><small>${esc(item.title)}</small></div>
+        ${posterUrl?`<img class="thumb" src="${posterUrl}" loading="lazy" onerror="this.classList.add('broken')">`:''}
+        <div class="card-overlay">
+          ${featuredHtml}
+          ${ratingHtml}
+        </div>
+      </div>
+      <div class="cap">
+        <b>${esc(item.title)}</b>
+        <span>${subtitle}</span>
+      </div>
     </div>`;
   }).join('');
 }
@@ -256,11 +1368,18 @@ function renderPending(q){
   list.className='sourcelist';
   list.innerHTML=rows.map(p=>{
     const kind=p.tab==='series'?'Serie':'Película';
-    const chips=p.missing.map(m=>`<span class="miss-chip">${m}</span>`).join('');
+    const chips=p.missing.map(m=>`<span class="miss-chip warn">Falta ${m}</span>`).join('');
+    const posterUrl=esc(p.item.poster||'');
     return `<div class="source-row" onclick="openPending('${p.tab}',${p.idx})">
-      <img class="pend-thumb" src="${esc(p.item.poster||'')}" onerror="this.style.visibility='hidden'">
-      <div class="source-info"><b>${esc(p.item.title||'(sin título)')}</b><span>${kind} · falta: ${chips}</span></div>
-      <span style="color:var(--dim);font-size:18px">›</span>
+      <div class="pend-thumb-wrap">
+        <div class="pend-thumb-fallback">🎬</div>
+        ${posterUrl?`<img class="pend-thumb" src="${posterUrl}" loading="lazy" onerror="this.classList.add('broken')">`:''}
+      </div>
+      <div class="source-info">
+        <b>${esc(p.item.title||'(sin título)')}</b>
+        <span><span class="kind-tag">${kind}</span> · ${chips}</span>
+      </div>
+      <span class="source-arrow">›</span>
     </div>`;
   }).join('');
 }
@@ -345,9 +1464,6 @@ function imageField(id, label, value, previewId, ratio){
 // apliquen; determinan en qué filas aparece la película.
 // "tendencias" no se marca a mano: la pone "Sincronizar tendencias" con los
 // datos reales de TMDB. Se deja visible para poder revisarla y corregirla.
-// `let` (no `const`): TMDB tiene generos que no tienen chip fijo aca (Misterio,
-// Fantasía, Guerra...) y antes se perdian en silencio al autocompletar. Ahora
-// se agregan solos la primera vez que aparecen, y quedan guardados.
 let CATEGORIES = ['tendencias','recomendado','estrenos','populares','antiguas','terror','accion','comedia','romance','aventura','drama','infantil','anime','novelas'];
 const _extraCategoriesKey='hourtv_admin_extra_categories';
 function loadExtraCategories(){
@@ -367,9 +1483,6 @@ function collectCategories(){
   const on=[...document.querySelectorAll('#f_categories .chip.on')].map(c=>c.dataset.cat);
   return on.length?on:undefined;
 }
-// Da de alta categorias que classify() detecto pero que todavia no tenian
-// chip: se agregan a CATEGORIES y se guardan en localStorage para que sigan
-// disponibles despues, en otras peliculas/series y tras recargar la pagina.
 function registerNewCategories(cats){
   const extra=loadExtraCategories();
   let changed=false;
@@ -379,8 +1492,6 @@ function registerNewCategories(cats){
   });
   if(changed)saveExtraCategories(extra);
 }
-// Boton "+ nueva": alta manual de una categoria que TMDB no trajo pero que
-// el usuario quiere de todos modos.
 function addCustomCategory(){
   const name=prompt('Nombre de la categoría nueva (ej: misterio)');
   if(!name)return;
@@ -393,17 +1504,12 @@ function addCustomCategory(){
 }
 
 // ---------- Clasificación automática ----------
-// Traduce los datos reales de TMDB (géneros, país de origen, fecha, votos) a
-// las categorías del Inicio. Reemplaza el marcar a ojo.
 const TMDB_GENRE_CAT = {
   28:'accion', 12:'aventura', 16:'infantil', 35:'comedia', 18:'drama',
-  // Ojo: 10751 "Family" de TMDB NO es infantil (se lo ponen a dramas duros
-  // como Fatmagül). Infantil solo sale de 10762 "Kids" o de animación.
   27:'terror', 10749:'romance', 10762:'infantil',
   10766:'novelas', 878:'aventura', 53:'terror', 80:'drama', 9648:'terror',
   10759:'accion', 10765:'aventura'
 };
-// `info` es lo que devuelve /api/tmdb?action=detail.
 function classify(info){
   const ids=info.genreIds||[];
   const cats=new Set();
@@ -411,17 +1517,9 @@ function classify(info){
 
   const origin=(info.originCountry||[]).map(c=>c.toUpperCase());
   const lang=(info.originalLanguage||'').toLowerCase();
-  // Anime = animación + origen japonés. Sin el origen, "animación" sola
-  // metería Pixar y Disney en la fila de anime.
   const animated=ids.includes(16);
   if(animated&&(origin.includes('JP')||lang==='ja')){cats.add('anime');cats.delete('infantil')}
-  // Telenovela: el género Soap de TMDB cuando está puesto. Pero lo aplican de
-  // forma irregular (La Reina del Flow figura solo como drama/crimen), así que
-  // se añade el rasgo que de verdad distingue a una novela: producción latina
-  // o turca, drama, y una tirada de episodios que ninguna serie normal tiene.
-  // Se mira el IDIOMA original, no el país: TMDB registra Pasión de gavilanes
-  // como estadounidense por ser de Telemundo. Y el idioma evita el falso
-  // positivo obvio del país-más-episodios, que colaría Grey's Anatomy.
+
   const NOVELA_IDIOMA=['es','pt','tr'];
   const NOVELA_PAIS=['CO','MX','VE','BR','AR','PE','CL','EC','TR'];
   if(ids.includes(10766))cats.add('novelas');
@@ -437,15 +1535,9 @@ function classify(info){
     if(days>=0&&days<=120)cats.add('estrenos');
   }
   if(year&&year<1990)cats.add('antiguas');
-  // Popular / recomendado con los números de TMDB, no a ojo. Se usa el número
-  // de votos, no `popularity`: TMDB rebajó la escala de popularidad y hoy un
-  // taquillazo ronda 20, así que cualquier umbral fijo sobre ella envejece mal.
   if((info.votes||0)>=2000)cats.add('populares');
   if((info.rating||0)>=7.5&&(info.votes||0)>=500)cats.add('recomendado');
-  // Generos de TMDB sin categoria fija arriba (Misterio, Fantasía, Guerra,
-  // Western, Documental...): antes se perdian en silencio. Se devuelven tal
-  // cual (en minuscula) para que quien llama cree el chip si hace falta;
-  // classify() se mantiene puro (sin tocar el DOM ni localStorage aca).
+
   const mappedIds=new Set(Object.keys(TMDB_GENRE_CAT).map(Number));
   const genreIds=info.genreIds||[];
   (info.genres||[]).forEach((name,idx)=>{
@@ -465,30 +1557,26 @@ async function tmdbApi(params){
   return data;
 }
 
-// Busca por el título escrito y ofrece los candidatos. No elige solo: los
-// títulos del catálogo suelen venir con sufijos ("Latino", "1080p") y una
-// coincidencia automática rellenaría la ficha equivocada.
 async function tmdbSearch(){
   const title=val('f_title');
   const box=document.getElementById('tmdb_results');
   if(!title){toast('Escribe primero el título','err');return}
-  box.innerHTML='<div style="color:var(--dim);font-size:12px;padding:8px 0">Buscando…</div>';
+  box.innerHTML='<div style="color:var(--dim);font-size:12.5px;padding:8px 0">Buscando en TMDB…</div>';
   try{
     const {results}=await tmdbApi('action=search&q='+encodeURIComponent(title)+(val('f_year')?'&year='+val('f_year'):''));
-    if(!results.length){box.innerHTML='<div style="color:var(--dim);font-size:12px;padding:8px 0">Sin resultados. Prueba con el título original, sin “Latino”, “HD” ni el año.</div>';return}
-    box.innerHTML='<div class="sourcelist" style="margin-top:8px">'+results.map(r=>
+    if(!results.length){box.innerHTML='<div style="color:var(--dim);font-size:12.5px;padding:8px 0">Sin resultados. Prueba con el título original, sin “Latino”, “HD” ni el año.</div>';return}
+    box.innerHTML='<div class="sourcelist" style="margin-top:10px">'+results.map(r=>
       `<div class="source-row" onclick="tmdbPick('${r.tmdbType}',${r.tmdbId})">
         <img class="pend-thumb" src="${esc(r.poster||'')}" onerror="this.style.visibility='hidden'">
-        <div class="source-info"><b>${esc(r.title)}</b><span>${r.tmdbType==='tv'?'Serie':'Película'}${r.year?' · '+r.year:''}${r.rating?' · ★'+r.rating:''}${r.originalTitle&&r.originalTitle!==r.title?' · '+esc(r.originalTitle):''}</span></div>
+        <div class="source-info">
+          <b>${esc(r.title)}</b>
+          <span>${r.tmdbType==='tv'?'<span class="source-type-chip xtream">Serie</span>':'<span class="source-type-chip live">Película</span>'}${r.year?' · <b>'+r.year+'</b>':''}${r.rating?' · ★ '+r.rating:''}${r.originalTitle&&r.originalTitle!==r.title?' · <i>'+esc(r.originalTitle)+'</i>':''}</span>
+        </div>
+        <span class="source-arrow">›</span>
       </div>`).join('')+'</div>';
-  }catch(e){box.innerHTML='<div style="color:var(--accent);font-size:12px;padding:8px 0">'+esc(e.message)+'</div>'}
+  }catch(e){box.innerHTML='<div style="color:var(--accent);font-size:12.5px;padding:8px 0">'+esc(e.message)+'</div>'}
 }
 
-// Rellena SOLO los campos vacíos: lo que ya escribiste a mano manda.
-// Dispara 'input' a mano: asignar .value por JS no lo hace solo, y la
-// vista previa de carátula/fondo (imageField) depende de ese evento para
-// actualizarse. Sin esto, la URL quedaba bien guardada pero la imagen
-// parecía no haberse autocompletado porque la miniatura nunca cambiaba.
 function fill(id,value){
   const el=document.getElementById(id);
   if(el&&value!=null&&value!==''&&!el.value){
@@ -496,11 +1584,6 @@ function fill(id,value){
     el.dispatchEvent(new Event('input'));
   }
 }
-// Igual que fill(), pero reemplaza el valor aunque ya haya uno: para la
-// miniatura y la sinopsis, lo que trae TMDB es lo que de verdad importa que
-// quede bien (a diferencia de reparto/director, donde lo escrito a mano
-// manda), así que "Autocompletar ficha" las actualiza aunque el catálogo ya
-// trajera algo puesto ahí.
 function set(id,value){
   const el=document.getElementById(id);
   if(el&&value!=null&&value!==''){
@@ -508,9 +1591,6 @@ function set(id,value){
     el.dispatchEvent(new Event('input'));
   }
 }
-// true si TMDB reporta este id en tendencia esta semana. Misma fuente que
-// "Sincronizar tendencias", consultada aparte porque autocompletar es por
-// un solo título, no todo el catálogo.
 async function isTrending(tmdbId){
   try{
     const data=await tmdbApi('action=trending&window=week');
@@ -521,9 +1601,6 @@ async function tmdbPick(type,id){
   const box=document.getElementById('tmdb_results');
   try{
     const info=await tmdbApi('action=detail&type='+type+'&id='+id);
-    // Ya elegiste este resultado a mano de la lista de búsqueda: el título
-    // que trae TMDB es el correcto para esa ficha, así que reemplaza lo que
-    // hubieras escrito (a diferencia de fill(), que respeta lo ya escrito).
     set('f_title',info.title);
     set('f_plot',info.plot);
     fill('f_cast',info.cast);
@@ -538,29 +1615,22 @@ async function tmdbPick(type,id){
     fill('f_backdrop',info.backdrop);
     document.getElementById('f_tmdb_id').value=info.tmdbId;
     document.getElementById('f_tmdb_type').value=info.tmdbType;
-    // Si TMDB trae un genero sin chip fijo (Misterio, Fantasía...), se crea
-    // solo y se autoselecciona (antes se perdia en silencio). Se regenera el
-    // HTML de los chips en vez de solo alternar 'on': un chip nuevo todavia
-    // no existe en el DOM. Lo ya marcado a mano no se pierde.
+
     const tmdbCats=classify(info);
     registerNewCategories(tmdbCats);
     const alreadyCats=collectCategories()||[];
     document.getElementById('f_categories').innerHTML=
       categoryChips([...new Set([...alreadyCats,...tmdbCats])]);
-    // Destacado (banner grande de Inicio): se autoselecciona solo si TMDB
-    // reporta el título en tendencia. No se desmarca si ya estaba marcado
-    // a mano por otra razón.
+
     const trending=await isTrending(info.tmdbId);
     const featured=document.getElementById('f_featured');
     if(featured&&trending)featured.checked=true;
     box.innerHTML='';
     document.getElementById('tmdb_state').textContent='Vinculado a TMDB #'+info.tmdbId+' · ficha y categorías rellenadas'+(trending?' · en tendencia':'');
-    toast('Ficha completada desde TMDB'+(trending?' (en tendencia: Destacado marcado)':''));
-  }catch(e){box.innerHTML='<div style="color:var(--accent);font-size:12px;padding:8px 0">'+esc(e.message)+'</div>'}
+    toast('Ficha completada desde TMDB'+(trending?' (en tendencia: Destacado marcado)':''), 'ok');
+  }catch(e){box.innerHTML='<div style="color:var(--accent);font-size:12.5px;padding:8px 0">'+esc(e.message)+'</div>'}
 }
 
-// Marca como "tendencias" lo que TMDB reporta en tendencia esta semana, y se
-// la quita al resto. Sin esto la fila de Tendencias del Inicio es un adorno.
 async function syncTrending(){
   toast('Consultando tendencias de TMDB…');
   let data;
@@ -574,8 +1644,6 @@ async function syncTrending(){
   let added=0, removed=0, matched=0;
   ['movies','series'].forEach(tab=>{
     (catalog[tab]||[]).forEach(item=>{
-      // El id de TMDB es exacto; el título es el respaldo para lo que aún no
-      // has vinculado con "Autocompletar".
       const hit=(item.tmdbId&&byId.has(Number(item.tmdbId)))||byTitle.has(norm(item.title));
       const cats=(item.categories||[]).map(c=>String(c).toLowerCase());
       const has=cats.includes('tendencias');
@@ -590,7 +1658,7 @@ async function syncTrending(){
   });
   save();render();
   toast(matched?`Tendencias: ${matched} coinciden (+${added} nuevas, −${removed} caducadas)`
-                :'Nada de tu catálogo está en tendencia esta semana');
+                :'Nada de tu catálogo está en tendencia esta semana', matched?'ok':'warn');
 }
 
 // ---------- Fuente IPTV (Canales en vivo) ----------
@@ -655,8 +1723,6 @@ function saveSource(idx){
 }
 
 function openEditor(idx){
-  // "Pendientes" es una vista-filtro, no una lista propia: al añadir desde ahí
-  // se crea una película normal.
   if(activeTab==='pending'){activeTab='movies';renderTabs()}
   const tab = TABS.find(t=>t.id===activeTab);
   const editing = idx!=null;
@@ -667,7 +1733,7 @@ function openEditor(idx){
       <button class="btn-ghost btn-sm" onclick="closeModal()">✕</button></div>
     <div class="modal-body" id="mbody">${body}</div>
     <div class="modal-foot">
-      ${editing?`<button class="btn-ghost" onclick="removeItem(${idx})" style="color:var(--accent)">Eliminar y publicar</button>`:'<span></span>'}
+      ${editing?`<button class="btn-danger btn-sm" onclick="removeItem(${idx})">Eliminar y publicar</button>`:'<span></span>'}
       <div style="display:flex;gap:10px">
         <button class="btn-ghost" onclick="saveItem(${editing?idx:'null'})">Guardar</button>
         <button class="btn-primary" onclick="saveAndPublish(${editing?idx:'null'})">Guardar y publicar</button>
@@ -680,24 +1746,24 @@ function closeModal(){document.getElementById('overlay').classList.remove('open'
 function vodForm(it, isSeries){
   return `
   <div class="rowtype">
-    <div class="row"><label>Tipo</label>
+    <div class="row"><label>Tipo de contenido</label>
       <select id="f_content_type" onchange="toggleContentType(this.value)">
         <option value="movie" ${!isSeries?'selected':''}>Película</option>
         <option value="series" ${isSeries?'selected':''}>Serie</option>
       </select>
     </div>
-    <div class="row"><label>Título</label><input id="f_title" value="${esc(it.title)}" required></div>
+    <div class="row"><label>Título</label><input id="f_title" value="${esc(it.title)}" placeholder="Título en español o idioma original" required></div>
   </div>
   <div class="row">
     <button type="button" class="btn-ghost btn-sm" onclick="tmdbSearch()">🔎 Autocompletar ficha desde TMDB</button>
     <span id="tmdb_state" style="color:var(--dim);font-size:12px;margin-left:8px">${it.tmdbId?'Vinculado a TMDB #'+it.tmdbId:''}</span>
-    <div id="tmdb_results"></div>
+    <div id="tmdb_results" class="tmdb-results-box"></div>
   </div>
   <input type="hidden" id="f_tmdb_id" value="${esc(it.tmdbId)}">
   <input type="hidden" id="f_tmdb_type" value="${esc(it.tmdbType)}">
   <div class="row"><label>Descripción / sinopsis</label><textarea id="f_plot" maxlength="4000" placeholder="De qué trata…">${esc(it.plot||it.description)}</textarea></div>
 
-  <div class="section-label">Ficha</div>
+  <div class="section-label">Ficha técnica</div>
   <div class="row2">
     <div class="row"><label>Reparto (separado por comas)</label><input id="f_cast" value="${esc(it.cast)}" placeholder="Actor 1, Actor 2…"></div>
     <div class="row"><label>Director</label><input id="f_director" value="${esc(it.director)}"></div>
@@ -797,8 +1863,6 @@ function saveItem(idx){
     backdrop:val('f_backdrop')||undefined,
     categories:collectCategories(),
     featured:featured&&featured.checked?true:undefined,
-    // Vínculo con TMDB: hace que "Sincronizar tendencias" acierte por id en
-    // vez de tener que adivinar por el título.
     tmdbId:val('f_tmdb_id')?Number(val('f_tmdb_id')):undefined,
     tmdbType:val('f_tmdb_type')||undefined
   };
@@ -843,14 +1907,9 @@ function saveItem(idx){
   toast('Guardado localmente. Pulsa “Publicar” para subirlo.','ok');
   return true;
 }
-// Guarda el elemento y, si se guardó bien, publica todo el catálogo a GitHub.
 async function saveAndPublish(idx){
   if(saveItem(idx)===true) await publish();
 }
-// Borra y publica de inmediato: cuanto más tiempo quede solo en local, más
-// chance de que el bot automático haga otro commit de por medio y haya que
-// pasar por el camino de fusión de publish() (que ya respeta deletedIds,
-// pero es más simple si el borrado nunca llega a quedar pendiente).
 async function removeItem(idx){
   if(!confirm('¿Eliminar este elemento?'))return;
   const [removed]=catalog[activeTab].splice(idx,1);
@@ -860,7 +1919,6 @@ async function removeItem(idx){
 }
 
 // ---------- Import / export ----------
-// URL de la lista IPTV para pegar en apps externas (TiviMate, IPTV Smarters…).
 function copyIptvUrl(){
   const url=location.origin+'/lista.m3u';
   const done=()=>toast('URL IPTV copiada: '+url,'ok');
@@ -882,8 +1940,6 @@ function normalize(c){
     version:2,
     movies:Array.isArray(c.movies)?c.movies:[],
     series:Array.isArray(c.series)?c.series:[],
-    // Fuentes IPTV (listas M3U / Xtream / Stalker) y canales sueltos: se
-    // conservan para no perderlos al cargar/guardar.
     sources:Array.isArray(c.sources)?c.sources:[],
     liveChannels:Array.isArray(c.liveChannels)?c.liveChannels:[]
   };
@@ -898,32 +1954,45 @@ function openConfig(){
       <div class="row"><label>Usuario / organización</label><input id="c_owner" value="${esc(cfg.owner)}" placeholder="tu-usuario"></div>
       <div class="row"><label>Repositorio</label><input id="c_repo" value="${esc(cfg.repo)}" placeholder="hourtv-catalogo"></div>
       <div class="row2">
-        <div class="row"><label>Rama</label><input id="c_branch" value="${esc(cfg.branch||'main')}"></div>
+        <div class="row"><label>Rama</label><input id="c_branch" value="${esc(cfg.branch||'master')}"></div>
         <div class="row"><label>Ruta del archivo</label><input id="c_path" value="${esc(cfg.path||'catalog.json')}"></div>
       </div>
       <div class="row"><label>Token de acceso (fine-grained, permiso Contents: Read & Write)</label>
         <input id="c_token" type="password" value="${esc(cfg.token)}" placeholder="github_pat_…"></div>
       <p class="hint">Crea el token en <a href="https://github.com/settings/tokens?type=beta" target="_blank">github.com/settings/tokens</a> con acceso solo a ese repositorio.<br>
       URL para pegar en la app (Ajustes → catálogo remoto):<br>
-      <b id="rawurl" style="color:var(--ok);word-break:break-all"></b></p>
+      <span style="display:inline-flex;align-items:center;gap:8px;margin-top:4px"><b id="rawurl" style="color:var(--ok);word-break:break-all"></b><button type="button" class="btn-ghost btn-sm" style="padding:2px 8px;font-size:11px" onclick="copyRawUrl()">Copiar</button></span></p>
     </div>
     <div class="modal-foot"><span></span><button class="btn-primary" onclick="saveConfig()">Guardar conexión</button></div>`;
   document.getElementById('overlay').classList.add('open');
   updateRawUrl();
   ['c_owner','c_repo','c_branch','c_path'].forEach(id=>document.getElementById(id).oninput=updateRawUrl);
 }
+function copyRawUrl(){
+  const el=document.getElementById('rawurl');
+  if(!el||!el.textContent||el.textContent.startsWith('('))return;
+  const url=el.textContent;
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(url).then(()=>toast('URL Raw copiada','ok'),()=>prompt('Copia la URL:',url));
+  }else{prompt('Copia la URL:',url)}
+}
 function updateRawUrl(){
-  const o=val('c_owner'),r=val('c_repo'),b=val('c_branch')||'main',p=val('c_path')||'catalog.json';
+  const o=val('c_owner'),r=val('c_repo'),b=val('c_branch')||'master',p=val('c_path')||'catalog.json';
   const el=document.getElementById('rawurl');
   if(el)el.textContent = (o&&r)?`https://raw.githubusercontent.com/${o}/${r}/${b}/${p}`:'(completa usuario y repo)';
 }
 function saveConfig(){
-  cfg={owner:val('c_owner'),repo:val('c_repo'),branch:val('c_branch')||'main',path:val('c_path')||'catalog.json',token:val('c_token')};
+  cfg={owner:val('c_owner'),repo:val('c_repo'),branch:val('c_branch')||'master',path:val('c_path')||'catalog.json',token:val('c_token')};
   localStorage.setItem('hourtv_admin_cfg',JSON.stringify(cfg));closeModal();refreshStatus();toast('Conexión guardada','ok');
 }
 function refreshStatus(){
   const s=document.getElementById('status');
-  s.innerHTML = cfg.owner&&cfg.repo ? `Repo: <b>${esc(cfg.owner)}/${esc(cfg.repo)}</b>` : 'Sin conectar';
+  if(!s)return;
+  if(cfg.owner&&cfg.repo){
+    s.innerHTML = `<button type="button" class="gh-status-chip connected" onclick="openConfig()" title="Configuración de GitHub"><span class="gh-status-dot"></span><span>Repo: <b>${esc(cfg.owner)}/${esc(cfg.repo)}</b></span></button>`;
+  }else{
+    s.innerHTML = `<button type="button" class="gh-status-chip disconnected" onclick="openConfig()" title="Configurar conexión con GitHub"><span class="gh-status-dot"></span><span>Sin configurar</span></button>`;
+  }
 }
 async function ghApi(method,extra){
   if(!cfg.token||!cfg.owner||!cfg.repo){toast('Configura GitHub primero','err');openConfig();throw new Error('no cfg')}
@@ -933,6 +2002,7 @@ async function ghApi(method,extra){
     ...(extra||{})
   });
 }
+
 // ---------- Subida de imágenes (archivo local -> GitHub -> URL) ----------
 function fileToBase64(file){
   return new Promise((resolve,reject)=>{
@@ -957,8 +2027,6 @@ async function uploadImage(file, targetInputId, previewId){
       body:JSON.stringify({message:'Subir imagen desde el panel HourTV', content, branch:cfg.branch}),
     });
     if(!res.ok){const e=await res.json().catch(()=>({}));toast('Error al subir: '+(e.message||res.status),'err');return}
-    // jsdelivr sirve el repo publico como CDN: mas rapido y sin los limites
-    // de hotlinking de raw.githubusercontent.com para muchas imagenes.
     const cdnUrl = `https://cdn.jsdelivr.net/gh/${cfg.owner}/${cfg.repo}@${cfg.branch}/${path}`;
     const input = document.getElementById(targetInputId);
     if(input){input.value=cdnUrl; input.dispatchEvent(new Event('input'))}
@@ -978,6 +2046,7 @@ async function loadFromGitHub(){
     toast('Catálogo cargado desde GitHub','ok');
   }catch(e){toast('No se pudo cargar','err')}
 }
+
 // ---------- Init ----------
 (function(){
   const local=localStorage.getItem('hourtv_admin_catalog');
@@ -986,5 +2055,45 @@ async function loadFromGitHub(){
 })();
 </script>
 <script src="catalog-publish.js"></script>
+
+<script>
+// ═══ Sidebar data updater — wraps existing render/refreshStatus ═══
+(function(){
+  function updateSidebar(){
+    var el=function(id){return document.getElementById(id)};
+    var m=el('sb-movies'),s=el('sb-series'),p=el('sb-pending'),l=el('sb-live');
+    if(m)m.textContent=(catalog.movies||[]).length;
+    if(s)s.textContent=(catalog.series||[]).length;
+    if(typeof pendingItems==='function'&&p)p.textContent=pendingItems().length;
+    if(l)l.textContent=(catalog.sources||[]).length;
+    var ghSt=el('sb-gh-status'),ghR=el('sb-gh-repo'),ghB=el('sb-gh-branch'),ghP=el('sb-gh-path'),ghU=el('sb-gh-raw');
+    if(typeof cfg!=='undefined'&&cfg.owner&&cfg.repo){
+      if(ghSt){ghSt.textContent='Conectado';ghSt.className='sb-status-ok'}
+      if(ghR)ghR.textContent=cfg.owner+'/'+cfg.repo;
+      if(ghB)ghB.textContent=cfg.branch||'master';
+      if(ghP)ghP.textContent=cfg.path||'catalog.json';
+      if(ghU)ghU.textContent='https://raw.githubusercontent.com/'+cfg.owner+'/'+cfg.repo+'/'+(cfg.branch||'master')+'/'+(cfg.path||'catalog.json');
+    }else{
+      if(ghSt){ghSt.textContent='Sin configurar';ghSt.className='sb-status-warn'}
+      if(ghR)ghR.textContent='\u2014';
+      if(ghB)ghB.textContent='\u2014';
+      if(ghP)ghP.textContent='\u2014';
+      if(ghU)ghU.textContent='\u2014';
+    }
+  }
+  var _r=window.render,_rs=window.refreshStatus;
+  window.render=function(){_r();try{updateSidebar()}catch(e){}};
+  window.refreshStatus=function(){_rs();try{updateSidebar()}catch(e){}};
+  window.copySidebarRawUrl=function(){
+    var u=document.getElementById('sb-gh-raw');
+    if(!u||u.textContent==='\u2014')return;
+    var url=u.textContent;
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(url).then(function(){toast('URL Raw copiada','ok')},function(){prompt('Copia la URL:',url)});
+    }else{prompt('Copia la URL:',url)}
+  };
+  try{updateSidebar()}catch(e){}
+})();
+</script>
 </body>
 </html>
