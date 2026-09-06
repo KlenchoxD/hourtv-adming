@@ -2515,12 +2515,23 @@
     },
     {
       "id": "e1db80740e134b71846cf11bd4735134",
-      "title": "Amor en la gran ciudad (2024)",
-      "plot": "Vive la historia de Amor en la gran ciudad (2024) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/rFLxECXOOvC4BmxdCdf4WCq4AyZ.jpg",
+      "title": "Love in the Big City",
+      "plot": "Go Young, un coreano gay, vive con Mi Ae, una mujer heterosexual. A través de los ojos de Mi Ae, Go Young se embarca en un viaje de crecimiento personal. Lucha con su relación con su madre, quien niega su orientación sexual, y se ve obligado a separarse de su pareja Gyu Ho debido a la presión social. Al recuperarse de su ruptura, Go Young viaja a Tailandia con un desconocido y logra aprender más sobre sí mismo en el proceso.",
+      "cast": "남윤수",
+      "director": "박상영",
+      "writer": "박상영",
+      "releaseDate": "2024-10-21",
+      "year": "2024",
+      "genre": "Drama",
+      "rating": 8.8,
+      "duration": "55 min",
+      "poster": "https://image.tmdb.org/t/p/w500/yik0hh8UDnZeAQRBN0LjUnwRvVz.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/jApq3WfRvpbUtxsSlHyCANSg5c6.jpg",
       "categories": [
-        "Películas"
+        "drama"
       ],
+      "tmdbId": 236956,
+      "tmdbType": "tv",
       "servers": [
         {
           "name": "Barmonrey",
