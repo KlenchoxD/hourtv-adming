@@ -3916,9 +3916,24 @@
     {
       "id": "0000bcd75d1547c38716f2c51654fc32",
       "title": "¡Ayuda!",
+      "plot": "Después de que un accidente de avión deje varados en una isla remota a una competente empleada y a su insoportable jefe, ella deberá utilizar sus habilidades de supervivencia para mantenerlos a ambos con vida, a pesar de su difícil relación.",
+      "cast": "Rachel McAdams, Dylan O'Brien, Edyll Ismail, Xavier Samuel, Dennis Haysbert, Chris Pang, ธเนศ วรากุลนุเคราะห์, Emma Raimi",
+      "director": "Sam Raimi",
+      "writer": "Damian Shannon",
+      "releaseDate": "2026-01-22",
       "year": "2026",
-      "plot": "Vive la historia de ¡Ayuda! (2026) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/bpp58yHuQmpt6xwggI63mVRw7po.jpg",
+      "genre": "Terror, Suspense, Comedia",
+      "rating": 7,
+      "duration": "113 min",
+      "poster": "https://image.tmdb.org/t/p/w500/qXZZtyzuTX3KMfSLssCR6J0mODd.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/hO2jx1H3XafR7Y8QbFgVH1sHTY9.jpg",
+      "categories": [
+        "populares",
+        "terror",
+        "comedia"
+      ],
+      "tmdbId": 1198994,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
