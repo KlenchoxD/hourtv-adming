@@ -4881,9 +4881,22 @@
     {
       "id": "203491cf7fbd45e7b20b2629ff13d275",
       "title": "Maldita suerte",
+      "plot": "En los deslumbrantes casinos de Macao, un jugador que huye de su pasado queda fascinado por una enigmática mujer en la mesa de bacará.",
+      "cast": "Colin Farrell, Fala Chen, Tilda Swinton, 葉德嫻, Alex Jennings, Jason Tobin, 劉晨芝, 黃秋生",
+      "director": "Edward Berger",
+      "writer": "Rowan Joffé",
+      "releaseDate": "2025-10-15",
       "year": "2025",
-      "plot": "Vive la historia de Maldita suerte (2025) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/cc48kfehVAkgG73BsPcFLMoxa8h.jpg",
+      "genre": "Crimen, Drama",
+      "rating": 5.8,
+      "duration": "101 min",
+      "poster": "https://image.tmdb.org/t/p/w500/jd4p4omMZIywNP5vYbrPUfL1phX.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/cc48kfehVAkgG73BsPcFLMoxa8h.jpg",
+      "categories": [
+        "drama"
+      ],
+      "tmdbId": 1272166,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
