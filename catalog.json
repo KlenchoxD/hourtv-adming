@@ -1905,12 +1905,25 @@
     },
     {
       "id": "e0a2327fd3d1409d8ff167a2325cf122",
-      "title": "Leviticus: Ritual de sangre (2026)",
-      "plot": "Vive la historia de Leviticus: Ritual de sangre (2026) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del",
-      "poster": "https://image.tmdb.org/t/p/w1280/7y8zWGEjs7tresw4Hzkkf4TdkcL.jpg",
+      "title": "Leviticus",
+      "plot": "Dos adolescentes en un pequeño pueblo rural son atormentados por una violenta entidad sobrenatural que adopta la forma de la persona que más desean.",
+      "cast": "Joe Bird, Stacy Clausen, Mia Wasikowska, Nicholas Hope, Tyallah Bullock, Ewen Leslie, Jeremy Blewitt, Davida McKenzie",
+      "director": "Adrian Chiarella",
+      "writer": "Adrian Chiarella",
+      "releaseDate": "2026-06-17",
+      "year": "2026",
+      "genre": "Terror, Romance",
+      "rating": 6.7,
+      "duration": "88 min",
+      "poster": "https://image.tmdb.org/t/p/w500/gS8Z2lepduus8x6Crwzb85F6Gli.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/7y8zWGEjs7tresw4Hzkkf4TdkcL.jpg",
       "categories": [
-        "Películas"
+        "estrenos",
+        "terror",
+        "romance"
       ],
+      "tmdbId": 1564614,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
