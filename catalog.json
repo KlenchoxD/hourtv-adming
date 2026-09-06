@@ -3717,17 +3717,24 @@
     {
       "id": "15e69ca83e464f28b798ac1572b8a64f",
       "title": "Te van a matar",
-      "year": "2026",
-      "tmdb_id": 1292695,
-      "imdb_id": "tt31728330",
-      "genre": "cine de terror, comedy horror film",
+      "plot": "Una mujer acepta un trabajo como ama de llaves en un rascacielos de Nueva York, sin conocer el historial de desapariciones del edificio. Pronto se da cuenta de que la comunidad está rodeada de misterio.",
       "cast": "Zazie Beetz, Myha'la Herrold, Paterson Joseph, Tom Felton, Heather Graham, Patricia Arquette",
       "director": "Kirill Sokolov",
       "writer": "Kirill Sokolov, Alex Litvak",
-      "duration": "94 min",
       "releaseDate": "2026-03-17",
-      "plot": "Vive la historia de Te van a matar (2026) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/7IwBgIwoHtkQ0lYGbBbqKintSWx.jpg",
+      "year": "2026",
+      "genre": "cine de terror, comedy horror film",
+      "rating": 6.9,
+      "duration": "94 min",
+      "poster": "https://image.tmdb.org/t/p/w500/9dEn8a12dqkQw48zxQhPcpQ7D5W.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/7IwBgIwoHtkQ0lYGbBbqKintSWx.jpg",
+      "categories": [
+        "terror",
+        "accion",
+        "comedia"
+      ],
+      "tmdbId": 1292695,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
