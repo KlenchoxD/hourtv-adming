@@ -4526,9 +4526,24 @@
     {
       "id": "84da6c9c5b8e4990bb3f9b58dcf32f30",
       "title": "El diario de Greg: ¡Esto es el colmo!",
+      "plot": "Cuando la despreocupación de Greg choca con las desorbitadas expectativas de su padre, este le presiona para que cambie de actitud. Tras rozar varias veces el desastre con hilarantes resultados, Greg recibe un ultimátum de su padre que podría hacerle dejar atrás sus días de \"pringao\" para siempre.",
+      "cast": "Aaron D. Harris, Chris Diamantopoulos, Erica Cerra, Hunter Dillon, Jude Zarzaur, Gracen Newton, Jill Basey, Bashir Salahuddin",
+      "director": "Matt Danner",
+      "writer": "Jeff Kinney",
+      "releaseDate": "2025-12-04",
       "year": "2025",
-      "plot": "Vive la historia de El diario de Greg: ¡Esto es el colmo! (2025) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los",
-      "poster": "https://image.tmdb.org/t/p/w1280/v8tpkxm7AhLu69eaZKJLsNaSL5.jpg",
+      "genre": "Animación, Familia, Comedia",
+      "rating": 6.7,
+      "duration": "89 min",
+      "poster": "https://image.tmdb.org/t/p/w500/xg6hPJGl130XkJgwWpBagMHojWz.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/v8tpkxm7AhLu69eaZKJLsNaSL5.jpg",
+      "categories": [
+        "comedia",
+        "infantil",
+        "familia"
+      ],
+      "tmdbId": 1392796,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
