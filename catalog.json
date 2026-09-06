@@ -4352,10 +4352,27 @@
     },
     {
       "id": "c626d86348224da9891aa23cd716cde6",
-      "title": "Bob Esponja: En busca de los pantalones cuadrados",
+      "title": "Bob Esponja: Una aventura pirata",
+      "plot": "Desesperado por ser un gran tipo, Bob Esponja se propone demostrar su valentía al Sr. Krabs siguiendo a The Flying Dutchman, un misterioso pirata fantasma, en una aventura marítima que lo lleva a las profundidades más profundas del mar profundo, donde ninguna Esponja ha ido antes.",
+      "cast": "Tom Kenny, Mark Hamill, Clancy Brown, Bill Fagerbakke, Rodger Bumpass, Carolyn Lawrence, Mr. Lawrence, George López",
+      "director": "Derek Drymon",
+      "writer": "Pam Brady",
+      "releaseDate": "2025-12-16",
       "year": "2025",
-      "plot": "Vive la historia de Bob Esponja: En busca de los pantalones cuadrados (2025) y disfruta este título en Blog de Pelis con una experiencia de cine online",
-      "poster": "https://image.tmdb.org/t/p/w1280/pMxO1beNNFYMDM7RcDyKW5Wheuz.jpg",
+      "genre": "Aventura, Familia, Animación, Comedia, Fantasía",
+      "rating": 6.8,
+      "duration": "88 min",
+      "poster": "https://image.tmdb.org/t/p/w500/8pE6H7PHwINoQYPPU1fEcQz5gQ6.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/pMxO1beNNFYMDM7RcDyKW5Wheuz.jpg",
+      "categories": [
+        "comedia",
+        "aventura",
+        "infantil",
+        "familia",
+        "fantasía"
+      ],
+      "tmdbId": 991494,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
