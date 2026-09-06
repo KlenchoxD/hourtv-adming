@@ -4412,10 +4412,24 @@
     },
     {
       "id": "29703fad71814f0d973cc4176110f252",
-      "title": "La mitad que falta",
+      "title": "Mi mitad perdida",
+      "plot": "Dos jóvenes que han perdido a sus hermanos gemelos forman una inesperada amistad tras conocerse en un grupo de apoyo y descubrir que comparten un dolor muy peculiar.",
+      "cast": "Dylan O'Brien, James Sweeney, Aisling Franciosi, Lauren Graham, Chris Perfetti, François Arnaud, Arkira Chantaratananond, Tasha Smith",
+      "director": "James Sweeney",
+      "writer": "James Sweeney",
+      "releaseDate": "2025-09-04",
       "year": "2025",
-      "plot": "Vive la historia de La mitad que falta (2025) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/fnvTC96lA7pf8ZlMKI2FgBZ86AP.jpg",
+      "genre": "Comedia, Drama",
+      "rating": 7.2,
+      "duration": "100 min",
+      "poster": "https://image.tmdb.org/t/p/w500/ld7HHNBXFt5XxO3DW5IBkGUIsLt.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/fnvTC96lA7pf8ZlMKI2FgBZ86AP.jpg",
+      "categories": [
+        "comedia",
+        "drama"
+      ],
+      "tmdbId": 1245347,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
