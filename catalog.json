@@ -3527,9 +3527,24 @@
     {
       "id": "c78ff58d65084eefa0968f83275628a5",
       "title": "Las damas primero",
+      "plot": "Un mujeriego engreído pero encantador despierta en un mundo paralelo donde mandan las mujeres... y su vida de lujo, ligoteo y poder se va al garete.",
+      "cast": "Sacha Baron Cohen, Rosamund Pike, Tom Davis, Emily Mortimer, Weruche Opia, Charles Dance, Fiona Shaw, Richard E. Grant",
+      "director": "Thea Sharrock",
+      "writer": "Natalie Krinsky",
+      "releaseDate": "2026-05-21",
       "year": "2026",
-      "plot": "Vive la historia de Las damas primero (2026) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/z1hekwU7a7FUP6XvqDwJjxAbrXJ.jpg",
+      "genre": "Comedia, Fantasía",
+      "rating": 6,
+      "duration": "94 min",
+      "poster": "https://image.tmdb.org/t/p/w500/ANI2K8Oo5f88Oq6FFi6CfvonrT.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/z1hekwU7a7FUP6XvqDwJjxAbrXJ.jpg",
+      "categories": [
+        "estrenos",
+        "comedia",
+        "fantasía"
+      ],
+      "tmdbId": 1368881,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
