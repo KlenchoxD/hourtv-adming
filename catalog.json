@@ -4555,9 +4555,25 @@
     {
       "id": "9d2ec6038fe941d2b8b1df6cfdc0198d",
       "title": "Bugonia",
+      "plot": "Dos jóvenes obsesionados con las conspiraciones secuestran a la directora ejecutiva de una reconocida empresa porque están convencidos de que es un alienígena decidido a destruir la Tierra.",
+      "cast": "Emma Stone, Jesse Plemons, Aidan Delbis, Stavros Halkias, Alicia Silverstone, J. Carmen Galindez Barrera, Marc T. Lewis, Vanessa Eng",
+      "director": "Yorgos Lánthimos",
+      "writer": "Will Tracy",
+      "releaseDate": "2025-10-23",
       "year": "2025",
-      "plot": "Vive la historia de Bugonia (2025) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/tN3pTxkQoP96wtaEahYuRVdUWb2.jpg",
+      "genre": "Ciencia ficción, Suspense, Comedia",
+      "rating": 7.3,
+      "duration": "119 min",
+      "poster": "https://image.tmdb.org/t/p/w500/gaplD9IEUxez3GeX16SkgLXQJEb.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/tN3pTxkQoP96wtaEahYuRVdUWb2.jpg",
+      "categories": [
+        "populares",
+        "terror",
+        "comedia",
+        "aventura"
+      ],
+      "tmdbId": 701387,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
