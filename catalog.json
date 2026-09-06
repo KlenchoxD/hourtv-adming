@@ -2635,12 +2635,24 @@
     },
     {
       "id": "459923a24d60456e81449d65895052a9",
-      "title": "A pesar de ti (2025)",
-      "plot": "Vive la historia de A pesar de ti (2025) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/m3WlBJJRbFPaut1QS0PbOG8Wezy.jpg",
+      "title": "A pesar de ti",
+      "plot": "Morgan es una madre joven que intenta evitar que su hija Clara, de 16 años, cometa los mismos errores que ella, que se quedó embarazada y se casó demasiado joven, teniendo que aparcar sus propios sueños. La única persona que trae paz a la tensa relación madre-hija es Chris, su marido y padre de Clara. Pero esa paz se rompe cuando un trágico y extraño accidente trae desgarradoras consecuencias para ellas. Mientras lucha por reconstruir sus vidas, Morgan encuentra consuelo en la última persona que esperaba, mientras Clara se vuelve hacia el único chico que le han prohibido ver.",
+      "cast": "Allison Williams, Mckenna Grace, Dave Franco, Mason Thames, Scott Eastwood, Willa Fitzgerald, Clancy Brown, Sam Morelos",
+      "director": "Josh Boone",
+      "writer": "Susan McMartin",
+      "releaseDate": "2025-10-22",
+      "year": "2025",
+      "genre": "Romance, Drama",
+      "rating": 7.1,
+      "duration": "116 min",
+      "poster": "https://image.tmdb.org/t/p/w500/kDSdgH26sX3ctZIG1CWM7bgkmZB.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/m3WlBJJRbFPaut1QS0PbOG8Wezy.jpg",
       "categories": [
-        "Películas"
+        "romance",
+        "drama"
       ],
+      "tmdbId": 1327862,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
