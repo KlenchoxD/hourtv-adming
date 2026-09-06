@@ -3192,10 +3192,24 @@
     },
     {
       "id": "2fc02c07808a4e36b062ad232d954c2a",
-      "title": "Scary Movie: Terroríficamente incorrecta",
+      "title": "Scary Movie",
+      "plot": "Veintiséis años después de conseguir escapar de un asesino enmascarado sospechosamente familiar, el Core Four están de vuelta en el punto de mira del asesino y ninguna película de terror está a salvo.",
+      "cast": "Marlon Wayans, Shawn Wayans, Anna Faris, Regina Hall, Olivia Rose Keegan, Cameron Scott Roberts, Savannah Lee Nassif, Sydney Park",
+      "director": "Michael Tiddes",
+      "writer": "Marlon Wayans",
+      "releaseDate": "2026-06-03",
       "year": "2026",
-      "plot": "Vive la historia de Scary Movie: Terroríficamente incorrecta (2026) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para",
-      "poster": "https://image.tmdb.org/t/p/w1280/xWBiXclrRmTggQHMRsIn84YHavs.jpg",
+      "genre": "Comedia",
+      "rating": 6.4,
+      "duration": "96 min",
+      "poster": "https://image.tmdb.org/t/p/w500/qhGf7btEU9hcGz3A0lneNptJKL7.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/xWBiXclrRmTggQHMRsIn84YHavs.jpg",
+      "categories": [
+        "estrenos",
+        "comedia"
+      ],
+      "tmdbId": 1273221,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
