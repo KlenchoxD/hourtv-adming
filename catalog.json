@@ -3617,10 +3617,25 @@
     },
     {
       "id": "5c8ab39eb650478384b7adc6ffa8db66",
-      "title": "Boda sangrienta 2",
+      "title": "Noche de bodas 2",
+      "plot": "Momentos después de sobrevivir a un ataque de la familia Le Domas, Grace descubre que ha alcanzado el siguiente nivel del juego, y esta vez acompañada por su hermana Faith, con quien mantiene una relación distante. Grace tiene una oportunidad para sobrevivir, mantener con vida a su hermana y reclamar el Alto Trono del Consejo que controla el mundo. Cuatro familias rivales la persiguen para hacerse con el trono, y quien gane lo gobernará todo.",
+      "cast": "Samara Weaving, Kathryn Newton, Sarah Michelle Gellar, Shawn Hatosy, Nestor Carbonell, David Cronenberg, Elijah Wood, Kevin Durand",
+      "director": "Matt Bettinelli-Olpin",
+      "writer": "Guy Busick",
+      "releaseDate": "2026-03-19",
       "year": "2026",
-      "plot": "Vive la historia de Boda sangrienta 2 (2026) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/fx2cEuadZK28VHKkc0F1nFR96i0.jpg",
+      "genre": "Terror, Comedia",
+      "rating": 7.6,
+      "duration": "108 min",
+      "poster": "https://image.tmdb.org/t/p/w500/qxVUkNjXjYg63uQkTqM5ES8Ahaw.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/fx2cEuadZK28VHKkc0F1nFR96i0.jpg",
+      "categories": [
+        "recomendado",
+        "terror",
+        "comedia"
+      ],
+      "tmdbId": 1266127,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
