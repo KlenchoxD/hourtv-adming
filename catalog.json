@@ -1694,12 +1694,28 @@
     },
     {
       "id": "c63ceef79866437bae7185075c907ed6",
-      "title": "Intercambiados (2026)",
-      "plot": "Vive la historia de Intercambiados (2026) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/zMwhWailP1WY7sb6AoE6b8ugoy.jpg",
+      "title": "Intercambiados",
+      "plot": "Una pequeña criatura del bosque intercambia el cuerpo con un majestuoso pájaro del valle, lo que los obliga a colaborar para sobrevivir a la aventura más salvaje de sus vidas.",
+      "cast": "Michael B. Jordan, Juno Temple, Tracy Morgan, Cedric the Entertainer, Justina Machado, Nate Torrence, Camden Brooks, Táta Vega",
+      "director": "Nathan Greno",
+      "writer": "Christian Magalhaes",
+      "releaseDate": "2026-05-01",
+      "year": "2026",
+      "genre": "Aventura, Animación, Familia, Fantasía",
+      "rating": 8.9,
+      "duration": "102 min",
+      "poster": "https://image.tmdb.org/t/p/w500/i89vUDwNhAEWUZSFYITSiv1RIbK.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/zMwhWailP1WY7sb6AoE6b8ugoy.jpg",
       "categories": [
-        "Películas"
+        "recomendado",
+        "populares",
+        "aventura",
+        "infantil",
+        "familia",
+        "fantasía"
       ],
+      "tmdbId": 1007757,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
