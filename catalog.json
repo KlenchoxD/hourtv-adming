@@ -3001,10 +3001,24 @@
     },
     {
       "id": "6c28d0fa16c94f6a84cf546fe837bb7b",
-      "title": "Los expedientes secretos X: Quiero creer",
+      "title": "Expediente X: Creer es la clave",
+      "plot": "Varias mujeres desaparecen en una población rural de Virginia. Un sacerdote que tiene \"visiones\" mandará a la policía a un lugar concreto, donde encontrarán una serie de fosas con cuerpos humanos congelados que parece ser un experimento médico secreto y que puede tener relación con las mujeres desaparecidas... Vuelven los agentes del FBI Mulder y Scully, protagonistas de una de las series más populares de la historia de la televisión. Dirigida por el propio creador de la serie, Chris Carter, una nueva adaptación cinematográfica que se puede ver de forma independiente, sin necesidad de estar familiarizado con la popular serie de TV.",
+      "cast": "David Duchovny, Gillian Anderson, Amanda Peet, Billy Connolly, Xzibit, Mitch Pileggi, Callum Keith Rennie, Adam Godley",
+      "director": "Chris Carter",
+      "writer": "Chris Carter",
+      "releaseDate": "2008-07-24",
       "year": "2008",
-      "plot": "Vive la historia de Los expedientes secretos X: Quiero creer (2008) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para",
-      "poster": "https://image.tmdb.org/t/p/w1280/fCdc3TZNNHGk1ZQBXENdWLqjUio.jpg",
+      "genre": "Misterio, Ciencia ficción, Suspense",
+      "rating": 5.9,
+      "duration": "106 min",
+      "poster": "https://image.tmdb.org/t/p/w500/8qNSaQVnPRAR5Hje5PPTH9DOZF0.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/fCdc3TZNNHGk1ZQBXENdWLqjUio.jpg",
+      "categories": [
+        "terror",
+        "aventura"
+      ],
+      "tmdbId": 8836,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
