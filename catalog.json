@@ -1992,12 +1992,25 @@
     },
     {
       "id": "7993c25347c748e69f444dd098ceb994",
-      "title": "Heartstopper Forever (2026)",
-      "plot": "Vive la historia de Heartstopper Forever (2026) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/wG6yUcgv4xaj64KX7SSPEwBGXW0.jpg",
+      "title": "Heartstopper para siempre",
+      "plot": "Empieza un nuevo curso para la pandilla de Truham-Higgs. Mientras la relación de Nick y Charlie se hace más fuerte, ambos piensan en cómo será su futuro.",
+      "cast": "Kit Connor, Joe Locke, William Gao, Yasmin Finney, Corinna Brown, Kizzy Edgell, Tobie Donovan, Jenny Walser",
+      "director": "Wash Westmoreland",
+      "writer": "Alice Oseman",
+      "releaseDate": "2026-07-14",
+      "year": "2026",
+      "genre": "Romance, Drama",
+      "rating": 7.2,
+      "duration": "110 min",
+      "poster": "https://image.tmdb.org/t/p/w500/4rsI2lhFLBXPtVScJ3rBKHwIt5b.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/wG6yUcgv4xaj64KX7SSPEwBGXW0.jpg",
       "categories": [
-        "Películas"
+        "estrenos",
+        "romance",
+        "drama"
       ],
+      "tmdbId": 1468683,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
