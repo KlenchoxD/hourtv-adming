@@ -5533,6 +5533,27 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "5e215454c5ba4264a018009872024bf2",
+      "title": "Los tipos malos 2",
+      "year": "2025",
+      "tmdb_id": 1175942,
+      "imdb_id": "tt30017619",
+      "genre": "cine de comedia, cine de atracos",
+      "director": "Pierre Perifel",
+      "writer": "Etan Cohen, Yoni Brenner",
+      "duration": "104 min",
+      "releaseDate": "2025-07-30",
+      "plot": "Vive la historia de Los tipos malos 2 (2025) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
+      "poster": "https://image.tmdb.org/t/p/w1280/jvpkBenB6hv19WWYVlaiow8zklq.jpg",
+      "servers": [
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/kkM8zNLhWemNPDU/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
