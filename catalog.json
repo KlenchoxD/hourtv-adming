@@ -4030,10 +4030,26 @@
     },
     {
       "id": "148e42b84999487cbbe5caa3941ae836",
-      "title": "Cuernos",
+      "title": "Horns",
+      "plot": "Merrin Williams está muerta. Ha muerto en extrañas circunstancias, y su novio Ignatius Perrish es el único sospechoso. En el primer aniversario de la muerte de Merrin, Ig se pasa la noche borracho y haciendo cosas espantosas. Cuando se despierta, tiene una resaca tremenda… y cuernos que le están naciendo en la cabeza. Ig posee un nuevo poder macabro que intenta usar para descubrir al monstruo que mató a su amor. Ser bueno y rezar no lo llevó a ningún sitio. Ahora llegó el momento de la venganza.",
+      "cast": "Daniel Radcliffe, Juno Temple, Max Minghella, Joe Anderson, Kelli Garner, Heather Graham, David Morse, James Remar",
+      "director": "Alexandre Aja",
+      "writer": "Joe Hill",
+      "releaseDate": "2013-09-06",
       "year": "2013",
-      "plot": "Vive la historia de Cuernos (2013) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/mORSowyx92dlvx9zYOKXZx0NpAW.jpg",
+      "genre": "Drama, Fantasía, Suspense",
+      "rating": 6.3,
+      "duration": "120 min",
+      "poster": "https://image.tmdb.org/t/p/w500/ig3WmrIfKuzs9EALH43Bu8J4gBN.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/mORSowyx92dlvx9zYOKXZx0NpAW.jpg",
+      "categories": [
+        "populares",
+        "terror",
+        "drama",
+        "fantasía"
+      ],
+      "tmdbId": 149509,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
