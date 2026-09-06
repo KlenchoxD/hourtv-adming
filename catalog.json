@@ -6363,6 +6363,23 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "ddc1f2fc56134670bbbfb28e8f39e93e",
+      "title": "Sólo amigos",
+      "year": "2005",
+      "plot": "Vive la historia de Sólo amigos (2005) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
+      "poster": "https://image.tmdb.org/t/p/w1280/2X9fquknxs3JCTNWDoCLH0hUB3T.jpg",
+      "categories": [
+        "Películas"
+      ],
+      "servers": [
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/2lFmRfWlBhndKW8/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
