@@ -6673,18 +6673,25 @@
     },
     {
       "id": "de0efbf9c69e4897ad867322282d63a7",
-      "title": "Beetlejuice Beetlejuice",
-      "year": "2024",
-      "tmdb_id": 917496,
-      "imdb_id": "tt2049403",
-      "genre": "drama, cine de fantasía, humor negro, cine de comedia, comedia de terror",
+      "title": "Bitelchús Bitelchús",
+      "plot": "Tras una inesperada tragedia familiar, tres generaciones de la familia Deetz regresan a Winter River. La vida de Lydia, todavía atormentada por Bitelchús, da un vuelco cuando su rebelde hija adolescente, Astrid, descubre la misteriosa maqueta de la ciudad en el desván y el portal al Más Allá se abre accidentalmente. Con los problemas que se avecinan en ambos reinos, es sólo cuestión de tiempo que alguien diga el nombre de Bitelchús tres veces y el travieso demonio regrese para desatar su propio caos.",
       "cast": "Michael Keaton, Winona Ryder, Catherine O'Hara, Jenna Ortega, Justin Theroux, Monica Bellucci, Willem Dafoe, Burn Gorman, Santiago Cabrera, Danny DeVito",
       "director": "Tim Burton",
       "writer": "Alfred Gough, Miles Millar",
-      "duration": "104 min",
       "releaseDate": "2024-09-06",
-      "plot": "Vive la historia de Beetlejuice Beetlejuice (2024) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/kF8ljC7Y4p1UsmKBi2LxelZpqw.jpg",
+      "year": "2024",
+      "genre": "drama, cine de fantasía, humor negro, cine de comedia, comedia de terror",
+      "rating": 6.9,
+      "duration": "104 min",
+      "poster": "https://image.tmdb.org/t/p/w500/kWJw7dCWHcfMLr0irTHAPIKrJ4I.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/kF8ljC7Y4p1UsmKBi2LxelZpqw.jpg",
+      "categories": [
+        "populares",
+        "comedia",
+        "fantasía"
+      ],
+      "tmdbId": 917496,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
