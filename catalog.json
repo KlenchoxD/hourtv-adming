@@ -9180,18 +9180,25 @@
     },
     {
       "id": "f530536698374b1ab236595210b91ff7",
-      "title": "Zombies 2",
-      "year": "2020",
-      "tmdb_id": 809107,
-      "imdb_id": "tt14301252",
-      "genre": "fantasía",
+      "title": "Z-O-M-B-I-E-S 2",
+      "plot": "Zed y Addison están de vuelta en Seabrook High, donde, después de un semestre innovador, continúan dirigiendo su escuela y su comunidad hacia la unidad. Pero la llegada de un nuevo grupo de forasteros, misteriosos hombres lobo, amenaza con sacudir la paz recién descubierta y provoca una grieta en el incipiente romance de Zed y Addison.",
       "cast": "Meg Donnelly",
       "director": "Paul Hoen",
       "writer": "Joseph Raso",
+      "releaseDate": "2020-06-13",
+      "year": "2020",
+      "genre": "fantasía",
+      "rating": 7.4,
       "duration": "90 min",
-      "releaseDate": "2022-00-00",
-      "plot": "Vive la historia de Zombies 2 (2020) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/aJK3XZGn7TaCnb1wbHBgCfXOxnc.jpg",
+      "poster": "https://image.tmdb.org/t/p/w500/cOnxoQ3kx4mgmWb7yRi6GBWssOh.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/aJK3XZGn7TaCnb1wbHBgCfXOxnc.jpg",
+      "categories": [
+        "romance",
+        "fantasía",
+        "película de tv"
+      ],
+      "tmdbId": 599521,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
