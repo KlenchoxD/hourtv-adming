@@ -9084,6 +9084,27 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "5c04a3df14d6427cb93c1d6825c7f0e5",
+      "title": "Toy Story 4",
+      "year": "2019",
+      "tmdb_id": 301528,
+      "imdb_id": "tt1979376",
+      "genre": "película infantil, cine de comedia, cine de aventuras, cine de fantasía, cine de acción",
+      "director": "Josh Cooley, John Lasseter",
+      "writer": "Stephany Folsom, Rashida Jones, Will McCormack, Will McCormack, Rashida Jones",
+      "duration": "100 min",
+      "releaseDate": "2019-06-21",
+      "plot": "Vive la historia de Toy Story 4 (2019) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
+      "poster": "https://image.tmdb.org/t/p/w1280/q62bpQ67qaXY0u6b2wFEnQYIbPd.jpg",
+      "servers": [
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/qUwUbt2jE3R9ALa/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
