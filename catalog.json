@@ -6888,6 +6888,33 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "cb80ba36dcea4de0a946ac8fb226215d",
+      "title": "Scooby-Doo: Comienza el misterio",
+      "year": "2009",
+      "tmdb_id": 22620,
+      "imdb_id": "tt1258157",
+      "genre": "cine de misterio, comedia, cine de fantasmas, película animada / de acción en vivo",
+      "cast": "Robbie Amell, Hayley Kiyoko, Frank Welker, Garry Chalk, Kate Melton, Lorena Gale, Nick Palatas, Shawn Macdonald",
+      "director": "Brian Levant",
+      "writer": "Joseph Barbera, William Hanna",
+      "duration": "86 min",
+      "releaseDate": "2009-01-01",
+      "plot": "Vive la historia de Scooby-Doo: Comienza el misterio (2009) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los",
+      "poster": "https://image.tmdb.org/t/p/w1280/cMdzPC7K1FmKNOBMVnqyyfEfxSI.jpg",
+      "servers": [
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/XNvMPdaTD2vmIPw/",
+          "language": "Idioma sin identificar"
+        },
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/kBW1qSCDaE3BDWI/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
