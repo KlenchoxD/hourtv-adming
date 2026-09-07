@@ -10061,6 +10061,27 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "8ad2b1f971a24ced8cb60e0d26b15997",
+      "title": "Toy Story 2",
+      "year": "1999",
+      "tmdb_id": 863,
+      "imdb_id": "tt0120363",
+      "genre": "buddy film, analepsis en el cine, cine de fantasía, cine de comedia",
+      "director": "John Lasseter, Lee Unkrich, Ash Brannon",
+      "writer": "Andrew Stanton, Rita Hsiao, Doug Chamberlin, Chris Webb",
+      "duration": "92 min",
+      "releaseDate": "1999-11-24",
+      "plot": "Vive la historia de Toy Story 2 (1999) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
+      "poster": "https://image.tmdb.org/t/p/w1280/7iUDfakacY1HpajP1DtHrCuDB95.jpg",
+      "servers": [
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/JaqnielJzDENGHa/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
