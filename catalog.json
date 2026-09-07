@@ -6545,17 +6545,24 @@
     {
       "id": "fe7f41df190f4b31893daac3b647f829",
       "title": "Emilia Pérez",
-      "year": "2024",
-      "tmdb_id": 974950,
-      "imdb_id": "tt20221436",
-      "genre": "cine musical, cine de comedia, cine LGBT, cine de crímenes, drama",
+      "plot": "Rita, una infravalorada abogada que trabaja para un gran bufete más interesado en librar a los criminales de la cárcel que en llevarlos ante la justicia, es contratada por el líder de una organización criminal.",
       "cast": "Karla Sofía Gascón, Adriana Paz, Zoe Saldaña, Selena Gomez",
       "director": "Jacques Audiard",
       "writer": "Jacques Audiard",
-      "duration": "132 min",
       "releaseDate": "2024-05-18",
-      "plot": "Vive la historia de Emilia Pérez (2024) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/u2eA9pqi1q3DvevT7RuDuJHxxBT.jpg",
+      "year": "2024",
+      "genre": "cine musical, cine de comedia, cine LGBT, cine de crímenes, drama",
+      "rating": 6.4,
+      "duration": "132 min",
+      "poster": "https://image.tmdb.org/t/p/w500/Al1cL3oPBgnmzm0EqIRcOT6JHFg.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/u2eA9pqi1q3DvevT7RuDuJHxxBT.jpg",
+      "categories": [
+        "populares",
+        "terror",
+        "drama"
+      ],
+      "tmdbId": 974950,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
