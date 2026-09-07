@@ -9653,17 +9653,24 @@
     {
       "id": "a22ca58395e6496e8547af23615f26d5",
       "title": "Zathura: Una aventura espacial",
-      "year": "2005",
-      "tmdb_id": 6795,
-      "imdb_id": "tt0406375",
-      "genre": "cine de ciencia ficción, cine de fantasía, cine de aventuras, película infantil, cine de acción, ficción de aventuras, ficción especulativa",
+      "plot": "Cuando su padre se va a trabajar y quedan al cuidado de su hermana mayor, Danny, de seis años, y Walter, de diez, o riñen o se aburren soberanamente. Durante una pelea, Danny se esconde en un pequeño montacargas, y Walter lo hace bajar hasta el oscuro y temido sótano. Allí descubre el antiguo tablero de metal de un juego de mesa llamado “Zathura”; después de intentar, sin éxito, que su hermano juegue con él, Danny empieza a jugar solo. Desde la primera jugada, Danny se da cuenta de que no es un juego de mesa normal. La ficha de la nave espacial se mueve sola y, cuando aterriza en un espacio, expulsa una tarjeta que dice: “Lluvia de meteoritos, adopta tácticas evasivas”; inmediatamente, sobre la casa, empiezan a caer meteoritos fundidos y calientes. Cuando Danny y Walter miran a través del gran agujero abierto en el techo, descubren con horror que han sido lanzados al espacio sideral.",
       "cast": "Josh Hutcherson, Jonah Bobo, Dax Shepard, Kristen Stewart, Tim Robbins, Frank Oz, John Alexander, Derek Mears, Joe Bucaro, Douglas Tait",
       "director": "Jon Favreau",
       "writer": "David Koepp, Chris Van Allsburg",
-      "duration": "96 min",
       "releaseDate": "2005-01-01",
-      "plot": "Vive la historia de Zathura: Una aventura espacial (2005) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes",
-      "poster": "https://image.tmdb.org/t/p/w1280/s9Bn7Mx4U9cWOR1WdFZjU1DTAkh.jpg",
+      "year": "2005",
+      "genre": "cine de ciencia ficción, cine de fantasía, cine de aventuras, película infantil, cine de acción, ficción de aventuras, ficción especulativa",
+      "rating": 6.5,
+      "duration": "96 min",
+      "poster": "https://image.tmdb.org/t/p/w500/8ePd8jBizl04Di7N4VnhD5tXSCo.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/s9Bn7Mx4U9cWOR1WdFZjU1DTAkh.jpg",
+      "categories": [
+        "populares",
+        "aventura",
+        "familia"
+      ],
+      "tmdbId": 6795,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
