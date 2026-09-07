@@ -9205,6 +9205,28 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "1a7308b5b9ae4ccebfa9415a6a443b95",
+      "title": "El regreso de Mary Poppins",
+      "year": "2018",
+      "tmdb_id": 400650,
+      "imdb_id": "tt5028340",
+      "genre": "cine musical, cine familiar",
+      "cast": "Emily Blunt, Lin-Manuel Miranda, Meryl Streep, Ben Whishaw, Emily Mortimer, Colin Firth, Dick Van Dyke, Pixie Davies, Nathanael Saleh, Joel Dawson, Julie Walters, Angela Lansbury",
+      "director": "Rob Marshall",
+      "writer": "David Magee",
+      "duration": "130 min",
+      "releaseDate": "2018-12-21",
+      "plot": "Vive la historia de El regreso de Mary Poppins (2018) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del",
+      "poster": "https://image.tmdb.org/t/p/w1280/oGzToOBTRdXVOrHj8r0VgK3d2sU.jpg",
+      "servers": [
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/piaJzaGaDTITgQH/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
