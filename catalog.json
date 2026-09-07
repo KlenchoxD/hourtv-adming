@@ -9062,6 +9062,28 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "961a61d0146048edb9e140de907e98ee",
+      "title": "Dora y la Ciudad Perdida",
+      "year": "2019",
+      "tmdb_id": 499701,
+      "imdb_id": "tt7547410",
+      "genre": "cine de aventuras, cine de acción, cine de comedia, cine de fantasía, película cómica de fantasía, cine de misterio, cine familiar, cine de caza de tesoro",
+      "cast": "Isabela Merced, Eugenio Derbez, Temuera Morrison, Eva Longoria, Q'orianka Kilcher, Michael Peña, Benicio del Toro, Adriana Barraza, Christopher Kirby, Isela Vega, Jeff Wahlberg",
+      "director": "James Bobin",
+      "writer": "Nicholas Stoller, Matthew Robinson",
+      "duration": "102 min",
+      "releaseDate": "2019-08-02",
+      "plot": "Vive la historia de Dora y la Ciudad Perdida (2019) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del",
+      "poster": "https://image.tmdb.org/t/p/w1280/ltt9yiCGmCQZunmxtkhtPxzmDzx.jpg",
+      "servers": [
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/W4Rf80mpWtrScUw/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
