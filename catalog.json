@@ -8483,17 +8483,23 @@
     {
       "id": "3d0c1bce59f9484c92bbfaab81b3261c",
       "title": "Scary Movie",
-      "year": "2000",
-      "tmdb_id": 4247,
-      "imdb_id": "tt0175142",
-      "genre": "cine adolescente, comedia de terror, cine de terror, slasher, spoof movie",
+      "plot": "Tras el asesinato de una bella estudiante, un grupo de adolescentes descubren que hay un asesino entre ellas. La heroína, Cindy, y su grupo de desconcertantes amigos, serán aterrorizados por un singular psicópata enmascarado que pretende vengarse de ellos por haberlo atropellado el pasado Halloween.",
       "cast": "Anna Faris, Regina Hall, Shannon Elizabeth, Jon Abrahams, Kurt Fuller, Carmen Electra, Lochlyn Munro, Cheri Oteri, Dave Sheridan, Shawn Wayans, Marlon Wayans, Rick Ducommun",
       "director": "Keenen Ivory Wayans",
       "writer": "Shawn Wayans, Phil Beauman, Aaron Seltzer, Marlon Wayans, Jason Friedberg",
-      "duration": "88 min",
       "releaseDate": "2000-07-07",
-      "plot": "Vive la historia de Scary Movie (2000) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/m5dA4JZsj78EBTa2D6imWOAebwB.jpg",
+      "year": "2000",
+      "genre": "cine adolescente, comedia de terror, cine de terror, slasher, spoof movie",
+      "rating": 6.4,
+      "duration": "88 min",
+      "poster": "https://image.tmdb.org/t/p/w500/fHWR3YplPQWciYzxEity2kyDoDn.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/m5dA4JZsj78EBTa2D6imWOAebwB.jpg",
+      "categories": [
+        "populares",
+        "comedia"
+      ],
+      "tmdbId": 4247,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
