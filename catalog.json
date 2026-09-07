@@ -8417,17 +8417,23 @@
     {
       "id": "b84299de40ff4873bf63d85bc7848b27",
       "title": "Scary Movie 5",
-      "year": "2013",
-      "tmdb_id": 4258,
-      "imdb_id": "tt0795461",
-      "genre": "comedia de terror, comedia dramática, cine de terror",
+      "plot": "Los felizmente casados Dan y Jody empiezan a observar algunos fenómenos extraños en su casa tras volver del hospital con su bebé, Aiden. Pero cuando el caos se apodera del trabajo de Jody como bailarina de ballet y de la carrera de Dan como investigador de monos, la pareja descubre que está siendo acosada por una presencia demoníaca. Juntos, con la ayuda de expertos cualificados y de numerosas cámaras, intentarán deshacerse del maléfico ser antes de que sea demasiado tarde.",
       "cast": "Ashley Tisdale, Simon Rex, Erica Ash, Molly Shannon, Heather Locklear, J. P. Manoux, Jerry O'Connell, Charlie Sheen, Lindsay Lohan, Kate Walsh, Chris Elliott",
       "director": "Malcolm D. Lee",
       "writer": "David Zucker, Pat Proft, Malcolm D. Lee",
-      "duration": "80 min",
       "releaseDate": "2013-04-11",
-      "plot": "Vive la historia de Scary Movie 5 (2013) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/2eW8VlLXjUq4OKk8SYf5KTr91Kv.jpg",
+      "year": "2013",
+      "genre": "comedia de terror, comedia dramática, cine de terror",
+      "rating": 4.8,
+      "duration": "80 min",
+      "poster": "https://image.tmdb.org/t/p/w500/XS0RXeHzDP0lLTcguppQptsI2Z.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/2eW8VlLXjUq4OKk8SYf5KTr91Kv.jpg",
+      "categories": [
+        "populares",
+        "comedia"
+      ],
+      "tmdbId": 4258,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
