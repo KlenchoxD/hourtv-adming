@@ -7909,6 +7909,36 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "6c406d6316d94a23ad3500de8ac1ce12",
+      "title": "Una película de huevos",
+      "year": "2006",
+      "tmdb_id": 16761,
+      "imdb_id": "tt0824696",
+      "genre": "cine de comedia",
+      "director": "Rodolfo Riva Palacio Alatriste, Gabriel Riva Palacio Alatriste",
+      "duration": "90 min",
+      "releaseDate": "2006-01-01",
+      "plot": "Vive la historia de Una película de huevos (2006) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
+      "poster": "https://image.tmdb.org/t/p/w1280/bdo313RjHEymI0W5tKYBKE54Las.jpg",
+      "servers": [
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/byxEYtlz3yuGbhh/",
+          "language": "Idioma sin identificar"
+        },
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/99O06MK4ah40RKX/",
+          "language": "Idioma sin identificar"
+        },
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/9Uvfn9LvtbOtGFa/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
