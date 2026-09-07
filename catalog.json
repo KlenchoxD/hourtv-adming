@@ -9560,6 +9560,25 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "e77f8c2030914f0a8e5de3e755fdf203",
+      "title": "Las Aventuras de Peabody y Sherman",
+      "year": "2014",
+      "tmdb_id": 71377,
+      "imdb_id": "tt5021206",
+      "genre": "telecomedia",
+      "director": "Greg Miller, Mike Bell, John Sanford, David P. Smith",
+      "writer": "John T. Reynolds",
+      "plot": "Vive la historia de Las Aventuras de Peabody y Sherman (2014) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los",
+      "poster": "https://image.tmdb.org/t/p/w1280/bJKoNFCLC0C3viZtsvP4lSDDXNO.jpg",
+      "servers": [
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/9TK0ipb49oyN1ZA/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
