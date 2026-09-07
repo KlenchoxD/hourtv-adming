@@ -8510,14 +8510,24 @@
     },
     {
       "id": "787fbb4c4f5b4570969c390d1e691588",
-      "title": "Buenos vecinos",
-      "year": "2014",
-      "tmdb_id": 310877,
-      "imdb_id": "tt0227880",
-      "genre": "telenovela",
+      "title": "Malditos vecinos",
+      "plot": "Aparentemente, Mac Radner y su esposa Kelly han hecho realidad el sueño americano: acaban de tener una niña adorable y se han comprado una preciosa casa en las afueras. La pareja de treintañeros está convencida de que ha adquirido el aplomo necesario para la vida de adultos, pero estos exjuerguistas van a enfrentarse a un reto inesperado. Cuando Mac y Kelly descubren que sus nuevos vecinos son los miembros de la fraternidad Delta Psi Beta, con el carismático presidente Teddy Sanders a la cabeza, intentan estar a la altura de la situación y parecer más colegas que adultos. Pero las juergas de los chicos adquieren proporciones épicas y a la pareja no le queda más remedio que poner un poco de orden. La guerra entre vecinos escala a la velocidad del rayo a medida que el matrimonio se las ingenia para que expulsen a los universitarios, y estos últimos, para hacer perder la poca cordura que les queda a los nuevos padres.",
       "cast": "Moria Casán",
-      "plot": "Vive la historia de Buenos vecinos (2014) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/tqSR6GOG2Hde0gwG3vO1Bw6TTo5.jpg",
+      "director": "Nicholas Stoller",
+      "writer": "Brendan O'Brien",
+      "releaseDate": "2014-05-08",
+      "year": "2014",
+      "genre": "telenovela",
+      "rating": 6.2,
+      "duration": "96 min",
+      "poster": "https://image.tmdb.org/t/p/w500/f3zFfLgh0snxZxcOHxDYAyczXGA.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/tqSR6GOG2Hde0gwG3vO1Bw6TTo5.jpg",
+      "categories": [
+        "populares",
+        "comedia"
+      ],
+      "tmdbId": 195589,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
