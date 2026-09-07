@@ -9105,6 +9105,27 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "a5b2cec1f6d043c1a5aec55aff70ca32",
+      "title": "Aladdín",
+      "year": "2019",
+      "tmdb_id": 812,
+      "imdb_id": "tt0103639",
+      "genre": "cine musical, comedia fantástica, película de cuento de hadas",
+      "director": "John Musker, Ron Clements",
+      "writer": "John Musker, Ron Clements, Terry Rossio, Ted Elliott",
+      "duration": "91 min",
+      "releaseDate": "1992-11-25",
+      "plot": "Vive la historia de Aladdín (2019) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
+      "poster": "https://image.tmdb.org/t/p/w1280/rVqY0Bo4Npf6EIONUROxjYAJfmD.jpg",
+      "servers": [
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/p32rU11bRuLmQlw/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
