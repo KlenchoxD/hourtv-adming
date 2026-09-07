@@ -9739,16 +9739,24 @@
     {
       "id": "bc21cf2ed31d4dafba93996e5e622753",
       "title": "Happy Feet 2",
-      "year": "2011",
-      "tmdb_id": 9836,
-      "imdb_id": "tt0366548",
-      "genre": "buddy film, cine musical, cine de comedia, cine familiar, cine de aventuras",
+      "plot": "El pingüino Mumble tiene un problema: su hijo Erik, que se resiste a bailar, se encuentra con El poderoso Sven, un pingüino que puede volar. Las cosas se ponen feas para Mumble cuando el mundo se ve sacudido por fuerzas poderosas, forzándole a reunir a los países de los pingüinos y sus aliados para intentar resolver los problemas.",
+      "cast": "Elijah Wood, Robin Williams, P!nk, E. G. Daily, Johnny A. Sanchez, Lombardo Boyar, Sofía Vergara, Common, Hugo Weaving, Brad Pitt, Matt Damon, Carlos Alazraqui, Jeffrey Garcia, Ava Acres, Benjamin Flores Jr., Meibh Campbell, Magda Szubanski, Hank Azaria, Richard Carter, Lee Perry, Jai Sloper, Oscar Beard, Anthony LaPaglia, Danny Mann, Denise Blasor, Roger Narayan, Mason Cotton, Joshua Rush, Lillian Garrett-Groag, Veena Bidasha",
       "director": "George Miller",
       "writer": "George Miller",
-      "duration": "108 min",
       "releaseDate": "2006-11-17",
-      "plot": "Vive la historia de Happy Feet 2 (2011) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/icAAqHhVXuSQlKNvUfL257AFTwN.jpg",
+      "year": "2011",
+      "genre": "buddy film, cine musical, cine de comedia, cine familiar, cine de aventuras",
+      "rating": 6.2,
+      "duration": "108 min",
+      "poster": "https://image.tmdb.org/t/p/w500/kCGdzG0XUij3BqIsygdNEAuFM1Z.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/icAAqHhVXuSQlKNvUfL257AFTwN.jpg",
+      "categories": [
+        "comedia",
+        "infantil",
+        "familia"
+      ],
+      "tmdbId": 65759,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
