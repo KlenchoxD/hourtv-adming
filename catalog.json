@@ -6315,10 +6315,24 @@
     },
     {
       "id": "bc8990707be54eb1ac4c1a9e0cf019ee",
-      "title": "Un zoológico extraordinario",
+      "title": "Un Zoológico Extraordinario",
+      "plot": "Un abogado es engañado para dirigir un zoo que ha vendido a gran parte de sus animales.",
+      "cast": "안재홍, 강소라, 박영규, 김성오, 전여빈, 박혁권, 서현우, 장승조, 한예리, 김기천, 박형수, 김흥래, 김수진, 윤대열, 이현욱, 전운종, 설창희, Ahn Seong-bong, 김경민, 최정현, 양말복, Won Geun-hee, Lee Ga-kyung, 손희순, Yang Hee-won, 조은유, 이다영, 배진호, 유정호, 변상윤",
+      "director": "손재곤",
+      "writer": "손재곤",
+      "releaseDate": "2020-01-15",
       "year": "2020",
-      "plot": "Vive la historia de Un zoológico extraordinario (2020) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del",
-      "poster": "https://image.tmdb.org/t/p/w1280/hc8Y3Xz9YS3DQxVem61qrhkHxtn.jpg",
+      "genre": "Comedia, Drama",
+      "rating": 6.3,
+      "duration": "117 min",
+      "poster": "https://image.tmdb.org/t/p/w500/vTBJZk5ZzQUJdWVUTqbYjHqnapr.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/hc8Y3Xz9YS3DQxVem61qrhkHxtn.jpg",
+      "categories": [
+        "comedia",
+        "drama"
+      ],
+      "tmdbId": 575718,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
