@@ -8959,17 +8959,24 @@
     {
       "id": "9488e68c173c40ed98f227a984d49159",
       "title": "Bratz: La película",
-      "year": "2007",
-      "tmdb_id": 14123,
-      "imdb_id": "tt0804452",
-      "genre": "buddy film femenino, cine adolescente, cine de comedia, cine musical",
+      "plot": "Hasta donde su memoria alcanza, Yasmin, Jade, Sasha  y Cloe han sido siempre “BFF” (Best Friends Forever – Mejores Amigas para Siempre). Inseparables desde que se conocieron, las chicas siempre han apoyado la personalidad independiente de cada una, sus cualidades, y sus fabulososestilos. Pero ahora las cuatro jóvenes entran en el instituto y Yasmin, Jade, Sasha y Cloe tendrán que hacer frente a un nuevo mundo: una jungla de tizas y pizarras, donde por primera vez descubren que ser adolescente significa tratar con un sistema de clichés sociales, estrictamente implantados por Meredith Baxter, una alumna de un curso superior. Poco a poco, nuestras chicas se ven más y más aisladas y entonces toman una resolución: formar su propia pandilla y elevarse como las Bratz para luchar contra las presiones y aprender cómo la verdadera fuerza reside en defender y estar al lado de tus verdaderos amigos, siendo sincero con uno mismo y luchando por los propios sueños y aspiraciones.",
       "cast": "Nathalia Ramos, Skyler Shaye, Logan Browning, Janel Parrish, Chelsea Kane, Anneliese van der Pol, Ian Nelson, Jon Voight, Kadeem Hardison, Lainie Kazan, Malese Jow, Sasha Cohen",
       "director": "Sean McNamara",
       "writer": "Susan Estelle Jansen",
-      "duration": "101 min",
       "releaseDate": "2007-08-03",
-      "plot": "Vive la historia de Bratz: La película (2007) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/A1CCx5tX8owG0CMQH0fvMHpkk6m.jpg",
+      "year": "2007",
+      "genre": "buddy film femenino, cine adolescente, cine de comedia, cine musical",
+      "rating": 5.7,
+      "duration": "101 min",
+      "poster": "https://image.tmdb.org/t/p/w500/aZVTJVFGpogCIsPkyDyYZcvJnfE.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/A1CCx5tX8owG0CMQH0fvMHpkk6m.jpg",
+      "categories": [
+        "comedia",
+        "familia",
+        "música"
+      ],
+      "tmdbId": 14123,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
