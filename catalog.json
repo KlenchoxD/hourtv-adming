@@ -9981,6 +9981,28 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "ce3f3a63e6c14422ac55ada389e18726",
+      "title": "La vuelta al mundo en 80 días",
+      "year": "2004",
+      "tmdb_id": 10204,
+      "imdb_id": "tt0327437",
+      "genre": "película infantil, cine de aventuras, cine de comedia, cine de acción",
+      "cast": "Jackie Chan, Steve Coogan, Cécile de France, Jim Broadbent, Ewen Bremner, Ian McNeice, Kathy Bates, Owen Wilson, Luke Wilson, Mark Addy, John Cleese",
+      "director": "Frank Coraci",
+      "writer": "Michael D. Weiss, David Benullo, David Goldstein",
+      "duration": "120 min",
+      "releaseDate": "2004-06-16",
+      "plot": "Vive la historia de La vuelta al mundo en 80 días (2004) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes",
+      "poster": "https://image.tmdb.org/t/p/w1280/lpZPrfmWrcSkYQx8JHT9APj2uPB.jpg",
+      "servers": [
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/m0NtEaT6VWJDcbC/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
