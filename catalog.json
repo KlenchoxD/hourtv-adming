@@ -7410,6 +7410,36 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "3d0768c11aeb4b74bec721563165d26c",
+      "title": "Huevitos congelados",
+      "year": "2022",
+      "tmdb_id": 573171,
+      "imdb_id": "tt8101238",
+      "genre": "cine de comedia, cine familiar",
+      "director": "Gabriel Riva Palacio Alatriste, Rodolfo Riva Palacio Alatriste",
+      "duration": "91 min",
+      "releaseDate": "2022-00-00",
+      "plot": "Vive la historia de Huevitos congelados (2022) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
+      "poster": "https://image.tmdb.org/t/p/w1280/9PxXSAnbVfvFacsGTJu1aXEWVg7.jpg",
+      "servers": [
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/EX8hJnIb50t6SIh/",
+          "language": "Idioma sin identificar"
+        },
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/9Uvfn9LvtbOtGFa/",
+          "language": "Idioma sin identificar"
+        },
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/99O06MK4ah40RKX/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
