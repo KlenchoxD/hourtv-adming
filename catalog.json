@@ -8445,17 +8445,23 @@
     {
       "id": "18c41bd84fc7444aba108468cfa848c1",
       "title": "Scary Movie 4",
-      "year": "2006",
-      "tmdb_id": 4256,
-      "imdb_id": "tt0306047",
-      "genre": "comedia de terror, cine de ciencia ficción, spoof movie, sobrenatural, cine de suspenso, cine de fantasmas, invasión extraterrestre",
+      "plot": "Una nueva entrega de la franquicia que parodia los últimos títulos del cine americano. Esta vez, la ingenua Cindy Campbell (Anna Faris) intenta hacer carrera en la atención sanitaria a domicilio, y encuentra trabajo con una horripilante anciana que vive en una horripilante casa embrujada por una presencia fantasmal. Si a esto le añades un vecino guapetón y la amenaza de unos alienígenas que quieren dominar la tierra... el pelo rubísimo de Cindy se erizará presa del miedo más electrizante. Nuestra valiente heroína vuelve a sumergirse en la acción más enloquecida en su intento de descifrar los extraños mensajes que le llegan del más allá. Pero eso no le impide seguir buscando el amor en los sitios más inusitados y de salvar el mundo de la destrucción masiva.",
       "cast": "Anna Faris, Simon Rex, Charlie Sheen, Drew Mikuska, Leslie Nielsen, Marny Eng, Anthony Anderson, Kevin Hart, Regina Hall, George Carlin, Denise Richards, Camryn Manheim",
       "director": "David Zucker",
       "writer": "Craig Mazin, Pat Proft, Shawn Wayans, Marlon Wayans, Jason Friedberg, Aaron Seltzer",
-      "duration": "84 min",
       "releaseDate": "2003-10-20",
-      "plot": "Vive la historia de Scary Movie 4 (2006) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/pSNwe7G9bESwlCBVurlwRs7fMZU.jpg",
+      "year": "2006",
+      "genre": "comedia de terror, cine de ciencia ficción, spoof movie, sobrenatural, cine de suspenso, cine de fantasmas, invasión extraterrestre",
+      "rating": 5.5,
+      "duration": "84 min",
+      "poster": "https://image.tmdb.org/t/p/w500/4SMqo8Me8aCT4KAVLeG9pk8VYiN.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/pSNwe7G9bESwlCBVurlwRs7fMZU.jpg",
+      "categories": [
+        "populares",
+        "comedia"
+      ],
+      "tmdbId": 4257,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
