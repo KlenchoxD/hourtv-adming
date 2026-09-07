@@ -7960,6 +7960,27 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "9ce56758224a4345a2020538b2c2d3de",
+      "title": "Los Simpson: La película",
+      "year": "2007",
+      "tmdb_id": 35,
+      "imdb_id": "tt0462538",
+      "genre": "cine de comedia, cine de aventuras, cine de acción",
+      "director": "David Silverman",
+      "writer": "Ian Maxtone-Graham, George Meyer, David Mirkin, Mike Reiss, Matt Selman, John Swartzwelder, Jon Vitti, James L. Brooks",
+      "duration": "83 min",
+      "releaseDate": "2007-07-27",
+      "plot": "Vive la historia de Los Simpson: La película (2007) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del",
+      "poster": "https://image.tmdb.org/t/p/w1280/8ln5VUVk7gnNGIb2VNgw8nICDVt.jpg",
+      "servers": [
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/nGZ1qKF3yjIOFJp/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
