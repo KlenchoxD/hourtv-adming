@@ -9964,16 +9964,26 @@
     {
       "id": "1378170ff76a4f1c991904f4d346ee41",
       "title": "Mulán 2",
-      "year": "2004",
-      "tmdb_id": 10674,
-      "imdb_id": "tt0120762",
-      "genre": "cine musical, cine de fantasía, cine de aventuras, cine de artes marciales, comedia dramática, cine familiar",
+      "plot": "La leyenda de Mulán continúa en esta nueva aventura. La bella y valiente heroína Mulán, siempre acompañada por su dragón guardián, Mushu y sus nuevos amigos, recibe la noticia más emocionante de su vida cuando el General Shang pide su mano en matrimonio, pero las sorpresas acaban de comenzar... El travieso Mushu intentará separar a la feliz pareja durante el tiempo que sea posible para mantener así su trabajo como dragón guardián. Además Mulan y Shang tendrán que escoltar por toda China a tres princesas que se dirigen a celebrar sus respectivos matrimonios, previamente concertados. Cuando Mulan descubre que ninguna de ellas desea estos matrimonios tomará una decisión que cambiará el curso de la historia.",
+      "cast": "Ming-Na Wen, BD Wong, Mark Moseley, Lucy Liu, Harvey Fierstein, Sandra Oh, Gedde Watanabe, Lauren Tom, Jerry Tondo, Pat Morita, George Takei, June Foray, Freda Foh Shen, Soon-Tek Oh, Frank Welker, Jeff Bennett, Jillian Henry, Michelle Kwan, Tress MacNeille, Liliana Mumy, Rob Paulsen, Kevin Michael Richardson, April Winchell, Brian Tochi, Keone Young, Lea Salonga, Judy Kuhn, Mary Gibbs",
       "director": "Barry Cook, Tony Bancroft",
       "writer": "Rita Hsiao, Chris Sanders, Philip LaZebnik, Raymond Singer, Eugenia Bostwick-Singer, Robert D. San Souci",
-      "duration": "88 min",
       "releaseDate": "1998-06-19",
-      "plot": "Vive la historia de Mulán 2 (2004) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/2Zv86BI4QqztR19fwFErXyr59h.jpg",
+      "year": "2004",
+      "genre": "cine musical, cine de fantasía, cine de aventuras, cine de artes marciales, comedia dramática, cine familiar",
+      "rating": 6.5,
+      "duration": "88 min",
+      "poster": "https://image.tmdb.org/t/p/w500/lQbZiWh4ZDSd2co0FMz8U3LGvL7.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/2Zv86BI4QqztR19fwFErXyr59h.jpg",
+      "categories": [
+        "populares",
+        "comedia",
+        "aventura",
+        "infantil",
+        "familia"
+      ],
+      "tmdbId": 12242,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
