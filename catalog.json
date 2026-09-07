@@ -7296,6 +7296,27 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "fbc3402d7b7b4c0388b65748ae56f572",
+      "title": "Super Mario Bros.: La película",
+      "year": "2023",
+      "tmdb_id": 502356,
+      "imdb_id": "tt6718170",
+      "genre": "cine de comedia, cine de aventuras, cine de fantasía",
+      "director": "Aaron Horvath, Michael Jelenic",
+      "writer": "Matthew Fogel",
+      "duration": "92 min",
+      "releaseDate": "2023-03-31",
+      "plot": "Vive la historia de Super Mario Bros.: La película (2023) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes",
+      "poster": "https://image.tmdb.org/t/p/w1280/9n2tJBplPbgR2ca05hS5CKXwP2c.jpg",
+      "servers": [
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/tmd2xjbqcO1iQzN/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
