@@ -8920,17 +8920,24 @@
     {
       "id": "ec58ddac82e84100bee9558dc5ac7872",
       "title": "Regreso a Halloweentown",
-      "year": "2006",
-      "tmdb_id": 34204,
-      "imdb_id": "tt0816520",
-      "genre": "cine de fantasía, cine de aventuras, cine adolescente",
+      "plot": "Todos saben que Marnie Piper es bruja y no sorprende que gane una beca para la Universidad de Brujería de Halloweentown. Con muchas ganas de aprender sobre alquimia, amuletos y pociones, Marnie atraviesa el portal para convertirse en la alumna más popular de la universidad. Pero no todo es lo que parece. Marnie descubre una antigua profecía, y resulta que ella es la clave de un gran secreto.",
       "cast": "Sara Paxton, Judith Hoag, Lucas Grabeel, Joey Zimmerman, Kristy Wu, Keone Young, Millicent Martin, Summer Bishil, Leslie Wing Pomeroy, Debbie Reynolds, Scott Stevensen, Katie Cockrell",
       "director": "David Jackson",
       "writer": "Max Enscoe, Annie DeYoung, Juliet Giglio, Keith Giglio",
-      "duration": "83 min",
       "releaseDate": "2006-10-20",
-      "plot": "Vive la historia de Regreso a Halloweentown (2006) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/2oHTGGcBCnS3hhm1hvnb0aXFoTt.jpg",
+      "year": "2006",
+      "genre": "cine de fantasía, cine de aventuras, cine adolescente",
+      "rating": 6.6,
+      "duration": "83 min",
+      "poster": "https://image.tmdb.org/t/p/w500/cENAOPi5zxTnRdmed8dF26f5AMS.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/2oHTGGcBCnS3hhm1hvnb0aXFoTt.jpg",
+      "categories": [
+        "accion",
+        "comedia",
+        "fantasía"
+      ],
+      "tmdbId": 34204,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
