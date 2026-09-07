@@ -7527,6 +7527,28 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "87c7b15c821a46d380ce252a2cdbce7a",
+      "title": "Jackass 3",
+      "year": "2010",
+      "tmdb_id": 16290,
+      "imdb_id": "tt1116184",
+      "genre": "comedia de acción",
+      "cast": "Johnny Knoxville, Bam Margera, Ryan Dunn, Steve-O, Jason Acuña, Chris Pontius, Dave England, Tony Hawk, Ehren McGhehey, Preston Lacy, Chris Raab, Jarno Laasala",
+      "director": "Jeff Tremaine",
+      "writer": "Preston Lacy",
+      "duration": "94 min",
+      "releaseDate": "2010-10-13",
+      "plot": "Vive la historia de Jackass 3 (2010) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
+      "poster": "https://image.tmdb.org/t/p/w1280/2RmJI0jfXMFF0br3pXQsHiy3lgh.jpg",
+      "servers": [
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/z8gRvaCyEbCGxAL/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
