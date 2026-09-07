@@ -7066,13 +7066,25 @@
     {
       "id": "478f9d5bee6c466ab9b02e2187b8f0bb",
       "title": "Johnny English",
-      "year": "2003",
-      "tmdb_id": 9486,
-      "imdb_id": "tt0274166",
-      "duration": "87 min",
+      "plot": "Las joyas de la Corona de su Majestad han desaparecido. Detrás de ello se esconde Pascal Sauvage (John Malkovich), que también conspira para hacerse con el trono de la reina. La misión es asignada a Johnny English (Rowan Atkinson), un agente tan entregado al trabajo como inexperto. Desde ese momento la información confidencial, los coches de lujo y la tecnología más sofisticada forman parte de su rutina diaria. Johnny English aún no se lo acaba de creer. Quizás todo esto le venga algo grande, pero su empeño con la misión y dedicación para llegar hasta el final es incuestionable, especialmente después de conocer a la agente doble Lorna Campbell (Natalie Imbruglia). Parece ser que lo de estar enamorado aún hará más emocionante esto de salvar al país...",
+      "cast": "Rowan Atkinson, Natalie Imbruglia, Ben Miller, John Malkovich, Greg Wise, Tasha de Vasconcelos, Douglas McFerran, Steve Nicolson, Terence Harvey, Kevin McNally, Tim Pigott-Smith, Nina Young, Rowland Davies, Philippa Fordham, Tim Berrington, Simon Bernstein, Martin Lawton, Neville Phillips, Oliver Ford Davies, Takuya Matsumoto, Peter Tenn, Sam Beazley, Kevin Moore, Faruk Pruti, Marc Danbury, Jack Raymond, Jenny Galloway, Haylie Ecker, Tania Davis, Eos Chater",
+      "director": "Peter Howitt",
+      "writer": "William Davies",
       "releaseDate": "2003-04-10",
-      "plot": "Vive la historia de Johnny English (2003) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/tGcIy7gA8jwYpi5W2UB1Rxrk2i6.jpg",
+      "year": "2003",
+      "genre": "Aventura, Acción, Comedia",
+      "rating": 6.3,
+      "duration": "87 min",
+      "poster": "https://image.tmdb.org/t/p/w500/vjC6Rez0CiqHAX3JgeDh1Rsshmv.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/tGcIy7gA8jwYpi5W2UB1Rxrk2i6.jpg",
+      "categories": [
+        "populares",
+        "accion",
+        "comedia",
+        "aventura"
+      ],
+      "tmdbId": 9486,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
