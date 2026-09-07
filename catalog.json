@@ -8929,6 +8929,33 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "bb252b424b714666a7e061ec548c5ef6",
+      "title": "Scooby",
+      "year": "2020",
+      "tmdb_id": 385103,
+      "imdb_id": "tt3152592",
+      "genre": "cine de aventuras, cine de comedia, cine de misterio, película infantil, cine de superhéroes, cine de terror, analepsis en el cine, cine familiar",
+      "cast": "Will Forte, Mark Wahlberg, Jason Isaacs, Gina Rodriguez, Zac Efron, Amanda Seyfried, Kiersey Clemons, Ken Jeong, Tracy Morgan, Frank Welker, Iain Armitage, Pierce Gagnon",
+      "director": "Tony Cervone",
+      "writer": "Derek Elliott, Adam Sztykiel, Matt Lieberman",
+      "duration": "94 min",
+      "releaseDate": "2020-05-15",
+      "plot": "Vive la historia de Scooby (2020) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
+      "poster": "https://image.tmdb.org/t/p/w1280/sJjuXNHNT7PfzcgkqM3oSIkVOXB.jpg",
+      "servers": [
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/BHOOCj5Ti5qEWDT/",
+          "language": "Idioma sin identificar"
+        },
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/kBW1qSCDaE3BDWI/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
