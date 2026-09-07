@@ -6514,16 +6514,26 @@
     {
       "id": "faa4db4da6c74fdba530d7a842dc359b",
       "title": "Wallace y Gromit: La venganza se sirve con plumas",
-      "year": "2024",
-      "tmdb_id": 929204,
-      "imdb_id": "tt17163970",
-      "genre": "cine de animación stop motion, cine de comedia",
+      "plot": "El superperro Gromit entra en acción para salvar a su amo cuando Wallace pierde el control de su sofisticado invento y acaba acusado de una serie de crímenes sospechosos.",
+      "cast": "Ben Whitehead, Peter Kay, Lauren Patel, Reece Shearsmith, Diane Morgan, Adjoa Andoh, Muzz Khan, Lenny Henry, Victoria Elliott, Jon Glover, Bethan Mary-James, Richard Beek, David Holt, Adrian Rhodes, John Sparkes, Maya Sondhi, Tom Doggart, Merlin Crossingham, Lizzie Waterworth, Roman Kemp, Garth Jennings",
       "director": "Nick Park, Merlin Crossingham",
       "writer": "Mark Burton",
-      "duration": "79 min",
       "releaseDate": "2024-12-25",
-      "plot": "Vive la historia de Wallace y Gromit: La venganza se sirve con plumas (2024) y disfruta este título en Blog de Pelis con una experiencia de cine online",
-      "poster": "https://image.tmdb.org/t/p/w1280/XNVdWNgiAHu8y4BsJv5ndUHXxN.jpg",
+      "year": "2024",
+      "genre": "cine de animación stop motion, cine de comedia",
+      "rating": 7.5,
+      "duration": "79 min",
+      "poster": "https://image.tmdb.org/t/p/w500/e4YIxQEoz2lwZA3WLtFzAogxl44.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/XNVdWNgiAHu8y4BsJv5ndUHXxN.jpg",
+      "categories": [
+        "recomendado",
+        "comedia",
+        "aventura",
+        "infantil",
+        "familia"
+      ],
+      "tmdbId": 929204,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
