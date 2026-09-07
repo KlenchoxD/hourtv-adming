@@ -8264,6 +8264,32 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "a8e03083e89042248c911bf6ea7ab9af",
+      "title": "Un rescate de huevitos",
+      "year": "2021",
+      "tmdb_id": 573164,
+      "imdb_id": "tt8049994",
+      "genre": "película infantil",
+      "director": "Rodolfo Riva Palacio Alatriste, Gabriel Riva Palacio Alatriste",
+      "writer": "Rodolfo Riva Palacio Alatriste",
+      "duration": "89 min",
+      "releaseDate": "2021-00-00",
+      "plot": "Vive la historia de Un rescate de huevitos (2021) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
+      "poster": "https://image.tmdb.org/t/p/w1280/sIMyHMcbFR1jeQ8OC1Y2b93EhXN.jpg",
+      "servers": [
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/9Uvfn9LvtbOtGFa/",
+          "language": "Idioma sin identificar"
+        },
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/99O06MK4ah40RKX/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
