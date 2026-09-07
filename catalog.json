@@ -6857,16 +6857,25 @@
     {
       "id": "02545c6b2c7f481da3aba24479eb7c83",
       "title": "Al rescate de Fondo de Bikini: La película de Arenita Mejillas",
-      "year": "2024",
-      "tmdb_id": 831815,
-      "imdb_id": "tt23063732",
-      "genre": "cine de comedia, cine de aventuras, cine familiar, cine de fantasía, película animada / de acción en vivo",
+      "plot": "Cuando Fondo de Bikini es arrastrado fuera del mar, la ardilla científica Arenita Mejillas y su amigo Bob Esponja se embarcan rumbo a Texas para salvar su ciudad.",
+      "cast": "Carolyn Lawrence, Tom Kenny, Clancy Brown, Bill Fagerbakke, Mr. Lawrence, Rodger Bumpass, Johnny Knoxville, Craig Robinson, Grey DeLisle, Ilia Isorelýs Paulino, Matty Cardarople, Wanda Sykes, Dee Bradley Baker, Christopher Hagen, Rio Alexander, Ryan Begay, Mary Jo Catlett, Jill Talley, Kari Wahlgren, Miles Hall, Jersey Johnston, Jamaria Davis",
       "director": "Liza Johnson",
       "writer": "Tom Stern, Kazimieras G. Prapuolenis",
-      "duration": "82 min",
       "releaseDate": "2024-08-02",
-      "plot": "Vive la historia de Al rescate de Fondo de Bikini: La película de Arenita Mejillas (2024) y disfruta este título en Blog de Pelis con una experiencia de cine",
-      "poster": "https://image.tmdb.org/t/p/w1280/gcW8rMiA9OKbetpjAVAAdbGrDd8.jpg",
+      "year": "2024",
+      "genre": "cine de comedia, cine de aventuras, cine familiar, cine de fantasía, película animada / de acción en vivo",
+      "rating": 6.2,
+      "duration": "82 min",
+      "poster": "https://image.tmdb.org/t/p/w500/1VHcx9WJnxvWs0ykefawnhGU55B.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/gcW8rMiA9OKbetpjAVAAdbGrDd8.jpg",
+      "categories": [
+        "comedia",
+        "aventura",
+        "infantil",
+        "familia"
+      ],
+      "tmdbId": 831815,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
