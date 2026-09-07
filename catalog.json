@@ -8238,18 +8238,23 @@
     },
     {
       "id": "31ef38358c5c40bcb8a3f94dbd6749ac",
-      "title": "Culto a Chucky",
-      "year": "2017",
-      "tmdb_id": 393345,
-      "imdb_id": "tt3280262",
-      "genre": "cine de suspenso, cine de terror, slasher",
+      "title": "El culto de Chucky",
+      "plot": "Nica vive en el manicomio, convencida de que ella fue quien mató a su familia. Como parte de la terapia, su psiquiatra utilizará un muñeco cuya aparición coincidirá con una horrible cadena de asesinatos en el centro. Andy, protagonista de las primeras entregas, reaparecerá para ayudar a Nica, y Tiffany, la novia de Chucky, también se dejará caer por la que es la séptima entrega de la saga.",
       "cast": "Christine Elise, Alex Vincent, Brad Dourif, Fiona Dourif, Jennifer Tilly",
       "director": "Don Mancini",
       "writer": "Don Mancini",
+      "releaseDate": "2017-10-12",
+      "year": "2017",
+      "genre": "cine de suspenso, cine de terror, slasher",
+      "rating": 5.9,
       "duration": "91 min",
-      "releaseDate": "2017-00-00",
-      "plot": "Vive la historia de Culto a Chucky (2017) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/af7uKmGnrOn4P1zyfFXPQZOCCEp.jpg",
+      "poster": "https://image.tmdb.org/t/p/w500/on2Q5qroYiJ8MxhuZmdBd7rYNOa.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/af7uKmGnrOn4P1zyfFXPQZOCCEp.jpg",
+      "categories": [
+        "terror"
+      ],
+      "tmdbId": 393345,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
