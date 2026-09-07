@@ -9438,16 +9438,25 @@
     {
       "id": "e22f51990e5b4232b9e929e61e5a1cfb",
       "title": "Buscando a Dory",
-      "year": "2016",
-      "tmdb_id": 127380,
-      "imdb_id": "tt2277860",
-      "genre": "cine de comedia, cine de aventuras, analepsis en el cine, cine familiar, comedia dramática",
+      "plot": "Un año después de los acontecimientos narrados en \"Buscando a Nemo\", Dory vive apaciblemente con Marlin y su hijo Nemo. Pero durante un viaje para ver cómo las mantarrayas migran de vuelta a casa, los problemas de memoria de Dory parecen desaparecer durante un segundo: recuerda que tiene una familia e inmediatamente decide emprender viaje para reencontrarse con sus padres, a los que perdió hace años.",
+      "cast": "Ellen DeGeneres, Albert Brooks, Ed O'Neill, Hayden Rolence, Diane Keaton, Eugene Levy, Ty Burrell, Kaitlin Olson, Idris Elba, Dominic West, Kate McKinnon, Bill Hader, Andrew Stanton, Torbin Xan Bullock, Bennett Dammann, Bob Peterson, Alexander Gould, Katherine Ringgold, John Ratzenberger, Angus MacLane, Willem Dafoe, Brad Garrett, Allison Janney, Austin Pendleton, Stephen Root, Vicki Lewis, Jerome Ranft, Sloane Murray, Lucia Geddes, Gabriel C. Brown",
       "director": "Andrew Stanton, Angus MacLane",
       "writer": "Andrew Stanton, Victoria Strouse",
-      "duration": "97 min",
       "releaseDate": "2016-06-17",
-      "plot": "Vive la historia de Buscando a Dory (2016) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/wijltj1toRcicHlCn8Cpsp4yPXe.jpg",
+      "year": "2016",
+      "genre": "cine de comedia, cine de aventuras, analepsis en el cine, cine familiar, comedia dramática",
+      "rating": 7,
+      "duration": "97 min",
+      "poster": "https://image.tmdb.org/t/p/w500/wXBwo2DxTm6wZ8Cbu02t9kzzoK4.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/wijltj1toRcicHlCn8Cpsp4yPXe.jpg",
+      "categories": [
+        "populares",
+        "aventura",
+        "infantil",
+        "familia"
+      ],
+      "tmdbId": 127380,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
