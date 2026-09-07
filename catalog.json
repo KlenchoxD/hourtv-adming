@@ -7981,6 +7981,31 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "2e19688891de49f4a4fd705442fcbcb1",
+      "title": "My Little Pony: Nueva generación",
+      "year": "2021",
+      "tmdb_id": 597316,
+      "imdb_id": "tt10101702",
+      "genre": "cine de comedia, cine musical, cine de fantasía, cine de aventuras, película de animación, fantasía, cine familiar",
+      "director": "Robert Cullen, José Luis Ucha, Mark Fattibene",
+      "duration": "91 min",
+      "releaseDate": "2021-09-24",
+      "plot": "Vive la historia de My Little Pony: Nueva generación (2021) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los",
+      "poster": "https://image.tmdb.org/t/p/w1280/ugukqzx4gSzBd1yzmbWEHLkpGaS.jpg",
+      "servers": [
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/8FmABxFwDD1uCaY/",
+          "language": "Idioma sin identificar"
+        },
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/CnD0xm2DaUom3Mj/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
