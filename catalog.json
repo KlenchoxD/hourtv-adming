@@ -8321,16 +8321,25 @@
     {
       "id": "a8e03083e89042248c911bf6ea7ab9af",
       "title": "Un rescate de huevitos",
-      "year": "2021",
-      "tmdb_id": 573164,
-      "imdb_id": "tt8049994",
-      "genre": "película infantil",
+      "plot": "Toto y Di son los padres de dos hermosos huevos: Uly y Max.",
+      "cast": "Bruno Bichir, Maite Perroni, Carlos Espejel, Angélica Vale, Dione Riva Palacio Santacruz, Oliver Díaz Barba, Mayra Rojas, Ariel Miramontes, Jesús Ochoa, Freddy Ortega, Germán Ortega, Rodolfo Riva Palacio Alatriste, Gabriel Riva Palacio Alatriste, Ximena de Anda, José Francisco Lavat Pacheco, Lulú Morán, María Alicia Delgado, Fernando Meza, Humberto Vélez, Juan Frese, Hector Lee, Mónica Santacruz, Mauricio Barrientos, Omar Andre Real, Claudio Herrera",
       "director": "Rodolfo Riva Palacio Alatriste, Gabriel Riva Palacio Alatriste",
       "writer": "Rodolfo Riva Palacio Alatriste",
+      "releaseDate": "2021-08-12",
+      "year": "2021",
+      "genre": "película infantil",
+      "rating": 7.9,
       "duration": "89 min",
-      "releaseDate": "2021-00-00",
-      "plot": "Vive la historia de Un rescate de huevitos (2021) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/sIMyHMcbFR1jeQ8OC1Y2b93EhXN.jpg",
+      "poster": "https://image.tmdb.org/t/p/w500/72azVZArwRGSdTlQnLOSdLsyZJ7.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/sIMyHMcbFR1jeQ8OC1Y2b93EhXN.jpg",
+      "categories": [
+        "comedia",
+        "aventura",
+        "infantil",
+        "familia"
+      ],
+      "tmdbId": 573164,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
