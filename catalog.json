@@ -7168,6 +7168,26 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "f81c69b0933243699cc4de6ecea155c4",
+      "title": "A través del mar",
+      "year": "2023",
+      "tmdb_id": 1139566,
+      "imdb_id": "tt28105944",
+      "genre": "cine de comedia, drama, cine romántico",
+      "director": "Marçal Forés",
+      "duration": "105 min",
+      "releaseDate": "2024-02-23",
+      "plot": "Vive la historia de A través del mar (2023) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
+      "poster": "https://image.tmdb.org/t/p/w1280/zFsB4MB4BwVYE5tqXe9sYdCH3Vr.jpg",
+      "servers": [
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/CcrfHW0121QRrgB/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
