@@ -9079,14 +9079,26 @@
     {
       "id": "a02243d680cb45dd81b660c1f2aa7566",
       "title": "Los hermanos Willoughby",
-      "year": "2020",
-      "tmdb_id": 560044,
-      "imdb_id": "tt5206260",
-      "genre": "comedia dramática",
+      "plot": "Los hermanos Willoughby están convencidos de que sin sus padres (un par de egoístas) les iría mucho mejor. Cuando consiguen mandarlos de vacaciones, los cuatro niños se embarcan en una aventura en busca del verdadero significado de la familia.",
+      "cast": "Will Forte, Maya Rudolph, Alessia Cara, Terry Crews, Martin Short, Jane Krakowski, Seán Cullen, Ricky Gervais, Fiona Toth, Islie Hirvonen, Colleen Wheeler, Bonnie Riley, Robyn Ross, Shannon Chan-Kent, Rebecca Husain, Cristina Rosato, Alistair Abell, Emily Delahunty, Jordan Hemsley, Eliza Norbury, Cristina Rosato, Jason Simpson, Laird Scaba, Rondel Reynoldson, Cole Howard, Paul Dobson, Caitlyn Bairstow",
       "director": "Kris Pearn",
+      "writer": "Mark Stanleigh",
       "releaseDate": "2020-04-22",
-      "plot": "Vive la historia de Los hermanos Willoughby (2020) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/3C7jcMtTpBmzzTbUWPKhMJyvDJO.jpg",
+      "year": "2020",
+      "genre": "comedia dramática",
+      "rating": 7,
+      "duration": "92 min",
+      "poster": "https://image.tmdb.org/t/p/w500/v1W9uSS3W7oil0Lo9QUJesey0i5.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/3C7jcMtTpBmzzTbUWPKhMJyvDJO.jpg",
+      "categories": [
+        "comedia",
+        "aventura",
+        "infantil",
+        "familia",
+        "fantasía"
+      ],
+      "tmdbId": 560044,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
