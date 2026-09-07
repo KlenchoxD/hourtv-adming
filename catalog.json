@@ -2486,12 +2486,24 @@
     },
     {
       "id": "7f36b0022efc44d0a9914732f217e6e6",
-      "title": "Pavana (2026)",
-      "plot": "Vive la historia de Pavana (2026) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/atWzbjlDkfbkh4mdY3uuiF9vr3r.jpg",
+      "title": "Pavana",
+      "plot": "En unos grandes almacenes, tres desconocidos solitarios encuentran compañía y consuelo mientras descubren qué significa conectar y amar.",
+      "cast": "Ko A-sung, 문상민, 변요한, 이이담, 한유은, 서이라, 신정근, 박해준, Lee Bong-ryun, 이상진, 권도균, 장요훈, 서호석, 변진수, 박희정, 우정원, 임윤비, 이다혜, 김홍준, 정만섭, 황성대, 윤여원, 조범규, 진서진",
+      "director": "Lee Jong-pil",
+      "writer": "Lee Jong-pil",
+      "releaseDate": "2026-02-19",
+      "year": "2026",
+      "genre": "Romance, Drama",
+      "rating": 7.3,
+      "duration": "113 min",
+      "poster": "https://image.tmdb.org/t/p/w500/A1zFat9HYHRdorJqpVhVRxg78AJ.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/atWzbjlDkfbkh4mdY3uuiF9vr3r.jpg",
       "categories": [
-        "Películas"
+        "romance",
+        "drama"
       ],
+      "tmdbId": 1268609,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
