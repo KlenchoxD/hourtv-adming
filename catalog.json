@@ -9765,17 +9765,25 @@
     {
       "id": "d91232e54a48442bb9776643c0df9fba",
       "title": "Stuart Little 2",
-      "year": "2002",
-      "tmdb_id": 10996,
-      "imdb_id": "tt0243585",
-      "genre": "cine de comedia, cine familiar",
+      "plot": "Una nueva aventura del valiente y pequeño héroe Stuart Little. Dos nuevos personajes forman parte de la familia Little: una hermana de nueve meses llamada Martha y un pájaro lleno de vida llamado Margalo.",
       "cast": "Geena Davis, Hugh Laurie, Jonathan Lipnicki, Brad Garrett, Marc John Jefferies, Angelo Massagli, Maria Bamford, Kevin Olson, Michael J. Fox, Nathan Lane, Melanie Griffith, James Woods",
       "director": "Rob Minkoff",
       "writer": "Bruce Joel Rubin, Douglas Wick, E. B. White",
-      "duration": "77 min",
       "releaseDate": "2002-07-19",
-      "plot": "Vive la historia de Stuart Little 2 (2002) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/iEvlXeDvLW5IjmWa5jwO0Tieu1g.jpg",
+      "year": "2002",
+      "genre": "cine de comedia, cine familiar",
+      "rating": 5.8,
+      "duration": "77 min",
+      "poster": "https://image.tmdb.org/t/p/w500/lyb8jlDqqmjGz3sDtIcjTBcGdgf.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/iEvlXeDvLW5IjmWa5jwO0Tieu1g.jpg",
+      "categories": [
+        "populares",
+        "comedia",
+        "aventura",
+        "familia"
+      ],
+      "tmdbId": 10996,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
