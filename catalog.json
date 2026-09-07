@@ -10040,6 +10040,27 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "76cbcc59be2746ffa66d6652e4b4ac17",
+      "title": "Toy Story 3",
+      "year": "2010",
+      "tmdb_id": 10193,
+      "imdb_id": "tt0435761",
+      "genre": "buddy film, comedia dramática, cine de comedia, analepsis en el cine",
+      "director": "Lee Unkrich",
+      "writer": "Michael Arndt",
+      "duration": "103 min",
+      "releaseDate": "2010-06-18",
+      "plot": "Vive la historia de Toy Story 3 (2010) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
+      "poster": "https://image.tmdb.org/t/p/w1280/uAfhsySkr1UzQg1zdg3dZQRz9Fd.jpg",
+      "servers": [
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/8V7oXwzkcQxZ7rt/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
