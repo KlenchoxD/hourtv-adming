@@ -8825,16 +8825,26 @@
     {
       "id": "a911cec5d6cd43cf95a67a9cddd2e139",
       "title": "A todos los chicos: Para siempre",
-      "year": "2021",
-      "tmdb_id": 614409,
-      "imdb_id": "tt10676012",
-      "genre": "cine romántico",
+      "plot": "Es el último curso del instituto. Lara Jean regresa de un viaje familiar a Corea y se plantea su futuro universitario... con y sin Peter.",
       "cast": "Lana Condor, Noah Centineo, Janel Parrish, Anna Cathcart, Madeleine Arthur, Emilija Baranac, Sarayu Blue, Ross Butler, Trezzo Mahoro, John Corbett, Henry Thomas, Sofia Black D'Elia",
       "director": "Michael Fimognari",
-      "duration": "115 min",
+      "writer": "Katie Lovejoy",
       "releaseDate": "2021-02-12",
-      "plot": "Vive la historia de A todos los chicos: Para siempre (2021) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los",
-      "poster": "https://image.tmdb.org/t/p/w1280/qjhcTGnjxYJqwBGlDzZkYWmne6e.jpg",
+      "year": "2021",
+      "genre": "cine romántico",
+      "rating": 7.5,
+      "duration": "115 min",
+      "poster": "https://image.tmdb.org/t/p/w500/7bGVC0tkhvihjZHNFJuiuY2YcN7.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/qjhcTGnjxYJqwBGlDzZkYWmne6e.jpg",
+      "categories": [
+        "recomendado",
+        "populares",
+        "comedia",
+        "romance",
+        "drama"
+      ],
+      "tmdbId": 614409,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
