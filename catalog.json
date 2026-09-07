@@ -9649,6 +9649,28 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "a22ca58395e6496e8547af23615f26d5",
+      "title": "Zathura: Una aventura espacial",
+      "year": "2005",
+      "tmdb_id": 6795,
+      "imdb_id": "tt0406375",
+      "genre": "cine de ciencia ficción, cine de fantasía, cine de aventuras, película infantil, cine de acción, ficción de aventuras, ficción especulativa",
+      "cast": "Josh Hutcherson, Jonah Bobo, Dax Shepard, Kristen Stewart, Tim Robbins, Frank Oz, John Alexander, Derek Mears, Joe Bucaro, Douglas Tait",
+      "director": "Jon Favreau",
+      "writer": "David Koepp, Chris Van Allsburg",
+      "duration": "96 min",
+      "releaseDate": "2005-01-01",
+      "plot": "Vive la historia de Zathura: Una aventura espacial (2005) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes",
+      "poster": "https://image.tmdb.org/t/p/w1280/s9Bn7Mx4U9cWOR1WdFZjU1DTAkh.jpg",
+      "servers": [
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/3SHiInv8PRISuzk/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
