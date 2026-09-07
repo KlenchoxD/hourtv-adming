@@ -8818,6 +8818,28 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "9488e68c173c40ed98f227a984d49159",
+      "title": "Bratz: La película",
+      "year": "2007",
+      "tmdb_id": 14123,
+      "imdb_id": "tt0804452",
+      "genre": "buddy film femenino, cine adolescente, cine de comedia, cine musical",
+      "cast": "Nathalia Ramos, Skyler Shaye, Logan Browning, Janel Parrish, Chelsea Kane, Anneliese van der Pol, Ian Nelson, Jon Voight, Kadeem Hardison, Lainie Kazan, Malese Jow, Sasha Cohen",
+      "director": "Sean McNamara",
+      "writer": "Susan Estelle Jansen",
+      "duration": "101 min",
+      "releaseDate": "2007-08-03",
+      "plot": "Vive la historia de Bratz: La película (2007) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
+      "poster": "https://image.tmdb.org/t/p/w1280/A1CCx5tX8owG0CMQH0fvMHpkk6m.jpg",
+      "servers": [
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/UBVdxOBZCnzFQM8/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
