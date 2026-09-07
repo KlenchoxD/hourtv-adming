@@ -7297,18 +7297,25 @@
     },
     {
       "id": "c51847d8a99b4fea947bc728ea811f25",
-      "title": "Ant-Man and the Wasp: Quantumania",
-      "year": "2023",
-      "tmdb_id": 640146,
-      "imdb_id": "tt10954600",
-      "genre": "cine de acción, cine de ciencia ficción, cine de aventuras, cine de comedia, cine de suspenso, cine de fantasía",
+      "title": "Ant-Man y la Avispa: Quantumanía",
+      "plot": "La pareja de superhéroes Scott Lang y Hope van Dyne regresa para continuar sus aventuras como Ant-Man y la Avispa. Los dos, junto a los padres de Hope, Hank Pym y Janet van Dyne y la hija de Scott, Cassie Lang, se dedican a explorar el Mundo Cuántico, interactuando con nuevas y extrañas criaturas y embarcándose en una aventura que les llevará más allá de los límites de lo que creían posible.",
       "cast": "Paul Rudd, Evangeline Lilly, Michael Douglas, Michelle Pfeiffer, Kathryn Newton, Jonathan Majors, Randall Park, Bill Murray, Gregg Turkington, William Jackson Harper, Corey Stoll, Randall Park",
       "director": "Peyton Reed",
       "writer": "Jeff Loveness",
-      "duration": "125 min",
       "releaseDate": "2023-02-15",
-      "plot": "Vive la historia de Ant-Man and the Wasp: Quantumania (2023) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los",
-      "poster": "https://image.tmdb.org/t/p/w1280/m8JTwHFwX7I7JY5fPe4SjqejWag.jpg",
+      "year": "2023",
+      "genre": "cine de acción, cine de ciencia ficción, cine de aventuras, cine de comedia, cine de suspenso, cine de fantasía",
+      "rating": 6.2,
+      "duration": "125 min",
+      "poster": "https://image.tmdb.org/t/p/w500/lKHy0ntGPdQeFwvNq8gK1D0anEr.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/7WxVKp35lxxGUin8eLvTkDcr5Ke.jpg",
+      "categories": [
+        "populares",
+        "accion",
+        "aventura"
+      ],
+      "tmdbId": 640146,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
