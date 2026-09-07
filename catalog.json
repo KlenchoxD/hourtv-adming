@@ -7208,6 +7208,28 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "049f183dffcd49ee9c7a8fd7f4c32227",
+      "title": "El gran hotel Budapest",
+      "year": "2014",
+      "tmdb_id": 120467,
+      "imdb_id": "tt2278388",
+      "genre": "cine de comedia, drama, cine de aventuras, cine romántico, cine de crímenes, tragicomedia",
+      "cast": "Ralph Fiennes, Tony Revolori, Saoirse Ronan, Edward Norton, Jude Law, Owen Wilson, Tilda Swinton, Willem Dafoe, Bill Murray, Adrien Brody, Jeff Goldblum, Harvey Keitel",
+      "director": "Wes Anderson",
+      "writer": "Wes Anderson, Stefan Zweig, Hugo Guinness",
+      "duration": "99 min",
+      "releaseDate": "2014-02-06",
+      "plot": "Vive la historia de El gran hotel Budapest (2014) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
+      "poster": "https://image.tmdb.org/t/p/w1280/9udCLTxTFl28RxnK8Q05E154ZGa.jpg",
+      "servers": [
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/Z7jc3YK822K525i/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
