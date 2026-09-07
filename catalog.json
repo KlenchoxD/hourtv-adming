@@ -7553,18 +7553,25 @@
     },
     {
       "id": "94ac5c65a2114f2394d1f578e26a51af",
-      "title": "Desencantada",
-      "year": "2022",
-      "tmdb_id": 338958,
-      "imdb_id": "tt1596342",
-      "genre": "cine de aventuras, cine de comedia, cine familiar, cine de fantasía, cine musical, cine romántico, comedia romántica",
+      "title": "Desencantada: Vuelve Giselle",
+      "plot": "Diez años después de su felices para siempre, Giselle cuestiona su felicidad, sin darse cuenta, poniendo patas arriba las vidas de aquellos en el mundo real y Andalasia en el proceso.",
       "cast": "Amy Adams, Patrick Dempsey, James Marsden, Idina Menzel, Yvette Nicole Brown, Jayma Mays, Maya Rudolph, Oscar Nuñez, Ann Harada, James Monroe Iglehart, Gabriella Baldacchino",
       "director": "Adam Shankman, Anne Fletcher",
       "writer": "Jessie Nelson, J. David Stem, David N. Weiss, Adam Shankman",
-      "duration": "118 min",
       "releaseDate": "2022-11-18",
-      "plot": "Vive la historia de Desencantada (2022) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/mchDEPh1fkID8nq8IONAGQeiPJg.jpg",
+      "year": "2022",
+      "genre": "cine de aventuras, cine de comedia, cine familiar, cine de fantasía, cine musical, cine romántico, comedia romántica",
+      "rating": 6.7,
+      "duration": "118 min",
+      "poster": "https://image.tmdb.org/t/p/w500/kk3h3T1h9CyrlpKV2SzbLF4wj82.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/mchDEPh1fkID8nq8IONAGQeiPJg.jpg",
+      "categories": [
+        "comedia",
+        "familia",
+        "fantasía"
+      ],
+      "tmdbId": 338958,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
