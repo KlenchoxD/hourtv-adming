@@ -6473,6 +6473,31 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "a266fe7feb434a44bb22e8e2ca4c1a5d",
+      "title": "Sonic 3: La película",
+      "year": "2024",
+      "tmdb_id": 1401586,
+      "imdb_id": "tt16744566",
+      "genre": "cine de ciencia ficción, cine de comedia",
+      "cast": "James Marsden, Tika Sumpter, Jim Carrey, Lee Majdoub, Matt Berry, Richard Ayoade",
+      "director": "Jeff Fowler",
+      "releaseDate": "2027-03-19",
+      "plot": "Vive la historia de Sonic 3: La película (2024) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
+      "poster": "https://image.tmdb.org/t/p/w1280/zOpe0eHsq0A2NvNyBbtT6sj53qV.jpg",
+      "servers": [
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/HPaYjKSwfJ2tj8z/",
+          "language": "Idioma sin identificar"
+        },
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/MEnzRa0VCHmTgcu/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
