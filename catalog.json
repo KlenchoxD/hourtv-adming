@@ -8750,17 +8750,26 @@
     {
       "id": "908ba9a122784f54aabd8304ed2aec54",
       "title": "Deadpool",
-      "year": "2016",
-      "tmdb_id": 383498,
-      "imdb_id": "tt5463162",
-      "genre": "cine de humor negro, cine de superhéroes, cine LGBT, película de viajes en el tiempo",
+      "plot": "Basado en el anti-héroe menos convencional de Marvel, Deadpool narra el origen de un ex agente de las fuerzas especiales llamado Wade Wilson, reconvertido a mercenario, y que tras ser sometido a un cruel experimento para curar su cáncer adquiere poderes de curación rápida, adoptando entonces el alter ego de Deadpool. Armado con sus nuevas habilidades y un oscuro y retorcido sentido del humor, Deadpool intentará dar caza al hombre que casi destruye su vida.",
       "cast": "Ryan Reynolds, T. J. Miller, Leslie Uggams, Brianna Hildebrand, Stefan Kapičić, Zazie Beetz, Josh Brolin, Jack Kesy, Morena Baccarin, Julian Dennison, Karan Soni",
       "director": "David Leitch",
       "writer": "Ryan Reynolds, Rhett Reese, Paul Wernick",
-      "duration": "119 min",
       "releaseDate": "2018-05-18",
-      "plot": "Vive la historia de Deadpool (2016) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/en971MEXui9diirXlogOrPKmsEn.jpg",
+      "year": "2016",
+      "genre": "cine de humor negro, cine de superhéroes, cine LGBT, película de viajes en el tiempo",
+      "rating": 7.6,
+      "duration": "119 min",
+      "poster": "https://image.tmdb.org/t/p/w500/3TUYy0XvhPQBhrXJwRIaOoYFOBO.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/rFj9IKlL75B2pXhZA60jkNWvxeW.jpg",
+      "categories": [
+        "recomendado",
+        "populares",
+        "accion",
+        "comedia",
+        "aventura"
+      ],
+      "tmdbId": 293660,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
