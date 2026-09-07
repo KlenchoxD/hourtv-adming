@@ -8956,6 +8956,28 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "6ad47c1962334080864d4114bb30c5cb",
+      "title": "Sonic: La película",
+      "year": "2020",
+      "tmdb_id": 454626,
+      "imdb_id": "tt3794354",
+      "genre": "cine de comedia, cine familiar, cine de acción, cine de ciencia ficción, cine de fantasía, cine de aventuras",
+      "cast": "James Marsden, Tika Sumpter, Jim Carrey, Adam Pally, Neal McDonough, Lee Majdoub, Natasha Rothwell, Tom Butler, Melody Nosipho Niemann, Frank C. Turner, Garry Chalk, Michael Hogan",
+      "director": "Jeff Fowler",
+      "writer": "Patrick Casey",
+      "duration": "99 min",
+      "releaseDate": "2020-02-13",
+      "plot": "Vive la historia de Sonic: La película (2020) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
+      "poster": "https://image.tmdb.org/t/p/w1280/stmYfCUGd8Iy6kAMBr6AmWqx8Bq.jpg",
+      "servers": [
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/eTgDTVtwFIpB8Fy/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
