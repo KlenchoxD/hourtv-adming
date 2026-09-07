@@ -9240,17 +9240,24 @@
     {
       "id": "52ebc56687f84335a1e58327fc7521e7",
       "title": "Estafadoras de Wall Street",
-      "year": "2019",
-      "tmdb_id": 540901,
-      "imdb_id": "tt5503686",
-      "genre": "cine de crímenes, drama, comedia dramática",
+      "plot": "Cuatro estrípers de un club al que acuden adinerados ejecutivos de Wall Street idean un plan para estafar a sus clientes. Aunque consiguen su objetivo, cuando una periodista empieza a investigarlas, la avaricia y la envidia ponen en riesgo su unión, su amistad y su libertad.",
       "cast": "Jennifer Lopez, Keke Palmer, Constance Wu, Lili Reinhart, Julia Stiles, Madeline Brewer, Frank Whaley, Mercedes Ruehl, Rhys Coiro, Usher, Lizzo",
       "director": "Lorene Scafaria",
       "writer": "Lorene Scafaria",
-      "duration": "110 min",
       "releaseDate": "2019-09-13",
-      "plot": "Vive la historia de Estafadoras de Wall Street (2019) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del",
-      "poster": "https://image.tmdb.org/t/p/w1280/jTab4cf4X1dJJVS4F8UOGuesvPd.jpg",
+      "year": "2019",
+      "genre": "cine de crímenes, drama, comedia dramática",
+      "rating": 6.5,
+      "duration": "110 min",
+      "poster": "https://image.tmdb.org/t/p/w500/mCTvhb6XfOQIXOI04OE9zjMqT1U.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/jTab4cf4X1dJJVS4F8UOGuesvPd.jpg",
+      "categories": [
+        "populares",
+        "comedia",
+        "drama"
+      ],
+      "tmdbId": 540901,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
