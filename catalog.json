@@ -7912,16 +7912,25 @@
     {
       "id": "538134ed2bcc4cb6a56aa426d0888a96",
       "title": "Un gallo con muchos huevos",
-      "year": "2015",
-      "tmdb_id": 264419,
-      "imdb_id": "tt4643580",
-      "genre": "película infantil, cine de fantasía",
+      "plot": "Toto es un pequeño pollito que ha nacido en un rancho muy bonito y con mucha tranquilidad. Después de que pase un tiempo, Toto se convertirá en un joven gallito, dispuesto a comerse el mundo. Un ranchero malvado y muy ambicioso conseguirá engañar a la dueña del rancho donde vive, para que la señora apueste su propiedad como premio, la disputa se arreglará con una pelea de gallos. La ranchera solamente tendrá como última esperanza a Toto, teniendo que entrenarse duramente para poder vencer al gallo más peligroso y violento de todos.",
       "cast": "Bruno Bichir, Maite Perroni, Omar Chaparro, Ninel Conde, Carlos Espejel, Sergio Sendel, Angélica Vale, Zachary Gordon, Amber Montana, Jon Heder, Alyson Stoner",
       "director": "Gabriel Riva Palacio Alatriste, Melanie Simka, Rodolfo Riva Palacio Alatriste",
+      "writer": "Gabriel Riva Palacio Alatriste",
+      "releaseDate": "2015-09-04",
+      "year": "2015",
+      "genre": "película infantil, cine de fantasía",
+      "rating": 7,
       "duration": "97 min",
-      "releaseDate": "2015-00-00",
-      "plot": "Vive la historia de Un gallo con muchos huevos (2015) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del",
-      "poster": "https://image.tmdb.org/t/p/w1280/Ant957vTnlFwOvyLdCu0OKrPCe1.jpg",
+      "poster": "https://image.tmdb.org/t/p/w500/eEqfi9fbsqHMJd78g4tawtIhc8n.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/Ant957vTnlFwOvyLdCu0OKrPCe1.jpg",
+      "categories": [
+        "comedia",
+        "aventura",
+        "infantil",
+        "familia"
+      ],
+      "tmdbId": 264419,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
