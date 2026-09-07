@@ -12917,6 +12917,134 @@
           ]
         }
       ]
+    },
+    {
+      "id": "b1cef487ea1f4b4cbbf9bba72866f3b5",
+      "title": "Emily en París - Temporada 4",
+      "year": "2024",
+      "tmdb_id": 82596,
+      "imdb_id": "tt8962124",
+      "genre": "comedia dramática, romance televisivo",
+      "cast": "Lily Collins, Ashley Park, Camille Razat, Samuel Arnold, Kate Walsh, Philippine Leroy-Beaulieu, William Abadie, Lucas Bravo, Jean-Christophe Bouvet, Yohan Lévy, Maud Denis, Elizabeth Tan",
+      "plot": "Vive la historia de Emily en París - Temporada 4 (2024) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes",
+      "poster": "https://image.tmdb.org/t/p/w1280/jXTZaHarR9TZiMoQwiQWsGYXqnS.jpg",
+      "seasons": [
+        {
+          "number": 4,
+          "episodes": [
+            {
+              "number": 1,
+              "title": "Capítulo 1",
+              "servers": [
+                {
+                  "name": "Barmonrey",
+                  "url": "https://barmonrey.com/player/QrG5iUxpqYxIctl/",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 2,
+              "title": "Capítulo 2",
+              "servers": [
+                {
+                  "name": "Barmonrey",
+                  "url": "https://barmonrey.com/player/AyteoLmvnZgrM6y/",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 3,
+              "title": "Capítulo 3",
+              "servers": [
+                {
+                  "name": "Barmonrey",
+                  "url": "https://barmonrey.com/player/9DafPojk1nLl6Pa/",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 4,
+              "title": "Capítulo 4",
+              "servers": [
+                {
+                  "name": "Barmonrey",
+                  "url": "https://barmonrey.com/player/0YVAnOo3UWDz5Ej/",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 5,
+              "title": "Capítulo 5",
+              "servers": [
+                {
+                  "name": "Barmonrey",
+                  "url": "https://barmonrey.com/player/odJ9hkRWUWOJ0LW/",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 6,
+              "title": "Capítulo 6",
+              "servers": [
+                {
+                  "name": "Barmonrey",
+                  "url": "https://barmonrey.com/player/Pza5B8RYNZkUrA8/",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 7,
+              "title": "Capítulo 7",
+              "servers": [
+                {
+                  "name": "Barmonrey",
+                  "url": "https://barmonrey.com/player/d3ba5MepyW5CIu0/",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 8,
+              "title": "Capítulo 8",
+              "servers": [
+                {
+                  "name": "Barmonrey",
+                  "url": "https://barmonrey.com/player/1MFlarimOAFoyZv/",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 9,
+              "title": "Capítulo 9",
+              "servers": [
+                {
+                  "name": "Barmonrey",
+                  "url": "https://barmonrey.com/player/TaY0c9zoLqxOVf7/",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 10,
+              "title": "Capítulo 10",
+              "servers": [
+                {
+                  "name": "Barmonrey",
+                  "url": "https://barmonrey.com/player/9RpZMrdk3vUbRGq/",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ],
   "sources": [],
