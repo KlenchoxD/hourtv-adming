@@ -9361,16 +9361,26 @@
     {
       "id": "a5b2cec1f6d043c1a5aec55aff70ca32",
       "title": "Aladdín",
-      "year": "2019",
-      "tmdb_id": 812,
-      "imdb_id": "tt0103639",
-      "genre": "cine musical, comedia fantástica, película de cuento de hadas",
+      "plot": "Aladdin es un adorable pero desafortunado ladronzuelo enamorado de la hija del Sultán, la princesa Jasmine. Para intentar conquistarla, acepta el desafío de Jafar, que consiste en entrar a una cueva en mitad del desierto para dar con una lámpara mágica que le concederá todos sus deseos. Allí es donde Aladdín conocerá al Genio, dando inicio a una aventura como nunca antes había imaginado.",
+      "cast": "Mena Massoud, Will Smith, Naomi Scott, Marwan Kenzari, Navid Negahban, Nasim Pedrad, Billy Magnussen, Numan Acar, Jordan A. Nash, Taliyah Blair, Aubrey Lin, Amir Boutrous, Omari Bernard, Nathaniel Ellul, Sebastien Torkia, Buckso Dhillon-Woolley, Ceara Batson, Vinani Mwazanzale, Demii Lee Walker, Elena Zacharia, Nazerene Williams, Bessy Naidu, Marisha Wallace, Maya Saroya, Amar Chadha-Patel, Omar Abidi, Stefan Kalipha, Firas Waleed Al-Taybeh, Nina Wadia, Elif Knight",
       "director": "John Musker, Ron Clements",
       "writer": "John Musker, Ron Clements, Terry Rossio, Ted Elliott",
-      "duration": "91 min",
       "releaseDate": "1992-11-25",
-      "plot": "Vive la historia de Aladdín (2019) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/rVqY0Bo4Npf6EIONUROxjYAJfmD.jpg",
+      "year": "2019",
+      "genre": "cine musical, comedia fantástica, película de cuento de hadas",
+      "rating": 7.1,
+      "duration": "91 min",
+      "poster": "https://image.tmdb.org/t/p/w500/trnyoKkkvvjZvRvCMrNDtSf25nH.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/rVqY0Bo4Npf6EIONUROxjYAJfmD.jpg",
+      "categories": [
+        "populares",
+        "romance",
+        "aventura",
+        "familia",
+        "fantasía"
+      ],
+      "tmdbId": 420817,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
