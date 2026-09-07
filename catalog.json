@@ -8786,17 +8786,24 @@
     {
       "id": "7cdc752c55344da49ba5293a3854df52",
       "title": "Flora y Ulises",
-      "year": "2021",
-      "tmdb_id": 621876,
-      "imdb_id": "tt8521736",
-      "genre": "película infantil, cine de comedia, comedia dramática, cine de superhéroes",
+      "plot": "Flora, fan de los comics, salva a una ardilla cuyos poderes traen esperanza y alegría a su familia.",
       "cast": "Matilda Lawler, Ben Schwartz, Alyson Hannigan, Benjamin Evan Ainsworth, Danny Pudi, Anna Deavere Smith, Janeane Garofalo, Kate Micucci",
       "director": "Lena Khan",
       "writer": "Brad Copeland",
-      "duration": "95 min",
       "releaseDate": "2021-02-19",
-      "plot": "Vive la historia de Flora y Ulises (2021) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/tHjoTxM4SMgazi3Y2X8mmAtONVL.jpg",
+      "year": "2021",
+      "genre": "película infantil, cine de comedia, comedia dramática, cine de superhéroes",
+      "rating": 6.5,
+      "duration": "95 min",
+      "poster": "https://image.tmdb.org/t/p/w500/ehesNeYjfTkkJgIYbKKrWcqY2fA.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/tHjoTxM4SMgazi3Y2X8mmAtONVL.jpg",
+      "categories": [
+        "comedia",
+        "familia",
+        "fantasía"
+      ],
+      "tmdbId": 621876,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
