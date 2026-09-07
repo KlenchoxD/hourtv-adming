@@ -6645,17 +6645,24 @@
     {
       "id": "123f45209b0f493cb29ed11145d353f5",
       "title": "La sustancia",
-      "year": "2024",
-      "tmdb_id": 933260,
-      "imdb_id": "tt17526714",
-      "genre": "science fiction horror film, drama, body horror film, cine satírico, cine de suspenso, Suspenso psicológico, cine de terror, cine de ciencia ficción",
+      "plot": "'Tú, pero mejor en todos los sentidos'. Esa es la promesa de la sustancia, un producto revolucionario basado en la división celular, que crea un alter ego más joven, más bello, más perfecto.",
       "cast": "Demi Moore, Margaret Qualley, Dennis Quaid, Hugo Diego Garcia, Pepe Balderrama, Christian Erickson, Oscar Lesage, Vincent Colombe, Matthew Géczy, Robin Greer, Akil Wingate",
       "director": "Coralie Fargeat",
       "writer": "Coralie Fargeat",
-      "duration": "141 min",
       "releaseDate": "2024-05-19",
-      "plot": "Vive la historia de La sustancia (2024) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/bVSOgrxasVJF6V71T7v2KfBRSzu.jpg",
+      "year": "2024",
+      "genre": "science fiction horror film, drama, body horror film, cine satírico, cine de suspenso, Suspenso psicológico, cine de terror, cine de ciencia ficción",
+      "rating": 7.1,
+      "duration": "141 min",
+      "poster": "https://image.tmdb.org/t/p/w500/4cJyrYA7I29QabrQ0S89N1iWUV2.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/bVSOgrxasVJF6V71T7v2KfBRSzu.jpg",
+      "categories": [
+        "populares",
+        "terror",
+        "aventura"
+      ],
+      "tmdbId": 933260,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
