@@ -7152,15 +7152,23 @@
     {
       "id": "9fce3600661048d492f4fe30b2dbdc02",
       "title": "Zoey 102",
-      "year": "2023",
-      "tmdb_id": 1073170,
-      "imdb_id": "tt26217622",
-      "genre": "cine de comedia, drama",
+      "plot": "Zoey Brooks y el resto de los exalumnos de Pacific Coast Academy, después de varios años, se ponen al día para asistir a una boda.",
       "cast": "Jamie Lynn Spears, Erin Sanders, Matthew Underwood, Christopher Masseyp, Abby Wilde, Dean Geyer, Thomas Lennon, Lynn Wanlass",
       "director": "Nancy Hower",
+      "writer": "Madeline Whitby",
       "releaseDate": "2023-07-27",
-      "plot": "Vive la historia de Zoey 102 (2023) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/tXkIqZL1GnDymT1M8WMXfLzC1qa.jpg",
+      "year": "2023",
+      "genre": "cine de comedia, drama",
+      "rating": 6.9,
+      "duration": "101 min",
+      "poster": "https://image.tmdb.org/t/p/w500/mxFm0bmZ35vTZAmy9Ph1fNsnH3Y.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/tXkIqZL1GnDymT1M8WMXfLzC1qa.jpg",
+      "categories": [
+        "comedia",
+        "romance"
+      ],
+      "tmdbId": 1073170,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
