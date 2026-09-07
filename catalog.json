@@ -13085,6 +13085,121 @@
               ]
             }
           ]
+        },
+        {
+          "number": 1,
+          "episodes": [
+            {
+              "number": 1,
+              "title": "Capítulo 1",
+              "servers": [
+                {
+                  "name": "Barmonrey",
+                  "url": "https://barmonrey.com/player/0ZU46vml7aGbCSA/",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 2,
+              "title": "Capítulo 2",
+              "servers": [
+                {
+                  "name": "Barmonrey",
+                  "url": "https://barmonrey.com/player/xq5lllxW5tLGjvE/",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 3,
+              "title": "Capítulo 3",
+              "servers": [
+                {
+                  "name": "Barmonrey",
+                  "url": "https://barmonrey.com/player/AdFQlQpTZYhlo45/",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 4,
+              "title": "Capítulo 4",
+              "servers": [
+                {
+                  "name": "Barmonrey",
+                  "url": "https://barmonrey.com/player/cJbr96Vp35j6SYv/",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 5,
+              "title": "Capítulo 5",
+              "servers": [
+                {
+                  "name": "Barmonrey",
+                  "url": "https://barmonrey.com/player/Fmxz44KBtBaQoOb/",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 6,
+              "title": "Capítulo 6",
+              "servers": [
+                {
+                  "name": "Barmonrey",
+                  "url": "https://barmonrey.com/player/ZIQS2LaztCVAMgT/",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 7,
+              "title": "Capítulo 7",
+              "servers": [
+                {
+                  "name": "Barmonrey",
+                  "url": "https://barmonrey.com/player/60Pz0DtbVWMEtOb/",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 8,
+              "title": "Capítulo 8",
+              "servers": [
+                {
+                  "name": "Barmonrey",
+                  "url": "https://barmonrey.com/player/9PpzBZXK9hoHSj3/",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 9,
+              "title": "Capítulo 9",
+              "servers": [
+                {
+                  "name": "Barmonrey",
+                  "url": "https://barmonrey.com/player/NptiAkMlF4fLlqT/",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 10,
+              "title": "Capítulo 10",
+              "servers": [
+                {
+                  "name": "Barmonrey",
+                  "url": "https://barmonrey.com/player/nt573j5pQOhiQb0/",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            }
+          ]
         }
       ]
     }
