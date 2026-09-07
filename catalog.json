@@ -8209,14 +8209,25 @@
     {
       "id": "a70a9d43713849c781056ebc626e8e99",
       "title": "Los ángeles de Charlie",
-      "year": "2000",
-      "tmdb_id": 3382,
-      "imdb_id": "tt0073972",
-      "genre": "serie de televisión policíaca, drama televisivo, serie de acción",
+      "plot": "Una peculiar agencia de detectives dirigida por el multimillonario Charlie tiene en sus filas a Natalie (Cameron Diaz), Dylan (Drew Barrymore) y Alex (Lucy Liu), tres expertas en artes marciales, en disfraces y en la más avanzada tecnología. Juntas tendrán que ocuparse de un caso muy importante: el secuestro del genio de la informática Eric Knox (Sam Rockwell) por su rival Roger Corwin (Tim Curry). Si no consiguen liberarlo, quedaría destruida la intimidad de todo el mundo, incluido Charlie, su misterioso jefe.",
       "cast": "Farrah Fawcett, Kate Jackson, Jaclyn Smith, Cheryl Ladd, Tanya Roberts, David Doyle",
+      "director": "McG",
+      "writer": "Ed Solomon",
+      "releaseDate": "2000-11-02",
+      "year": "2000",
+      "genre": "serie de televisión policíaca, drama televisivo, serie de acción",
+      "rating": 5.9,
       "duration": "45 min",
-      "plot": "Vive la historia de Los ángeles de Charlie (2000) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/oq3IOr7QvEmei0eXsXacqaMPqlV.jpg",
+      "poster": "https://image.tmdb.org/t/p/w500/1RAj8zEuVVh5YZuRwJ4yqdC2LFM.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/oq3IOr7QvEmei0eXsXacqaMPqlV.jpg",
+      "categories": [
+        "populares",
+        "accion",
+        "comedia",
+        "aventura"
+      ],
+      "tmdbId": 4327,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
