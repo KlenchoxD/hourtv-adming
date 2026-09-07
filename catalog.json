@@ -7947,15 +7947,24 @@
     {
       "id": "6c406d6316d94a23ad3500de8ac1ce12",
       "title": "Una película de huevos",
-      "year": "2006",
-      "tmdb_id": 16761,
-      "imdb_id": "tt0824696",
-      "genre": "cine de comedia",
+      "plot": "Un pequeño huevo llamado Toto decide que quiere cumplir su propósito en la vida y convertirse en un pollo en lugar de morir en un sartén; por lo que comienza una búsqueda para regresar a las granjas junto con su nuevo amigo, el ruidoso huevo Willy y un tocino. Los tres amigos enfrentarán muchos obstáculos en su búsqueda.",
+      "cast": "Bruno Bichir, Carlos Espejel, Angélica Vale, Rodolfo Riva Palacio Alatriste, Gabriel Riva Palacio Alatriste, Humberto Vélez, Blas García, Rubén Moya, Enzo Fortuny, Mario Filio, Gaby Torres, Carlos Cobos, Irwin Daayan, Fernando Meza, Joana Brito, Armando Coria, Sandra Coria, Mitzi Corona, Erick Morales, Claudio Velázquez, Irving Corona, Iván Filio, Mario Filio, Humberto Espinoza, Alejandra Estrada, Maria Santander, Francisco Arriagada, Lulú Morán, Miguel Guerrero, Charles Oppenheim",
       "director": "Rodolfo Riva Palacio Alatriste, Gabriel Riva Palacio Alatriste",
-      "duration": "90 min",
+      "writer": "Rodolfo Riva Palacio Alatriste",
       "releaseDate": "2006-01-01",
-      "plot": "Vive la historia de Una película de huevos (2006) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/bdo313RjHEymI0W5tKYBKE54Las.jpg",
+      "year": "2006",
+      "genre": "cine de comedia",
+      "rating": 7.9,
+      "duration": "90 min",
+      "poster": "https://image.tmdb.org/t/p/w500/nOpKmdBFxUBcB9XS8dEi78UZMWd.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/bdo313RjHEymI0W5tKYBKE54Las.jpg",
+      "categories": [
+        "comedia",
+        "infantil",
+        "familia"
+      ],
+      "tmdbId": 16761,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
