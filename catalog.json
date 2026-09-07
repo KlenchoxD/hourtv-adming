@@ -6733,17 +6733,24 @@
     {
       "id": "55b107c959c745c29db80bbc50022d2c",
       "title": "Vicky Cristina Barcelona",
-      "year": "2008",
-      "tmdb_id": 5038,
-      "imdb_id": "tt0497465",
-      "genre": "drama, cine LGBT, comedia dramática, comedia romántica",
+      "plot": "Dos jóvenes norteamericanas, Vicky (Rebecca Hall) y Cristina (Scarlett Johansson) van a Barcelona a pasar unas vacaciones de verano. Vicky es sensible, racional y tiene intención de casarse; Cristina es emocional y busca aventuras emocionantes; no sabe lo que quiere, sólo sabe lo que no quiere. En Barcelona, ambas se ven envueltas en una relación poco convencional con Juan Antonio (Javier Bardem), un carismático pintor vinculado emocionalmente a su tempestuosa ex-mujer, María Elena (Penélope Cruz).",
       "cast": "Javier Bardem, Penélope Cruz, Patricia Clarkson, Chris Messina, Kevin Dunn, Pablo Schreiber, Carrie Preston, Abel Folk, Zak Orth, Rebecca Hall, Lluís Homar",
       "director": "Woody Allen",
       "writer": "Woody Allen",
-      "duration": "96 min",
       "releaseDate": "2008-01-01",
-      "plot": "Vive la historia de Vicky Cristina Barcelona (2008) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del",
-      "poster": "https://image.tmdb.org/t/p/w1280/uU7Ctqx6V27BXWhWgxcnFWaYYHz.jpg",
+      "year": "2008",
+      "genre": "drama, cine LGBT, comedia dramática, comedia romántica",
+      "rating": 6.8,
+      "duration": "96 min",
+      "poster": "https://image.tmdb.org/t/p/w500/ekAIg0GSbbHTH7y1GPgWj0brLTW.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/uU7Ctqx6V27BXWhWgxcnFWaYYHz.jpg",
+      "categories": [
+        "populares",
+        "romance",
+        "drama"
+      ],
+      "tmdbId": 5038,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
