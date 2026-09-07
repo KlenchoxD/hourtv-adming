@@ -8178,16 +8178,26 @@
     },
     {
       "id": "1fdd0610b184482983298de18eef97b2",
-      "title": "Los ángeles de Charlie: Al límite",
-      "plot": "Vive la historia de Los ángeles de Charlie: Al límite (2003) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los",
+      "title": "Los ángeles de Charlie. Al límite",
+      "plot": "Las tres agentes están de vuelta; Los ángeles están dispuestas a dar guerra para recuperar una información encriptada en dos anillos, que revela las identidades de todas las personas acogidas al programa de protección de testigos. Cuando éstos empiezan a morir, sólo las intrépidas chicas podrán detener al responsable, usando su experiencia en el camuflaje, espionaje y artes marciales. Además se las tendrán que ver con un ángel caído –Demi Moore–.",
       "cast": "Cameron Diaz, Drew Barrymore, Lucy Liu, Bernie Mac, Crispin Glover, Justin Theroux, Robert Patrick, Demi Moore, John Cleese, Luke Wilson, Matt LeBlanc, Rodrigo Santoro",
       "director": "Joseph McGinty Nichol",
       "writer": "John August, Cormac Wibberley, Marianne Wibberley",
       "releaseDate": "2003-07-10",
       "year": "2003",
       "genre": "cine de acción, buddy film femenino, cine de comedia, cine de artes marciales, cine de aventuras",
+      "rating": 5.5,
       "duration": "106 min",
-      "poster": "https://image.tmdb.org/t/p/w1280/rS3QJdsCPyhhQ0mJEr8VirNmOMm.jpg",
+      "poster": "https://image.tmdb.org/t/p/w500/woxOlfat4hqW56I9eeZpPuY6H5z.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/rS3QJdsCPyhhQ0mJEr8VirNmOMm.jpg",
+      "categories": [
+        "populares",
+        "accion",
+        "comedia",
+        "aventura"
+      ],
+      "tmdbId": 9471,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
