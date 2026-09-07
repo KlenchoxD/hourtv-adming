@@ -9148,6 +9148,38 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "c96c91dbd972436aba9845f9f4c95960",
+      "title": "Pokémon: Detective Pikachu",
+      "year": "2019",
+      "tmdb_id": 447404,
+      "imdb_id": "tt5884052",
+      "genre": "película animada / de acción en vivo, cine de misterio, cine de fantasía, cine de aventuras, cine de ciencia ficción, cine de acción, cine adolescente, cine familiar",
+      "cast": "Justice Smith, Ryan Reynolds, Kathryn Newton, Ken Watanabe, Bill Nighy, Suki Waterhouse, Chris Geere",
+      "director": "Rob Letterman",
+      "writer": "Dan Hernandez, Benji Samit",
+      "duration": "104 min",
+      "releaseDate": "2019-05-10",
+      "plot": "Vive la historia de Pokémon: Detective Pikachu (2019) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del",
+      "poster": "https://image.tmdb.org/t/p/w1280/yXybBEC45p84D0Ky7GmQQYrclVr.jpg",
+      "servers": [
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/Y6R7DUxiKFZ1T4q/",
+          "language": "Idioma sin identificar"
+        },
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/gaZDU6RZPKj115V/",
+          "language": "Idioma sin identificar"
+        },
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/BdmAHhkicOIjkBM/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
