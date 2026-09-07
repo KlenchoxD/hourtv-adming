@@ -9299,18 +9299,25 @@
     },
     {
       "id": "961a61d0146048edb9e140de907e98ee",
-      "title": "Dora y la Ciudad Perdida",
-      "year": "2019",
-      "tmdb_id": 499701,
-      "imdb_id": "tt7547410",
-      "genre": "cine de aventuras, cine de acción, cine de comedia, cine de fantasía, película cómica de fantasía, cine de misterio, cine familiar, cine de caza de tesoro",
+      "title": "Dora y la ciudad perdida",
+      "plot": "Tras haber pasado la mayor parte de su vida explorando la jungla junto a sus padres, nada podría haber preparado a Dora para la aventura más peligrosa a la que jamás se ha enfrentado: ¡el instituto!. Exploradora hasta el final, Dora no tarda en ponerse al frente de un equipo formado por Botas (su mejor amigo, un mono), Diego, un misterioso habitante de la jungla y un desorganizado grupo de adolescentes en una aventura en la que deberán salvar a sus padres y resolver el misterio oculto tras una ciudad perdida de oro.",
       "cast": "Isabela Merced, Eugenio Derbez, Temuera Morrison, Eva Longoria, Q'orianka Kilcher, Michael Peña, Benicio del Toro, Adriana Barraza, Christopher Kirby, Isela Vega, Jeff Wahlberg",
       "director": "James Bobin",
       "writer": "Nicholas Stoller, Matthew Robinson",
-      "duration": "102 min",
       "releaseDate": "2019-08-02",
-      "plot": "Vive la historia de Dora y la Ciudad Perdida (2019) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del",
-      "poster": "https://image.tmdb.org/t/p/w1280/ltt9yiCGmCQZunmxtkhtPxzmDzx.jpg",
+      "year": "2019",
+      "genre": "cine de aventuras, cine de acción, cine de comedia, cine de fantasía, película cómica de fantasía, cine de misterio, cine familiar, cine de caza de tesoro",
+      "rating": 6.6,
+      "duration": "102 min",
+      "poster": "https://image.tmdb.org/t/p/w500/zFzRbVWduN0qewAjLJEKlNvMunt.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/ltt9yiCGmCQZunmxtkhtPxzmDzx.jpg",
+      "categories": [
+        "comedia",
+        "aventura",
+        "familia"
+      ],
+      "tmdbId": 499701,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
