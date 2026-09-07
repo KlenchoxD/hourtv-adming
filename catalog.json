@@ -9805,6 +9805,28 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "1b1dbc2a643b4375aedf767e25892f5d",
+      "title": "Los Pitufos 2",
+      "year": "2013",
+      "tmdb_id": 77931,
+      "imdb_id": "tt2017020",
+      "genre": "cine de fantasía, cine de comedia, película infantil, cine familiar, película animada / de acción en vivo",
+      "cast": "Neil Patrick Harris, Jayma Mays, Hank Azaria, Brendan Gleeson, Nancy O'Dell, Mylène Dinh-Robic, Bruno Paviot, Beatrice Rosen, Youssef Hajdi, Jacob Tremblay, Anton Yelchin, Jonathan Winters",
+      "director": "Raja Gosnell",
+      "writer": "David N. Weiss, Karey Kirkpatrick, J. David Stem",
+      "duration": "105 min",
+      "releaseDate": "2013-01-01",
+      "plot": "Vive la historia de Los Pitufos 2 (2013) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
+      "poster": "https://image.tmdb.org/t/p/w1280/aIyvMthA7UGV6ix6AUUM88ZXfeU.jpg",
+      "servers": [
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/U5R6flX9PcDRYEp/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
