@@ -9464,17 +9464,23 @@
     {
       "id": "5be3f83a489047f9ad89925eaf50e5c2",
       "title": "Sobreviviendo a la Navidad",
-      "year": "2004",
-      "tmdb_id": 15566,
-      "imdb_id": "tt0252028",
-      "genre": "cine de comedia, cine navideño, comedia romántica",
+      "plot": "Consciente de que le espera otra Navidad solo, el rico ejecutivo Drew Latham (Ben Affleck) decide regresar a la idílica casa de su infancia para recordar la época navideña con su familia. El único problema es que las personas que ahora viven en la casa no son la familia de Drew. Decidido a disfrutar de unas fiestas navideñas a la vieja usanza, soborna a sus nuevos \"padres\" dándoles una pequeña fortuna con la condición de que le dejen pasar las fiestas en su casa y finjan que es su hijo. Cuando los Valco ya empiezan a preguntarse si hay dinero suficiente para aguantar a Drew y su idea de cómo debe ser la Navidad, su auténtica hija, Alicia, vuelve a casa nada dispuesta a adoptar al nuevo \"hermano\".",
       "cast": "Ben Affleck, James Gandolfini, Christina Applegate, Catherine O'Hara, Josh Zuckerman, Bill Macy, Jennifer Morrison, Udo Kier, David Selby, Stephanie Faracy, Stephen Root, Phill Lewis",
       "director": "Mike Mitchell",
       "writer": "Deborah Kaplan, Harry Elfont, Jennifer Ventimilia, Joshua Sternin",
-      "duration": "91 min",
       "releaseDate": "2004-12-16",
-      "plot": "Vive la historia de Sobreviviendo a la Navidad (2004) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del",
-      "poster": "https://image.tmdb.org/t/p/w1280/7aRm8GSxrPhJK671kVADYgmJy7w.jpg",
+      "year": "2004",
+      "genre": "cine de comedia, cine navideño, comedia romántica",
+      "rating": 5.7,
+      "duration": "91 min",
+      "poster": "https://image.tmdb.org/t/p/w500/eCfZl8fByChUZkIdpXWjgtXnvMR.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/7aRm8GSxrPhJK671kVADYgmJy7w.jpg",
+      "categories": [
+        "comedia",
+        "romance"
+      ],
+      "tmdbId": 15566,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
