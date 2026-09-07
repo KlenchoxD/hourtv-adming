@@ -9787,17 +9787,26 @@
     {
       "id": "9fabf4e629e34835aa88a6071f1a6a79",
       "title": "Stuart Little",
-      "year": "1999",
-      "tmdb_id": 10137,
-      "imdb_id": "tt0164912",
-      "genre": "cine de comedia, cine familiar",
+      "plot": "Un día la familia Little adopta a Stuart, un pequeño ratón al que tratan como si fuera un hijo. Los Little están encantados con la manera de ser de Stuart, pero George, su hijo mayor, no sabe qué hacer con su \"nuevo hermano\". Por su parte, Snowbell, el gato de la familia, urde un plan para echar a Stuart de casa para siempre.",
       "cast": "Geena Davis, Hugh Laurie, Jonathan Lipnicki, Julia Sweeney, David Alan Grier, Estelle Getty, Allyce Beasley, Connie Ray, Jeffrey Jones, Stan Freberg, Jon Polito, Kimmy Robertson",
       "director": "Rob Minkoff",
       "writer": "M. Night Shyamalan, Greg Brooker, E. B. White",
-      "duration": "84 min",
       "releaseDate": "1999-12-17",
-      "plot": "Vive la historia de Stuart Little (1999) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/dECKGAenue36W50HYhd3Jh1OJs.jpg",
+      "year": "1999",
+      "genre": "cine de comedia, cine familiar",
+      "rating": 6.1,
+      "duration": "84 min",
+      "poster": "https://image.tmdb.org/t/p/w500/wFcrKqCdQRQxZCkBILhX949lXo2.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/eDN9AA0IkGuuQKuINFvENisI79t.jpg",
+      "categories": [
+        "populares",
+        "comedia",
+        "aventura",
+        "familia",
+        "fantasía"
+      ],
+      "tmdbId": 10137,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
