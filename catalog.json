@@ -9629,18 +9629,25 @@
     },
     {
       "id": "c5a99da1cdd541b286df427aa75bc65e",
-      "title": "Notas Perfectas 3",
-      "year": "2017",
-      "tmdb_id": 353616,
-      "imdb_id": "tt4765284",
-      "genre": "cine musical",
+      "title": "Dando la nota 3",
+      "plot": "Tras ganar el campeonato del mundo, las Bellas se separan y descubren que es difícil encontrar trabajo en el mundo de la música. Pero cuando tienen la oportunidad de reunirse para una gira por el extranjero, el grupo volverá a cantar y a tomar algunas decisiones dudosas.",
       "cast": "Anna Kendrick, Rebel Wilson, Hailee Steinfeld, Brittany Snow, Anna Camp, John Lithgow, Hana Mae Lee, Ruby Rose, Alexis Knapp, Chrissie Fit, Ester Dean",
       "director": "Trish Sie",
       "writer": "Kay Cannon",
-      "duration": "93 min",
       "releaseDate": "2017-12-21",
-      "plot": "Vive la historia de Notas Perfectas 3 (2017) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/AuKCLmUmdzhXPdaTaR8BMxc5Rv6.jpg",
+      "year": "2017",
+      "genre": "cine musical",
+      "rating": 6.5,
+      "duration": "93 min",
+      "poster": "https://image.tmdb.org/t/p/w500/89dF7dFHlVlMMcTp0TXQW7fGAIj.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/AuKCLmUmdzhXPdaTaR8BMxc5Rv6.jpg",
+      "categories": [
+        "populares",
+        "comedia",
+        "música"
+      ],
+      "tmdbId": 353616,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
