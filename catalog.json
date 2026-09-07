@@ -9701,12 +9701,24 @@
     {
       "id": "82d9092c1a774bd9b638f38b7202ca03",
       "title": "Turbo",
+      "plot": "Turbo es un caracol de jardín con un sueño imposible: convertirse en el caracol más rápido del mundo. Cuando un extraño accidente le da el poder de la súper-velocidad, Turbo intentará cumplir su sueño. Primero se hará amigo de una peculiar pandilla de caracoles callejeros tuneados y obsesionados con la velocidad, y allí Turbo aprenderá que nadie llega a tener éxito por sí solo. Así que coloca su corazón y su concha en la línea de salida dispuesto a ayudar a sus colegas a lograr sus sueños, antes de intentar alcanzar su sueño imposible: ganar las 500 millas de Indianápolis.",
+      "cast": "Ryan Reynolds, Paul Giamatti, Michael Peña, Samuel L. Jackson, Luis Guzmán, Bill Hader, Snoop Dogg, Maya Rudolph, Ben Schwartz, Richard Jenkins, Ken Jeong, Michelle Rodríguez, Mike Bell, Mario Andretti, Aidan Andrews, Aaron Berger, Jen Cohn, Ryan Crego, Rich Dietl, Paul Dooley, Derek Drymon, Susan Fitzer, Dario Franchitti, Brian Hopkins, Joseph Izzo, Gordon James, Andrea Montana Knoll, Chris Miller, Latifa Ouaou, Paul Page",
+      "director": "David Soren",
+      "writer": "Robert D. Siegel",
+      "releaseDate": "2013-07-11",
       "year": "2013",
-      "tmdb_id": 63157,
-      "imdb_id": "tt3010520",
       "genre": "telecomedia",
-      "plot": "Vive la historia de Turbo (2013) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/3qfiZd8ETMk9MQsmhbOB5QAAx0l.jpg",
+      "rating": 6.3,
+      "duration": "95 min",
+      "poster": "https://image.tmdb.org/t/p/w500/lDARMqluCrWaFgybY9KHLY96L3n.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/3qfiZd8ETMk9MQsmhbOB5QAAx0l.jpg",
+      "categories": [
+        "populares",
+        "infantil",
+        "familia"
+      ],
+      "tmdbId": 77950,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
