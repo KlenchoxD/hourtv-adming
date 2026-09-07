@@ -6702,18 +6702,25 @@
     },
     {
       "id": "75201ee68e4b4841a63ac2489ef1ce1b",
-      "title": "Beetlejuice",
-      "year": "1988",
-      "tmdb_id": 4011,
-      "imdb_id": "tt0094721",
-      "genre": "comedia de terror, cine de fantasía, cine de fantasmas, cine gótico, fantasía oscura",
+      "title": "Bitelchús Bitelchús",
+      "plot": "Tras una inesperada tragedia familiar, tres generaciones de la familia Deetz regresan a Winter River. La vida de Lydia, todavía atormentada por Bitelchús, da un vuelco cuando su rebelde hija adolescente, Astrid, descubre la misteriosa maqueta de la ciudad en el desván y el portal al Más Allá se abre accidentalmente. Con los problemas que se avecinan en ambos reinos, es sólo cuestión de tiempo que alguien diga el nombre de Bitelchús tres veces y el travieso demonio regrese para desatar su propio caos.",
       "cast": "Michael Keaton, Alec Baldwin, Geena Davis, Jeffrey Jones, Catherine O'Hara, Winona Ryder, Glenn Shadix, Sylvia Sidney, Robert Goulet, Tony Cox, Annie McEnroe, Dick Cavett",
       "director": "Tim Burton",
       "writer": "Michael McDowell, Warren Skaaren, Larry Wilson",
-      "duration": "92 min",
       "releaseDate": "1988-03-29",
-      "plot": "Vive la historia de Beetlejuice (1988) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/yRKyJJYIzfeiVDHBe4LXguPQCvD.jpg",
+      "year": "1988",
+      "genre": "comedia de terror, cine de fantasía, cine de fantasmas, cine gótico, fantasía oscura",
+      "rating": 6.9,
+      "duration": "92 min",
+      "poster": "https://image.tmdb.org/t/p/w500/kWJw7dCWHcfMLr0irTHAPIKrJ4I.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/kF8ljC7Y4p1UsmKBi2LxelZpqw.jpg",
+      "categories": [
+        "populares",
+        "comedia",
+        "fantasía"
+      ],
+      "tmdbId": 917496,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
