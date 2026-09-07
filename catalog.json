@@ -9462,15 +9462,26 @@
     {
       "id": "c7d0f4fc857a41ee92adbd7cbdd50be2",
       "title": "Kim Possible",
-      "year": "2019",
-      "tmdb_id": 2345,
-      "imdb_id": "tt0278866",
-      "genre": "serie de televisión infantil, aventuras, serie de acción, telecomedia",
+      "plot": "Kim Possible es una chica normal y corriente que se dedica a salvar al mundo en su tiempo libre. Con la ayuda de su mejor amigo, Ron Imparable, pelea contra villanos y hace frente a un sinfín de amenazas.",
+      "cast": "Sadie Stanley, Sean Giambrone, Ciara Riley Wilson, Taylor Ortega, Connie Ray, Issac Ryan Brown, Erika Tham, Maxwell Simkins, Christy Carlson Romano, Nancy Cartwright, Patton Oswalt, Todd Stashwick, Alyson Hannigan, Matt Clarke, Owen Fielding, Connor Fielding, Michael P. Northey, Patrick Sabongui, Cedric Ducharme, Kelcey Mawema, Serena Crouse, Karissa Ketter, Julian Nathan Lokash, Nakai Takawira, Aliza Vellani, Javier Lacroix",
       "director": "Steve Loter, Chris Bailey, David Block",
       "writer": "Nicole Dubuc, Mark McCorkle, Eddie Guzelian, Bill Motz",
+      "releaseDate": "2019-02-15",
+      "year": "2019",
+      "genre": "serie de televisión infantil, aventuras, serie de acción, telecomedia",
+      "rating": 5.5,
       "duration": "22 min",
-      "plot": "Vive la historia de Kim Possible (2019) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/oYBs3toQC1Gf3JhX13bQ4tU22YP.jpg",
+      "poster": "https://image.tmdb.org/t/p/w500/2iCzzBa7VfaWC3ihw1H1d6Ft8Wq.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/oYBs3toQC1Gf3JhX13bQ4tU22YP.jpg",
+      "categories": [
+        "accion",
+        "comedia",
+        "aventura",
+        "familia",
+        "película de tv"
+      ],
+      "tmdbId": 520720,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
