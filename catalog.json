@@ -6892,17 +6892,24 @@
     {
       "id": "cb80ba36dcea4de0a946ac8fb226215d",
       "title": "Scooby-Doo: Comienza el misterio",
-      "year": "2009",
-      "tmdb_id": 22620,
-      "imdb_id": "tt1258157",
-      "genre": "cine de misterio, comedia, cine de fantasmas, película animada / de acción en vivo",
+      "plot": "Tercera película con actores reales basada en la serie \"Scooby-Doo\". Esta vez la cinta será una precuela que narrará los orígenes del personaje, cuya trama girará en torno a un perro normal y corriente que se vuelve adicto a la comida y que encima habla y resuelve asesinatos.",
       "cast": "Robbie Amell, Hayley Kiyoko, Frank Welker, Garry Chalk, Kate Melton, Lorena Gale, Nick Palatas, Shawn Macdonald",
       "director": "Brian Levant",
       "writer": "Joseph Barbera, William Hanna",
-      "duration": "86 min",
       "releaseDate": "2009-01-01",
-      "plot": "Vive la historia de Scooby-Doo: Comienza el misterio (2009) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los",
-      "poster": "https://image.tmdb.org/t/p/w1280/cMdzPC7K1FmKNOBMVnqyyfEfxSI.jpg",
+      "year": "2009",
+      "genre": "cine de misterio, comedia, cine de fantasmas, película animada / de acción en vivo",
+      "rating": 6.4,
+      "duration": "86 min",
+      "poster": "https://image.tmdb.org/t/p/w500/yNwINhp3Hu5OPClHFc2wKnETdLJ.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/cMdzPC7K1FmKNOBMVnqyyfEfxSI.jpg",
+      "categories": [
+        "terror",
+        "comedia",
+        "fantasía"
+      ],
+      "tmdbId": 22620,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
