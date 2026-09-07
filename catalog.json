@@ -7209,15 +7209,24 @@
     {
       "id": "52f2def126ac44f890883581036ea923",
       "title": "Beau tiene miedo",
-      "year": "2023",
-      "tmdb_id": 798286,
-      "imdb_id": "tt13521006",
-      "genre": "comedy horror film, cine de aventuras, cine de comedia, drama",
+      "plot": "Beau (Phoenix) es un hombre que tendrá que enfrentarse a sus miedos y paranoias al aventurarse en una épica odisea para llegar a casa de su controladora madre.",
       "cast": "Joaquin Phoenix, Patti LuPone, Amy Ryan, Nathan Lane, Kylie Rogers, Denis Menochet, Parker Posey, Zoe Lister-Jones, Armen Nahapetian, Julia Antonelli, Stephen Henderson, Richard Kind",
-      "duration": "179 min",
+      "director": "Ari Aster",
+      "writer": "Ari Aster",
       "releaseDate": "2023-04-21",
-      "plot": "Vive la historia de Beau tiene miedo (2023) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/atvEgnjjXN5QvFDThXVz4nyU9yi.jpg",
+      "year": "2023",
+      "genre": "comedy horror film, cine de aventuras, cine de comedia, drama",
+      "rating": 6.7,
+      "duration": "179 min",
+      "poster": "https://image.tmdb.org/t/p/w500/6bvITjsMqTcPYQDqiLEkL1SJ27p.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/atvEgnjjXN5QvFDThXVz4nyU9yi.jpg",
+      "categories": [
+        "comedia",
+        "aventura",
+        "fantasía"
+      ],
+      "tmdbId": 798286,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
