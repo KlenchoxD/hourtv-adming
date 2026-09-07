@@ -6990,15 +6990,26 @@
     },
     {
       "id": "7fcb6df8308b4a7aaa43242bb0dc8411",
-      "title": "Profesión peligro",
-      "year": "2024",
-      "tmdb_id": 5031,
-      "imdb_id": "tt0081859",
-      "genre": "serie de acción, aventuras, telecomedia",
+      "title": "El especialista",
+      "plot": "Es un doble de acción, y al igual que todos en la comunidad de especialistas, sale volando, le disparan, se estrella, se tira desde ventanas y cae desde las alturas más extremas, todo para nuestro entretenimiento. Y ahora, tras un accidente que casi acaba con su carrera, este héroe de clase trabajadora debe seguir la pista de una estrella de cine desaparecida, resolver una conspiración y tratar de recuperar el amor de su vida mientras sigue haciendo su trabajo. ¿Qué podría salir bien?",
       "cast": "Lee Majors, Heather Thomas, Markie Post",
+      "director": "David Leitch",
+      "writer": "Drew Pearce",
+      "releaseDate": "2024-04-24",
+      "year": "2024",
+      "genre": "serie de acción, aventuras, telecomedia",
+      "rating": 7,
       "duration": "45 min",
-      "plot": "Vive la historia de Profesión peligro (2024) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/2rjI2uXmjitMAaXVO21r9ao7v2j.jpg",
+      "poster": "https://image.tmdb.org/t/p/w500/A5LijwDVZsupBTL0qKoagMfUiKR.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/2rjI2uXmjitMAaXVO21r9ao7v2j.jpg",
+      "categories": [
+        "populares",
+        "accion",
+        "comedia",
+        "romance"
+      ],
+      "tmdbId": 746036,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
