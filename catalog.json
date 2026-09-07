@@ -8597,18 +8597,24 @@
     },
     {
       "id": "d839d9bfb1eb47babad6a0e14ddc12a3",
-      "title": "Zoolander",
-      "year": "2001",
-      "tmdb_id": 9398,
-      "imdb_id": "tt0196229",
-      "genre": "cine de comedia",
+      "title": "Zoolander (Un descerebrado de moda)",
+      "plot": "Derek Zoolander (Stiller) ha sido el modelo masculino más cotizado durante los últimos 3 años. La noche de la gala que podría suponer su cuarta corona, el galardón se lo lleva un nuevo modelo llamado Hansel (Wilson). Derek queda en entredicho y como un idiota, y decide retirarse. Sin embargo, un prestigioso diseñador le pide que desfile para él.",
       "cast": "Owen Wilson, Will Ferrell, Christine Taylor, Milla Jovovich, Jerry Stiller, David Duchovny, Jon Voight, Ben Stiller, Vince Vaughn, Judah Friedlander, Alexander Skarsgård, Andy Dick",
       "director": "Ben Stiller",
       "writer": "Drake Sather, John Hamburg, Ben Stiller",
-      "duration": "89 min",
       "releaseDate": "2001-09-28",
-      "plot": "Vive la historia de Zoolander (2001) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/lIyyiBOuyokL82rPEDcZaMKleA3.jpg",
+      "year": "2001",
+      "genre": "cine de comedia",
+      "rating": 6.2,
+      "duration": "89 min",
+      "poster": "https://image.tmdb.org/t/p/w500/pOtJyjyCjhOcfBnQG8vIZ6Q2y2A.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/lIyyiBOuyokL82rPEDcZaMKleA3.jpg",
+      "categories": [
+        "populares",
+        "comedia"
+      ],
+      "tmdbId": 9398,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
