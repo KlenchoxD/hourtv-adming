@@ -6796,17 +6796,25 @@
     {
       "id": "520af68bfd514a7e96f8b57fb0bfc1eb",
       "title": "Pequeña Miss Sunshine",
-      "year": "2006",
-      "tmdb_id": 773,
-      "imdb_id": "tt0449059",
-      "genre": "cine de comedia, drama, película de carretera",
+      "plot": "Los Hoover son una familia conflictiva: el abuelo esnifa cocaína y suelta palabrotas, el padre da cursos sobre el éxito con estrepitoso fracaso, la madre no da abasto, el tío se recupera de un suicidio frustrado al ser abandonado por su novio, el hijo adolescente lee a Nietzsche y se niega a hablar, y la hija pequeña, Olive, gafotas y ligeramente gordinflona, quiere ser una belleza. Cuando un golpe de suerte lleva a Olive a ser invitada a participar en el muy competitivo concurso de 'Pequeña Miss Sunshine' en California, toda la familia Hoover se reúne para ir con ella. Se apilan en su oxidada furgoneta Volkswagen y se dirigen hacia el Oeste en un trágicómico periplo de tres días lleno de locas sorpresas que les lleva al gran debut de Olive, el cual cambiará a esta familia de inadaptados de una forma que nunca hubieran imaginado.",
       "cast": "Greg Kinnear, Toni Collette, Steve Carell, Alan Arkin, Abigail Breslin, Paul Dano, Bryan Cranston, Marc Turtletaub, Dean Norris, Wallace Langham, Beth Grant, Mary Lynn Rajskub",
       "director": "Valerie Faris, Jonathan Dayton",
       "writer": "Michael Arndt",
-      "duration": "98 min",
       "releaseDate": "2006-01-20",
-      "plot": "Vive la historia de Pequeña Miss Sunshine (2006) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/twdtjJm31AExNx73DXaD4KRNU9c.jpg",
+      "year": "2006",
+      "genre": "cine de comedia, drama, película de carretera",
+      "rating": 7.7,
+      "duration": "98 min",
+      "poster": "https://image.tmdb.org/t/p/w500/qE2ii6o1ndrhpI5ZYpxStvF5sKN.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/twdtjJm31AExNx73DXaD4KRNU9c.jpg",
+      "categories": [
+        "recomendado",
+        "populares",
+        "comedia",
+        "drama"
+      ],
+      "tmdbId": 773,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
