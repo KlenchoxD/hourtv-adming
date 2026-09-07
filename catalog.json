@@ -9000,6 +9000,25 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "3305439e398745ff84e9b8d5788f6c77",
+      "title": "Ángeles de Charlie",
+      "year": "2019",
+      "tmdb_id": 3382,
+      "imdb_id": "tt0073972",
+      "genre": "serie de televisión policíaca, drama televisivo, serie de acción",
+      "cast": "Farrah Fawcett, Kate Jackson, Jaclyn Smith, Cheryl Ladd, Tanya Roberts, David Doyle",
+      "duration": "45 min",
+      "plot": "Vive la historia de Ángeles de Charlie (2019) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
+      "poster": "https://image.tmdb.org/t/p/w1280/a0xTB1vBxMGt6LGG4N7k1wO9lfL.jpg",
+      "servers": [
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/8jHOK1l9ncwhR7R/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
