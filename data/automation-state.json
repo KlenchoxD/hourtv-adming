@@ -1,11 +1,11 @@
 {
-  "lastRunAt": "2026-09-07T04:34:34.618Z",
+  "lastRunAt": "2026-09-07T09:43:33.077Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
     1204680,
-    1339713,
     1137844,
+    1339713,
     1084244,
     860508,
     1315772,
@@ -37,7 +37,7 @@
     1335666
   ],
   "tmdbIdsPublished": [],
-  "totalMoviesInCatalog": 215,
+  "totalMoviesInCatalog": 236,
   "errorsSummary": [],
   "skipped": [
     {
