@@ -7391,17 +7391,25 @@
     {
       "id": "136da5a9353e440c9cf90e133a104d87",
       "title": "¡Shazam! La furia de los dioses",
-      "year": "2023",
-      "tmdb_id": 594767,
-      "imdb_id": "tt10151854",
-      "genre": "cine de acción, cine de superhéroes, cine de comedia, cine de aventuras",
+      "plot": "Billy Batson y sus hermanos adoptivos, que se transforman en superhéroes al decir \"¡Shazam!\", se ven obligados a volver a la acción y luchar contra las Hijas de Atlas, a quienes deben evitar que use un arma que podría destruir el mundo.",
       "cast": "Zachary Levi, Asher Angel, Jack Dylan Grazer, Lucy Liu, Helen Mirren, Faithe Herman, Grace Fulton, Ian Chen, Marta Milans, Cooper Andrews, Rachel Zegler, Ross Butler",
       "director": "David F. Sandberg",
       "writer": "Henry Gayden, Chris Morgan",
-      "duration": "120 min",
       "releaseDate": "2023-03-14",
-      "plot": "Vive la historia de ¡Shazam! La furia de los dioses (2023) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes",
-      "poster": "https://image.tmdb.org/t/p/w1280/kQV9sV0IbastbU5FYxuYwxfMawz.jpg",
+      "year": "2023",
+      "genre": "cine de acción, cine de superhéroes, cine de comedia, cine de aventuras",
+      "rating": 6.4,
+      "duration": "120 min",
+      "poster": "https://image.tmdb.org/t/p/w500/xCxwaQeoIr4FcjlPgHfzog0x4B8.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/kQV9sV0IbastbU5FYxuYwxfMawz.jpg",
+      "categories": [
+        "populares",
+        "accion",
+        "comedia",
+        "fantasía"
+      ],
+      "tmdbId": 594767,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
