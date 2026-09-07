@@ -8467,6 +8467,28 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "3d0c1bce59f9484c92bbfaab81b3261c",
+      "title": "Scary Movie",
+      "year": "2000",
+      "tmdb_id": 4247,
+      "imdb_id": "tt0175142",
+      "genre": "cine adolescente, comedia de terror, cine de terror, slasher, spoof movie",
+      "cast": "Anna Faris, Regina Hall, Shannon Elizabeth, Jon Abrahams, Kurt Fuller, Carmen Electra, Lochlyn Munro, Cheri Oteri, Dave Sheridan, Shawn Wayans, Marlon Wayans, Rick Ducommun",
+      "director": "Keenen Ivory Wayans",
+      "writer": "Shawn Wayans, Phil Beauman, Aaron Seltzer, Marlon Wayans, Jason Friedberg",
+      "duration": "88 min",
+      "releaseDate": "2000-07-07",
+      "plot": "Vive la historia de Scary Movie (2000) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
+      "poster": "https://image.tmdb.org/t/p/w1280/m5dA4JZsj78EBTa2D6imWOAebwB.jpg",
+      "servers": [
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/LHmVZ2RGDrr88ER/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
