@@ -7883,6 +7883,32 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "538134ed2bcc4cb6a56aa426d0888a96",
+      "title": "Un gallo con muchos huevos",
+      "year": "2015",
+      "tmdb_id": 264419,
+      "imdb_id": "tt4643580",
+      "genre": "película infantil, cine de fantasía",
+      "cast": "Bruno Bichir, Maite Perroni, Omar Chaparro, Ninel Conde, Carlos Espejel, Sergio Sendel, Angélica Vale, Zachary Gordon, Amber Montana, Jon Heder, Alyson Stoner",
+      "director": "Gabriel Riva Palacio Alatriste, Melanie Simka, Rodolfo Riva Palacio Alatriste",
+      "duration": "97 min",
+      "releaseDate": "2015-00-00",
+      "plot": "Vive la historia de Un gallo con muchos huevos (2015) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del",
+      "poster": "https://image.tmdb.org/t/p/w1280/Ant957vTnlFwOvyLdCu0OKrPCe1.jpg",
+      "servers": [
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/99O06MK4ah40RKX/",
+          "language": "Idioma sin identificar"
+        },
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/9Uvfn9LvtbOtGFa/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
