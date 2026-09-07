@@ -8600,6 +8600,28 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "d88cb72b3cec410eb5f669bb3caa61c3",
+      "title": "Escuela de Rock",
+      "year": "2003",
+      "tmdb_id": 1584,
+      "imdb_id": "tt0332379",
+      "genre": "cine musical, cine de comedia",
+      "cast": "Jack Black, Joan Cusack, Mike White, Sarah Silverman, Miranda Cosgrove, Joey Gaydos Jr., Kevin Alexander Clark, Aleisha Allen, Jordan-Claire Green, Adam Pascal, Lucas Papaelias, Chris Stack",
+      "director": "Richard Linklater",
+      "writer": "Mike White",
+      "duration": "108 min",
+      "releaseDate": "2003-09-09",
+      "plot": "Vive la historia de Escuela de Rock (2003) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
+      "poster": "https://image.tmdb.org/t/p/w1280/k5MTAtE9CCi5TWA84qaFMYv3ajB.jpg",
+      "servers": [
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/WOnZBQmZW7aFawD/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
