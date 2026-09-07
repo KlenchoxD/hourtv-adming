@@ -9659,17 +9659,26 @@
     {
       "id": "6580e8962c9848459de4a99f80ce0d6f",
       "title": "Thor: Ragnarok",
-      "year": "2017",
-      "tmdb_id": 284053,
-      "imdb_id": "tt3501632",
-      "genre": "cine de superhéroes, cine de ciencia ficción, cine de fantasía, cine de acción, cine de aventuras, cine de comedia",
+      "plot": "Thor está preso al otro lado del universo sin su poderoso martillo y se enfrenta a una carrera contra el tiempo. Su objetivo es volver a Asgard y parar el Ragnarok porque significaría la destrucción de su planeta natal y el fin de la civilización Asgardiana a manos de una todopoderosa y nueva amenaza, la implacable Hela. Pero, primero deberá sobrevivir a una competición letal de gladiadores que lo enfrentará a su aliado y compañero en los Vengadores, ¡el Increíble Hulk!",
       "cast": "Tom Hiddleston, Cate Blanchett, Tessa Thompson, Jeff Goldblum, Karl Urban, Idris Elba, Anthony Hopkins, Sam Neill, Benedict Cumberbatch, Rachel House",
       "director": "Taika Waititi",
       "writer": "Stephany Folsom, Craig Kyle, Christopher Yost, Eric Pearson",
-      "duration": "130 min",
       "releaseDate": "2017-11-03",
-      "plot": "Vive la historia de Thor: Ragnarok (2017) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/vLmHH8jAy8Jq8uBsLucd3592WGh.jpg",
+      "year": "2017",
+      "genre": "cine de superhéroes, cine de ciencia ficción, cine de fantasía, cine de acción, cine de aventuras, cine de comedia",
+      "rating": 7.6,
+      "duration": "130 min",
+      "poster": "https://image.tmdb.org/t/p/w500/pGtkLdk4rnF2A3Yz2BHiTgRwMU4.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/vLmHH8jAy8Jq8uBsLucd3592WGh.jpg",
+      "categories": [
+        "recomendado",
+        "populares",
+        "accion",
+        "comedia",
+        "aventura"
+      ],
+      "tmdbId": 284053,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
