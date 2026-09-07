@@ -8662,6 +8662,28 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "908ba9a122784f54aabd8304ed2aec54",
+      "title": "Deadpool",
+      "year": "2016",
+      "tmdb_id": 383498,
+      "imdb_id": "tt5463162",
+      "genre": "cine de humor negro, cine de superhéroes, cine LGBT, película de viajes en el tiempo",
+      "cast": "Ryan Reynolds, T. J. Miller, Leslie Uggams, Brianna Hildebrand, Stefan Kapičić, Zazie Beetz, Josh Brolin, Jack Kesy, Morena Baccarin, Julian Dennison, Karan Soni",
+      "director": "David Leitch",
+      "writer": "Ryan Reynolds, Rhett Reese, Paul Wernick",
+      "duration": "119 min",
+      "releaseDate": "2018-05-18",
+      "plot": "Vive la historia de Deadpool (2016) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
+      "poster": "https://image.tmdb.org/t/p/w1280/en971MEXui9diirXlogOrPKmsEn.jpg",
+      "servers": [
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/Xw3udIH8S5HkpDi/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
