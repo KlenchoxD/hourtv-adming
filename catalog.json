@@ -9340,6 +9340,27 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "74699ee0ce9d469b91386efeca02fe91",
+      "title": "My Little Pony: La película",
+      "year": "2017",
+      "tmdb_id": 335360,
+      "imdb_id": "tt4131800",
+      "genre": "película infantil, cine de fantasía, cine musical",
+      "director": "Jayson Thiessen",
+      "writer": "Meghan McCarthy, Rita Hsiao, Joe Ballarini, Michael J. Vogel",
+      "duration": "99 min",
+      "releaseDate": "2017-10-06",
+      "plot": "Vive la historia de My Little Pony: La película (2017) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del",
+      "poster": "https://image.tmdb.org/t/p/w1280/weMAgPEcyduqNCZkEhJHoZZq6Uk.jpg",
+      "servers": [
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/BarKxHOxYaKaQg4/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
