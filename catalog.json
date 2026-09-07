@@ -8529,6 +8529,28 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "93efb6d9238049b7aa9b2833a5f3ef54",
+      "title": "Zoolander 2",
+      "year": "2016",
+      "tmdb_id": 329833,
+      "imdb_id": "tt1608290",
+      "genre": "cine de comedia",
+      "cast": "Ben Stiller, Owen Wilson, Will Ferrell, Penélope Cruz, Kristen Wiig, Fred Armisen, Kyle Mooney, Milla Jovovich, Christine Taylor, Justin Theroux, Benedict Cumberbatch, Amy Stiller",
+      "director": "Ben Stiller",
+      "writer": "Ben Stiller, Justin Theroux, Nicholas Stoller, John Hamburg",
+      "duration": "100 min",
+      "releaseDate": "2016-02-12",
+      "plot": "Vive la historia de Zoolander 2 (2016) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
+      "poster": "https://image.tmdb.org/t/p/w1280/4ANhwN1jr5EGwHS0M13AH5Fs3NH.jpg",
+      "servers": [
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/EvJPHiumlU7MaOQ/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
