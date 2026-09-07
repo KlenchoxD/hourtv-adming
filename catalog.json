@@ -6477,15 +6477,27 @@
     {
       "id": "a266fe7feb434a44bb22e8e2ca4c1a5d",
       "title": "Sonic 3: La película",
-      "year": "2024",
-      "tmdb_id": 1401586,
-      "imdb_id": "tt16744566",
-      "genre": "cine de ciencia ficción, cine de comedia",
+      "plot": "Sonic, Knuckles y Tails se reúnen para enfrentarse a un nuevo y poderoso adversario, Shadow, un misterioso villano cuyos poderes no se parecen a nada de lo que nuestros héroes han conocido hasta ahora. Con sus facultades superadas en todos los sentidos, el Equipo Sonic tendrá que establecer una insólita alianza con la esperanza de detener a Shadow y proteger el planeta.",
       "cast": "James Marsden, Tika Sumpter, Jim Carrey, Lee Majdoub, Matt Berry, Richard Ayoade",
       "director": "Jeff Fowler",
+      "writer": "John Whittington",
       "releaseDate": "2027-03-19",
-      "plot": "Vive la historia de Sonic 3: La película (2024) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/zOpe0eHsq0A2NvNyBbtT6sj53qV.jpg",
+      "year": "2024",
+      "genre": "cine de ciencia ficción, cine de comedia",
+      "rating": 7.6,
+      "duration": "112 min",
+      "poster": "https://image.tmdb.org/t/p/w500/3aDWCRXLYOCuxjrjiPfLd79tcI6.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/zOpe0eHsq0A2NvNyBbtT6sj53qV.jpg",
+      "categories": [
+        "recomendado",
+        "populares",
+        "accion",
+        "comedia",
+        "aventura",
+        "familia"
+      ],
+      "tmdbId": 939243,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
