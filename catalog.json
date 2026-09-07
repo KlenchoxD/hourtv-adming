@@ -7327,17 +7327,26 @@
     {
       "id": "e32cf9597dec44fab7063a5eba533054",
       "title": "Los perdedores",
-      "year": "2010",
-      "tmdb_id": 34813,
-      "imdb_id": "tt0480255",
-      "genre": "cine de acción, cine de crímenes",
+      "plot": "Una historia de caminos cruzados y venganza, centrada en un grupo de las Fuerzas Especiales, enviado a la jungla boliviana y traicionado por uno los suyos, del que sólo saben su nombre: Max. Dados por muertos, el grupo hace planes para igualar el marcador, cuando se les une la misteriosa Aisha, que tiene sus propios planes. Trabajan juntos en secreto para seguir la pista del bien custodiado Max, quien pretende involucrar al mundo en una guerra global de alta tecnología.",
       "cast": "Jeffrey Dean Morgan, Zoe Saldaña, Idris Elba, Columbus Short, Jason Patric, Holt McCallany, Óscar Jaenada, Peter Macdissi, Peter Francis James",
       "director": "Sylvain White",
       "writer": "Peter Berg, James Vanderbilt",
-      "duration": "97 min",
       "releaseDate": "2010-04-22",
-      "plot": "Vive la historia de Los perdedores (2010) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/hACMcim5NtMH3S62sQAWkdLVpIK.jpg",
+      "year": "2010",
+      "genre": "cine de acción, cine de crímenes",
+      "rating": 6.3,
+      "duration": "97 min",
+      "poster": "https://image.tmdb.org/t/p/w500/cOOShynQwunt8GZsDM6MD7GzyCP.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/hACMcim5NtMH3S62sQAWkdLVpIK.jpg",
+      "categories": [
+        "populares",
+        "terror",
+        "accion",
+        "aventura",
+        "drama"
+      ],
+      "tmdbId": 34813,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
