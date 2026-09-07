@@ -9720,16 +9720,26 @@
     {
       "id": "9b4d6b8c632e4d57a1fab7fbe0c9f8a7",
       "title": "Cars 3",
-      "year": "2017",
-      "tmdb_id": 260514,
-      "imdb_id": "tt3606752",
-      "genre": "película infantil, cine de fantasía, cine familiar, cine de comedia, cine de aventuras",
+      "plot": "Sorprendido por una nueva generación de corredores ultrarrápidos, el legendario Rayo McQueen queda relegado repentinamente del deporte que tanto ama. Para retomar su carrera, va a necesitar la ayuda de una joven mecánica de carreras, Cruz Ramírez, que tiene su propio plan para ganar, además de la inspiración del fallecido Fabuloso Hudson Hornet y un par de giros inesperados. ¡Y para probar que el nº95 no está ni mucho menos acabado, el campeón tendrá que poner a prueba su valía en el gran circuito de la Copa Piston!",
+      "cast": "Owen Wilson, Cristela Alonzo, Chris Cooper, Nathan Fillion, Larry the Cable Guy, Armie Hammer, Ray Magliozzi, Tony Shalhoub, Bonnie Hunt, Lea DeLaria, Kerry Washington, Bob Costas, Margo Martindale, Darrell Waltrip, Isiah Whitlock Jr., Bob Peterson, Guido Quaroni, Tom Magliozzi, John Ratzenberger, Kyle Petty, Lewis Hamilton, Lloyd Sherr, Junior Johnson, Ray Evernham, Paul Newman, Cheech Marin, Humpy Wheeler, Katherine Helmond, Paul Dooley, Jenifer Lewis",
       "director": "Brian Fee",
       "writer": "Dan Gerson, Eyal Podell, Ben Queen, Bob Peterson, Mike Rich",
-      "duration": "109 min",
       "releaseDate": "2017-06-16",
-      "plot": "Vive la historia de Cars 3 (2017) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/4mlS1MitcOqdPLhxEFyk9Qwf5rr.jpg",
+      "year": "2017",
+      "genre": "película infantil, cine de fantasía, cine familiar, cine de comedia, cine de aventuras",
+      "rating": 6.9,
+      "duration": "109 min",
+      "poster": "https://image.tmdb.org/t/p/w500/4tp9W3QAbQcpanBtBceZtHD10UT.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/4mlS1MitcOqdPLhxEFyk9Qwf5rr.jpg",
+      "categories": [
+        "populares",
+        "aventura",
+        "drama",
+        "infantil",
+        "familia"
+      ],
+      "tmdbId": 260514,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
