@@ -8244,6 +8244,26 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "fc0f9ba02f0549598811eff4296f1584",
+      "title": "En el mejor momento",
+      "year": "2020",
+      "tmdb_id": 790525,
+      "imdb_id": "tt14362698",
+      "genre": "cine romántico, drama, cine de comedia",
+      "director": "Claudio Norza",
+      "duration": "100 min",
+      "releaseDate": "2021-00-00",
+      "plot": "Vive la historia de En el mejor momento (2020) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
+      "poster": "https://image.tmdb.org/t/p/w1280/cL8nGFsbFkvaHh33PesJPKgs2HJ.jpg",
+      "servers": [
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/AmdlrdI2puWQQpF/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
