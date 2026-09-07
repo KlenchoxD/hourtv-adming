@@ -9690,16 +9690,25 @@
     {
       "id": "74699ee0ce9d469b91386efeca02fe91",
       "title": "My Little Pony: La película",
-      "year": "2017",
-      "tmdb_id": 335360,
-      "imdb_id": "tt4131800",
-      "genre": "película infantil, cine de fantasía, cine musical",
+      "plot": "Cuando una fuerza oscura amenaza a Ponyville y el Mane 6, todos se van en un viaje hasta el final de equestria para salvar a su querida casa, y se encuentran con nuevos amigos y peligrosos desafíos a lo largo del camino.",
+      "cast": "Tara Strong, Ashleigh Ball, Andrea Libman, Tabitha St. Germain, Cathy Weseluck, Emily Blunt, Michael Peña, Liev Schreiber, Taye Diggs, Zoe Saldaña, Kristin Chenoweth, Uzo Aduba, Sia, Rebecca Shoichet, Shannon Chan-Kent, Kazumi Evans, Mark Oliver, Max Martini, Adam Bengis, Nicole Oliver, Britt McKillip, Brian Dobson, Peter New, Michelle Creber, Michael Dobson, Sam Vincent",
       "director": "Jayson Thiessen",
       "writer": "Meghan McCarthy, Rita Hsiao, Joe Ballarini, Michael J. Vogel",
-      "duration": "99 min",
       "releaseDate": "2017-10-06",
-      "plot": "Vive la historia de My Little Pony: La película (2017) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del",
-      "poster": "https://image.tmdb.org/t/p/w1280/weMAgPEcyduqNCZkEhJHoZZq6Uk.jpg",
+      "year": "2017",
+      "genre": "película infantil, cine de fantasía, cine musical",
+      "rating": 7.3,
+      "duration": "99 min",
+      "poster": "https://image.tmdb.org/t/p/w500/dmPl6nL8duO37b2LpwI5QmaImjs.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/weMAgPEcyduqNCZkEhJHoZZq6Uk.jpg",
+      "categories": [
+        "aventura",
+        "infantil",
+        "familia",
+        "fantasía"
+      ],
+      "tmdbId": 335360,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
