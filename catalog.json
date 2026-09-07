@@ -7484,18 +7484,25 @@
     },
     {
       "id": "d65ced2bef604ad1ae89c0841d63ea3f",
-      "title": "Matilda, de Roald Dahl: El musical",
-      "year": "2022",
-      "tmdb_id": 668482,
-      "imdb_id": "tt3447590",
-      "genre": "cine musical, comedia dramática",
+      "title": "Matilda de Roald Dahl: El musical",
+      "plot": "Una joven extraordinaria descubre su superpoder y reúne el coraje extraordinario, contra viento y marea, para ayudar a otros a cambiar sus historias, al mismo tiempo que se hace cargo de su propio destino. Al defender lo que es correcto, se encuentra con resultados milagrosos.",
       "cast": "Lashana Lynch, Andrea Riseborough, Stephen Graham, Emma Thompson, Sindhu Vee, Alisha Weir",
       "director": "Matthew Warchus",
       "writer": "Dennis Kelly",
-      "duration": "117 min",
       "releaseDate": "2022-12-02",
-      "plot": "Vive la historia de Matilda, de Roald Dahl: El musical (2022) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los",
-      "poster": "https://image.tmdb.org/t/p/w1280/jG52tsazn04F1fe8hPZfVv7ICKt.jpg",
+      "year": "2022",
+      "genre": "cine musical, comedia dramática",
+      "rating": 6.8,
+      "duration": "117 min",
+      "poster": "https://image.tmdb.org/t/p/w500/7iUkSvlCnYdyl9tSKexwHK9Mo8p.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/jG52tsazn04F1fe8hPZfVv7ICKt.jpg",
+      "categories": [
+        "comedia",
+        "familia",
+        "fantasía"
+      ],
+      "tmdbId": 668482,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
