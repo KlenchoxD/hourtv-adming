@@ -9269,16 +9269,26 @@
     {
       "id": "0a33e3c681f3493ca7577ebd685dee13",
       "title": "Angry Birds 2: La película",
-      "year": "2019",
-      "tmdb_id": 454640,
-      "imdb_id": "tt6095472",
-      "genre": "cine de comedia",
+      "plot": "En esta nueva aventura, tanto los cerdos como los pájaros tendrán que aunar sus fuerzas para hacer frente a Zeta. Zeta ha venido desde su isla helada en busca de un lugar más cómodo para vivir, pero su llegada está a punto de poner la vida de Red, Chuck, Bomb, Leonard y compañía patas arriba.",
+      "cast": "Jason Sudeikis, Josh Gad, Danny McBride, Leslie Jones, Bill Hader, Rachel Bloom, Awkwafina, Sterling K. Brown, Eugenio Derbez, Tiffany Haddish, Peter Dinklage, Pete Davidson, Zach Woods, Dove Cameron, Maya Rudolph, JoJo Siwa, Tony Hale, Lil Rel Howery, Nicki Minaj, Beck Bennett, Gaten Matarazzo, Brooklynn Prince, Genesis Tennon, Alma Versano, Faith Margaret Kidman-Urban, Sunday Rose Kidman-Urban, Colleen Ballinger, David Dobrik, Alex Hirsch, Anthony Padilla",
       "director": "Thurop Van Orman",
       "writer": "Peter Ackerman, Eyal Podell",
-      "duration": "97 min",
       "releaseDate": "2019-09-12",
-      "plot": "Vive la historia de Angry Birds 2: La película (2019) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del",
-      "poster": "https://image.tmdb.org/t/p/w1280/tTVjF5q63fli9ecSg5L9ljHibKJ.jpg",
+      "year": "2019",
+      "genre": "cine de comedia",
+      "rating": 7.1,
+      "duration": "97 min",
+      "poster": "https://image.tmdb.org/t/p/w500/yIkmA2y50NYJkAYT9nZ5pcle9tP.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/tTVjF5q63fli9ecSg5L9ljHibKJ.jpg",
+      "categories": [
+        "accion",
+        "comedia",
+        "aventura",
+        "infantil",
+        "familia"
+      ],
+      "tmdbId": 454640,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
