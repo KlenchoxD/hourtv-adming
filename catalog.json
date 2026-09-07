@@ -8626,17 +8626,26 @@
     {
       "id": "9a3326a9e13847779ba25c8c228ea435",
       "title": "Jojo Rabbit",
-      "year": "2019",
-      "tmdb_id": 515001,
-      "imdb_id": "tt2584384",
-      "genre": "comedia dramática, cine de comedia, drama, cine bélico",
+      "plot": "Jojo Rabbit es un niño viviendo en plena 2ª Guerra Mundial. Su única vía de escape es su amigo imaginario, una versión de Hitler étnicamente incorrecta que incita los ciegos ideales patrióticos del niño. Todo esto cambia cuando descubre que su madre Rosie está escondiendo a una joven judía en su ático.",
       "cast": "Taika Waititi, Rebel Wilson, Thomasin McKenzie, Sam Rockwell, Alfie Allen, Stephen Merchant, Roman Griffin Davis, Archie Yates, Brian Caspe, Luke Brandon Field, Stanislav Kallas",
       "director": "Taika Waititi",
       "writer": "Taika Waititi",
-      "duration": "108 min",
       "releaseDate": "2019-09-08",
-      "plot": "Vive la historia de Jojo Rabbit (2019) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/lTyikzfGgRX5ZqIfVeT26APYfRL.jpg",
+      "year": "2019",
+      "genre": "comedia dramática, cine de comedia, drama, cine bélico",
+      "rating": 8,
+      "duration": "108 min",
+      "poster": "https://image.tmdb.org/t/p/w500/5KRPe0XObWOVGVzDaGSAxG2w8bd.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/lTyikzfGgRX5ZqIfVeT26APYfRL.jpg",
+      "categories": [
+        "recomendado",
+        "populares",
+        "comedia",
+        "drama",
+        "bélica"
+      ],
+      "tmdbId": 515001,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
