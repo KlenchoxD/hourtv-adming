@@ -9783,6 +9783,28 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "9fabf4e629e34835aa88a6071f1a6a79",
+      "title": "Stuart Little",
+      "year": "1999",
+      "tmdb_id": 10137,
+      "imdb_id": "tt0164912",
+      "genre": "cine de comedia, cine familiar",
+      "cast": "Geena Davis, Hugh Laurie, Jonathan Lipnicki, Julia Sweeney, David Alan Grier, Estelle Getty, Allyce Beasley, Connie Ray, Jeffrey Jones, Stan Freberg, Jon Polito, Kimmy Robertson",
+      "director": "Rob Minkoff",
+      "writer": "M. Night Shyamalan, Greg Brooker, E. B. White",
+      "duration": "84 min",
+      "releaseDate": "1999-12-17",
+      "plot": "Vive la historia de Stuart Little (1999) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
+      "poster": "https://image.tmdb.org/t/p/w1280/dECKGAenue36W50HYhd3Jh1OJs.jpg",
+      "servers": [
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/QoqrrXleaJFAtMy/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
