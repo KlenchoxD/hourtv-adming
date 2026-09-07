@@ -9735,6 +9735,27 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "bc21cf2ed31d4dafba93996e5e622753",
+      "title": "Happy Feet 2",
+      "year": "2011",
+      "tmdb_id": 9836,
+      "imdb_id": "tt0366548",
+      "genre": "buddy film, cine musical, cine de comedia, cine familiar, cine de aventuras",
+      "director": "George Miller",
+      "writer": "George Miller",
+      "duration": "108 min",
+      "releaseDate": "2006-11-17",
+      "plot": "Vive la historia de Happy Feet 2 (2011) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
+      "poster": "https://image.tmdb.org/t/p/w1280/icAAqHhVXuSQlKNvUfL257AFTwN.jpg",
+      "servers": [
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/qV90TGSNunpIyMu/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
