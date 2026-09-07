@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-09-07T19:18:35.737Z",
-  "durationMs": 1876,
+  "generatedAt": "2026-09-07T22:09:31.010Z",
+  "durationMs": 2307,
   "dryRun": false,
   "moviesFound": 33,
   "moviesDiscarded": 23,
@@ -98,24 +98,19 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1285366,
-      "title": "愛のぬくもり",
-      "reason": "Rating 5.2 por debajo del mínimo (5.5)"
-    },
-    {
       "tmdbId": 1375646,
       "title": "Colony",
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1285366,
+      "title": "愛のぬくもり",
+      "reason": "Rating 5.2 por debajo del mínimo (5.5)"
+    },
+    {
       "tmdbId": 1393326,
       "title": "Ghost in the Cell",
       "reason": "Votos 46 por debajo del mínimo (50)"
-    },
-    {
-      "tmdbId": 1213243,
-      "title": "Tóxico: Un cuento de hadas para adultos",
-      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1514682,
@@ -125,6 +120,11 @@
     {
       "tmdbId": 1323244,
       "title": "La señal del apocalipsis",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1213243,
+      "title": "Tóxico: Un cuento de hadas para adultos",
       "reason": "Sin fuente autorizada configurada"
     }
   ]
