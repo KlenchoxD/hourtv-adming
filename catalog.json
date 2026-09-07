@@ -8891,18 +8891,24 @@
     },
     {
       "id": "1cffea20a0ef48c5a9652c9d5b7c5b87",
-      "title": "Viaje a Halloweentown",
-      "year": "1998",
-      "tmdb_id": 27850,
-      "imdb_id": "tt0173886",
-      "genre": "cine de fantasía",
+      "title": "Halloweentown: ¡Qué familia la mía!",
+      "plot": "En esta frenética comedia, seguimos los pasos de Marnie que, junto a sus hermanos y su abuela, se mudan a Halloweentown, un lugar donde criaturas sobrenaturales conviven en armonía. Con la llegada de su 13 cumpleaños, Marnie descubre que, como su abuela, es una bruja. Marnie tendrá que ayudar a su madre y a su abuela para evitar que las fuerzas oscuras acaben con Halloweentown.",
       "cast": "Debbie Reynolds, Judith Hoag, Kimberly J. Brown, Joey Zimmerman, Phillip Van Dyke, Emily Roeske, Robin Thomas, Shannon Day, J.W. Crawford, Jordyn F. Fields, Elizabeth Fugere, Nurmi Husa",
       "director": "Duwayne Dunham",
       "writer": "Jon Cooksey, Ali Marie Matheson, Paul Bernbaum",
-      "duration": "84 min",
       "releaseDate": "1998-10-17",
-      "plot": "Vive la historia de Viaje a Halloweentown (1998) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/dOaF7zNAHYsSaAp8PXrUt4qfm8k.jpg",
+      "year": "1998",
+      "genre": "cine de fantasía",
+      "rating": 6.8,
+      "duration": "84 min",
+      "poster": "https://image.tmdb.org/t/p/w500/uMWFPTmdSI3jU56O5eCjxRQFjSO.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/dOaF7zNAHYsSaAp8PXrUt4qfm8k.jpg",
+      "categories": [
+        "comedia",
+        "fantasía"
+      ],
+      "tmdbId": 27850,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
