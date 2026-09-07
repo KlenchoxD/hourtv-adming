@@ -8489,6 +8489,24 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "787fbb4c4f5b4570969c390d1e691588",
+      "title": "Buenos vecinos",
+      "year": "2014",
+      "tmdb_id": 310877,
+      "imdb_id": "tt0227880",
+      "genre": "telenovela",
+      "cast": "Moria Casán",
+      "plot": "Vive la historia de Buenos vecinos (2014) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
+      "poster": "https://image.tmdb.org/t/p/w1280/tqSR6GOG2Hde0gwG3vO1Bw6TTo5.jpg",
+      "servers": [
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/xAR4krHUJPbIrla/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
