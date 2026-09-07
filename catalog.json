@@ -9417,16 +9417,26 @@
     {
       "id": "ec0a7c46a6794c009340572605385fea",
       "title": "La fiesta de las salchichas",
-      "year": "2016",
-      "tmdb_id": 223702,
-      "imdb_id": "tt1700841",
-      "genre": "cine de comedia, cine de aventuras, cine de fantasía, cine distópico, película animada con personajes LGTBI+, adult animated film",
+      "plot": "La trama sigue el drama de una salchicha y sus amigos, otros productos de supermercado, cuando descubren que serán brutalmente asesinados al llegar a casa de sus compradores. Es entonces que necesitan encontrar una manera de regresar al supermercado y avisar a sus amigos de lo que realmente sucede con la comida.",
+      "cast": "Seth Rogen, Kristen Wiig, Jonah Hill, Bill Hader, Michael Cera, James Franco, Danny McBride, Craig Robinson, Paul Rudd, Nick Kroll, David Krumholtz, Edward Norton, Salma Hayek Pinault, Anders Holm, Scott Underwood, Sugar Lyn Beard, Conrad Vernon, Ian James Corlett, Michael Daingerfield, Jason Simpson, Vincent Tong, Karen E. Wright, Lauren Miller Rogen, Sam Vincent, Greg Tiernan, Brian Dobson, Harland Williams, Alistair Abell, Iris Apatow, Michael Dobson",
       "director": "Conrad Vernon, Greg Tiernan",
       "writer": "Seth Rogen",
-      "duration": "89 min",
       "releaseDate": "2016-06-03",
-      "plot": "Vive la historia de La fiesta de las salchichas (2016) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del",
-      "poster": "https://image.tmdb.org/t/p/w1280/hsb8nNBt3emvWqBs7Xv5IKlz6Im.jpg",
+      "year": "2016",
+      "genre": "cine de comedia, cine de aventuras, cine de fantasía, cine distópico, película animada con personajes LGTBI+, adult animated film",
+      "rating": 5.8,
+      "duration": "89 min",
+      "poster": "https://image.tmdb.org/t/p/w500/4YiHAxavhMLaBqOzx7ZirmOwNkD.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/hsb8nNBt3emvWqBs7Xv5IKlz6Im.jpg",
+      "categories": [
+        "populares",
+        "comedia",
+        "aventura",
+        "infantil",
+        "fantasía"
+      ],
+      "tmdbId": 223702,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
