@@ -3,8 +3,8 @@
   "movies": [
     {
       "id": "mrmz01ubkua53",
-      "title": "Black Widow",
-      "plot": "Natasha Romanoff, conocida como Black Widow, se ve obligada a enfrentar los secretos de su pasado cuando una peligrosa conspiración relacionada con su antigua vida vuelve a perseguirla. Mientras intenta detener una poderosa organización, deberá reencontrarse con personas que alguna vez fueron su familia y superar las consecuencias de las decisiones que tomó antes de convertirse en una Vengadora.\n\nUna película de acción, espionaje y aventura que profundiza en la historia personal de una de las heroínas más importantes del Universo Marvel.",
+      "title": "Viuda Negra",
+      "plot": "Natasha Romanoff, alias Viuda Negra, se enfrenta a las partes más oscuras de su historia cuando surge una peligrosa conspiración con vínculos con su pasado. Perseguida por una fuerza que no se detendrá ante nada para acabar con ella, Natasha debe enfrentarse a su historia como espía y a las relaciones rotas que dejó a su paso mucho antes de convertirse en una Vengadora.",
       "cast": "Scarlett Johansson, Florence Pugh, David Harbour, Rachel Weisz, O-T Fagbenle, Ray Winstone, Olga Kurylenko, William Hurt",
       "director": "Cate Shortland",
       "writer": "Eric Pearson, Jac Schaeffer, Ned Benson",
@@ -13,13 +13,16 @@
       "genre": "Acción, Aventura, Ciencia ficción, Superhéroes, Espionaje",
       "rating": 6.6,
       "duration": "133 Min",
-      "poster": "https://i.pinimg.com/736x/25/83/ae/2583ae26878d2ae0604ed4d8ffbeb953.jpg",
+      "poster": "https://image.tmdb.org/t/p/w500/oggEsESyLjVGD7jbIdBfa2hFUrx.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/keIxh0wPr2Ymj0Btjh4gW7JJ89e.jpg",
       "categories": [
         "recomendado",
         "populares",
         "accion",
         "aventura"
       ],
+      "tmdbId": 497698,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Servidor 1",
