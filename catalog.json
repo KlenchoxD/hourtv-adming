@@ -7763,16 +7763,25 @@
     {
       "id": "08e4c12a565645e69fd2ce17bc826fa6",
       "title": "A través de mi ventana",
-      "year": "2022",
-      "tmdb_id": 818647,
-      "imdb_id": "tt14463484",
-      "genre": "cine romántico",
+      "plot": "Raquel lleva toda la vida loca por Ares, su atractivo y misterioso vecino. Lo observa sin ser vista y es que, muy a su pesar, no han intercambiado ni una palabra. Raquel tiene muy claro su objetivo: conseguir que Ares se enamore de ella. Pero ella no es una niña inocente y no está dispuesta a perderlo todo por el camino, y mucho menos a sí misma...",
       "cast": "Clara Galle, Julio Peña Fernández, Eric Masip, Hugo Arbués, Guillermo Lasheras i Tebar, Pilar Castro",
       "director": "Marçal Forés",
-      "duration": "113 min",
+      "writer": "Eduard Sola",
       "releaseDate": "2022-02-04",
-      "plot": "Vive la historia de A través de mi ventana (2022) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/4rsomWxlqnHt3muGYK06auhOib6.jpg",
+      "year": "2022",
+      "genre": "cine romántico",
+      "rating": 7.3,
+      "duration": "113 min",
+      "poster": "https://image.tmdb.org/t/p/w500/3F5MkMadQOWiZNVaNuOuw6UaK7a.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/4rsomWxlqnHt3muGYK06auhOib6.jpg",
+      "categories": [
+        "populares",
+        "comedia",
+        "romance",
+        "drama"
+      ],
+      "tmdbId": 818647,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
