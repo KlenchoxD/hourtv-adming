@@ -9601,17 +9601,24 @@
     {
       "id": "42eb0d49cfaf4be5904c1b9660ea6bbe",
       "title": "Lady Bird",
-      "year": "2017",
-      "tmdb_id": 391713,
-      "imdb_id": "tt4925292",
-      "genre": "comedia dramática, tragicomedia, drama, cine LGBT",
+      "plot": "Una joven estudiante que se hace llamar Lady Bird (Saoirse Ronan) se muda al norte de California para pasar allí su último año de instituto. La joven, con inclinaciones artísticas y que sueña con vivir en la costa Este, tratará de ese modo encontrar su propio camino y definirse fuera de la sombra protectora de su madre (Laurie Metcalf).",
       "cast": "Saoirse Ronan, Laurie Metcalf, Odeya Rush, Kathryn Newton, Timothée Chalamet, Tracy Letts, Lucas Hedges, Jake McDorman, Laura Marano, Lois Smith, Stephen Henderson, Jordan Rodrigues",
       "director": "Greta Gerwig",
       "writer": "Greta Gerwig",
+      "releaseDate": "2017-09-01",
+      "year": "2017",
+      "genre": "comedia dramática, tragicomedia, drama, cine LGBT",
+      "rating": 7.2,
       "duration": "93 min",
-      "releaseDate": "2017-00-00",
-      "plot": "Vive la historia de Lady Bird (2017) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/jwBiY1kE5089i2WpfS1MHDYp3VO.jpg",
+      "poster": "https://image.tmdb.org/t/p/w500/kfst6DxzGXbdibQPawxQSSuDh09.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/jwBiY1kE5089i2WpfS1MHDYp3VO.jpg",
+      "categories": [
+        "populares",
+        "comedia",
+        "drama"
+      ],
+      "tmdbId": 391713,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
