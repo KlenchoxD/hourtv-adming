@@ -7939,6 +7939,27 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "6e3b397cf3394812b51ca647a8936890",
+      "title": "Simbad: La leyenda de los siete mares",
+      "year": "2003",
+      "tmdb_id": 14411,
+      "imdb_id": "tt0165982",
+      "genre": "cine de fantasía, película infantil, cine de comedia, cine de piratas, cine de aventuras",
+      "director": "Tim Johnson",
+      "writer": "John Logan",
+      "duration": "86 min",
+      "releaseDate": "2003-07-02",
+      "plot": "Vive la historia de Simbad: La leyenda de los siete mares (2003) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los",
+      "poster": "https://image.tmdb.org/t/p/w1280/j8isWEPL3PmmVh8ap3jm75qVF4p.jpg",
+      "servers": [
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/StfD2yCQpfYwzT4/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
