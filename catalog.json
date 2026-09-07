@@ -7646,17 +7646,26 @@
     {
       "id": "804dbf80a3a84cee8476745f3f33c253",
       "title": "Sonic 2: La película",
-      "year": "2022",
-      "tmdb_id": 675353,
-      "imdb_id": "tt12412888",
-      "genre": "cine de comedia, cine de acción, cine de aventuras, película animada / de acción en vivo, cine de ciencia ficción",
+      "plot": "Después de establecerse en Green Hills, Sonic se muere por demostrar que tiene madera de auténtico héroe. La prueba de fuego llega con el retorno del malvado Robotnik, en esta ocasión con un nuevo compinche, Knuckles, en busca de una esmeralda que tiene el poder de destruir civilizaciones. Sonic forma equipo con su propio compañero de fatigas, Tails, y juntos se lanzan a una aventura que les llevará por todo el mundo en busca de la preciada piedra para evitar que caiga en manos equivocadas.",
       "cast": "Jim Carrey, James Marsden, Tika Sumpter, Adam Pally, Natasha Rothwell, Lee Majdoub, Shemar Moore",
       "director": "Jeff Fowler",
       "writer": "Patrick Casey, Josh Miller",
-      "duration": "122 min",
       "releaseDate": "2022-03-30",
-      "plot": "Vive la historia de Sonic 2: La película (2022) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/xuLA0pii2IMJW2puT7EvJtgpg0H.jpg",
+      "year": "2022",
+      "genre": "cine de comedia, cine de acción, cine de aventuras, película animada / de acción en vivo, cine de ciencia ficción",
+      "rating": 7.4,
+      "duration": "122 min",
+      "poster": "https://image.tmdb.org/t/p/w500/sJiHVM0A3OXDVxl4Z6a7ihMPHfm.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/xuLA0pii2IMJW2puT7EvJtgpg0H.jpg",
+      "categories": [
+        "populares",
+        "accion",
+        "comedia",
+        "aventura",
+        "familia"
+      ],
+      "tmdbId": 675353,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
