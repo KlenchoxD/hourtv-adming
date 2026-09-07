@@ -8786,6 +8786,38 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "ec58ddac82e84100bee9558dc5ac7872",
+      "title": "Regreso a Halloweentown",
+      "year": "2006",
+      "tmdb_id": 34204,
+      "imdb_id": "tt0816520",
+      "genre": "cine de fantasía, cine de aventuras, cine adolescente",
+      "cast": "Sara Paxton, Judith Hoag, Lucas Grabeel, Joey Zimmerman, Kristy Wu, Keone Young, Millicent Martin, Summer Bishil, Leslie Wing Pomeroy, Debbie Reynolds, Scott Stevensen, Katie Cockrell",
+      "director": "David Jackson",
+      "writer": "Max Enscoe, Annie DeYoung, Juliet Giglio, Keith Giglio",
+      "duration": "83 min",
+      "releaseDate": "2006-10-20",
+      "plot": "Vive la historia de Regreso a Halloweentown (2006) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
+      "poster": "https://image.tmdb.org/t/p/w1280/2oHTGGcBCnS3hhm1hvnb0aXFoTt.jpg",
+      "servers": [
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/XwQ40PD2UO9hZMa/",
+          "language": "Idioma sin identificar"
+        },
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/OZloFuFAX9l2PhJ/",
+          "language": "Idioma sin identificar"
+        },
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/P19rmgkTx4FF5Az/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
