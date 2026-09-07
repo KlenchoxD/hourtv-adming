@@ -9895,6 +9895,27 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "0dcd550dd1e145e69aa91131602a06e7",
+      "title": "Shrek",
+      "year": "2001",
+      "tmdb_id": 808,
+      "imdb_id": "tt0126029",
+      "genre": "cine de fantasía, buddy film, comedia fantástica, cine de aventuras, película de cuento de hadas",
+      "director": "Andrew Adamson, Vicky Jenson",
+      "writer": "Ted Elliott, Terry Rossio, Joe Stillman, Roger S. H. Schulman, William Steig, Chris Miller, Cody Cameron, Conrad Vernon",
+      "duration": "90 min",
+      "releaseDate": "2001-07-05",
+      "plot": "Vive la historia de Shrek (2001) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
+      "poster": "https://image.tmdb.org/t/p/w1280/sRvXNDItGlWCqtO3j6wks52FmbD.jpg",
+      "servers": [
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/vWMObdUDKVGakN8/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
