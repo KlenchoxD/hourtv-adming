@@ -9227,6 +9227,27 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "e5841ea19a0943d8bfb88370e5932c74",
+      "title": "Ralph rompe Internet",
+      "year": "2018",
+      "tmdb_id": 404368,
+      "imdb_id": "tt5848272",
+      "genre": "cine familiar, cine de aventuras, cine de comedia, cine de acción, cine de fantasía",
+      "director": "Rich Moore, Phil Johnston",
+      "writer": "Phil Johnston",
+      "duration": "112 min",
+      "releaseDate": "2018-11-21",
+      "plot": "Vive la historia de Ralph rompe Internet (2018) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
+      "poster": "https://image.tmdb.org/t/p/w1280/qDQEQbgP3v7B9IYLAUcYexNrVYP.jpg",
+      "servers": [
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/AkLt3hP375Yi0J1/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
