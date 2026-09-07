@@ -7179,16 +7179,25 @@
     },
     {
       "id": "f81c69b0933243699cc4de6ecea155c4",
-      "title": "A través del mar",
-      "year": "2023",
-      "tmdb_id": 1139566,
-      "imdb_id": "tt28105944",
-      "genre": "cine de comedia, drama, cine romántico",
+      "title": "A través de mi ventana 2: A través del mar",
+      "plot": "Tras pasar un año separados, Raquel y Ares se reencuentran durante un apasionado viaje a la playa. Así obtendrán la respuesta a la pregunta de si su amor puede sobrevivir a los nuevos coqueteos y las inseguridades.",
+      "cast": "Clara Galle, Julio Peña, Guillermo Lasheras, Natalia Azahara, Hugo Arbues, Eric Masip, Andrea Chaparro, Emilia Lazo, Ivan Lapadula, Carla Tous, Rachel Lascar, Abel Folk, Lucy Chaparro, Pilar Castro, Laurent Meri, Nau Sache, Jaskaran Brady, Gloria Sirvent, Òscar Kapoya, Clara Sans, Enric Ases, Mayca Hernández, Maria Gibert, Xiaoan Ji",
       "director": "Marçal Forés",
-      "duration": "105 min",
+      "writer": "Eduard Sola",
       "releaseDate": "2024-02-23",
-      "plot": "Vive la historia de A través del mar (2023) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/zFsB4MB4BwVYE5tqXe9sYdCH3Vr.jpg",
+      "year": "2023",
+      "genre": "cine de comedia, drama, cine romántico",
+      "rating": 6.6,
+      "duration": "105 min",
+      "poster": "https://image.tmdb.org/t/p/w500/hisRiTK0zCP1sXtlCSrmFRVOVlz.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/zFsB4MB4BwVYE5tqXe9sYdCH3Vr.jpg",
+      "categories": [
+        "comedia",
+        "romance",
+        "drama"
+      ],
+      "tmdbId": 988078,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
