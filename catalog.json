@@ -6922,6 +6922,33 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "669330f2e2e14d7d8e9852c32ed353ea",
+      "title": "Scooby-Doo 2: Monstruos sueltos",
+      "year": "2004",
+      "tmdb_id": 11024,
+      "imdb_id": "tt0331632",
+      "genre": "cine de aventuras, cine de misterio, comedia de terror, cine de fantasmas, película animada / de acción en vivo",
+      "cast": "Sarah Michelle Gellar, Freddie Prinze Jr., Seth Green, Matthew Lillard, Linda Cardellini, Alicia Silverstone, Tim Blake Nelson, Kevin Durand, Peter Boyle, Chris Gauthier, Pat O'Brien, Scott McNeil",
+      "director": "Raja Gosnell",
+      "writer": "James Gunn",
+      "duration": "93 min",
+      "releaseDate": "2004-04-01",
+      "plot": "Vive la historia de Scooby-Doo 2: Monstruos sueltos (2004) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes",
+      "poster": "https://image.tmdb.org/t/p/w1280/m8y7OjvCBLmJfG6CIb5gpXFSLec.jpg",
+      "servers": [
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/rzdMa4j9PoRErCp/",
+          "language": "Idioma sin identificar"
+        },
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/kBW1qSCDaE3BDWI/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
