@@ -8266,17 +8266,22 @@
     {
       "id": "2be02e75eb2f447193e70962cf0919e0",
       "title": "La maldición de Chucky",
-      "year": "2013",
-      "tmdb_id": 167032,
-      "imdb_id": "tt2230358",
-      "genre": "cine de terror, slasher, cine LGBT",
+      "plot": "Nica (Fiona Dourif) está destrozada tras el terrible suicidio de su madre. Su hermana mayor Barb (Danielle Bisutti) regresa a su casa para ayudarle en este duro trance, trayéndose con ella a su hija pequeña, quien posee un muñeco parlante llamado Chucky que llegó misteriosamente por correo. A medida que una serie de brutales asesinatos comienzan a aterrorizar a la familia, Nica sospecha que Chucky puede ser la clave del derramamiento de sangre, pero lo que sabe es que éste está decidido a terminar un trabajo que comenzó hace más de 20 años, y esta vez lo va a llevar acabo hasta el final..",
       "cast": "A Martinez, Alex Vincent, Brad Dourif, Jennifer Tilly, Jordan Gavaris, Fiona Dourif, Brennan Elliott",
       "director": "Don Mancini",
       "writer": "Don Mancini",
-      "duration": "97 min",
       "releaseDate": "2013-08-02",
-      "plot": "Vive la historia de La maldición de Chucky (2013) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/jAZ0hMGVgb5beOXy20iU49Cr3RQ.jpg",
+      "year": "2013",
+      "genre": "cine de terror, slasher, cine LGBT",
+      "rating": 6,
+      "duration": "97 min",
+      "poster": "https://image.tmdb.org/t/p/w500/2z19IQyt3rORIxUmTYptVG89bjD.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/jAZ0hMGVgb5beOXy20iU49Cr3RQ.jpg",
+      "categories": [
+        "terror"
+      ],
+      "tmdbId": 167032,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
@@ -8288,15 +8293,23 @@
     {
       "id": "fc0f9ba02f0549598811eff4296f1584",
       "title": "En el mejor momento",
-      "year": "2020",
-      "tmdb_id": 790525,
-      "imdb_id": "tt14362698",
-      "genre": "cine romántico, drama, cine de comedia",
+      "plot": "Marta puede ser huérfana y puede verse afectada por una enfermedad letal, pero es la persona más positiva que uno puede conocer. Quiere que un chico se enamore de ella. No cualquier chico, el más guapo de todos. Un día, pudo haber encontrado su pareja.",
+      "cast": "Ludovica Francesconi, Giuseppe Maggio, Gaja Masciale, Jozef Gjura, Eleonora Gaggero, Alfa, Ilaria Antonello, Gianni Bissacca, Maurizio Cerchiaro, Elisabetta Coraini, Viola Demo, Michele Franco, Luca Lazzareschi, Oseye Lucky, Martina Massa, Simona Nasi, Christian Nerone, Riccardo Niceforo, Franca Pellecchia, Franco Ravera, Luca John Rosati, Edoardo Rossi, Elia Tedesco, Stefania Rosso, Annamaria Troisi",
       "director": "Claudio Norza",
+      "writer": "Michela Straniero",
+      "releaseDate": "2020-10-22",
+      "year": "2020",
+      "genre": "cine romántico, drama, cine de comedia",
+      "rating": 6.9,
       "duration": "100 min",
-      "releaseDate": "2021-00-00",
-      "plot": "Vive la historia de En el mejor momento (2020) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/cL8nGFsbFkvaHh33PesJPKgs2HJ.jpg",
+      "poster": "https://image.tmdb.org/t/p/w500/sWbdm6z0RjH8Aeb0gRaqJPjXr6b.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/cL8nGFsbFkvaHh33PesJPKgs2HJ.jpg",
+      "categories": [
+        "comedia",
+        "romance"
+      ],
+      "tmdbId": 664031,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
