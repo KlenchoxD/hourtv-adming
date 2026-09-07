@@ -6756,6 +6756,28 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "26e3eec0b5d3453fac3dbf537c017f45",
+      "title": "Borderlands",
+      "year": "2024",
+      "tmdb_id": 365177,
+      "imdb_id": "tt4978420",
+      "genre": "cine de ciencia ficción, cine de acción, cine de aventuras, cine de comedia",
+      "cast": "Cate Blanchett, Kevin Hart, Jack Black, Jamie Lee Curtis, Ariana Greenblatt, Florian Munteanu, Haley Bennett, Édgar Ramírez, Olivier Richters, Janina Gavankar, Gina Gershon, Cheyenne Jackson",
+      "director": "Eli Roth",
+      "writer": "Craig Mazin",
+      "duration": "101 min",
+      "releaseDate": "2024-08-08",
+      "plot": "Vive la historia de Borderlands (2024) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
+      "poster": "https://image.tmdb.org/t/p/w1280/mKOBdgaEFguADkJhfFslY7TYxIh.jpg",
+      "servers": [
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/lZSI8KliK8WzVT8/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
