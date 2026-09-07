@@ -8551,6 +8551,28 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "d839d9bfb1eb47babad6a0e14ddc12a3",
+      "title": "Zoolander",
+      "year": "2001",
+      "tmdb_id": 9398,
+      "imdb_id": "tt0196229",
+      "genre": "cine de comedia",
+      "cast": "Owen Wilson, Will Ferrell, Christine Taylor, Milla Jovovich, Jerry Stiller, David Duchovny, Jon Voight, Ben Stiller, Vince Vaughn, Judah Friedlander, Alexander Skarsgård, Andy Dick",
+      "director": "Ben Stiller",
+      "writer": "Drake Sather, John Hamburg, Ben Stiller",
+      "duration": "89 min",
+      "releaseDate": "2001-09-28",
+      "plot": "Vive la historia de Zoolander (2001) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
+      "poster": "https://image.tmdb.org/t/p/w1280/lIyyiBOuyokL82rPEDcZaMKleA3.jpg",
+      "servers": [
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/GmutchO1TIH61vH/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
