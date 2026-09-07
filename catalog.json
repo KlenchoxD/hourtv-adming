@@ -9209,15 +9209,26 @@
     },
     {
       "id": "3305439e398745ff84e9b8d5788f6c77",
-      "title": "Ángeles de Charlie",
-      "year": "2019",
-      "tmdb_id": 3382,
-      "imdb_id": "tt0073972",
-      "genre": "serie de televisión policíaca, drama televisivo, serie de acción",
+      "title": "Los ángeles de Charlie",
+      "plot": "Los ángeles de Charlie siempre han proporcionado servicios de seguridad e investigación a clientes privados, y ahora la agencia Townsend se ha expandido internacionalmente con las mujeres más inteligentes, valientes y mejor entrenadas a lo largo y ancho del planeta – varios equipos de ángeles guiados por otros tantos Bosleys llevando a cabo los trabajos más duros por todo el mundo. Cuando un joven ingeniero de sistemas llama la atención sobre una peligrosa tecnología, los ángeles son llamados a la acción, arriesgando sus vidas por protegernos a todos.",
       "cast": "Farrah Fawcett, Kate Jackson, Jaclyn Smith, Cheryl Ladd, Tanya Roberts, David Doyle",
+      "director": "Elizabeth Banks",
+      "writer": "Elizabeth Banks",
+      "releaseDate": "2019-11-14",
+      "year": "2019",
+      "genre": "serie de televisión policíaca, drama televisivo, serie de acción",
+      "rating": 6.4,
       "duration": "45 min",
-      "plot": "Vive la historia de Ángeles de Charlie (2019) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/a0xTB1vBxMGt6LGG4N7k1wO9lfL.jpg",
+      "poster": "https://image.tmdb.org/t/p/w500/2vISsOjLk8HGQAK1HgajNSBGQWy.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/a0xTB1vBxMGt6LGG4N7k1wO9lfL.jpg",
+      "categories": [
+        "populares",
+        "accion",
+        "comedia",
+        "aventura"
+      ],
+      "tmdbId": 458897,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
