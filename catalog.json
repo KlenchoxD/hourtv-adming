@@ -9761,6 +9761,28 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "d91232e54a48442bb9776643c0df9fba",
+      "title": "Stuart Little 2",
+      "year": "2002",
+      "tmdb_id": 10996,
+      "imdb_id": "tt0243585",
+      "genre": "cine de comedia, cine familiar",
+      "cast": "Geena Davis, Hugh Laurie, Jonathan Lipnicki, Brad Garrett, Marc John Jefferies, Angelo Massagli, Maria Bamford, Kevin Olson, Michael J. Fox, Nathan Lane, Melanie Griffith, James Woods",
+      "director": "Rob Minkoff",
+      "writer": "Bruce Joel Rubin, Douglas Wick, E. B. White",
+      "duration": "77 min",
+      "releaseDate": "2002-07-19",
+      "plot": "Vive la historia de Stuart Little 2 (2002) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
+      "poster": "https://image.tmdb.org/t/p/w1280/iEvlXeDvLW5IjmWa5jwO0Tieu1g.jpg",
+      "servers": [
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/uagL2IU8UScmirK/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
