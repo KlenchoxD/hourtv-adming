@@ -9126,6 +9126,28 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "44325f930c0c4c7693a6705ec712dec6",
+      "title": "¡Shazam!",
+      "year": "2019",
+      "tmdb_id": 287947,
+      "imdb_id": "tt0448115",
+      "genre": "cine de acción, cine de superhéroes, cine de fantasía, cine navideño, cine de comedia",
+      "cast": "Asher Angel, Zachary Levi, Mark Strong, Djimon Hounsou, Grace Fulton, Jack Dylan Grazer, Ian Chen, Cooper Andrews, Adam Brody, Meagan Good, Michelle Borth, Ross Butler",
+      "director": "David F. Sandberg",
+      "writer": "Henry Gayden",
+      "duration": "132 min",
+      "releaseDate": "2019-04-05",
+      "plot": "Vive la historia de ¡Shazam! (2019) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
+      "poster": "https://image.tmdb.org/t/p/w1280/o7JVhqMmrex1TPbmuxl8YXVlcfl.jpg",
+      "servers": [
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/f4xgR3rNnDDIuOl/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
