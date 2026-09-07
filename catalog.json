@@ -9248,6 +9248,27 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "8050054bb0574f4ea2f55e3fa54f84e1",
+      "title": "Hotel Transylvania 3",
+      "year": "2018",
+      "tmdb_id": 76492,
+      "imdb_id": "tt0837562",
+      "genre": "comedy horror film, cine de monstruos, cine de vampiros, cine de zombis, cine de licantropía, cine familiar",
+      "director": "Genndy Tartakovsky",
+      "writer": "Peter Baynham, Robert Smigel, The Hageman Brothers",
+      "duration": "91 min",
+      "releaseDate": "2012-09-28",
+      "plot": "Vive la historia de Hotel Transylvania 3 (2018) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
+      "poster": "https://image.tmdb.org/t/p/w1280/gvUYIHWzq7r3KuzAaKvly2h0SjM.jpg",
+      "servers": [
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/unBaxyklmp8q1MJ/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
