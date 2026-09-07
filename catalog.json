@@ -6960,15 +6960,26 @@
     },
     {
       "id": "681c49ad945f4a40a6114bb5457e7096",
-      "title": "El agente de C.I.P.O.L.",
-      "year": "2015",
-      "tmdb_id": 210,
-      "imdb_id": "tt0057765",
-      "genre": "serie de acción, serie de television de espionaje, serie de televisión policíaca",
+      "title": "Operación U.N.C.L.E.",
+      "plot": "Guerra fría, años 60. Narra las aventuras de dos agentes secretos que se parecen más de lo que creen: Napoleon Solo, de la CIA, e Illya Kuryakin, del KGB. Ambos se ven obligados a olvidar sus diferencias y formar un equipo cuya misión será poner fin a una misteriosa organización criminal internacional que pretende desestabilizar el frágil equilibrio de poder provocado por la proliferación de las armas nucleares. La hija de un científico alemán desaparecido es la clave para infiltrarse en la organización, encontrar al científico y evitar una catástrofe mundial.",
       "cast": "Robert Vaughn, David McCallum, Leo G. Carroll, Tom Curtis",
+      "director": "Guy Ritchie",
+      "writer": "Guy Ritchie",
+      "releaseDate": "2015-08-13",
+      "year": "2015",
+      "genre": "serie de acción, serie de television de espionaje, serie de televisión policíaca",
+      "rating": 7.1,
       "duration": "48 min",
-      "plot": "Vive la historia de El agente de C.I.P.O.L. (2015) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/bu0LiPEWKHWViRoaFwlTAzZ8wyS.jpg",
+      "poster": "https://image.tmdb.org/t/p/w500/pdkOcFgb2entKG6K3TqWhXVUnm2.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/nMgELJEb9ly9HIamnX4ZZ1Z2pH6.jpg",
+      "categories": [
+        "populares",
+        "accion",
+        "comedia",
+        "aventura"
+      ],
+      "tmdbId": 203801,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
