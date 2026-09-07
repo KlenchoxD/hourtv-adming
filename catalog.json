@@ -7505,6 +7505,28 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "804dbf80a3a84cee8476745f3f33c253",
+      "title": "Sonic 2: La película",
+      "year": "2022",
+      "tmdb_id": 675353,
+      "imdb_id": "tt12412888",
+      "genre": "cine de comedia, cine de acción, cine de aventuras, película animada / de acción en vivo, cine de ciencia ficción",
+      "cast": "Jim Carrey, James Marsden, Tika Sumpter, Adam Pally, Natasha Rothwell, Lee Majdoub, Shemar Moore",
+      "director": "Jeff Fowler",
+      "writer": "Patrick Casey, Josh Miller",
+      "duration": "122 min",
+      "releaseDate": "2022-03-30",
+      "plot": "Vive la historia de Sonic 2: La película (2022) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
+      "poster": "https://image.tmdb.org/t/p/w1280/xuLA0pii2IMJW2puT7EvJtgpg0H.jpg",
+      "servers": [
+        {
+          "name": "Barmonrey",
+          "url": "https://barmonrey.com/player/aDvYGTmEctcKU37/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
