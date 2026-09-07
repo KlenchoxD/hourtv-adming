@@ -6767,17 +6767,24 @@
     {
       "id": "26e3eec0b5d3453fac3dbf537c017f45",
       "title": "Borderlands",
-      "year": "2024",
-      "tmdb_id": 365177,
-      "imdb_id": "tt4978420",
-      "genre": "cine de ciencia ficción, cine de acción, cine de aventuras, cine de comedia",
+      "plot": "Lilith, una infame cazatesoros con un misterioso pasado, regresa a su planeta natal de Pandora para encontrar a la hija desaparecida del poderoso Atlas. Para ello forma una alianza inesperada con un heterogéneo equipo de inadaptados: Roland, un antiguo mercenario de élite ahora desesperado por la redención; Tiny Tina, una demolicionista salvaje preadolescente; Krieg, el musculoso protector de Tina; la científica Tannis; y Claptrap, un robot muy peculiar. Estos extraños héroes deberán luchar contra monstruos alienígenas y peligrosos bandidos para buscar y proteger a la niña desaparecida, que puede tener la clave de un poder inimaginable.",
       "cast": "Cate Blanchett, Kevin Hart, Jack Black, Jamie Lee Curtis, Ariana Greenblatt, Florian Munteanu, Haley Bennett, Édgar Ramírez, Olivier Richters, Janina Gavankar, Gina Gershon, Cheyenne Jackson",
       "director": "Eli Roth",
       "writer": "Craig Mazin",
-      "duration": "101 min",
       "releaseDate": "2024-08-08",
-      "plot": "Vive la historia de Borderlands (2024) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/mKOBdgaEFguADkJhfFslY7TYxIh.jpg",
+      "year": "2024",
+      "genre": "cine de ciencia ficción, cine de acción, cine de aventuras, cine de comedia",
+      "rating": 5.5,
+      "duration": "101 min",
+      "poster": "https://image.tmdb.org/t/p/w500/jtEZi4eZxDjxcDIeMbkQ8HmvRs1.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/mKOBdgaEFguADkJhfFslY7TYxIh.jpg",
+      "categories": [
+        "accion",
+        "comedia",
+        "aventura"
+      ],
+      "tmdbId": 365177,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Barmonrey",
