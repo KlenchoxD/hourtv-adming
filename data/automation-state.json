@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-09-08T00:22:39.339Z",
+  "lastRunAt": "2026-09-08T04:56:36.089Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -24,8 +24,8 @@
     1284041,
     1368337,
     1288445,
-    1386315,
     1375646,
+    1386315,
     1285366,
     1393326,
     1506560,
@@ -116,13 +116,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1386315,
-      "title": "A la carrera",
+      "tmdbId": 1375646,
+      "title": "Colony",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1375646,
-      "title": "Colony",
+      "tmdbId": 1386315,
+      "title": "A la carrera",
       "reason": "Sin fuente autorizada configurada"
     },
     {

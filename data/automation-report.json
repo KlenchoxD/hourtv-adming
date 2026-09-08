@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-09-08T00:22:35.983Z",
-  "durationMs": 3360,
+  "generatedAt": "2026-09-08T04:56:34.240Z",
+  "durationMs": 1852,
   "dryRun": false,
   "moviesFound": 33,
   "moviesDiscarded": 22,
@@ -88,13 +88,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1386315,
-      "title": "A la carrera",
+      "tmdbId": 1375646,
+      "title": "Colony",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1375646,
-      "title": "Colony",
+      "tmdbId": 1386315,
+      "title": "A la carrera",
       "reason": "Sin fuente autorizada configurada"
     },
     {
