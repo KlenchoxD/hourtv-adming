@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-09-08T20:17:07.969Z",
+  "lastRunAt": "2026-09-08T22:49:40.858Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -83,7 +83,7 @@
     {
       "tmdbId": 1355228,
       "title": "Gandhari",
-      "reason": "Rating 4.6 por debajo del mínimo (5.5)"
+      "reason": "Rating 5.1 por debajo del mínimo (5.5)"
     },
     {
       "tmdbId": 454639,
