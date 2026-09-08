@@ -353,14 +353,6 @@ class _PlayerScreenState extends State<PlayerScreen>
           playUrl = resolved.url;
           playHeaders = resolved.headers;
         } else {
-          final safeWebUrl = resolution.safeWebUrl;
-          if (safeWebUrl != null) {
-            _resolvedPlaybackUrl = safeWebUrl;
-            _resolvedPlaybackNeedsHeaders = true;
-            _createEmbedController(safeWebUrl);
-            setState(() => _loading = false);
-            return;
-          }
           // Primero se prueba el siguiente mirror (si hay otro servidor
           // cargado para este titulo, se prefiere resolverlo nativo antes
           // que caer al WebView). Solo cuando YA NO queda ningun mirror por
@@ -368,9 +360,13 @@ class _PlayerScreenState extends State<PlayerScreen>
           // pelicula reproduzca algo en vez de quedar en un error sin salida
           // (un solo servidor manual que la extraccion no logra resolver).
           if (await _tryFallback(ch, targetUrl)) return;
-          _resolvedPlaybackUrl = targetUrl;
+          // Sin mirrors: si el embed tiene una redireccion verificada a un
+          // alias propio (ej. voe.sx -> eugenemakedraw.com) se abre esa, no
+          // la original, porque el WebView del alias ya bloquea el salto.
+          final webUrl = resolution.safeWebUrl ?? targetUrl;
+          _resolvedPlaybackUrl = webUrl;
           _resolvedPlaybackNeedsHeaders = true;
-          _createEmbedController(targetUrl);
+          _createEmbedController(webUrl);
           setState(() => _loading = false);
           return;
         }

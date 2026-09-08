@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:http/http.dart' as http;
 
 /// Stream directo extraído de una página embed, con las cabeceras que su CDN
@@ -55,10 +57,24 @@ class EmbedResolver {
         return const EmbedResolution();
       }
       final html = res.body;
+
+      // VOE: la pagina voe.sx es solo una redireccion JS a un alias propio.
+      // El stream real vive en el alias, cifrado en un application/json.
+      // Se sigue la redireccion UNA sola vez y solo hacia el alias conocido.
       final safeWebUrl = _safeWebRedirect(html, embedUrl);
       if (safeWebUrl != null) {
-        return EmbedResolution(safeWebUrl: safeWebUrl);
+        return _resolveTrustedAlias(safeWebUrl).then((voeStream) {
+          return voeStream != null
+              ? EmbedResolution(stream: voeStream)
+              : EmbedResolution(safeWebUrl: safeWebUrl);
+        });
       }
+
+      // Alias de VOE (o host directo con el mismo formato): payload cifrado.
+      final voeStream = _voeSource(html, embedUrl);
+      if (voeStream != null) return EmbedResolution(stream: voeStream);
+
+      // Demas hosts: packer p,a,c,k,e,d / jwplayer / file:"...".
       final source = _extractSource(html);
       if (source == null) return const EmbedResolution();
       final absolute = _absolute(source, embedUrl);
@@ -74,12 +90,82 @@ class EmbedResolver {
     }
   }
 
-  /// Solo para pruebas: expone la extracción sin red.
-  static String? debugExtract(String html) => _extractSource(html);
+  /// Descarga el alias de confianza (ej. eugenemakedraw.com para voe.sx) e
+  /// intenta resolver el stream nativo desde su payload cifrado. Nunca se
+  /// usaria para una redireccion no verificada.
+  static Future<ResolvedStream?> _resolveTrustedAlias(String aliasUrl) async {
+    try {
+      final res = await http
+          .get(
+            Uri.parse(aliasUrl),
+            headers: {
+              'User-Agent': _ua,
+              'Referer': _origin(aliasUrl),
+              'Accept': 'text/html,application/xhtml+xml,*/*',
+            },
+          )
+          .timeout(const Duration(seconds: 15));
+      if (res.statusCode != 200 || res.body.isEmpty) return null;
+      return _voeSource(res.body, aliasUrl);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  /// Solo para pruebas: expone la extracción sin red. Refleja el orden de
+  /// la resolución real: VOE (payload cifrado) antes que packer/genérico.
+  static String? debugExtract(String html) {
+    final voeUrl = debugVoeSource(html)?.url;
+    if (voeUrl != null) return voeUrl;
+    return _extractSource(html);
+  }
 
   /// Solo para pruebas: valida redirecciones JavaScript sin realizar red.
   static String? debugSafeWebRedirect(String html, String sourceUrl) =>
       _safeWebRedirect(html, sourceUrl);
+
+  /// Solo para pruebas: resuelve con un mapa falso de respuestas, sin red.
+  /// [responses] contiene la respuesta HTML de cada URL visitada.
+  static EmbedResolution debugResolve(
+    String startUrl,
+    List<(String, String)> responses,
+  ) {
+    final byUrl = {for (final (url, html) in responses) url: html};
+    EmbedResolution resolve(String url) {
+      final html = byUrl[url];
+      if (html == null) return const EmbedResolution();
+      final safeWebUrl = _safeWebRedirect(html, url);
+      if (safeWebUrl != null) {
+        final aliasHtml = byUrl[safeWebUrl];
+        final voeStream = aliasHtml == null
+            ? null
+            : _voeSource(aliasHtml, safeWebUrl);
+        return voeStream != null
+            ? EmbedResolution(stream: voeStream)
+            : EmbedResolution(safeWebUrl: safeWebUrl);
+      }
+      final voeStream = _voeSource(html, url);
+      if (voeStream != null) return EmbedResolution(stream: voeStream);
+      final source = _extractSource(html);
+      if (source == null) return const EmbedResolution();
+      final absolute = _absolute(source, url);
+      return EmbedResolution(
+        stream: ResolvedStream(absolute, {
+          'User-Agent': _ua,
+          'Referer': '${_origin(url)}/',
+        }),
+      );
+    }
+
+    return resolve(startUrl);
+  }
+
+  /// Solo para pruebas: expone la extracción VOE (payload cifrado) sin red.
+  static ResolvedStream? debugVoeSource(String html, [String pageUrl = '']) =>
+      _voeSource(
+        html,
+        pageUrl.isEmpty ? 'https://eugenemakedraw.com/e/id' : pageUrl,
+      );
 
   static String? _safeWebRedirect(String html, String sourceUrl) {
     final source = Uri.tryParse(sourceUrl);
@@ -146,6 +232,140 @@ class EmbedResolver {
   static bool _isDecoy(String url) {
     final host = Uri.tryParse(url)?.host.toLowerCase() ?? '';
     return host == 'test-videos.co.uk' || host.endsWith('.test-videos.co.uk');
+  }
+
+  // ─────────────────────────────────────────────────────────────────────
+  // VOE: payload cifrado en <script type="application/json">["..."]</script>
+  //
+  // Descifrado (determinista, sin ejecutar JS — mismo algoritmo publico
+  // documentado por stream-bypass y cyberdrop-dl):
+  //   rot13 -> quitar secuencias especiales -> base64 -> shift(-3)
+  //   -> invertir -> base64 -> JSON
+  // El JSON trae "source" (m3u8 HLS) y "fallback" (mp4s por calidad).
+  // El `var source='...Big_Buck_Bunny...mp4'` en texto claro es un señuelo
+  // y NUNCA debe usarse (lo cubre _isDecoy).
+  // ─────────────────────────────────────────────────────────────────────
+
+  static ResolvedStream? _voeSource(String html, String pageUrl) {
+    final page = Uri.tryParse(pageUrl);
+    if (page == null ||
+        page.scheme != 'https' ||
+        !_isTrustedVoeAlias(page.host)) {
+      return null;
+    }
+    final payload = _voeDecrypt(html);
+    if (payload == null) return null;
+    final streamUrl = _voePickUrl(payload);
+    if (streamUrl == null) return null;
+    return ResolvedStream(streamUrl, {
+      'User-Agent': _ua,
+      'Referer': '${_origin(pageUrl)}/',
+    });
+  }
+
+  /// Descifra el primer `<script type="application/json">` valido de VOE.
+  /// Devuelve el mapa del reproductor o null si la pagina no lo trae.
+  static Map<String, dynamic>? _voeDecrypt(String html) {
+    final scripts = RegExp(
+      r'<script\s+type="application/json"\s*>(.*?)</script>',
+      dotAll: true,
+    ).allMatches(html);
+    for (final script in scripts) {
+      final raw = script.group(1)?.trim() ?? '';
+      if (raw.isEmpty) continue;
+      String? candidates;
+      try {
+        final decoded = jsonDecode(raw);
+        if (decoded is List && decoded.isNotEmpty && decoded.first is String) {
+          candidates = decoded.first as String;
+        } else if (decoded is Map<String, dynamic>) {
+          return decoded;
+        }
+      } catch (_) {
+        continue;
+      }
+      final decrypted = _voeUnpack(candidates ?? raw);
+      if (decrypted != null) return decrypted;
+    }
+    return null;
+  }
+
+  static Map<String, dynamic>? _voeUnpack(String encrypted) {
+    String? b64decode(String s) {
+      try {
+        final normalized = s.replaceAllMapped(
+          RegExp(r'[^A-Za-z0-9+/=]'),
+          (m) => '',
+        );
+        final bytes = base64.decode(normalized);
+        return String.fromCharCodes(bytes);
+      } catch (_) {
+        return null;
+      }
+    }
+
+    String shift(String s, int n) =>
+        String.fromCharCodes(s.codeUnits.map((c) => c + n));
+
+    var text = encrypted;
+    text = String.fromCharCodes(text.codeUnits.map(_rot13));
+    text = text
+        .replaceAll(r'@$', '')
+        .replaceAll('^^', '')
+        .replaceAll(r'~@', '')
+        .replaceAll(r'%?', '')
+        .replaceAll(r'*~', '')
+        .replaceAll('!!', '')
+        .replaceAll(r'#&', '');
+    final stepB64a = b64decode(text);
+    if (stepB64a == null) return null;
+    var decodedText = shift(stepB64a, -3);
+    decodedText = decodedText.split('').reversed.join();
+    final stepB64b = b64decode(decodedText);
+    if (stepB64b == null) return null;
+    try {
+      final decoded = jsonDecode(stepB64b);
+      return decoded is Map<String, dynamic> ? decoded : null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  static int _rot13(int c) {
+    if (c >= 65 && c <= 90) return ((c - 65 + 13) % 26) + 65;
+    if (c >= 97 && c <= 122) return ((c - 97 + 13) % 26) + 97;
+    return c;
+  }
+
+  /// source (HLS) primero; si no existe, el mejor mp4 de fallback. Nunca
+  /// devuelve el señuelo (el payload real no lo contiene).
+  static String? _voePickUrl(Map<String, dynamic> payload) {
+    final source = payload['source'];
+    if (source is String && _isSecureMediaUrl(source)) return source;
+    final fallback = payload['fallback'];
+    if (fallback is List) {
+      for (final item in fallback.reversed) {
+        if (item is Map<String, dynamic>) {
+          final file = item['file'];
+          if (file is String && _isSecureMediaUrl(file) && !_isDecoy(file)) {
+            return file;
+          }
+        }
+      }
+    }
+    return null;
+  }
+
+  static bool _isTrustedVoeAlias(String host) {
+    final normalized = host.toLowerCase();
+    return _trustedRedirectAliases.values
+        .expand((aliases) => aliases)
+        .any((alias) => normalized == alias || normalized.endsWith('.$alias'));
+  }
+
+  static bool _isSecureMediaUrl(String value) {
+    final uri = Uri.tryParse(value);
+    return uri != null && uri.scheme == 'https' && uri.hasAuthority;
   }
 
   /// Desempaqueta el clásico `eval(function(p,a,c,k,e,d){...}('P',A,C,'W'.split('|')))`.
