@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-09-08T04:56:34.240Z",
-  "durationMs": 1852,
+  "generatedAt": "2026-09-08T09:19:20.876Z",
+  "durationMs": 2271,
   "dryRun": false,
   "moviesFound": 33,
   "moviesDiscarded": 22,
@@ -105,7 +105,7 @@
     {
       "tmdbId": 1393326,
       "title": "Ghost in the Cell",
-      "reason": "Votos 46 por debajo del mínimo (50)"
+      "reason": "Votos 47 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1514682,

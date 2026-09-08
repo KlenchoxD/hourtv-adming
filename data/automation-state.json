@@ -1,14 +1,14 @@
 {
-  "lastRunAt": "2026-09-08T04:56:36.089Z",
+  "lastRunAt": "2026-09-08T09:19:23.142Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
     1204680,
     1137844,
     1339713,
+    1108427,
     1084244,
     1315772,
-    1108427,
     860508,
     1275779,
     1273221,
@@ -133,7 +133,7 @@
     {
       "tmdbId": 1393326,
       "title": "Ghost in the Cell",
-      "reason": "Votos 46 por debajo del mínimo (50)"
+      "reason": "Votos 47 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1514682,
