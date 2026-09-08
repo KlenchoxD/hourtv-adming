@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-09-07T22:09:31.010Z",
-  "durationMs": 2307,
+  "generatedAt": "2026-09-08T00:22:35.983Z",
+  "durationMs": 3360,
   "dryRun": false,
   "moviesFound": 33,
-  "moviesDiscarded": 23,
+  "moviesDiscarded": 22,
   "moviesAdded": 0,
   "moviesEnriched": 0,
-  "duplicates": 10,
+  "duplicates": 11,
   "tmdbErrors": 0,
   "providerErrors": 0,
   "invalidSources": 0,
@@ -30,11 +30,6 @@
     {
       "tmdbId": 1084244,
       "title": "Toy Story 5",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1108427,
-      "title": "Vaiana",
       "reason": "Sin fuente autorizada configurada"
     },
     {

@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-09-07T22:09:33.314Z",
+  "lastRunAt": "2026-09-08T00:22:39.339Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -37,7 +37,7 @@
     1335666
   ],
   "tmdbIdsPublished": [],
-  "totalMoviesInCatalog": 290,
+  "totalMoviesInCatalog": 354,
   "errorsSummary": [],
   "skipped": [
     {
@@ -58,11 +58,6 @@
     {
       "tmdbId": 1084244,
       "title": "Toy Story 5",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1108427,
-      "title": "Vaiana",
       "reason": "Sin fuente autorizada configurada"
     },
     {
