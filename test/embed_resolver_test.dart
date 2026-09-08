@@ -23,4 +23,52 @@ void main() {
   test('devuelve null si no hay stream', () {
     expect(EmbedResolver.debugExtract('<html>nada aqui</html>'), isNull);
   });
+
+  test('detecta la redireccion HTTPS legitima de VOE', () {
+    const html = '''<script>
+      window.location.href = 'https://eugenemakedraw.com/e/2suzh7well4u';
+    </script>''';
+
+    expect(
+      EmbedResolver.debugSafeWebRedirect(html, 'https://voe.sx/e/2suzh7well4u'),
+      'https://eugenemakedraw.com/e/2suzh7well4u',
+    );
+  });
+
+  test('rechaza redirecciones de VOE hacia publicidad o HTTP', () {
+    const ad =
+        "<script>window.location.href='https://ads.example/click';</script>";
+    const insecure =
+        "<script>window.location.href='http://eugenemakedraw.com/e/id';</script>";
+
+    expect(
+      EmbedResolver.debugSafeWebRedirect(ad, 'https://voe.sx/e/id'),
+      isNull,
+    );
+    expect(
+      EmbedResolver.debugSafeWebRedirect(insecure, 'https://voe.sx/e/id'),
+      isNull,
+    );
+  });
+
+  test('no extrae el MP4 señuelo conocido de la pagina destino de VOE', () {
+    const html = '''<script>
+      var source = 'https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/720/Big_Buck_Bunny_720_10s_1MB.mp4';
+    </script>''';
+
+    expect(EmbedResolver.debugExtract(html), isNull);
+  });
+
+  test('conserva la extraccion nativa de Barmonrey', () {
+    const html = '''<script>
+      jwplayer('player').setup({
+        sources: [{file: 'https://spark.9bg.net/media/example/master.m3u8'}]
+      });
+    </script>''';
+
+    expect(
+      EmbedResolver.debugExtract(html),
+      'https://spark.9bg.net/media/example/master.m3u8',
+    );
+  });
 }

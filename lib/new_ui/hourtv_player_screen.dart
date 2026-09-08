@@ -346,12 +346,21 @@ class _PlayerScreenState extends State<PlayerScreen>
       // como Xuper, se intenta extraer el .m3u8/.mp4 directo y reproducirlo
       // nativo en ExoPlayer con su Referer. En Vivo nunca entra aqui.
       if (ch.type != MediaType.live && isEmbedStreamUrl(targetUrl)) {
-        final resolved = await EmbedResolver.resolve(targetUrl);
+        final resolution = await EmbedResolver.resolveForPlayback(targetUrl);
+        final resolved = resolution.stream;
         if (!mounted) return;
         if (resolved != null) {
           playUrl = resolved.url;
           playHeaders = resolved.headers;
         } else {
+          final safeWebUrl = resolution.safeWebUrl;
+          if (safeWebUrl != null) {
+            _resolvedPlaybackUrl = safeWebUrl;
+            _resolvedPlaybackNeedsHeaders = true;
+            _createEmbedController(safeWebUrl);
+            setState(() => _loading = false);
+            return;
+          }
           // Primero se prueba el siguiente mirror (si hay otro servidor
           // cargado para este titulo, se prefiere resolverlo nativo antes
           // que caer al WebView). Solo cuando YA NO queda ningun mirror por

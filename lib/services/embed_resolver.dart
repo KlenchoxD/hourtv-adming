@@ -8,6 +8,15 @@ class ResolvedStream {
   const ResolvedStream(this.url, this.headers);
 }
 
+/// Resultado de inspeccionar un embed: puede ser un stream reproducible de
+/// forma nativa o un destino web verificado que debe abrirse en el WebView.
+class EmbedResolution {
+  final ResolvedStream? stream;
+  final String? safeWebUrl;
+
+  const EmbedResolution({this.stream, this.safeWebUrl});
+}
+
 /// Resuelve enlaces embed (streamwish, vidhide, filemoon, dood y clones de
 /// XFileSharing) a su .m3u8/.mp4 directo, como hacen las apps tipo Xuper:
 /// descarga la página, desempaqueta el JS "p,a,c,k,e,d" y extrae la fuente.
@@ -21,7 +30,15 @@ class EmbedResolver {
       'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 '
       '(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36';
 
+  static const Map<String, Set<String>> _trustedRedirectAliases = {
+    'voe.sx': {'eugenemakedraw.com'},
+  };
+
   static Future<ResolvedStream?> resolve(String embedUrl) async {
+    return (await resolveForPlayback(embedUrl)).stream;
+  }
+
+  static Future<EmbedResolution> resolveForPlayback(String embedUrl) async {
     final origin = _origin(embedUrl);
     try {
       final res = await http
@@ -34,23 +51,68 @@ class EmbedResolver {
             },
           )
           .timeout(const Duration(seconds: 15));
-      if (res.statusCode != 200 || res.body.isEmpty) return null;
+      if (res.statusCode != 200 || res.body.isEmpty) {
+        return const EmbedResolution();
+      }
       final html = res.body;
+      final safeWebUrl = _safeWebRedirect(html, embedUrl);
+      if (safeWebUrl != null) {
+        return EmbedResolution(safeWebUrl: safeWebUrl);
+      }
       final source = _extractSource(html);
-      if (source == null) return null;
+      if (source == null) return const EmbedResolution();
       final absolute = _absolute(source, embedUrl);
       // El CDN de estos hosts suele exigir Referer del propio sitio.
-      return ResolvedStream(absolute, {
-        'User-Agent': _ua,
-        'Referer': '$origin/',
-      });
+      return EmbedResolution(
+        stream: ResolvedStream(absolute, {
+          'User-Agent': _ua,
+          'Referer': '$origin/',
+        }),
+      );
     } catch (_) {
-      return null;
+      return const EmbedResolution();
     }
   }
 
   /// Solo para pruebas: expone la extracción sin red.
   static String? debugExtract(String html) => _extractSource(html);
+
+  /// Solo para pruebas: valida redirecciones JavaScript sin realizar red.
+  static String? debugSafeWebRedirect(String html, String sourceUrl) =>
+      _safeWebRedirect(html, sourceUrl);
+
+  static String? _safeWebRedirect(String html, String sourceUrl) {
+    final source = Uri.tryParse(sourceUrl);
+    if (source == null || source.scheme != 'https') return null;
+    final allowed = _trustedRedirectAliases[source.host.toLowerCase()];
+    if (allowed == null) return null;
+
+    final patterns = <RegExp>[
+      RegExp(
+        r'''(?:window\.|document\.)?location\.href\s*=\s*["']([^"']+)["']''',
+        caseSensitive: false,
+      ),
+      RegExp(
+        r'''(?:window\.|document\.)?location\.replace\(\s*["']([^"']+)["']\s*\)''',
+        caseSensitive: false,
+      ),
+    ];
+    for (final pattern in patterns) {
+      for (final match in pattern.allMatches(html)) {
+        final target = Uri.tryParse(match.group(1) ?? '');
+        if (target == null ||
+            target.scheme != 'https' ||
+            !target.hasAuthority) {
+          continue;
+        }
+        final host = target.host.toLowerCase();
+        if (allowed.any((alias) => host == alias || host.endsWith('.$alias'))) {
+          return target.toString();
+        }
+      }
+    }
+    return null;
+  }
 
   /// Busca la URL del stream en el HTML: primero desempaqueta el packer, y si
   /// no hay, mira el HTML crudo (algunos ponen sources:[{file:"..."}] directo).
@@ -59,15 +121,19 @@ class EmbedResolver {
     for (final text in [unpacked, html]) {
       if (text == null) continue;
       // 1) URL .m3u8/.mp4 absoluta.
-      final direct = RegExp(
-        r'''https?://[^"'\\ )]+\.(?:m3u8|mp4)[^"'\\ )]*''',
-      ).firstMatch(text);
-      if (direct != null) return direct.group(0);
+      final direct = RegExp(r'''https?://[^"'\\ )]+\.(?:m3u8|mp4)[^"'\\ )]*''');
+      for (final match in direct.allMatches(text)) {
+        final candidate = match.group(0);
+        if (candidate != null && !_isDecoy(candidate)) return candidate;
+      }
       // 2) file:"..." / "file":"..." dentro de la config del reproductor.
       final fileField = RegExp(
         r'''["']?file["']?\s*:\s*["']([^"']+\.(?:m3u8|mp4)[^"']*)["']''',
-      ).firstMatch(text);
-      if (fileField != null) return fileField.group(1);
+      );
+      for (final match in fileField.allMatches(text)) {
+        final candidate = match.group(1);
+        if (candidate != null && !_isDecoy(candidate)) return candidate;
+      }
       // 3) sources:[{file:"..."}] con ruta relativa.
       final rel = RegExp(
         r'''["']?file["']?\s*:\s*["'](/[^"']+\.(?:m3u8|mp4)[^"']*)["']''',
@@ -75,6 +141,11 @@ class EmbedResolver {
       if (rel != null) return rel.group(1);
     }
     return null;
+  }
+
+  static bool _isDecoy(String url) {
+    final host = Uri.tryParse(url)?.host.toLowerCase() ?? '';
+    return host == 'test-videos.co.uk' || host.endsWith('.test-videos.co.uk');
   }
 
   /// Desempaqueta el clásico `eval(function(p,a,c,k,e,d){...}('P',A,C,'W'.split('|')))`.
@@ -85,10 +156,7 @@ class EmbedResolver {
       dotAll: true,
     ).firstMatch(js);
     if (m == null) return null;
-    var payload = m
-        .group(1)!
-        .replaceAll(r"\'", "'")
-        .replaceAll(r'\\', r'\');
+    var payload = m.group(1)!.replaceAll(r"\'", "'").replaceAll(r'\\', r'\');
     final radix = int.tryParse(m.group(2)!) ?? 36;
     final count = int.tryParse(m.group(3)!) ?? 0;
     final words = m.group(4)!.split('|');
