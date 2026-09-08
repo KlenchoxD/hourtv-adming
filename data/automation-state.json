@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-09-08T13:44:32.099Z",
+  "lastRunAt": "2026-09-08T17:32:21.570Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -16,12 +16,12 @@
     1228710,
     1081003,
     1127384,
-    1384216,
     1355228,
     454639,
+    1384216,
     1212763,
+    671,
     1101383,
-    1284041,
     1368337,
     1288445,
     1375646,
@@ -31,9 +31,9 @@
     1506560,
     1516698,
     1621552,
+    1560520,
     1514682,
     1323244,
-    1213243,
     1335666
   ],
   "tmdbIdsPublished": [],
@@ -81,11 +81,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1384216,
-      "title": "La constelación del perro",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1355228,
       "title": "Gandhari",
       "reason": "Rating 4.6 por debajo del mínimo (5.5)"
@@ -96,8 +91,18 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1384216,
+      "title": "La constelación del perro",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1212763,
       "title": "Posesión infernal: En llamas",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 671,
+      "title": "Harry Potter y la piedra filosofal",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -136,6 +141,11 @@
       "reason": "Votos 47 por debajo del mínimo (50)"
     },
     {
+      "tmdbId": 1560520,
+      "title": "Batman: Knightfall Part 1: Knightfall",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1514682,
       "title": "Above & Below",
       "reason": "Votos 25 por debajo del mínimo (50)"
@@ -143,11 +153,6 @@
     {
       "tmdbId": 1323244,
       "title": "La señal del apocalipsis",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1213243,
-      "title": "Tóxico: Un cuento de hadas para adultos",
       "reason": "Sin fuente autorizada configurada"
     }
   ]

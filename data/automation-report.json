@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-09-08T13:44:29.928Z",
-  "durationMs": 2174,
+  "generatedAt": "2026-09-08T17:32:18.594Z",
+  "durationMs": 2981,
   "dryRun": false,
   "moviesFound": 33,
-  "moviesDiscarded": 22,
+  "moviesDiscarded": 23,
   "moviesAdded": 0,
   "moviesEnriched": 0,
-  "duplicates": 11,
+  "duplicates": 10,
   "tmdbErrors": 0,
   "providerErrors": 0,
   "invalidSources": 0,
@@ -53,11 +53,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1384216,
-      "title": "La constelación del perro",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1355228,
       "title": "Gandhari",
       "reason": "Rating 4.6 por debajo del mínimo (5.5)"
@@ -68,8 +63,18 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1384216,
+      "title": "La constelación del perro",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1212763,
       "title": "Posesión infernal: En llamas",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 671,
+      "title": "Harry Potter y la piedra filosofal",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -108,6 +113,11 @@
       "reason": "Votos 47 por debajo del mínimo (50)"
     },
     {
+      "tmdbId": 1560520,
+      "title": "Batman: Knightfall Part 1: Knightfall",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1514682,
       "title": "Above & Below",
       "reason": "Votos 25 por debajo del mínimo (50)"
@@ -115,11 +125,6 @@
     {
       "tmdbId": 1323244,
       "title": "La señal del apocalipsis",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1213243,
-      "title": "Tóxico: Un cuento de hadas para adultos",
       "reason": "Sin fuente autorizada configurada"
     }
   ]
