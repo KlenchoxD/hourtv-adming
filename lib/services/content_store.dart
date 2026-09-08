@@ -531,7 +531,25 @@ class ContentStore extends ChangeNotifier {
       }
       raw ??= _cachedRemoteSources();
       raw ??= await rootBundle.loadString('assets/data/sources.json');
-      final parsed = CatalogParser.parse(jsonDecode(raw));
+      var parsed = CatalogParser.parse(jsonDecode(raw));
+      if (parsed.series.isEmpty) {
+        try {
+          final assetRaw = await rootBundle.loadString(
+            'assets/data/sources.json',
+          );
+          final assetParsed = CatalogParser.parse(jsonDecode(assetRaw));
+          if (assetParsed.series.isNotEmpty) {
+            parsed = CatalogPayload(
+              lists: [...parsed.lists, ...assetParsed.lists],
+              epgUrls: [...parsed.epgUrls, ...assetParsed.epgUrls],
+              channels: parsed.channels.isNotEmpty
+                  ? parsed.channels
+                  : assetParsed.channels,
+              series: assetParsed.series,
+            );
+          }
+        } catch (_) {}
+      }
       return _AssetSources(
         parsed.lists,
         parsed.epgUrls,

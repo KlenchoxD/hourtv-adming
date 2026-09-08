@@ -49,13 +49,17 @@ void main() {
         expect(find.text(option.label.toUpperCase()), findsOneWidget);
       }
 
-      await tester.tap(find.text(HourTvAvatarCatalog.adults.first.label.toUpperCase()));
+      await tester.tap(
+        find.text(HourTvAvatarCatalog.adults.first.label.toUpperCase()),
+      );
       await tester.pumpAndSettle();
 
       await tester.enterText(find.byType(TextField), 'Ana');
       await tester.pump();
       await tester.tap(find.text('CREAR PERFIL'));
-      await tester.pumpAndSettle();
+      // El shell iniciado tras crear el perfil mantiene indicadores animados;
+      // basta avanzar la transición en vez de esperar quietud absoluta.
+      await tester.pump(const Duration(milliseconds: 800));
 
       expect(StorageService.hasChosenProfile.value, isTrue);
       expect(find.byType(HourTvProfileGate), findsNothing);

@@ -400,7 +400,9 @@ class Channel {
   /// Detecta si es TV en vivo, pelicula o serie SOLO por la ruta del stream.
   MediaType get type {
     if (forcedType == 'movie') return MediaType.movie;
-    if (forcedType == 'series') return MediaType.series;
+    if (forcedType == 'series' || url.startsWith('hourtv-series:')) {
+      return MediaType.series;
+    }
     final u = url.toLowerCase();
     if (u.contains('/movie/') || u.contains('/movies/')) return MediaType.movie;
     if (u.contains('/series/')) return MediaType.series;

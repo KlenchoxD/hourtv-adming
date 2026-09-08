@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -233,8 +234,84 @@ class _AppShellState extends State<_AppShell> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    if (DeviceProfile.isPhone(context)) return const HourTvMobileShell();
-    return const HourTvNewShell();
+    return ValueListenableBuilder<DeviceType?>(
+      valueListenable: DeviceProfile.overrideType,
+      builder: (context, _, _) {
+        final isPhone = DeviceProfile.isPhone(context);
+        final size = MediaQuery.sizeOf(context);
+
+        if (kIsWeb && isPhone && size.width > 600) {
+          return Scaffold(
+            backgroundColor: const Color(0xFF070709),
+            body: Stack(
+              children: [
+                Center(
+                  child: Container(
+                    width: 440,
+                    height: size.height,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF050505),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: 0.85),
+                          blurRadius: 32,
+                          spreadRadius: 6,
+                        ),
+                      ],
+                    ),
+                    child: const ClipRect(child: HourTvMobileShell()),
+                  ),
+                ),
+                Positioned(
+                  top: 14,
+                  right: 16,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF151917),
+                      borderRadius: BorderRadius.circular(24),
+                      border: Border.all(color: const Color(0xFF27302C)),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        TextButton.icon(
+                          onPressed: () => DeviceProfile.overrideType.value =
+                              DeviceType.phone,
+                          icon: const Icon(
+                            Icons.phone_android_rounded,
+                            size: 16,
+                          ),
+                          label: const Text('Móvil Android'),
+                          style: TextButton.styleFrom(
+                            foregroundColor: isPhone
+                                ? const Color(0xFF00C781)
+                                : const Color(0xFFA8ADAB),
+                          ),
+                        ),
+                        TextButton.icon(
+                          onPressed: () =>
+                              DeviceProfile.overrideType.value = DeviceType.tv,
+                          icon: const Icon(Icons.tv_rounded, size: 16),
+                          label: const Text('Android TV'),
+                          style: TextButton.styleFrom(
+                            foregroundColor: !isPhone
+                                ? const Color(0xFF00C781)
+                                : const Color(0xFFA8ADAB),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        }
+
+        if (isPhone) return const HourTvMobileShell();
+        return const HourTvNewShell();
+      },
+    );
   }
 }
 

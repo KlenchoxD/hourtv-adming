@@ -32,12 +32,12 @@ List<Channel> hourTvMobileCatalogContent(
   Set<String> favoriteUrls = const <String>{},
 }) {
   final output = <Channel>[
-    ...channels.where((item) => item.type != MediaType.live),
     ...structuredSeries
         .map(hourTvSeriesChannel)
         .map(
           (item) => item.copyWith(isFavorite: favoriteUrls.contains(item.url)),
         ),
+    ...channels.where((item) => item.type != MediaType.live),
   ];
   final seen = <String>{};
   return [

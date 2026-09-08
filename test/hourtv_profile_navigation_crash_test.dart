@@ -7,25 +7,26 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   StorageService.hasChosenProfile.value = true;
 
-  testWidgets(
-    'tocar "toca para cambiar de perfil" no debe crashear la app',
-    (WidgetTester tester) async {
-      tester.view.physicalSize = const Size(412, 915);
-      tester.view.devicePixelRatio = 1;
-      addTearDown(tester.view.resetPhysicalSize);
-      addTearDown(tester.view.resetDevicePixelRatio);
+  testWidgets('tocar "toca para cambiar de perfil" no debe crashear la app', (
+    WidgetTester tester,
+  ) async {
+    tester.view.physicalSize = const Size(412, 915);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
 
-      await tester.pumpWidget(const HourTVApp());
-      // Pasa la pausa de marca de _LaunchSplash (900ms).
-      await tester.pump(const Duration(milliseconds: 950));
+    await tester.pumpWidget(const HourTVApp());
+    // Pasa la pausa de marca de _LaunchSplash (900ms).
+    await tester.pump(const Duration(milliseconds: 950));
 
-      await tester.tap(find.text('PERFIL'));
-      await tester.pumpAndSettle();
+    await tester.tap(find.text('PERFIL'));
+    await tester.pump(const Duration(milliseconds: 800));
 
-      await tester.tap(find.text('Toca para cambiar de perfil'));
-      await tester.pumpAndSettle();
+    await tester.tap(find.text('Toca para cambiar de perfil'));
+    // La pantalla de perfiles contiene animaciones continuas; esperar a que
+    // no exista ningún frame pendiente hace que pumpAndSettle nunca termine.
+    await tester.pump(const Duration(milliseconds: 800));
 
-      expect(tester.takeException(), isNull);
-    },
-  );
+    expect(tester.takeException(), isNull);
+  });
 }

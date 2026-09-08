@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:streamtv/mobile_ui/hourtv_mobile_shell.dart';
 import 'package:streamtv/models/channel.dart';
 import 'package:streamtv/new_ui/hourtv_player_screen.dart';
+import 'package:streamtv/new_ui/hourtv_series_detail_page.dart';
 import 'package:streamtv/services/xtream_service.dart';
 
 void main() {
@@ -38,5 +39,36 @@ void main() {
       DeviceOrientation.landscapeLeft,
       DeviceOrientation.landscapeRight,
     ]);
+  });
+
+  test('una serie plana conserva un capitulo con todos sus servidores', () {
+    final channel = Channel(
+      name: 'Serie plana',
+      url: 'https://primary.test/e/episode-1',
+      forcedType: 'series',
+      servers: const [
+        ChannelServer(
+          name: 'Servidor principal',
+          url: 'https://primary.test/e/episode-1',
+          language: 'Español',
+        ),
+        ChannelServer(
+          name: 'Servidor alternativo',
+          url: 'https://backup.test/e/episode-1',
+          language: 'Español',
+        ),
+      ],
+    );
+
+    final resolved = hourTvResolveSeries(channel, const []);
+
+    expect(resolved, isNotNull);
+    expect(resolved!.episodes, hasLength(1));
+    expect(resolved.episodes!.single.url, channel.url);
+    expect(resolved.episodes!.single.servers, hasLength(2));
+    expect(
+      resolved.episodes!.single.servers.last.url,
+      'https://backup.test/e/episode-1',
+    );
   });
 }
