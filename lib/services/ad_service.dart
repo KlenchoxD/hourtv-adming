@@ -14,7 +14,7 @@ class AdService {
   AdService._();
 
   static const smartlink =
-      'https://www.effectivecpmnetwork.com/j4c4vxjm?key=02db82eac7ad89e5799436cbc25c9946';
+      'https://www.profitableratecpmnetwork.com/j4c4vxjm?key=02db82eac7ad89e5799436cbc25c9946';
 
   static bool shouldShowPreroll(Channel channel) {
     return channel.type != MediaType.live;
@@ -50,6 +50,18 @@ class AdService {
             FadeTransition(opacity: animation, child: child),
       ),
     );
+  }
+}
+
+/// Controla la frecuencia del preroll durante una sola instancia del
+/// reproductor. Cambiar episodio, servidor o mirror no crea otra sesión.
+class PrerollSession {
+  bool _shown = false;
+
+  bool takeIfNeeded(Channel channel) {
+    if (_shown || !AdService.shouldShowPreroll(channel)) return false;
+    _shown = true;
+    return true;
   }
 }
 
@@ -183,94 +195,94 @@ class _PrerollScreenState extends State<_PrerollScreen> {
       autofocus: true,
       onKeyEvent: _onKey,
       child: PopScope(
-      canPop: _canSkip,
-      child: Scaffold(
-        backgroundColor: Colors.black,
-        body: Stack(
-          fit: StackFit.expand,
-          children: [
-            if (controller != null && _loadError == null)
-              WebViewWidget(controller: controller)
-            else
-              _fallback(),
-            if (_progress < 100 && controller != null && _loadError == null)
-              Align(
-                alignment: Alignment.topCenter,
-                child: LinearProgressIndicator(
-                  value: _progress == 0 ? null : _progress / 100,
-                  minHeight: 2,
-                  color: AppColors.accent,
-                  backgroundColor: Colors.transparent,
-                ),
-              ),
-            SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.all(14),
-                child: Align(
-                  alignment: Alignment.topRight,
-                  child: Focus(
-                    focusNode: _skipFocus,
-                    child: ElevatedButton.icon(
-                      onPressed: _canSkip ? _close : null,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.accent,
-                        foregroundColor: Colors.white,
-                        disabledBackgroundColor: Colors.black.withValues(
-                          alpha: 0.72,
-                        ),
-                        disabledForegroundColor: Colors.white70,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 11,
-                        ),
-                      ),
-                      icon: Icon(
-                        _canSkip
-                            ? Icons.skip_next_rounded
-                            : Icons.hourglass_top_rounded,
-                        size: 19,
-                      ),
-                      label: Text(
-                        _canSkip ? 'Saltar' : 'Saltar en $_secondsLeft s',
-                        style: const TextStyle(fontWeight: FontWeight.w700),
-                      ),
-                    ),
+        canPop: _canSkip,
+        child: Scaffold(
+          backgroundColor: Colors.black,
+          body: Stack(
+            fit: StackFit.expand,
+            children: [
+              if (controller != null && _loadError == null)
+                WebViewWidget(controller: controller)
+              else
+                _fallback(),
+              if (_progress < 100 && controller != null && _loadError == null)
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: LinearProgressIndicator(
+                    value: _progress == 0 ? null : _progress / 100,
+                    minHeight: 2,
+                    color: AppColors.accent,
+                    backgroundColor: Colors.transparent,
                   ),
                 ),
-              ),
-            ),
-            SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(16, 18, 150, 0),
-                child: Align(
-                  alignment: Alignment.topLeft,
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                      color: Colors.black.withValues(alpha: 0.66),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: const Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 10,
-                        vertical: 7,
-                      ),
-                      child: Text(
-                        'PUBLICIDAD',
-                        style: TextStyle(
-                          color: Colors.white70,
-                          fontSize: 11,
-                          fontWeight: FontWeight.w800,
-                          letterSpacing: 1.1,
+              SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.all(14),
+                  child: Align(
+                    alignment: Alignment.topRight,
+                    child: Focus(
+                      focusNode: _skipFocus,
+                      child: ElevatedButton.icon(
+                        onPressed: _canSkip ? _close : null,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.accent,
+                          foregroundColor: Colors.white,
+                          disabledBackgroundColor: Colors.black.withValues(
+                            alpha: 0.72,
+                          ),
+                          disabledForegroundColor: Colors.white70,
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 11,
+                          ),
+                        ),
+                        icon: Icon(
+                          _canSkip
+                              ? Icons.skip_next_rounded
+                              : Icons.hourglass_top_rounded,
+                          size: 19,
+                        ),
+                        label: Text(
+                          _canSkip ? 'Saltar' : 'Saltar en $_secondsLeft s',
+                          style: const TextStyle(fontWeight: FontWeight.w700),
                         ),
                       ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ],
+              SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 18, 150, 0),
+                  child: Align(
+                    alignment: Alignment.topLeft,
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: Colors.black.withValues(alpha: 0.66),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: const Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 7,
+                        ),
+                        child: Text(
+                          'PUBLICIDAD',
+                          style: TextStyle(
+                            color: Colors.white70,
+                            fontSize: 11,
+                            fontWeight: FontWeight.w800,
+                            letterSpacing: 1.1,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
-      ),
       ),
     );
   }

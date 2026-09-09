@@ -120,6 +120,7 @@ class _PlayerScreenState extends State<PlayerScreen>
   bool _autoNextCancelled = false;
   bool _advancingEpisode = false;
   int _lastProgressSecond = -1;
+  final PrerollSession _prerollSession = PrerollSession();
 
   Channel get _currentChannel => widget.allChannels[_idx];
   bool get _isLive => _currentChannel.type == MediaType.live;
@@ -195,7 +196,9 @@ class _PlayerScreenState extends State<PlayerScreen>
   }
 
   Future<void> _playChannel(Channel channel, {String? streamUrl}) async {
-    await AdService.showPreroll(context, channel);
+    if (_prerollSession.takeIfNeeded(channel)) {
+      await AdService.showPreroll(context, channel);
+    }
     if (!mounted) return;
     await StorageService.saveRecent(channel);
     if (!mounted) return;
