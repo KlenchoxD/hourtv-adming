@@ -872,27 +872,29 @@ class _PlayerScreenState extends State<PlayerScreen>
   }
 
   Future<void> _openCastSettings() async {
-    try {
-      final opened =
-          await _platform.invokeMethod<bool>('openCastSettings') ?? false;
-      if (!opened && mounted) {
-        await _showMessage(
-          'Transmitir',
-          'Este dispositivo no ofrece el panel nativo para compartir pantalla.',
-        );
-      }
-    } on PlatformException catch (error) {
-      if (mounted) {
-        await _showMessage(
-          'Transmitir',
-          error.message ?? 'No se pudo abrir el panel para transmitir.',
-        );
-      }
+    final res = await CastService.instance.openCastSettings();
+    if (!mounted) return;
+    if (!res.opened) {
+      await _showMessage(
+        'Transmitir',
+        res.errorMessage ??
+            'Este dispositivo no ofrece ninguna actividad compatible para transmitir o duplicar pantalla.',
+      );
+      return;
+    }
+    if (res.target == CastSettingsTarget.display) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Se abrieron los Ajustes de pantalla como último recurso. Si tu televisor no aparece allí, consulta los ajustes de conexión de tu dispositivo.',
+          ),
+          duration: Duration(seconds: 4),
+        ),
+      );
     }
   }
 
   Future<void> _initializeCast() async {
-    if (widget.allChannels[_idx].type == MediaType.live) return;
     final available = await CastService.instance.initialize();
     if (!mounted || !available) return;
     _castSessionSubscription = CastService.instance.sessionStream.listen(
@@ -982,21 +984,13 @@ class _PlayerScreenState extends State<PlayerScreen>
     final channel = widget.allChannels[_idx];
     final streamUrl = _resolvedPlaybackUrl ?? _activeServerUrl ?? channel.url;
 
-    // Motivos reales por los que este contenido no se puede enviar. Se pasan
-    // al panel para explicarlos ahi en vez de ofrecer dispositivos que van a
-    // fallar al cargar el video.
-    final blocked =
-        (CastService.needsUnsupportedHeaders(channel.userAgent) ||
-            _resolvedPlaybackNeedsHeaders)
-        ? 'Este servidor exige cabeceras personalizadas (User-Agent o '
-              'Referer) y el receptor predeterminado de Chromecast no '
-              'permite enviarlas, así que el televisor rechazaría el vídeo.'
-        : (!CastService.isNetworkUrl(streamUrl) ||
-              CastService.contentTypeFor(streamUrl, mediaType: channel.type) ==
-                  null)
-        ? 'Este servidor no expone una URL HLS (.m3u8) ni MP4, que son los '
-              'únicos formatos que acepta Chromecast.'
-        : null;
+    final blockInfo = CastService.checkStreamBlocked(
+      streamUrl: streamUrl,
+      mediaType: channel.type,
+      userAgent: channel.userAgent,
+      requiresHeaders: _resolvedPlaybackNeedsHeaders,
+      isEmbedOrWebView: _embedController != null,
+    );
 
     final connected = await showCastSheet(
       context,
@@ -1006,7 +1000,7 @@ class _PlayerScreenState extends State<PlayerScreen>
       position: () => _vc?.value.position ?? Duration.zero,
       duration: () => _vc?.value.duration,
       mediaType: channel.type,
-      blockedReason: blocked,
+      blockInfo: blockInfo,
     );
     if (!mounted || !connected) return;
     // Con la sesion activa el video local no debe seguir sonando.
@@ -1259,23 +1253,18 @@ class _PlayerScreenState extends State<PlayerScreen>
       builder: (dialogContext) => SimpleDialog(
         title: const Text('Opciones de reproducción'),
         children: [
-          if (widget.allChannels[_idx].type != MediaType.live)
+          if (CastService.isScreenMirroringSupported(context))
             SimpleDialogOption(
               onPressed: () {
                 Navigator.pop(dialogContext);
                 unawaited(_openCastSettings());
               },
-              // Esto NO es transmitir: es el espejo de pantalla del sistema, y
-              // no existe forma de hacerlo dentro de la app. Se deja porque es
-              // la unica salida para servidores no casteables, pero el texto
-              // avisa de que sale a los ajustes de Android.
               child: const ListTile(
                 contentPadding: EdgeInsets.zero,
                 leading: Icon(Icons.screen_share_rounded),
-                title: Text('Compartir pantalla'),
+                title: Text('Duplicar pantalla'),
                 subtitle: Text(
-                  'Abre los ajustes de Android. Alternativa para servidores '
-                  'que no se pueden transmitir',
+                  'Abre los ajustes de Android para transmitir o reflejar la pantalla.',
                 ),
               ),
             ),
@@ -2689,7 +2678,7 @@ class _PlayerScreenState extends State<PlayerScreen>
                   }
                 },
               ),
-            if (ch.type != MediaType.live && !DeviceProfile.isTv(context))
+            if (!DeviceProfile.isTv(context))
               _castButton(),
             IconButton(
               tooltip: 'Audio, subtítulos, calidad y aspecto',
@@ -3016,34 +3005,11 @@ String playbackErrorMessage(String? raw) {
   return 'No se pudo reproducir este contenido. Probá con otro servidor.';
 }
 
-/// Extensiones de stream directo que ExoPlayer reproduce nativamente.
-const _directMediaExtensions = <String>[
-  '.m3u8',
-  '.mpd',
-  '.mp4',
-  '.m4v',
-  '.mov',
-  '.webm',
-  '.mkv',
-  '.ts',
-  '.flv',
-  '.avi',
-  '.mp3',
-  '.aac',
-  '.ogg',
-];
 
 /// True si la URL es una pagina web (embed tipo niramirus/dood/streamtape) en
 /// vez de un stream directo. Los esquemas propios (archive:, stalker:) y los
 /// enlaces con extension de video conocida NO son embed.
-bool isEmbedStreamUrl(String url) {
-  final uri = Uri.tryParse(url);
-  if (uri == null || (uri.scheme != 'http' && uri.scheme != 'https')) {
-    return false;
-  }
-  final path = uri.path.toLowerCase();
-  return !_directMediaExtensions.any(path.endsWith);
-}
+bool isEmbedStreamUrl(String url) => CastService.isEmbedStreamUrl(url);
 
 class _HourPlayerBadge extends StatelessWidget {
   const _HourPlayerBadge();

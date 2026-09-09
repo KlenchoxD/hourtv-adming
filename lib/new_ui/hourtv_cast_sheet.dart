@@ -12,14 +12,16 @@ const _surface = Color(0xFF101412);
 const _line = Color(0xFF27302C);
 const _muted = Color(0xFFA6A6B0);
 
-/// Panel de transmision propio de HourTV.
+/// Panel de transmisión propio de HourTV.
 ///
-/// Sustituye al panel nativo de Android (`Settings.ACTION_CAST_SETTINGS`), que
-/// sacaba al usuario de la app y no encajaba con nada. Aqui se busca, se
-/// selecciona, se ve el estado y se puede desconectar sin salir.
+/// Ofrece dos rutas de salida según la compatibilidad técnica del stream:
+/// 1. Chromecast directo para streams compatibles con el receptor por defecto.
+/// 2. Duplicación de pantalla en Android mediante ajustes del sistema (`openCastSettings`)
+///    para streams con cabeceras, WebViews, o cuando no se encuentran dispositivos.
 ///
-/// Devuelve `true` si quedo una sesion conectada, para que quien lo abrio
-/// pueda pausar el video local y mostrar los controles remotos.
+/// Devuelve `true` si quedó una sesión Chromecast conectada (para pausar el
+/// reproductor local y abrir controles remotos). La duplicación de pantalla
+/// devuelve `false` para no interrumpir la reproducción local en curso.
 Future<bool> showCastSheet(
   BuildContext context, {
   required String title,
@@ -28,15 +30,26 @@ Future<bool> showCastSheet(
   Duration Function()? position,
   Duration? Function()? duration,
 
-  /// Tipo de contenido conocido por la app (En Vivo/pelicula/serie), para
-  /// no depender solo de la extension de la URL al decidir el tipo MIME.
+  /// Tipo de contenido conocido por la app (En Vivo/película/serie).
   MediaType? mediaType,
 
-  /// Motivo por el que este contenido no se puede transmitir, si aplica. Se
-  /// muestra en lugar de la lista: es mas honesto que ofrecer dispositivos a
-  /// los que el envio va a fallar.
+  /// Información estructurada sobre incompatibilidad técnica con Chromecast directo.
+  StreamBlockInfo? blockInfo,
+
+  /// Motivo de bloqueo en texto plano (retrocompatibilidad).
   String? blockedReason,
 }) async {
+  final resolvedBlock = blockInfo ??
+      (blockedReason != null
+          ? StreamBlockInfo(
+              reason: StreamBlockReason.requiresHeaders,
+              explanation: blockedReason,
+              isHeaderOrWebView: blockedReason.toLowerCase().contains('cabecera') ||
+                  blockedReason.toLowerCase().contains('visor') ||
+                  blockedReason.toLowerCase().contains('user-agent'),
+            )
+          : null);
+
   final connected = await showModalBottomSheet<bool>(
     context: context,
     backgroundColor: Colors.transparent,
@@ -48,7 +61,7 @@ Future<bool> showCastSheet(
       position: position,
       duration: duration,
       mediaType: mediaType,
-      blockedReason: blockedReason,
+      blockInfo: resolvedBlock,
     ),
   );
   return connected ?? false;
@@ -62,7 +75,7 @@ class _CastSheet extends StatefulWidget {
     this.position,
     this.duration,
     this.mediaType,
-    this.blockedReason,
+    this.blockInfo,
   });
 
   final String title;
@@ -71,7 +84,7 @@ class _CastSheet extends StatefulWidget {
   final Duration Function()? position;
   final Duration? Function()? duration;
   final MediaType? mediaType;
-  final String? blockedReason;
+  final StreamBlockInfo? blockInfo;
 
   @override
   State<_CastSheet> createState() => _CastSheetState();
@@ -89,11 +102,14 @@ class _CastSheetState extends State<_CastSheet> {
   String? _connectingTo;
   GoogleCastDevice? _connectedDevice;
 
+  StreamBlockInfo? get _block => widget.blockInfo;
+  bool get _isBlocked => _block != null;
+
   _Phase get _phase {
     if (!_sdkAvailable) return _Phase.unavailable;
     if (_connectedDevice != null) return _Phase.connected;
     if (_connecting) return _Phase.connecting;
-    if (widget.blockedReason != null) return _Phase.blocked;
+    if (_isBlocked) return _Phase.blocked;
     if (_devices.isEmpty) return _Phase.searching;
     return _Phase.ready;
   }
@@ -163,8 +179,6 @@ class _CastSheetState extends State<_CastSheet> {
     } on FormatException catch (error) {
       _fail(error.message);
     } on StateError catch (error) {
-      // El dispositivo se conecto pero el video no cargo (rechazado por
-      // formato, cabeceras no soportadas, o el receptor nunca confirmo).
       _fail(error.message);
     } catch (error) {
       _fail('No se pudo conectar con ${device.friendlyName}. $error');
@@ -189,6 +203,30 @@ class _CastSheetState extends State<_CastSheet> {
     }
   }
 
+  Future<void> _openScreenMirroring() async {
+    final res = await CastService.instance.openCastSettings();
+    if (!mounted) return;
+    if (!res.opened) {
+      setState(() {
+        _error = res.errorMessage ??
+            'Este dispositivo no ofrece ninguna actividad compatible para transmitir o duplicar pantalla.';
+      });
+      return;
+    }
+    if (res.target == CastSettingsTarget.display) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Se abrieron los Ajustes de pantalla como último recurso. Si tu televisor no aparece allí, consulta los ajustes de conexión de tu dispositivo.',
+          ),
+          duration: Duration(seconds: 4),
+        ),
+      );
+    }
+    // Cierra el panel de HourTV sin pausar la reproducción local.
+    Navigator.pop(context, false);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -205,17 +243,19 @@ class _CastSheetState extends State<_CastSheet> {
       ),
       child: SafeArea(
         top: false,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _header(),
-            const SizedBox(height: 14),
-            _status(),
-            if (_error != null) ...[const SizedBox(height: 12), _errorBox()],
-            const SizedBox(height: 6),
-            ..._content(),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _header(),
+              const SizedBox(height: 14),
+              _status(),
+              if (_error != null) ...[const SizedBox(height: 12), _errorBox()],
+              const SizedBox(height: 10),
+              ..._content(),
+            ],
+          ),
         ),
       ),
     );
@@ -263,21 +303,25 @@ class _CastSheetState extends State<_CastSheet> {
     ],
   );
 
-  /// Estado de conexion, siempre visible: es lo primero que se pregunta al
-  /// pulsar transmitir.
   Widget _status() {
     final (Color color, String text, bool spinner) = switch (_phase) {
       _Phase.unavailable => (
         _muted,
-        'Este dispositivo no tiene Google Cast',
+        'Google Cast no disponible en este dispositivo',
         false,
       ),
       _Phase.blocked => (
         const Color(0xFFE8A33D),
-        'No se puede transmitir',
+        _block?.isHeaderOrWebView == true
+            ? 'Servidor con cabeceras: requiere duplicación'
+            : 'Formato no compatible con Chromecast directo',
         false,
       ),
-      _Phase.searching => (_muted, 'Buscando dispositivos en tu red…', true),
+      _Phase.searching => (
+        _muted,
+        'Buscando dispositivos Chromecast en tu red Wi-Fi…',
+        true,
+      ),
       _Phase.ready => (
         _muted,
         '${_devices.length} dispositivo${_devices.length == 1 ? '' : 's'} disponible${_devices.length == 1 ? '' : 's'}',
@@ -322,77 +366,306 @@ class _CastSheetState extends State<_CastSheet> {
       borderRadius: BorderRadius.circular(10),
       border: Border.all(color: _red.withValues(alpha: .45)),
     ),
-    child: Row(
+    child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Icon(Icons.error_outline_rounded, color: _red, size: 17),
-        const SizedBox(width: 9),
-        Expanded(
-          child: Text(
-            _error!,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 12.5,
-              height: 1.4,
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Icon(Icons.error_outline_rounded, color: _red, size: 17),
+            const SizedBox(width: 9),
+            Expanded(
+              child: Text(
+                _error!,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 12.5,
+                  height: 1.4,
+                ),
+              ),
+            ),
+          ],
+        ),
+        if (CastService.isScreenMirroringSupported(context)) ...[
+          const SizedBox(height: 8),
+          OutlinedButton.icon(
+            onPressed: _openScreenMirroring,
+            style: OutlinedButton.styleFrom(
+              foregroundColor: Colors.white,
+              side: BorderSide(color: _red.withValues(alpha: .6)),
+              minimumSize: const Size(0, 36),
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            ),
+            icon: const Icon(Icons.screen_share_rounded, size: 16),
+            label: const Text(
+              'Duplicar pantalla en su lugar',
+              style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700),
             ),
           ),
-        ),
+        ],
       ],
     ),
   );
 
-  List<Widget> _content() => switch (_phase) {
-    _Phase.unavailable => [
-      _note(
-        'Google Cast necesita los servicios de Google Play. Sin ellos no se '
-        'puede enviar el contenido a un televisor desde este teléfono.',
-      ),
-    ],
-    _Phase.blocked => [_note(widget.blockedReason!)],
-    _Phase.connected => [
-      _connectedCard(),
-      const SizedBox(height: 12),
-      Row(
-        children: [
-          Expanded(
-            child: OutlinedButton.icon(
-              onPressed: () => unawaited(_disconnect()),
-              style: OutlinedButton.styleFrom(
-                foregroundColor: Colors.white,
-                side: const BorderSide(color: _line),
-                minimumSize: const Size(0, 46),
-              ),
-              icon: const Icon(Icons.cast_rounded, size: 18),
-              label: const Text('Desconectar'),
-            ),
-          ),
-          const SizedBox(width: 10),
-          Expanded(
-            child: FilledButton(
-              onPressed: () => Navigator.pop(context, true),
-              style: FilledButton.styleFrom(
-                backgroundColor: _red,
-                foregroundColor: Colors.white,
-                minimumSize: const Size(0, 46),
-              ),
-              child: const Text(
-                'Controles',
-                style: TextStyle(fontWeight: FontWeight.w800),
+  List<Widget> _content() {
+    final block = _block;
+    final mirroringSupported = CastService.isScreenMirroringSupported(context);
+
+    // Si ya existe sesión conectada activa, la mostramos en primer lugar
+    if (_connectedDevice != null) {
+      return [
+        _connectedCard(),
+        const SizedBox(height: 12),
+        Row(
+          children: [
+            Expanded(
+              child: OutlinedButton.icon(
+                onPressed: () => unawaited(_disconnect()),
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  side: const BorderSide(color: _line),
+                  minimumSize: const Size(0, 46),
+                ),
+                icon: const Icon(Icons.cast_rounded, size: 18),
+                label: const Text('Desconectar'),
               ),
             ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: FilledButton(
+                onPressed: () => Navigator.pop(context, true),
+                style: FilledButton.styleFrom(
+                  backgroundColor: _red,
+                  foregroundColor: Colors.white,
+                  minimumSize: const Size(0, 46),
+                ),
+                child: const Text(
+                  'Controles',
+                  style: TextStyle(fontWeight: FontWeight.w800),
+                ),
+              ),
+            ),
+          ],
+        ),
+        if (mirroringSupported) ...[
+          const SizedBox(height: 16),
+          _sectionHeader('DUPLICAR PANTALLA'),
+          const SizedBox(height: 8),
+          _mirrorCard(isPrimary: false),
+        ],
+      ];
+    }
+
+    // Caso 1: El stream tiene bloqueo técnico (cabeceras, visor web, formato incompatible)
+    if (block != null) {
+      return [
+        if (mirroringSupported) ...[
+          _sectionHeader('OPCIÓN PRINCIPAL'),
+          const SizedBox(height: 8),
+          _mirrorCard(isPrimary: true),
+          const SizedBox(height: 16),
+        ],
+        _sectionHeader('CHROMECAST DIRECTO'),
+        const SizedBox(height: 8),
+        _blockedExplanation(block),
+      ];
+    }
+
+    // Caso 2: El stream es compatible con Chromecast directo
+    return [
+      _sectionHeader('TRANSMITIR CONTENIDO'),
+      const SizedBox(height: 8),
+      if (!_sdkAvailable) ...[
+        _note(
+          'Google Cast necesita los servicios de Google Play. Sin ellos no se '
+          'puede enviar el contenido a un televisor por Chromecast directo.',
+        ),
+        if (mirroringSupported) ...[
+          const SizedBox(height: 8),
+          OutlinedButton.icon(
+            onPressed: _openScreenMirroring,
+            style: OutlinedButton.styleFrom(
+              foregroundColor: Colors.white,
+              side: const BorderSide(color: _line),
+              minimumSize: const Size(0, 42),
+            ),
+            icon: const Icon(Icons.settings_remote_rounded, size: 18),
+            label: const Text('Abrir ajustes de transmisión de Android'),
           ),
         ],
+      ] else if (_devices.isEmpty) ...[
+        _note(
+          'Asegúrate de que el televisor o Chromecast está encendido y conectado a la misma red Wi-Fi.',
+        ),
+        if (mirroringSupported) ...[
+          const SizedBox(height: 8),
+          OutlinedButton.icon(
+            onPressed: _openScreenMirroring,
+            style: OutlinedButton.styleFrom(
+              foregroundColor: Colors.white,
+              side: const BorderSide(color: _line),
+              minimumSize: const Size(0, 42),
+            ),
+            icon: const Icon(Icons.settings_remote_rounded, size: 18),
+            label: const Text('Abrir ajustes de transmisión de Android'),
+          ),
+        ],
+      ] else ...[
+        for (final device in _devices) _deviceRow(device),
+      ],
+      if (mirroringSupported) ...[
+        const SizedBox(height: 16),
+        _sectionHeader('DUPLICAR PANTALLA'),
+        const SizedBox(height: 8),
+        _mirrorCard(isPrimary: false),
+      ],
+    ];
+  }
+
+  Widget _sectionHeader(String text) => Text(
+    text,
+    style: const TextStyle(
+      color: _muted,
+      fontSize: 11,
+      fontWeight: FontWeight.w800,
+      letterSpacing: 0.8,
+    ),
+  );
+
+  Widget _mirrorCard({required bool isPrimary}) {
+    return Material(
+      color: _surface,
+      borderRadius: BorderRadius.circular(12),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(12),
+        onTap: _openScreenMirroring,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(
+              color: isPrimary ? _red : _line,
+              width: isPrimary ? 1.5 : 1.0,
+            ),
+            color: isPrimary ? _red.withValues(alpha: .06) : _surface,
+          ),
+          child: Row(
+            children: [
+              Container(
+                width: 38,
+                height: 38,
+                decoration: BoxDecoration(
+                  color: isPrimary
+                      ? _red.withValues(alpha: .18)
+                      : Colors.white.withValues(alpha: .08),
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(
+                    color: isPrimary
+                        ? _red.withValues(alpha: .4)
+                        : Colors.white12,
+                  ),
+                ),
+                child: Icon(
+                  Icons.screen_share_rounded,
+                  color: isPrimary ? _red : Colors.white,
+                  size: 20,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      isPrimary
+                          ? 'Duplicar pantalla (Recomendado)'
+                          : 'Duplicar pantalla',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                        fontWeight: isPrimary ? FontWeight.w800 : FontWeight.w700,
+                      ),
+                    ),
+                    const SizedBox(height: 3),
+                    const Text(
+                      'Refleja la pantalla en tu TV. Android te pedirá seleccionar y confirmar el televisor.',
+                      style: TextStyle(
+                        color: _muted,
+                        fontSize: 12,
+                        height: 1.3,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 6),
+              Icon(
+                Icons.chevron_right_rounded,
+                color: isPrimary ? _red : _muted,
+              ),
+            ],
+          ),
+        ),
       ),
-    ],
-    _Phase.searching => [
-      _note(
-        'Asegúrate de que el televisor o Chromecast está encendido y en la '
-        'misma red Wi-Fi que este teléfono.',
+    );
+  }
+
+  Widget _blockedExplanation(StreamBlockInfo block) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      decoration: BoxDecoration(
+        color: const Color(0xFFE8A33D).withValues(alpha: .10),
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: const Color(0xFFE8A33D).withValues(alpha: .4)),
       ),
-    ],
-    _Phase.connecting ||
-    _Phase.ready => [for (final device in _devices) _deviceRow(device)],
-  };
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              const Icon(
+                Icons.info_outline_rounded,
+                color: Color(0xFFE8A33D),
+                size: 17,
+              ),
+              const SizedBox(width: 8),
+              const Expanded(
+                child: Text(
+                  'Chromecast directo no disponible',
+                  style: TextStyle(
+                    color: Color(0xFFE8A33D),
+                    fontWeight: FontWeight.w700,
+                    fontSize: 13,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 6),
+          Text(
+            block.explanation,
+            style: const TextStyle(
+              color: Colors.white70,
+              fontSize: 12.5,
+              height: 1.4,
+            ),
+          ),
+          if (block.isHeaderOrWebView) ...[
+            const SizedBox(height: 4),
+            const Text(
+              'Los receptores Chromecast no admiten cabeceras personalizadas (Referer/User-Agent). La duplicación de pantalla es la alternativa oficial para ver este contenido.',
+              style: TextStyle(
+                color: _muted,
+                fontSize: 11.5,
+                height: 1.35,
+              ),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
 
   Widget _note(String text) => Padding(
     padding: const EdgeInsets.only(top: 6, bottom: 4),

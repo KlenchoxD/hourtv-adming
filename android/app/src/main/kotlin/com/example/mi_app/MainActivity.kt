@@ -48,17 +48,22 @@ class MainActivity : FlutterActivity() {
                 "openCastSettings" -> {
                     try {
                         startActivity(Intent(Settings.ACTION_CAST_SETTINGS))
-                        result.success(true)
+                        result.success("cast")
                     } catch (castError: Exception) {
                         try {
                             startActivity(Intent(Settings.ACTION_WIRELESS_SETTINGS))
-                            result.success(true)
+                            result.success("wireless")
                         } catch (wirelessError: Exception) {
-                            result.error(
-                                "cast_settings_unavailable",
-                                wirelessError.message ?: castError.message,
-                                null,
-                            )
+                            try {
+                                startActivity(Intent(Settings.ACTION_DISPLAY_SETTINGS))
+                                result.success("display")
+                            } catch (displayError: Exception) {
+                                result.error(
+                                    "cast_settings_unavailable",
+                                    "Este dispositivo no ofrece ninguna actividad compatible para transmitir o duplicar pantalla.",
+                                    null,
+                                )
+                            }
                         }
                     }
                 }

@@ -69,6 +69,7 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
   // segundo toque).
   bool _opening = false;
   StreamSubscription<List<GoogleCastDevice>>? _castDevicesSub;
+  StreamSubscription<GoogleCastSession?>? _castSessionSub;
   final FocusNode tvFocus = FocusNode();
 
   Channel get channel => widget.channel;
@@ -124,22 +125,21 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
     _watchCastDevices();
   }
 
-  // El boton de transmitir solo se habilita si de verdad hay algo a lo que
-  // transmitir. Antes estaba siempre activo y al pulsarlo no pasaba nada.
   void _watchCastDevices() {
     if (!CastService.instance.isAvailable) return;
     unawaited(CastService.instance.startDiscovery());
-    _castDevicesSub = CastService.instance.devicesStream.listen((devices) {
-      final available = devices.isNotEmpty;
-      if (mounted && available != castDeviceAvailable) {
-        setState(() => castDeviceAvailable = available);
-      }
+    _castDevicesSub = CastService.instance.devicesStream.listen((_) {
+      if (mounted) setState(() {});
+    });
+    _castSessionSub = CastService.instance.sessionStream.listen((_) {
+      if (mounted) setState(() {});
     });
   }
 
   @override
   void dispose() {
     _castDevicesSub?.cancel();
+    _castSessionSub?.cancel();
     tvFocus.dispose();
     if (defaultTargetPlatform == TargetPlatform.android) {
       SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
@@ -210,20 +210,20 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
     // Mismo panel propio que el reproductor: busca, muestra el estado, deja
     // elegir y desconectar, y explica los errores sin salir de la app.
     final streamUrl = channel.url;
-    final blocked =
-        !CastService.isNetworkUrl(streamUrl) ||
-            CastService.contentTypeFor(streamUrl, mediaType: channel.type) ==
-                null
-        ? 'Este contenido no expone una URL HLS (.m3u8) ni MP4, que son los '
-              'únicos formatos que acepta Chromecast.'
-        : null;
+    final isEmbed = CastService.isLikelyEmbedUrl(streamUrl);
+    final blockInfo = CastService.checkStreamBlocked(
+      streamUrl: streamUrl,
+      mediaType: channel.type,
+      userAgent: channel.userAgent,
+      isEmbedOrWebView: isEmbed,
+    );
     final connected = await showCastSheet(
       context,
       title: channel.displayName,
       streamUrl: () => streamUrl,
       posterUrl: channel.backdrop ?? channel.logo,
       mediaType: channel.type,
-      blockedReason: blocked,
+      blockInfo: blockInfo,
     );
     if (!mounted || !connected) return;
     await Navigator.of(context).push<bool>(
@@ -231,6 +231,7 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
         builder: (_) => CastControlsScreen(title: channel.displayName),
       ),
     );
+    if (mounted) setState(() {});
   }
 
   void openRelated(Channel item) {
@@ -912,11 +913,15 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
               ),
               Expanded(
                 child: _labelledAction(
-                  Icons.cast_rounded,
-                  'Transmitir',
+                  CastService.instance.isConnected
+                      ? Icons.cast_connected_rounded
+                      : Icons.cast_rounded,
+                  CastService.instance.isConnected
+                      ? 'Conectado'
+                      : 'Transmitir',
                   () => unawaited(castToDevice()),
-                  // Deshabilitado mientras no se detecte ningun dispositivo.
-                  enabled: castDeviceAvailable,
+                  active: CastService.instance.isConnected,
+                  enabled: true,
                 ),
               ),
             ],
@@ -946,9 +951,12 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
         ),
         const SizedBox(width: 8),
         _roundAction(
-          Icons.cast_rounded,
+          CastService.instance.isConnected
+              ? Icons.cast_connected_rounded
+              : Icons.cast_rounded,
           () => unawaited(castToDevice()),
-          label: 'Transmitir',
+          label: CastService.instance.isConnected ? 'Conectado' : 'Transmitir',
+          active: CastService.instance.isConnected,
         ),
       ],
     );
