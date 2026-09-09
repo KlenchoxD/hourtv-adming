@@ -136,7 +136,7 @@ class _HourTvMobileShellState extends State<HourTvMobileShell> {
   List<Channel> get _liveChannelsOrPreview =>
       _liveChannels.isNotEmpty ? _liveChannels : PreviewCatalog.live;
 
-  void _openDetails(Channel channel) {
+  void _openDetails(Channel channel, {bool fromContinueWatching = false}) {
     final series = hourTvResolveSeries(channel, store.visibleSeries);
     if (series != null) {
       Navigator.of(context).push(
@@ -151,6 +151,7 @@ class _HourTvMobileShellState extends State<HourTvMobileShell> {
         builder: (_) => HourTvDetailPage(
           channel: channel,
           preview: PreviewCatalog.movies.any((item) => item.url == channel.url),
+          fromContinueWatching: fromContinueWatching,
         ),
       ),
     );
@@ -165,6 +166,8 @@ class _HourTvMobileShellState extends State<HourTvMobileShell> {
         allContent: _allContent,
         store: store,
         onOpen: _openDetails,
+        onOpenContinue: (channel) =>
+            _openDetails(channel, fromContinueWatching: true),
         onSearch: () =>
             setState(() => destination = HourTvMobileDestination.search),
         onProfile: () =>
@@ -189,7 +192,12 @@ class _HourTvMobileShellState extends State<HourTvMobileShell> {
       else
         const SizedBox.shrink(),
       HourTvMobileSearch(content: _allContent, onOpen: _openDetails),
-      HourTvMobileLibrary(store: store, onOpen: _openDetails),
+      HourTvMobileLibrary(
+        store: store,
+        onOpen: _openDetails,
+        onOpenContinue: (channel) =>
+            _openDetails(channel, fromContinueWatching: true),
+      ),
       HourTvMobileProfile(
         onOpenAccount: () {
           final isTablet = DeviceProfile.isTablet(context);
@@ -255,12 +263,17 @@ class HourTvMobileHome extends StatefulWidget {
     required this.onOpen,
     required this.onSearch,
     required this.onProfile,
+    this.onOpenContinue,
   });
 
   final List<Channel> movies;
   final List<Channel> allContent;
   final ContentStore store;
   final ValueChanged<Channel> onOpen;
+
+  /// Apertura desde la fila "Continuar viendo": si se provee, reanuda la
+  /// posicion guardada directamente (sin dialogo de decision).
+  final ValueChanged<Channel>? onOpenContinue;
   final VoidCallback onSearch;
   final VoidCallback onProfile;
 
@@ -333,7 +346,9 @@ class _HourTvMobileHomeState extends State<HourTvMobileHome> {
                   separatorBuilder: (_, _) => const SizedBox(width: 12),
                   itemBuilder: (_, index) => _ContinueCard(
                     channel: continueWatching[index],
-                    onTap: () => widget.onOpen(continueWatching[index]),
+                    onTap: () => (widget.onOpenContinue ?? widget.onOpen)(
+                      continueWatching[index],
+                    ),
                     assetFallback: _fallbackArtwork(index),
                   ),
                 ),
@@ -1333,9 +1348,11 @@ class HourTvMobileLibrary extends StatefulWidget {
     super.key,
     required this.store,
     required this.onOpen,
+    this.onOpenContinue,
   });
   final ContentStore store;
   final ValueChanged<Channel> onOpen;
+  final ValueChanged<Channel>? onOpenContinue;
 
   @override
   State<HourTvMobileLibrary> createState() => _HourTvMobileLibraryState();
@@ -1504,7 +1521,14 @@ class _HourTvMobileLibraryState extends State<HourTvMobileLibrary> {
               ),
               itemBuilder: (_, index) => HourTvPosterCard(
                 channel: items[index],
-                onTap: () => widget.onOpen(items[index]),
+                onTap: () {
+                  final channel = items[index];
+                  if (tab == 'Continuar viendo' && widget.onOpenContinue != null) {
+                    widget.onOpenContinue!(channel);
+                  } else {
+                    widget.onOpen(channel);
+                  }
+                },
                 width: double.infinity,
                 assetFallback: _fallbackArtwork(index),
               ),

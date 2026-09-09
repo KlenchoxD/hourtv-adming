@@ -16,6 +16,7 @@ import '../services/device_type.dart';
 import '../services/cast_service.dart';
 import '../services/content_store.dart';
 import '../services/embed_resolver.dart';
+import '../services/playback_progress.dart';
 import '../services/playback_source_fallback.dart';
 import 'hourtv_focusable.dart';
 import 'hourtv_cast_controls_screen.dart';
@@ -45,18 +46,25 @@ String _formatPlaybackTime(Duration time) {
 class PlayerScreen extends StatefulWidget {
   final Channel channel;
   final List<Channel> allChannels;
+  final int? initialIndex;
   final String? initialUrl;
 
   /// Fuerza horizontal aunque el ajuste global "forceLandscape" este apagado.
   /// Lo usa el boton Expandir de TV en vivo: expandir en vertical no es
   /// pantalla completa util, el video queda como una franja en medio.
   final bool forceLandscape;
+
+  /// Entrada desde la fila "Continuar viendo": reanuda la posicion guardada
+  /// directamente, sin mostrar el dialogo de decision.
+  final bool resumePlayback;
   const PlayerScreen({
     super.key,
     required this.channel,
     required this.allChannels,
+    this.initialIndex,
     this.initialUrl,
     this.forceLandscape = false,
+    this.resumePlayback = false,
   });
   @override
   State<PlayerScreen> createState() => _PlayerScreenState();
@@ -121,6 +129,11 @@ class _PlayerScreenState extends State<PlayerScreen>
   bool _advancingEpisode = false;
   int _lastProgressSecond = -1;
   final PrerollSession _prerollSession = PrerollSession();
+  // Posicion (ms) que este canal debe reanudar tras inicializar el video.
+  // Se consume en el primer tick de progreso para no pisar el seek con un
+  // reporte de posicion 0 del reproductor recien montado.
+  int _resumePositionMs = 0;
+  bool _resumeApplied = false;
 
   Channel get _currentChannel => widget.allChannels[_idx];
   bool get _isLive => _currentChannel.type == MediaType.live;
@@ -137,8 +150,14 @@ class _PlayerScreenState extends State<PlayerScreen>
         SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky),
       );
     }
-    _idx = widget.allChannels.indexWhere((c) => c.url == widget.channel.url);
-    if (_idx < 0) _idx = 0;
+    if (widget.initialIndex != null &&
+        widget.initialIndex! >= 0 &&
+        widget.initialIndex! < widget.allChannels.length) {
+      _idx = widget.initialIndex!;
+    } else {
+      _idx = widget.allChannels.indexWhere((c) => c.url == widget.channel.url);
+      if (_idx < 0) _idx = 0;
+    }
     // Aplicar la orientacion sincronicamente en initState (como estaba antes)
     // no se sostenia de forma confiable en algunos equipos Android: la ruta
     // todavia esta a mitad de transicion cuando se pide el cambio, y una vez
@@ -205,12 +224,107 @@ class _PlayerScreenState extends State<PlayerScreen>
     await _init(channel, streamUrl: streamUrl);
   }
 
+  /// Reanudacion estilo Netflix. Se llama con el controller YA inicializado
+  /// (duracion real conocida). Desde "Continuar viendo" (`resumePlayback`)
+  /// o al cambiar de episodio (`_chg`) reanuda directo; en cualquier otra
+  /// entrada muestra la decision "Continuar desde X / Reproducir desde el inicio".
+  Future<void> _maybeResume(
+    Channel ch, {
+    required VideoPlayerController controller,
+    bool autoResume = false,
+  }) async {
+    final isSeries = ch.type == MediaType.series || ch.forcedType == 'series';
+    final offer = resumeOfferFor(
+      ch,
+      autoResume: autoResume || widget.resumePlayback || isSeries,
+    );
+    if (offer == null) {
+      _resumePositionMs = 0;
+      _resumeApplied = true;
+      return;
+    }
+    if (offer.autoResume) {
+      await _applyResume(offer.positionMs);
+      return;
+    }
+    if (!mounted) return;
+    final position = await showDialog<int>(
+      context: context,
+      barrierDismissible: false,
+      builder: (dialogContext) => AlertDialog(
+        backgroundColor: _hourSurface,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: const Text(
+          '¿Continuar viendo?',
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w900,
+          ),
+        ),
+        content: Text(
+          'Guardaste este título hasta ${formatResumeClock(offer.positionMs)}.',
+          style: const TextStyle(color: _hourMuted),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop(0),
+            child: const Text('Reproducir desde el inicio'),
+          ),
+          FilledButton(
+            style: FilledButton.styleFrom(
+              backgroundColor: _hourRed,
+              foregroundColor: Colors.black,
+            ),
+            onPressed: () => Navigator.of(dialogContext).pop(offer.positionMs),
+            child: Text(offer.label),
+          ),
+        ],
+      ),
+    );
+    if (position != null && position > 0) {
+      await _applyResume(position);
+    } else {
+      _resumePositionMs = 0;
+      _resumeApplied = true;
+      // "Desde el inicio": se guarda 0 para no volver a preguntar en esta
+      // sesion del titulo (el usuario ya decidio).
+      await PlaybackProgress.save(
+        ch,
+        positionMs: 0,
+        durationMs: controller.value.duration.inMilliseconds,
+      );
+    }
+  }
+
+  Future<void> _applyResume(int positionMs) async {
+    final controller = _vc;
+    if (positionMs <= 0 || controller == null) {
+      _resumePositionMs = 0;
+      _resumeApplied = true;
+      return;
+    }
+    final duration = controller.value.duration;
+    // Si el stream cambio de duracion (otra version del video), no saltar
+    // mas alla del final.
+    final target = duration > Duration.zero && positionMs > duration.inMilliseconds
+        ? (duration.inMilliseconds - 5000).clamp(0, duration.inMilliseconds)
+        : positionMs;
+    _resumePositionMs = target;
+    await controller.seekTo(Duration(milliseconds: target));
+    _resumeApplied = true;
+    _showChromeControls();
+  }
+
   void _resetEpisodeUi() {
     _autoNextCancelled = false;
     _lastProgressSecond = -1;
     _nextEpisodeCountdown.value = null;
     _creditsMode.value = false;
     _playbackEnded.value = false;
+    // Cada episodio/fuente arranca sin reanudacion pendiente: la posicion
+    // se pide en _init para el canal que corresponda.
+    _resumePositionMs = 0;
+    _resumeApplied = false;
   }
 
   void _onVideoProgress() {
@@ -220,12 +334,19 @@ class _PlayerScreenState extends State<PlayerScreen>
       _handlePlaybackError(controller);
       return;
     }
-    if (!controller.value.isInitialized || _isLive) {
+    if (!controller.value.isInitialized || _isLive || !_resumeApplied) {
       return;
     }
     final value = controller.value;
     final duration = value.duration;
     if (duration <= Duration.zero) return;
+
+    // Si se reanudó, ignorar ticks espurios previos a la posición de seek
+    if (_resumePositionMs > 0 &&
+        value.position < Duration(milliseconds: _resumePositionMs - 3000)) {
+      return;
+    }
+
     final second = value.position.inSeconds;
     if (second == _lastProgressSecond && !value.isCompleted) return;
     _lastProgressSecond = second;
@@ -238,13 +359,15 @@ class _PlayerScreenState extends State<PlayerScreen>
     if (completed || second % 10 == 0) {
       final fraction = (value.position.inMilliseconds / duration.inMilliseconds)
           .clamp(0.0, 1.0);
-      unawaited(
-        ContentStore.instance.updatePlaybackProgress(
-          _currentChannel,
-          fraction,
-          notify: false,
-        ),
-      );
+      if (fraction > 0.001) {
+        unawaited(
+          savePlaybackPosition(
+            _currentChannel,
+            positionMs: value.position.inMilliseconds,
+            durationMs: duration.inMilliseconds,
+          ),
+        );
+      }
     }
     if (completed) {
       _nextEpisodeCountdown.value = null;
@@ -407,11 +530,9 @@ class _PlayerScreenState extends State<PlayerScreen>
       );
       await _vc!.initialize();
       unawaited(_applyPreferredAudioLanguage(_vc!));
-      final autoPlay =
-          StorageService.getSetting('autoPlay', defaultValue: true) == true;
       _cc = ChewieController(
         videoPlayerController: _vc!,
-        autoPlay: autoPlay,
+        autoPlay: false,
         looping: false,
         aspectRatio: _vc!.value.aspectRatio,
         allowFullScreen: true,
@@ -437,15 +558,23 @@ class _PlayerScreenState extends State<PlayerScreen>
       final activeController = _vc!;
       activeController.addListener(_onVideoProgress);
       setState(() => _loading = false);
-      // En Android la textura externa debe estar montada antes de iniciar el
-      // stream. Arrancar desde Chewie durante initialize puede dejar audio
-      // activo con una superficie negra en dispositivos que usan Skia.
-      if (autoPlay && defaultTargetPlatform == TargetPlatform.android) {
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          if (mounted && identical(_vc, activeController)) {
-            unawaited(activeController.play());
-          }
-        });
+
+      // Reanudacion estilo Netflix: tras inicializar (la duracion real ya
+      // es conocida), se recupera la posicion guardada y se aplica seekTo ANTES
+      // de reproducir. Desde "Continuar viendo" reanuda directo; desde otra entrada
+      // para peliculas se pregunta. El cambio de episodio (_chg) o mirror reanuda
+      // directo sin repetir dialogo.
+      final changingEpisode = !identical(ch, _currentChannel);
+      await _maybeResume(
+        ch,
+        controller: activeController,
+        autoResume: changingEpisode || isFallbackAttempt || _isSeriesEpisode,
+      );
+
+      final autoPlay =
+          StorageService.getSetting('autoPlay', defaultValue: true) == true;
+      if (autoPlay && mounted && identical(_vc, activeController)) {
+        await activeController.play();
       }
       // Arranca el auto-ocultado: sin esto, la barra de arriba y las flechas
       // laterales se quedaban visibles para siempre al entrar a una peli.
@@ -474,6 +603,7 @@ class _PlayerScreenState extends State<PlayerScreen>
     }
     final nextUrl = plan.advance();
     if (nextUrl == null) return false;
+    _persistFinalProgress();
     await _init(ch, streamUrl: nextUrl, isFallbackAttempt: true);
     return true;
   }
@@ -623,6 +753,8 @@ class _PlayerScreenState extends State<PlayerScreen>
   Future<void> _chg(int direction) async {
     final nextIndex = _idx + direction;
     if (nextIndex < 0 || nextIndex >= widget.allChannels.length) return;
+    // Guardar el episodio que se deja antes de saltar al siguiente.
+    _persistFinalProgress();
     setState(() => _idx = nextIndex);
     await _playChannel(widget.allChannels[nextIndex]);
   }
@@ -631,6 +763,9 @@ class _PlayerScreenState extends State<PlayerScreen>
     final v = _vc;
     if (v == null || !v.value.isInitialized) return;
     v.value.isPlaying ? v.pause() : v.play();
+    // Pausar es un buen momento para persistir: la posicion mostrada ya no
+    // va a cambiar hasta que el usuario retome.
+    if (!v.value.isPlaying) _persistFinalProgress();
     setState(() {});
   }
 
@@ -1113,7 +1248,8 @@ class _PlayerScreenState extends State<PlayerScreen>
       ),
     );
     if (!mounted || selected == null) return;
-    await _init(channel, streamUrl: selected.url);
+    _persistFinalProgress();
+    await _init(channel, streamUrl: selected.url, isFallbackAttempt: true);
     if (mounted) _screenFocus.requestFocus();
   }
 
@@ -2447,145 +2583,153 @@ class _PlayerScreenState extends State<PlayerScreen>
           colors: [Colors.black87, Colors.transparent],
         ),
       ),
-      child: Row(
-        children: [
-          IconButton(
-            tooltip: 'Volver',
-            icon: const Icon(Icons.arrow_back, color: Colors.white),
-            onPressed: () => Navigator.pop(context),
+      child: IconButtonTheme(
+        data: const IconButtonThemeData(
+          style: ButtonStyle(
+            visualDensity: VisualDensity.compact,
+            padding: WidgetStatePropertyAll(EdgeInsets.all(6)),
           ),
-          const SizedBox(width: 8),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Row(
-                  children: [
-                    if (ch.type == MediaType.live) ...[
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 6,
-                          vertical: 2,
-                        ),
-                        decoration: BoxDecoration(
-                          color: _hourRed,
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                        child: const Text(
-                          'LIVE',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 8,
-                            fontWeight: FontWeight.w800,
-                            letterSpacing: 0.5,
+        ),
+        child: Row(
+          children: [
+            IconButton(
+              tooltip: 'Volver',
+              icon: const Icon(Icons.arrow_back, color: Colors.white),
+              onPressed: () => Navigator.pop(context),
+            ),
+            const SizedBox(width: 8),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Row(
+                    children: [
+                      if (ch.type == MediaType.live) ...[
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 6,
+                            vertical: 2,
+                          ),
+                          decoration: BoxDecoration(
+                            color: _hourRed,
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          child: const Text(
+                            'LIVE',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 8,
+                              fontWeight: FontWeight.w800,
+                              letterSpacing: 0.5,
+                            ),
                           ),
                         ),
-                      ),
-                      const SizedBox(width: 8),
-                    ],
-                    Flexible(
-                      child: Text(
-                        ch.displayName,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
+                        const SizedBox(width: 8),
+                      ],
+                      Flexible(
+                        child: Text(
+                          ch.displayName,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
+                          ),
+                          overflow: TextOverflow.ellipsis,
                         ),
+                      ),
+                    ],
+                  ),
+                  if (ch.epgLine != null)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 2),
+                      child: Text(
+                        ch.epgLine!,
+                        style: const TextStyle(
+                          color: Colors.white70,
+                          fontSize: 12,
+                        ),
+                        maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
-                    ),
-                  ],
-                ),
-                if (ch.epgLine != null)
-                  Padding(
-                    padding: const EdgeInsets.only(top: 2),
-                    child: Text(
-                      ch.epgLine!,
-                      style: const TextStyle(
-                        color: Colors.white70,
-                        fontSize: 12,
-                      ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  )
-                else if (ch.group != null)
-                  Padding(
-                    padding: const EdgeInsets.only(top: 2),
-                    child: Text(
-                      ch.group!,
-                      style: const TextStyle(
-                        color: Colors.white60,
-                        fontSize: 12,
+                    )
+                  else if (ch.group != null)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 2),
+                      child: Text(
+                        ch.group!,
+                        style: const TextStyle(
+                          color: Colors.white60,
+                          fontSize: 12,
+                        ),
                       ),
                     ),
-                  ),
-              ],
+                ],
+              ),
             ),
-          ),
-          IconButton(
-            tooltip: 'Picture-in-Picture',
-            icon: const Icon(
-              Icons.picture_in_picture_alt_rounded,
-              color: Colors.white,
-            ),
-            onPressed: () => unawaited(_enterPictureInPicture()),
-          ),
-          if (DeviceProfile.isDesktop(context))
             IconButton(
-              tooltip: 'Pantalla completa',
-              icon: const Icon(Icons.fullscreen_rounded, color: Colors.white),
-              onPressed: () {
-                final controller = _cc;
-                if (controller == null) return;
-                if (controller.isFullScreen) {
-                  controller.exitFullScreen();
-                } else {
-                  controller.enterFullScreen();
-                }
-              },
-            ),
-          if (ch.type != MediaType.live && !DeviceProfile.isTv(context))
-            _castButton(),
-          IconButton(
-            tooltip: 'Audio, subtítulos, calidad y aspecto',
-            icon: const Icon(Icons.tune_rounded, color: Colors.white),
-            onPressed: () => unawaited(_showPlayerOptions()),
-          ),
-
-          if (ch.type == MediaType.live)
-            IconButton(
-              tooltip: 'Todos los canales',
-              icon: Icon(
-                _showList
-                    ? Icons.close_rounded
-                    : Icons.format_list_bulleted_rounded,
+              tooltip: 'Picture-in-Picture',
+              icon: const Icon(
+                Icons.picture_in_picture_alt_rounded,
                 color: Colors.white,
               ),
-              onPressed: () => setState(() => _showList = !_showList),
+              onPressed: () => unawaited(_enterPictureInPicture()),
             ),
-          IconButton(
-            tooltip: ch.isFavorite ? 'Quitar de favoritos' : 'Favorito',
-            icon: Icon(
-              ch.isFavorite ? Icons.favorite : Icons.favorite_border,
-              color: _hourRed,
+            if (DeviceProfile.isDesktop(context))
+              IconButton(
+                tooltip: 'Pantalla completa',
+                icon: const Icon(Icons.fullscreen_rounded, color: Colors.white),
+                onPressed: () {
+                  final controller = _cc;
+                  if (controller == null) return;
+                  if (controller.isFullScreen) {
+                    controller.exitFullScreen();
+                  } else {
+                    controller.enterFullScreen();
+                  }
+                },
+              ),
+            if (ch.type != MediaType.live && !DeviceProfile.isTv(context))
+              _castButton(),
+            IconButton(
+              tooltip: 'Audio, subtítulos, calidad y aspecto',
+              icon: const Icon(Icons.tune_rounded, color: Colors.white),
+              onPressed: () => unawaited(_showPlayerOptions()),
             ),
-            onPressed: () async {
-              final fav = await StorageService.toggleFavorite(ch);
-              if (!mounted) return;
-              setState(() {});
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(
-                    fav ? 'Aniadido a favoritos' : 'Eliminado de favoritos',
-                  ),
-                  duration: const Duration(seconds: 1),
+
+            if (ch.type == MediaType.live)
+              IconButton(
+                tooltip: 'Todos los canales',
+                icon: Icon(
+                  _showList
+                      ? Icons.close_rounded
+                      : Icons.format_list_bulleted_rounded,
+                  color: Colors.white,
                 ),
-              );
-            },
-          ),
-        ],
+                onPressed: () => setState(() => _showList = !_showList),
+              ),
+            IconButton(
+              tooltip: ch.isFavorite ? 'Quitar de favoritos' : 'Favorito',
+              icon: Icon(
+                ch.isFavorite ? Icons.favorite : Icons.favorite_border,
+                color: _hourRed,
+              ),
+              onPressed: () async {
+                final fav = await StorageService.toggleFavorite(ch);
+                if (!mounted) return;
+                setState(() {});
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      fav ? 'Aniadido a favoritos' : 'Eliminado de favoritos',
+                    ),
+                    duration: const Duration(seconds: 1),
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -2715,11 +2859,12 @@ class _PlayerScreenState extends State<PlayerScreen>
     }
     final duration = controller.value.duration;
     if (duration <= Duration.zero) return;
-    final fraction =
-        (controller.value.position.inMilliseconds / duration.inMilliseconds)
-            .clamp(0.0, 1.0);
     unawaited(
-      ContentStore.instance.updatePlaybackProgress(_currentChannel, fraction),
+      savePlaybackPosition(
+        _currentChannel,
+        positionMs: controller.value.position.inMilliseconds,
+        durationMs: duration.inMilliseconds,
+      ),
     );
   }
 
@@ -2751,6 +2896,75 @@ class _PlayerScreenState extends State<PlayerScreen>
     }
     super.dispose();
   }
+}
+
+/// Oferta de reanudacion para un titulo: posicion guardada + si se debe
+/// reanudar automaticamente (entrada desde "Continuar viendo").
+class ResumeOffer {
+  final int positionMs;
+  final bool autoResume;
+  final String label;
+
+  const ResumeOffer({
+    required this.positionMs,
+    required this.autoResume,
+    required this.label,
+  });
+}
+
+/// Decide si el reproductor debe ofrecer continuar un titulo:
+/// - live: nunca;
+/// - sin progreso guardado o <10s: no (no molesta con un dialogo inutil);
+/// - ya visto (>=95%): no (reproducir de nuevo arranca del inicio);
+/// - con progreso: ofrece "Continuar desde X:XX"; si [autoResume] viene
+///   desde la fila "Continuar viendo", reanuda directo sin preguntar.
+ResumeOffer? resumeOfferFor(Channel channel, {required bool autoResume}) {
+  if (channel.type == MediaType.live) return null;
+  final saved = PlaybackProgress.load(channel);
+  if (saved == null) return null;
+  if (saved.isCompleted) return null;
+  final positionMs = saved.resumePositionMs;
+  if (positionMs < 10 * 1000) return null;
+  final isSeries = channel.type == MediaType.series ||
+      channel.forcedType == 'series';
+  return ResumeOffer(
+    positionMs: positionMs,
+    autoResume: autoResume || isSeries,
+    label: 'Continuar desde ${formatResumeClock(positionMs)}',
+  );
+}
+
+/// Guarda la posicion de `channel` con los dos sistemas a la vez:
+/// el nuevo (posicion absoluta por identidad estable) y el viejo
+/// (progressFraction sobre recientes) para que ninguna UI existente
+/// deje de ver el avance.
+Future<void> savePlaybackPosition(
+  Channel channel, {
+  required int positionMs,
+  required int durationMs,
+}) async {
+  if (durationMs <= 0) return;
+  final fraction = (positionMs / durationMs).clamp(0.0, 1.0);
+  await PlaybackProgress.save(
+    channel,
+    positionMs: positionMs,
+    durationMs: durationMs,
+  );
+  await ContentStore.instance.updatePlaybackProgress(
+    channel,
+    fraction,
+    notify: false,
+  );
+}
+
+/// Reloj corto para el dialogo de reanudacion: "23:14", "1:02:03".
+String formatResumeClock(int ms) {
+  final total = ms ~/ 1000;
+  final h = total ~/ 3600;
+  final m = (total % 3600) ~/ 60;
+  final s = total % 60;
+  String two(int n) => n.toString().padLeft(2, '0');
+  return h > 0 ? '$h:${two(m)}:${two(s)}' : '${two(m)}:${two(s)}';
 }
 
 /// Traduce el error crudo de ExoPlayer/Dart a algo que el usuario pueda

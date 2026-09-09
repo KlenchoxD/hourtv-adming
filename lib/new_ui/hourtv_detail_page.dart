@@ -42,9 +42,14 @@ class HourTvDetailPage extends StatefulWidget {
     super.key,
     required this.channel,
     required this.preview,
+    this.fromContinueWatching = false,
   });
   final Channel channel;
   final bool preview;
+
+  /// Entrada desde la fila "Continuar viendo": el botón REPRODUCIR reanuda
+  /// la posición guardada directamente, sin volver a preguntar.
+  final bool fromContinueWatching;
 
   @override
   State<HourTvDetailPage> createState() => _HourTvDetailPageState();
@@ -159,8 +164,13 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
       if (!await ensureParentalAccess(context, channel) || !mounted) return;
       await Navigator.of(context).push(
         MaterialPageRoute(
-          builder: (_) =>
-              PlayerScreen(channel: channel, allChannels: store.visibleAll),
+          builder: (_) => PlayerScreen(
+            channel: channel,
+            allChannels: store.visibleAll,
+            // Solo la entrada desde la fila "Continuar viendo" reanuda
+            // directo; el resto de entradas muestra la decision.
+            resumePlayback: widget.fromContinueWatching,
+          ),
         ),
       );
     } finally {
@@ -334,8 +344,7 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         _heroPoster(),
-                        if (_heroPosterUrl != null)
-                          const SizedBox(width: 12),
+                        if (_heroPosterUrl != null) const SizedBox(width: 12),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -1024,32 +1033,32 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
   }) => Tooltip(
     message: label,
     child: Material(
-    color: Colors.transparent,
-    child: InkWell(
-      onTap: onTap,
-      customBorder: const CircleBorder(),
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        curve: Curves.easeOut,
-        width: 48,
-        height: 48,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: active ? _red : _surface,
-          border: Border.all(color: active ? _red : _line),
-          boxShadow: active
-              ? [
-                  BoxShadow(
-                    color: _red.withValues(alpha: .45),
-                    blurRadius: 14,
-                    spreadRadius: 1,
-                  ),
-                ]
-              : null,
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        customBorder: const CircleBorder(),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          curve: Curves.easeOut,
+          width: 48,
+          height: 48,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: active ? _red : _surface,
+            border: Border.all(color: active ? _red : _line),
+            boxShadow: active
+                ? [
+                    BoxShadow(
+                      color: _red.withValues(alpha: .45),
+                      blurRadius: 14,
+                      spreadRadius: 1,
+                    ),
+                  ]
+                : null,
+          ),
+          child: Icon(icon, color: Colors.white, size: 22),
         ),
-        child: Icon(icon, color: Colors.white, size: 22),
       ),
-    ),
     ),
   );
 
@@ -1138,7 +1147,9 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
     if (cast == null || cast.isEmpty) return const SizedBox.shrink();
     // Algunos proveedores copian la sinopsis completa en el campo de actores:
     // mostrar "Reparto" con el mismo texto que "Sinopsis" no aporta nada.
-    if (!isDistinctDetailCast(cast, channel.plot)) return const SizedBox.shrink();
+    if (!isDistinctDetailCast(cast, channel.plot)) {
+      return const SizedBox.shrink();
+    }
     return Padding(
       padding: const EdgeInsets.only(top: 22),
       child: Column(
