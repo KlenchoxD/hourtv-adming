@@ -19,6 +19,8 @@ import '../services/content_store.dart';
 import '../services/device_type.dart';
 import '../services/storage_service.dart';
 import '../services/xtream_service.dart';
+import 'hourtv_compact_filter_selector.dart';
+import 'hourtv_genre_service.dart';
 import 'hourtv_mobile_components.dart';
 import 'hourtv_mobile_theme.dart';
 
@@ -875,14 +877,15 @@ class HourTvMobileSearch extends StatefulWidget {
 class _HourTvMobileSearchState extends State<HourTvMobileSearch> {
   static const _initialVisible = 18;
   static const _revealStep = 12;
-  static const _genres = ['Todo', 'Películas', 'Series', 'Anime', 'Novelas'];
+  static const _types = ['Todo', 'Películas', 'Series', 'Anime', 'Novelas'];
   final controller = TextEditingController();
   final _scrollController = ScrollController();
   late final HourTvSearchHistoryStore _historyStore;
   Timer? _debounce;
   List<String> _history = const <String>[];
   var _query = '';
-  var genre = 'Todo';
+  var _type = 'Todo';
+  var _genre = HourTvGenreService.defaultGenre;
   var _sort = HourTvSearchSort.newest;
   var _visibleCount = _initialVisible;
   @override
@@ -892,6 +895,19 @@ class _HourTvMobileSearchState extends State<HourTvMobileSearch> {
         widget.historyStore ?? SharedPreferencesHourTvSearchHistoryStore();
     _scrollController.addListener(_onScroll);
     unawaited(_loadHistory());
+  }
+
+  @override
+  void didUpdateWidget(covariant HourTvMobileSearch oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (!identical(widget.content, oldWidget.content)) {
+      final available = _availableGenresForType(_type);
+      if (_genre != HourTvGenreService.defaultGenre &&
+          !available.contains(_genre)) {
+        _genre = HourTvGenreService.defaultGenre;
+        _visibleCount = _initialVisible;
+      }
+    }
   }
 
   @override
@@ -954,12 +970,40 @@ class _HourTvMobileSearchState extends State<HourTvMobileSearch> {
     });
   }
 
+  List<String> _availableGenresForType(String type) {
+    final filtered = widget.content.where(
+      (item) => _matchesType(item, type: type),
+    );
+    return HourTvGenreService.getAvailableGenres(filtered);
+  }
+
+  void _onTypeChanged(String newType) {
+    setState(() {
+      _type = newType;
+      _visibleCount = _initialVisible;
+      final available = _availableGenresForType(newType);
+      if (_genre != HourTvGenreService.defaultGenre &&
+          !available.contains(_genre)) {
+        _genre = HourTvGenreService.defaultGenre;
+      }
+    });
+  }
+
+  void _onGenreChanged(String newGenre) {
+    setState(() {
+      _genre = newGenre;
+      _visibleCount = _initialVisible;
+    });
+  }
+
   List<Channel> _results() {
     final terms = _normalize(
       _query,
     ).split(' ').where((term) => term.isNotEmpty).toList(growable: false);
     final results = widget.content.where((item) {
+      if (!_matchesType(item)) return false;
       if (!_matchesGenre(item)) return false;
+      if (terms.isEmpty) return true;
       final haystack = _normalize(
         [
           item.name,
@@ -980,7 +1024,7 @@ class _HourTvMobileSearchState extends State<HourTvMobileSearch> {
     return results;
   }
 
-  bool _matchesGenre(Channel item) => switch (genre) {
+  bool _matchesType(Channel item, {String? type}) => switch (type ?? _type) {
     'Películas' => item.type == MediaType.movie,
     'Series' => item.type == MediaType.series,
     'Anime' => _metadata(item).contains('anime'),
@@ -989,9 +1033,18 @@ class _HourTvMobileSearchState extends State<HourTvMobileSearch> {
           _metadata(item).contains('telenovela'),
     _ => true,
   };
+
+  bool _matchesGenre(Channel item) =>
+      HourTvGenreService.channelMatchesGenre(item, _genre);
+
   String _metadata(Channel item) => _normalize(
     [item.genre, item.group, ...item.categories].whereType<String>().join(' '),
   );
+  bool get _hasActiveFilters =>
+      _query.isNotEmpty ||
+      _type != 'Todo' ||
+      _genre != HourTvGenreService.defaultGenre;
+
   @override
   Widget build(BuildContext context) {
     final results = _results();
@@ -1048,18 +1101,37 @@ class _HourTvMobileSearchState extends State<HourTvMobileSearch> {
             ),
           ),
         ),
-        // `_genres` es una lista fija y chica (5): antes era un carrusel
-        // horizontal que obligaba a arrastrar para llegar a "Novelas".
         SliverPadding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
           sliver: SliverToBoxAdapter(
-            child: HourTvEvenTabs(
-              labels: _genres,
-              selected: genre,
-              onSelected: (value) => setState(() {
-                genre = value;
-                _visibleCount = _initialVisible;
-              }),
+            child: Row(
+              children: [
+                Expanded(
+                  child: HourTvCompactFilterSelector(
+                    key: const ValueKey('hourtv-filter-type-selector'),
+                    label: 'TIPO',
+                    value: _type,
+                    options: _types,
+                    icon: Icons.layers_rounded,
+                    sheetTitle: 'Tipo de contenido',
+                    sheetSubtitle: 'Selecciona un tipo',
+                    onChanged: _onTypeChanged,
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: HourTvCompactFilterSelector(
+                    key: const ValueKey('hourtv-filter-genre-selector'),
+                    label: 'GÉNERO',
+                    value: _genre,
+                    options: _availableGenresForType(_type),
+                    icon: Icons.movie_filter_outlined,
+                    sheetTitle: 'Géneros',
+                    sheetSubtitle: 'Selecciona un género',
+                    onChanged: _onGenreChanged,
+                  ),
+                ),
+              ],
             ),
           ),
         ),
@@ -1090,9 +1162,9 @@ class _HourTvMobileSearchState extends State<HourTvMobileSearch> {
               children: [
                 Expanded(
                   child: Text(
-                    _query.isEmpty
-                        ? 'Descubre'
-                        : '${results.length} ${results.length == 1 ? 'resultado' : 'resultados'}',
+                    !_hasActiveFilters
+                      ? 'Descubre'
+                      : '${results.length} ${results.length == 1 ? 'resultado' : 'resultados'}',
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                 ),
@@ -1105,9 +1177,28 @@ class _HourTvMobileSearchState extends State<HourTvMobileSearch> {
           const SliverFillRemaining(
             hasScrollBody: false,
             child: Center(
-              child: Text(
-                'No encontramos resultados',
-                style: TextStyle(color: HourTvMobileTokens.textSecondary),
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 24),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      Icons.search_off_rounded,
+                      color: HourTvMobileTokens.textMuted,
+                      size: 40,
+                    ),
+                    SizedBox(height: 12),
+                    Text(
+                      'No hay coincidencias con los filtros actuales',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: HourTvMobileTokens.textSecondary,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           )

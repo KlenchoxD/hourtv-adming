@@ -5,8 +5,7 @@ import 'package:streamtv/models/channel.dart';
 
 void main() {
   testWidgets(
-    'las 5 categorías de Buscar (Todo/Películas/Series/Anime/Novelas) se '
-    'ven todas a la vez sin carrusel horizontal',
+    'Buscar utiliza los selectores compactos TIPO y GÉNERO sin carrusel horizontal ni desborde',
     (tester) async {
       tester.view.physicalSize = const Size(390, 844);
       tester.view.devicePixelRatio = 1;
@@ -28,15 +27,22 @@ void main() {
       await tester.pump();
       expect(tester.takeException(), isNull);
 
-      expect(find.text('TODO'), findsOneWidget);
-      expect(find.text('PELÍCULAS'), findsOneWidget);
-      expect(find.text('SERIES'), findsOneWidget);
-      expect(find.text('ANIME'), findsOneWidget);
-      expect(find.text('NOVELAS'), findsOneWidget);
-      expect(find.byType(ListView), findsNothing);
+      expect(find.text('TIPO'), findsOneWidget);
+      expect(find.text('GÉNERO'), findsOneWidget);
 
-      await tester.tap(find.text('ANIME'));
-      await tester.pump();
+      await tester.tap(find.text('TIPO'));
+      await tester.pumpAndSettle();
+      expect(tester.takeException(), isNull);
+
+      expect(find.text('Tipo de contenido'), findsOneWidget);
+      expect(find.text('Todo'), findsWidgets);
+      expect(find.text('Películas'), findsOneWidget);
+      expect(find.text('Series'), findsOneWidget);
+      expect(find.text('Anime'), findsOneWidget);
+      expect(find.text('Novelas'), findsOneWidget);
+
+      await tester.tap(find.text('Anime'));
+      await tester.pumpAndSettle();
       expect(tester.takeException(), isNull);
     },
   );
