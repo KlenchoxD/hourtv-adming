@@ -1,12 +1,12 @@
 {
-  "lastRunAt": "2026-09-09T05:36:58.016Z",
+  "lastRunAt": "2026-09-09T10:06:50.044Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
     1204680,
+    1108427,
     1137844,
     1339713,
-    1108427,
     1084244,
     1315772,
     860508,
@@ -14,14 +14,14 @@
     1273221,
     1083381,
     1228710,
-    1081003,
     1127384,
+    1081003,
     1355228,
-    454639,
+    1433367,
     1384216,
+    454639,
     1212763,
     671,
-    1101383,
     1368337,
     1288445,
     1375646,
@@ -71,13 +71,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1081003,
-      "title": "Supergirl",
+      "tmdbId": 1127384,
+      "title": "En mar abierto",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1127384,
-      "title": "En mar abierto",
+      "tmdbId": 1081003,
+      "title": "Supergirl",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -86,13 +86,18 @@
       "reason": "Rating 4.9 por debajo del mínimo (5.5)"
     },
     {
-      "tmdbId": 454639,
-      "title": "He-Man y los Masters del Universo",
+      "tmdbId": 1433367,
+      "title": "Una noche al año",
       "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1384216,
       "title": "La constelación del perro",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 454639,
+      "title": "He-Man y los Masters del Universo",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -103,11 +108,6 @@
     {
       "tmdbId": 671,
       "title": "Harry Potter y la piedra filosofal",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1101383,
-      "title": "El final de Oak Street",
       "reason": "Sin fuente autorizada configurada"
     },
     {
