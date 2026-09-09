@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-09-09T14:33:32.077Z",
+  "lastRunAt": "2026-09-09T17:59:26.936Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -18,20 +18,21 @@
     1081003,
     1355228,
     1433367,
-    1384216,
     454639,
+    1101383,
+    1384216,
     1212763,
-    671,
     1368337,
     1288445,
     1375646,
     1386315,
+    1506560,
     1285366,
     1393326,
-    1506560,
     1516698,
-    1621552,
     1560520,
+    1621552,
+    1294189,
     1514682,
     1323244,
     1335666
@@ -91,23 +92,23 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1384216,
-      "title": "La constelación del perro",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 454639,
       "title": "He-Man y los Masters del Universo",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1212763,
-      "title": "Posesión infernal: En llamas",
+      "tmdbId": 1101383,
+      "title": "El final de Oak Street",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 671,
-      "title": "Harry Potter y la piedra filosofal",
+      "tmdbId": 1384216,
+      "title": "La constelación del perro",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1212763,
+      "title": "Posesión infernal: En llamas",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -144,6 +145,11 @@
       "tmdbId": 1560520,
       "title": "Batman: Knightfall Part 1: Knightfall",
       "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1294189,
+      "title": "The Mongoose",
+      "reason": "Rating 0 por debajo del mínimo (5.5)"
     },
     {
       "tmdbId": 1514682,
