@@ -6,7 +6,9 @@ Fecha: 2026-09-09
 
 Preparar HourTV para un catálogo grande alimentado por ServerHunter sin degradar la fluidez, y añadir cuentas reales con hasta cinco perfiles sincronizados. Supabase será la fuente principal del catálogo y del estado de usuario; `catalog.json` permanecerá temporalmente como respaldo durante una migración gradual.
 
-Esta fase no incluye analítica de comportamiento ni estadísticas de usuarios.
+Esta fase incluye recomendaciones personalizadas por perfil basadas en favoritos,
+progreso y géneros consumidos. No incluye analítica comercial, perfiles
+publicitarios ni estadísticas agregadas de usuarios.
 
 ## Problemas confirmados
 
@@ -32,6 +34,7 @@ Supabase no sustituye las optimizaciones de Flutter: resuelve crecimiento, consu
 - Favoritos y progreso independientes por perfil.
 - Sincronización offline-first entre dispositivos.
 - Importación única de datos del modo Invitado.
+- Recomendaciones personalizadas por perfil.
 - Catálogo Supabase paginado con búsqueda, tipo y género.
 - Películas, series, temporadas, episodios, servidores e idiomas.
 - Caché local indexada.
@@ -42,8 +45,8 @@ Supabase no sustituye las optimizaciones de Flutter: resuelve crecimiento, consu
 ### Excluido
 
 - Inicio de sesión con Google en esta fase.
-- Estadísticas, telemetría de consumo o historial de búsquedas remoto.
-- Recomendaciones personalizadas basadas en seguimiento.
+- Estadísticas agregadas, telemetría comercial o historial de búsquedas remoto.
+- Seguimiento publicitario, venta de datos o perfiles compartidos entre cuentas.
 - Eliminación inmediata de `catalog.json`.
 - Cambios a la versión pública `v1.1.14` durante desarrollo.
 - Claves administrativas dentro de HourTV o ServerHunter distribuido.
@@ -93,6 +96,9 @@ Las restricciones únicas deben impedir duplicados por identidad externa o ident
 
 - `favorites`: perfil, título y fecha.
 - `playback_progress`: perfil, título o episodio, posición, duración, estado terminado y `updated_at`.
+- `recommendation_preferences`: afinidad derivada por perfil y género, con
+  puntuación y fecha de actualización; nunca contiene búsquedas, credenciales ni
+  información de otras cuentas.
 - `guest_migrations`: cuenta/perfil, identificador idempotente y fecha de importación.
 
 No se almacenan contraseñas en tablas propias, cookies, tokens de reproducción, licencias DRM ni rutas internas sensibles.
@@ -146,6 +152,29 @@ La lectura es offline-first:
 
 Favoritos y progreso se escriben primero localmente y se agregan a una cola de sincronización. En conflictos entre dispositivos gana el registro con `updated_at` más reciente. Un progreso de aproximadamente 95 % o superior se considera terminado y deja de aparecer en “Continuar viendo”.
 
+## Recomendaciones personalizadas
+
+La fila “Recomendado para ti” se calcula de forma independiente para cada
+perfil. La primera versión usa reglas comprensibles, no un modelo opaco:
+
+- Un favorito aporta una señal fuerte a los géneros del título.
+- Una reproducción con progreso significativo aporta una señal moderada.
+- Un título terminado aporta una señal mayor que una apertura accidental.
+- Una eliminación de favoritos no se interpreta como preferencia negativa.
+- Los títulos ya terminados se excluyen salvo que formen parte de una saga o
+  exista una temporada posterior pertinente.
+- El resultado mezcla los géneros preferidos para evitar una fila compuesta por
+  un único género.
+
+Para cuentas verificadas, las afinidades se sincronizan con Supabase y son
+idénticas entre dispositivos. En modo Invitado se calculan solamente en el
+teléfono y no se envía actividad. La aplicación no almacena búsquedas para este
+fin, no compara perfiles entre cuentas y no comparte señales con publicidad.
+
+Cuando un perfil no tiene actividad suficiente se muestran destacados reales y
+contenido popular editorial como estado de arranque, identificado como tal. El
+cálculo se actualiza fuera de la ruta crítica de apertura y nunca bloquea Inicio.
+
 ## Estado de carga inicial
 
 La aplicación presenta una tapadera única con fases reales:
@@ -168,6 +197,8 @@ La tapadera no desaparece hasta que Inicio tenga un estado consistente: contenid
 - Las listas usan constructores perezosos y claves estables.
 - Las imágenes solicitan dimensiones acordes al dispositivo y usan caché.
 - Los cambios de progreso actualizan el elemento afectado, no todo el shell.
+- Las recomendaciones se recalculan incrementalmente cuando cambian favoritos o
+  progreso, nunca durante cada `build()`.
 - Buscar aplica debounce y consulta paginada.
 - Las respuestas obsoletas se descartan mediante identificador de consulta o cancelación.
 - Se instrumentan tiempos de arranque, búsqueda y construcción para pruebas locales, sin enviar telemetría.
@@ -227,6 +258,9 @@ Un fallo al actualizar el JSON no revierte una transacción ya confirmada en Sup
 - Invitado funciona sin cuenta y con conexión inestable.
 - Importación de Invitado es confirmada, idempotente y no destructiva ante fallos.
 - Favoritos y progreso sincronizan entre dos dispositivos simulados.
+- Las recomendaciones son independientes por perfil, responden a favoritos y
+  progreso, excluyen contenido terminado y no usan búsquedas.
+- Invitado obtiene recomendaciones locales sin enviar actividad.
 - El 95 % marca terminado y actualiza “Continuar viendo”.
 - Catálogo, búsqueda, tipo y género funcionan con paginación estable.
 - Hero contiene destacados reales y nunca selecciona elementos arbitrarios si existen destacados válidos.
@@ -252,4 +286,6 @@ La implementación usa un proyecto y una APK de prueba. `v1.1.14` no se modifica
 - Importación de Invitado: disponible y confirmada.
 - Migración: gradual con escritura dual.
 - Catálogo: Supabase principal con caché local y fallback JSON temporal.
-- Estadísticas de usuario: excluidas.
+- Recomendaciones personalizadas: incluidas por perfil usando favoritos,
+  progreso y géneros consumidos.
+- Estadísticas agregadas y seguimiento publicitario: excluidos.
