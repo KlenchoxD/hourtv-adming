@@ -14,6 +14,8 @@ import 'services/content_store.dart';
 import 'services/device_type.dart';
 import 'services/iptv_server_service.dart';
 import 'services/storage_service.dart';
+import 'services/supabase_bootstrap.dart';
+import 'services/supabase_config.dart';
 import 'services/update_service.dart';
 
 void main() {
@@ -22,6 +24,10 @@ void main() {
     ErrorWidget.builder = (details) => _FatalError(details.exceptionAsString());
     try {
       await StorageService.init();
+    } catch (_) {}
+    try {
+      await SupabaseBootstrap.instance
+          .initialize(SupabaseConfig.fromEnvironment());
     } catch (_) {}
     await DeviceProfile.warmUp();
     await SystemChrome.setPreferredOrientations([
