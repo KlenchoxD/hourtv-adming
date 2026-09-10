@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-09-10T13:58:48.021Z",
+  "lastRunAt": "2026-09-10T17:31:03.692Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -12,28 +12,28 @@
     1315772,
     860508,
     1275779,
-    1273221,
     1083381,
-    1228710,
     1433367,
+    1273221,
+    1228710,
     1127384,
     1081003,
     1355228,
-    454639,
     1101383,
     1384216,
+    454639,
     1368337,
     1375646,
     1386315,
     1506560,
-    1285366,
     1393326,
+    1285366,
+    1294189,
     1516698,
     1560520,
     1621552,
-    1294189,
-    1514682,
     1323244,
+    1514682,
     1335666
   ],
   "tmdbIdsPublished": [],
@@ -71,13 +71,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1228710,
-      "title": "The Mandalorian and Grogu",
+      "tmdbId": 1433367,
+      "title": "Una noche al año",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1433367,
-      "title": "Una noche al año",
+      "tmdbId": 1228710,
+      "title": "The Mandalorian and Grogu",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -96,11 +96,6 @@
       "reason": "Rating 5.1 por debajo del mínimo (5.5)"
     },
     {
-      "tmdbId": 454639,
-      "title": "He-Man y los Masters del Universo",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1101383,
       "title": "El final de Oak Street",
       "reason": "Sin fuente autorizada configurada"
@@ -108,6 +103,11 @@
     {
       "tmdbId": 1384216,
       "title": "La constelación del perro",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 454639,
+      "title": "He-Man y los Masters del Universo",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -126,19 +126,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1393326,
+      "title": "Ghost in the Cell",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1285366,
       "title": "愛のぬくもり",
       "reason": "Rating 5.2 por debajo del mínimo (5.5)"
-    },
-    {
-      "tmdbId": 1393326,
-      "title": "Ghost in the Cell",
-      "reason": "Votos 47 por debajo del mínimo (50)"
-    },
-    {
-      "tmdbId": 1560520,
-      "title": "Batman: Knightfall Part 1: Knightfall",
-      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1294189,
@@ -146,14 +141,19 @@
       "reason": "Rating 0 por debajo del mínimo (5.5)"
     },
     {
-      "tmdbId": 1514682,
-      "title": "Above & Below",
-      "reason": "Votos 25 por debajo del mínimo (50)"
+      "tmdbId": 1560520,
+      "title": "Batman: Knightfall Part 1: Knightfall",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1323244,
       "title": "La señal del apocalipsis",
       "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1514682,
+      "title": "Above & Below",
+      "reason": "Votos 25 por debajo del mínimo (50)"
     }
   ]
 }
