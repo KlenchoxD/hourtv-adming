@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 
 import 'mobile_ui/hourtv_mobile_shell.dart';
 import 'mobile_ui/hourtv_mobile_theme.dart';
+import 'new_ui/hourtv_auth_gate.dart';
 import 'new_ui/hourtv_new_shell.dart';
 import 'new_ui/hourtv_profile_gate.dart';
 import 'new_ui/hourtv_settings_update_page.dart';
@@ -95,12 +96,21 @@ class _ResponsiveRoot extends StatelessWidget {
     // un ValueNotifier (no un Navigator.push) para que cerrar sesion desde
     // cualquier pantalla profunda solo tenga que resetear el flag y volver
     // a la primera ruta; esta raiz reacciona sola.
-    return ValueListenableBuilder<bool>(
-      valueListenable: StorageService.hasChosenProfile,
-      builder: (context, hasChosenProfile, _) {
-        if (!hasChosenProfile) return const HourTvProfileGate();
-        return const HourTvStartupCover(child: _AppShell());
-      },
+    return HourTvAuthGate(
+      guestChild: ValueListenableBuilder<bool>(
+        valueListenable: StorageService.hasChosenProfile,
+        builder: (context, hasChosenProfile, _) {
+          if (!hasChosenProfile) return const HourTvProfileGate();
+          return const HourTvStartupCover(child: _AppShell());
+        },
+      ),
+      authenticatedChild: ValueListenableBuilder<bool>(
+        valueListenable: StorageService.hasChosenProfile,
+        builder: (context, hasChosenProfile, _) {
+          if (!hasChosenProfile) return const HourTvProfileGate();
+          return const HourTvStartupCover(child: _AppShell());
+        },
+      ),
     );
   }
 }
