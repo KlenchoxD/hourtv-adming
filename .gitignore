@@ -47,6 +47,7 @@ android/build/
 artifacts/
 HourTV-*.apk
 assets/data/catalog.json
+config/supabase.local.json
 
 .vercel
 
