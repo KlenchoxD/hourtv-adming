@@ -122,6 +122,41 @@ class StorageService {
     await _activateProfileRecord(match.first);
   }
 
+  static Future<bool> updateProfile({
+    required String id,
+    required String name,
+    required String avatarId,
+    required bool isKids,
+  }) async {
+    final profiles = loadProfiles();
+    final index = profiles.indexWhere((p) => p['id'] == id);
+    if (index == -1) return false;
+    profiles[index]['name'] = name;
+    profiles[index]['avatarId'] = avatarId;
+    profiles[index]['isKids'] = isKids;
+    await _saveProfiles(profiles);
+    if (activeProfileId == id) {
+      await _activateProfileRecord(profiles[index]);
+    }
+    return true;
+  }
+
+  static Future<bool> deleteProfile(String id) async {
+    final profiles = loadProfiles();
+    final index = profiles.indexWhere((p) => p['id'] == id);
+    if (index == -1) return false;
+    profiles.removeAt(index);
+    await _saveProfiles(profiles);
+    if (activeProfileId == id) {
+      if (profiles.isNotEmpty) {
+        await _activateProfileRecord(profiles.first);
+      } else {
+        hasChosenProfile.value = false;
+      }
+    }
+    return true;
+  }
+
   static Future<void> _activateProfileRecord(
     Map<String, dynamic> profile,
   ) async {
