@@ -126,19 +126,29 @@ class HourTvGenreService {
     'demo',
   };
 
+  /// Contador para instrumentación determinista en pruebas unitarias.
+  static int normalizationCountForTest = 0;
+
+  static void resetNormalizationCountForTest() {
+    normalizationCountForTest = 0;
+  }
+
   /// Normaliza una cadena para comparaciones sin mayúsculas, acentos ni
   /// caracteres especiales.
-  static String normalize(String value) => value
-      .trim()
-      .toLowerCase()
-      .replaceAll(RegExp('[áàäâã]'), 'a')
-      .replaceAll(RegExp('[éèëê]'), 'e')
-      .replaceAll(RegExp('[íìïî]'), 'i')
-      .replaceAll(RegExp('[óòöôõ]'), 'o')
-      .replaceAll(RegExp('[úùüû]'), 'u')
-      .replaceAll('ñ', 'n')
-      .replaceAll(RegExp(r'[^a-z0-9]+'), ' ')
-      .trim();
+  static String normalize(String value) {
+    normalizationCountForTest++;
+    return value
+        .trim()
+        .toLowerCase()
+        .replaceAll(RegExp('[áàäâã]'), 'a')
+        .replaceAll(RegExp('[éèëê]'), 'e')
+        .replaceAll(RegExp('[íìïî]'), 'i')
+        .replaceAll(RegExp('[óòöôõ]'), 'o')
+        .replaceAll(RegExp('[úùüû]'), 'u')
+        .replaceAll('ñ', 'n')
+        .replaceAll(RegExp(r'[^a-z0-9]+'), ' ')
+        .trim();
+  }
 
   static final Set<String> _countryBlacklist = {
     ...kCountryNames.keys.map(normalize),
