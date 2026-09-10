@@ -74,7 +74,12 @@ class SharedPreferencesHourTvSearchHistoryStore
 }
 
 class HourTvMobileShell extends StatefulWidget {
-  const HourTvMobileShell({super.key});
+  const HourTvMobileShell({
+    super.key,
+    this.destinationBuilders,
+  });
+
+  final Map<HourTvMobileDestination, WidgetBuilder>? destinationBuilders;
 
   @override
   State<HourTvMobileShell> createState() => _HourTvMobileShellState();
@@ -83,37 +88,22 @@ class HourTvMobileShell extends StatefulWidget {
 class _HourTvMobileShellState extends State<HourTvMobileShell> {
   final store = ContentStore.instance;
   var destination = HourTvMobileDestination.home;
-  // La guia En Vivo reproduce miniaturas en vivo (video real) apenas se
-  // monta. El IndexedStack del shell monta las cinco pestañas de una,
-  // asi que sin esto se abriria una conexion de streaming en segundo plano
-  // desde el arranque aunque el usuario nunca toque "En vivo". Se retrasa
-  // su construccion hasta la primera vez que se visita esa pestaña.
-  var _liveVisited = false;
+  final Map<HourTvMobileDestination, Widget> _cachedPages = {};
+  final ValueNotifier<bool> _isLiveActive = ValueNotifier<bool>(false);
 
   @override
   void initState() {
     super.initState();
-    store.addListener(_refresh);
+    _isLiveActive.value = (destination == HourTvMobileDestination.live);
     unawaited(store.ensureLoaded());
   }
 
   @override
   void dispose() {
-    store.removeListener(_refresh);
+    _isLiveActive.dispose();
     super.dispose();
   }
 
-  void _refresh() {
-    if (mounted) setState(() {});
-  }
-
-  // El catalogo de muestra es para cuando de verdad no hay nada que mostrar
-  // (recien instalado, sin fuentes configuradas) — NO para taparse mientras
-  // el catalogo real todavia esta cargando. Antes se usaba en ambos casos,
-  // asi que el Inicio siempre abria mostrando peliculas de muestra que un
-  // instante despues se reemplazaban por las reales: un salto visible en
-  // cada arranque. Mientras `store.loading` es true, se deja la lista vacia
-  // y el Inicio muestra un indicador de carga en su lugar.
   List<Channel> get _movies {
     if (store.movies.isNotEmpty) return store.movies;
     return store.loading ? const [] : PreviewCatalog.movies;
@@ -132,9 +122,6 @@ class _HourTvMobileShellState extends State<HourTvMobileShell> {
   List<Channel> get _liveChannels =>
       store.visibleAll.where((item) => item.type == MediaType.live).toList();
 
-  // La guia (HourTvLivePage) hace `channels.first` en su initState y no
-  // tolera una lista vacia (p. ej. antes de que cargue el catalogo real):
-  // mismo respaldo que ya usa el shell de TV/desktop para esta seccion.
   List<Channel> get _liveChannelsOrPreview =>
       _liveChannels.isNotEmpty ? _liveChannels : PreviewCatalog.live;
 
@@ -159,98 +146,119 @@ class _HourTvMobileShellState extends State<HourTvMobileShell> {
     );
   }
 
+  void _setDestination(HourTvMobileDestination next) {
+    if (destination == next) return;
+    setState(() {
+      destination = next;
+      _isLiveActive.value = (next == HourTvMobileDestination.live);
+    });
+  }
+
+  void _openAccount(BuildContext context) {
+    final isTablet = DeviceProfile.isTablet(context);
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (_) => Scaffold(
+          backgroundColor: HourTvMobileTokens.deepBlack,
+          body: HourTvProfilePage(
+            phone: !isTablet,
+            tablet: isTablet,
+            tv: false,
+            onLoggedOut: () {},
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _openSetting(BuildContext context, String label) {
+    final page = switch (label) {
+      'Reproducción y calidad' => const HourTvPlaybackSettingsPage(),
+      'Idioma y subtítulos' => const HourTvLanguageSettingsPage(),
+      'Control parental' => const HourTvParentalSettingsPage(),
+      _ => const HourTvSettingsPage(),
+    };
+    Navigator.of(
+      context,
+    ).push(MaterialPageRoute<void>(builder: (_) => page));
+  }
+
+  Widget _buildDestination(HourTvMobileDestination target) {
+    if (widget.destinationBuilders != null &&
+        widget.destinationBuilders!.containsKey(target)) {
+      return widget.destinationBuilders![target]!(context);
+    }
+    return switch (target) {
+      HourTvMobileDestination.home => ListenableBuilder(
+          listenable: store,
+          builder: (context, _) => HourTvMobileHome(
+            movies: _movies,
+            allContent: _allContent,
+            store: store,
+            onOpen: _openDetails,
+            onOpenContinue: (channel) =>
+                _openDetails(channel, fromContinueWatching: true),
+            onSearch: () => _setDestination(HourTvMobileDestination.search),
+            onProfile: () => _setDestination(HourTvMobileDestination.profile),
+          ),
+        ),
+      HourTvMobileDestination.live => ValueListenableBuilder<bool>(
+          valueListenable: _isLiveActive,
+          builder: (context, active, _) => HourTvLivePage(
+            channels: _liveChannelsOrPreview,
+            preview: _liveChannels.isEmpty,
+            phone: !DeviceProfile.isTablet(context),
+            tablet: DeviceProfile.isTablet(context),
+            tv: false,
+            active: active,
+          ),
+        ),
+      HourTvMobileDestination.search => HourTvMobileSearch(
+          content: _allContent,
+          onOpen: _openDetails,
+        ),
+      HourTvMobileDestination.library => ListenableBuilder(
+          listenable: store,
+          builder: (context, _) => HourTvMobileLibrary(
+            store: store,
+            onOpen: _openDetails,
+            onOpenContinue: (channel) =>
+                _openDetails(channel, fromContinueWatching: true),
+          ),
+        ),
+      HourTvMobileDestination.profile => HourTvMobileProfile(
+          onOpenAccount: () => _openAccount(context),
+          onOpenSetting: (label) => _openSetting(context, label),
+        ),
+    };
+  }
+
   @override
   Widget build(BuildContext context) {
-    if (destination == HourTvMobileDestination.live) _liveVisited = true;
-    final pages = <Widget>[
-      HourTvMobileHome(
-        movies: _movies,
-        allContent: _allContent,
-        store: store,
-        onOpen: _openDetails,
-        onOpenContinue: (channel) =>
-            _openDetails(channel, fromContinueWatching: true),
-        onSearch: () =>
-            setState(() => destination = HourTvMobileDestination.search),
-        onProfile: () =>
-            setState(() => destination = HourTvMobileDestination.profile),
-      ),
-      // Antes esta pestaña mostraba una vista previa recortada (chips +
-      // "En vivo ahora" con solo 12 canales) y habia que tocar "Guía
-      // completa" para llegar a la guia real. Ahora la guia completa ES la
-      // pestaña: se muestra directo al entrar y no hay ninguna otra vista a
-      // la que volver. Construida recien al primer visitarla (ver
-      // _liveVisited) para no abrir una miniatura en vivo en segundo plano
-      // desde el arranque del app.
-      if (_liveVisited)
-        HourTvLivePage(
-          channels: _liveChannelsOrPreview,
-          preview: _liveChannels.isEmpty,
-          phone: !DeviceProfile.isTablet(context),
-          tablet: DeviceProfile.isTablet(context),
-          tv: false,
-          active: destination == HourTvMobileDestination.live,
-        )
-      else
-        const SizedBox.shrink(),
-      HourTvMobileSearch(content: _allContent, onOpen: _openDetails),
-      HourTvMobileLibrary(
-        store: store,
-        onOpen: _openDetails,
-        onOpenContinue: (channel) =>
-            _openDetails(channel, fromContinueWatching: true),
-      ),
-      HourTvMobileProfile(
-        onOpenAccount: () {
-          final isTablet = DeviceProfile.isTablet(context);
-          Navigator.of(context).push(
-            MaterialPageRoute<void>(
-              // HourTvProfilePage no trae su propio Scaffold: en el shell de
-              // TV/desktop vive embebida dentro de uno ya existente, pero
-              // aca se empuja como pantalla propia y sin Scaffold no hay
-              // Material ancestor -> el selector de perfil (InkWell) crashea
-              // con "No Material widget found" al tocarlo.
-              builder: (_) => Scaffold(
-                backgroundColor: HourTvMobileTokens.deepBlack,
-                body: HourTvProfilePage(
-                  phone: !isTablet,
-                  tablet: isTablet,
-                  tv: false,
-                  // _logout() ya hace popUntil(isFirst) sobre el navigator
-                  // raiz: nada que hacer aca, o se intentaria un segundo pop
-                  // sobre una ruta que ya no existe.
-                  onLoggedOut: () {},
-                ),
-              ),
-            ),
-          );
-        },
-        onOpenSetting: (label) {
-          // Cada tarjeta abre SU pantalla directo, sin pasar antes por el
-          // hub de Perfil (antes las 4 abrian siempre lo mismo).
-          final page = switch (label) {
-            'Reproducción y calidad' => const HourTvPlaybackSettingsPage(),
-            'Idioma y subtítulos' => const HourTvLanguageSettingsPage(),
-            'Control parental' => const HourTvParentalSettingsPage(),
-            _ => const HourTvSettingsPage(),
-          };
-          Navigator.of(
-            context,
-          ).push(MaterialPageRoute<void>(builder: (_) => page));
-        },
-      ),
-    ];
+    _cachedPages.putIfAbsent(destination, () => _buildDestination(destination));
 
     return Scaffold(
       backgroundColor: HourTvMobileTokens.deepBlack,
       body: SafeArea(
         bottom: false,
-        child: IndexedStack(index: destination.index, children: pages),
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            for (final entry in _cachedPages.entries)
+              Offstage(
+                offstage: destination != entry.key,
+                child: TickerMode(
+                  enabled: destination == entry.key,
+                  child: entry.value,
+                ),
+              ),
+          ],
+        ),
       ),
       bottomNavigationBar: HourTvBottomNavigation(
         index: destination.index,
         onChanged: (index) =>
-            setState(() => destination = HourTvMobileDestination.values[index]),
+            _setDestination(HourTvMobileDestination.values[index]),
       ),
     );
   }
