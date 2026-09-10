@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-09-10T17:31:00.626Z",
-  "durationMs": 3069,
+  "generatedAt": "2026-09-10T20:00:38.615Z",
+  "durationMs": 2419,
   "dryRun": false,
   "moviesFound": 33,
   "moviesDiscarded": 23,
@@ -125,7 +125,7 @@
     {
       "tmdbId": 1514682,
       "title": "Above & Below",
-      "reason": "Votos 25 por debajo del mínimo (50)"
+      "reason": "Votos 27 por debajo del mínimo (50)"
     }
   ]
 }

@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-09-10T17:31:03.692Z",
+  "lastRunAt": "2026-09-10T20:00:41.029Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -153,7 +153,7 @@
     {
       "tmdbId": 1514682,
       "title": "Above & Below",
-      "reason": "Votos 25 por debajo del mínimo (50)"
+      "reason": "Votos 27 por debajo del mínimo (50)"
     }
   ]
 }
