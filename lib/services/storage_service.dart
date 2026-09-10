@@ -157,6 +157,42 @@ class StorageService {
     return true;
   }
 
+  static const String _cloudAccountIdKey = 'cloudAccountId';
+  static const String _cloudProfileIdKey = 'cloudProfileId';
+
+  static String? get cloudAccountId => getSetting(_cloudAccountIdKey)?.toString();
+  static String? get cloudProfileId => getSetting(_cloudProfileIdKey)?.toString();
+
+  static Future<void> setCloudProfileContext({
+    required String accountId,
+    required String profileId,
+    required String name,
+    required String avatarId,
+    required bool isKids,
+  }) async {
+    final settings = loadSettings();
+    settings[_cloudAccountIdKey] = accountId;
+    settings[_cloudProfileIdKey] = profileId;
+    settings['activeProfile'] = name;
+    settings[_activeProfileIdKey] = profileId;
+    settings['activeProfileAvatarId'] = avatarId;
+    settings['activeProfileIsKids'] = isKids;
+    settings[_primaryProfileIdKey] ??= profileId;
+    await _prefs?.setString(_settingsKey, jsonEncode(settings));
+  }
+
+  static Future<void> clearCloudProfileContext() async {
+    final settings = loadSettings();
+    settings.remove(_cloudAccountIdKey);
+    settings.remove(_cloudProfileIdKey);
+    settings.remove('activeProfile');
+    settings.remove(_activeProfileIdKey);
+    settings.remove('activeProfileAvatarId');
+    settings.remove('activeProfileIsKids');
+    hasChosenProfile.value = false;
+    await _prefs?.setString(_settingsKey, jsonEncode(settings));
+  }
+
   static Future<void> _activateProfileRecord(
     Map<String, dynamic> profile,
   ) async {

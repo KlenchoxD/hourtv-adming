@@ -25,6 +25,15 @@ class SupabaseBootstrap {
 
   bool get isAvailable => _isAvailable;
 
+  SupabaseClient? get client {
+    if (!_isAvailable || _isTest) return null;
+    try {
+      return Supabase.instance.client;
+    } catch (_) {
+      return null;
+    }
+  }
+
   AuthGateway get authGateway =>
       _authGateway ?? UnavailableAuthGateway();
 

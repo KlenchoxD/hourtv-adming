@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'mobile_ui/hourtv_mobile_shell.dart';
 import 'mobile_ui/hourtv_mobile_theme.dart';
 import 'new_ui/hourtv_auth_gate.dart';
+import 'new_ui/hourtv_cloud_profile_gate.dart';
 import 'new_ui/hourtv_new_shell.dart';
 import 'new_ui/hourtv_profile_gate.dart';
 import 'new_ui/hourtv_settings_update_page.dart';
@@ -14,6 +15,7 @@ import 'new_ui/hourtv_startup_cover.dart';
 import 'services/content_store.dart';
 import 'services/device_type.dart';
 import 'services/iptv_server_service.dart';
+import 'services/profiles/supabase_profile_repository.dart';
 import 'services/storage_service.dart';
 import 'services/supabase_bootstrap.dart';
 import 'services/supabase_config.dart';
@@ -107,7 +109,19 @@ class _ResponsiveRoot extends StatelessWidget {
       authenticatedChild: ValueListenableBuilder<bool>(
         valueListenable: StorageService.hasChosenProfile,
         builder: (context, hasChosenProfile, _) {
-          if (!hasChosenProfile) return const HourTvProfileGate();
+          if (!hasChosenProfile) {
+            return HourTvCloudProfileGate(
+              repository: SupabaseProfileRepository(
+                client: SupabaseBootstrap.instance.client,
+                currentUserId: () =>
+                    SupabaseBootstrap.instance.client?.auth.currentUser?.id,
+              ),
+              onSignOut: () async {
+                await SupabaseBootstrap.instance.authGateway.signOut();
+                await StorageService.clearCloudProfileContext();
+              },
+            );
+          }
           return const HourTvStartupCover(child: _AppShell());
         },
       ),
