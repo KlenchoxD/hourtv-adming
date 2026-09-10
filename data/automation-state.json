@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-09-10T05:19:57.011Z",
+  "lastRunAt": "2026-09-10T09:54:48.818Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -15,10 +15,10 @@
     1273221,
     1083381,
     1228710,
+    1433367,
     1127384,
     1081003,
     1355228,
-    1433367,
     454639,
     1101383,
     1384216,
@@ -76,6 +76,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1433367,
+      "title": "Una noche al año",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1127384,
       "title": "En mar abierto",
       "reason": "Sin fuente autorizada configurada"
@@ -89,11 +94,6 @@
       "tmdbId": 1355228,
       "title": "Gandhari",
       "reason": "Rating 5.1 por debajo del mínimo (5.5)"
-    },
-    {
-      "tmdbId": 1433367,
-      "title": "Una noche al año",
-      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 454639,

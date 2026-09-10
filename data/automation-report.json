@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-09-10T05:19:55.405Z",
-  "durationMs": 1611,
+  "generatedAt": "2026-09-10T09:54:46.947Z",
+  "durationMs": 1876,
   "dryRun": false,
   "moviesFound": 33,
   "moviesDiscarded": 23,
@@ -48,6 +48,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1433367,
+      "title": "Una noche al año",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1127384,
       "title": "En mar abierto",
       "reason": "Sin fuente autorizada configurada"
@@ -61,11 +66,6 @@
       "tmdbId": 1355228,
       "title": "Gandhari",
       "reason": "Rating 5.1 por debajo del mínimo (5.5)"
-    },
-    {
-      "tmdbId": 1433367,
-      "title": "Una noche al año",
-      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 454639,
