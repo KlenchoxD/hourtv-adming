@@ -2,9 +2,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import '../models/hourtv_account_profile.dart';
 import '../services/content_store.dart';
+import '../services/migration/guest_migration_service.dart';
 import '../services/parental_control_service.dart';
 import '../services/profiles/profile_repository.dart';
 import '../services/storage_service.dart';
+import 'hourtv_guest_import_prompt.dart';
 import 'hourtv_parental_gate.dart';
 import 'hourtv_profile_avatar.dart';
 import 'hourtv_profile_avatars.dart';
@@ -21,11 +23,15 @@ class HourTvCloudProfileGate extends StatefulWidget {
   const HourTvCloudProfileGate({
     super.key,
     required this.repository,
+    this.migrationService,
+    this.accountId,
     this.onProfileSelected,
     this.onSignOut,
   });
 
   final ProfileRepository repository;
+  final GuestMigrationService? migrationService;
+  final String? accountId;
   final ValueChanged<HourTvAccountProfile>? onProfileSelected;
   final VoidCallback? onSignOut;
 
@@ -42,6 +48,8 @@ class _HourTvCloudProfileGateState extends State<HourTvCloudProfileGate> {
   String? _avatarId;
   var _busy = false;
   final _nameController = TextEditingController();
+  GuestMigrationSummary? _guestSummary;
+  bool _showMigrationPrompt = false;
 
   @override
   void initState() {
@@ -63,9 +71,29 @@ class _HourTvCloudProfileGateState extends State<HourTvCloudProfileGate> {
     try {
       final list = await widget.repository.list();
       if (!mounted) return;
+
+      final migration = widget.migrationService ?? GuestMigrationService();
+      final ownerId = widget.accountId ?? (list.isNotEmpty ? list.first.ownerId : null);
+      GuestMigrationSummary? guestSummary;
+      bool showMigrationPrompt = false;
+
+      if (ownerId != null) {
+        final decision = await migration.getDecision(ownerId);
+        if (decision == GuestMigrationDecision.pending) {
+          final summary = await migration.inspect();
+          if (summary.hasMeaningfulData) {
+            guestSummary = summary;
+            showMigrationPrompt = true;
+          }
+        }
+      }
+
+      if (!mounted) return;
       setState(() {
         _profiles = list;
         _isLoading = false;
+        _guestSummary = guestSummary;
+        _showMigrationPrompt = showMigrationPrompt;
         _step = list.isEmpty ? _CloudGateStep.type : _CloudGateStep.list;
       });
     } catch (e) {
@@ -285,6 +313,24 @@ class _HourTvCloudProfileGateState extends State<HourTvCloudProfileGate> {
       mainAxisSize: MainAxisSize.min,
       children: [
         _header('¿QUIÉN VE HOURTV?', 'Elige tu perfil para continuar'),
+        if (_showMigrationPrompt && _guestSummary != null) ...[
+          HourTvGuestImportPrompt(
+            summary: _guestSummary!,
+            onDecision: (decision) async {
+              final migration =
+                  widget.migrationService ?? GuestMigrationService();
+              final ownerId = widget.accountId ??
+                  (_profiles.isNotEmpty ? _profiles.first.ownerId : null);
+              if (ownerId != null) {
+                await migration.rememberDecision(ownerId, decision);
+              }
+              if (mounted) {
+                setState(() => _showMigrationPrompt = false);
+              }
+            },
+          ),
+          const SizedBox(height: 24),
+        ],
         Wrap(
           spacing: 16,
           runSpacing: 16,
