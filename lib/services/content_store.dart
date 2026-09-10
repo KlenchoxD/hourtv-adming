@@ -23,6 +23,25 @@ class CountryBucket {
   const CountryBucket(this.code, this.name, this.count);
 }
 
+enum CatalogLoadPhase {
+  restoringSession,
+  openingCache,
+  syncingCatalog,
+  buildingHome,
+  ready,
+  offlineReady,
+  failed,
+}
+
+class CatalogReadiness {
+  const CatalogReadiness(this.phase, {this.message, this.canRetry = false});
+  final CatalogLoadPhase phase;
+  final String? message;
+  final bool canRetry;
+  bool get canEnterApp =>
+      phase == CatalogLoadPhase.ready || phase == CatalogLoadPhase.offlineReady;
+}
+
 /// Almacén único en memoria del contenido (canales en vivo + VOD). Lo comparten
 /// las pestañas Inicio y En Vivo para no descargar las listas dos veces.
 class ContentStore extends ChangeNotifier {
@@ -36,7 +55,14 @@ class ContentStore extends ChangeNotifier {
   List<Channel> all = [];
   List<XtreamSeries> series = [];
   List<CountryBucket> countries = [];
-  bool loading = true;
+  bool _legacyLoading = false;
+  bool get loading =>
+      _legacyLoading ||
+      (!readiness.canEnterApp && readiness.phase != CatalogLoadPhase.failed);
+  set loading(bool val) {
+    _legacyLoading = val;
+    notifyListeners();
+  }
   bool vodLoading = false;
   bool epgLoading = false;
   String? error;
@@ -44,6 +70,40 @@ class ContentStore extends ChangeNotifier {
   // ultimo intento de carga. Antes se tragaban en silencio y el usuario solo
   // veia "menos contenido" sin saber por que.
   Set<String> failedSourceNames = {};
+
+  CatalogReadiness _readiness = const CatalogReadiness(
+    CatalogLoadPhase.restoringSession,
+  );
+  CatalogReadiness get readiness => _readiness;
+
+  Completer<void> _initialReadyCompleter = Completer<void>();
+  Future<void> get initialReady => _initialReadyCompleter.future;
+  bool get isInitialReady => _initialReadyCompleter.isCompleted;
+
+  void _setReadiness(CatalogReadiness next) {
+    _readiness = next;
+    notifyListeners();
+    if ((next.canEnterApp || next.phase == CatalogLoadPhase.failed) &&
+        !_initialReadyCompleter.isCompleted) {
+      _initialReadyCompleter.complete();
+    }
+  }
+
+  @visibleForTesting
+  void resetForTesting() {
+    _initialReadyCompleter = Completer<void>();
+    _readiness = const CatalogReadiness(CatalogLoadPhase.restoringSession);
+    all = [];
+    series = [];
+    countries = [];
+    _started = false;
+    _refreshing = false;
+    _networkLoadRunning = false;
+    _refreshAgain = false;
+    _legacyLoading = false;
+    error = null;
+    failedSourceNames = {};
+  }
 
   bool _started = false;
   bool _refreshing = false;
@@ -64,6 +124,25 @@ class ContentStore extends ChangeNotifier {
     await load();
   }
 
+  Future<void> retry({
+    Future<List<Channel>> Function()? cacheLoader,
+    Future<List<XtreamSeries>> Function()? seriesCacheLoader,
+    Future<List<Channel>> Function()? remoteLoader,
+    Duration remoteTimeout = const Duration(seconds: 10),
+  }) async {
+    if (_initialReadyCompleter.isCompleted) {
+      _initialReadyCompleter = Completer<void>();
+    }
+    _started = false;
+    _setReadiness(const CatalogReadiness(CatalogLoadPhase.restoringSession));
+    await load(
+      cacheLoader: cacheLoader,
+      seriesCacheLoader: seriesCacheLoader,
+      remoteLoader: remoteLoader,
+      remoteTimeout: remoteTimeout,
+    );
+  }
+
   /// Refresco "en tiempo real": vuelve a descargar el catálogo remoto en
   /// segundo plano (sin pantalla de carga, el contenido actual sigue visible)
   /// cuando la app vuelve al frente. Limitado a una vez cada 15 s para no
@@ -80,17 +159,27 @@ class ContentStore extends ChangeNotifier {
     }
   }
 
-  Future<void> load() async {
+  Future<void> load({
+    Future<List<Channel>> Function()? cacheLoader,
+    Future<List<XtreamSeries>> Function()? seriesCacheLoader,
+    Future<List<Channel>> Function()? remoteLoader,
+    Duration remoteTimeout = const Duration(seconds: 10),
+  }) async {
     error = null;
     _lastLoad = DateTime.now();
+    _setReadiness(const CatalogReadiness(CatalogLoadPhase.openingCache));
 
     // Stale-while-revalidate: restaura primero el último resultado parseado.
     // Ninguna petición HTTP forma parte de la ruta del primer render.
     if (all.isEmpty) {
-      loading = true;
+      _legacyLoading = true;
       notifyListeners();
-      final cachedChannelsFuture = StorageService.loadChannels();
-      final cachedSeriesFuture = StorageService.loadSeries();
+      final cachedChannelsFuture = cacheLoader != null
+          ? cacheLoader()
+          : StorageService.loadChannels();
+      final cachedSeriesFuture = seriesCacheLoader != null
+          ? seriesCacheLoader()
+          : StorageService.loadSeries();
       final cachedChannels = await cachedChannelsFuture;
       final cachedSeries = await cachedSeriesFuture;
       if (cachedChannels.isNotEmpty || cachedSeries.isNotEmpty) {
@@ -103,8 +192,6 @@ class ContentStore extends ChangeNotifier {
         all = _withoutArchiveMovies(cachedChannels);
         series = cachedSeries;
         _recomputeCountries();
-        loading = false;
-        notifyListeners();
       }
     }
 
@@ -118,12 +205,74 @@ class ContentStore extends ChangeNotifier {
     }
     if (all.isNotEmpty || series.isNotEmpty) {
       _recomputeCountries();
-      loading = false;
-      notifyListeners();
     }
 
-    // La red siempre queda fuera de la ruta crítica del arranque.
-    unawaited(_refreshContent(localSources));
+    _setReadiness(const CatalogReadiness(CatalogLoadPhase.syncingCatalog));
+
+    if (remoteLoader != null) {
+      try {
+        final remoteChannels = await remoteLoader().timeout(remoteTimeout);
+        all = _withoutArchiveMovies(remoteChannels);
+        _recomputeCountries();
+        _setReadiness(const CatalogReadiness(CatalogLoadPhase.buildingHome));
+        _setReadiness(const CatalogReadiness(CatalogLoadPhase.ready));
+        _legacyLoading = false;
+        notifyListeners();
+      } catch (e) {
+        if (all.isNotEmpty || series.isNotEmpty) {
+          _setReadiness(const CatalogReadiness(
+            CatalogLoadPhase.offlineReady,
+            message: 'Modo sin conexión',
+          ));
+        } else {
+          _setReadiness(CatalogReadiness(
+            CatalogLoadPhase.failed,
+            message: 'No se pudo cargar el catálogo: $e',
+            canRetry: true,
+          ));
+        }
+        _legacyLoading = false;
+        notifyListeners();
+      }
+      return;
+    }
+
+    // En arranque normal: con caché válida o asset local, continúa rápido y revalida de fondo
+    if (all.isNotEmpty || series.isNotEmpty) {
+      _setReadiness(const CatalogReadiness(CatalogLoadPhase.buildingHome));
+      _setReadiness(const CatalogReadiness(CatalogLoadPhase.ready));
+      _legacyLoading = false;
+      notifyListeners();
+      unawaited(_refreshContent(localSources));
+    } else {
+      // Primera instalación sin fuentes previas: espera la sincronización inicial
+      try {
+        await _refreshContent(localSources).timeout(remoteTimeout);
+        if (all.isNotEmpty || series.isNotEmpty) {
+          _setReadiness(const CatalogReadiness(CatalogLoadPhase.buildingHome));
+          _setReadiness(const CatalogReadiness(CatalogLoadPhase.ready));
+        } else {
+          _setReadiness(const CatalogReadiness(
+            CatalogLoadPhase.failed,
+            message: 'No se pudo cargar el catálogo.',
+            canRetry: true,
+          ));
+        }
+      } catch (e) {
+        if (all.isNotEmpty || series.isNotEmpty) {
+          _setReadiness(const CatalogReadiness(
+            CatalogLoadPhase.offlineReady,
+            message: 'Modo sin conexión',
+          ));
+        } else {
+          _setReadiness(const CatalogReadiness(
+            CatalogLoadPhase.failed,
+            message: 'No se pudo cargar el catálogo.',
+            canRetry: true,
+          ));
+        }
+      }
+    }
     unawaited(_refreshTrending());
   }
 
@@ -282,18 +431,30 @@ class ContentStore extends ChangeNotifier {
       all = _withoutArchiveMovies(refreshedChannels);
       series = assetSources.series;
       _recomputeCountries();
-      loading = false;
+      _setReadiness(const CatalogReadiness(CatalogLoadPhase.buildingHome));
+      _setReadiness(const CatalogReadiness(CatalogLoadPhase.ready));
+      _legacyLoading = false;
       notifyListeners();
       await _persistSnapshot();
 
       unawaited(_loadEpg(assetSources.epgUrls));
-      await _loadVod(lists, assetSources.series, failed);
+      unawaited(_loadVod(lists, assetSources.series, failed));
       unawaited(_enrichMovies(all));
     } catch (exception) {
       if (all.isEmpty && series.isEmpty) {
         error = exception.toString();
-        loading = false;
+        _setReadiness(CatalogReadiness(
+          CatalogLoadPhase.failed,
+          message: error,
+          canRetry: true,
+        ));
+        _legacyLoading = false;
         notifyListeners();
+      } else {
+        _setReadiness(const CatalogReadiness(
+          CatalogLoadPhase.offlineReady,
+          message: 'Modo sin conexión',
+        ));
       }
     } finally {
       failedSourceNames = failed;

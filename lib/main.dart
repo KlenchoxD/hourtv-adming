@@ -10,6 +10,7 @@ import 'mobile_ui/hourtv_mobile_theme.dart';
 import 'new_ui/hourtv_new_shell.dart';
 import 'new_ui/hourtv_profile_gate.dart';
 import 'new_ui/hourtv_settings_update_page.dart';
+import 'new_ui/hourtv_startup_cover.dart';
 import 'services/content_store.dart';
 import 'services/device_type.dart';
 import 'services/iptv_server_service.dart';
@@ -73,47 +74,9 @@ class HourTVApp extends StatelessWidget {
         );
       },
       home: fatalError == null
-          ? const _LaunchSplash()
+          ? const HourTvStartupCover(child: _ResponsiveRoot())
           : _FatalError(fatalError!),
     );
-  }
-}
-
-/// Momento de marca al abrir la app: reemplaza el "vuelve a aparecer el
-/// icono" del arranque de Android por esta pantalla. Todo lo pesado
-/// (StorageService, DeviceProfile) ya se esperó antes de runApp(), asi que
-/// esto no espera ninguna carga real: es una pausa breve deliberada para
-/// que la marca se vea en vez de pasar directo a Perfil/Inicio.
-class _LaunchSplash extends StatefulWidget {
-  const _LaunchSplash();
-
-  @override
-  State<_LaunchSplash> createState() => _LaunchSplashState();
-}
-
-class _LaunchSplashState extends State<_LaunchSplash> {
-  var _ready = false;
-
-  @override
-  void initState() {
-    super.initState();
-    Future.delayed(const Duration(milliseconds: 900), () {
-      if (mounted) setState(() => _ready = true);
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    if (!_ready) {
-      return const Scaffold(
-        backgroundColor: HourTvMobileTokens.deepBlack,
-        body: HourTvBootLoading(
-          title: 'Preparando el app para usar',
-          subtitle: 'Un momento, ya casi está listo.',
-        ),
-      );
-    }
-    return const _ResponsiveRoot();
   }
 }
 
