@@ -65,11 +65,10 @@ class _IndexedChannel {
 /// que las consultas en la interfaz no realicen normalizaciones ni escaneos
 /// repetitivos en cada build().
 class CatalogPresentationIndex {
-  CatalogPresentationIndex._({
-    required List<_IndexedChannel> records,
-    required Map<ContentTypeFilter, List<String>> genresByType,
-  })  : _records = records,
-        _genresByType = genresByType;
+  CatalogPresentationIndex._(
+    this._records,
+    this._genresByType,
+  );
 
   final List<_IndexedChannel> _records;
   final Map<ContentTypeFilter, List<String>> _genresByType;
@@ -163,8 +162,8 @@ class CatalogPresentationIndex {
     }
 
     return CatalogPresentationIndex._(
-      records: List.unmodifiable(records),
-      genresByType: Map.unmodifiable(genresByType),
+      List.unmodifiable(records),
+      Map.unmodifiable(genresByType),
     );
   }
 

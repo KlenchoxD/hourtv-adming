@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io' show File;
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart' show rootBundle;
@@ -196,7 +197,9 @@ class ContentStore extends ChangeNotifier {
     }
 
     // El catálogo remoto cacheado o el asset local también se leen sin red.
-    final localSources = await _loadAssetSources();
+    final localSources = (cacheLoader != null && remoteLoader != null)
+        ? const _AssetSources([], [], [], [])
+        : await _loadAssetSources();
     if (all.isEmpty && localSources.channels.isNotEmpty) {
       all = _withoutArchiveMovies(localSources.channels);
     }
@@ -691,13 +694,31 @@ class ContentStore extends ChangeNotifier {
         raw = await _fetchRemoteSourcesFromNetwork();
       }
       raw ??= _cachedRemoteSources();
-      raw ??= await rootBundle.loadString('assets/data/sources.json');
+      if (raw == null && !kIsWeb) {
+        try {
+          final file = File('assets/data/sources.json');
+          if (file.existsSync()) {
+            raw = file.readAsStringSync();
+          }
+        } catch (_) {}
+      }
+      if (raw == null) {
+        try {
+          raw = await rootBundle.loadString('assets/data/sources.json');
+        } catch (_) {}
+      }
+      if (raw == null) return const _AssetSources([], [], [], []);
       var parsed = CatalogParser.parse(jsonDecode(raw));
       if (parsed.series.isEmpty) {
         try {
-          final assetRaw = await rootBundle.loadString(
-            'assets/data/sources.json',
-          );
+          String? assetRaw;
+          if (!kIsWeb) {
+            final file = File('assets/data/sources.json');
+            if (file.existsSync()) {
+              assetRaw = file.readAsStringSync();
+            }
+          }
+          assetRaw ??= await rootBundle.loadString('assets/data/sources.json');
           final assetParsed = CatalogParser.parse(jsonDecode(assetRaw));
           if (assetParsed.series.isNotEmpty) {
             parsed = CatalogPayload(

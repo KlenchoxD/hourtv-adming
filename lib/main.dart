@@ -4,7 +4,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'mobile_ui/hourtv_mobile_components.dart';
 import 'mobile_ui/hourtv_mobile_shell.dart';
 import 'mobile_ui/hourtv_mobile_theme.dart';
 import 'new_ui/hourtv_new_shell.dart';
@@ -74,7 +73,7 @@ class HourTVApp extends StatelessWidget {
         );
       },
       home: fatalError == null
-          ? const HourTvStartupCover(child: _ResponsiveRoot())
+          ? const _ResponsiveRoot()
           : _FatalError(fatalError!),
     );
   }
@@ -94,7 +93,7 @@ class _ResponsiveRoot extends StatelessWidget {
       valueListenable: StorageService.hasChosenProfile,
       builder: (context, hasChosenProfile, _) {
         if (!hasChosenProfile) return const HourTvProfileGate();
-        return const _AppShell();
+        return const HourTvStartupCover(child: _AppShell());
       },
     );
   }

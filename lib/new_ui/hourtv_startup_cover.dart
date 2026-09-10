@@ -140,19 +140,12 @@ class _HourTvStartupCoverState extends State<HourTvStartupCover> {
       );
     }
 
-    return Stack(
-      children: [
-        widget.child,
-        Positioned.fill(
-          child: Scaffold(
-            backgroundColor: HourTvMobileTokens.deepBlack,
-            body: HourTvBootLoading(
-              title: _stageTitle(readiness.phase),
-              subtitle: 'Un momento, estamos preparando el catálogo.',
-            ),
-          ),
-        ),
-      ],
+    return Scaffold(
+      backgroundColor: HourTvMobileTokens.deepBlack,
+      body: HourTvBootLoading(
+        title: _stageTitle(readiness.phase),
+        subtitle: 'Un momento, estamos preparando el catálogo.',
+      ),
     );
   }
 }
