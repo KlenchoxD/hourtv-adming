@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-09-09T22:45:36.086Z",
-  "durationMs": 3436,
+  "generatedAt": "2026-09-10T00:43:46.969Z",
+  "durationMs": 699,
   "dryRun": false,
-  "moviesFound": 34,
-  "moviesDiscarded": 24,
+  "moviesFound": 33,
+  "moviesDiscarded": 23,
   "moviesAdded": 0,
   "moviesEnriched": 0,
   "duplicates": 10,
@@ -20,6 +20,11 @@
     {
       "tmdbId": 1204680,
       "title": "Coyote vs. Acme",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1288445,
+      "title": "El motín",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -78,18 +83,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1212763,
-      "title": "Posesión infernal: En llamas",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1368337,
       "title": "La Odisea",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1288445,
-      "title": "El motín",
       "reason": "Sin fuente autorizada configurada"
     },
     {

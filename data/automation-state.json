@@ -1,9 +1,10 @@
 {
-  "lastRunAt": "2026-09-09T22:45:39.517Z",
+  "lastRunAt": "2026-09-10T00:43:47.663Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
     1204680,
+    1288445,
     1108427,
     1137844,
     1339713,
@@ -21,9 +22,7 @@
     454639,
     1101383,
     1384216,
-    1212763,
     1368337,
-    1288445,
     1375646,
     1386315,
     1506560,
@@ -49,6 +48,11 @@
     {
       "tmdbId": 1204680,
       "title": "Coyote vs. Acme",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1288445,
+      "title": "El motín",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -107,18 +111,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1212763,
-      "title": "Posesión infernal: En llamas",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1368337,
       "title": "La Odisea",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1288445,
-      "title": "El motín",
       "reason": "Sin fuente autorizada configurada"
     },
     {
