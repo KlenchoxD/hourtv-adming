@@ -365,19 +365,22 @@ class _HourTvMobileHomeState extends State<HourTvMobileHome> {
             ),
             SliverToBoxAdapter(
               child: SizedBox(
-                height: 172,
+                height: 220,
                 child: ListView.separated(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   scrollDirection: Axis.horizontal,
                   itemCount: continueWatching.length,
                   separatorBuilder: (_, _) => const SizedBox(width: 12),
-                  itemBuilder: (_, index) => _ContinueCard(
-                    channel: continueWatching[index],
-                    onTap: () => (widget.onOpenContinue ?? widget.onOpen)(
-                      continueWatching[index],
-                    ),
-                    assetFallback: _fallbackArtwork(index),
-                  ),
+                  itemBuilder: (_, index) {
+                    final item = continueWatching[index];
+                    return HourTvPosterCard(
+                      channel: item,
+                      progress: item.progressFraction,
+                      secondaryProgressLabel: remainingLabel(item),
+                      onTap: () => (widget.onOpenContinue ?? widget.onOpen)(item),
+                      assetFallback: _fallbackArtwork(index),
+                    );
+                  },
                 ),
               ),
             ),
@@ -453,6 +456,20 @@ class _HourTvMobileHomeState extends State<HourTvMobileHome> {
         ),
       ),
     );
+  }
+
+  /// Minutos restantes reales a partir de la duracion total (TMDB/Xtream) y
+  /// el progreso guardado. Sin esos datos, no se inventa un tiempo.
+  static String? remainingLabel(Channel channel) {
+    final fraction = channel.progressFraction;
+    final raw = channel.duration?.trim();
+    if (fraction == null || raw == null || raw.isEmpty) return null;
+    final totalMinutes = int.tryParse(
+      RegExp(r'^(\d+)').firstMatch(raw)?.group(1) ?? '',
+    );
+    if (totalMinutes == null || totalMinutes <= 0) return null;
+    final remaining = (totalMinutes * (1 - fraction)).round();
+    return remaining <= 0 ? null : 'Quedan $remaining min';
   }
 }
 
@@ -825,105 +842,6 @@ class _HeroFavoriteButton extends StatelessWidget {
   );
 }
 
-class _ContinueCard extends StatefulWidget {
-  const _ContinueCard({
-    required this.channel,
-    required this.onTap,
-    required this.assetFallback,
-  });
-
-  final Channel channel;
-  final VoidCallback onTap;
-  final String assetFallback;
-
-  @override
-  State<_ContinueCard> createState() => _ContinueCardState();
-}
-
-class _ContinueCardState extends State<_ContinueCard> {
-  bool _pressed = false;
-
-  /// Minutos restantes reales a partir de la duracion total (TMDB/Xtream) y
-  /// el progreso guardado. Sin esos datos, no se inventa un tiempo.
-  String? get _remainingLabel {
-    final fraction = widget.channel.progressFraction;
-    final raw = widget.channel.duration?.trim();
-    if (fraction == null || raw == null || raw.isEmpty) return null;
-    final totalMinutes = int.tryParse(
-      RegExp(r'^(\d+)').firstMatch(raw)?.group(1) ?? '',
-    );
-    if (totalMinutes == null || totalMinutes <= 0) return null;
-    final remaining = (totalMinutes * (1 - fraction)).round();
-    return remaining <= 0 ? null : 'Quedan $remaining min';
-  }
-
-  @override
-  Widget build(BuildContext context) => AnimatedScale(
-    scale: _pressed ? 0.98 : 1.0,
-    duration: const Duration(milliseconds: 150),
-    curve: Curves.easeOut,
-    child: SizedBox(
-      width: 230,
-      child: GestureDetector(
-        onTap: widget.onTap,
-        onTapDown: (_) => setState(() => _pressed = true),
-        onTapUp: (_) => setState(() => _pressed = false),
-        onTapCancel: () => setState(() => _pressed = false),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              height: 129,
-              child: Stack(
-                fit: StackFit.expand,
-                children: [
-                  HourTvArtwork(
-                    url: widget.channel.backdrop ?? widget.channel.logo,
-                    asset: widget.assetFallback,
-                    borderRadius: BorderRadius.circular(12),
-                    alignment: Alignment.topCenter,
-                  ),
-                  const Center(
-                    child: CircleAvatar(
-                      radius: 22,
-                      backgroundColor: HourTvMobileTokens.emerald,
-                      child: Icon(
-                        Icons.play_arrow_rounded,
-                        color: HourTvMobileTokens.deepBlack,
-                      ),
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: LinearProgressIndicator(
-                      minHeight: 3,
-                      value: widget.channel.progressFraction ?? 0,
-                      backgroundColor: HourTvMobileTokens.borderSubtle,
-                      color: HourTvMobileTokens.emerald,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 7),
-            Text(
-              widget.channel.name,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
-            if (_remainingLabel != null)
-              Text(
-                _remainingLabel!,
-                style: Theme.of(context).textTheme.bodySmall,
-              ),
-          ],
-        ),
-      ),
-    ),
-  );
-}
-
 class HourTvMobileSearch extends StatefulWidget {
   const HourTvMobileSearch({
     super.key,
@@ -1040,6 +958,9 @@ class _HourTvMobileSearchState extends State<HourTvMobileSearch> {
 
   void _onChanged(String value) {
     _debounce?.cancel();
+    if (_history.isNotEmpty) {
+      setState(() {});
+    }
     final currentGen = ++_queryGeneration;
     _debounce = Timer(const Duration(milliseconds: 250), () {
       if (!mounted || currentGen != _queryGeneration) return;
@@ -1055,6 +976,12 @@ class _HourTvMobileSearchState extends State<HourTvMobileSearch> {
         _currentResults = _index.search(query);
       });
     });
+  }
+
+  Future<void> _clearHistory() async {
+    if (_history.isEmpty) return;
+    setState(() => _history = const <String>[]);
+    await _historyStore.save(const <String>[]);
   }
 
   Future<void> _submit([String? value]) async {
@@ -1210,23 +1137,77 @@ class _HourTvMobileSearchState extends State<HourTvMobileSearch> {
             ),
           ),
         ),
-        if (_query.isEmpty && _history.isNotEmpty)
+        if (controller.text.trim().isEmpty && _query.isEmpty && _history.isNotEmpty)
           SliverToBoxAdapter(
-            child: SizedBox(
-              height: 52,
-              child: ListView.separated(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 6,
-                ),
-                scrollDirection: Axis.horizontal,
-                itemCount: _history.length,
-                separatorBuilder: (_, _) => const SizedBox(width: 8),
-                itemBuilder: (_, index) => ActionChip(
-                  avatar: const Icon(Icons.history_rounded, size: 16),
-                  label: Text(_history.reversed.elementAt(index)),
-                  onPressed: () => _submit(_history.reversed.elementAt(index)),
-                ),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Búsquedas recientes',
+                        style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                              color: HourTvMobileTokens.textMuted,
+                              fontWeight: FontWeight.w600,
+                            ),
+                      ),
+                      TextButton(
+                        key: const ValueKey('hourtv-search-clear-history'),
+                        onPressed: _clearHistory,
+                        style: TextButton.styleFrom(
+                          padding: EdgeInsets.zero,
+                          minimumSize: const Size(48, 28),
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        ),
+                        child: const Text(
+                          'Borrar',
+                          style: TextStyle(
+                            color: HourTvMobileTokens.emerald,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 4),
+                  for (final item in _history.reversed)
+                    InkWell(
+                      key: ValueKey('hourtv-search-history-$item'),
+                      onTap: () => _submit(item),
+                      borderRadius: BorderRadius.circular(8),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 8,
+                          horizontal: 4,
+                        ),
+                        child: Row(
+                          children: [
+                            const Icon(
+                              Icons.history_rounded,
+                              size: 18,
+                              color: HourTvMobileTokens.textMuted,
+                            ),
+                            const SizedBox(width: 10),
+                            Expanded(
+                              child: Text(
+                                item,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  color: HourTvMobileTokens.textPrimary,
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                ],
               ),
             ),
           ),

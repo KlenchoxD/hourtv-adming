@@ -602,12 +602,16 @@ class HourTvPosterCard extends StatefulWidget {
     required this.onTap,
     this.width = 120,
     this.assetFallback,
+    this.progress,
+    this.secondaryProgressLabel,
   });
 
   final Channel channel;
   final VoidCallback onTap;
   final double width;
   final String? assetFallback;
+  final double? progress;
+  final String? secondaryProgressLabel;
 
   @override
   State<HourTvPosterCard> createState() => _HourTvPosterCardState();
@@ -638,10 +642,28 @@ class _HourTvPosterCardState extends State<HourTvPosterCard> {
                   border: Border.all(color: HourTvMobileTokens.borderSubtle),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: HourTvArtwork(
-                  url: widget.channel.logo,
-                  asset: widget.assetFallback,
+                child: ClipRRect(
                   borderRadius: BorderRadius.circular(11),
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      HourTvArtwork(
+                        url: widget.channel.logo,
+                        asset: widget.assetFallback,
+                        borderRadius: BorderRadius.circular(11),
+                      ),
+                      if (widget.progress != null && widget.progress! > 0)
+                        Align(
+                          alignment: Alignment.bottomCenter,
+                          child: LinearProgressIndicator(
+                            minHeight: 3,
+                            value: widget.progress!.clamp(0.0, 1.0),
+                            backgroundColor: HourTvMobileTokens.borderSubtle,
+                            color: HourTvMobileTokens.emerald,
+                          ),
+                        ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -658,10 +680,11 @@ class _HourTvPosterCardState extends State<HourTvPosterCard> {
             ),
             const SizedBox(height: 2),
             Text(
-              [widget.channel.year, widget.channel.genre ?? widget.channel.group]
-                  .whereType<String>()
-                  .where((value) => value.trim().isNotEmpty)
-                  .join(' · '),
+              widget.secondaryProgressLabel ??
+                  [widget.channel.year, widget.channel.genre ?? widget.channel.group]
+                      .whereType<String>()
+                      .where((value) => value.trim().isNotEmpty)
+                      .join(' · '),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(
