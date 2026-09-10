@@ -1,5 +1,6 @@
 import '../mobile_ui/hourtv_genre_service.dart';
 import '../models/channel.dart';
+export 'catalog/catalog_page_source.dart';
 
 enum ContentTypeFilter { all, movies, series, anime, novels }
 
