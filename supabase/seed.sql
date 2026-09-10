@@ -1,0 +1,3 @@
+-- HourTV Supabase local seed file
+-- Phase 2: Account profiles are owned per authenticated user (auth.uid()).
+-- Seed data is populated dynamically during test runs.
