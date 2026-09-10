@@ -126,6 +126,12 @@ class _HourTvMobileShellState extends State<HourTvMobileShell> {
   List<Channel> get _liveChannelsOrPreview =>
       _liveChannels.isNotEmpty ? _liveChannels : PreviewCatalog.live;
 
+  List<Channel> get _featured {
+    final list = _allContent;
+    if (list.isEmpty) return const [];
+    return CatalogPresentationIndex.build(list).featured(limit: 5);
+  }
+
   void _openDetails(Channel channel, {bool fromContinueWatching = false}) {
     final series = hourTvResolveSeries(channel, store.visibleSeries);
     if (series != null) {
@@ -195,6 +201,7 @@ class _HourTvMobileShellState extends State<HourTvMobileShell> {
           builder: (context, _) => HourTvMobileHome(
             movies: _movies,
             allContent: _allContent,
+            featured: _featured,
             store: store,
             onOpen: _openDetails,
             onOpenContinue: (channel) =>
@@ -274,11 +281,13 @@ class HourTvMobileHome extends StatefulWidget {
     required this.onOpen,
     required this.onSearch,
     required this.onProfile,
+    this.featured,
     this.onOpenContinue,
   });
 
   final List<Channel> movies;
   final List<Channel> allContent;
+  final List<Channel>? featured;
   final ContentStore store;
   final ValueChanged<Channel> onOpen;
 
@@ -300,6 +309,13 @@ class _HourTvMobileHomeState extends State<HourTvMobileHome> {
       'activeProfile',
       defaultValue: 'Invitado',
     ).toString();
+
+    final featuredChannels = widget.featured ??
+        (widget.allContent.isNotEmpty
+            ? CatalogPresentationIndex.build(widget.allContent).featured(limit: 5)
+            : (widget.movies.isNotEmpty
+                ? CatalogPresentationIndex.build(widget.movies).featured(limit: 5)
+                : const <Channel>[]));
 
     return CustomScrollView(
       key: const PageStorageKey('hourtv-mobile-home'),
@@ -335,7 +351,7 @@ class _HourTvMobileHomeState extends State<HourTvMobileHome> {
         else ...[
           SliverToBoxAdapter(
             child: _HeroCarousel(
-              channels: widget.movies.take(5).toList(),
+              channels: featuredChannels,
               onPlay: widget.onOpen,
               onFavorite: widget.store.toggleFavorite,
             ),
@@ -566,6 +582,44 @@ class _HeroCarouselState extends State<_HeroCarousel> {
   }
 
   @override
+  void didUpdateWidget(covariant _HeroCarousel oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.channels.isEmpty) {
+      _page = 0;
+      _timer?.cancel();
+      return;
+    }
+
+    final bool identitiesChanged =
+        widget.channels.length != oldWidget.channels.length ||
+        !_sameChannels(widget.channels, oldWidget.channels);
+
+    if (_page >= widget.channels.length) {
+      _page = widget.channels.length - 1;
+      if (_controller.hasClients) {
+        _controller.jumpToPage(_page);
+      }
+    }
+
+    if (identitiesChanged) {
+      _page = _page.clamp(0, widget.channels.length - 1);
+      if (_controller.hasClients) {
+        _controller.jumpToPage(_page);
+      }
+      _scheduleAutoAdvance();
+    }
+  }
+
+  bool _sameChannels(List<Channel> a, List<Channel> b) {
+    if (identical(a, b)) return true;
+    if (a.length != b.length) return false;
+    for (var i = 0; i < a.length; i++) {
+      if (a[i].url != b[i].url) return false;
+    }
+    return true;
+  }
+
+  @override
   void dispose() {
     _timer?.cancel();
     _controller.dispose();
@@ -585,6 +639,7 @@ class _HeroCarouselState extends State<_HeroCarousel> {
       430.0,
     );
     return SizedBox(
+      key: const ValueKey('hourtv-hero-carousel'),
       height: height,
       child: Stack(
         children: [
