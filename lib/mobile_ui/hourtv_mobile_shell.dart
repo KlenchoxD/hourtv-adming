@@ -15,6 +15,7 @@ import '../new_ui/hourtv_settings_language_page.dart';
 import '../new_ui/hourtv_settings_page.dart';
 import '../new_ui/hourtv_settings_parental_page.dart';
 import '../new_ui/hourtv_settings_playback_page.dart';
+import '../services/catalog_presentation_index.dart';
 import '../services/content_store.dart';
 import '../services/device_type.dart';
 import '../services/storage_service.dart';
@@ -873,10 +874,12 @@ class HourTvMobileSearch extends StatefulWidget {
     super.key,
     required this.content,
     required this.onOpen,
+    this.presentationIndex,
     this.historyStore,
   });
   final List<Channel> content;
   final ValueChanged<Channel> onOpen;
+  final CatalogPresentationIndex? presentationIndex;
   final HourTvSearchHistoryStore? historyStore;
   @override
   State<HourTvMobileSearch> createState() => _HourTvMobileSearchState();
@@ -889,6 +892,9 @@ class _HourTvMobileSearchState extends State<HourTvMobileSearch> {
   final controller = TextEditingController();
   final _scrollController = ScrollController();
   late final HourTvSearchHistoryStore _historyStore;
+  late CatalogPresentationIndex _index;
+  List<Channel> _currentResults = const [];
+  int _queryGeneration = 0;
   Timer? _debounce;
   List<String> _history = const <String>[];
   var _query = '';
@@ -896,25 +902,40 @@ class _HourTvMobileSearchState extends State<HourTvMobileSearch> {
   var _genre = HourTvGenreService.defaultGenre;
   var _sort = HourTvSearchSort.newest;
   var _visibleCount = _initialVisible;
+
   @override
   void initState() {
     super.initState();
     _historyStore =
         widget.historyStore ?? SharedPreferencesHourTvSearchHistoryStore();
     _scrollController.addListener(_onScroll);
+    _index = widget.presentationIndex ??
+        CatalogPresentationIndex.build(widget.content);
+    _executeSearchSync();
     unawaited(_loadHistory());
   }
 
   @override
   void didUpdateWidget(covariant HourTvMobileSearch oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (!identical(widget.content, oldWidget.content)) {
+    var indexChanged = false;
+    if (widget.presentationIndex != null &&
+        widget.presentationIndex != oldWidget.presentationIndex) {
+      _index = widget.presentationIndex!;
+      indexChanged = true;
+    } else if (!identical(widget.content, oldWidget.content)) {
+      _index = CatalogPresentationIndex.build(widget.content);
+      indexChanged = true;
+    }
+
+    if (indexChanged) {
       final available = _availableGenresForType(_type);
       if (_genre != HourTvGenreService.defaultGenre &&
           !available.contains(_genre)) {
         _genre = HourTvGenreService.defaultGenre;
         _visibleCount = _initialVisible;
       }
+      _executeSearchSync();
     }
   }
 
@@ -934,34 +955,71 @@ class _HourTvMobileSearchState extends State<HourTvMobileSearch> {
     setState(() => _history = values.take(10).toList(growable: false));
   }
 
+  static ContentTypeFilter _toContentTypeFilter(String type) => switch (type) {
+    'Películas' => ContentTypeFilter.movies,
+    'Series' => ContentTypeFilter.series,
+    'Anime' => ContentTypeFilter.anime,
+    'Novelas' => ContentTypeFilter.novels,
+    _ => ContentTypeFilter.all,
+  };
+
+  static CatalogSort _toCatalogSort(HourTvSearchSort sort) => switch (sort) {
+    HourTvSearchSort.newest => CatalogSort.newest,
+    HourTvSearchSort.oldest => CatalogSort.oldest,
+    HourTvSearchSort.titleAscending => CatalogSort.titleAscending,
+  };
+
+  void _executeSearchSync() {
+    final currentGen = ++_queryGeneration;
+    final query = CatalogQuery(
+      text: _query,
+      type: _toContentTypeFilter(_type),
+      genre: _genre,
+      sort: _toCatalogSort(_sort),
+    );
+    final results = _index.search(query);
+    if (currentGen == _queryGeneration) {
+      _currentResults = results;
+    }
+  }
+
   void _onChanged(String value) {
     _debounce?.cancel();
+    final currentGen = ++_queryGeneration;
     _debounce = Timer(const Duration(milliseconds: 250), () {
-      if (!mounted) return;
+      if (!mounted || currentGen != _queryGeneration) return;
       setState(() {
         _query = value.trim();
         _visibleCount = _initialVisible;
+        final query = CatalogQuery(
+          text: _query,
+          type: _toContentTypeFilter(_type),
+          genre: _genre,
+          sort: _toCatalogSort(_sort),
+        );
+        _currentResults = _index.search(query);
       });
     });
   }
 
   Future<void> _submit([String? value]) async {
     _debounce?.cancel();
-    final query = (value ?? controller.text).trim();
+    final queryText = (value ?? controller.text).trim();
     if (value != null) {
       controller
         ..text = value
         ..selection = TextSelection.collapsed(offset: value.length);
     }
     setState(() {
-      _query = query;
+      _query = queryText;
       _visibleCount = _initialVisible;
+      _executeSearchSync();
     });
-    if (query.isEmpty) return;
-    final normalized = _normalize(query);
+    if (queryText.isEmpty) return;
+    final normalized = HourTvGenreService.normalize(queryText);
     final next = <String>[
-      ..._history.where((item) => _normalize(item) != normalized),
-      query,
+      ..._history.where((item) => HourTvGenreService.normalize(item) != normalized),
+      queryText,
     ];
     if (next.length > 10) next.removeRange(0, next.length - 10);
     setState(() => _history = List<String>.unmodifiable(next));
@@ -971,7 +1029,7 @@ class _HourTvMobileSearchState extends State<HourTvMobileSearch> {
   void _onScroll() {
     if (!_scrollController.hasClients) return;
     if (_scrollController.position.extentAfter >= 600) return;
-    final total = _results().length;
+    final total = _currentResults.length;
     if (_visibleCount >= total) return;
     setState(() {
       _visibleCount = math.min(_visibleCount + _revealStep, total);
@@ -979,10 +1037,7 @@ class _HourTvMobileSearchState extends State<HourTvMobileSearch> {
   }
 
   List<String> _availableGenresForType(String type) {
-    final filtered = widget.content.where(
-      (item) => _matchesType(item, type: type),
-    );
-    return HourTvGenreService.getAvailableGenres(filtered);
+    return _index.genresFor(_toContentTypeFilter(type));
   }
 
   void _onTypeChanged(String newType) {
@@ -994,6 +1049,7 @@ class _HourTvMobileSearchState extends State<HourTvMobileSearch> {
           !available.contains(_genre)) {
         _genre = HourTvGenreService.defaultGenre;
       }
+      _executeSearchSync();
     });
   }
 
@@ -1001,53 +1057,10 @@ class _HourTvMobileSearchState extends State<HourTvMobileSearch> {
     setState(() {
       _genre = newGenre;
       _visibleCount = _initialVisible;
+      _executeSearchSync();
     });
   }
 
-  List<Channel> _results() {
-    final terms = _normalize(
-      _query,
-    ).split(' ').where((term) => term.isNotEmpty).toList(growable: false);
-    final results = widget.content.where((item) {
-      if (!_matchesType(item)) return false;
-      if (!_matchesGenre(item)) return false;
-      if (terms.isEmpty) return true;
-      final haystack = _normalize(
-        [
-          item.name,
-          item.genre,
-          item.group,
-          ...item.categories,
-        ].whereType<String>().join(' '),
-      );
-      return terms.every(haystack.contains);
-    }).toList();
-    results.sort(switch (_sort) {
-      HourTvSearchSort.newest => (a, b) => _year(b).compareTo(_year(a)),
-      HourTvSearchSort.oldest => (a, b) => _year(a).compareTo(_year(b)),
-      HourTvSearchSort.titleAscending => (a, b) => _normalize(
-        a.name,
-      ).compareTo(_normalize(b.name)),
-    });
-    return results;
-  }
-
-  bool _matchesType(Channel item, {String? type}) => switch (type ?? _type) {
-    'Películas' => item.type == MediaType.movie,
-    'Series' => item.type == MediaType.series,
-    'Anime' => _metadata(item).contains('anime'),
-    'Novelas' =>
-      _metadata(item).contains('novela') ||
-          _metadata(item).contains('telenovela'),
-    _ => true,
-  };
-
-  bool _matchesGenre(Channel item) =>
-      HourTvGenreService.channelMatchesGenre(item, _genre);
-
-  String _metadata(Channel item) => _normalize(
-    [item.genre, item.group, ...item.categories].whereType<String>().join(' '),
-  );
   bool get _hasActiveFilters =>
       _query.isNotEmpty ||
       _type != 'Todo' ||
@@ -1055,8 +1068,7 @@ class _HourTvMobileSearchState extends State<HourTvMobileSearch> {
 
   @override
   Widget build(BuildContext context) {
-    final results = _results();
-    final visible = results.take(_visibleCount).toList(growable: false);
+    final visible = _currentResults.take(_visibleCount).toList(growable: false);
     return CustomScrollView(
       key: const PageStorageKey('hourtv-mobile-search'),
       controller: _scrollController,
@@ -1172,7 +1184,7 @@ class _HourTvMobileSearchState extends State<HourTvMobileSearch> {
                   child: Text(
                     !_hasActiveFilters
                       ? 'Descubre'
-                      : '${results.length} ${results.length == 1 ? 'resultado' : 'resultados'}',
+                      : '${_currentResults.length} ${_currentResults.length == 1 ? 'resultado' : 'resultados'}',
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                 ),
@@ -1181,7 +1193,7 @@ class _HourTvMobileSearchState extends State<HourTvMobileSearch> {
             ),
           ),
         ),
-        if (results.isEmpty)
+        if (_currentResults.isEmpty)
           const SliverFillRemaining(
             hasScrollBody: false,
             child: Center(
@@ -1256,6 +1268,7 @@ class _HourTvMobileSearchState extends State<HourTvMobileSearch> {
           onPressed: () => setState(() {
             _sort = value;
             _visibleCount = _initialVisible;
+            _executeSearchSync();
           }),
           trailingIcon: value == _sort
               ? const Icon(
@@ -1275,23 +1288,11 @@ class _HourTvMobileSearchState extends State<HourTvMobileSearch> {
       ),
     ),
   );
-  static int _year(Channel item) => int.tryParse(item.year ?? '') ?? 0;
   static String _sortLabel(HourTvSearchSort value) => switch (value) {
     HourTvSearchSort.newest => 'Más recientes',
     HourTvSearchSort.oldest => 'Más antiguos',
     HourTvSearchSort.titleAscending => 'Orden A–Z',
   };
-  static String _normalize(String value) => value
-      .trim()
-      .toLowerCase()
-      .replaceAll(RegExp('[áàäâã]'), 'a')
-      .replaceAll(RegExp('[éèëê]'), 'e')
-      .replaceAll(RegExp('[íìïî]'), 'i')
-      .replaceAll(RegExp('[óòöôõ]'), 'o')
-      .replaceAll(RegExp('[úùüû]'), 'u')
-      .replaceAll('ñ', 'n')
-      .replaceAll(RegExp(r'[^a-z0-9]+'), ' ')
-      .trim();
 }
 
 /// Selector compacto de tipo de contenido para Mi Biblioteca: antes era una

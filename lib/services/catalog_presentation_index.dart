@@ -78,8 +78,15 @@ class CatalogPresentationIndex {
   static final Map<String, List<String>> _queryTermsCache = {};
   static final Map<String, String> _genreTermsCache = {};
 
+  static int _buildCountForTest = 0;
+  static int get buildCountForTest => _buildCountForTest;
+  static void resetBuildCountForTest() {
+    _buildCountForTest = 0;
+  }
+
   /// Construye un índice de presentación inmutable a partir de una lista de canales.
   static CatalogPresentationIndex build(List<Channel> channels) {
+    _buildCountForTest++;
     final records = <_IndexedChannel>[];
 
     for (var i = 0; i < channels.length; i++) {
