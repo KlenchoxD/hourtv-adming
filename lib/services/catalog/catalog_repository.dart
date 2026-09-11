@@ -27,6 +27,10 @@ class CatalogRepository {
     return _instance!;
   }
   static bool get hasInstance => _instance != null;
+  static void configureInstance(CatalogRepository repo) {
+    _instance = repo;
+  }
+
   static void setInstanceForTesting(CatalogRepository? repo) {
     _instance = repo;
   }
@@ -46,6 +50,7 @@ class CatalogRepository {
       director: t.director,
       writer: t.writer,
       forcedType: t.mediaType,
+      catalogTitleId: t.id,
     );
   }
 
@@ -213,6 +218,7 @@ class CatalogRepository {
       writer: title.writer,
       servers: servers,
       forcedType: title.mediaType,
+      catalogTitleId: title.id,
     );
   }
 
@@ -242,6 +248,8 @@ class CatalogRepository {
             servers: servers,
             forcedType: 'series',
             group: s.name ?? 'Temporada ${s.seasonNumber}',
+            tvgId: 'S${s.seasonNumber}:E${ep.episodeNumber}',
+            catalogTitleId: ep.id,
           ),
         );
       }

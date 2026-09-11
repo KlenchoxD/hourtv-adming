@@ -445,6 +445,14 @@ class _PlayerScreenState extends State<PlayerScreen>
     bool isFallbackAttempt = false,
   }) async {
     final targetUrl = streamUrl ?? ch.url;
+    if (targetUrl.startsWith('catalog://') || ch.url.startsWith('catalog://')) {
+      setState(() {
+        _loading = false;
+        _err = 'Error de catálogo: el canal no fue hidratado antes de reproducir.';
+        _errDetail = 'URL no reproducible: $targetUrl';
+      });
+      return;
+    }
     if (!isFallbackAttempt) {
       _sourcePlan = PlaybackSourcePlan.forChannel(ch, preferredUrl: streamUrl);
     }

@@ -140,6 +140,18 @@ class Channel {
   final List<ChannelServer> servers;
   final List<String> categories;
   final bool isFeatured;
+  final String? catalogTitleId;
+
+  bool get isDriftCatalog =>
+      (catalogTitleId != null && catalogTitleId!.isNotEmpty) ||
+      url.startsWith('catalog://');
+
+  String? get stableTitleId =>
+      (catalogTitleId != null && catalogTitleId!.isNotEmpty)
+          ? catalogTitleId
+          : (url.startsWith('catalog://')
+              ? url.replaceFirst('catalog://', '')
+              : (tvgId != null && tvgId!.isNotEmpty ? tvgId : null));
 
   Channel({
     required this.name,
@@ -171,6 +183,7 @@ class Channel {
     this.servers = const [],
     this.categories = const [],
     this.isFeatured = false,
+    this.catalogTitleId,
   });
 
   factory Channel.fromM3U(
@@ -246,6 +259,7 @@ class Channel {
     'servers': servers.map((server) => server.toJson()).toList(),
     'categories': categories,
     'isFeatured': isFeatured,
+    'catalogTitleId': catalogTitleId,
   };
 
   factory Channel.fromJson(Map<String, dynamic> json) => Channel(
@@ -287,6 +301,7 @@ class Channel {
         .where((category) => category.isNotEmpty)
         .toList(),
     isFeatured: json['isFeatured'] == true || json['featured'] == true,
+    catalogTitleId: json['catalogTitleId']?.toString(),
   );
 
   Channel copyWith({
@@ -319,6 +334,7 @@ class Channel {
     List<ChannelServer>? servers,
     List<String>? categories,
     bool? isFeatured,
+    String? catalogTitleId,
   }) {
     return Channel(
       name: name ?? this.name,
@@ -350,6 +366,7 @@ class Channel {
       servers: servers ?? this.servers,
       categories: categories ?? this.categories,
       isFeatured: isFeatured ?? this.isFeatured,
+      catalogTitleId: catalogTitleId ?? this.catalogTitleId,
     );
   }
 
