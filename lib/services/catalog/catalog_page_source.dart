@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import '../../database/catalog_database.dart';
 import '../../database/daos/catalog_dao.dart';
 import 'catalog_dtos.dart';
-import 'supabase_catalog_gateway.dart';
 
 /// Origen de datos reactivo y paginado determinista por cursor tupla (createdAt, id)
 /// conectado directamente a la base de datos local SQLite (Drift).

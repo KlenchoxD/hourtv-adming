@@ -9,7 +9,7 @@ import 'package:streamtv/services/catalog/catalog_repository.dart';
 import 'package:streamtv/services/catalog/catalog_sync_engine.dart';
 import 'package:streamtv/services/catalog/supabase_catalog_gateway.dart';
 
-class MockCatalogGateway implements SupabaseCatalogGateway {
+class MockCatalogGateway extends SupabaseCatalogGateway {
   bool shouldFail = false;
   CatalogSyncMetadataDto metadata = const CatalogSyncMetadataDto(
     minimumAvailableRevision: 1,

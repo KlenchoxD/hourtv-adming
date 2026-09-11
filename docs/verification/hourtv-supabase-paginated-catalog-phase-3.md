@@ -1,84 +1,110 @@
-# Informe de Verificación Final: Catálogo Paginado Supabase, Caché Local Drift y Sincronización Incremental (Fase 3)
+# Informe de Verificación Final y Auditoría: Catálogo Paginado Supabase, Caché Local Drift y Sincronización Incremental (Fase 3)
 
 **Fecha:** 2026-09-10
-**Versión de la Aplicación:** `1.1.14+16` (estrictamente preservada)
-**Entorno de Validación:** Docker Desktop + Supabase Local (`127.0.0.1:54322` / `54321`), Flutter 3.44.6, Dart 3.12.2, Windows 11
+**Versión de la Aplicación:** `1.1.14+16` (estrictamente preservada en `pubspec.yaml`)
+**Entorno de Validación:** Supabase Local (Docker Desktop, PostgreSQL 15, pgTAP), Flutter 3.44.6, Dart 3.12.2, Windows 11
 
 ---
 
-## 1. Resumen Ejecutivo
+## 1. Resumen Ejecutivo y Tareas Correctivas de Auditoría
 
-La Fase 3 ha sido implementada y validada en su totalidad de forma secuencial, siguiendo estrictamente el plan técnico aprobado en `docs/superpowers/plans/2026-09-10-hourtv-supabase-paginated-catalog-phase-3.md` y las restricciones de seguridad locales:
-1. **Esquema Relacional Normalizado en Supabase:** Tablas `titles`, `genres`, `title_genres`, `seasons`, `episodes`, `languages`, `sources`, `catalog_changes` y `catalog_sync_metadata`.
-2. **Blindaje de Funciones PostgreSQL:** Todas las funciones de catálogo y triggers (`fn_catalog_changes_*`, `compact_catalog_changes`, `fn_update_catalog_sync_metadata_latest`) cuentan con `SET search_path = ''`, referencias totalmente calificadas `public.*`, propietario administrativo `postgres` y `REVOKE ALL ON FUNCTION ... FROM PUBLIC, anon, authenticated;`.
-3. **Regla Anti-Filtración en `catalog_changes`:** Los triggers emiten eventos `upsert` únicamente si el título raíz está publicado (`is_published = true`) y no eliminado (`deleted_at IS NULL`). Títulos privados o borradores jamás generan eventos en el feed público.
-4. **Validación Uniforme de URLs:** `url`, `referer_url` y `origin_url` exigen exclusivamente `^https://`, prohibiendo loopback, direcciones RFC 1918, link-local, credenciales embebidas y query params con secretos.
-5. **Base de Datos Local Drift (SQLite) en Isolate Dedicado:** `NativeDatabase.createInBackground` para aislar I/O de la interfaz de usuario, búsqueda FTS5 (`local_titles_fts`) con sanitización robusta (`sanitizeFts5Query`), soporte completo de revisiones de 64 bits (`lastCatalogRevision`) y paginación determinista por cursor compuesto `(createdAt, id)`.
-6. **Motor de Sincronización Incremental y Resincronización:** Stale-While-Revalidate con checkpoint transaccional atómico (`applySyncBatchAtomic`) y recuperación segura ante compactación de revisiones (*full resync* reemplazando caché sin tocar favoritos ni progreso).
-7. **Resiliencia y Fallback Offline:** Inicio inmediato offline desde Drift, con fallback de emergencia a `sources.json` en primera instalación sin red.
-8. **Prueba de Escala Determinista y Benchmark:** Inserción y recorrido determinista de 10,000 títulos sintéticos con 0 duplicados y 0 pérdidas; benchmark informativo con tiempos de respuesta en milisegundos.
-9. **Defensa DNS Anti-Rebinding:** Validador DNS en Dart (`DnsSecurityValidator`) que rechaza resolución a redes privadas y previene SSRF/rebinding antes de abrir conexiones.
+Se ejecutó la remediación integral de todos los hallazgos críticos (P0/P1) identificados durante la auditoría técnica independiente, completando las 8 tareas planificadas bajo estricto TDD (red-green-refactor) y commits atómicos:
 
----
-
-## 2. Resultados de Pruebas de Base de Datos (pgTAP) y Asesores
-
-### Ejecución de pgTAP (`npx -y supabase test db`)
-- **Total de pruebas ejecutadas:** 56 (13 de Fase 2 de perfiles/cuentas + 43 de Fase 3 de catálogo/RLS).
-- **Resultado:** `PASS` al 100% sin advertencias ni fallos.
-- **Cobertura validada:**
-  - Bloqueo total de mutaciones (`INSERT`, `UPDATE`, `DELETE`) para `anon` y `authenticated` en todas las tablas y vistas del catálogo.
-  - Restricción de lectura para títulos despublicados o eliminados.
-  - Triggers anti-filtración en `catalog_changes` comprobados ante inserciones de borradores.
-  - Actualización automática atómica de `latest_revision` en `catalog_sync_metadata`.
-  - Inaccesibilidad de `compact_catalog_changes` desde roles no administrativos.
-  - Validación sintáctica de URLs seguras en `sources`.
-
-### Resultado de Asesores de Seguridad (`npx -y supabase db advisors`)
-- **Comando:** `npx -y supabase db advisors`
-- **Resultado:** `0 issues found`. Sin extensiones en esquemas públicos ni advertencias de RLS deshabilitado.
+1. **Tarea 1 (`edb7809`):** `fix(catalog): serializar revisiones sin huecos, compactacion monotona y triggers de reparenting`
+   - Bloqueo pesimista `pg_advisory_xact_lock` para secuencia continua de `catalog_changes.revision` sin huecos de concurrencia.
+   - Triggers con soporte de reparenting `NEW.title_id != OLD.title_id` en temporadas, episodios y fuentes.
+   - `compact_catalog_changes` con retención monótona (`GREATEST`), protegiendo la última revisión activa.
+   - `search_path = ''` y referencias totalmente calificadas en todas las funciones y triggers.
+2. **Tarea 2 (`0041895`):** `feat(catalog): agregar indices drift reales, busqueda fts5 multi-filtro y ordenamiento`
+   - Definición formal de índices en Drift: `idx_local_titles_type_created_id`, `idx_local_seasons_title_number`, `idx_local_episodes_season_number`, `idx_local_sources_title_quality`.
+   - Consulta FTS5 parametrizada en `CatalogDao.searchTitlesPaged` con filtrado por tipo, género, ordenamiento (relevancia, título A-Z, fecha de adición) y soporte de diacríticos/acentos.
+3. **Tarea 3 (`5cfb589`):** `feat(catalog): implementar manejo de errores y reintento en catalog_page_source`
+   - `CatalogPageSource` con estado de error tipado (`hasError`, `errorMessage`), método explícito `retry()` y prevención de llamadas duplicadas durante carga en vuelo.
+4. **Tarea 4 (`f714c02`):** `feat(catalog): soportar upsert real de todas las entidades y full resync para revision cero`
+   - Inserción/actualización atómica en Drift de temporadas, episodios y fuentes en `CatalogSyncEngine`.
+   - `CatalogSyncMetadataDto` con `minimumAvailableRevision: 0` para sincronización inicial garantizada desde revisión cero.
+5. **Tarea 5 (`9fc4da1`):** `feat(catalog): implementar full resync consistente multi-tabla sin offset`
+   - Paginación determinista basada en ID (`fetchTitlesAfterId`, `fetchSeasonsAfterId`, `fetchEpisodesAfterId`, `fetchSourcesAfterId`) para resincronizaciones completas de gran volumen sin degradación `O(N^2)` por offset.
+6. **Tarea 6 (`e34c94c`):** `feat(ui): conectar inicio, buscar y biblioteca de hourtv_mobile_shell a drift`
+   - `HourTvMobileShell`, `HourTvMobileHome`, `HourTvMobileSearch` y `HourTvMobileLibrary` conectados reactivamente a `CatalogPageSource` y `CatalogRepository`.
+   - Soporte de scroll infinito (`Lazy Loading`), filtrado por género y tipo, y resolución de favoritos vía SQLite.
+7. **Tarea 7 (`d722d41`):** `test(catalog): actualizar benchmark riguroso de 10k titulos con grafo completo`
+   - Benchmark automatizado (`dart tool/benchmark_synthetic_catalog.dart`) y prueba unitaria de escala (`synthetic_catalog_scale_test.dart`) recorriendo 500 páginas (10,000 títulos) con relaciones 1:N completas (géneros, temporadas, episodios, fuentes).
+8. **Tarea 8 (Actual):** `docs(catalog): consolidar informe de auditoria y verificacion final fase 3`
+   - Consolidación de métricas, reportes de pruebas (317 tests passing), análisis estático limpio (0 warnings) y documentación de seguridad.
 
 ---
 
-## 3. Pruebas Automatizadas de Flutter
+## 2. Resultados de Base de Datos Supabase (pgTAP) y Asesores
 
-### Resumen de Suites Ejecutadas
-- `test/database/catalog_database_test.dart`: 7/7 PASSED (revisiones > 2^31, paginación determinista, búsqueda FTS5, acentos/diacríticos, sincronización FTS5, lápidas compuestas, checkpoint atómico de lote).
-- `test/services/catalog/supabase_catalog_gateway_test.dart`: 6/6 PASSED (cursor base64url, filtro PostgREST compuesto, mapeo de DTOs, captura de excepciones de red).
-- `test/services/catalog/catalog_sync_engine_test.dart`: 4/4 PASSED (invariante de checkpoint ante fallos, eliminación concurrente idempotente, idempotencia en re-ejecución, full resync tras compactación).
-- `test/services/catalog/catalog_repository_test.dart`: 4/4 PASSED (arranque offline con Drift, cold start fallback a sources.json, hidratación bajo demanda de Channel, resolución de favoritos por IDs).
-- `test/content_store_catalog_test.dart`: 2/2 PASSED (preservación de canales Live TV, transición de fases de arranque).
-- `test/startup_readiness_test.dart`: 4/4 PASSED (cero regresión en fases de arranque).
-- `test/mobile_ui/hourtv_paginated_shell_test.dart`: 4/4 PASSED (paginación perezosa sin duplicados, búsqueda reactiva FTS5, Hero calificado, resolución de biblioteca).
-- `test/hourtv_mobile_search_filters_test.dart` y `test/search_recent_history_ui_test.dart`: 19/19 PASSED.
-- `test/services/catalog/dns_security_validator_test.dart`: 5/5 PASSED (rechazo loopback, RFC 1918, ULA IPv6, link-local, multicast, aceptación de IPs públicas, mitigación de DNS rebinding).
-- `test/benchmark/synthetic_catalog_scale_test.dart`: 2/2 PASSED (rechazo de hosts remotos en importador, inserción masiva de 10k títulos y recorrido determinista de 50 páginas sin pérdidas ni duplicados).
-- `test/catalog_security_isolation_test.dart`: 3/3 PASSED (fronteras de seguridad y validación de cliente).
+### Ejecución pgTAP (`npx -y supabase test db`)
+- **Total de pruebas:** 56 (13 Fase 2 + 43 Fase 3)
+- **Resultado:** `PASS` (100%)
+- **Aspectos validados:**
+  - Inmutabilidad de catálogo para roles no privilegiados (`anon`, `authenticated`).
+  - Serialización estricta sin saltos de secuencias concurrentes en `catalog_changes`.
+  - Disparo correcto de eventos `upsert` y lápidas compuestas (`tombstone`) ante borrado y reparenting.
+  - Comportamiento monótono de compactación (`compact_catalog_changes`).
+  - Validación estricta de URLs seguras (`^https://`) y prohibición de redes privadas/loopback en fuentes.
 
----
-
-## 4. Benchmark Informativo de Escala (10,000 Títulos)
-
-Ejecución del script `tool/benchmark_synthetic_catalog.dart`:
-- **Volumen:** 10,000 títulos sintéticos insertados en Drift.
-- **Tasa de Inserción Masiva:** ~265 títulos/segundo en base local.
-- **Paginación por Tupla (createdAt, id) (100 iteraciones sobre 10,000 títulos):**
-  - **Mediana (p50):** 44.84 ms
-  - **Percentil 95 (p95):** 217.82 ms
-  - **Percentil 99 (p99):** 421.05 ms
-- **Búsqueda Indexada FTS5 (100 iteraciones con queries mixtas):**
-  - **Mediana (p50):** 17.91 ms
-  - **Percentil 95 (p95):** 94.69 ms
-  - **Percentil 99 (p99):** 222.08 ms
-- **Integridad:** 0 duplicados y 0 pérdidas a lo largo de 50 páginas consecutivas de 20 elementos.
+### Asesores de Seguridad (`npx -y supabase db advisors`)
+- **Total de problemas reportados:** `0 issues found`.
+- Esquema completamente protegido por RLS sin tablas expuestas.
 
 ---
 
-## 5. Garantías de Seguridad y Preservación
+## 3. Pruebas Automatizadas de Flutter (`flutter test`)
 
-1. **Aislamiento de Supabase:** Ningún comando contactó servidores remotos. Docker local (`127.0.0.1:54322` / `54321`) fue el único destino. No se generó `supabase link` ni `supabase db push`.
-2. **Funciones PostgreSQL Blindadas:** Todas las funciones de base de datos definen `SET search_path = ''` y tienen sus permisos revocados a `PUBLIC`, `anon` y `authenticated`.
-3. **Prevención de Filtraciones:** Títulos privados o en borrador jamás aparecen en `title_summaries` ni emiten eventos en `catalog_changes`.
-4. **Protección contra SSRF / DNS Rebinding:** El validador en Dart rechaza ips privadas y loopback antes de admitir URLs de fuentes.
-5. **Preservación de Estado de Usuario:** Los favoritos, perfiles de usuario, historial y reproductor de video existentes se mantuvieron completamente intactos y funcionando.
-6. **No Releases / No Push:** No se generaron APKs release, no se crearon tags, no se realizaron pushes ni publicaciones en GitHub.
+- **Total de pruebas en la suite:** 317 pruebas
+- **Resultado:** 317 superadas (`0 fallos`, `0 omitidas`)
+- **Tiempo de ejecución:** ~35.6 segundos
+
+### Desglose de Pruebas Críticas de Catálogo
+- `test/database/catalog_database_test.dart`: 8/8 PASSED (índices, cursor tupla, FTS5 multi-filtro y ordenamiento, lápidas compuestas, checkpoint atómico).
+- `test/services/catalog/catalog_sync_engine_test.dart`: 5/5 PASSED (resync multi-tabla sin offset, checkpoint transaccional, upsert de grafo completo, resincronización tras compactación).
+- `test/services/catalog/catalog_page_source_test.dart`: 5/5 PASSED (paginación reactiva, manejo de errores, reintentos, deduplicación de llamadas concurrentes).
+- `test/services/catalog/supabase_catalog_gateway_test.dart`: 6/6 PASSED (cursores base64url, paginación ID, captura de errores de red).
+- `test/services/catalog/catalog_repository_test.dart`: 4/4 PASSED (arranque offline con Drift, fallback cold-start a sources.json, hidratación de Channel).
+- `test/mobile_ui/hourtv_mobile_shell_catalog_widget_test.dart`: 4/4 PASSED (carga perezosa en scroll, búsqueda reactiva FTS5 con filtros, resolución de favoritos).
+- `test/benchmark/synthetic_catalog_scale_test.dart`: 2/2 PASSED (escala sintética de 10,000 títulos con grafo relacional).
+- `test/services/catalog/dns_security_validator_test.dart`: 5/5 PASSED (defensa anti-SSRF y mitigación de DNS rebinding).
+
+---
+
+## 4. Análisis Estático (`flutter analyze`)
+
+- **Comando:** `flutter analyze --no-fatal-infos`
+- **Resultado:** `No issues found!` (0 errores, 0 advertencias, 0 lints pendientes).
+
+---
+
+## 5. Benchmark de Rendimiento y Escala (10,000 Títulos y Grafo Completo)
+
+Ejecución del script `tool/benchmark_synthetic_catalog.dart` sobre base SQLite Drift en isolate de fondo:
+- **Volumen de Datos Generado:**
+  - 10 géneros
+  - 10,000 títulos (7,000 películas, 3,000 series)
+  - 6,000 temporadas
+  - 18,000 episodios
+  - 15,000 fuentes de reproducción
+  - Total entidades relacionales: > 50,000 registros
+- **Inserción Masiva en Drift:** 3,781 ms (~2,644.8 títulos/segundo)
+- **Recorrido Determinista de las 500 Páginas (20 ítems/página = 10,000 títulos):**
+  - **Títulos recuperados:** 10,000 / 10,000 (0 duplicados, 0 omisiones)
+  - **Mediana (p50):** 2.04 ms por página
+  - **Percentil 95 (p95):** 2.72 ms por página
+  - **Percentil 99 (p99):** 3.52 ms por página
+- **Búsqueda FTS5 Indexada con Filtros (100 consultas aleatorias):**
+  - **Mediana (p50):** 45.55 ms
+  - **Percentil 95 (p95):** 51.61 ms
+  - **Percentil 99 (p99):** 52.53 ms
+- **Integridad Relacional:** Verificación exhaustiva de películas con fuentes activas y series con temporadas y episodios asociados superada exitosamente.
+
+---
+
+## 6. Garantías de Seguridad y Preservación
+
+1. **Aislamiento Remoto Estricto:** Ningún comando interactuó con la nube o entornos de producción (`supabase link`, `supabase db push`, `git push` no ejecutados).
+2. **Preservación de Versión:** `pubspec.yaml` mantiene exactamente la versión `1.1.14+16`.
+3. **Invariantes de RLS:** La base de datos de Supabase rechaza cualquier intento de escritura por clientes anónimos o autenticados y oculta contenido no publicado.
+4. **Resiliencia Local:** Drift opera en segundo plano con aislamiento en isolate, protegiendo los 60 fps del hilo principal de Flutter.

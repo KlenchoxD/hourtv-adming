@@ -410,7 +410,7 @@ class _HourTvMobileHomeState extends State<HourTvMobileHome> {
         ? _seriesPageSource!.items.map(CatalogRepository.titleToChannel).toList()
         : const <Channel>[];
 
-    final effectiveMovies = driftMovies.isNotEmpty ? driftMovies : widget.movies;
+    final effectiveMovies = driftMovies.isNotEmpty ? driftMovies : widget.store.movies;
     final effectiveSeries = driftSeries.isNotEmpty
         ? driftSeries
         : widget.allContent
@@ -1342,7 +1342,7 @@ class _HourTvMobileSearchState extends State<HourTvMobileSearch> {
                     value: _genre,
                     options: _availableGenresForType(_type),
                     icon: Icons.category_rounded,
-                    sheetTitle: 'Género',
+                    sheetTitle: 'Géneros',
                     sheetSubtitle: 'Selecciona un género',
                     onChanged: _onGenreChanged,
                   ),

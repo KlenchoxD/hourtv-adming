@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:drift/drift.dart' hide isNull, isNotNull;
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -6,7 +5,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:streamtv/database/catalog_database.dart';
 import 'package:streamtv/database/daos/catalog_dao.dart';
 import 'package:streamtv/mobile_ui/hourtv_mobile_shell.dart';
-import 'package:streamtv/models/channel.dart';
 import 'package:streamtv/services/catalog/catalog_dtos.dart';
 import 'package:streamtv/services/catalog/catalog_page_source.dart';
 import 'package:streamtv/services/catalog/catalog_repository.dart';
@@ -70,18 +68,7 @@ void main() {
     await db.close();
   });
 
-  Widget buildTestShell({
-    CatalogRepository? repo,
-    CatalogPageSource? pageSource,
-    HourTvMobileDestination initialDestination = HourTvMobileDestination.home,
-  }) {
-    return MaterialApp(
-      home: HourTvMobileShell(
-        catalogRepository: repo ?? repository,
-        catalogPageSource: pageSource,
-      ),
-    );
-  }
+
 
   group('HourTvMobileShell Catalog Widget Tests', () {
     testWidgets('1. Carga perezosa de catálogo Drift en inicio al hacer scroll', (tester) async {
