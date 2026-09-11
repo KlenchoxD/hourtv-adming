@@ -243,58 +243,196 @@ class CatalogSyncEngine {
     );
   }
 
-  /// Ejecuta una resincronización completa descargando snapshots paginados,
-  /// limpiando únicamente las tablas de catálogo en Drift y preservando
-  /// intactos favoritos, perfiles e historial del usuario.
+  /// Ejecuta una resincronización completa consistente descargando todas las entidades
+  /// mediante paginación por claves (sin offset), reemplazando el catálogo completo en una
+  /// sola transacción atómica de Drift y procesando deltas posteriores al watermark.
+  /// NO toca favoritos, historial ni progreso de reproducción.
   Future<SyncResult> _performFullResync({
     required int initialRev,
     required int targetRevision,
   }) async {
-    const pageSize = 500;
-    var offset = 0;
-    final allSnapshotTitles = <CatalogSummaryDto>[];
+    // 1. Capturar watermark coherente inicial
+    final watermarkMetadata = await gateway.fetchSyncMetadata();
+    final watermarkRev = watermarkMetadata.latestRevision;
 
+    // 2. Descargar todos los géneros sin offset (keyset)
+    final allGenres = <CatalogGenreDto>[];
+    String? lastGenreId;
     while (true) {
-      final page = await gateway.fetchCompleteSnapshot(
-        offset: offset,
-        limit: pageSize,
-      );
-      if (page.isEmpty) break;
-      allSnapshotTitles.addAll(page);
-      if (page.length < pageSize) break;
-      offset += page.length;
+      final batch = await gateway.fetchGenresSnapshotKeyset(lastId: lastGenreId, limit: 500);
+      if (batch.isEmpty) break;
+      allGenres.addAll(batch);
+      lastGenreId = batch.last.id;
+      if (batch.length < 500) break;
     }
 
-    // Reemplazo atómico en Drift
+    // 3. Descargar todos los idiomas sin offset
+    final allLanguages = <CatalogLanguageDto>[];
+    String? lastLangId;
+    while (true) {
+      final batch = await gateway.fetchLanguagesSnapshotKeyset(lastId: lastLangId, limit: 500);
+      if (batch.isEmpty) break;
+      allLanguages.addAll(batch);
+      lastLangId = batch.last.id;
+      if (batch.length < 500) break;
+    }
+
+    // 4. Descargar todos los títulos sin offset
+    final allTitles = <CatalogSummaryDto>[];
+    String? lastTitleId;
+    while (true) {
+      final batch = await gateway.fetchTitlesSnapshotKeyset(lastId: lastTitleId, limit: 500);
+      if (batch.isEmpty) break;
+      allTitles.addAll(batch);
+      lastTitleId = batch.last.id;
+      if (batch.length < 500) break;
+    }
+
+    // 5. Descargar relaciones title_genres sin offset
+    final allTitleGenres = <Map<String, String>>[];
+    String? lastTgTitleId;
+    while (true) {
+      final batch = await gateway.fetchTitleGenresSnapshotKeyset(lastTitleId: lastTgTitleId, limit: 1000);
+      if (batch.isEmpty) break;
+      allTitleGenres.addAll(batch);
+      lastTgTitleId = batch.last['title_id'];
+      if (batch.length < 1000) break;
+    }
+
+    // 6. Descargar temporadas sin offset
+    final allSeasons = <CatalogSeasonDto>[];
+    String? lastSeasonId;
+    while (true) {
+      final batch = await gateway.fetchSeasonsSnapshotKeyset(lastId: lastSeasonId, limit: 500);
+      if (batch.isEmpty) break;
+      allSeasons.addAll(batch);
+      lastSeasonId = batch.last.id;
+      if (batch.length < 500) break;
+    }
+
+    // 7. Descargar episodios sin offset
+    final allEpisodes = <CatalogEpisodeDto>[];
+    String? lastEpisodeId;
+    while (true) {
+      final batch = await gateway.fetchEpisodesSnapshotKeyset(lastId: lastEpisodeId, limit: 500);
+      if (batch.isEmpty) break;
+      allEpisodes.addAll(batch);
+      lastEpisodeId = batch.last.id;
+      if (batch.length < 500) break;
+    }
+
+    // 8. Descargar fuentes sin offset
+    final allSources = <CatalogSourceDto>[];
+    String? lastSourceId;
+    while (true) {
+      final batch = await gateway.fetchSourcesSnapshotKeyset(lastId: lastSourceId, limit: 500);
+      if (batch.isEmpty) break;
+      allSources.addAll(batch);
+      lastSourceId = batch.last.id;
+      if (batch.length < 500) break;
+    }
+
+    // 9. Reemplazo de TODO el catálogo Drift en UNA SOLA TRANSACCIÓN atómica
     await dao.transaction(() async {
       await dao.clearAllCatalog();
 
-      for (final s in allSnapshotTitles) {
+      for (final g in allGenres) {
+        await dao.upsertGenre(LocalGenresCompanion(
+          id: Value(g.id),
+          name: Value(g.name),
+          slug: Value(g.slug),
+        ));
+      }
+
+      for (final l in allLanguages) {
+        await dao.upsertLanguage(LocalLanguagesCompanion(
+          id: Value(l.id),
+          code: Value(l.code),
+          name: Value(l.name),
+        ));
+      }
+
+      for (final t in allTitles) {
         await dao.upsertTitle(
           LocalTitlesCompanion.insert(
-            id: s.id,
-            legacyId: Value(s.legacyId),
-            mediaType: s.mediaType,
-            title: s.title,
-            normalizedTitle: s.normalizedTitle,
-            year: Value(s.year),
-            rating: Value(s.rating),
-            posterUrl: Value(s.posterUrl),
-            backdropUrl: Value(s.backdropUrl),
-            isFeatured: Value(s.isFeatured),
-            createdAt: s.createdAt,
+            id: t.id,
+            legacyId: Value(t.legacyId),
+            mediaType: t.mediaType,
+            title: t.title,
+            normalizedTitle: t.normalizedTitle,
+            year: Value(t.year),
+            rating: Value(t.rating),
+            posterUrl: Value(t.posterUrl),
+            backdropUrl: Value(t.backdropUrl),
+            isFeatured: Value(t.isFeatured),
+            createdAt: t.createdAt,
             updatedAt: DateTime.now(),
           ),
         );
       }
 
-      await dao.setLastCatalogRevision(targetRevision);
+      for (final tg in allTitleGenres) {
+        await dao.upsertTitleGenre(tg['title_id']!, tg['genre_id']!);
+      }
+
+      for (final s in allSeasons) {
+        await dao.upsertSeason(LocalSeasonsCompanion(
+          id: Value(s.id),
+          titleId: Value(s.titleId),
+          seasonNumber: Value(s.seasonNumber),
+          name: Value(s.name),
+          plot: Value(s.plot),
+          posterUrl: Value(s.posterUrl),
+        ));
+      }
+
+      for (final ep in allEpisodes) {
+        await dao.upsertEpisode(LocalEpisodesCompanion(
+          id: Value(ep.id),
+          seasonId: Value(ep.seasonId),
+          episodeNumber: Value(ep.episodeNumber),
+          title: Value(ep.title),
+          plot: Value(ep.plot),
+          duration: Value(ep.duration),
+          stillUrl: Value(ep.stillUrl),
+        ));
+      }
+
+      for (final src in allSources) {
+        await dao.upsertSource(LocalSourcesCompanion(
+          id: Value(src.id),
+          titleId: Value(src.titleId),
+          episodeId: Value(src.episodeId),
+          language: Value(src.languageCode),
+          name: Value(src.name),
+          url: Value(src.url),
+          orderIndex: Value(src.orderIndex),
+          status: Value(src.status),
+          requiresWebview: Value(src.requiresWebview),
+          refererUrl: Value(src.refererUrl),
+          originUrl: Value(src.originUrl),
+          userAgentProfile: Value(src.userAgentProfile),
+        ));
+      }
+
+      await dao.setLastCatalogRevision(watermarkRev);
     });
+
+    var finalRev = watermarkRev;
+    var postDeltasCount = 0;
+
+    // 10. Procesar cualquier delta incremental generado con posterioridad al watermark
+    final latestPostMetadata = await gateway.fetchSyncMetadata();
+    if (latestPostMetadata.latestRevision > watermarkRev) {
+      final deltaResult = await syncCatalog();
+      finalRev = deltaResult.finalRevision;
+      postDeltasCount = deltaResult.appliedChangesCount;
+    }
 
     return SyncResult(
       initialRevision: initialRev,
-      finalRevision: targetRevision,
-      appliedChangesCount: allSnapshotTitles.length,
+      finalRevision: finalRev,
+      appliedChangesCount: allTitles.length + postDeltasCount,
       fullResyncPerformed: true,
     );
   }

@@ -341,4 +341,151 @@ class SupabaseCatalogGateway {
       throw CatalogNetworkException('Error al consultar title_genre $titleId:$genreId', cause: e);
     }
   }
+
+  /// Descarga snapshot consistente de títulos con paginación keyset (sin offset).
+  Future<List<CatalogSummaryDto>> fetchTitlesSnapshotKeyset({
+    String? lastId,
+    int limit = 500,
+  }) async {
+    try {
+      var query = _effectiveClient
+          .from('titles')
+          .select('''
+            id, legacy_id, title, normalized_title, media_type,
+            poster_url, backdrop_url, year, rating, is_featured, created_at,
+            title_genres (
+              genres (slug, name)
+            )
+          ''')
+          .eq('is_published', true);
+
+      if (lastId != null) {
+        query = query.gt('id', lastId);
+      }
+
+      final List<dynamic> rows = await query.order('id', ascending: true).limit(limit);
+      return rows
+          .map((r) => CatalogSummaryDto.fromJson(r as Map<String, dynamic>))
+          .toList();
+    } catch (e) {
+      if (e is CatalogNetworkException) rethrow;
+      throw CatalogNetworkException('Error al descargar snapshot de títulos con keyset', cause: e);
+    }
+  }
+
+  /// Descarga snapshot de géneros con keyset.
+  Future<List<CatalogGenreDto>> fetchGenresSnapshotKeyset({
+    String? lastId,
+    int limit = 500,
+  }) async {
+    try {
+      var query = _effectiveClient.from('genres').select('id, name, slug');
+      if (lastId != null) {
+        query = query.gt('id', lastId);
+      }
+      final List<dynamic> rows = await query.order('id', ascending: true).limit(limit);
+      return rows.map((r) => CatalogGenreDto.fromJson(r as Map<String, dynamic>)).toList();
+    } catch (e) {
+      if (e is CatalogNetworkException) rethrow;
+      throw CatalogNetworkException('Error al descargar snapshot de géneros con keyset', cause: e);
+    }
+  }
+
+  /// Descarga snapshot de idiomas con keyset.
+  Future<List<CatalogLanguageDto>> fetchLanguagesSnapshotKeyset({
+    String? lastId,
+    int limit = 500,
+  }) async {
+    try {
+      var query = _effectiveClient.from('languages').select('id, code, name');
+      if (lastId != null) {
+        query = query.gt('id', lastId);
+      }
+      final List<dynamic> rows = await query.order('id', ascending: true).limit(limit);
+      return rows.map((r) => CatalogLanguageDto.fromJson(r as Map<String, dynamic>)).toList();
+    } catch (e) {
+      if (e is CatalogNetworkException) rethrow;
+      throw CatalogNetworkException('Error al descargar snapshot de idiomas con keyset', cause: e);
+    }
+  }
+
+  /// Descarga snapshot de relaciones title_genres con keyset.
+  Future<List<Map<String, String>>> fetchTitleGenresSnapshotKeyset({
+    String? lastTitleId,
+    int limit = 1000,
+  }) async {
+    try {
+      var query = _effectiveClient.from('title_genres').select('title_id, genre_id');
+      if (lastTitleId != null) {
+        query = query.gt('title_id', lastTitleId);
+      }
+      final List<dynamic> rows = await query.order('title_id', ascending: true).limit(limit);
+      return rows.map((r) => {
+        'title_id': r['title_id'] as String,
+        'genre_id': r['genre_id'] as String,
+      }).toList();
+    } catch (e) {
+      if (e is CatalogNetworkException) rethrow;
+      throw CatalogNetworkException('Error al descargar snapshot de title_genres con keyset', cause: e);
+    }
+  }
+
+  /// Descarga snapshot de temporadas con keyset.
+  Future<List<CatalogSeasonDto>> fetchSeasonsSnapshotKeyset({
+    String? lastId,
+    int limit = 500,
+  }) async {
+    try {
+      var query = _effectiveClient.from('seasons').select('id, title_id, season_number, name, plot, poster_url');
+      if (lastId != null) {
+        query = query.gt('id', lastId);
+      }
+      final List<dynamic> rows = await query.order('id', ascending: true).limit(limit);
+      return rows.map((r) => CatalogSeasonDto.fromJson(r as Map<String, dynamic>)).toList();
+    } catch (e) {
+      if (e is CatalogNetworkException) rethrow;
+      throw CatalogNetworkException('Error al descargar snapshot de temporadas con keyset', cause: e);
+    }
+  }
+
+  /// Descarga snapshot de episodios con keyset.
+  Future<List<CatalogEpisodeDto>> fetchEpisodesSnapshotKeyset({
+    String? lastId,
+    int limit = 500,
+  }) async {
+    try {
+      var query = _effectiveClient.from('episodes').select('id, season_id, episode_number, title, plot, duration, still_url, release_date');
+      if (lastId != null) {
+        query = query.gt('id', lastId);
+      }
+      final List<dynamic> rows = await query.order('id', ascending: true).limit(limit);
+      return rows.map((r) => CatalogEpisodeDto.fromJson(r as Map<String, dynamic>)).toList();
+    } catch (e) {
+      if (e is CatalogNetworkException) rethrow;
+      throw CatalogNetworkException('Error al descargar snapshot de episodios con keyset', cause: e);
+    }
+  }
+
+  /// Descarga snapshot de fuentes con keyset.
+  Future<List<CatalogSourceDto>> fetchSourcesSnapshotKeyset({
+    String? lastId,
+    int limit = 500,
+  }) async {
+    try {
+      var query = _effectiveClient.from('sources').select('''
+        id, title_id, episode_id, language_id, name, url,
+        order_index, status, requires_webview, referer_url,
+        origin_url, user_agent_profile,
+        languages (code, name)
+      ''').eq('status', 'active');
+      if (lastId != null) {
+        query = query.gt('id', lastId);
+      }
+      final List<dynamic> rows = await query.order('id', ascending: true).limit(limit);
+      return rows.map((r) => CatalogSourceDto.fromJson(r as Map<String, dynamic>)).toList();
+    } catch (e) {
+      if (e is CatalogNetworkException) rethrow;
+      throw CatalogNetworkException('Error al descargar snapshot de fuentes con keyset', cause: e);
+    }
+  }
 }

@@ -23,12 +23,24 @@ class FakeCatalogGateway implements SupabaseCatalogGateway {
   Map<String, CatalogSourceDto> sourcesOnServer = {};
   Set<String> titleGenresOnServer = {};
   List<CatalogSummaryDto> snapshotTitles = [];
+  List<CatalogGenreDto> snapshotGenres = [];
+  List<CatalogLanguageDto> snapshotLanguages = [];
+  List<Map<String, String>> snapshotTitleGenres = [];
+  List<CatalogSeasonDto> snapshotSeasons = [];
+  List<CatalogEpisodeDto> snapshotEpisodes = [];
+  List<CatalogSourceDto> snapshotSources = [];
 
   bool throwOnFetchChanges = false;
   bool throwOnFetchTitleDetails = false;
+  CatalogSyncMetadataDto Function()? onFetchMetadata;
 
   @override
-  Future<CatalogSyncMetadataDto> fetchSyncMetadata() async => metadata;
+  Future<CatalogSyncMetadataDto> fetchSyncMetadata() async {
+    if (onFetchMetadata != null) {
+      return onFetchMetadata!();
+    }
+    return metadata;
+  }
 
   @override
   Future<List<CatalogChangeDto>> fetchChanges({
@@ -77,6 +89,111 @@ class FakeCatalogGateway implements SupabaseCatalogGateway {
     int limit = 500,
   }) async {
     return snapshotTitles.skip(offset).take(limit).toList();
+  }
+
+  @override
+  Future<List<CatalogSummaryDto>> fetchTitlesSnapshotKeyset({
+    String? lastId,
+    int limit = 500,
+  }) async {
+    var items = snapshotTitles;
+    if (lastId != null) {
+      final idx = items.indexWhere((i) => i.id == lastId);
+      if (idx != -1) {
+        items = items.sublist(idx + 1);
+      }
+    }
+    return items.take(limit).toList();
+  }
+
+  @override
+  Future<List<CatalogGenreDto>> fetchGenresSnapshotKeyset({
+    String? lastId,
+    int limit = 500,
+  }) async {
+    var items = snapshotGenres;
+    if (lastId != null) {
+      final idx = items.indexWhere((i) => i.id == lastId);
+      if (idx != -1) {
+        items = items.sublist(idx + 1);
+      }
+    }
+    return items.take(limit).toList();
+  }
+
+  @override
+  Future<List<CatalogLanguageDto>> fetchLanguagesSnapshotKeyset({
+    String? lastId,
+    int limit = 500,
+  }) async {
+    var items = snapshotLanguages;
+    if (lastId != null) {
+      final idx = items.indexWhere((i) => i.id == lastId);
+      if (idx != -1) {
+        items = items.sublist(idx + 1);
+      }
+    }
+    return items.take(limit).toList();
+  }
+
+  @override
+  Future<List<Map<String, String>>> fetchTitleGenresSnapshotKeyset({
+    String? lastTitleId,
+    int limit = 1000,
+  }) async {
+    var items = snapshotTitleGenres;
+    if (lastTitleId != null) {
+      final idx = items.indexWhere((i) => i['title_id'] == lastTitleId);
+      if (idx != -1) {
+        items = items.sublist(idx + 1);
+      }
+    }
+    return items.take(limit).toList();
+  }
+
+  @override
+  Future<List<CatalogSeasonDto>> fetchSeasonsSnapshotKeyset({
+    String? lastId,
+    int limit = 500,
+  }) async {
+    var items = snapshotSeasons;
+    if (lastId != null) {
+      final idx = items.indexWhere((i) => i.id == lastId);
+      if (idx != -1) {
+        items = items.sublist(idx + 1);
+      }
+    }
+    return items.take(limit).toList();
+  }
+
+  @override
+  Future<List<CatalogEpisodeDto>> fetchEpisodesSnapshotKeyset({
+    String? lastId,
+    int limit = 500,
+  }) async {
+    var items = snapshotEpisodes;
+    if (lastId != null) {
+      final idx = items.indexWhere((i) => i.id == lastId);
+      if (idx != -1) {
+        items = items.sublist(idx + 1);
+      }
+    }
+    return items.take(limit).toList();
+  }
+
+  @override
+  Future<List<CatalogSourceDto>> fetchSourcesSnapshotKeyset({
+    String? lastId,
+    int limit = 500,
+  }) async {
+    var items = snapshotSources;
+    if (lastId != null) {
+      final idx = items.indexWhere((i) => i.id == lastId);
+      if (idx != -1) {
+        items = items.sublist(idx + 1);
+      }
+    }
+    return items.take(limit).toList();
   }
 
   @override
@@ -612,6 +729,146 @@ void main() {
       expect(genres.length, equals(1));
       expect(genres.first.id, equals('g-act'));
       expect(genres.first.name, equals('Action'));
+    });
+
+    test('13. Full Resync descarga snapshot consistente de las 7 tablas sin offset y verifica detalle, géneros y reproducción', () async {
+      await dao.setLastCatalogRevision(10);
+
+      gateway.metadata = const CatalogSyncMetadataDto(
+        minimumAvailableRevision: 50,
+        latestRevision: 150,
+      );
+
+      // 7 tablas en snapshot
+      gateway.snapshotGenres = [
+        const CatalogGenreDto(id: 'g-drama', name: 'Drama', slug: 'drama'),
+      ];
+      gateway.snapshotLanguages = [
+        const CatalogLanguageDto(id: 'l-es', code: 'es', name: 'Español'),
+      ];
+      gateway.snapshotTitles = [
+        CatalogSummaryDto(
+          id: 'series-resync',
+          title: 'Serie Resync',
+          normalizedTitle: 'serie resync',
+          mediaType: 'series',
+          isFeatured: true,
+          createdAt: DateTime.utc(2026, 9, 10, 18, 0, 0),
+        ),
+      ];
+      gateway.snapshotTitleGenres = [
+        {'title_id': 'series-resync', 'genre_id': 'g-drama'},
+      ];
+      gateway.snapshotSeasons = [
+        const CatalogSeasonDto(
+          id: 'sea-1',
+          titleId: 'series-resync',
+          seasonNumber: 1,
+          name: 'Temporada 1',
+        ),
+      ];
+      gateway.snapshotEpisodes = [
+        const CatalogEpisodeDto(
+          id: 'ep-101',
+          seasonId: 'sea-1',
+          episodeNumber: 1,
+          title: 'Capitulo 1',
+        ),
+      ];
+      gateway.snapshotSources = [
+        const CatalogSourceDto(
+          id: 'src-101',
+          episodeId: 'ep-101',
+          languageCode: 'es',
+          name: 'HLS 1080p',
+          url: 'https://cdn.example.com/live/ep101.m3u8',
+          orderIndex: 0,
+          status: 'active',
+          requiresWebview: false,
+        ),
+      ];
+
+      final result = await engine.syncCatalog();
+      expect(result.fullResyncPerformed, isTrue);
+      expect(result.finalRevision, equals(150));
+
+      // Verificación de integridad: detalle, géneros y reproducción
+      final title = await dao.getTitleById('series-resync');
+      expect(title, isNotNull);
+      expect(title!.title, equals('Serie Resync'));
+
+      final genres = await dao.getGenresForTitle('series-resync');
+      expect(genres.length, equals(1));
+      expect(genres.first.name, equals('Drama'));
+
+      final seasons = await dao.getSeasonsForTitle('series-resync');
+      expect(seasons.length, equals(1));
+      expect(seasons.first.name, equals('Temporada 1'));
+
+      final episodes = await dao.getEpisodesForSeason('sea-1');
+      expect(episodes.length, equals(1));
+      expect(episodes.first.title, equals('Capitulo 1'));
+
+      final sources = await dao.getSourcesForEpisode('ep-101');
+      expect(sources.length, equals(1));
+      expect(sources.first.url, equals('https://cdn.example.com/live/ep101.m3u8'));
+    });
+
+    test('14. Full Resync captura watermark coherente y procesa deltas posteriores', () async {
+      await dao.setLastCatalogRevision(10);
+
+      gateway.snapshotTitles = [
+        CatalogSummaryDto(
+          id: 'snap-title',
+          title: 'Snapshot Title',
+          normalizedTitle: 'snapshot title',
+          mediaType: 'movie',
+          isFeatured: false,
+          createdAt: DateTime.utc(2026, 9, 10, 19, 0, 0),
+        ),
+      ];
+
+      // Simulamos que tras la descarga del snapshot, el servidor avanzó a revisión 105
+      // y emitió un delta posterior al watermark
+      gateway.changesToReturn = [
+        CatalogChangeDto(
+          revision: 105,
+          entityType: 'genre',
+          entityId: 'genre-post-watermark',
+          operation: 'upsert',
+          changedAt: DateTime.utc(2026, 9, 10, 19, 5, 0),
+        ),
+      ];
+      gateway.genresOnServer['genre-post-watermark'] = const CatalogGenreDto(
+        id: 'genre-post-watermark',
+        name: 'Post Watermark Genre',
+        slug: 'post-watermark',
+      );
+
+      // Watermark inicial en 100, y tras el snapshot el servidor sube a 105
+      var calls = 0;
+      gateway.onFetchMetadata = () {
+        calls++;
+        if (calls <= 2) {
+          return const CatalogSyncMetadataDto(
+            minimumAvailableRevision: 50,
+            latestRevision: 100,
+          );
+        } else {
+          return const CatalogSyncMetadataDto(
+            minimumAvailableRevision: 50,
+            latestRevision: 105,
+          );
+        }
+      };
+
+      final result = await engine.syncCatalog();
+      expect(result.fullResyncPerformed, isTrue);
+      expect(result.finalRevision, equals(105));
+
+      final genre = (await dao.getAllGenres()).where((g) => g.id == 'genre-post-watermark');
+      expect(genre, isNotEmpty);
+      expect(await dao.getLastCatalogRevision(), equals(105));
     });
   });
 }
