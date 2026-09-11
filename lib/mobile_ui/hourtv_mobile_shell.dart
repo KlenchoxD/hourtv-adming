@@ -26,6 +26,7 @@ import 'hourtv_mobile_components.dart';
 import 'hourtv_mobile_theme.dart';
 import '../services/catalog/catalog_dtos.dart';
 import '../services/catalog/catalog_repository.dart';
+import '../services/catalog/catalog_detail_navigator.dart';
 
 enum HourTvMobileDestination { home, live, search, library, profile }
 
@@ -139,23 +140,13 @@ class _HourTvMobileShellState extends State<HourTvMobileShell> {
   }
 
   void _openDetails(Channel channel, {bool fromContinueWatching = false}) {
-    final series = hourTvResolveSeries(channel, store.visibleSeries);
-    if (series != null) {
-      Navigator.of(context).push(
-        MaterialPageRoute<void>(
-          builder: (_) => HourTvSeriesDetailPage(series: series),
-        ),
-      );
-      return;
-    }
-    Navigator.of(context).push(
-      MaterialPageRoute<void>(
-        builder: (_) => HourTvDetailPage(
-          channel: channel,
-          preview: PreviewCatalog.movies.any((item) => item.url == channel.url),
-          fromContinueWatching: fromContinueWatching,
-        ),
-      ),
+    CatalogDetailNavigator.openDetails(
+      context,
+      channel,
+      repository: widget.catalogRepository,
+      store: store,
+      fromContinueWatching: fromContinueWatching,
+      preview: PreviewCatalog.movies.any((item) => item.url == channel.url),
     );
   }
 

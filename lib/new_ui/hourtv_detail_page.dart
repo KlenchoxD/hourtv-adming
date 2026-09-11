@@ -158,6 +158,16 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
       );
       return;
     }
+    if (channel.url.startsWith('catalog://')) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Error: No se pudo obtener una fuente reproducible válida.',
+          ),
+        ),
+      );
+      return;
+    }
     if (_opening) return;
     _opening = true;
     try {

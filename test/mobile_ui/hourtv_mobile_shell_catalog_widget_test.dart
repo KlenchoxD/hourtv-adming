@@ -10,6 +10,8 @@ import 'package:streamtv/services/catalog/catalog_page_source.dart';
 import 'package:streamtv/services/catalog/catalog_repository.dart';
 import 'package:streamtv/services/catalog/catalog_sync_engine.dart';
 import 'package:streamtv/services/catalog/supabase_catalog_gateway.dart';
+import 'package:streamtv/new_ui/hourtv_detail_page.dart';
+import 'package:streamtv/new_ui/hourtv_player_screen.dart';
 import 'package:streamtv/services/content_store.dart';
 import 'package:streamtv/services/storage_service.dart';
 
@@ -221,6 +223,86 @@ void main() {
 
       // El error debe haberse limpiado
       expect(failingSource.hasError, isFalse);
+    });
+
+    testWidgets('4. Película Drift: tarjeta -> hidratación asíncrona -> HourTvDetailPage -> Reproducir -> PlayerScreen con URL y servidores reales', (tester) async {
+      await dao.upsertTitle(
+        LocalTitlesCompanion.insert(
+          id: 'movie-real-1',
+          mediaType: 'movie',
+          title: 'Interstellar Real',
+          normalizedTitle: 'interstellar real',
+          createdAt: DateTime.now(),
+          updatedAt: DateTime.now(),
+        ),
+      );
+      await dao.upsertSource(
+        LocalSourcesCompanion.insert(
+          id: 'src-real-1',
+          titleId: const Value('movie-real-1'),
+          name: 'Servidor Principal',
+          url: 'https://stream.example.com/interstellar.mp4',
+          orderIndex: const Value(0),
+        ),
+      );
+      await dao.upsertSource(
+        LocalSourcesCompanion.insert(
+          id: 'src-real-2',
+          titleId: const Value('movie-real-1'),
+          name: 'Servidor Mirror',
+          url: 'https://mirror.example.com/interstellar.mp4',
+          orderIndex: const Value(1),
+        ),
+      );
+
+      final pageSource = CatalogPageSource(dao: dao, mediaType: 'movie', pageSize: 10);
+      await pageSource.loadInitialPage();
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: HourTvMobileShell(
+            catalogRepository: repository,
+            catalogPageSource: pageSource,
+          ),
+        ),
+      );
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 100));
+
+      // Tocar la tarjeta de la película asegurando visibilidad
+      final cardFinder = find.text('Interstellar Real');
+      expect(cardFinder, findsOneWidget);
+      await tester.ensureVisible(cardFinder);
+      await tester.pump();
+      await tester.tap(cardFinder);
+
+      // Esperar hidratación y navegación
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 300));
+
+      expect(find.byType(HourTvDetailPage), findsOneWidget);
+      final detailPage = tester.widget<HourTvDetailPage>(find.byType(HourTvDetailPage));
+      expect(detailPage.channel.url, 'https://stream.example.com/interstellar.mp4');
+      expect(detailPage.channel.servers.length, 2);
+
+      // Tocar reproducir asegurando visibilidad
+      final playBtn = find.text('REPRODUCIR');
+      expect(playBtn, findsOneWidget);
+      await tester.ensureVisible(playBtn);
+      await tester.pump();
+      await tester.tap(playBtn);
+
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 300));
+
+      // Verificar que PlayerScreen se abrió y recibió la URL real HTTPS y ambos servidores
+      expect(find.byType(PlayerScreen), findsOneWidget);
+      final player = tester.widget<PlayerScreen>(find.byType(PlayerScreen));
+      expect(player.channel.url, 'https://stream.example.com/interstellar.mp4');
+      expect(player.channel.servers.length, 2);
+      expect(player.channel.servers.first.url, 'https://stream.example.com/interstellar.mp4');
+      expect(player.channel.servers.last.url, 'https://mirror.example.com/interstellar.mp4');
+      expect(player.channel.url.startsWith('catalog://'), isFalse);
     });
   });
 }
