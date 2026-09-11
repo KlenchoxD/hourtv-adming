@@ -16,6 +16,9 @@ import 'hourtv_live_page.dart';
 import 'hourtv_profile_page.dart';
 import 'hourtv_search_keyboard.dart';
 import 'hourtv_series_detail_page.dart';
+import '../services/catalog/catalog_detail_navigator.dart';
+import '../services/catalog/catalog_page_source.dart';
+import '../services/catalog/catalog_repository.dart';
 
 const _red = Color(0xFF00C781);
 const _black = Color(0xFF050505);
@@ -26,7 +29,16 @@ const _muted = Color(0xFFA6A6B0);
 enum _Section { home, movies, series, search, live, list, profile }
 
 class HourTvNewShell extends StatefulWidget {
-  const HourTvNewShell({super.key});
+  const HourTvNewShell({
+    super.key,
+    this.catalogRepository,
+    this.moviesPageSource,
+    this.seriesPageSource,
+  });
+
+  final CatalogRepository? catalogRepository;
+  final CatalogPageSource? moviesPageSource;
+  final CatalogPageSource? seriesPageSource;
 
   @override
   State<HourTvNewShell> createState() => _HourTvNewShellState();
@@ -37,6 +49,9 @@ class _HourTvNewShellState extends State<HourTvNewShell> {
   _Section section = _Section.home;
   bool _loaded = false;
   final LiveBackController _liveBack = LiveBackController();
+  CatalogPageSource? _moviesPageSource;
+  CatalogPageSource? _seriesPageSource;
+
   // Hover/foco del rail viven en un ValueNotifier aparte: asi el rail se
   // expande/colapsa repintando SOLO su propio subarbol, sin reconstruir toda
   // la seccion (grillas de posters) en cada evento -> evita el traba de ~1-2s
@@ -69,6 +84,7 @@ class _HourTvNewShellState extends State<HourTvNewShell> {
   void initState() {
     super.initState();
     store.addListener(_refresh);
+    _initPageSources();
     // Marca cuando termina la carga inicial: hasta entonces mostramos un
     // loading, nunca el catalogo de PREVIEW (evita el parpadeo del demo).
     store.ensureLoaded().whenComplete(() {
@@ -76,13 +92,55 @@ class _HourTvNewShellState extends State<HourTvNewShell> {
     });
   }
 
+  void _initPageSources() {
+    final repo = widget.catalogRepository ??
+        (CatalogRepository.hasInstance ? CatalogRepository.instance : null);
+
+    if (widget.moviesPageSource != null) {
+      _moviesPageSource = widget.moviesPageSource;
+    } else if (repo != null) {
+      _moviesPageSource = CatalogPageSource(
+        dao: repo.dao,
+        mediaType: 'movie',
+        pageSize: 40,
+      );
+      unawaited(_moviesPageSource!.loadInitialPage());
+    }
+
+    if (widget.seriesPageSource != null) {
+      _seriesPageSource = widget.seriesPageSource;
+    } else if (repo != null) {
+      _seriesPageSource = CatalogPageSource(
+        dao: repo.dao,
+        mediaType: 'series',
+        pageSize: 40,
+      );
+      unawaited(_seriesPageSource!.loadInitialPage());
+    }
+
+    _moviesPageSource?.addListener(_refresh);
+    _seriesPageSource?.addListener(_refresh);
+  }
+
   /// Aun cargando el catalogo real y todavia sin contenido: mostrar loading.
-  bool get _booting =>
-      !_loaded && store.movies.isEmpty && store.visibleAll.isEmpty;
+  bool get _booting {
+    final hasDrift = (_moviesPageSource != null && _moviesPageSource!.items.isNotEmpty) ||
+        (_seriesPageSource != null && _seriesPageSource!.items.isNotEmpty);
+    if (hasDrift) return false;
+    return !_loaded && store.movies.isEmpty && store.visibleAll.isEmpty;
+  }
 
   @override
   void dispose() {
     store.removeListener(_refresh);
+    _moviesPageSource?.removeListener(_refresh);
+    _seriesPageSource?.removeListener(_refresh);
+    if (widget.moviesPageSource == null) {
+      _moviesPageSource?.dispose();
+    }
+    if (widget.seriesPageSource == null) {
+      _seriesPageSource?.dispose();
+    }
     for (final node in _railFocusNodes.values) {
       node.dispose();
     }
@@ -112,10 +170,20 @@ class _HourTvNewShellState extends State<HourTvNewShell> {
     if (mounted) setState(() {});
   }
 
-  List<Channel> get movies =>
-      store.movies.isEmpty ? PreviewCatalog.movies : store.movies;
+  List<Channel> get movies {
+    final drift = _moviesPageSource != null && _moviesPageSource!.items.isNotEmpty
+        ? _moviesPageSource!.items.map(CatalogRepository.titleToChannel).toList()
+        : const <Channel>[];
+    if (drift.isNotEmpty) return drift;
+    return store.movies.isEmpty ? PreviewCatalog.movies : store.movies;
+  }
 
   List<Channel> get series {
+    final drift = _seriesPageSource != null && _seriesPageSource!.items.isNotEmpty
+        ? _seriesPageSource!.items.map(CatalogRepository.titleToChannel).toList()
+        : const <Channel>[];
+    if (drift.isNotEmpty) return drift;
+
     final direct = store.visibleAll
         .where((item) => item.type == MediaType.series)
         .toList();
@@ -133,9 +201,11 @@ class _HourTvNewShellState extends State<HourTvNewShell> {
     return real.isEmpty ? PreviewCatalog.series : real;
   }
 
-  bool get showingSeriesPreview =>
-      store.visibleSeries.isEmpty &&
-      store.visibleAll.where((item) => item.type == MediaType.series).isEmpty;
+  bool get showingSeriesPreview {
+    if (_seriesPageSource != null && _seriesPageSource!.items.isNotEmpty) return false;
+    return store.visibleSeries.isEmpty &&
+        store.visibleAll.where((item) => item.type == MediaType.series).isEmpty;
+  }
 
   List<Channel> get live {
     final real = store.visibleAll
@@ -144,7 +214,10 @@ class _HourTvNewShellState extends State<HourTvNewShell> {
     return real.isEmpty ? PreviewCatalog.live : real;
   }
 
-  bool get showingPreview => store.movies.isEmpty;
+  bool get showingPreview {
+    if (_moviesPageSource != null && _moviesPageSource!.items.isNotEmpty) return false;
+    return store.movies.isEmpty;
+  }
 
   /// Back por capas: deshace una cosa a la vez y solo sale de la app cuando ya
   /// no queda nada que cerrar y estamos en Inicio.
@@ -219,6 +292,9 @@ class _HourTvNewShellState extends State<HourTvNewShell> {
     required bool tablet,
     required bool tv,
   }) {
+    final repo = widget.catalogRepository ??
+        (CatalogRepository.hasInstance ? CatalogRepository.instance : null);
+
     switch (section) {
       case _Section.home:
         return _HomePage(
@@ -230,6 +306,7 @@ class _HourTvNewShellState extends State<HourTvNewShell> {
           tablet: tablet,
           onSearch: () => setState(() => section = _Section.search),
           tv: tv,
+          catalogRepository: repo,
         );
       case _Section.movies:
         return _CatalogPage(
@@ -240,6 +317,7 @@ class _HourTvNewShellState extends State<HourTvNewShell> {
           phone: phone,
           tablet: tablet,
           tv: tv,
+          catalogRepository: repo,
         );
       case _Section.series:
         return _CatalogPage(
@@ -252,6 +330,7 @@ class _HourTvNewShellState extends State<HourTvNewShell> {
           phone: phone,
           tablet: tablet,
           tv: tv,
+          catalogRepository: repo,
         );
       case _Section.search:
         return _CatalogPage(
@@ -264,6 +343,7 @@ class _HourTvNewShellState extends State<HourTvNewShell> {
           tablet: tablet,
           tv: tv,
           searchAutofocus: true,
+          catalogRepository: repo,
         );
       case _Section.live:
         return HourTvLivePage(
@@ -287,6 +367,7 @@ class _HourTvNewShellState extends State<HourTvNewShell> {
           tablet: tablet,
           tv: tv,
           emptyMessage: 'Todavía no agregaste contenido a Mi lista.',
+          catalogRepository: repo,
         );
       case _Section.profile:
         return HourTvProfilePage(
@@ -582,6 +663,7 @@ class _HomePage extends StatelessWidget {
     required this.tablet,
     required this.tv,
     required this.onSearch,
+    this.catalogRepository,
   });
   final List<Channel> movies;
   final List<Channel> series;
@@ -591,6 +673,7 @@ class _HomePage extends StatelessWidget {
   final bool tablet;
   final bool tv;
   final VoidCallback onSearch;
+  final CatalogRepository? catalogRepository;
 
   // Tendencias de verdad: las marca el panel de administracion con
   // "Sincronizar tendencias", que lee el ranking semanal de TMDB. Si no hay
@@ -628,6 +711,7 @@ class _HomePage extends StatelessWidget {
             phone: phone,
             tablet: tablet,
             tv: tv,
+            catalogRepository: catalogRepository,
           ),
         ),
         SliverToBoxAdapter(
@@ -639,6 +723,7 @@ class _HomePage extends StatelessWidget {
             phone: phone,
             tablet: tablet,
             tv: tv,
+            catalogRepository: catalogRepository,
           ),
         ),
         if (trending.isNotEmpty)
@@ -651,6 +736,7 @@ class _HomePage extends StatelessWidget {
               phone: phone,
               tablet: tablet,
               tv: tv,
+              catalogRepository: catalogRepository,
             ),
           ),
         SliverToBoxAdapter(
@@ -662,6 +748,7 @@ class _HomePage extends StatelessWidget {
             phone: phone,
             tablet: tablet,
             tv: tv,
+            catalogRepository: catalogRepository,
           ),
         ),
         // Regla de oro HourTV: Inicio es SOLO VOD. Los canales en vivo viven
@@ -742,6 +829,7 @@ class _Hero extends StatelessWidget {
     required this.phone,
     required this.tablet,
     required this.tv,
+    this.catalogRepository,
   });
   final Channel channel;
   final ContentStore store;
@@ -749,6 +837,7 @@ class _Hero extends StatelessWidget {
   final bool phone;
   final bool tablet;
   final bool tv;
+  final CatalogRepository? catalogRepository;
 
   @override
   Widget build(BuildContext context) {
@@ -850,7 +939,7 @@ class _Hero extends StatelessWidget {
                             label: 'Reproducir',
                             icon: Icons.play_arrow_rounded,
                             onTap: () =>
-                                _open(context, channel, store, preview),
+                                _open(context, channel, store, preview, repository: catalogRepository),
                           ),
                         ),
                         const SizedBox(width: 10),
@@ -892,6 +981,7 @@ class _MediaRow extends StatelessWidget {
     required this.phone,
     required this.tablet,
     required this.tv,
+    this.catalogRepository,
   });
   final String title;
   final List<Channel> items;
@@ -900,6 +990,7 @@ class _MediaRow extends StatelessWidget {
   final bool phone;
   final bool tablet;
   final bool tv;
+  final CatalogRepository? catalogRepository;
 
   @override
   Widget build(BuildContext context) {
@@ -948,7 +1039,7 @@ class _MediaRow extends StatelessWidget {
                   width: width,
                   imageHeight: imageHeight,
                   landscape: !portrait,
-                  onTap: () => _open(context, item, store, preview),
+                  onTap: () => _open(context, item, store, preview, repository: catalogRepository),
                 );
               },
             ),
@@ -1055,6 +1146,7 @@ class _CatalogPage extends StatefulWidget {
     this.subtitle,
     this.emptyMessage = 'No hay contenido disponible.',
     this.searchAutofocus = false,
+    this.catalogRepository,
   });
   final String title;
   final String? subtitle;
@@ -1066,6 +1158,7 @@ class _CatalogPage extends StatefulWidget {
   final bool tv;
   final String emptyMessage;
   final bool searchAutofocus;
+  final CatalogRepository? catalogRepository;
 
   @override
   State<_CatalogPage> createState() => _CatalogPageState();
@@ -1182,6 +1275,7 @@ class _CatalogPageState extends State<_CatalogPage> {
                                     item,
                                     widget.store,
                                     widget.preview,
+                                    repository: widget.catalogRepository,
                                   ),
                                 );
                               },
@@ -1318,7 +1412,7 @@ class _CatalogPageState extends State<_CatalogPage> {
                   imageHeight: cardImageHeight,
                   landscape: !portrait,
                   onTap: () =>
-                      _open(context, item, widget.store, widget.preview),
+                      _open(context, item, widget.store, widget.preview, repository: widget.catalogRepository),
                 );
               },
             ),
@@ -1366,52 +1460,55 @@ class HourTvLogo extends StatelessWidget {
     // Mismo tratamiento que en movil: "TV" va dentro de una pastilla verde
     // solida. En texto plano la marca se confundia con cualquier titulo.
     final size = height * 0.42;
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        if (!compact) ...[
-          Text(
-            'Hour',
-            style: GoogleFonts.robotoSerif(
-              color: Colors.white,
-              fontSize: size,
-              height: 1,
-              fontWeight: FontWeight.w900,
-              letterSpacing: -0.8,
-            ),
-          ),
-          SizedBox(width: size * 0.14),
-        ],
-        DecoratedBox(
-          decoration: BoxDecoration(
-            color: _red,
-            borderRadius: BorderRadius.circular(size * 0.3),
-            boxShadow: [
-              BoxShadow(
-                color: _red.withValues(alpha: .45),
-                blurRadius: size * 0.5,
-              ),
-            ],
-          ),
-          child: Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: size * 0.22,
-              vertical: size * 0.1,
-            ),
-            child: Text(
-              'TV',
+    return FittedBox(
+      fit: BoxFit.scaleDown,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          if (!compact) ...[
+            Text(
+              'Hour',
               style: GoogleFonts.robotoSerif(
-                color: const Color(0xFF050505),
-                fontSize: size * 0.82,
+                color: Colors.white,
+                fontSize: size,
                 height: 1,
                 fontWeight: FontWeight.w900,
-                letterSpacing: -0.4,
+                letterSpacing: -0.8,
+              ),
+            ),
+            SizedBox(width: size * 0.14),
+          ],
+          DecoratedBox(
+            decoration: BoxDecoration(
+              color: _red,
+              borderRadius: BorderRadius.circular(size * 0.3),
+              boxShadow: [
+                BoxShadow(
+                  color: _red.withValues(alpha: .45),
+                  blurRadius: size * 0.5,
+                ),
+              ],
+            ),
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: size * 0.22,
+                vertical: size * 0.1,
+              ),
+              child: Text(
+                'TV',
+                style: GoogleFonts.robotoSerif(
+                  color: const Color(0xFF050505),
+                  fontSize: size * 0.82,
+                  height: 1,
+                  fontWeight: FontWeight.w900,
+                  letterSpacing: -0.4,
+                ),
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
@@ -1631,27 +1728,15 @@ void _open(
   BuildContext context,
   Channel channel,
   ContentStore store,
-  bool preview,
-) {
-  final series = hourTvResolveSeries(channel, store.visibleSeries);
-  if (series != null) {
-    Navigator.of(context).push(
-      MaterialPageRoute(builder: (_) => HourTvSeriesDetailPage(series: series)),
-    );
-    return;
-  }
-  if (preview) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (_) => HourTvDetailPage(channel: channel, preview: true),
-      ),
-    );
-    return;
-  }
-  Navigator.of(context).push(
-    MaterialPageRoute(
-      builder: (_) => HourTvDetailPage(channel: channel, preview: false),
-    ),
+  bool preview, {
+  CatalogRepository? repository,
+}) {
+  CatalogDetailNavigator.openDetails(
+    context,
+    channel,
+    repository: repository,
+    store: store,
+    preview: preview,
   );
 }
 
