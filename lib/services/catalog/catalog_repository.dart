@@ -61,8 +61,8 @@ class CatalogRepository extends ChangeNotifier {
   }
 
   final CatalogDao dao;
-  final SupabaseCatalogGateway gateway;
-  final CatalogSyncEngine syncEngine;
+  final SupabaseCatalogGateway? gateway;
+  final CatalogSyncEngine? syncEngine;
   Future<List<Channel>> Function()? fallbackJsonLoader;
   Future<CatalogPayload> Function()? fallbackPayloadLoader;
 
@@ -71,8 +71,8 @@ class CatalogRepository extends ChangeNotifier {
 
   CatalogRepository({
     required this.dao,
-    required this.gateway,
-    required this.syncEngine,
+    this.gateway,
+    this.syncEngine,
     this.fallbackJsonLoader,
     this.fallbackPayloadLoader,
   }) {
@@ -90,9 +90,9 @@ class CatalogRepository extends ChangeNotifier {
   }
 
   /// Inicializa el repositorio siguiendo la jerarquía de fallback:
-  /// 1. Drift Local: si hay datos, emite offlineReady de inmediato y revalida de fondo.
-  /// 2. Supabase Remoto: si local está vacío, sincroniza.
-  /// 3. Respaldo Temporal JSON: si Supabase falla y local está vacío, puebla Drift desde fallbackJsonLoader.
+  /// 1. Drift Local: si hay datos, emite offlineReady de inmediato y revalida de fondo si hay syncEngine.
+  /// 2. Supabase Remoto: si local está vacío y hay syncEngine disponible, sincroniza.
+  /// 3. Respaldo Temporal JSON / sources.json: si Supabase falla o no está configurado y local está vacío.
   Future<CatalogRepositoryStatus> initialize() async {
     final localTitles = await dao.getPage(limit: 1);
     final hasLocalData = localTitles.isNotEmpty;
@@ -100,24 +100,28 @@ class CatalogRepository extends ChangeNotifier {
     if (hasLocalData) {
       _status = CatalogRepositoryStatus.offlineReady;
       notifyListeners();
-      unawaited(_triggerBackgroundSync());
+      if (syncEngine != null) {
+        unawaited(_triggerBackgroundSync());
+      }
       return _status;
     }
 
-    // 2. Si la base local está completamente vacía, intentar sincronizar con Supabase
-    try {
-      _status = CatalogRepositoryStatus.syncing;
-      notifyListeners();
-      final syncResult = await syncEngine.syncCatalog(
-        onBatchApplied: (_) => notifyListeners(),
-      );
-      if (syncResult.hasChanges || (await dao.getPage(limit: 1)).isNotEmpty) {
-        _status = CatalogRepositoryStatus.ready;
+    // 2. Si la base local está completamente vacía y hay syncEngine disponible, intentar sincronizar con Supabase
+    if (syncEngine != null) {
+      try {
+        _status = CatalogRepositoryStatus.syncing;
         notifyListeners();
-        return _status;
+        final syncResult = await syncEngine!.syncCatalog(
+          onBatchApplied: (_) => notifyListeners(),
+        );
+        if (syncResult.hasChanges || (await dao.getPage(limit: 1)).isNotEmpty) {
+          _status = CatalogRepositoryStatus.ready;
+          notifyListeners();
+          return _status;
+        }
+      } catch (_) {
+        // Supabase caído o sin conectividad
       }
-    } catch (_) {
-      // Supabase caído o sin conectividad
     }
 
     // 3. Fallback de emergencia a JSON/Payload si continúa vacía
@@ -150,10 +154,16 @@ class CatalogRepository extends ChangeNotifier {
 
   /// Ejecuta un ciclo de sincronización explícito notificando observadores.
   Future<SyncResult> sync() async {
+    if (syncEngine == null) {
+      final hasLocal = (await dao.getPage(limit: 1)).isNotEmpty;
+      _status = hasLocal ? CatalogRepositoryStatus.offlineReady : CatalogRepositoryStatus.idle;
+      notifyListeners();
+      return const SyncResult(initialRevision: 0, finalRevision: 0, appliedChangesCount: 0);
+    }
     _status = CatalogRepositoryStatus.syncing;
     notifyListeners();
     try {
-      final result = await syncEngine.syncCatalog(
+      final result = await syncEngine!.syncCatalog(
         onBatchApplied: (_) => notifyListeners(),
       );
       final hasLocal = (await dao.getPage(limit: 1)).isNotEmpty;
@@ -169,8 +179,9 @@ class CatalogRepository extends ChangeNotifier {
   }
 
   Future<void> _triggerBackgroundSync() async {
+    if (syncEngine == null) return;
     try {
-      final syncResult = await syncEngine.syncCatalog(
+      final syncResult = await syncEngine!.syncCatalog(
         onBatchApplied: (_) => notifyListeners(),
       );
       if (syncResult.hasChanges) {

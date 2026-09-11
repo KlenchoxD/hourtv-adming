@@ -6,7 +6,11 @@ import 'auth/unavailable_auth_gateway.dart';
 import 'supabase_config.dart';
 
 class SupabaseBootstrap {
-  SupabaseBootstrap._({this._authGateway, this._isTest = false});
+  SupabaseBootstrap._({
+    this._authGateway,
+    SupabaseClient? client,
+    this._isTest = false,
+  }) : _customClient = client;
 
   static SupabaseBootstrap? _instance;
   static SupabaseBootstrap get instance => _instance ??= SupabaseBootstrap._();
@@ -16,16 +20,25 @@ class SupabaseBootstrap {
     _instance = bootstrap;
   }
 
-  factory SupabaseBootstrap.forTest({AuthGateway? authGateway}) =>
-      SupabaseBootstrap._(authGateway: authGateway, isTest: true);
+  factory SupabaseBootstrap.forTest({
+    AuthGateway? authGateway,
+    SupabaseClient? client,
+  }) =>
+      SupabaseBootstrap._(
+        authGateway: authGateway,
+        client: client,
+        isTest: true,
+      );
 
   final bool _isTest;
+  final SupabaseClient? _customClient;
   bool _isAvailable = false;
   AuthGateway? _authGateway;
 
   bool get isAvailable => _isAvailable;
 
   SupabaseClient? get client {
+    if (_customClient != null) return _customClient;
     if (!_isAvailable || _isTest) return null;
     try {
       return Supabase.instance.client;
