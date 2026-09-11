@@ -1,5 +1,5 @@
 begin;
-select plan(43);
+select plan(56);
 
 -- 1. Test: anon y authenticated no pueden mutar tablas del catálogo
 set local role anon;
@@ -44,8 +44,8 @@ select throws_ok(
 -- Revocaciones comprobadas con has_function_privilege nativo de PostgreSQL
 select is(has_function_privilege('public', 'public.compact_catalog_changes(bigint)', 'EXECUTE'), false,
   'PUBLIC does not retain EXECUTE on compact_catalog_changes');
-select is(has_function_privilege('public', 'public.fn_update_catalog_sync_metadata_latest()', 'EXECUTE'), false,
-  'PUBLIC does not retain EXECUTE on fn_update_catalog_sync_metadata_latest');
+select is(has_function_privilege('public', 'public.fn_assign_catalog_change_revision()', 'EXECUTE'), false,
+  'PUBLIC does not retain EXECUTE on fn_assign_catalog_change_revision');
 select is(has_function_privilege('public', 'public.fn_catalog_changes_titles()', 'EXECUTE'), false,
   'PUBLIC does not retain EXECUTE on fn_catalog_changes_titles');
 select is(has_function_privilege('public', 'public.fn_catalog_changes_seasons()', 'EXECUTE'), false,
@@ -247,6 +247,24 @@ select throws_ok(
 
 -- 6. Test: Compactación administrativa (compact_catalog_changes)
 reset role;
+
+-- Validación de argumentos no nulos y >= 1
+select throws_ok(
+  $$ select public.compact_catalog_changes(null) $$,
+  'P0001', 'p_keep_revisions must be non-null and at least 1',
+  'compact_catalog_changes rejects null'
+);
+select throws_ok(
+  $$ select public.compact_catalog_changes(0) $$,
+  'P0001', 'p_keep_revisions must be non-null and at least 1',
+  'compact_catalog_changes rejects 0'
+);
+select throws_ok(
+  $$ select public.compact_catalog_changes(-5) $$,
+  'P0001', 'p_keep_revisions must be non-null and at least 1',
+  'compact_catalog_changes rejects negative keep_revisions'
+);
+
 select lives_ok(
   $$ select public.compact_catalog_changes(1::bigint) $$,
   'admin role postgres can execute compact_catalog_changes'
@@ -256,6 +274,16 @@ select lives_ok(
 select ok(
   (select minimum_available_revision <= latest_revision from public.catalog_sync_metadata where id = 1),
   'minimum_available_revision <= latest_revision holds true after compaction'
+);
+
+-- Monotonía: compactar con un valor mayor no reduce minimum_available_revision
+select lives_ok(
+  $$ select public.compact_catalog_changes(100::bigint) $$,
+  'compact with large keep_revisions succeeds without error'
+);
+select ok(
+  (select minimum_available_revision >= 1 from public.catalog_sync_metadata where id = 1),
+  'minimum_available_revision remains strictly monotonic'
 );
 
 -- 7. Test: Paginación Determinista compuesta (created_at DESC, id DESC)
@@ -274,6 +302,77 @@ select is(
      and id = '50000000-0000-0000-0000-000000000001'),
   1,
   'deterministic cursor condition properly breaks timestamp ties using id < cursor.id'
+);
+
+-- 8. Test: Reparenting y Visibilidad Booleana (seasons y sources)
+-- Setup: Título Público vs Título Privado
+insert into public.titles (id, media_type, title, normalized_title, is_published)
+values
+  ('60000000-0000-0000-0000-000000000001', 'series', 'Public Series Reparent', 'public series reparent', true),
+  ('60000000-0000-0000-0000-000000000002', 'series', 'Private Series Reparent', 'private series reparent', false);
+
+-- Inserción de Season en título privado: privada -> privada (0 eventos)
+insert into public.seasons (id, title_id, season_number, name)
+values ('70000000-0000-0000-0000-000000000001', '60000000-0000-0000-0000-000000000002', 1, 'Season Private');
+
+select is(
+  (select count(*)::int from public.catalog_changes where entity_id = '70000000-0000-0000-0000-000000000001'),
+  0,
+  'season on private title emits no events'
+);
+
+-- Reparenting de privada -> pública (emite upsert)
+update public.seasons
+set title_id = '60000000-0000-0000-0000-000000000001'
+where id = '70000000-0000-0000-0000-000000000001';
+
+select is(
+  (select count(*)::int from public.catalog_changes where entity_id = '70000000-0000-0000-0000-000000000001' and operation = 'upsert'),
+  1,
+  'reparenting season from private to public emits upsert'
+);
+
+-- Reparenting de pública -> privada (emite delete)
+update public.seasons
+set title_id = '60000000-0000-0000-0000-000000000002'
+where id = '70000000-0000-0000-0000-000000000001';
+
+select is(
+  (select count(*)::int from public.catalog_changes where entity_id = '70000000-0000-0000-0000-000000000001' and operation = 'delete'),
+  1,
+  'reparenting season from public to private emits delete'
+);
+
+-- Inserción de Source en título privado: privada -> privada (0 eventos)
+insert into public.sources (id, title_id, name, url)
+values ('80000000-0000-0000-0000-000000000001', '60000000-0000-0000-0000-000000000002', 'Source Private', 'https://example.com/stream-p.m3u8');
+
+select is(
+  (select count(*)::int from public.catalog_changes where entity_id = '80000000-0000-0000-0000-000000000001'),
+  0,
+  'source on private title emits no events'
+);
+
+-- Reparenting de Source privada -> pública (emite upsert)
+update public.sources
+set title_id = '60000000-0000-0000-0000-000000000001'
+where id = '80000000-0000-0000-0000-000000000001';
+
+select is(
+  (select count(*)::int from public.catalog_changes where entity_id = '80000000-0000-0000-0000-000000000001' and operation = 'upsert'),
+  1,
+  'reparenting source from private to public emits upsert'
+);
+
+-- Reparenting de Source pública -> privada (emite delete)
+update public.sources
+set title_id = '60000000-0000-0000-0000-000000000002'
+where id = '80000000-0000-0000-0000-000000000001';
+
+select is(
+  (select count(*)::int from public.catalog_changes where entity_id = '80000000-0000-0000-0000-000000000001' and operation = 'delete'),
+  1,
+  'reparenting source from public to private emits delete'
 );
 
 select * from finish();

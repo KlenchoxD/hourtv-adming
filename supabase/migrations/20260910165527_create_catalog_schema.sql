@@ -150,7 +150,7 @@ CREATE TABLE IF NOT EXISTS public.sources (
 
 -- 8. Registro de Cambios y Revisiones Incrementales
 CREATE TABLE IF NOT EXISTS public.catalog_changes (
-  revision bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  revision bigint PRIMARY KEY,
   entity_type public.catalog_entity_type NOT NULL,
   entity_id text NOT NULL,
   operation text NOT NULL CHECK (operation IN ('upsert', 'delete')),
@@ -176,30 +176,47 @@ ON CONFLICT (id) DO NOTHING;
 -- Funciones PostgreSQL Blindadas y Triggers
 -- ============================================================================
 
--- 1. Trigger para actualizar automáticamente latest_revision en metadata
-CREATE OR REPLACE FUNCTION public.fn_update_catalog_sync_metadata_latest()
+-- 1. Trigger para asignar revisiones serializadas y garantizar ausencia de huecos
+CREATE OR REPLACE FUNCTION public.fn_assign_catalog_change_revision()
 RETURNS trigger
 LANGUAGE plpgsql
+SECURITY DEFINER
 SET search_path = ''
 AS $$
+DECLARE
+  v_next_rev bigint;
 BEGIN
+  -- Bloqueo explícito de la fila singleton para serializar la asignación y publicación de revisiones
+  SELECT latest_revision + 1
+  INTO v_next_rev
+  FROM public.catalog_sync_metadata
+  WHERE id = 1
+  FOR UPDATE;
+
+  IF v_next_rev IS NULL THEN
+    v_next_rev := 1;
+  END IF;
+
+  NEW.revision := v_next_rev;
+
   UPDATE public.catalog_sync_metadata
-  SET latest_revision = NEW.revision,
+  SET latest_revision = v_next_rev,
       updated_at = now()
   WHERE id = 1;
+
   RETURN NEW;
 END;
 $$;
-ALTER FUNCTION public.fn_update_catalog_sync_metadata_latest() OWNER TO postgres;
-REVOKE ALL ON FUNCTION public.fn_update_catalog_sync_metadata_latest() FROM PUBLIC;
-REVOKE ALL ON FUNCTION public.fn_update_catalog_sync_metadata_latest() FROM anon;
-REVOKE ALL ON FUNCTION public.fn_update_catalog_sync_metadata_latest() FROM authenticated;
+ALTER FUNCTION public.fn_assign_catalog_change_revision() OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.fn_assign_catalog_change_revision() FROM PUBLIC;
+REVOKE ALL ON FUNCTION public.fn_assign_catalog_change_revision() FROM anon;
+REVOKE ALL ON FUNCTION public.fn_assign_catalog_change_revision() FROM authenticated;
 
-DROP TRIGGER IF EXISTS trg_catalog_changes_update_latest ON public.catalog_changes;
-CREATE TRIGGER trg_catalog_changes_update_latest
-AFTER INSERT ON public.catalog_changes
+DROP TRIGGER IF EXISTS trg_catalog_changes_assign_revision ON public.catalog_changes;
+CREATE TRIGGER trg_catalog_changes_assign_revision
+BEFORE INSERT ON public.catalog_changes
 FOR EACH ROW
-EXECUTE FUNCTION public.fn_update_catalog_sync_metadata_latest();
+EXECUTE FUNCTION public.fn_assign_catalog_change_revision();
 
 -- 2. Función Administrativa: Compactación transaccional de revisiones
 CREATE OR REPLACE FUNCTION public.compact_catalog_changes(p_keep_revisions bigint)
@@ -210,14 +227,27 @@ SET search_path = ''
 AS $$
 DECLARE
   v_latest bigint;
+  v_curr_min bigint;
   v_new_min bigint;
 BEGIN
-  SELECT latest_revision INTO v_latest FROM public.catalog_sync_metadata WHERE id = 1;
-  IF v_latest IS NULL OR v_latest = 0 THEN
-    RETURN 1;
+  IF p_keep_revisions IS NULL OR p_keep_revisions < 1 THEN
+    RAISE EXCEPTION 'p_keep_revisions must be non-null and at least 1';
   END IF;
 
-  v_new_min := GREATEST(1, v_latest - p_keep_revisions);
+  SELECT latest_revision, minimum_available_revision
+  INTO v_latest, v_curr_min
+  FROM public.catalog_sync_metadata
+  WHERE id = 1
+  FOR UPDATE;
+
+  IF v_latest IS NULL OR v_latest = 0 THEN
+    RETURN COALESCE(v_curr_min, 1);
+  END IF;
+
+  -- Corrección off-by-one: para conservar N revisiones hasta v_latest, el umbral inferior es v_latest - N + 1.
+  -- Se eliminan todas las filas con revision < v_new_min.
+  -- Monotonía garantizada mediante GREATEST.
+  v_new_min := GREATEST(COALESCE(v_curr_min, 1), GREATEST(1, v_latest - p_keep_revisions + 1));
 
   DELETE FROM public.catalog_changes WHERE revision < v_new_min;
 
@@ -314,42 +344,46 @@ EXECUTE FUNCTION public.fn_catalog_changes_titles();
 CREATE OR REPLACE FUNCTION public.fn_catalog_changes_seasons()
 RETURNS trigger
 LANGUAGE plpgsql
+SECURITY DEFINER
 SET search_path = ''
 AS $$
 DECLARE
-  v_is_public boolean;
+  v_old_visible boolean := false;
+  v_new_visible boolean := false;
 BEGIN
-  IF TG_OP = 'INSERT' THEN
-    SELECT (t.is_published = true AND t.deleted_at IS NULL) INTO v_is_public
-    FROM public.titles t WHERE t.id = NEW.title_id;
-    IF v_is_public = true AND NEW.deleted_at IS NULL THEN
-      INSERT INTO public.catalog_changes (entity_type, entity_id, operation, changed_at)
-      VALUES ('season', NEW.id::text, 'upsert', now());
-    END IF;
-    RETURN NEW;
-  ELSIF TG_OP = 'UPDATE' THEN
-    SELECT (t.is_published = true AND t.deleted_at IS NULL) INTO v_is_public
-    FROM public.titles t WHERE t.id = NEW.title_id;
-    IF v_is_public = true THEN
-      IF NEW.deleted_at IS NOT NULL AND OLD.deleted_at IS NULL THEN
-        INSERT INTO public.catalog_changes (entity_type, entity_id, operation, changed_at)
-        VALUES ('season', NEW.id::text, 'delete', now());
-      ELSIF NEW.deleted_at IS NULL THEN
-        INSERT INTO public.catalog_changes (entity_type, entity_id, operation, changed_at)
-        VALUES ('season', NEW.id::text, 'upsert', now());
-      END IF;
-    END IF;
-    RETURN NEW;
-  ELSIF TG_OP = 'DELETE' THEN
-    SELECT (t.is_published = true AND t.deleted_at IS NULL) INTO v_is_public
+  IF TG_OP = 'DELETE' THEN
+    SELECT (OLD.deleted_at IS NULL AND t.is_published = true AND t.deleted_at IS NULL)
+    INTO v_old_visible
     FROM public.titles t WHERE t.id = OLD.title_id;
-    IF v_is_public = true AND OLD.deleted_at IS NULL THEN
+
+    IF v_old_visible = true THEN
       INSERT INTO public.catalog_changes (entity_type, entity_id, operation, changed_at)
       VALUES ('season', OLD.id::text, 'delete', now());
     END IF;
     RETURN OLD;
   END IF;
-  RETURN NULL;
+
+  IF TG_OP = 'UPDATE' THEN
+    SELECT (OLD.deleted_at IS NULL AND t.is_published = true AND t.deleted_at IS NULL)
+    INTO v_old_visible
+    FROM public.titles t WHERE t.id = OLD.title_id;
+  END IF;
+
+  IF TG_OP = 'INSERT' OR TG_OP = 'UPDATE' THEN
+    SELECT (NEW.deleted_at IS NULL AND t.is_published = true AND t.deleted_at IS NULL)
+    INTO v_new_visible
+    FROM public.titles t WHERE t.id = NEW.title_id;
+  END IF;
+
+  IF v_old_visible = true AND v_new_visible = false THEN
+    INSERT INTO public.catalog_changes (entity_type, entity_id, operation, changed_at)
+    VALUES ('season', NEW.id::text, 'delete', now());
+  ELSIF v_new_visible = true THEN
+    INSERT INTO public.catalog_changes (entity_type, entity_id, operation, changed_at)
+    VALUES ('season', NEW.id::text, 'upsert', now());
+  END IF;
+
+  RETURN NEW;
 END;
 $$;
 ALTER FUNCTION public.fn_catalog_changes_seasons() OWNER TO postgres;
@@ -367,48 +401,52 @@ EXECUTE FUNCTION public.fn_catalog_changes_seasons();
 CREATE OR REPLACE FUNCTION public.fn_catalog_changes_episodes()
 RETURNS trigger
 LANGUAGE plpgsql
+SECURITY DEFINER
 SET search_path = ''
 AS $$
 DECLARE
-  v_is_public boolean;
+  v_old_visible boolean := false;
+  v_new_visible boolean := false;
 BEGIN
-  IF TG_OP = 'INSERT' THEN
-    SELECT (t.is_published = true AND t.deleted_at IS NULL AND s.deleted_at IS NULL) INTO v_is_public
-    FROM public.seasons s
-    JOIN public.titles t ON t.id = s.title_id
-    WHERE s.id = NEW.season_id;
-    IF v_is_public = true AND NEW.deleted_at IS NULL THEN
-      INSERT INTO public.catalog_changes (entity_type, entity_id, operation, changed_at)
-      VALUES ('episode', NEW.id::text, 'upsert', now());
-    END IF;
-    RETURN NEW;
-  ELSIF TG_OP = 'UPDATE' THEN
-    SELECT (t.is_published = true AND t.deleted_at IS NULL AND s.deleted_at IS NULL) INTO v_is_public
-    FROM public.seasons s
-    JOIN public.titles t ON t.id = s.title_id
-    WHERE s.id = NEW.season_id;
-    IF v_is_public = true THEN
-      IF NEW.deleted_at IS NOT NULL AND OLD.deleted_at IS NULL THEN
-        INSERT INTO public.catalog_changes (entity_type, entity_id, operation, changed_at)
-        VALUES ('episode', NEW.id::text, 'delete', now());
-      ELSIF NEW.deleted_at IS NULL THEN
-        INSERT INTO public.catalog_changes (entity_type, entity_id, operation, changed_at)
-        VALUES ('episode', NEW.id::text, 'upsert', now());
-      END IF;
-    END IF;
-    RETURN NEW;
-  ELSIF TG_OP = 'DELETE' THEN
-    SELECT (t.is_published = true AND t.deleted_at IS NULL AND s.deleted_at IS NULL) INTO v_is_public
+  IF TG_OP = 'DELETE' THEN
+    SELECT (OLD.deleted_at IS NULL AND s.deleted_at IS NULL AND t.is_published = true AND t.deleted_at IS NULL)
+    INTO v_old_visible
     FROM public.seasons s
     JOIN public.titles t ON t.id = s.title_id
     WHERE s.id = OLD.season_id;
-    IF v_is_public = true AND OLD.deleted_at IS NULL THEN
+
+    IF v_old_visible = true THEN
       INSERT INTO public.catalog_changes (entity_type, entity_id, operation, changed_at)
       VALUES ('episode', OLD.id::text, 'delete', now());
     END IF;
     RETURN OLD;
   END IF;
-  RETURN NULL;
+
+  IF TG_OP = 'UPDATE' THEN
+    SELECT (OLD.deleted_at IS NULL AND s.deleted_at IS NULL AND t.is_published = true AND t.deleted_at IS NULL)
+    INTO v_old_visible
+    FROM public.seasons s
+    JOIN public.titles t ON t.id = s.title_id
+    WHERE s.id = OLD.season_id;
+  END IF;
+
+  IF TG_OP = 'INSERT' OR TG_OP = 'UPDATE' THEN
+    SELECT (NEW.deleted_at IS NULL AND s.deleted_at IS NULL AND t.is_published = true AND t.deleted_at IS NULL)
+    INTO v_new_visible
+    FROM public.seasons s
+    JOIN public.titles t ON t.id = s.title_id
+    WHERE s.id = NEW.season_id;
+  END IF;
+
+  IF v_old_visible = true AND v_new_visible = false THEN
+    INSERT INTO public.catalog_changes (entity_type, entity_id, operation, changed_at)
+    VALUES ('episode', NEW.id::text, 'delete', now());
+  ELSIF v_new_visible = true THEN
+    INSERT INTO public.catalog_changes (entity_type, entity_id, operation, changed_at)
+    VALUES ('episode', NEW.id::text, 'upsert', now());
+  END IF;
+
+  RETURN NEW;
 END;
 $$;
 ALTER FUNCTION public.fn_catalog_changes_episodes() OWNER TO postgres;
@@ -426,66 +464,73 @@ EXECUTE FUNCTION public.fn_catalog_changes_episodes();
 CREATE OR REPLACE FUNCTION public.fn_catalog_changes_sources()
 RETURNS trigger
 LANGUAGE plpgsql
+SECURITY DEFINER
 SET search_path = ''
 AS $$
 DECLARE
-  v_is_public boolean := false;
+  v_old_visible boolean := false;
+  v_new_visible boolean := false;
 BEGIN
-  IF TG_OP = 'INSERT' THEN
-    IF NEW.title_id IS NOT NULL THEN
-      SELECT (t.is_published = true AND t.deleted_at IS NULL) INTO v_is_public
-      FROM public.titles t WHERE t.id = NEW.title_id;
-    ELSIF NEW.episode_id IS NOT NULL THEN
-      SELECT (t.is_published = true AND t.deleted_at IS NULL AND s.deleted_at IS NULL AND e.deleted_at IS NULL) INTO v_is_public
-      FROM public.episodes e
-      JOIN public.seasons s ON s.id = e.season_id
-      JOIN public.titles t ON t.id = s.title_id
-      WHERE e.id = NEW.episode_id;
-    END IF;
-    IF v_is_public = true AND NEW.deleted_at IS NULL THEN
-      INSERT INTO public.catalog_changes (entity_type, entity_id, operation, changed_at)
-      VALUES ('source', NEW.id::text, 'upsert', now());
-    END IF;
-    RETURN NEW;
-  ELSIF TG_OP = 'UPDATE' THEN
-    IF NEW.title_id IS NOT NULL THEN
-      SELECT (t.is_published = true AND t.deleted_at IS NULL) INTO v_is_public
-      FROM public.titles t WHERE t.id = NEW.title_id;
-    ELSIF NEW.episode_id IS NOT NULL THEN
-      SELECT (t.is_published = true AND t.deleted_at IS NULL AND s.deleted_at IS NULL AND e.deleted_at IS NULL) INTO v_is_public
-      FROM public.episodes e
-      JOIN public.seasons s ON s.id = e.season_id
-      JOIN public.titles t ON t.id = s.title_id
-      WHERE e.id = NEW.episode_id;
-    END IF;
-    IF v_is_public = true THEN
-      IF NEW.deleted_at IS NOT NULL AND OLD.deleted_at IS NULL THEN
-        INSERT INTO public.catalog_changes (entity_type, entity_id, operation, changed_at)
-        VALUES ('source', NEW.id::text, 'delete', now());
-      ELSIF NEW.deleted_at IS NULL THEN
-        INSERT INTO public.catalog_changes (entity_type, entity_id, operation, changed_at)
-        VALUES ('source', NEW.id::text, 'upsert', now());
-      END IF;
-    END IF;
-    RETURN NEW;
-  ELSIF TG_OP = 'DELETE' THEN
+  IF TG_OP = 'DELETE' THEN
     IF OLD.title_id IS NOT NULL THEN
-      SELECT (t.is_published = true AND t.deleted_at IS NULL) INTO v_is_public
+      SELECT (OLD.deleted_at IS NULL AND OLD.status = 'active' AND t.is_published = true AND t.deleted_at IS NULL)
+      INTO v_old_visible
       FROM public.titles t WHERE t.id = OLD.title_id;
     ELSIF OLD.episode_id IS NOT NULL THEN
-      SELECT (t.is_published = true AND t.deleted_at IS NULL AND s.deleted_at IS NULL AND e.deleted_at IS NULL) INTO v_is_public
+      SELECT (OLD.deleted_at IS NULL AND OLD.status = 'active' AND e.deleted_at IS NULL AND s.deleted_at IS NULL AND t.is_published = true AND t.deleted_at IS NULL)
+      INTO v_old_visible
       FROM public.episodes e
       JOIN public.seasons s ON s.id = e.season_id
       JOIN public.titles t ON t.id = s.title_id
       WHERE e.id = OLD.episode_id;
     END IF;
-    IF v_is_public = true AND OLD.deleted_at IS NULL THEN
+
+    IF v_old_visible = true THEN
       INSERT INTO public.catalog_changes (entity_type, entity_id, operation, changed_at)
       VALUES ('source', OLD.id::text, 'delete', now());
     END IF;
     RETURN OLD;
   END IF;
-  RETURN NULL;
+
+  IF TG_OP = 'UPDATE' THEN
+    IF OLD.title_id IS NOT NULL THEN
+      SELECT (OLD.deleted_at IS NULL AND OLD.status = 'active' AND t.is_published = true AND t.deleted_at IS NULL)
+      INTO v_old_visible
+      FROM public.titles t WHERE t.id = OLD.title_id;
+    ELSIF OLD.episode_id IS NOT NULL THEN
+      SELECT (OLD.deleted_at IS NULL AND OLD.status = 'active' AND e.deleted_at IS NULL AND s.deleted_at IS NULL AND t.is_published = true AND t.deleted_at IS NULL)
+      INTO v_old_visible
+      FROM public.episodes e
+      JOIN public.seasons s ON s.id = e.season_id
+      JOIN public.titles t ON t.id = s.title_id
+      WHERE e.id = OLD.episode_id;
+    END IF;
+  END IF;
+
+  IF TG_OP = 'INSERT' OR TG_OP = 'UPDATE' THEN
+    IF NEW.title_id IS NOT NULL THEN
+      SELECT (NEW.deleted_at IS NULL AND NEW.status = 'active' AND t.is_published = true AND t.deleted_at IS NULL)
+      INTO v_new_visible
+      FROM public.titles t WHERE t.id = NEW.title_id;
+    ELSIF NEW.episode_id IS NOT NULL THEN
+      SELECT (NEW.deleted_at IS NULL AND NEW.status = 'active' AND e.deleted_at IS NULL AND s.deleted_at IS NULL AND t.is_published = true AND t.deleted_at IS NULL)
+      INTO v_new_visible
+      FROM public.episodes e
+      JOIN public.seasons s ON s.id = e.season_id
+      JOIN public.titles t ON t.id = s.title_id
+      WHERE e.id = NEW.episode_id;
+    END IF;
+  END IF;
+
+  IF v_old_visible = true AND v_new_visible = false THEN
+    INSERT INTO public.catalog_changes (entity_type, entity_id, operation, changed_at)
+    VALUES ('source', NEW.id::text, 'delete', now());
+  ELSIF v_new_visible = true THEN
+    INSERT INTO public.catalog_changes (entity_type, entity_id, operation, changed_at)
+    VALUES ('source', NEW.id::text, 'upsert', now());
+  END IF;
+
+  RETURN NEW;
 END;
 $$;
 ALTER FUNCTION public.fn_catalog_changes_sources() OWNER TO postgres;
