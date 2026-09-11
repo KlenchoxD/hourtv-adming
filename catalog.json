@@ -7792,8 +7792,8 @@
     },
     {
       "id": "fb55ffc56cae495987147bb29bd5d14b",
-      "title": "Meteoro: La película",
-      "plot": "Meteoro, su novia Trixie y toda la pandilla están en una carrera desesperada para salvar cientos de vidas de las garras malvadas de \"The Car Hater\". ¡La conducción atrevida de Speed seguramente emocionará a niños y padres por igual!",
+      "title": "Speed Racer",
+      "plot": "Basada en una popular serie de animación japonesa de los años sesenta, sigue las aventuras de Speed Racer (Emile Hirsch), que parece haber nacido para conducir coches de carreras. Es un piloto agresivo y temerario. Su ídolo es su hermano, el legendario Rex Racer, muerto en un accidente durante una carrera. Speed apoya el negocio familiar automovilístico que dirige su padre (John Goodman), el diseñador del potente bólido Mach 5. Cuando Speed rechaza una oferta muy lucrativa y tentadora de las Industrias Royalton, no sólo hace enfurecer al maniático dueño de la empresa (Roger Allam), sino que, además, descubre un terrible secreto: algunas de las carreras más importantes están siendo manipuladas por unos desalmados empresarios. Si Speed no pilota para la escudería de Royalton, el Mach 5 no podrá nunca ganar una carrera. Si quiere salvar el negocio familiar y el deporte que ama, tendrá que ganarle la partida Royalton.",
       "cast": "Emile Hirsch, Christina Ricci, Susan Sarandon, Matthew Fox, John Goodman, Scott Porter, Benno Fürmann, Hiroyuki Sanada, Rain, Richard Roundtree, Moritz Bleibtreu, Ariel Winter",
       "director": "Lilly Wachowski",
       "writer": "Lilly Wachowski",
@@ -7802,14 +7802,16 @@
       "genre": "cine de acción, cine deportivo, cine de comedia",
       "rating": 6.9,
       "duration": "129 min",
-      "poster": "https://image.tmdb.org/t/p/w500/2EIsLZ4vo3SfRYNPFzdq00AUaGL.jpg",
+      "poster": "https://image.tmdb.org/t/p/w500/2qSweN78MRsv2zbiJ1KeFYH99zV.jpg",
       "backdrop": "https://image.tmdb.org/t/p/w1280/blW7lU3l6LDfhS3M0vlfUw1j4sf.jpg",
       "categories": [
         "accion",
+        "comedia",
         "aventura",
-        "infantil"
+        "infantil",
+        "familia"
       ],
-      "tmdbId": 424338,
+      "tmdbId": 7459,
       "tmdbType": "movie",
       "servers": [
         {
