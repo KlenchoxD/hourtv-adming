@@ -11,6 +11,7 @@ import 'package:streamtv/services/catalog/catalog_repository.dart';
 import 'package:streamtv/services/catalog/catalog_sync_engine.dart';
 import 'package:streamtv/services/catalog/supabase_catalog_gateway.dart';
 import 'package:streamtv/new_ui/hourtv_detail_page.dart';
+import 'package:streamtv/new_ui/hourtv_series_detail_page.dart';
 import 'package:streamtv/new_ui/hourtv_player_screen.dart';
 import 'package:streamtv/services/content_store.dart';
 import 'package:streamtv/services/storage_service.dart';
@@ -302,6 +303,130 @@ void main() {
       expect(player.channel.servers.length, 2);
       expect(player.channel.servers.first.url, 'https://stream.example.com/interstellar.mp4');
       expect(player.channel.servers.last.url, 'https://mirror.example.com/interstellar.mp4');
+      expect(player.channel.url.startsWith('catalog://'), isFalse);
+    });
+
+    testWidgets('5. Serie Drift: 2 temporadas -> abrir desde Inicio -> comprobar selector de temporadas -> tocar episodio -> PlayerScreen con URL y servidores reales', (tester) async {
+      await dao.upsertTitle(
+        LocalTitlesCompanion.insert(
+          id: 'series-real-1',
+          mediaType: 'series',
+          title: 'Breaking Bad Real',
+          normalizedTitle: 'breaking bad real',
+          createdAt: DateTime.now(),
+          updatedAt: DateTime.now(),
+        ),
+      );
+      await dao.upsertSeason(
+        LocalSeasonsCompanion.insert(
+          id: 'season-real-1',
+          titleId: 'series-real-1',
+          seasonNumber: 1,
+          name: const Value('Temporada 1'),
+        ),
+      );
+      await dao.upsertSeason(
+        LocalSeasonsCompanion.insert(
+          id: 'season-real-2',
+          titleId: 'series-real-1',
+          seasonNumber: 2,
+          name: const Value('Temporada 2'),
+        ),
+      );
+      await dao.upsertEpisode(
+        LocalEpisodesCompanion.insert(
+          id: 'ep-s1-1',
+          seasonId: 'season-real-1',
+          episodeNumber: 1,
+          title: 'Piloto',
+        ),
+      );
+      await dao.upsertEpisode(
+        LocalEpisodesCompanion.insert(
+          id: 'ep-s2-1',
+          seasonId: 'season-real-2',
+          episodeNumber: 1,
+          title: 'Siete Treinta y Siete',
+        ),
+      );
+      await dao.upsertSource(
+        LocalSourcesCompanion.insert(
+          id: 'src-ep-1',
+          episodeId: const Value('ep-s1-1'),
+          name: 'Servidor 1',
+          url: 'https://stream.example.com/s1e1.mp4',
+          orderIndex: const Value(0),
+        ),
+      );
+      await dao.upsertSource(
+        LocalSourcesCompanion.insert(
+          id: 'src-ep-2',
+          episodeId: const Value('ep-s1-1'),
+          name: 'Servidor 2 (Mirror)',
+          url: 'https://mirror.example.com/s1e1.mp4',
+          orderIndex: const Value(1),
+        ),
+      );
+
+      final moviesPageSource = CatalogPageSource(dao: dao, mediaType: 'movie', pageSize: 10);
+      await moviesPageSource.loadInitialPage();
+
+      final seriesPageSource = CatalogPageSource(dao: dao, mediaType: 'series', pageSize: 10);
+      await seriesPageSource.loadInitialPage();
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: HourTvMobileShell(
+            catalogRepository: repository,
+            catalogPageSource: moviesPageSource,
+            seriesPageSource: seriesPageSource,
+          ),
+        ),
+      );
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 100));
+
+      // Tocar la tarjeta de la serie haciendo scroll hasta que sea visible
+      final seriesCard = find.text('Breaking Bad Real');
+      await tester.scrollUntilVisible(
+        seriesCard,
+        250,
+        scrollable: find.byType(Scrollable).first,
+      );
+      await tester.pump();
+      expect(seriesCard, findsOneWidget);
+      await tester.tap(seriesCard);
+
+      // Esperar hidratación y navegación
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 300));
+
+      // Verificar que se abrió HourTvSeriesDetailPage
+      expect(find.byType(HourTvSeriesDetailPage), findsOneWidget);
+      final seriesPage = tester.widget<HourTvSeriesDetailPage>(find.byType(HourTvSeriesDetailPage));
+      expect(seriesPage.series.seriesId, 'series-real-1');
+      expect(seriesPage.series.episodes?.length, 2);
+
+      // Comprobar selector de temporadas
+      expect(find.text('Temporada 1'), findsWidgets);
+
+      // Tocar el botón principal de reproducción que reproduce el primer capítulo T1:E1
+      final playBtn = find.text('Reproducir T1:E1');
+      expect(playBtn, findsOneWidget);
+      await tester.ensureVisible(playBtn);
+      await tester.pump();
+      await tester.tap(playBtn);
+
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 300));
+
+      // Verificar que PlayerScreen se abrió y recibió la URL real HTTPS y ambos servidores
+      expect(find.byType(PlayerScreen), findsOneWidget);
+      final player = tester.widget<PlayerScreen>(find.byType(PlayerScreen));
+      expect(player.channel.url, 'https://stream.example.com/s1e1.mp4');
+      expect(player.channel.servers.length, 2);
+      expect(player.channel.servers.first.url, 'https://stream.example.com/s1e1.mp4');
+      expect(player.channel.servers.last.url, 'https://mirror.example.com/s1e1.mp4');
       expect(player.channel.url.startsWith('catalog://'), isFalse);
     });
   });

@@ -83,11 +83,13 @@ class HourTvMobileShell extends StatefulWidget {
     this.destinationBuilders,
     this.catalogRepository,
     this.catalogPageSource,
+    this.seriesPageSource,
   });
 
   final Map<HourTvMobileDestination, WidgetBuilder>? destinationBuilders;
   final CatalogRepository? catalogRepository;
   final CatalogPageSource? catalogPageSource;
+  final CatalogPageSource? seriesPageSource;
 
   @override
   State<HourTvMobileShell> createState() => _HourTvMobileShellState();
@@ -207,6 +209,7 @@ class _HourTvMobileShellState extends State<HourTvMobileShell> {
             onProfile: () => _setDestination(HourTvMobileDestination.profile),
             catalogRepository: widget.catalogRepository,
             moviesPageSource: widget.catalogPageSource,
+            seriesPageSource: widget.seriesPageSource,
           ),
         ),
       HourTvMobileDestination.live => ValueListenableBuilder<bool>(
@@ -416,10 +419,10 @@ class _HourTvMobileHomeState extends State<HourTvMobileHome> {
                 : const <Channel>[]));
 
     final hasError = (_moviesPageSource != null && _moviesPageSource!.hasError) ||
-        (widget.store.error != null && widget.store.movies.isEmpty && driftMovies.isEmpty);
+        (widget.store.error != null && widget.store.movies.isEmpty && driftMovies.isEmpty && driftSeries.isEmpty);
 
-    final isLoading = (_moviesPageSource != null && _moviesPageSource!.isLoading && driftMovies.isEmpty) ||
-        (widget.store.loading && widget.movies.isEmpty && driftMovies.isEmpty);
+    final isLoading = (_moviesPageSource != null && _moviesPageSource!.isLoading && driftMovies.isEmpty && driftSeries.isEmpty) ||
+        (widget.store.loading && widget.movies.isEmpty && driftMovies.isEmpty && driftSeries.isEmpty);
 
     return CustomScrollView(
       key: const PageStorageKey('hourtv-mobile-home'),
