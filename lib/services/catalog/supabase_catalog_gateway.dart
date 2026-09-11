@@ -57,21 +57,20 @@ class SupabaseCatalogGateway {
       }
 
       // Orden determinista principal según sort
+      PostgrestTransformBuilder<List<Map<String, dynamic>>> orderedQuery;
       switch (sort) {
         case CatalogSortOrder.recent:
-          query = query.order('created_at', ascending: false).order('id', ascending: false);
+          orderedQuery = query.order('created_at', ascending: false).order('id', ascending: false);
           break;
         case CatalogSortOrder.ratingDesc:
-          query = query.order('rating', ascending: false, nullsFirst: false).order('id', ascending: false);
+          orderedQuery = query.order('rating', ascending: false, nullsFirst: false).order('id', ascending: false);
           break;
         case CatalogSortOrder.titleAsc:
-          query = query.order('normalized_title', ascending: true).order('id', ascending: true);
+          orderedQuery = query.order('normalized_title', ascending: true).order('id', ascending: true);
           break;
       }
 
-      var orderedQuery = query.limit(limit + 1);
-
-      final List<dynamic> rows = await orderedQuery;
+      final List<dynamic> rows = await orderedQuery.limit(limit + 1);
       final items = rows
           .take(limit)
           .map((r) => CatalogSummaryDto.fromJson(r as Map<String, dynamic>))
