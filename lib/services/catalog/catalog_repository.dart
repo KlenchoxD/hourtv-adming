@@ -1,9 +1,13 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
 import 'package:drift/drift.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart' show rootBundle;
 import '../../database/catalog_database.dart';
 import '../../database/daos/catalog_dao.dart';
 import '../../models/channel.dart';
+import '../../services/catalog_parser.dart';
 import '../../services/xtream_service.dart';
 import 'catalog_sync_engine.dart';
 import 'supabase_catalog_gateway.dart';
@@ -60,6 +64,7 @@ class CatalogRepository extends ChangeNotifier {
   final SupabaseCatalogGateway gateway;
   final CatalogSyncEngine syncEngine;
   Future<List<Channel>> Function()? fallbackJsonLoader;
+  Future<CatalogPayload> Function()? fallbackPayloadLoader;
 
   CatalogRepositoryStatus _status = CatalogRepositoryStatus.idle;
   CatalogRepositoryStatus get status => _status;
@@ -69,6 +74,7 @@ class CatalogRepository extends ChangeNotifier {
     required this.gateway,
     required this.syncEngine,
     this.fallbackJsonLoader,
+    this.fallbackPayloadLoader,
   }) {
     _instance ??= this;
   }
@@ -114,8 +120,18 @@ class CatalogRepository extends ChangeNotifier {
       // Supabase caído o sin conectividad
     }
 
-    // 3. Fallback de emergencia a JSON si continúa vacía
-    if (fallbackJsonLoader != null) {
+    // 3. Fallback de emergencia a JSON/Payload si continúa vacía
+    if (fallbackPayloadLoader != null) {
+      try {
+        final payload = await fallbackPayloadLoader!();
+        if (payload.channels.isNotEmpty || payload.series.isNotEmpty) {
+          await populateFromPayload(payload);
+          _status = CatalogRepositoryStatus.offlineReady;
+          notifyListeners();
+          return _status;
+        }
+      } catch (_) {}
+    } else if (fallbackJsonLoader != null) {
       try {
         final fallbackChannels = await fallbackJsonLoader!();
         if (fallbackChannels.isNotEmpty) {
@@ -164,6 +180,182 @@ class CatalogRepository extends ChangeNotifier {
     } catch (_) {
       // En background no bloquea la navegación local
     }
+  }
+
+  /// Carga el archivo sources.json desde el sistema de archivos o desde el bundle de assets.
+  static Future<CatalogPayload> loadAssetSources({String path = 'assets/data/sources.json'}) async {
+    String? raw;
+    try {
+      final file = File(path);
+      if (file.existsSync()) {
+        raw = await file.readAsString();
+      }
+    } catch (_) {}
+    if (raw == null) {
+      try {
+        raw = await rootBundle.loadString(path);
+      } catch (_) {}
+    }
+    if (raw == null) return const CatalogPayload();
+    return CatalogParser.parse(jsonDecode(raw));
+  }
+
+  /// Puebla la base de datos Drift a partir de un CatalogPayload completo (películas + series + temporadas + episodios + fuentes).
+  Future<void> populateFromPayload(CatalogPayload payload) async {
+    await dao.transaction(() async {
+      final now = DateTime.now();
+
+      // 1. Películas y sus fuentes
+      for (final ch in payload.channels) {
+        if (ch.forcedType != 'movie' && !ch.url.endsWith('.mp4') && !ch.url.endsWith('.mkv')) {
+          continue;
+        }
+        final titleId = ch.tvgId?.isNotEmpty == true ? ch.tvgId! : ch.name;
+        await dao.upsertTitle(
+          LocalTitlesCompanion.insert(
+            id: titleId,
+            mediaType: 'movie',
+            title: ch.name,
+            normalizedTitle: ch.name.toLowerCase().trim(),
+            plot: Value(ch.plot),
+            year: Value(int.tryParse(ch.year ?? '')),
+            rating: Value(double.tryParse(ch.rating ?? '')),
+            duration: Value(ch.duration),
+            castMembers: Value(ch.cast),
+            director: Value(ch.director),
+            writer: Value(ch.writer),
+            posterUrl: Value(ch.logo),
+            backdropUrl: Value(ch.backdrop),
+            isFeatured: Value(ch.isFeatured),
+            createdAt: now,
+            updatedAt: now,
+          ),
+        );
+
+        if (ch.servers.isNotEmpty) {
+          var order = 0;
+          for (final server in ch.servers) {
+            await dao.upsertSource(
+              LocalSourcesCompanion.insert(
+                id: '${titleId}_server_$order',
+                titleId: Value(titleId),
+                name: server.name,
+                url: server.url,
+                language: Value(server.language),
+                orderIndex: Value(order++),
+              ),
+            );
+          }
+        } else if (ch.url.isNotEmpty) {
+          await dao.upsertSource(
+            LocalSourcesCompanion.insert(
+              id: '${titleId}_default',
+              titleId: Value(titleId),
+              name: 'Predeterminado',
+              url: ch.url,
+            ),
+          );
+        }
+      }
+
+      // 2. Series, Temporadas, Episodios y Fuentes
+      for (final s in payload.series) {
+        final seriesId = s.seriesId.isNotEmpty ? s.seriesId : s.name;
+        await dao.upsertTitle(
+          LocalTitlesCompanion.insert(
+            id: seriesId,
+            mediaType: 'series',
+            title: s.name,
+            normalizedTitle: s.name.toLowerCase().trim(),
+            plot: Value(s.plot),
+            year: Value(int.tryParse(s.year ?? '')),
+            rating: Value(double.tryParse(s.rating ?? '')),
+            duration: Value(s.duration),
+            castMembers: Value(s.cast),
+            director: Value(s.director),
+            writer: Value(s.writer),
+            posterUrl: Value(s.cover),
+            backdropUrl: Value(s.backdrop),
+            isFeatured: Value(s.isFeatured),
+            createdAt: now,
+            updatedAt: now,
+          ),
+        );
+
+        final seasonMap = <int, List<Channel>>{};
+        for (final ep in s.episodes ?? const <Channel>[]) {
+          int seasonNum = 1;
+          if (ep.group != null && ep.group!.isNotEmpty) {
+            final match = RegExp(r'(\d+)').firstMatch(ep.group!);
+            if (match != null) {
+              seasonNum = int.tryParse(match.group(1)!) ?? 1;
+            }
+          }
+          seasonMap.putIfAbsent(seasonNum, () => []).add(ep);
+        }
+
+        for (final entry in seasonMap.entries) {
+          final seasonNumber = entry.key;
+          final seasonId = '${seriesId}_s$seasonNumber';
+          await dao.upsertSeason(
+            LocalSeasonsCompanion.insert(
+              id: seasonId,
+              titleId: seriesId,
+              seasonNumber: seasonNumber,
+              name: Value('Temporada $seasonNumber'),
+              plot: Value(s.plot),
+              posterUrl: Value(s.cover),
+            ),
+          );
+
+          var epIndex = 1;
+          for (final ep in entry.value) {
+            final epNumMatch = RegExp(r'(\d+)').firstMatch(ep.name);
+            final episodeNumber = epNumMatch != null ? int.tryParse(epNumMatch.group(1)!) ?? epIndex : epIndex;
+            final episodeId = '${seasonId}_ep$episodeNumber';
+
+            await dao.upsertEpisode(
+              LocalEpisodesCompanion.insert(
+                id: episodeId,
+                seasonId: seasonId,
+                episodeNumber: episodeNumber,
+                title: ep.name,
+                plot: Value(ep.plot),
+                duration: Value(ep.duration),
+                stillUrl: Value(ep.logo ?? s.cover),
+              ),
+            );
+
+            if (ep.servers.isNotEmpty) {
+              var sOrder = 0;
+              for (final server in ep.servers) {
+                await dao.upsertSource(
+                  LocalSourcesCompanion.insert(
+                    id: '${episodeId}_server_$sOrder',
+                    episodeId: Value(episodeId),
+                    name: server.name,
+                    url: server.url,
+                    language: Value(server.language),
+                    orderIndex: Value(sOrder++),
+                  ),
+                );
+              }
+            } else if (ep.url.isNotEmpty) {
+              await dao.upsertSource(
+                LocalSourcesCompanion.insert(
+                  id: '${episodeId}_default',
+                  episodeId: Value(episodeId),
+                  name: 'Predeterminado',
+                  url: ep.url,
+                ),
+              );
+            }
+            epIndex++;
+          }
+        }
+      }
+    });
+    notifyListeners();
   }
 
   Future<void> _populateFromFallback(List<Channel> channels) async {

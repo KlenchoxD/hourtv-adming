@@ -49,6 +49,7 @@ void main() {
         dao: catalogDb.catalogDao,
         gateway: gateway,
         syncEngine: syncEngine,
+        fallbackPayloadLoader: () => CatalogRepository.loadAssetSources(),
       );
       CatalogRepository.configureInstance(catalogRepo);
       unawaited(catalogRepo.initialize().catchError((_) => CatalogRepositoryStatus.failed));
