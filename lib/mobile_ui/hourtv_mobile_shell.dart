@@ -24,6 +24,8 @@ import 'hourtv_compact_filter_selector.dart';
 import 'hourtv_genre_service.dart';
 import 'hourtv_mobile_components.dart';
 import 'hourtv_mobile_theme.dart';
+import '../services/catalog/catalog_dtos.dart';
+import '../services/catalog/catalog_repository.dart';
 
 enum HourTvMobileDestination { home, live, search, library, profile }
 
@@ -78,9 +80,13 @@ class HourTvMobileShell extends StatefulWidget {
   const HourTvMobileShell({
     super.key,
     this.destinationBuilders,
+    this.catalogRepository,
+    this.catalogPageSource,
   });
 
   final Map<HourTvMobileDestination, WidgetBuilder>? destinationBuilders;
+  final CatalogRepository? catalogRepository;
+  final CatalogPageSource? catalogPageSource;
 
   @override
   State<HourTvMobileShell> createState() => _HourTvMobileShellState();
@@ -208,6 +214,8 @@ class _HourTvMobileShellState extends State<HourTvMobileShell> {
                 _openDetails(channel, fromContinueWatching: true),
             onSearch: () => _setDestination(HourTvMobileDestination.search),
             onProfile: () => _setDestination(HourTvMobileDestination.profile),
+            catalogRepository: widget.catalogRepository,
+            moviesPageSource: widget.catalogPageSource,
           ),
         ),
       HourTvMobileDestination.live => ValueListenableBuilder<bool>(
@@ -224,6 +232,8 @@ class _HourTvMobileShellState extends State<HourTvMobileShell> {
       HourTvMobileDestination.search => HourTvMobileSearch(
           content: _allContent,
           onOpen: _openDetails,
+          catalogRepository: widget.catalogRepository,
+          catalogPageSource: widget.catalogPageSource,
         ),
       HourTvMobileDestination.library => ListenableBuilder(
           listenable: store,
@@ -232,6 +242,7 @@ class _HourTvMobileShellState extends State<HourTvMobileShell> {
             onOpen: _openDetails,
             onOpenContinue: (channel) =>
                 _openDetails(channel, fromContinueWatching: true),
+            catalogRepository: widget.catalogRepository,
           ),
         ),
       HourTvMobileDestination.profile => HourTvMobileProfile(
@@ -283,6 +294,9 @@ class HourTvMobileHome extends StatefulWidget {
     required this.onProfile,
     this.featured,
     this.onOpenContinue,
+    this.catalogRepository,
+    this.moviesPageSource,
+    this.seriesPageSource,
   });
 
   final List<Channel> movies;
@@ -296,12 +310,91 @@ class HourTvMobileHome extends StatefulWidget {
   final ValueChanged<Channel>? onOpenContinue;
   final VoidCallback onSearch;
   final VoidCallback onProfile;
+  final CatalogRepository? catalogRepository;
+  final CatalogPageSource? moviesPageSource;
+  final CatalogPageSource? seriesPageSource;
 
   @override
   State<HourTvMobileHome> createState() => _HourTvMobileHomeState();
 }
 
 class _HourTvMobileHomeState extends State<HourTvMobileHome> {
+  final ScrollController _scrollController = ScrollController();
+  CatalogPageSource? _moviesPageSource;
+  CatalogPageSource? _seriesPageSource;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_onHomeScroll);
+    _initPageSources();
+  }
+
+  void _initPageSources() {
+    final repo = widget.catalogRepository ??
+        (CatalogRepository.hasInstance ? CatalogRepository.instance : null);
+
+    if (widget.moviesPageSource != null) {
+      _moviesPageSource = widget.moviesPageSource;
+    } else if (repo != null) {
+      _moviesPageSource = CatalogPageSource(
+        dao: repo.dao,
+        mediaType: 'movie',
+        pageSize: 20,
+      );
+      unawaited(_moviesPageSource!.loadInitialPage());
+    }
+
+    if (widget.seriesPageSource != null) {
+      _seriesPageSource = widget.seriesPageSource;
+    } else if (repo != null) {
+      _seriesPageSource = CatalogPageSource(
+        dao: repo.dao,
+        mediaType: 'series',
+        pageSize: 20,
+      );
+      unawaited(_seriesPageSource!.loadInitialPage());
+    }
+
+    _moviesPageSource?.addListener(_onSourceChanged);
+    _seriesPageSource?.addListener(_onSourceChanged);
+  }
+
+  void _onSourceChanged() {
+    if (mounted) setState(() {});
+  }
+
+  void _onHomeScroll() {
+    if (!_scrollController.hasClients) return;
+    if (_scrollController.position.extentAfter < 500) {
+      if (_moviesPageSource != null &&
+          _moviesPageSource!.hasMore &&
+          !_moviesPageSource!.isLoading) {
+        unawaited(_moviesPageSource!.loadNextPage());
+      }
+      if (_seriesPageSource != null &&
+          _seriesPageSource!.hasMore &&
+          !_seriesPageSource!.isLoading) {
+        unawaited(_seriesPageSource!.loadNextPage());
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(_onHomeScroll);
+    _scrollController.dispose();
+    _moviesPageSource?.removeListener(_onSourceChanged);
+    _seriesPageSource?.removeListener(_onSourceChanged);
+    if (widget.moviesPageSource == null) {
+      _moviesPageSource?.dispose();
+    }
+    if (widget.seriesPageSource == null) {
+      _seriesPageSource?.dispose();
+    }
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final continueWatching = widget.store.continueWatching;
@@ -310,15 +403,36 @@ class _HourTvMobileHomeState extends State<HourTvMobileHome> {
       defaultValue: 'Invitado',
     ).toString();
 
+    final driftMovies = _moviesPageSource != null && _moviesPageSource!.items.isNotEmpty
+        ? _moviesPageSource!.items.map(CatalogRepository.titleToChannel).toList()
+        : const <Channel>[];
+    final driftSeries = _seriesPageSource != null && _seriesPageSource!.items.isNotEmpty
+        ? _seriesPageSource!.items.map(CatalogRepository.titleToChannel).toList()
+        : const <Channel>[];
+
+    final effectiveMovies = driftMovies.isNotEmpty ? driftMovies : widget.movies;
+    final effectiveSeries = driftSeries.isNotEmpty
+        ? driftSeries
+        : widget.allContent
+            .where((item) => item.type == MediaType.series)
+            .toList();
+
     final featuredChannels = widget.featured ??
         (widget.allContent.isNotEmpty
             ? CatalogPresentationIndex.build(widget.allContent).featured(limit: 5)
-            : (widget.movies.isNotEmpty
-                ? CatalogPresentationIndex.build(widget.movies).featured(limit: 5)
+            : (effectiveMovies.isNotEmpty
+                ? CatalogPresentationIndex.build(effectiveMovies).featured(limit: 5)
                 : const <Channel>[]));
+
+    final hasError = (_moviesPageSource != null && _moviesPageSource!.hasError) ||
+        (widget.store.error != null && widget.store.movies.isEmpty && driftMovies.isEmpty);
+
+    final isLoading = (_moviesPageSource != null && _moviesPageSource!.isLoading && driftMovies.isEmpty) ||
+        (widget.store.loading && widget.movies.isEmpty && driftMovies.isEmpty);
 
     return CustomScrollView(
       key: const PageStorageKey('hourtv-mobile-home'),
+      controller: _scrollController,
       slivers: [
         SliverToBoxAdapter(
           child: HourTvMobileHeader(
@@ -335,15 +449,21 @@ class _HourTvMobileHomeState extends State<HourTvMobileHome> {
             ),
           ),
         ),
-        if (widget.store.error != null && widget.store.movies.isEmpty)
+        if (hasError)
           SliverPadding(
             padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
-            sliver: SliverToBoxAdapter(child: _LoadErrorBanner()),
+            sliver: SliverToBoxAdapter(
+              child: _LoadErrorBanner(
+                onRetry: _moviesPageSource != null && _moviesPageSource!.hasError
+                    ? () => unawaited(_moviesPageSource!.retry())
+                    : null,
+              ),
+            ),
           ),
         // Catalogo real todavia sin llegar: un spinner en vez del contenido
         // de muestra evita el salto de "sale lo de prototipo y despues lo
         // real" en cada arranque.
-        if (widget.store.loading && widget.movies.isEmpty)
+        if (isLoading)
           const SliverFillRemaining(
             hasScrollBody: false,
             child: HourTvBootLoading(),
@@ -385,7 +505,7 @@ class _HourTvMobileHomeState extends State<HourTvMobileHome> {
               ),
             ),
           ],
-          ..._homeRows(context),
+          ..._homeRows(context, effectiveMovies: effectiveMovies, effectiveSeries: effectiveSeries),
           const SliverToBoxAdapter(child: SizedBox(height: 24)),
         ],
       ],
@@ -394,20 +514,19 @@ class _HourTvMobileHomeState extends State<HourTvMobileHome> {
 
   static const _rowPreview = 8;
 
-  List<Widget> _homeRows(BuildContext context) {
+  List<Widget> _homeRows(
+    BuildContext context, {
+    required List<Channel> effectiveMovies,
+    required List<Channel> effectiveSeries,
+  }) {
     // Cada fila guarda la lista completa: la horizontal solo muestra las
     // primeras `_rowPreview` y "Ver más" abre el resto en una cuadricula.
     // Antes estas tres filas repartian el mismo catalogo con distinto orden
     // (una era literalmente la lista al reves) para simular variedad; ahora
     // cada una es una categoria real filtrada por el catalogo.
     final rows = <(String, List<Channel>)>[
-      ('Películas', widget.store.movies),
-      (
-        'Series',
-        widget.allContent
-            .where((item) => item.type == MediaType.series)
-            .toList(),
-      ),
+      ('Películas', effectiveMovies),
+      ('Series', effectiveSeries),
       ('Animes', widget.store.anime),
       ('K-Drama', widget.store.kDramas),
       ('Tendencia', widget.store.trending),
@@ -525,7 +644,9 @@ class HourTvMobileRowPage extends StatelessWidget {
 /// contenido de muestra: antes eso pasaba en silencio y el usuario no tenia
 /// forma de saber si su fuente esta rota o si la app no tiene fuentes.
 class _LoadErrorBanner extends StatelessWidget {
-  const _LoadErrorBanner();
+  const _LoadErrorBanner({this.onRetry});
+
+  final VoidCallback? onRetry;
 
   @override
   Widget build(BuildContext context) => Container(
@@ -548,7 +669,7 @@ class _LoadErrorBanner extends StatelessWidget {
         ),
         const SizedBox(width: 8),
         TextButton(
-          onPressed: () => unawaited(ContentStore.instance.reload()),
+          onPressed: onRetry ?? () => unawaited(ContentStore.instance.reload()),
           child: const Text('Reintentar'),
         ),
       ],
@@ -849,11 +970,16 @@ class HourTvMobileSearch extends StatefulWidget {
     required this.onOpen,
     this.presentationIndex,
     this.historyStore,
+    this.catalogRepository,
+    this.catalogPageSource,
   });
   final List<Channel> content;
   final ValueChanged<Channel> onOpen;
   final CatalogPresentationIndex? presentationIndex;
   final HourTvSearchHistoryStore? historyStore;
+  final CatalogRepository? catalogRepository;
+  final CatalogPageSource? catalogPageSource;
+
   @override
   State<HourTvMobileSearch> createState() => _HourTvMobileSearchState();
 }
@@ -875,6 +1001,7 @@ class _HourTvMobileSearchState extends State<HourTvMobileSearch> {
   var _genre = HourTvGenreService.defaultGenre;
   var _sort = HourTvSearchSort.newest;
   var _visibleCount = _initialVisible;
+  CatalogPageSource? _driftPageSource;
 
   @override
   void initState() {
@@ -882,10 +1009,60 @@ class _HourTvMobileSearchState extends State<HourTvMobileSearch> {
     _historyStore =
         widget.historyStore ?? SharedPreferencesHourTvSearchHistoryStore();
     _scrollController.addListener(_onScroll);
+
+    final repo = widget.catalogRepository ??
+        (CatalogRepository.hasInstance ? CatalogRepository.instance : null);
+
+    if (widget.catalogPageSource != null) {
+      _driftPageSource = widget.catalogPageSource;
+      _driftPageSource!.addListener(_onDriftSourceChanged);
+    } else if (repo != null) {
+      _driftPageSource = CatalogPageSource(
+        dao: repo.dao,
+        pageSize: 20,
+      );
+      _driftPageSource!.addListener(_onDriftSourceChanged);
+      unawaited(_driftPageSource!.loadInitialPage());
+    }
+
     _index = widget.presentationIndex ??
         CatalogPresentationIndex.build(widget.content);
     _executeSearchSync();
     unawaited(_loadHistory());
+  }
+
+  void _onDriftSourceChanged() {
+    if (mounted) setState(() {});
+  }
+
+  static String? _toDriftMediaType(String type) => switch (type) {
+    'Películas' => 'movie',
+    'Series' => 'series',
+    'Anime' => 'anime',
+    _ => null,
+  };
+
+  String? get _driftGenreSlug =>
+      _genre == HourTvGenreService.defaultGenre ? null : HourTvGenreService.normalize(_genre);
+
+  static CatalogSortOrder _toCatalogSortOrder(HourTvSearchSort sort) => switch (sort) {
+    HourTvSearchSort.newest => CatalogSortOrder.recent,
+    HourTvSearchSort.oldest => CatalogSortOrder.recent,
+    HourTvSearchSort.titleAscending => CatalogSortOrder.titleAsc,
+  };
+
+  void _executeDriftSearch() {
+    if (_driftPageSource == null) return;
+    _driftPageSource!.updateFilters(
+      mediaType: _toDriftMediaType(_type),
+      genreSlug: _driftGenreSlug,
+      sort: _toCatalogSortOrder(_sort),
+    );
+    if (_query.isNotEmpty) {
+      unawaited(_driftPageSource!.search(_query));
+    } else {
+      unawaited(_driftPageSource!.loadInitialPage());
+    }
   }
 
   @override
@@ -908,7 +1085,11 @@ class _HourTvMobileSearchState extends State<HourTvMobileSearch> {
         _genre = HourTvGenreService.defaultGenre;
         _visibleCount = _initialVisible;
       }
-      _executeSearchSync();
+      if (_driftPageSource != null) {
+        _executeDriftSearch();
+      } else {
+        _executeSearchSync();
+      }
     }
   }
 
@@ -919,6 +1100,10 @@ class _HourTvMobileSearchState extends State<HourTvMobileSearch> {
     _scrollController
       ..removeListener(_onScroll)
       ..dispose();
+    _driftPageSource?.removeListener(_onDriftSourceChanged);
+    if (widget.catalogPageSource == null) {
+      _driftPageSource?.dispose();
+    }
     super.dispose();
   }
 
@@ -967,13 +1152,17 @@ class _HourTvMobileSearchState extends State<HourTvMobileSearch> {
       setState(() {
         _query = value.trim();
         _visibleCount = _initialVisible;
-        final query = CatalogQuery(
-          text: _query,
-          type: _toContentTypeFilter(_type),
-          genre: _genre,
-          sort: _toCatalogSort(_sort),
-        );
-        _currentResults = _index.search(query);
+        if (_driftPageSource != null) {
+          _executeDriftSearch();
+        } else {
+          final query = CatalogQuery(
+            text: _query,
+            type: _toContentTypeFilter(_type),
+            genre: _genre,
+            sort: _toCatalogSort(_sort),
+          );
+          _currentResults = _index.search(query);
+        }
       });
     });
   }
@@ -995,7 +1184,11 @@ class _HourTvMobileSearchState extends State<HourTvMobileSearch> {
     setState(() {
       _query = queryText;
       _visibleCount = _initialVisible;
-      _executeSearchSync();
+      if (_driftPageSource != null) {
+        _executeDriftSearch();
+      } else {
+        _executeSearchSync();
+      }
     });
     if (queryText.isEmpty) return;
     final normalized = HourTvGenreService.normalize(queryText);
@@ -1011,6 +1204,12 @@ class _HourTvMobileSearchState extends State<HourTvMobileSearch> {
   void _onScroll() {
     if (!_scrollController.hasClients) return;
     if (_scrollController.position.extentAfter >= 600) return;
+    if (_driftPageSource != null) {
+      if (_driftPageSource!.hasMore && !_driftPageSource!.isLoading) {
+        unawaited(_driftPageSource!.loadNextPage());
+      }
+      return;
+    }
     final total = _currentResults.length;
     if (_visibleCount >= total) return;
     setState(() {
@@ -1031,7 +1230,11 @@ class _HourTvMobileSearchState extends State<HourTvMobileSearch> {
           !available.contains(_genre)) {
         _genre = HourTvGenreService.defaultGenre;
       }
-      _executeSearchSync();
+      if (_driftPageSource != null) {
+        _executeDriftSearch();
+      } else {
+        _executeSearchSync();
+      }
     });
   }
 
@@ -1039,7 +1242,11 @@ class _HourTvMobileSearchState extends State<HourTvMobileSearch> {
     setState(() {
       _genre = newGenre;
       _visibleCount = _initialVisible;
-      _executeSearchSync();
+      if (_driftPageSource != null) {
+        _executeDriftSearch();
+      } else {
+        _executeSearchSync();
+      }
     });
   }
 
@@ -1050,7 +1257,14 @@ class _HourTvMobileSearchState extends State<HourTvMobileSearch> {
 
   @override
   Widget build(BuildContext context) {
-    final visible = _currentResults.take(_visibleCount).toList(growable: false);
+    final isDrift = _driftPageSource != null;
+    final List<Channel> resultsList = isDrift
+        ? _driftPageSource!.items.map(CatalogRepository.titleToChannel).toList()
+        : _currentResults;
+    final visible = isDrift
+        ? resultsList
+        : resultsList.take(_visibleCount).toList(growable: false);
+
     return CustomScrollView(
       key: const PageStorageKey('hourtv-mobile-search'),
       controller: _scrollController,
@@ -1127,8 +1341,8 @@ class _HourTvMobileSearchState extends State<HourTvMobileSearch> {
                     label: 'GÉNERO',
                     value: _genre,
                     options: _availableGenresForType(_type),
-                    icon: Icons.movie_filter_outlined,
-                    sheetTitle: 'Géneros',
+                    icon: Icons.category_rounded,
+                    sheetTitle: 'Género',
                     sheetSubtitle: 'Selecciona un género',
                     onChanged: _onGenreChanged,
                   ),
@@ -1137,43 +1351,49 @@ class _HourTvMobileSearchState extends State<HourTvMobileSearch> {
             ),
           ),
         ),
-        if (controller.text.trim().isEmpty && _query.isEmpty && _history.isNotEmpty)
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+        if (controller.text.trim().isEmpty && _history.isNotEmpty)
+          SliverPadding(
+            padding: const EdgeInsets.fromLTRB(16, 14, 16, 0),
+            sliver: SliverToBoxAdapter(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        'Búsquedas recientes',
-                        style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                              color: HourTvMobileTokens.textMuted,
-                              fontWeight: FontWeight.w600,
-                            ),
+                      const Icon(
+                        Icons.history_rounded,
+                        size: 16,
+                        color: HourTvMobileTokens.textMuted,
                       ),
+                      const SizedBox(width: 6),
+                      Text(
+                        'BÚSQUEDAS RECIENTES',
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: HourTvMobileTokens.textMuted,
+                          letterSpacing: .4,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      const Spacer(),
                       TextButton(
                         key: const ValueKey('hourtv-search-clear-history'),
                         onPressed: _clearHistory,
                         style: TextButton.styleFrom(
                           padding: EdgeInsets.zero,
-                          minimumSize: const Size(48, 28),
+                          minimumSize: const Size(40, 24),
                           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         ),
                         child: const Text(
                           'Borrar',
                           style: TextStyle(
-                            color: HourTvMobileTokens.emerald,
+                            color: HourTvMobileTokens.textSecondary,
                             fontSize: 12,
-                            fontWeight: FontWeight.w600,
                           ),
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: 6),
                   for (final item in _history.reversed)
                     InkWell(
                       key: ValueKey('hourtv-search-history-$item'),
@@ -1220,7 +1440,7 @@ class _HourTvMobileSearchState extends State<HourTvMobileSearch> {
                   child: Text(
                     !_hasActiveFilters
                       ? 'Descubre'
-                      : '${_currentResults.length} ${_currentResults.length == 1 ? 'resultado' : 'resultados'}',
+                      : '${resultsList.length} ${resultsList.length == 1 ? 'resultado' : 'resultados'}',
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                 ),
@@ -1229,7 +1449,23 @@ class _HourTvMobileSearchState extends State<HourTvMobileSearch> {
             ),
           ),
         ),
-        if (_currentResults.isEmpty)
+        if (isDrift && _driftPageSource!.hasError)
+          SliverPadding(
+            padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
+            sliver: SliverToBoxAdapter(
+              child: _LoadErrorBanner(
+                onRetry: () => unawaited(_driftPageSource!.retry()),
+              ),
+            ),
+          )
+        else if (isDrift && _driftPageSource!.isLoading && resultsList.isEmpty)
+          const SliverFillRemaining(
+            hasScrollBody: false,
+            child: Center(
+              child: CircularProgressIndicator(color: HourTvMobileTokens.emerald),
+            ),
+          )
+        else if (resultsList.isEmpty)
           const SliverFillRemaining(
             hasScrollBody: false,
             child: Center(
@@ -1304,7 +1540,11 @@ class _HourTvMobileSearchState extends State<HourTvMobileSearch> {
           onPressed: () => setState(() {
             _sort = value;
             _visibleCount = _initialVisible;
-            _executeSearchSync();
+            if (_driftPageSource != null) {
+              _executeDriftSearch();
+            } else {
+              _executeSearchSync();
+            }
           }),
           trailingIcon: value == _sort
               ? const Icon(
@@ -1485,10 +1725,12 @@ class HourTvMobileLibrary extends StatefulWidget {
     required this.store,
     required this.onOpen,
     this.onOpenContinue,
+    this.catalogRepository,
   });
   final ContentStore store;
   final ValueChanged<Channel> onOpen;
   final ValueChanged<Channel>? onOpenContinue;
+  final CatalogRepository? catalogRepository;
 
   @override
   State<HourTvMobileLibrary> createState() => _HourTvMobileLibraryState();

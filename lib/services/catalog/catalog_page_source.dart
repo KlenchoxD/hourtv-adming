@@ -9,9 +9,21 @@ import 'supabase_catalog_gateway.dart';
 class CatalogPageSource extends ChangeNotifier {
   final CatalogDao dao;
   final int pageSize;
-  final String? mediaType;
-  final String? genreSlug;
-  final CatalogSortOrder sort;
+  String? mediaType;
+  String? genreSlug;
+  CatalogSortOrder sort;
+
+  void updateFilters({
+    String? mediaType,
+    String? genreSlug,
+    CatalogSortOrder? sort,
+  }) {
+    this.mediaType = mediaType;
+    this.genreSlug = genreSlug;
+    if (sort != null) {
+      this.sort = sort;
+    }
+  }
 
   List<LocalTitle> _items = [];
   List<LocalTitle> get items => _items;

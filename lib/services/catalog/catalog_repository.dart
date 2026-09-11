@@ -19,6 +19,36 @@ enum CatalogRepositoryStatus {
 /// Repositorio resiliente que orquesta la caché local Drift, la sincronización
 /// incremental con Supabase y el respaldo de emergencia a JSON.
 class CatalogRepository {
+  static CatalogRepository? _instance;
+  static CatalogRepository get instance {
+    if (_instance == null) {
+      throw StateError('CatalogRepository.instance no está inicializado.');
+    }
+    return _instance!;
+  }
+  static bool get hasInstance => _instance != null;
+  static void setInstanceForTesting(CatalogRepository? repo) {
+    _instance = repo;
+  }
+
+  static Channel titleToChannel(LocalTitle t) {
+    return Channel(
+      name: t.title,
+      url: 'catalog://${t.id}',
+      logo: t.posterUrl,
+      backdrop: t.backdropUrl,
+      tvgId: t.id,
+      plot: t.plot,
+      year: t.year?.toString(),
+      rating: t.rating?.toString(),
+      duration: t.duration,
+      cast: t.castMembers,
+      director: t.director,
+      writer: t.writer,
+      forcedType: t.mediaType,
+    );
+  }
+
   final CatalogDao dao;
   final SupabaseCatalogGateway gateway;
   final CatalogSyncEngine syncEngine;
@@ -32,7 +62,9 @@ class CatalogRepository {
     required this.gateway,
     required this.syncEngine,
     this.fallbackJsonLoader,
-  });
+  }) {
+    _instance ??= this;
+  }
 
   /// Inicializa el repositorio siguiendo la jerarquía de fallback:
   /// 1. Drift Local: si hay datos, emite offlineReady de inmediato y revalida de fondo.

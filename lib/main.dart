@@ -17,6 +17,13 @@ import 'services/device_type.dart';
 import 'services/iptv_server_service.dart';
 import 'services/profiles/supabase_profile_repository.dart';
 import 'services/storage_service.dart';
+import 'dart:io';
+import 'package:path_provider/path_provider.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'database/catalog_database.dart';
+import 'services/catalog/catalog_repository.dart';
+import 'services/catalog/catalog_sync_engine.dart';
+import 'services/catalog/supabase_catalog_gateway.dart';
 import 'services/supabase_bootstrap.dart';
 import 'services/supabase_config.dart';
 import 'services/update_service.dart';
@@ -31,6 +38,20 @@ void main() {
     try {
       await SupabaseBootstrap.instance
           .initialize(SupabaseConfig.fromEnvironment());
+    } catch (_) {}
+    try {
+      final docsDir = await getApplicationDocumentsDirectory();
+      final dbFile = File('${docsDir.path}/hourtv_catalog.db');
+      final catalogDb = CatalogDatabase.inBackground(dbFile);
+      final gateway = SupabaseCatalogGateway(Supabase.instance.client);
+      final syncEngine = CatalogSyncEngine(gateway: gateway, dao: catalogDb.catalogDao);
+      final catalogRepo = CatalogRepository(
+        dao: catalogDb.catalogDao,
+        gateway: gateway,
+        syncEngine: syncEngine,
+      );
+      CatalogRepository.setInstanceForTesting(catalogRepo);
+      unawaited(catalogRepo.initialize().catchError((_) => CatalogRepositoryStatus.failed));
     } catch (_) {}
     await DeviceProfile.warmUp();
     await SystemChrome.setPreferredOrientations([
