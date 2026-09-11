@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-09-11T13:50:26.931Z",
-  "durationMs": 2017,
+  "generatedAt": "2026-09-11T17:26:07.263Z",
+  "durationMs": 2428,
   "dryRun": false,
   "moviesFound": 33,
   "moviesDiscarded": 23,
@@ -63,11 +63,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1355228,
-      "title": "Gandhari",
-      "reason": "Rating 5.1 por debajo del mínimo (5.5)"
-    },
-    {
       "tmdbId": 1101383,
       "title": "El final de Oak Street",
       "reason": "Sin fuente autorizada configurada"
@@ -75,11 +70,16 @@
     {
       "tmdbId": 1302904,
       "title": "Prácticamente magia 2",
-      "reason": "Votos 20 por debajo del mínimo (50)"
+      "reason": "Votos 21 por debajo del mínimo (50)"
     },
     {
-      "tmdbId": 1384216,
-      "title": "La constelación del perro",
+      "tmdbId": 1355228,
+      "title": "Gandhari",
+      "reason": "Rating 5.1 por debajo del mínimo (5.5)"
+    },
+    {
+      "tmdbId": 454639,
+      "title": "He-Man y los Masters del Universo",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -98,24 +98,24 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1294189,
+      "title": "The Mongoose",
+      "reason": "Rating 0 por debajo del mínimo (5.5)"
+    },
+    {
       "tmdbId": 1393326,
       "title": "Ghost in the Cell",
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1440098,
+      "title": "Enfrentados: Marfil",
+      "reason": "Votos 34 por debajo del mínimo (50)"
+    },
+    {
       "tmdbId": 1285366,
       "title": "愛のぬくもり",
       "reason": "Rating 5.2 por debajo del mínimo (5.5)"
-    },
-    {
-      "tmdbId": 1440098,
-      "title": "Enfrentados: Marfil",
-      "reason": "Votos 33 por debajo del mínimo (50)"
-    },
-    {
-      "tmdbId": 1294189,
-      "title": "The Mongoose",
-      "reason": "Rating 0 por debajo del mínimo (5.5)"
     },
     {
       "tmdbId": 1560520,
