@@ -1733,8 +1733,85 @@ class HourTvMobileLibrary extends StatefulWidget {
 class _HourTvMobileLibraryState extends State<HourTvMobileLibrary> {
   var tab = 'Mi Lista';
   var filter = 'Todo';
+  final Map<String, Channel> _driftResolved = {};
 
-  List<Channel> get _tabItems {
+  @override
+  void initState() {
+    super.initState();
+    _resolveDriftItems();
+  }
+
+  @override
+  void didUpdateWidget(HourTvMobileLibrary oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _resolveDriftItems();
+  }
+
+  Future<void> _resolveDriftItems() async {
+    final repo = widget.catalogRepository ??
+        (CatalogRepository.hasInstance ? CatalogRepository.instance : null);
+    if (repo == null) return;
+
+    final base = _tabRawItems;
+    var updated = false;
+
+    for (final ch in base) {
+      final stable = ch.stableTitleId;
+      final titleId = (stable != null && stable.isNotEmpty)
+          ? stable
+          : (ch.tvgId?.isNotEmpty == true ? ch.tvgId! : ch.name);
+      if (_driftResolved.containsKey(titleId)) continue;
+
+      try {
+        final title = await repo.dao.getTitleById(titleId);
+        if (title != null) {
+          if (title.mediaType == 'series') {
+            final series = await repo.hydrateSeries(title.id);
+            if (series != null) {
+              _driftResolved[titleId] = Channel(
+                name: series.name,
+                url: series.episodes?.isNotEmpty == true && series.episodes!.first.url.isNotEmpty
+                    ? series.episodes!.first.url
+                    : 'catalog://${series.seriesId}',
+                logo: series.cover ?? title.posterUrl,
+                backdrop: series.backdrop ?? title.backdropUrl,
+                tvgId: series.seriesId,
+                plot: series.plot ?? title.plot,
+                year: series.year ?? title.year?.toString(),
+                rating: series.rating ?? title.rating?.toString(),
+                duration: series.duration ?? title.duration,
+                cast: series.cast ?? title.castMembers,
+                director: series.director ?? title.director,
+                writer: series.writer ?? title.writer,
+                forcedType: 'series',
+                catalogTitleId: series.seriesId,
+                isFavorite: ch.isFavorite,
+                progressFraction: ch.progressFraction,
+                lastWatched: ch.lastWatched,
+              );
+              updated = true;
+            }
+          } else {
+            final hydratedCh = await repo.hydrateChannel(title.id);
+            if (hydratedCh != null) {
+              _driftResolved[titleId] = hydratedCh.copyWith(
+                isFavorite: ch.isFavorite,
+                progressFraction: ch.progressFraction,
+                lastWatched: ch.lastWatched,
+              );
+              updated = true;
+            }
+          }
+        }
+      } catch (_) {}
+    }
+
+    if (updated && mounted) {
+      setState(() {});
+    }
+  }
+
+  List<Channel> get _tabRawItems {
     switch (tab) {
       case 'Continuar viendo':
         return widget.store.continueWatching;
@@ -1743,6 +1820,25 @@ class _HourTvMobileLibraryState extends State<HourTvMobileLibrary> {
       default:
         return widget.store.favorites;
     }
+  }
+
+  List<Channel> get _tabItems {
+    final raw = _tabRawItems;
+    return raw.map((ch) {
+      final stable = ch.stableTitleId;
+      final titleId = (stable != null && stable.isNotEmpty)
+          ? stable
+          : (ch.tvgId?.isNotEmpty == true ? ch.tvgId! : ch.name);
+      final resolved = _driftResolved[titleId];
+      if (resolved != null) {
+        return resolved.copyWith(
+          isFavorite: ch.isFavorite,
+          progressFraction: ch.progressFraction,
+          lastWatched: ch.lastWatched,
+        );
+      }
+      return ch;
+    }).toList();
   }
 
   List<Channel> get _items {
@@ -1839,7 +1935,10 @@ class _HourTvMobileLibraryState extends State<HourTvMobileLibrary> {
             child: HourTvEvenTabs(
               labels: const ['Mi Lista', 'Continuar viendo', 'Historial'],
               selected: tab,
-              onSelected: (value) => setState(() => tab = value),
+              onSelected: (value) {
+                setState(() => tab = value);
+                _resolveDriftItems();
+              },
             ),
           ),
         ),
