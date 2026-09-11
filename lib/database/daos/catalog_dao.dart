@@ -1,6 +1,7 @@
 import 'package:drift/drift.dart';
 import '../catalog_database.dart';
 import '../tables/catalog_tables.dart';
+import '../../services/catalog/catalog_dtos.dart';
 
 import '../../mobile_ui/hourtv_genre_service.dart';
 
@@ -101,7 +102,7 @@ class CatalogDao extends DatabaseAccessor<CatalogDatabase> with _$CatalogDaoMixi
         .get();
   }
 
-  /// Consulta paginada determinista basada en tupla (createdAt DESC, id DESC).
+  /// Consulta paginada determinista basada en tupla (createdAt DESC, id DESC) o según sort order.
   Future<List<LocalTitle>> getPage({
     int limit = 20,
     DateTime? cursorCreatedAt,
@@ -109,6 +110,7 @@ class CatalogDao extends DatabaseAccessor<CatalogDatabase> with _$CatalogDaoMixi
     String? mediaType,
     int? year,
     String? genreSlug,
+    CatalogSortOrder sort = CatalogSortOrder.recent,
   }) async {
     final query = select(localTitles);
 
@@ -141,10 +143,26 @@ class CatalogDao extends DatabaseAccessor<CatalogDatabase> with _$CatalogDaoMixi
           (t.createdAt.equals(cursorCreatedAt) & t.id.isSmallerThanValue(cursorId)));
     }
 
-    query.orderBy([
-      (t) => OrderingTerm.desc(t.createdAt),
-      (t) => OrderingTerm.desc(t.id),
-    ]);
+    switch (sort) {
+      case CatalogSortOrder.recent:
+        query.orderBy([
+          (t) => OrderingTerm.desc(t.createdAt),
+          (t) => OrderingTerm.desc(t.id),
+        ]);
+        break;
+      case CatalogSortOrder.ratingDesc:
+        query.orderBy([
+          (t) => OrderingTerm.desc(t.rating),
+          (t) => OrderingTerm.desc(t.id),
+        ]);
+        break;
+      case CatalogSortOrder.titleAsc:
+        query.orderBy([
+          (t) => OrderingTerm.asc(t.normalizedTitle),
+          (t) => OrderingTerm.asc(t.id),
+        ]);
+        break;
+    }
 
     query.limit(limit);
 
@@ -363,13 +381,71 @@ class CatalogDao extends DatabaseAccessor<CatalogDatabase> with _$CatalogDaoMixi
     }
   }
 
-  /// Búsqueda por FTS5 con alias para coincidir con el contrato del plan.
+  /// Búsqueda por FTS5 con soporte completo de filtros por tipo, género y orden.
   Future<List<LocalTitle>> searchTitlesFts({
     required String rawQuery,
     String? mediaType,
     String? genreSlug,
+    CatalogSortOrder sort = CatalogSortOrder.recent,
     int limit = 20,
-  }) => search(query: rawQuery, limit: limit);
+  }) async {
+    final sanitized = sanitizeFts5Query(rawQuery);
+    if (sanitized.isEmpty) return [];
+
+    final whereClauses = <String>[
+      't.is_deleted = 0',
+      'local_titles_fts MATCH :matchQuery',
+    ];
+    final variables = <Variable>[
+      Variable.withString(sanitized),
+    ];
+
+    if (mediaType != null && mediaType.isNotEmpty && mediaType != 'all') {
+      whereClauses.add('t.media_type = :mediaType');
+      variables.add(Variable.withString(mediaType));
+    }
+
+    if (genreSlug != null && genreSlug.isNotEmpty && genreSlug != 'all') {
+      whereClauses.add('''
+        t.id IN (
+          SELECT tg.title_id FROM local_title_genres tg
+          JOIN local_genres g ON g.id = tg.genre_id
+          WHERE g.slug = :genreSlug
+        )
+      ''');
+      variables.add(Variable.withString(genreSlug));
+    }
+
+    String orderByClause;
+    switch (sort) {
+      case CatalogSortOrder.recent:
+        orderByClause = 't.created_at DESC, t.id DESC';
+        break;
+      case CatalogSortOrder.ratingDesc:
+        orderByClause = 't.rating DESC, t.id DESC';
+        break;
+      case CatalogSortOrder.titleAsc:
+        orderByClause = 't.normalized_title ASC, t.id ASC';
+        break;
+    }
+
+    final sql = '''
+      SELECT t.* FROM local_titles t
+      JOIN local_titles_fts fts ON fts.title_id = t.id
+      WHERE ${whereClauses.join(' AND ')}
+      ORDER BY $orderByClause
+      LIMIT :limit
+    ''';
+    variables.add(Variable.withInt(limit));
+
+    final rows = await customSelect(
+      sql,
+      variables: variables,
+      readsFrom: {localTitles},
+    ).get();
+
+    return rows.map((row) => localTitles.map(row.data)).toList();
+  }
 
   /// Aplica de forma atómica un lote de sincronización delta junto con el nuevo checkpoint de revisión.
   /// Si cualquier operación falla, la transacción se revierte por completo y la revisión no avanza.

@@ -45,6 +45,38 @@ class CatalogDatabase extends _$CatalogDatabase {
           tokenize='unicode61 remove_diacritics 2'
         );
       ''');
+      await _createIndices();
+    },
+    beforeOpen: (details) async {
+      await customStatement('PRAGMA foreign_keys = ON;');
+      await _createIndices();
     },
   );
+
+  Future<void> _createIndices() async {
+    await customStatement(
+      'CREATE INDEX IF NOT EXISTS idx_titles_cursor ON local_titles(is_deleted, created_at DESC, id DESC);',
+    );
+    await customStatement(
+      'CREATE INDEX IF NOT EXISTS idx_titles_media_cursor ON local_titles(is_deleted, media_type, created_at DESC, id DESC);',
+    );
+    await customStatement(
+      'CREATE INDEX IF NOT EXISTS idx_titles_year_id ON local_titles(year, id);',
+    );
+    await customStatement(
+      'CREATE INDEX IF NOT EXISTS idx_title_genres_genre ON local_title_genres(genre_id, title_id);',
+    );
+    await customStatement(
+      'CREATE INDEX IF NOT EXISTS idx_seasons_title ON local_seasons(title_id);',
+    );
+    await customStatement(
+      'CREATE INDEX IF NOT EXISTS idx_episodes_season ON local_episodes(season_id);',
+    );
+    await customStatement(
+      'CREATE INDEX IF NOT EXISTS idx_sources_title ON local_sources(title_id);',
+    );
+    await customStatement(
+      'CREATE INDEX IF NOT EXISTS idx_sources_episode ON local_sources(episode_id);',
+    );
+  }
 }

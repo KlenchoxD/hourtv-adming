@@ -56,11 +56,20 @@ class SupabaseCatalogGateway {
         query = query.or(buildCompositeCursorFilter(cursor));
       }
 
-      // Orden determinista principal
-      var orderedQuery = query
-          .order('created_at', ascending: false)
-          .order('id', ascending: false)
-          .limit(limit + 1);
+      // Orden determinista principal según sort
+      switch (sort) {
+        case CatalogSortOrder.recent:
+          query = query.order('created_at', ascending: false).order('id', ascending: false);
+          break;
+        case CatalogSortOrder.ratingDesc:
+          query = query.order('rating', ascending: false, nullsFirst: false).order('id', ascending: false);
+          break;
+        case CatalogSortOrder.titleAsc:
+          query = query.order('normalized_title', ascending: true).order('id', ascending: true);
+          break;
+      }
+
+      var orderedQuery = query.limit(limit + 1);
 
       final List<dynamic> rows = await orderedQuery;
       final items = rows
