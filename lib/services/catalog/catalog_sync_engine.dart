@@ -24,7 +24,7 @@ class CatalogSyncEngine {
     final localRev = await dao.getLastCatalogRevision();
 
     // 1. Verificación de compactación y retención
-    if (localRev > 0 && localRev < metadata.minimumAvailableRevision) {
+    if (localRev < metadata.minimumAvailableRevision) {
       return await _performFullResync(
         initialRev: localRev,
         targetRevision: metadata.latestRevision,
@@ -59,43 +59,160 @@ class CatalogSyncEngine {
         }
 
         // Operación 'upsert': consultar estado actual de la entidad en el backend
-        if (change.entityType == 'title') {
-          final detail = await gateway.fetchTitleDetails(change.entityId);
-          if (detail == null) {
-            // Tratada de forma idempotente como lápida si ya no está publicada o fue borrada
-            operations.add((tx) => tx.applyTombstone('title', change.entityId));
-          } else {
-            operations.add((tx) async {
-              await tx.upsertTitle(
-                LocalTitlesCompanion.insert(
-                  id: detail.id,
-                  legacyId: Value(detail.legacyId),
-                  mediaType: detail.mediaType,
-                  title: detail.title,
-                  originalTitle: Value(detail.originalTitle),
-                  normalizedTitle: detail.normalizedTitle,
-                  plot: Value(detail.plot),
-                  year: Value(detail.year),
-                  rating: Value(detail.rating),
-                  duration: Value(detail.duration),
-                  posterUrl: Value(detail.posterUrl),
-                  backdropUrl: Value(detail.backdropUrl),
-                  isFeatured: Value(detail.isFeatured),
-                  castMembers: Value(detail.castMembers),
-                  director: Value(detail.director),
-                  writer: Value(detail.writer),
-                  countryCode: Value(detail.countryCode),
-                  tmdbId: Value(detail.tmdbId),
-                  imdbId: Value(detail.imdbId),
-                  createdAt: detail.createdAt,
-                  updatedAt: DateTime.now(),
-                ),
-              );
-            });
-          }
-        } else {
-          // Si es otra entidad sin detalle adicional, aplicar lápida o ignorar según aplique
-          operations.add((tx) => tx.applyTombstone(change.entityType, change.entityId));
+        switch (change.entityType) {
+          case 'title':
+            final detail = await gateway.fetchTitleDetails(change.entityId);
+            if (detail == null) {
+              // Tratada de forma idempotente como lápida si ya no está publicada o fue borrada
+              operations.add((tx) => tx.applyTombstone('title', change.entityId));
+            } else {
+              operations.add((tx) async {
+                await tx.upsertTitle(
+                  LocalTitlesCompanion.insert(
+                    id: detail.id,
+                    legacyId: Value(detail.legacyId),
+                    mediaType: detail.mediaType,
+                    title: detail.title,
+                    originalTitle: Value(detail.originalTitle),
+                    normalizedTitle: detail.normalizedTitle,
+                    plot: Value(detail.plot),
+                    year: Value(detail.year),
+                    rating: Value(detail.rating),
+                    duration: Value(detail.duration),
+                    posterUrl: Value(detail.posterUrl),
+                    backdropUrl: Value(detail.backdropUrl),
+                    isFeatured: Value(detail.isFeatured),
+                    castMembers: Value(detail.castMembers),
+                    director: Value(detail.director),
+                    writer: Value(detail.writer),
+                    countryCode: Value(detail.countryCode),
+                    tmdbId: Value(detail.tmdbId),
+                    imdbId: Value(detail.imdbId),
+                    createdAt: detail.createdAt,
+                    updatedAt: DateTime.now(),
+                  ),
+                );
+                // Persistir relaciones con géneros
+                for (final g in detail.genresDetails) {
+                  await tx.upsertGenre(LocalGenresCompanion(
+                    id: Value(g.id),
+                    name: Value(g.name),
+                    slug: Value(g.slug),
+                  ));
+                  await tx.upsertTitleGenre(detail.id, g.id);
+                }
+              });
+            }
+            break;
+
+          case 'genre':
+            final genre = await gateway.fetchGenre(change.entityId);
+            if (genre == null) {
+              operations.add((tx) => tx.applyTombstone('genre', change.entityId));
+            } else {
+              operations.add((tx) async {
+                await tx.upsertGenre(LocalGenresCompanion(
+                  id: Value(genre.id),
+                  name: Value(genre.name),
+                  slug: Value(genre.slug),
+                ));
+              });
+            }
+            break;
+
+          case 'language':
+            final lang = await gateway.fetchLanguage(change.entityId);
+            if (lang == null) {
+              operations.add((tx) => tx.applyTombstone('language', change.entityId));
+            } else {
+              operations.add((tx) async {
+                await tx.upsertLanguage(LocalLanguagesCompanion(
+                  id: Value(lang.id),
+                  code: Value(lang.code),
+                  name: Value(lang.name),
+                ));
+              });
+            }
+            break;
+
+          case 'season':
+            final season = await gateway.fetchSeason(change.entityId);
+            if (season == null) {
+              operations.add((tx) => tx.applyTombstone('season', change.entityId));
+            } else {
+              operations.add((tx) async {
+                await tx.upsertSeason(LocalSeasonsCompanion(
+                  id: Value(season.id),
+                  titleId: Value(season.titleId),
+                  seasonNumber: Value(season.seasonNumber),
+                  name: Value(season.name),
+                  plot: Value(season.plot),
+                  posterUrl: Value(season.posterUrl),
+                ));
+              });
+            }
+            break;
+
+          case 'episode':
+            final episode = await gateway.fetchEpisode(change.entityId);
+            if (episode == null) {
+              operations.add((tx) => tx.applyTombstone('episode', change.entityId));
+            } else {
+              operations.add((tx) async {
+                await tx.upsertEpisode(LocalEpisodesCompanion(
+                  id: Value(episode.id),
+                  seasonId: Value(episode.seasonId),
+                  episodeNumber: Value(episode.episodeNumber),
+                  title: Value(episode.title),
+                  plot: Value(episode.plot),
+                  duration: Value(episode.duration),
+                  stillUrl: Value(episode.stillUrl),
+                ));
+              });
+            }
+            break;
+
+          case 'source':
+            final source = await gateway.fetchSource(change.entityId);
+            if (source == null) {
+              operations.add((tx) => tx.applyTombstone('source', change.entityId));
+            } else {
+              operations.add((tx) async {
+                await tx.upsertSource(LocalSourcesCompanion(
+                  id: Value(source.id),
+                  titleId: Value(source.titleId),
+                  episodeId: Value(source.episodeId),
+                  language: Value(source.languageCode),
+                  name: Value(source.name),
+                  url: Value(source.url),
+                  orderIndex: Value(source.orderIndex),
+                  status: Value(source.status),
+                  requiresWebview: Value(source.requiresWebview),
+                  refererUrl: Value(source.refererUrl),
+                  originUrl: Value(source.originUrl),
+                  userAgentProfile: Value(source.userAgentProfile),
+                ));
+              });
+            }
+            break;
+
+          case 'title_genre':
+            final parts = change.entityId.split(':');
+            if (parts.length == 2) {
+              final exists = await gateway.checkTitleGenreExists(parts[0], parts[1]);
+              if (exists) {
+                operations.add((tx) async {
+                  await tx.upsertTitleGenre(parts[0], parts[1]);
+                });
+              } else {
+                operations.add((tx) => tx.applyTombstone('title_genre', change.entityId));
+              }
+            }
+            break;
+
+          default:
+            operations.add((tx) => tx.applyTombstone(change.entityType, change.entityId));
+            break;
         }
       }
 

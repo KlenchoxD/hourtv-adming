@@ -240,4 +240,105 @@ class SupabaseCatalogGateway {
       throw CatalogNetworkException('Error al descargar snapshot de catálogo en offset $offset', cause: e);
     }
   }
+
+  /// Consulta un género por ID.
+  Future<CatalogGenreDto?> fetchGenre(String id) async {
+    try {
+      final data = await _effectiveClient
+          .from('genres')
+          .select('id, name, slug')
+          .eq('id', id)
+          .maybeSingle();
+      if (data == null) return null;
+      return CatalogGenreDto.fromJson(data);
+    } catch (e) {
+      if (e is CatalogNetworkException) rethrow;
+      throw CatalogNetworkException('Error al consultar género $id', cause: e);
+    }
+  }
+
+  /// Consulta un idioma por ID.
+  Future<CatalogLanguageDto?> fetchLanguage(String id) async {
+    try {
+      final data = await _effectiveClient
+          .from('languages')
+          .select('id, code, name')
+          .eq('id', id)
+          .maybeSingle();
+      if (data == null) return null;
+      return CatalogLanguageDto.fromJson(data);
+    } catch (e) {
+      if (e is CatalogNetworkException) rethrow;
+      throw CatalogNetworkException('Error al consultar idioma $id', cause: e);
+    }
+  }
+
+  /// Consulta una temporada por ID.
+  Future<CatalogSeasonDto?> fetchSeason(String id) async {
+    try {
+      final data = await _effectiveClient
+          .from('seasons')
+          .select('id, title_id, season_number, name, plot, poster_url')
+          .eq('id', id)
+          .maybeSingle();
+      if (data == null) return null;
+      return CatalogSeasonDto.fromJson(data);
+    } catch (e) {
+      if (e is CatalogNetworkException) rethrow;
+      throw CatalogNetworkException('Error al consultar temporada $id', cause: e);
+    }
+  }
+
+  /// Consulta un episodio por ID.
+  Future<CatalogEpisodeDto?> fetchEpisode(String id) async {
+    try {
+      final data = await _effectiveClient
+          .from('episodes')
+          .select('id, season_id, episode_number, title, plot, duration, still_url, release_date')
+          .eq('id', id)
+          .maybeSingle();
+      if (data == null) return null;
+      return CatalogEpisodeDto.fromJson(data);
+    } catch (e) {
+      if (e is CatalogNetworkException) rethrow;
+      throw CatalogNetworkException('Error al consultar episodio $id', cause: e);
+    }
+  }
+
+  /// Consulta una fuente por ID.
+  Future<CatalogSourceDto?> fetchSource(String id) async {
+    try {
+      final data = await _effectiveClient
+          .from('sources')
+          .select('''
+            id, title_id, episode_id, language_id, name, url,
+            order_index, status, requires_webview, referer_url,
+            origin_url, user_agent_profile,
+            languages (code, name)
+          ''')
+          .eq('id', id)
+          .maybeSingle();
+      if (data == null) return null;
+      return CatalogSourceDto.fromJson(data);
+    } catch (e) {
+      if (e is CatalogNetworkException) rethrow;
+      throw CatalogNetworkException('Error al consultar fuente $id', cause: e);
+    }
+  }
+
+  /// Verifica si una relación title_genre existe en el backend.
+  Future<bool> checkTitleGenreExists(String titleId, String genreId) async {
+    try {
+      final res = await _effectiveClient
+          .from('title_genres')
+          .select('title_id, genre_id')
+          .eq('title_id', titleId)
+          .eq('genre_id', genreId)
+          .maybeSingle();
+      return res != null;
+    } catch (e) {
+      if (e is CatalogNetworkException) rethrow;
+      throw CatalogNetworkException('Error al consultar title_genre $titleId:$genreId', cause: e);
+    }
+  }
 }

@@ -1,3 +1,4 @@
+import 'package:drift/drift.dart' hide isNull, isNotNull;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:streamtv/database/catalog_database.dart';
 import 'package:streamtv/database/daos/catalog_dao.dart';
@@ -15,6 +16,12 @@ class FakeCatalogGateway implements SupabaseCatalogGateway {
 
   List<CatalogChangeDto> changesToReturn = [];
   Map<String, CatalogDetailDto> titlesOnServer = {};
+  Map<String, CatalogGenreDto> genresOnServer = {};
+  Map<String, CatalogLanguageDto> languagesOnServer = {};
+  Map<String, CatalogSeasonDto> seasonsOnServer = {};
+  Map<String, CatalogEpisodeDto> episodesOnServer = {};
+  Map<String, CatalogSourceDto> sourcesOnServer = {};
+  Set<String> titleGenresOnServer = {};
   List<CatalogSummaryDto> snapshotTitles = [];
 
   bool throwOnFetchChanges = false;
@@ -44,6 +51,25 @@ class FakeCatalogGateway implements SupabaseCatalogGateway {
     }
     return titlesOnServer[titleId];
   }
+
+  @override
+  Future<CatalogGenreDto?> fetchGenre(String id) async => genresOnServer[id];
+
+  @override
+  Future<CatalogLanguageDto?> fetchLanguage(String id) async => languagesOnServer[id];
+
+  @override
+  Future<CatalogSeasonDto?> fetchSeason(String id) async => seasonsOnServer[id];
+
+  @override
+  Future<CatalogEpisodeDto?> fetchEpisode(String id) async => episodesOnServer[id];
+
+  @override
+  Future<CatalogSourceDto?> fetchSource(String id) async => sourcesOnServer[id];
+
+  @override
+  Future<bool> checkTitleGenreExists(String titleId, String genreId) async =>
+      titleGenresOnServer.contains('$titleId:$genreId');
 
   @override
   Future<List<CatalogSummaryDto>> fetchCompleteSnapshot({
@@ -227,6 +253,365 @@ void main() {
 
       final rev = await dao.getLastCatalogRevision();
       expect(rev, equals(250));
+    });
+
+    test('5. Cliente con revisión 0 y minimumAvailableRevision > 0: dispara Full Resync', () async {
+      // Cliente nunca ha sincronizado (revisión 0)
+      expect(await dao.getLastCatalogRevision(), equals(0));
+
+      gateway.metadata = const CatalogSyncMetadataDto(
+        minimumAvailableRevision: 10,
+        latestRevision: 100,
+      );
+
+      gateway.snapshotTitles = [
+        CatalogSummaryDto(
+          id: 'fresh-1',
+          title: 'Fresh Title',
+          normalizedTitle: 'fresh title',
+          mediaType: 'movie',
+          isFeatured: true,
+          createdAt: DateTime.utc(2026, 9, 10, 15, 0, 0),
+        ),
+      ];
+
+      final result = await engine.syncCatalog();
+      expect(result.fullResyncPerformed, isTrue, reason: 'Revision 0 debe disparar full resync si minimumAvailableRevision > 0');
+      expect(result.finalRevision, equals(100));
+
+      final titles = await dao.getPage();
+      expect(titles.length, equals(1));
+      expect(titles.first.id, equals('fresh-1'));
+    });
+
+    test('6. Entity type genre: upsert persiste género local y delete aplica lápida', () async {
+      await dao.setLastCatalogRevision(10);
+
+      gateway.genresOnServer['genre-action'] = const CatalogGenreDto(
+        id: 'genre-action',
+        name: 'Acción',
+        slug: 'accion',
+      );
+
+      // 1. Upsert
+      gateway.changesToReturn = [
+        CatalogChangeDto(
+          revision: 11,
+          entityType: 'genre',
+          entityId: 'genre-action',
+          operation: 'upsert',
+          changedAt: DateTime.utc(2026, 9, 10, 16, 0, 0),
+        ),
+      ];
+
+      await engine.syncCatalog();
+      var genres = await dao.getAllGenres();
+      expect(genres.any((g) => g.id == 'genre-action' && g.name == 'Acción'), isTrue);
+
+      // 2. Delete
+      gateway.changesToReturn = [
+        CatalogChangeDto(
+          revision: 12,
+          entityType: 'genre',
+          entityId: 'genre-action',
+          operation: 'delete',
+          changedAt: DateTime.utc(2026, 9, 10, 16, 1, 0),
+        ),
+      ];
+
+      await engine.syncCatalog();
+      genres = await dao.getAllGenres();
+      expect(genres.any((g) => g.id == 'genre-action'), isFalse);
+    });
+
+    test('7. Entity type language: upsert persiste idioma local y delete aplica lápida', () async {
+      await dao.setLastCatalogRevision(10);
+
+      gateway.languagesOnServer['lang-es'] = const CatalogLanguageDto(
+        id: 'lang-es',
+        code: 'es',
+        name: 'Español',
+      );
+
+      // 1. Upsert
+      gateway.changesToReturn = [
+        CatalogChangeDto(
+          revision: 11,
+          entityType: 'language',
+          entityId: 'lang-es',
+          operation: 'upsert',
+          changedAt: DateTime.utc(2026, 9, 10, 16, 0, 0),
+        ),
+      ];
+
+      await engine.syncCatalog();
+      // 2. Delete
+      gateway.changesToReturn = [
+        CatalogChangeDto(
+          revision: 12,
+          entityType: 'language',
+          entityId: 'lang-es',
+          operation: 'delete',
+          changedAt: DateTime.utc(2026, 9, 10, 16, 1, 0),
+        ),
+      ];
+
+      final res = await engine.syncCatalog();
+      expect(res.finalRevision, equals(12));
+    });
+
+    test('8. Entity type season: upsert persiste temporada local y delete aplica lápida', () async {
+      await dao.setLastCatalogRevision(10);
+
+      // Título base para FK
+      await dao.upsertTitle(LocalTitlesCompanion.insert(
+        id: 'series-x',
+        title: 'Series X',
+        normalizedTitle: 'series x',
+        mediaType: 'series',
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+      ));
+
+      gateway.seasonsOnServer['s-1'] = const CatalogSeasonDto(
+        id: 's-1',
+        titleId: 'series-x',
+        seasonNumber: 1,
+        name: 'Temporada 1',
+      );
+
+      // 1. Upsert
+      gateway.changesToReturn = [
+        CatalogChangeDto(
+          revision: 11,
+          entityType: 'season',
+          entityId: 's-1',
+          operation: 'upsert',
+          changedAt: DateTime.utc(2026, 9, 10, 16, 0, 0),
+        ),
+      ];
+
+      await engine.syncCatalog();
+      var seasons = await dao.getSeasonsForTitle('series-x');
+      expect(seasons.length, equals(1));
+      expect(seasons.first.id, equals('s-1'));
+
+      // 2. Delete
+      gateway.changesToReturn = [
+        CatalogChangeDto(
+          revision: 12,
+          entityType: 'season',
+          entityId: 's-1',
+          operation: 'delete',
+          changedAt: DateTime.utc(2026, 9, 10, 16, 1, 0),
+        ),
+      ];
+
+      await engine.syncCatalog();
+      seasons = await dao.getSeasonsForTitle('series-x');
+      expect(seasons, isEmpty);
+    });
+
+    test('9. Entity type episode: upsert persiste episodio local y delete aplica lápida', () async {
+      await dao.setLastCatalogRevision(10);
+
+      await dao.upsertTitle(LocalTitlesCompanion.insert(
+        id: 'series-x',
+        title: 'Series X',
+        normalizedTitle: 'series x',
+        mediaType: 'series',
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+      ));
+
+      await dao.upsertSeason(const LocalSeasonsCompanion(
+        id: Value('s-1'),
+        titleId: Value('series-x'),
+        seasonNumber: Value(1),
+      ));
+
+      gateway.episodesOnServer['ep-1'] = const CatalogEpisodeDto(
+        id: 'ep-1',
+        seasonId: 's-1',
+        episodeNumber: 1,
+        title: 'Piloto',
+      );
+
+      // 1. Upsert
+      gateway.changesToReturn = [
+        CatalogChangeDto(
+          revision: 11,
+          entityType: 'episode',
+          entityId: 'ep-1',
+          operation: 'upsert',
+          changedAt: DateTime.utc(2026, 9, 10, 16, 0, 0),
+        ),
+      ];
+
+      await engine.syncCatalog();
+      var episodes = await dao.getEpisodesForSeason('s-1');
+      expect(episodes.length, equals(1));
+      expect(episodes.first.title, equals('Piloto'));
+
+      // 2. Delete
+      gateway.changesToReturn = [
+        CatalogChangeDto(
+          revision: 12,
+          entityType: 'episode',
+          entityId: 'ep-1',
+          operation: 'delete',
+          changedAt: DateTime.utc(2026, 9, 10, 16, 1, 0),
+        ),
+      ];
+
+      await engine.syncCatalog();
+      episodes = await dao.getEpisodesForSeason('s-1');
+      expect(episodes, isEmpty);
+    });
+
+    test('10. Entity type source: upsert persiste fuente local y delete aplica lápida', () async {
+      await dao.setLastCatalogRevision(10);
+
+      await dao.upsertTitle(LocalTitlesCompanion.insert(
+        id: 'movie-x',
+        title: 'Movie X',
+        normalizedTitle: 'movie x',
+        mediaType: 'movie',
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+      ));
+
+      gateway.sourcesOnServer['src-1'] = const CatalogSourceDto(
+        id: 'src-1',
+        titleId: 'movie-x',
+        name: 'Stream 1080p',
+        url: 'https://cdn.test/stream.m3u8',
+        orderIndex: 0,
+        status: 'active',
+        requiresWebview: false,
+      );
+
+      // 1. Upsert
+      gateway.changesToReturn = [
+        CatalogChangeDto(
+          revision: 11,
+          entityType: 'source',
+          entityId: 'src-1',
+          operation: 'upsert',
+          changedAt: DateTime.utc(2026, 9, 10, 16, 0, 0),
+        ),
+      ];
+
+      await engine.syncCatalog();
+      var sources = await dao.getSourcesForTitle('movie-x');
+      expect(sources.length, equals(1));
+      expect(sources.first.url, equals('https://cdn.test/stream.m3u8'));
+
+      // 2. Delete
+      gateway.changesToReturn = [
+        CatalogChangeDto(
+          revision: 12,
+          entityType: 'source',
+          entityId: 'src-1',
+          operation: 'delete',
+          changedAt: DateTime.utc(2026, 9, 10, 16, 1, 0),
+        ),
+      ];
+
+      await engine.syncCatalog();
+      sources = await dao.getSourcesForTitle('movie-x');
+      expect(sources, isEmpty);
+    });
+
+    test('11. Entity type title_genre: upsert vincula relación y delete desvincula', () async {
+      await dao.setLastCatalogRevision(10);
+
+      await dao.upsertTitle(LocalTitlesCompanion.insert(
+        id: 'title-link',
+        title: 'Title Link',
+        normalizedTitle: 'title link',
+        mediaType: 'movie',
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+      ));
+
+      await dao.upsertGenre(const LocalGenresCompanion(
+        id: Value('genre-linked'),
+        name: Value('Linked Genre'),
+        slug: Value('linked-genre'),
+      ));
+
+      gateway.titleGenresOnServer.add('title-link:genre-linked');
+
+      // 1. Upsert
+      gateway.changesToReturn = [
+        CatalogChangeDto(
+          revision: 11,
+          entityType: 'title_genre',
+          entityId: 'title-link:genre-linked',
+          operation: 'upsert',
+          changedAt: DateTime.utc(2026, 9, 10, 16, 0, 0),
+        ),
+      ];
+
+      await engine.syncCatalog();
+      var genres = await dao.getGenresForTitle('title-link');
+      expect(genres.length, equals(1));
+      expect(genres.first.id, equals('genre-linked'));
+
+      // 2. Delete
+      gateway.changesToReturn = [
+        CatalogChangeDto(
+          revision: 12,
+          entityType: 'title_genre',
+          entityId: 'title-link:genre-linked',
+          operation: 'delete',
+          changedAt: DateTime.utc(2026, 9, 10, 16, 1, 0),
+        ),
+      ];
+
+      await engine.syncCatalog();
+      genres = await dao.getGenresForTitle('title-link');
+      expect(genres, isEmpty);
+    });
+
+    test('12. Entity type title: upsert persiste título y sincroniza relaciones con géneros en title_genres', () async {
+      await dao.setLastCatalogRevision(10);
+
+      const titleId = 'title-full-rel';
+      gateway.titlesOnServer[titleId] = CatalogDetailDto(
+        id: titleId,
+        title: 'Title Full Rel',
+        normalizedTitle: 'title full rel',
+        mediaType: 'movie',
+        isFeatured: false,
+        createdAt: DateTime.utc(2026, 9, 10, 17, 0, 0),
+        genres: const ['action'],
+        genresDetails: const [
+          CatalogGenreDto(id: 'g-act', name: 'Action', slug: 'action'),
+        ],
+      );
+
+      gateway.changesToReturn = [
+        CatalogChangeDto(
+          revision: 11,
+          entityType: 'title',
+          entityId: titleId,
+          operation: 'upsert',
+          changedAt: DateTime.utc(2026, 9, 10, 17, 0, 0),
+        ),
+      ];
+
+      await engine.syncCatalog();
+
+      final title = await dao.getTitleById(titleId);
+      expect(title, isNotNull);
+      expect(title!.normalizedTitle, equals('title full rel'));
+
+      final genres = await dao.getGenresForTitle(titleId);
+      expect(genres.length, equals(1));
+      expect(genres.first.id, equals('g-act'));
+      expect(genres.first.name, equals('Action'));
     });
   });
 }

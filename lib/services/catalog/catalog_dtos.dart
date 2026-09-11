@@ -119,6 +119,7 @@ class CatalogDetailDto {
   final String? imdbId;
   final DateTime createdAt;
   final List<String> genres;
+  final List<CatalogGenreDto> genresDetails;
 
   const CatalogDetailDto({
     required this.id,
@@ -143,11 +144,13 @@ class CatalogDetailDto {
     this.imdbId,
     required this.createdAt,
     this.genres = const [],
+    this.genresDetails = const [],
   });
 
   factory CatalogDetailDto.fromJson(Map<String, dynamic> json) {
     final rawGenres = json['title_genres'] as List<dynamic>? ?? [];
     final extractedGenres = <String>[];
+    final extractedGenreDetails = <CatalogGenreDto>[];
     for (final item in rawGenres) {
       if (item is Map<String, dynamic>) {
         final g = item['genres'];
@@ -155,6 +158,15 @@ class CatalogDetailDto {
           final slug = g['slug'] as String? ?? g['name'] as String?;
           if (slug != null && slug.isNotEmpty) {
             extractedGenres.add(slug);
+          }
+          final gId = g['id'] as String? ?? item['genre_id'] as String?;
+          final gName = g['name'] as String? ?? slug ?? '';
+          if (gId != null && gId.isNotEmpty) {
+            extractedGenreDetails.add(CatalogGenreDto(
+              id: gId,
+              name: gName,
+              slug: slug ?? gName.toLowerCase(),
+            ));
           }
         }
       }
@@ -187,6 +199,7 @@ class CatalogDetailDto {
           ? DateTime.parse(json['created_at'] as String)
           : DateTime.now(),
       genres: extractedGenres,
+      genresDetails: extractedGenreDetails,
     );
   }
 }
@@ -370,6 +383,48 @@ class CatalogSyncMetadataDto {
     return CatalogSyncMetadataDto(
       minimumAvailableRevision: (json['minimum_available_revision'] as num).toInt(),
       latestRevision: (json['latest_revision'] as num).toInt(),
+    );
+  }
+}
+
+/// DTO para géneros del catálogo.
+class CatalogGenreDto {
+  final String id;
+  final String name;
+  final String slug;
+
+  const CatalogGenreDto({
+    required this.id,
+    required this.name,
+    required this.slug,
+  });
+
+  factory CatalogGenreDto.fromJson(Map<String, dynamic> json) {
+    return CatalogGenreDto(
+      id: json['id'] as String,
+      name: json['name'] as String,
+      slug: json['slug'] as String,
+    );
+  }
+}
+
+/// DTO para idiomas del catálogo.
+class CatalogLanguageDto {
+  final String id;
+  final String code;
+  final String name;
+
+  const CatalogLanguageDto({
+    required this.id,
+    required this.code,
+    required this.name,
+  });
+
+  factory CatalogLanguageDto.fromJson(Map<String, dynamic> json) {
+    return CatalogLanguageDto(
+      id: json['id'] as String,
+      code: json['code'] as String,
+      name: json['name'] as String,
     );
   }
 }
