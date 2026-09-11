@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:drift/drift.dart' hide isNull, isNotNull;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:streamtv/database/catalog_database.dart';
 import 'package:streamtv/database/daos/catalog_dao.dart';

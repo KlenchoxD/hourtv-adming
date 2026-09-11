@@ -3,7 +3,6 @@ import '../../models/channel.dart';
 import '../../new_ui/hourtv_detail_page.dart';
 import '../../new_ui/hourtv_series_detail_page.dart';
 import '../content_store.dart';
-import '../xtream_service.dart';
 import 'catalog_repository.dart';
 
 /// Navegador unificado de detalles que realiza hidratación asíncrona determinista

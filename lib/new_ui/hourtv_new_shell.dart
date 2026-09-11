@@ -11,7 +11,6 @@ import '../services/device_type.dart';
 
 import 'hourtv_artwork.dart';
 import 'hourtv_focusable.dart';
-import 'hourtv_detail_page.dart';
 import 'hourtv_live_page.dart';
 import 'hourtv_profile_page.dart';
 import 'hourtv_search_keyboard.dart';

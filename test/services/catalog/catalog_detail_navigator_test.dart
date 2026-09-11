@@ -10,7 +10,6 @@ import 'package:streamtv/services/catalog/catalog_dtos.dart';
 import 'package:streamtv/services/catalog/catalog_repository.dart';
 import 'package:streamtv/services/catalog/catalog_sync_engine.dart';
 import 'package:streamtv/services/catalog/supabase_catalog_gateway.dart';
-import 'package:streamtv/services/xtream_service.dart';
 
 class _FakeGateway extends SupabaseCatalogGateway {
   _FakeGateway() : super(null);

@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/channel.dart';
-import '../new_ui/hourtv_detail_page.dart';
 import '../new_ui/hourtv_live_page.dart';
 import '../new_ui/hourtv_new_shell.dart' show PreviewCatalog;
 import '../new_ui/hourtv_series_detail_page.dart';

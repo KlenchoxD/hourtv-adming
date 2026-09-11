@@ -12,7 +12,6 @@ import 'package:streamtv/services/catalog/catalog_sync_engine.dart';
 import 'package:streamtv/services/catalog/supabase_catalog_gateway.dart';
 import 'package:streamtv/services/content_store.dart';
 import 'package:streamtv/services/storage_service.dart';
-import 'package:streamtv/services/xtream_service.dart';
 
 class MockCatalogGateway extends SupabaseCatalogGateway {
   @override
