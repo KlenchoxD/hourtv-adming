@@ -1,11 +1,13 @@
 import 'dart:async';
 import 'package:drift/drift.dart';
+import 'package:flutter/foundation.dart';
 import '../../database/catalog_database.dart';
 import '../../database/daos/catalog_dao.dart';
 import '../../models/channel.dart';
 import '../../services/xtream_service.dart';
 import 'catalog_sync_engine.dart';
 import 'supabase_catalog_gateway.dart';
+import 'sync_models.dart';
 
 /// Estado de disponibilidad del repositorio de catálogo.
 enum CatalogRepositoryStatus {
@@ -18,7 +20,7 @@ enum CatalogRepositoryStatus {
 
 /// Repositorio resiliente que orquesta la caché local Drift, la sincronización
 /// incremental con Supabase y el respaldo de emergencia a JSON.
-class CatalogRepository {
+class CatalogRepository extends ChangeNotifier {
   static CatalogRepository? _instance;
   static CatalogRepository get instance {
     if (_instance == null) {
@@ -71,6 +73,16 @@ class CatalogRepository {
     _instance ??= this;
   }
 
+  bool get isReady =>
+      _status == CatalogRepositoryStatus.ready ||
+      _status == CatalogRepositoryStatus.offlineReady;
+
+  @visibleForTesting
+  void setStatusForTesting(CatalogRepositoryStatus newStatus) {
+    _status = newStatus;
+    notifyListeners();
+  }
+
   /// Inicializa el repositorio siguiendo la jerarquía de fallback:
   /// 1. Drift Local: si hay datos, emite offlineReady de inmediato y revalida de fondo.
   /// 2. Supabase Remoto: si local está vacío, sincroniza.
@@ -81,6 +93,7 @@ class CatalogRepository {
 
     if (hasLocalData) {
       _status = CatalogRepositoryStatus.offlineReady;
+      notifyListeners();
       unawaited(_triggerBackgroundSync());
       return _status;
     }
@@ -88,9 +101,13 @@ class CatalogRepository {
     // 2. Si la base local está completamente vacía, intentar sincronizar con Supabase
     try {
       _status = CatalogRepositoryStatus.syncing;
-      final syncResult = await syncEngine.syncCatalog();
+      notifyListeners();
+      final syncResult = await syncEngine.syncCatalog(
+        onBatchApplied: (_) => notifyListeners(),
+      );
       if (syncResult.hasChanges || (await dao.getPage(limit: 1)).isNotEmpty) {
         _status = CatalogRepositoryStatus.ready;
+        notifyListeners();
         return _status;
       }
     } catch (_) {
@@ -104,18 +121,46 @@ class CatalogRepository {
         if (fallbackChannels.isNotEmpty) {
           await _populateFromFallback(fallbackChannels);
           _status = CatalogRepositoryStatus.offlineReady;
+          notifyListeners();
           return _status;
         }
       } catch (_) {}
     }
 
     _status = hasLocalData ? CatalogRepositoryStatus.offlineReady : CatalogRepositoryStatus.failed;
+    notifyListeners();
     return _status;
+  }
+
+  /// Ejecuta un ciclo de sincronización explícito notificando observadores.
+  Future<SyncResult> sync() async {
+    _status = CatalogRepositoryStatus.syncing;
+    notifyListeners();
+    try {
+      final result = await syncEngine.syncCatalog(
+        onBatchApplied: (_) => notifyListeners(),
+      );
+      final hasLocal = (await dao.getPage(limit: 1)).isNotEmpty;
+      _status = hasLocal ? CatalogRepositoryStatus.ready : CatalogRepositoryStatus.offlineReady;
+      notifyListeners();
+      return result;
+    } catch (e) {
+      final hasLocal = (await dao.getPage(limit: 1)).isNotEmpty;
+      _status = hasLocal ? CatalogRepositoryStatus.offlineReady : CatalogRepositoryStatus.failed;
+      notifyListeners();
+      rethrow;
+    }
   }
 
   Future<void> _triggerBackgroundSync() async {
     try {
-      await syncEngine.syncCatalog();
+      final syncResult = await syncEngine.syncCatalog(
+        onBatchApplied: (_) => notifyListeners(),
+      );
+      if (syncResult.hasChanges) {
+        _status = CatalogRepositoryStatus.ready;
+        notifyListeners();
+      }
     } catch (_) {
       // En background no bloquea la navegación local
     }
@@ -170,6 +215,7 @@ class CatalogRepository {
         }
       }
     });
+    notifyListeners();
   }
 
   Future<List<LocalTitle>> getTitlesPage({

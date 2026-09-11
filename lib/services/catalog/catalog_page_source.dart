@@ -2,15 +2,20 @@ import 'package:flutter/foundation.dart';
 import '../../database/catalog_database.dart';
 import '../../database/daos/catalog_dao.dart';
 import 'catalog_dtos.dart';
+import 'catalog_repository.dart';
 
 /// Origen de datos reactivo y paginado determinista por cursor tupla (createdAt, id)
 /// conectado directamente a la base de datos local SQLite (Drift).
 class CatalogPageSource extends ChangeNotifier {
   final CatalogDao dao;
+  final CatalogRepository? repository;
   final int pageSize;
   String? mediaType;
   String? genreSlug;
   CatalogSortOrder sort;
+
+  CatalogRepository? _attachedRepo;
+  bool _needsReloadAfterLoading = false;
 
   void updateFilters({
     String? mediaType,
@@ -45,11 +50,30 @@ class CatalogPageSource extends ChangeNotifier {
 
   CatalogPageSource({
     required this.dao,
+    this.repository,
     this.pageSize = 20,
     this.mediaType,
     this.genreSlug,
     this.sort = CatalogSortOrder.recent,
-  });
+  }) {
+    _attachedRepo = repository ?? (CatalogRepository.hasInstance ? CatalogRepository.instance : null);
+    _attachedRepo?.addListener(_onRepositoryChanged);
+  }
+
+  @override
+  void dispose() {
+    _attachedRepo?.removeListener(_onRepositoryChanged);
+    super.dispose();
+  }
+
+  void _onRepositoryChanged() {
+    if (_lastSearchQuery != null) return;
+    if (_isLoading) {
+      _needsReloadAfterLoading = true;
+      return;
+    }
+    refresh();
+  }
 
   /// Reinicia el cursor y carga la primera página.
   Future<void> loadInitialPage() async {
@@ -92,6 +116,54 @@ class CatalogPageSource extends ChangeNotifier {
     } finally {
       _isLoading = false;
       notifyListeners();
+      if (_needsReloadAfterLoading) {
+        _needsReloadAfterLoading = false;
+        refresh();
+      }
+    }
+  }
+
+  /// Recarga el catálogo reactivamente desde el inicio preservando elementos
+  /// existentes mientras carga para evitar parpadeos en pantalla.
+  Future<void> refresh() async {
+    if (_isLoading) {
+      _needsReloadAfterLoading = true;
+      return;
+    }
+    _isLoading = true;
+    _error = null;
+    notifyListeners();
+
+    try {
+      final newItems = await dao.getPage(
+        limit: pageSize,
+        cursorCreatedAt: null,
+        cursorId: null,
+        mediaType: mediaType,
+        genreSlug: genreSlug,
+        sort: sort,
+      );
+
+      _items = List.of(newItems);
+      if (newItems.isNotEmpty) {
+        final last = newItems.last;
+        _cursorCreatedAt = last.createdAt;
+        _cursorId = last.id;
+      } else {
+        _cursorCreatedAt = null;
+        _cursorId = null;
+      }
+
+      _hasMore = newItems.length >= pageSize;
+    } catch (e) {
+      _error = e;
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+      if (_needsReloadAfterLoading) {
+        _needsReloadAfterLoading = false;
+        refresh();
+      }
     }
   }
 

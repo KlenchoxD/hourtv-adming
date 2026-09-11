@@ -167,6 +167,7 @@ class ContentStore extends ChangeNotifier {
     Duration remoteTimeout = const Duration(seconds: 10),
   }) async {
     error = null;
+    _started = true;
     _lastLoad = DateTime.now();
     _setReadiness(const CatalogReadiness(CatalogLoadPhase.openingCache));
 

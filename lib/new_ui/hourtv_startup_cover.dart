@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import '../mobile_ui/hourtv_mobile_components.dart';
 import '../mobile_ui/hourtv_mobile_theme.dart';
+import '../services/catalog/catalog_repository.dart';
 import '../services/content_store.dart';
 
 /// Tapadera de inicio que muestra los estados reales de carga del catálogo
@@ -12,10 +13,12 @@ class HourTvStartupCover extends StatefulWidget {
     super.key,
     required this.child,
     this.store,
+    this.catalogRepository,
   });
 
   final Widget child;
   final ContentStore? store;
+  final CatalogRepository? catalogRepository;
 
   @override
   State<HourTvStartupCover> createState() => _HourTvStartupCoverState();
@@ -23,6 +26,7 @@ class HourTvStartupCover extends StatefulWidget {
 
 class _HourTvStartupCoverState extends State<HourTvStartupCover> {
   late final ContentStore _store;
+  CatalogRepository? _catalogRepo;
   bool _revealed = false;
 
   @override
@@ -31,12 +35,18 @@ class _HourTvStartupCoverState extends State<HourTvStartupCover> {
     _store = widget.store ?? ContentStore.instance;
     _store.addListener(_onStoreChanged);
     _store.ensureLoaded();
+
+    _catalogRepo = widget.catalogRepository ??
+        (CatalogRepository.hasInstance ? CatalogRepository.instance : null);
+    _catalogRepo?.addListener(_onCatalogChanged);
+
     _checkReadiness();
   }
 
   @override
   void dispose() {
     _store.removeListener(_onStoreChanged);
+    _catalogRepo?.removeListener(_onCatalogChanged);
     super.dispose();
   }
 
@@ -44,9 +54,20 @@ class _HourTvStartupCoverState extends State<HourTvStartupCover> {
     _checkReadiness();
   }
 
+  void _onCatalogChanged() {
+    _checkReadiness();
+  }
+
   void _checkReadiness() {
     if (_revealed) return;
-    if (_store.readiness.canEnterApp) {
+
+    final storeReady = _store.readiness.canEnterApp;
+    final repo = _catalogRepo;
+    final repoReady = repo == null ||
+        repo.status == CatalogRepositoryStatus.ready ||
+        repo.status == CatalogRepositoryStatus.offlineReady;
+
+    if (storeReady && repoReady) {
       if (mounted) {
         if (WidgetsBinding.instance.schedulerPhase ==
             SchedulerPhase.persistentCallbacks) {
@@ -75,12 +96,19 @@ class _HourTvStartupCoverState extends State<HourTvStartupCover> {
 
   @override
   Widget build(BuildContext context) {
-    if (_revealed || _store.readiness.canEnterApp) {
+    final repo = _catalogRepo;
+    final repoReady = repo == null ||
+        repo.status == CatalogRepositoryStatus.ready ||
+        repo.status == CatalogRepositoryStatus.offlineReady;
+
+    if (_revealed || (_store.readiness.canEnterApp && repoReady)) {
       return widget.child;
     }
 
     final readiness = _store.readiness;
-    if (readiness.phase == CatalogLoadPhase.failed) {
+    final repoFailed = repo != null && repo.status == CatalogRepositoryStatus.failed;
+
+    if (readiness.phase == CatalogLoadPhase.failed || repoFailed) {
       return Scaffold(
         backgroundColor: HourTvMobileTokens.deepBlack,
         body: Center(
@@ -114,25 +142,31 @@ class _HourTvStartupCoverState extends State<HourTvStartupCover> {
                     fontSize: 13,
                   ),
                 ),
-                if (readiness.canRetry) ...[
-                  const SizedBox(height: 24),
-                  FilledButton.icon(
-                    onPressed: () => _store.retry(),
-                    icon: const Icon(Icons.refresh_rounded, size: 18),
-                    label: const Text('Reintentar'),
-                    style: FilledButton.styleFrom(
-                      backgroundColor: HourTvMobileTokens.emerald,
-                      foregroundColor: Colors.black,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 24,
-                        vertical: 12,
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
+                const SizedBox(height: 24),
+                FilledButton.icon(
+                  onPressed: () {
+                    if (_store.readiness.phase == CatalogLoadPhase.failed) {
+                      _store.retry();
+                    }
+                    if (_catalogRepo != null &&
+                        _catalogRepo!.status == CatalogRepositoryStatus.failed) {
+                      _catalogRepo!.initialize();
+                    }
+                  },
+                  icon: const Icon(Icons.refresh_rounded, size: 18),
+                  label: const Text('Reintentar'),
+                  style: FilledButton.styleFrom(
+                    backgroundColor: HourTvMobileTokens.emerald,
+                    foregroundColor: Colors.black,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 24,
+                      vertical: 12,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
                     ),
                   ),
-                ],
+                ),
               ],
             ),
           ),
@@ -140,11 +174,19 @@ class _HourTvStartupCoverState extends State<HourTvStartupCover> {
       );
     }
 
+    final isSyncingRepo = repo != null && repo.status == CatalogRepositoryStatus.syncing;
+    final stageTitle = isSyncingRepo
+        ? 'Sincronizando catálogo inicial'
+        : _stageTitle(readiness.phase);
+    final stageSubtitle = isSyncingRepo
+        ? 'Sincronizando el catálogo más reciente...'
+        : 'Un momento, estamos preparando el catálogo.';
+
     return Scaffold(
       backgroundColor: HourTvMobileTokens.deepBlack,
       body: HourTvBootLoading(
-        title: _stageTitle(readiness.phase),
-        subtitle: 'Un momento, estamos preparando el catálogo.',
+        title: stageTitle,
+        subtitle: stageSubtitle,
       ),
     );
   }

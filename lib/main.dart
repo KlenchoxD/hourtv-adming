@@ -50,7 +50,7 @@ void main() {
         gateway: gateway,
         syncEngine: syncEngine,
       );
-      CatalogRepository.setInstanceForTesting(catalogRepo);
+      CatalogRepository.configureInstance(catalogRepo);
       unawaited(catalogRepo.initialize().catchError((_) => CatalogRepositoryStatus.failed));
     } catch (_) {}
     await DeviceProfile.warmUp();

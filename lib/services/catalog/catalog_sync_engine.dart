@@ -19,7 +19,10 @@ class CatalogSyncEngine {
   });
 
   /// Ejecuta un ciclo de sincronización completo o incremental.
-  Future<SyncResult> syncCatalog({int batchSize = 200}) async {
+  Future<SyncResult> syncCatalog({
+    int batchSize = 200,
+    void Function(int appliedCount)? onBatchApplied,
+  }) async {
     final metadata = await gateway.fetchSyncMetadata();
     final localRev = await dao.getLastCatalogRevision();
 
@@ -229,6 +232,7 @@ class CatalogSyncEngine {
 
       totalApplied += changes.length;
       currentRev = batchHighWater;
+      onBatchApplied?.call(totalApplied);
 
       if (changes.length < batchSize) {
         break;
