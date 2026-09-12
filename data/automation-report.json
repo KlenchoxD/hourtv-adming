@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-09-12T00:15:58.190Z",
-  "durationMs": 1283,
+  "generatedAt": "2026-09-12T04:48:39.245Z",
+  "durationMs": 1223,
   "dryRun": false,
   "moviesFound": 34,
   "moviesDiscarded": 24,
@@ -69,8 +69,8 @@
     },
     {
       "tmdbId": 1302904,
-      "title": "Prácticamente magia 2",
-      "reason": "Votos 23 por debajo del mínimo (50)"
+      "title": "Hechizo de amor: La magia continúa",
+      "reason": "Votos 24 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1355228,
