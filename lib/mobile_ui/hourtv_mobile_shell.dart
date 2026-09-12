@@ -23,6 +23,7 @@ import 'hourtv_compact_filter_selector.dart';
 import 'hourtv_genre_service.dart';
 import 'hourtv_mobile_components.dart';
 import 'hourtv_mobile_theme.dart';
+import '../services/recommendations/recommendation_engine.dart';
 import '../services/catalog/catalog_dtos.dart';
 import '../services/catalog/catalog_repository.dart';
 import '../services/catalog/catalog_detail_navigator.dart';
@@ -83,12 +84,14 @@ class HourTvMobileShell extends StatefulWidget {
     this.catalogRepository,
     this.catalogPageSource,
     this.seriesPageSource,
+    this.recommendationEngine,
   });
 
   final Map<HourTvMobileDestination, WidgetBuilder>? destinationBuilders;
   final CatalogRepository? catalogRepository;
   final CatalogPageSource? catalogPageSource;
   final CatalogPageSource? seriesPageSource;
+  final RecommendationEngine? recommendationEngine;
 
   @override
   State<HourTvMobileShell> createState() => _HourTvMobileShellState();
@@ -209,6 +212,7 @@ class _HourTvMobileShellState extends State<HourTvMobileShell> {
             catalogRepository: widget.catalogRepository,
             moviesPageSource: widget.catalogPageSource,
             seriesPageSource: widget.seriesPageSource,
+            recommendationEngine: widget.recommendationEngine,
           ),
         ),
       HourTvMobileDestination.live => ValueListenableBuilder<bool>(
@@ -290,6 +294,8 @@ class HourTvMobileHome extends StatefulWidget {
     this.catalogRepository,
     this.moviesPageSource,
     this.seriesPageSource,
+    this.recommendationEngine,
+    this.initialRecommendations,
   });
 
   final List<Channel> movies;
@@ -306,6 +312,8 @@ class HourTvMobileHome extends StatefulWidget {
   final CatalogRepository? catalogRepository;
   final CatalogPageSource? moviesPageSource;
   final CatalogPageSource? seriesPageSource;
+  final RecommendationEngine? recommendationEngine;
+  final List<RecommendationItem>? initialRecommendations;
 
   @override
   State<HourTvMobileHome> createState() => _HourTvMobileHomeState();
@@ -315,12 +323,37 @@ class _HourTvMobileHomeState extends State<HourTvMobileHome> {
   final ScrollController _scrollController = ScrollController();
   CatalogPageSource? _moviesPageSource;
   CatalogPageSource? _seriesPageSource;
+  List<RecommendationItem> _recommendations = [];
 
   @override
   void initState() {
     super.initState();
     _scrollController.addListener(_onHomeScroll);
     _initPageSources();
+    if (widget.initialRecommendations != null) {
+      _recommendations = widget.initialRecommendations!;
+    } else {
+      _loadRecommendations();
+    }
+  }
+
+  Future<void> _loadRecommendations() async {
+    final engine = widget.recommendationEngine;
+    if (engine == null) return;
+    try {
+      final activeProfileId = StorageService.activeProfileId;
+      final isKids = StorageService.activeProfileIsKids;
+      final recs = await engine.getRecommendations(
+        profileId: activeProfileId,
+        isKids: isKids,
+        catalog: widget.allContent.isNotEmpty ? widget.allContent : widget.movies,
+      );
+      if (mounted) {
+        setState(() {
+          _recommendations = recs;
+        });
+      }
+    } catch (_) {}
   }
 
   void _initPageSources() {
@@ -491,6 +524,36 @@ class _HourTvMobileHomeState extends State<HourTvMobileHome> {
                       progress: item.progressFraction,
                       secondaryProgressLabel: remainingLabel(item),
                       onTap: () => (widget.onOpenContinue ?? widget.onOpen)(item),
+                      assetFallback: _fallbackArtwork(index),
+                    );
+                  },
+                ),
+              ),
+            ),
+          ],
+          if (_recommendations.isNotEmpty) ...[
+            SliverPadding(
+              padding: const EdgeInsets.fromLTRB(16, 24, 16, 12),
+              sliver: SliverToBoxAdapter(
+                child: HourTvSectionHeader(
+                  title: 'Recomendado para ti',
+                  actionLabel: _recommendations.first.reason,
+                ),
+              ),
+            ),
+            SliverToBoxAdapter(
+              child: SizedBox(
+                height: 220,
+                child: ListView.separated(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  scrollDirection: Axis.horizontal,
+                  itemCount: _recommendations.length,
+                  separatorBuilder: (_, _) => const SizedBox(width: 12),
+                  itemBuilder: (_, index) {
+                    final item = _recommendations[index].channel;
+                    return HourTvPosterCard(
+                      channel: item,
+                      onTap: () => widget.onOpen(item),
                       assetFallback: _fallbackArtwork(index),
                     );
                   },

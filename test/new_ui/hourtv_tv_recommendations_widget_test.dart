@@ -135,5 +135,87 @@ void main() {
       expect(find.text('Especial para niños'), findsOneWidget);
       expect(find.text('Cars Aventura Infantil'), findsWidgets);
     });
+
+    testWidgets('3. Perfil infantil llamado "Pedro" activa filtro infantil estructurado', (tester) async {
+      tester.view.physicalSize = const Size(1920, 1080);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
+
+      DeviceProfile.overrideType.value = DeviceType.tv;
+      // Perfil infantil con nombre "Pedro" (sin palabras clave en el nombre)
+      await StorageService.setCloudProfileContext(
+        accountId: 'acc-1',
+        profileId: 'profile-pedro',
+        name: 'Pedro',
+        avatarId: 'avatar_kids_1',
+        isKids: true,
+      );
+
+      expect(StorageService.activeProfileIsKids, isTrue);
+
+      final adultMovie = Channel(
+        name: 'Deadpool Action +18',
+        url: 'catalog://rec-deadpool',
+        catalogTitleId: 'rec-deadpool',
+        isKidsSafe: false,
+        forcedType: 'movie',
+      );
+      final kidsMovie = Channel(
+        name: 'Toy Story Infantil',
+        url: 'catalog://rec-toystory',
+        catalogTitleId: 'rec-toystory',
+        isKidsSafe: true,
+        forcedType: 'movie',
+      );
+
+      final recs = await recommendationEngine.getRecommendations(
+        profileId: 'profile-pedro',
+        isKids: StorageService.activeProfileIsKids,
+        catalog: [adultMovie, kidsMovie],
+      );
+
+      expect(recs.any((r) => r.channel.name == 'Deadpool Action +18'), isFalse);
+      expect(recs.any((r) => r.channel.name == 'Toy Story Infantil'), isTrue);
+    });
+
+    testWidgets('4. Perfil adulto llamado "Kids Movie Fan" NO activa filtro infantil por su nombre', (tester) async {
+      tester.view.physicalSize = const Size(1920, 1080);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
+
+      DeviceProfile.overrideType.value = DeviceType.tv;
+      // Perfil adulto con la palabra "Kids" en el nombre, pero estructurado isKids: false
+      await StorageService.setCloudProfileContext(
+        accountId: 'acc-1',
+        profileId: 'profile-adult-fan',
+        name: 'Kids Movie Fan',
+        avatarId: 'avatar_adult_1',
+        isKids: false,
+      );
+
+      expect(StorageService.activeProfileIsKids, isFalse);
+
+      final adultMovie = Channel(
+        name: 'Inception Sci-Fi',
+        url: 'catalog://rec-inception',
+        catalogTitleId: 'rec-inception',
+        isKidsSafe: false,
+        forcedType: 'movie',
+      );
+
+      final recs = await recommendationEngine.getRecommendations(
+        profileId: 'profile-adult-fan',
+        isKids: StorageService.activeProfileIsKids,
+        catalog: [adultMovie],
+      );
+
+      expect(recs.any((r) => r.channel.name == 'Inception Sci-Fi'), isTrue);
+    });
   });
 }

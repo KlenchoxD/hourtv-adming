@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../services/content_store.dart';
 import '../services/parental_control_service.dart';
 import '../services/storage_service.dart';
+import '../services/sync/profile_sync_engine.dart';
 import 'hourtv_focusable.dart';
 import 'hourtv_parental_gate.dart';
 import 'hourtv_profile_avatar.dart';
@@ -134,7 +135,9 @@ class _HourTvProfilePageState extends State<HourTvProfilePage> {
   Future<void> _switchProfile() async {
     if (StorageService.activeProfileIsKids && !await _exitKidsMode()) return;
     if (!mounted) return;
+    await ProfileSyncEngine.instance?.flush();
     await StorageService.clearChosenProfile();
+    ContentStore.instance.refreshProfileData();
     if (!mounted) return;
     Navigator.of(context, rootNavigator: true).popUntil((r) => r.isFirst);
   }

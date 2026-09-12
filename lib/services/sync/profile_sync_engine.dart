@@ -58,9 +58,25 @@ class ProfileSyncEngine {
   ProfileSyncGateway? get _gateway => gateway;
   String get _deviceId => deviceId;
 
+  /// Identifica si un perfil pertenece al modo invitado / local offline o a un perfil cloud
+  bool isGuestProfile(String profileId) {
+    if (profileId == 'guest' || profileId == 'invitado') return true;
+    try {
+      if (StorageService.isInitialized) {
+        final cloudId = StorageService.cloudProfileId;
+        if (cloudId == null || cloudId.isEmpty) {
+          return true; // Modo Invitado activo
+        }
+        return profileId != cloudId;
+      }
+    } catch (_) {}
+    return false;
+  }
+
   /// Vuelca forzadamente y sincroniza las operaciones locales en cambios de ciclo de vida.
   Future<void> flush([String? profileId]) async {
     final targetId = profileId ?? StorageService.activeProfileId;
+    if (isGuestProfile(targetId)) return;
     await syncProfile(targetId);
   }
 
@@ -82,7 +98,7 @@ class ProfileSyncEngine {
       updatedAt: now,
     );
 
-    if (profileId != 'guest' && _gateway != null) {
+    if (!isGuestProfile(profileId) && _gateway != null) {
       final opId = UuidUtils.v4();
       final seq = await _dao.getNextSequence(profileId, _deviceId);
       await _dao.enqueueOperation(
@@ -127,7 +143,7 @@ class ProfileSyncEngine {
       updatedAt: now,
     );
 
-    if (profileId != 'guest' && _gateway != null) {
+    if (!isGuestProfile(profileId) && _gateway != null) {
       final opId = UuidUtils.v4();
       final seq = await _dao.getNextSequence(profileId, _deviceId);
       final payloadStr = jsonEncode({
@@ -176,7 +192,7 @@ class ProfileSyncEngine {
       updatedAt: now,
     );
 
-    if (profileId != 'guest' && _gateway != null) {
+    if (!isGuestProfile(profileId) && _gateway != null) {
       final opId = UuidUtils.v4();
       final seq = await _dao.getNextSequence(profileId, _deviceId);
       final payloadStr = jsonEncode({'duration_ms': durationMs});
@@ -226,7 +242,7 @@ class ProfileSyncEngine {
 
     await _dao.pruneHistory(profileId, maxEntries: 500);
 
-    if (profileId != 'guest' && _gateway != null) {
+    if (!isGuestProfile(profileId) && _gateway != null) {
       final opId = UuidUtils.v4();
       final seq = await _dao.getNextSequence(profileId, _deviceId);
       final payloadStr = jsonEncode({
@@ -270,7 +286,7 @@ class ProfileSyncEngine {
       updatedAt: now,
     );
 
-    if (profileId != 'guest' && _gateway != null) {
+    if (!isGuestProfile(profileId) && _gateway != null) {
       final opId = UuidUtils.v4();
       final seq = await _dao.getNextSequence(profileId, _deviceId);
       final payloadMap = <String, dynamic>{};
@@ -296,7 +312,7 @@ class ProfileSyncEngine {
 
   Future<PushResult> pushPendingOperations(String profileId, {int batchSize = 50}) async {
     final gateway = _gateway;
-    if (gateway == null || profileId == 'guest') {
+    if (gateway == null || isGuestProfile(profileId)) {
       return const PushResult();
     }
 
@@ -643,7 +659,7 @@ class ProfileSyncEngine {
   // --- Sincronización Completa del Perfil Activo ---
 
   Future<SyncResult> syncProfile(String profileId) async {
-    if (profileId == 'guest') {
+    if (isGuestProfile(profileId)) {
       return SyncResult.skippedGuest();
     }
     if (_gateway == null) {

@@ -18,6 +18,7 @@ import 'services/iptv_server_service.dart';
 import 'services/profiles/supabase_profile_repository.dart';
 import 'services/storage_service.dart';
 import 'services/sync/profile_sync_engine.dart';
+import 'services/recommendations/recommendation_engine.dart';
 import 'services/catalog/catalog_infrastructure.dart';
 import 'services/supabase_bootstrap.dart';
 import 'services/supabase_config.dart';
@@ -39,8 +40,9 @@ void main() {
         debugPrintStack(stackTrace: st);
       }
     }
+    CatalogInfrastructure? catalogInfra;
     try {
-      await initializeCatalogInfrastructure();
+      catalogInfra = await initializeCatalogInfrastructure();
     } catch (e, st) {
       debugPrint('Error al inicializar infraestructura de catálogo: ${e.runtimeType}');
       if (kDebugMode) {
@@ -61,7 +63,7 @@ void main() {
         systemNavigationBarIconBrightness: Brightness.light,
       ),
     );
-    runApp(const HourTVApp());
+    runApp(HourTVApp(catalogInfrastructure: catalogInfra));
     if (StorageService.getSetting('iptv_server_enabled', defaultValue: false) ==
         true) {
       unawaited(IptvServerService.instance.start().catchError((_) {}));
@@ -70,8 +72,9 @@ void main() {
 }
 
 class HourTVApp extends StatelessWidget {
-  const HourTVApp({super.key, this.fatalError});
+  const HourTVApp({super.key, this.fatalError, this.catalogInfrastructure});
   final String? fatalError;
+  final CatalogInfrastructure? catalogInfrastructure;
 
   @override
   Widget build(BuildContext context) {
@@ -97,14 +100,15 @@ class HourTVApp extends StatelessWidget {
         );
       },
       home: fatalError == null
-          ? const _ResponsiveRoot()
+          ? _ResponsiveRoot(catalogInfrastructure: catalogInfrastructure)
           : _FatalError(fatalError!),
     );
   }
 }
 
 class _ResponsiveRoot extends StatelessWidget {
-  const _ResponsiveRoot();
+  const _ResponsiveRoot({this.catalogInfrastructure});
+  final CatalogInfrastructure? catalogInfrastructure;
 
   @override
   Widget build(BuildContext context) {
@@ -118,7 +122,9 @@ class _ResponsiveRoot extends StatelessWidget {
         valueListenable: StorageService.hasChosenProfile,
         builder: (context, hasChosenProfile, _) {
           if (!hasChosenProfile) return const HourTvProfileGate();
-          return const HourTvStartupCover(child: _AppShell());
+          return HourTvStartupCover(
+            child: _AppShell(catalogInfrastructure: catalogInfrastructure),
+          );
         },
       ),
       authenticatedChild: ValueListenableBuilder<bool>(
@@ -132,12 +138,16 @@ class _ResponsiveRoot extends StatelessWidget {
                     SupabaseBootstrap.instance.client?.auth.currentUser?.id,
               ),
               onSignOut: () async {
+                await ProfileSyncEngine.instance?.flush();
                 await SupabaseBootstrap.instance.authGateway.signOut();
                 await StorageService.clearCloudProfileContext();
+                ContentStore.instance.refreshProfileData();
               },
             );
           }
-          return const HourTvStartupCover(child: _AppShell());
+          return HourTvStartupCover(
+            child: _AppShell(catalogInfrastructure: catalogInfrastructure),
+          );
         },
       ),
     );
@@ -150,7 +160,8 @@ class _ResponsiveRoot extends StatelessWidget {
 /// al entrar, y si hay una version mas nueva se avisa con un dialogo en vez
 /// de dejarlo escondido en un menu.
 class _AppShell extends StatefulWidget {
-  const _AppShell();
+  const _AppShell({this.catalogInfrastructure});
+  final CatalogInfrastructure? catalogInfrastructure;
 
   @override
   State<_AppShell> createState() => _AppShellState();
@@ -247,6 +258,14 @@ class _AppShellState extends State<_AppShell> with WidgetsBindingObserver {
         final isPhone = DeviceProfile.isPhone(context);
         final size = MediaQuery.sizeOf(context);
 
+        final recEngine = widget.catalogInfrastructure?.recommendationEngine ??
+            CatalogInfrastructure.current?.recommendationEngine ??
+            (ProfileSyncEngine.instance != null
+                ? RecommendationEngine(
+                    userDataDao: ProfileSyncEngine.instance!.userDataDao,
+                  )
+                : null);
+
         if (kIsWeb && isPhone && size.width > 600) {
           return Scaffold(
             backgroundColor: const Color(0xFF070709),
@@ -266,7 +285,11 @@ class _AppShellState extends State<_AppShell> with WidgetsBindingObserver {
                         ),
                       ],
                     ),
-                    child: const ClipRect(child: HourTvMobileShell()),
+                    child: ClipRect(
+                      child: HourTvMobileShell(
+                        recommendationEngine: recEngine,
+                      ),
+                    ),
                   ),
                 ),
                 Positioned(
@@ -315,8 +338,10 @@ class _AppShellState extends State<_AppShell> with WidgetsBindingObserver {
           );
         }
 
-        if (isPhone) return const HourTvMobileShell();
-        return const HourTvNewShell();
+        if (isPhone) {
+          return HourTvMobileShell(recommendationEngine: recEngine);
+        }
+        return HourTvNewShell(recommendationEngine: recEngine);
       },
     );
   }

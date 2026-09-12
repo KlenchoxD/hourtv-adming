@@ -7,6 +7,7 @@ import '../models/channel.dart';
 import '../models/m3u_list.dart';
 import 'playback_progress.dart';
 import 'sync/profile_sync_engine.dart';
+import 'sync/uuid_utils.dart';
 import 'xtream_service.dart';
 
 class StorageService {
@@ -21,7 +22,20 @@ class StorageService {
   static const String _activeProfileIdKey = 'activeProfileId';
   static const String _primaryProfileIdKey = 'primaryProfileId';
   static const String _hasChosenProfileKey = 'hasChosenProfile';
+  static const String _stableDeviceIdKey = 'hourtv_stable_device_id_v1';
   static SharedPreferences? _prefs;
+
+  static bool get isInitialized => _prefs != null;
+
+  static String getOrCreateDeviceId() {
+    final existing = getSetting(_stableDeviceIdKey)?.toString().trim();
+    if (existing != null && existing.isNotEmpty) {
+      return existing;
+    }
+    final newId = UuidUtils.v4();
+    unawaited(saveSetting(_stableDeviceIdKey, newId));
+    return newId;
+  }
 
   /// Si todavia no se eligio perfil (instalacion nueva, o tras cerrar
   /// sesion): la raiz de la app usa esto para mostrar el selector de

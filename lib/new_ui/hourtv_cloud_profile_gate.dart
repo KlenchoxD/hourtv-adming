@@ -6,6 +6,7 @@ import '../services/migration/guest_migration_service.dart';
 import '../services/parental_control_service.dart';
 import '../services/profiles/profile_repository.dart';
 import '../services/storage_service.dart';
+import '../services/sync/profile_sync_engine.dart';
 import 'hourtv_guest_import_prompt.dart';
 import 'hourtv_parental_gate.dart';
 import 'hourtv_profile_avatar.dart';
@@ -131,6 +132,7 @@ class _HourTvCloudProfileGateState extends State<HourTvCloudProfileGate> {
     );
     await StorageService.markProfileChosen();
     ContentStore.instance.refreshProfileData();
+    unawaited(ProfileSyncEngine.instance?.syncProfile(profile.id));
     widget.onProfileSelected?.call(profile);
   }
 

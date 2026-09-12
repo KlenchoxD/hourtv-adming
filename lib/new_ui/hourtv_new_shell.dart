@@ -708,10 +708,7 @@ class _HomePageState extends State<_HomePage> {
     if (engine == null) return;
     try {
       final activeProfileId = StorageService.activeProfileId;
-      final activeProfileName = StorageService.loadSettings()['activeProfile']?.toString() ?? '';
-      final isKids = activeProfileName.toLowerCase().contains('infantil') ||
-          activeProfileName.toLowerCase().contains('niño') ||
-          activeProfileName.toLowerCase().contains('kids');
+      final isKids = StorageService.activeProfileIsKids;
 
       final allCatalog = [...widget.movies, ...widget.series];
       final recs = await engine.getRecommendations(

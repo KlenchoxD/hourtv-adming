@@ -1,5 +1,5 @@
 begin;
-select plan(56);
+select plan(54);
 
 -- 1. Test: anon y authenticated no pueden mutar tablas del catálogo
 set local role anon;
