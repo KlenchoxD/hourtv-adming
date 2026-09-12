@@ -341,7 +341,7 @@ class ProfileSyncEngine {
 
       for (final res in results) {
         final opId = res['operation_id']?.toString();
-        final status = res['status']?.toString();
+        final status = res['status']?.toString() ?? res['apply_status']?.toString();
 
         if (opId != null) {
           if (status == 'applied' || status == 'duplicate' || status == 'ignored_stale') {

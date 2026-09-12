@@ -97,6 +97,17 @@ class MockProfileSyncGateway implements ProfileSyncGateway {
           'preferences': null,
         };
   }
+
+  @override
+  Future<void> updateGuestImportAudit({
+    required String profileId,
+    required String importBatchId,
+    required String status,
+    int favoritesCount = 0,
+    int progressCount = 0,
+    int historyCount = 0,
+    String? errorMessage,
+  }) async {}
 }
 
 void main() {
