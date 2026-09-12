@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-09-12T04:48:40.463Z",
+  "lastRunAt": "2026-09-12T08:57:09.672Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -16,9 +16,9 @@
     1433367,
     1273221,
     1127384,
+    1302904,
     1081003,
     1101383,
-    1302904,
     1355228,
     454639,
     1185806,
@@ -33,8 +33,8 @@
     1285366,
     1516698,
     1621552,
-    1560520,
     1323244,
+    1514682,
     1335666
   ],
   "tmdbIdsPublished": [],
@@ -87,6 +87,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1302904,
+      "title": "Hechizo de amor: La magia continúa",
+      "reason": "Votos 24 por debajo del mínimo (50)"
+    },
+    {
       "tmdbId": 1081003,
       "title": "Supergirl",
       "reason": "Sin fuente autorizada configurada"
@@ -95,11 +100,6 @@
       "tmdbId": 1101383,
       "title": "El final de Oak Street",
       "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1302904,
-      "title": "Hechizo de amor: La magia continúa",
-      "reason": "Votos 24 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1355228,
@@ -144,7 +144,7 @@
     {
       "tmdbId": 1440098,
       "title": "Enfrentados: Marfil",
-      "reason": "Votos 37 por debajo del mínimo (50)"
+      "reason": "Votos 38 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1285366,
@@ -152,14 +152,14 @@
       "reason": "Rating 5.2 por debajo del mínimo (5.5)"
     },
     {
-      "tmdbId": 1560520,
-      "title": "Batman: Knightfall Part 1: Knightfall",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1323244,
       "title": "La señal del apocalipsis",
       "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1514682,
+      "title": "Above & Below",
+      "reason": "Votos 29 por debajo del mínimo (50)"
     }
   ]
 }
