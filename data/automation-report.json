@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-09-12T12:36:41.514Z",
-  "durationMs": 3068,
+  "generatedAt": "2026-09-12T15:49:23.624Z",
+  "durationMs": 2117,
   "dryRun": false,
   "moviesFound": 34,
   "moviesDiscarded": 24,
@@ -43,8 +43,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1228710,
-      "title": "The Mandalorian and Grogu",
+      "tmdbId": 1101383,
+      "title": "El final de Oak Street",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1127384,
+      "title": "En mar abierto",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -53,8 +58,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1127384,
-      "title": "En mar abierto",
+      "tmdbId": 1228710,
+      "title": "The Mandalorian and Grogu",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -68,14 +73,9 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1101383,
-      "title": "El final de Oak Street",
+      "tmdbId": 1185806,
+      "title": "La Patrulla Canina: La dino película",
       "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1355228,
-      "title": "Gandhari",
-      "reason": "Rating 5.1 por debajo del mínimo (5.5)"
     },
     {
       "tmdbId": 454639,
@@ -83,9 +83,9 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1185806,
-      "title": "La Patrulla Canina: La dino película",
-      "reason": "Sin fuente autorizada configurada"
+      "tmdbId": 1355228,
+      "title": "Gandhari",
+      "reason": "Rating 5.1 por debajo del mínimo (5.5)"
     },
     {
       "tmdbId": 1368337,
@@ -103,6 +103,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1440098,
+      "title": "Enfrentados: Marfil",
+      "reason": "Votos 38 por debajo del mínimo (50)"
+    },
+    {
       "tmdbId": 1294189,
       "title": "The Mongoose",
       "reason": "Rating 0 por debajo del mínimo (5.5)"
@@ -111,11 +116,6 @@
       "tmdbId": 1393326,
       "title": "Ghost in the Cell",
       "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1440098,
-      "title": "Enfrentados: Marfil",
-      "reason": "Votos 38 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1285366,
