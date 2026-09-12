@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-09-11T22:07:19.716Z",
+  "lastRunAt": "2026-09-12T00:15:59.468Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -7,7 +7,6 @@
     1288445,
     1108427,
     1137844,
-    1339713,
     1084244,
     1315772,
     1275779,
@@ -22,6 +21,7 @@
     1302904,
     1355228,
     454639,
+    1185806,
     1368337,
     1375646,
     1386315,
@@ -29,6 +29,7 @@
     1294189,
     1393326,
     1440098,
+    1339713,
     1285366,
     1516698,
     1621552,
@@ -108,6 +109,11 @@
     {
       "tmdbId": 454639,
       "title": "He-Man y los Masters del Universo",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1185806,
+      "title": "La Patrulla Canina: La dino película",
       "reason": "Sin fuente autorizada configurada"
     },
     {

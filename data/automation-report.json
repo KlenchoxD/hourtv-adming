@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-09-11T22:07:17.347Z",
-  "durationMs": 2373,
+  "generatedAt": "2026-09-12T00:15:58.190Z",
+  "durationMs": 1283,
   "dryRun": false,
-  "moviesFound": 33,
-  "moviesDiscarded": 23,
+  "moviesFound": 34,
+  "moviesDiscarded": 24,
   "moviesAdded": 0,
   "moviesEnriched": 0,
   "duplicates": 10,
@@ -80,6 +80,11 @@
     {
       "tmdbId": 454639,
       "title": "He-Man y los Masters del Universo",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1185806,
+      "title": "La Patrulla Canina: La dino película",
       "reason": "Sin fuente autorizada configurada"
     },
     {
