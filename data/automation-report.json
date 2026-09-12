@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-09-12T08:57:07.510Z",
-  "durationMs": 2166,
+  "generatedAt": "2026-09-12T12:36:41.514Z",
+  "durationMs": 3068,
   "dryRun": false,
   "moviesFound": 34,
   "moviesDiscarded": 24,
@@ -60,7 +60,7 @@
     {
       "tmdbId": 1302904,
       "title": "Hechizo de amor: La magia continúa",
-      "reason": "Votos 24 por debajo del mínimo (50)"
+      "reason": "Votos 26 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1081003,
