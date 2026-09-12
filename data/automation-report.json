@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-09-12T17:59:40.102Z",
-  "durationMs": 1822,
+  "generatedAt": "2026-09-12T20:22:04.821Z",
+  "durationMs": 2384,
   "dryRun": false,
   "moviesFound": 34,
   "moviesDiscarded": 24,
@@ -98,9 +98,9 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1386315,
-      "title": "A la carrera",
-      "reason": "Sin fuente autorizada configurada"
+      "tmdbId": 1294189,
+      "title": "The Mongoose",
+      "reason": "Rating 0 por debajo del mínimo (5.5)"
     },
     {
       "tmdbId": 1440098,
@@ -108,9 +108,9 @@
       "reason": "Votos 40 por debajo del mínimo (50)"
     },
     {
-      "tmdbId": 1294189,
-      "title": "The Mongoose",
-      "reason": "Rating 0 por debajo del mínimo (5.5)"
+      "tmdbId": 1386315,
+      "title": "A la carrera",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1393326,
@@ -128,9 +128,9 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1514682,
-      "title": "Above & Below",
-      "reason": "Votos 29 por debajo del mínimo (50)"
+      "tmdbId": 1560520,
+      "title": "Batman: Knightfall Part 1: Knightfall",
+      "reason": "Sin fuente autorizada configurada"
     }
   ]
 }
