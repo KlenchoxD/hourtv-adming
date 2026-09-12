@@ -140,6 +140,7 @@ class Channel {
   final List<ChannelServer> servers;
   final List<String> categories;
   final bool isFeatured;
+  final bool isKidsSafe;
   final String? catalogTitleId;
 
   bool get isDriftCatalog =>
@@ -183,6 +184,7 @@ class Channel {
     this.servers = const [],
     this.categories = const [],
     this.isFeatured = false,
+    this.isKidsSafe = false,
     this.catalogTitleId,
   });
 
@@ -259,6 +261,7 @@ class Channel {
     'servers': servers.map((server) => server.toJson()).toList(),
     'categories': categories,
     'isFeatured': isFeatured,
+    'isKidsSafe': isKidsSafe,
     'catalogTitleId': catalogTitleId,
   };
 
@@ -301,6 +304,7 @@ class Channel {
         .where((category) => category.isNotEmpty)
         .toList(),
     isFeatured: json['isFeatured'] == true || json['featured'] == true,
+    isKidsSafe: json['isKidsSafe'] == true || json['is_kids_safe'] == true,
     catalogTitleId: json['catalogTitleId']?.toString(),
   );
 
@@ -334,6 +338,7 @@ class Channel {
     List<ChannelServer>? servers,
     List<String>? categories,
     bool? isFeatured,
+    bool? isKidsSafe,
     String? catalogTitleId,
   }) {
     return Channel(
@@ -366,6 +371,7 @@ class Channel {
       servers: servers ?? this.servers,
       categories: categories ?? this.categories,
       isFeatured: isFeatured ?? this.isFeatured,
+      isKidsSafe: isKidsSafe ?? this.isKidsSafe,
       catalogTitleId: catalogTitleId ?? this.catalogTitleId,
     );
   }
