@@ -18,6 +18,7 @@ import '../services/content_store.dart';
 import '../services/embed_resolver.dart';
 import '../services/playback_progress.dart';
 import '../services/playback_source_fallback.dart';
+import '../services/sync/profile_sync_engine.dart';
 import 'hourtv_focusable.dart';
 import 'hourtv_cast_controls_screen.dart';
 import 'hourtv_cast_sheet.dart';
@@ -2952,6 +2953,43 @@ Future<void> savePlaybackPosition(
     fraction,
     notify: false,
   );
+
+  final syncEngine = ProfileSyncEngine.instance;
+  if (syncEngine != null) {
+    final activeProfileId = StorageService.activeProfileId;
+    final isCompleted = fraction >= 0.95;
+    final contentKey = PlaybackProgress.contentKey(channel);
+    final now = DateTime.now().toUtc();
+    final sessId = 'sess_${channel.stableTitleId ?? channel.name}';
+
+    await syncEngine.recordProgress(
+      profileId: activeProfileId,
+      contentKey: contentKey,
+      playbackSessionId: sessId,
+      titleId: channel.stableTitleId,
+      positionMs: positionMs,
+      durationMs: durationMs,
+      fraction: fraction,
+      isCompleted: isCompleted,
+      lastWatchedAt: now,
+      updatedAt: now,
+    );
+
+    if (isCompleted || positionMs >= 60000) {
+      await syncEngine.recordHistoryEntry(
+        id: '${sessId}_${now.millisecondsSinceEpoch}',
+        profileId: activeProfileId,
+        playbackSessionId: sessId,
+        contentKey: contentKey,
+        titleId: channel.stableTitleId,
+        stoppedAtMs: positionMs,
+        durationMs: durationMs,
+        fraction: fraction,
+        isCompleted: isCompleted,
+        watchedAt: now,
+      );
+    }
+  }
 }
 
 /// Reloj corto para el dialogo de reanudacion: "23:14", "1:02:03".

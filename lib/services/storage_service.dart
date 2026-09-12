@@ -1,9 +1,12 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import '../models/channel.dart';
 import '../models/m3u_list.dart';
+import 'playback_progress.dart';
+import 'sync/profile_sync_engine.dart';
 import 'xtream_service.dart';
 
 class StorageService {
@@ -322,6 +325,19 @@ class StorageService {
     }
     channel.isFavorite = nowFavorite;
     await saveFavorites(favorites);
+
+    final syncEngine = ProfileSyncEngine.instance;
+    if (syncEngine != null) {
+      unawaited(
+        syncEngine.recordFavorite(
+          profileId: activeProfileId,
+          contentKey: PlaybackProgress.contentKey(channel),
+          titleId: channel.stableTitleId,
+          isFavorite: nowFavorite,
+        ),
+      );
+    }
+
     return nowFavorite;
   }
 

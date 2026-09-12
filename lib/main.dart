@@ -17,6 +17,7 @@ import 'services/device_type.dart';
 import 'services/iptv_server_service.dart';
 import 'services/profiles/supabase_profile_repository.dart';
 import 'services/storage_service.dart';
+import 'services/sync/profile_sync_engine.dart';
 import 'services/catalog/catalog_infrastructure.dart';
 import 'services/supabase_bootstrap.dart';
 import 'services/supabase_config.dart';
@@ -172,12 +173,12 @@ class _AppShellState extends State<_AppShell> with WidgetsBindingObserver {
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    // `ContentStore.maybeRefresh` ya existia (comentario y todo) pero nada
-    // la llamaba: publicar contenido nuevo desde el panel de administracion
-    // nunca llegaba a una app que ya estaba abierta, habia que cerrarla del
-    // todo y volver a entrar para verlo. Aca es donde debia engancharse.
     if (state == AppLifecycleState.resumed) {
       unawaited(ContentStore.instance.maybeRefresh());
+    } else if (state == AppLifecycleState.paused ||
+        state == AppLifecycleState.inactive ||
+        state == AppLifecycleState.hidden) {
+      unawaited(ProfileSyncEngine.instance?.flush());
     }
   }
 

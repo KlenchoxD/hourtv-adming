@@ -18,6 +18,8 @@ import 'hourtv_series_detail_page.dart';
 import '../services/catalog/catalog_detail_navigator.dart';
 import '../services/catalog/catalog_page_source.dart';
 import '../services/catalog/catalog_repository.dart';
+import '../services/recommendations/recommendation_engine.dart';
+import '../services/storage_service.dart';
 
 const _red = Color(0xFF00C781);
 const _black = Color(0xFF050505);
@@ -33,11 +35,15 @@ class HourTvNewShell extends StatefulWidget {
     this.catalogRepository,
     this.moviesPageSource,
     this.seriesPageSource,
+    this.recommendationEngine,
+    this.initialRecommendations,
   });
 
   final CatalogRepository? catalogRepository;
   final CatalogPageSource? moviesPageSource;
   final CatalogPageSource? seriesPageSource;
+  final RecommendationEngine? recommendationEngine;
+  final List<RecommendationItem>? initialRecommendations;
 
   @override
   State<HourTvNewShell> createState() => _HourTvNewShellState();
@@ -306,6 +312,8 @@ class _HourTvNewShellState extends State<HourTvNewShell> {
           onSearch: () => setState(() => section = _Section.search),
           tv: tv,
           catalogRepository: repo,
+          recommendationEngine: widget.recommendationEngine,
+          initialRecommendations: widget.initialRecommendations,
         );
       case _Section.movies:
         return _CatalogPage(
@@ -652,7 +660,7 @@ class _RailItemState extends State<_RailItem> {
   }
 }
 
-class _HomePage extends StatelessWidget {
+class _HomePage extends StatefulWidget {
   const _HomePage({
     required this.movies,
     required this.series,
@@ -663,6 +671,8 @@ class _HomePage extends StatelessWidget {
     required this.tv,
     required this.onSearch,
     this.catalogRepository,
+    this.recommendationEngine,
+    this.initialRecommendations,
   });
   final List<Channel> movies;
   final List<Channel> series;
@@ -673,56 +683,116 @@ class _HomePage extends StatelessWidget {
   final bool tv;
   final VoidCallback onSearch;
   final CatalogRepository? catalogRepository;
+  final RecommendationEngine? recommendationEngine;
+  final List<RecommendationItem>? initialRecommendations;
+
+  @override
+  State<_HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<_HomePage> {
+  List<RecommendationItem> _recommendations = [];
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.initialRecommendations != null) {
+      _recommendations = widget.initialRecommendations!;
+    } else {
+      _loadRecommendations();
+    }
+  }
+
+  Future<void> _loadRecommendations() async {
+    final engine = widget.recommendationEngine;
+    if (engine == null) return;
+    try {
+      final activeProfileId = StorageService.activeProfileId;
+      final activeProfileName = StorageService.loadSettings()['activeProfile']?.toString() ?? '';
+      final isKids = activeProfileName.toLowerCase().contains('infantil') ||
+          activeProfileName.toLowerCase().contains('niño') ||
+          activeProfileName.toLowerCase().contains('kids');
+
+      final allCatalog = [...widget.movies, ...widget.series];
+      final recs = await engine.getRecommendations(
+        profileId: activeProfileId,
+        isKids: isKids,
+        catalog: allCatalog,
+      );
+      if (mounted) {
+        setState(() {
+          _recommendations = recs;
+        });
+      }
+    } catch (_) {}
+  }
 
   // Tendencias de verdad: las marca el panel de administracion con
   // "Sincronizar tendencias", que lee el ranking semanal de TMDB. Si no hay
   // nada marcado la fila no se pinta; antes se rellenaba invirtiendo el
   // catalogo, que no era ninguna tendencia.
   List<Channel> get _trending => [
-    for (final item in [...movies, ...series])
+    for (final item in [...widget.movies, ...widget.series])
       if (item.categories.any((c) => c.toLowerCase() == 'tendencias')) item,
   ].take(12).toList();
 
   @override
   Widget build(BuildContext context) {
-    final featured = movies.first;
+    final featured = widget.movies.isNotEmpty
+        ? widget.movies.first
+        : (widget.series.isNotEmpty ? widget.series.first : null);
     final trending = _trending;
     return CustomScrollView(
       slivers: [
         SliverToBoxAdapter(
-          child: _TopBar(phone: phone, onSearch: onSearch),
+          child: _TopBar(phone: widget.phone, onSearch: widget.onSearch),
         ),
-        if (preview && store.error != null)
+        if (widget.preview && widget.store.error != null)
           SliverPadding(
             padding: EdgeInsets.fromLTRB(
-              phone ? 16 : (tv ? 34 : 28),
+              widget.phone ? 16 : (widget.tv ? 34 : 28),
               0,
-              phone ? 16 : (tv ? 34 : 28),
+              widget.phone ? 16 : (widget.tv ? 34 : 28),
               12,
             ),
             sliver: const SliverToBoxAdapter(child: _LoadErrorBanner()),
           ),
-        SliverToBoxAdapter(
-          child: _Hero(
-            channel: featured,
-            store: store,
-            preview: preview,
-            phone: phone,
-            tablet: tablet,
-            tv: tv,
-            catalogRepository: catalogRepository,
+        if (featured != null)
+          SliverToBoxAdapter(
+            child: _Hero(
+              channel: featured,
+              store: widget.store,
+              preview: widget.preview,
+              phone: widget.phone,
+              tablet: widget.tablet,
+              tv: widget.tv,
+              catalogRepository: widget.catalogRepository,
+            ),
           ),
-        ),
+        if (_recommendations.isNotEmpty)
+          SliverToBoxAdapter(
+            child: _MediaRow(
+              title: 'Recomendado para ti',
+              subtitle: _recommendations.first.reason,
+              items: _recommendations.map((r) => r.channel).toList(),
+              store: widget.store,
+              preview: widget.preview,
+              phone: widget.phone,
+              tablet: widget.tablet,
+              tv: widget.tv,
+              catalogRepository: widget.catalogRepository,
+            ),
+          ),
         SliverToBoxAdapter(
           child: _MediaRow(
             title: 'HourTV Originals',
-            items: movies.take(10).toList(),
-            store: store,
-            preview: preview,
-            phone: phone,
-            tablet: tablet,
-            tv: tv,
-            catalogRepository: catalogRepository,
+            items: widget.movies.take(10).toList(),
+            store: widget.store,
+            preview: widget.preview,
+            phone: widget.phone,
+            tablet: widget.tablet,
+            tv: widget.tv,
+            catalogRepository: widget.catalogRepository,
           ),
         ),
         if (trending.isNotEmpty)
@@ -730,24 +800,24 @@ class _HomePage extends StatelessWidget {
             child: _MediaRow(
               title: 'Tendencias ahora',
               items: trending,
-              store: store,
-              preview: preview,
-              phone: phone,
-              tablet: tablet,
-              tv: tv,
-              catalogRepository: catalogRepository,
+              store: widget.store,
+              preview: widget.preview,
+              phone: widget.phone,
+              tablet: widget.tablet,
+              tv: widget.tv,
+              catalogRepository: widget.catalogRepository,
             ),
           ),
         SliverToBoxAdapter(
           child: _MediaRow(
             title: 'Series para ti',
-            items: series.take(10).toList(),
-            store: store,
-            preview: series == PreviewCatalog.series,
-            phone: phone,
-            tablet: tablet,
-            tv: tv,
-            catalogRepository: catalogRepository,
+            items: widget.series.take(10).toList(),
+            store: widget.store,
+            preview: widget.series == PreviewCatalog.series,
+            phone: widget.phone,
+            tablet: widget.tablet,
+            tv: widget.tv,
+            catalogRepository: widget.catalogRepository,
           ),
         ),
         // Regla de oro HourTV: Inicio es SOLO VOD. Los canales en vivo viven
@@ -974,6 +1044,7 @@ class _Hero extends StatelessWidget {
 class _MediaRow extends StatelessWidget {
   const _MediaRow({
     required this.title,
+    this.subtitle,
     required this.items,
     required this.store,
     required this.preview,
@@ -983,6 +1054,7 @@ class _MediaRow extends StatelessWidget {
     this.catalogRepository,
   });
   final String title;
+  final String? subtitle;
   final List<Channel> items;
   final ContentStore store;
   final bool preview;
@@ -1007,13 +1079,29 @@ class _MediaRow extends StatelessWidget {
             child: Row(
               children: [
                 Expanded(
-                  child: Text(
-                    title,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: phone ? 17 : (tv ? 24 : 20),
-                      fontWeight: FontWeight.w800,
-                    ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: phone ? 17 : (tv ? 24 : 20),
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                      if (subtitle != null) ...[
+                        const SizedBox(height: 3),
+                        Text(
+                          subtitle!,
+                          style: TextStyle(
+                            color: _red,
+                            fontSize: phone ? 12 : (tv ? 14 : 13),
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ],
                   ),
                 ),
                 Icon(

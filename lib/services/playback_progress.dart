@@ -61,7 +61,9 @@ class PlaybackProgress {
 
   /// Clave estable que identifica una pelicula o un episodio concretos.
   static String contentKey(Channel channel) {
-    final id = channel.tvgId?.trim();
+    final id = (channel.stableTitleId != null && channel.stableTitleId!.isNotEmpty)
+        ? channel.stableTitleId!.trim()
+        : channel.tvgId?.trim();
     final isSeries = channel.type == MediaType.series ||
         channel.forcedType == 'series' ||
         (id != null && id.startsWith('catalog:') && id.split(':').length >= 4);

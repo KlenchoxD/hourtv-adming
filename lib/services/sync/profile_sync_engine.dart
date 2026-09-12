@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:drift/drift.dart';
 import '../../database/catalog_database.dart';
 import '../../database/daos/user_data_dao.dart';
+import '../storage_service.dart';
 import 'profile_sync_gateway.dart';
 import 'uuid_utils.dart';
 
@@ -39,6 +40,10 @@ class SyncResult {
 
 /// Motor de sincronización determinista de perfiles de HourTV.
 class ProfileSyncEngine {
+  static ProfileSyncEngine? _instance;
+  static ProfileSyncEngine? get instance => _instance;
+  static void setInstance(ProfileSyncEngine? engine) => _instance = engine;
+
   final UserDataDao userDataDao;
   final ProfileSyncGateway? gateway;
   final String deviceId;
@@ -52,6 +57,12 @@ class ProfileSyncEngine {
   UserDataDao get _dao => userDataDao;
   ProfileSyncGateway? get _gateway => gateway;
   String get _deviceId => deviceId;
+
+  /// Vuelca forzadamente y sincroniza las operaciones locales en cambios de ciclo de vida.
+  Future<void> flush([String? profileId]) async {
+    final targetId = profileId ?? StorageService.activeProfileId;
+    await syncProfile(targetId);
+  }
 
   // --- Grabación local con encolado determinista para sincronización ---
 
