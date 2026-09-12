@@ -41,7 +41,7 @@ Future<CatalogInfrastructure> initializeCatalogInfrastructure({
   SupabaseCatalogGateway? gateway,
   CatalogSyncEngine? syncEngine,
   Future<CatalogPayload> Function()? fallbackPayloadLoader,
-  void Function(String message, [Object? error])? logError,
+  void Function(String message, [String? errorType])? logError,
   bool autoInitializeRepository = true,
 }) async {
   // 1. Obtener cliente de Supabase de manera segura a través de SupabaseBootstrap
@@ -117,14 +117,15 @@ Future<CatalogInfrastructure> initializeCatalogInfrastructure({
 }
 
 void _logSanitized(
-  void Function(String message, [Object? error])? customLogger,
+  void Function(String message, [String? errorType])? customLogger,
   String message,
   Object? error,
   StackTrace? stackTrace,
 ) {
-  final sanitized = error != null ? '$message: ${error.runtimeType}' : message;
+  final errorType = error?.runtimeType.toString();
+  final sanitized = errorType != null ? '$message: $errorType' : message;
   if (customLogger != null) {
-    customLogger(sanitized, error);
+    customLogger(sanitized, errorType);
   } else {
     debugPrint(sanitized);
     if (stackTrace != null && kDebugMode) {
