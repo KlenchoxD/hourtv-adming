@@ -4036,6 +4036,4331 @@ class CatalogSyncStatesCompanion extends UpdateCompanion<CatalogSyncState> {
   }
 }
 
+class $LocalProfileFavoritesTable extends LocalProfileFavorites
+    with TableInfo<$LocalProfileFavoritesTable, LocalProfileFavorite> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $LocalProfileFavoritesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _profileIdMeta = const VerificationMeta(
+    'profileId',
+  );
+  @override
+  late final GeneratedColumn<String> profileId = GeneratedColumn<String>(
+    'profile_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _contentKeyMeta = const VerificationMeta(
+    'contentKey',
+  );
+  @override
+  late final GeneratedColumn<String> contentKey = GeneratedColumn<String>(
+    'content_key',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _titleIdMeta = const VerificationMeta(
+    'titleId',
+  );
+  @override
+  late final GeneratedColumn<String> titleId = GeneratedColumn<String>(
+    'title_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _isFavoriteMeta = const VerificationMeta(
+    'isFavorite',
+  );
+  @override
+  late final GeneratedColumn<bool> isFavorite = GeneratedColumn<bool>(
+    'is_favorite',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_favorite" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+    'updated_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _serverRevisionMeta = const VerificationMeta(
+    'serverRevision',
+  );
+  @override
+  late final GeneratedColumn<int> serverRevision = GeneratedColumn<int>(
+    'server_revision',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    profileId,
+    contentKey,
+    titleId,
+    isFavorite,
+    updatedAt,
+    serverRevision,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'local_profile_favorites';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<LocalProfileFavorite> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('profile_id')) {
+      context.handle(
+        _profileIdMeta,
+        profileId.isAcceptableOrUnknown(data['profile_id']!, _profileIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_profileIdMeta);
+    }
+    if (data.containsKey('content_key')) {
+      context.handle(
+        _contentKeyMeta,
+        contentKey.isAcceptableOrUnknown(data['content_key']!, _contentKeyMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_contentKeyMeta);
+    }
+    if (data.containsKey('title_id')) {
+      context.handle(
+        _titleIdMeta,
+        titleId.isAcceptableOrUnknown(data['title_id']!, _titleIdMeta),
+      );
+    }
+    if (data.containsKey('is_favorite')) {
+      context.handle(
+        _isFavoriteMeta,
+        isFavorite.isAcceptableOrUnknown(data['is_favorite']!, _isFavoriteMeta),
+      );
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_updatedAtMeta);
+    }
+    if (data.containsKey('server_revision')) {
+      context.handle(
+        _serverRevisionMeta,
+        serverRevision.isAcceptableOrUnknown(
+          data['server_revision']!,
+          _serverRevisionMeta,
+        ),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {profileId, contentKey};
+  @override
+  LocalProfileFavorite map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return LocalProfileFavorite(
+      profileId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}profile_id'],
+      )!,
+      contentKey: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}content_key'],
+      )!,
+      titleId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}title_id'],
+      ),
+      isFavorite: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_favorite'],
+      )!,
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}updated_at'],
+      )!,
+      serverRevision: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}server_revision'],
+      )!,
+    );
+  }
+
+  @override
+  $LocalProfileFavoritesTable createAlias(String alias) {
+    return $LocalProfileFavoritesTable(attachedDatabase, alias);
+  }
+}
+
+class LocalProfileFavorite extends DataClass
+    implements Insertable<LocalProfileFavorite> {
+  final String profileId;
+  final String contentKey;
+  final String? titleId;
+  final bool isFavorite;
+  final DateTime updatedAt;
+  final int serverRevision;
+  const LocalProfileFavorite({
+    required this.profileId,
+    required this.contentKey,
+    this.titleId,
+    required this.isFavorite,
+    required this.updatedAt,
+    required this.serverRevision,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['profile_id'] = Variable<String>(profileId);
+    map['content_key'] = Variable<String>(contentKey);
+    if (!nullToAbsent || titleId != null) {
+      map['title_id'] = Variable<String>(titleId);
+    }
+    map['is_favorite'] = Variable<bool>(isFavorite);
+    map['updated_at'] = Variable<DateTime>(updatedAt);
+    map['server_revision'] = Variable<int>(serverRevision);
+    return map;
+  }
+
+  LocalProfileFavoritesCompanion toCompanion(bool nullToAbsent) {
+    return LocalProfileFavoritesCompanion(
+      profileId: Value(profileId),
+      contentKey: Value(contentKey),
+      titleId: titleId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(titleId),
+      isFavorite: Value(isFavorite),
+      updatedAt: Value(updatedAt),
+      serverRevision: Value(serverRevision),
+    );
+  }
+
+  factory LocalProfileFavorite.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return LocalProfileFavorite(
+      profileId: serializer.fromJson<String>(json['profileId']),
+      contentKey: serializer.fromJson<String>(json['contentKey']),
+      titleId: serializer.fromJson<String?>(json['titleId']),
+      isFavorite: serializer.fromJson<bool>(json['isFavorite']),
+      updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
+      serverRevision: serializer.fromJson<int>(json['serverRevision']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'profileId': serializer.toJson<String>(profileId),
+      'contentKey': serializer.toJson<String>(contentKey),
+      'titleId': serializer.toJson<String?>(titleId),
+      'isFavorite': serializer.toJson<bool>(isFavorite),
+      'updatedAt': serializer.toJson<DateTime>(updatedAt),
+      'serverRevision': serializer.toJson<int>(serverRevision),
+    };
+  }
+
+  LocalProfileFavorite copyWith({
+    String? profileId,
+    String? contentKey,
+    Value<String?> titleId = const Value.absent(),
+    bool? isFavorite,
+    DateTime? updatedAt,
+    int? serverRevision,
+  }) => LocalProfileFavorite(
+    profileId: profileId ?? this.profileId,
+    contentKey: contentKey ?? this.contentKey,
+    titleId: titleId.present ? titleId.value : this.titleId,
+    isFavorite: isFavorite ?? this.isFavorite,
+    updatedAt: updatedAt ?? this.updatedAt,
+    serverRevision: serverRevision ?? this.serverRevision,
+  );
+  LocalProfileFavorite copyWithCompanion(LocalProfileFavoritesCompanion data) {
+    return LocalProfileFavorite(
+      profileId: data.profileId.present ? data.profileId.value : this.profileId,
+      contentKey: data.contentKey.present
+          ? data.contentKey.value
+          : this.contentKey,
+      titleId: data.titleId.present ? data.titleId.value : this.titleId,
+      isFavorite: data.isFavorite.present
+          ? data.isFavorite.value
+          : this.isFavorite,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+      serverRevision: data.serverRevision.present
+          ? data.serverRevision.value
+          : this.serverRevision,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('LocalProfileFavorite(')
+          ..write('profileId: $profileId, ')
+          ..write('contentKey: $contentKey, ')
+          ..write('titleId: $titleId, ')
+          ..write('isFavorite: $isFavorite, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('serverRevision: $serverRevision')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    profileId,
+    contentKey,
+    titleId,
+    isFavorite,
+    updatedAt,
+    serverRevision,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is LocalProfileFavorite &&
+          other.profileId == this.profileId &&
+          other.contentKey == this.contentKey &&
+          other.titleId == this.titleId &&
+          other.isFavorite == this.isFavorite &&
+          other.updatedAt == this.updatedAt &&
+          other.serverRevision == this.serverRevision);
+}
+
+class LocalProfileFavoritesCompanion
+    extends UpdateCompanion<LocalProfileFavorite> {
+  final Value<String> profileId;
+  final Value<String> contentKey;
+  final Value<String?> titleId;
+  final Value<bool> isFavorite;
+  final Value<DateTime> updatedAt;
+  final Value<int> serverRevision;
+  final Value<int> rowid;
+  const LocalProfileFavoritesCompanion({
+    this.profileId = const Value.absent(),
+    this.contentKey = const Value.absent(),
+    this.titleId = const Value.absent(),
+    this.isFavorite = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.serverRevision = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  LocalProfileFavoritesCompanion.insert({
+    required String profileId,
+    required String contentKey,
+    this.titleId = const Value.absent(),
+    this.isFavorite = const Value.absent(),
+    required DateTime updatedAt,
+    this.serverRevision = const Value.absent(),
+    this.rowid = const Value.absent(),
+  }) : profileId = Value(profileId),
+       contentKey = Value(contentKey),
+       updatedAt = Value(updatedAt);
+  static Insertable<LocalProfileFavorite> custom({
+    Expression<String>? profileId,
+    Expression<String>? contentKey,
+    Expression<String>? titleId,
+    Expression<bool>? isFavorite,
+    Expression<DateTime>? updatedAt,
+    Expression<int>? serverRevision,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (profileId != null) 'profile_id': profileId,
+      if (contentKey != null) 'content_key': contentKey,
+      if (titleId != null) 'title_id': titleId,
+      if (isFavorite != null) 'is_favorite': isFavorite,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (serverRevision != null) 'server_revision': serverRevision,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  LocalProfileFavoritesCompanion copyWith({
+    Value<String>? profileId,
+    Value<String>? contentKey,
+    Value<String?>? titleId,
+    Value<bool>? isFavorite,
+    Value<DateTime>? updatedAt,
+    Value<int>? serverRevision,
+    Value<int>? rowid,
+  }) {
+    return LocalProfileFavoritesCompanion(
+      profileId: profileId ?? this.profileId,
+      contentKey: contentKey ?? this.contentKey,
+      titleId: titleId ?? this.titleId,
+      isFavorite: isFavorite ?? this.isFavorite,
+      updatedAt: updatedAt ?? this.updatedAt,
+      serverRevision: serverRevision ?? this.serverRevision,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (profileId.present) {
+      map['profile_id'] = Variable<String>(profileId.value);
+    }
+    if (contentKey.present) {
+      map['content_key'] = Variable<String>(contentKey.value);
+    }
+    if (titleId.present) {
+      map['title_id'] = Variable<String>(titleId.value);
+    }
+    if (isFavorite.present) {
+      map['is_favorite'] = Variable<bool>(isFavorite.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    if (serverRevision.present) {
+      map['server_revision'] = Variable<int>(serverRevision.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('LocalProfileFavoritesCompanion(')
+          ..write('profileId: $profileId, ')
+          ..write('contentKey: $contentKey, ')
+          ..write('titleId: $titleId, ')
+          ..write('isFavorite: $isFavorite, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('serverRevision: $serverRevision, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $LocalProfilePlaybackProgressTable extends LocalProfilePlaybackProgress
+    with
+        TableInfo<
+          $LocalProfilePlaybackProgressTable,
+          LocalProfilePlaybackProgressData
+        > {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $LocalProfilePlaybackProgressTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _profileIdMeta = const VerificationMeta(
+    'profileId',
+  );
+  @override
+  late final GeneratedColumn<String> profileId = GeneratedColumn<String>(
+    'profile_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _contentKeyMeta = const VerificationMeta(
+    'contentKey',
+  );
+  @override
+  late final GeneratedColumn<String> contentKey = GeneratedColumn<String>(
+    'content_key',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _playbackSessionIdMeta = const VerificationMeta(
+    'playbackSessionId',
+  );
+  @override
+  late final GeneratedColumn<String> playbackSessionId =
+      GeneratedColumn<String>(
+        'playback_session_id',
+        aliasedName,
+        true,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+      );
+  static const VerificationMeta _titleIdMeta = const VerificationMeta(
+    'titleId',
+  );
+  @override
+  late final GeneratedColumn<String> titleId = GeneratedColumn<String>(
+    'title_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _episodeIdMeta = const VerificationMeta(
+    'episodeId',
+  );
+  @override
+  late final GeneratedColumn<String> episodeId = GeneratedColumn<String>(
+    'episode_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _positionMsMeta = const VerificationMeta(
+    'positionMs',
+  );
+  @override
+  late final GeneratedColumn<int> positionMs = GeneratedColumn<int>(
+    'position_ms',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _durationMsMeta = const VerificationMeta(
+    'durationMs',
+  );
+  @override
+  late final GeneratedColumn<int> durationMs = GeneratedColumn<int>(
+    'duration_ms',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _fractionMeta = const VerificationMeta(
+    'fraction',
+  );
+  @override
+  late final GeneratedColumn<double> fraction = GeneratedColumn<double>(
+    'fraction',
+    aliasedName,
+    false,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0.0),
+  );
+  static const VerificationMeta _isCompletedMeta = const VerificationMeta(
+    'isCompleted',
+  );
+  @override
+  late final GeneratedColumn<bool> isCompleted = GeneratedColumn<bool>(
+    'is_completed',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_completed" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  static const VerificationMeta _lastWatchedAtMeta = const VerificationMeta(
+    'lastWatchedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> lastWatchedAt =
+      GeneratedColumn<DateTime>(
+        'last_watched_at',
+        aliasedName,
+        false,
+        type: DriftSqlType.dateTime,
+        requiredDuringInsert: true,
+      );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+    'updated_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _deletedAtMeta = const VerificationMeta(
+    'deletedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> deletedAt = GeneratedColumn<DateTime>(
+    'deleted_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _serverRevisionMeta = const VerificationMeta(
+    'serverRevision',
+  );
+  @override
+  late final GeneratedColumn<int> serverRevision = GeneratedColumn<int>(
+    'server_revision',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    profileId,
+    contentKey,
+    playbackSessionId,
+    titleId,
+    episodeId,
+    positionMs,
+    durationMs,
+    fraction,
+    isCompleted,
+    lastWatchedAt,
+    updatedAt,
+    deletedAt,
+    serverRevision,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'local_profile_playback_progress';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<LocalProfilePlaybackProgressData> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('profile_id')) {
+      context.handle(
+        _profileIdMeta,
+        profileId.isAcceptableOrUnknown(data['profile_id']!, _profileIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_profileIdMeta);
+    }
+    if (data.containsKey('content_key')) {
+      context.handle(
+        _contentKeyMeta,
+        contentKey.isAcceptableOrUnknown(data['content_key']!, _contentKeyMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_contentKeyMeta);
+    }
+    if (data.containsKey('playback_session_id')) {
+      context.handle(
+        _playbackSessionIdMeta,
+        playbackSessionId.isAcceptableOrUnknown(
+          data['playback_session_id']!,
+          _playbackSessionIdMeta,
+        ),
+      );
+    }
+    if (data.containsKey('title_id')) {
+      context.handle(
+        _titleIdMeta,
+        titleId.isAcceptableOrUnknown(data['title_id']!, _titleIdMeta),
+      );
+    }
+    if (data.containsKey('episode_id')) {
+      context.handle(
+        _episodeIdMeta,
+        episodeId.isAcceptableOrUnknown(data['episode_id']!, _episodeIdMeta),
+      );
+    }
+    if (data.containsKey('position_ms')) {
+      context.handle(
+        _positionMsMeta,
+        positionMs.isAcceptableOrUnknown(data['position_ms']!, _positionMsMeta),
+      );
+    }
+    if (data.containsKey('duration_ms')) {
+      context.handle(
+        _durationMsMeta,
+        durationMs.isAcceptableOrUnknown(data['duration_ms']!, _durationMsMeta),
+      );
+    }
+    if (data.containsKey('fraction')) {
+      context.handle(
+        _fractionMeta,
+        fraction.isAcceptableOrUnknown(data['fraction']!, _fractionMeta),
+      );
+    }
+    if (data.containsKey('is_completed')) {
+      context.handle(
+        _isCompletedMeta,
+        isCompleted.isAcceptableOrUnknown(
+          data['is_completed']!,
+          _isCompletedMeta,
+        ),
+      );
+    }
+    if (data.containsKey('last_watched_at')) {
+      context.handle(
+        _lastWatchedAtMeta,
+        lastWatchedAt.isAcceptableOrUnknown(
+          data['last_watched_at']!,
+          _lastWatchedAtMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_lastWatchedAtMeta);
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_updatedAtMeta);
+    }
+    if (data.containsKey('deleted_at')) {
+      context.handle(
+        _deletedAtMeta,
+        deletedAt.isAcceptableOrUnknown(data['deleted_at']!, _deletedAtMeta),
+      );
+    }
+    if (data.containsKey('server_revision')) {
+      context.handle(
+        _serverRevisionMeta,
+        serverRevision.isAcceptableOrUnknown(
+          data['server_revision']!,
+          _serverRevisionMeta,
+        ),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {profileId, contentKey};
+  @override
+  LocalProfilePlaybackProgressData map(
+    Map<String, dynamic> data, {
+    String? tablePrefix,
+  }) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return LocalProfilePlaybackProgressData(
+      profileId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}profile_id'],
+      )!,
+      contentKey: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}content_key'],
+      )!,
+      playbackSessionId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}playback_session_id'],
+      ),
+      titleId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}title_id'],
+      ),
+      episodeId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}episode_id'],
+      ),
+      positionMs: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}position_ms'],
+      )!,
+      durationMs: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}duration_ms'],
+      )!,
+      fraction: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}fraction'],
+      )!,
+      isCompleted: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_completed'],
+      )!,
+      lastWatchedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}last_watched_at'],
+      )!,
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}updated_at'],
+      )!,
+      deletedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}deleted_at'],
+      ),
+      serverRevision: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}server_revision'],
+      )!,
+    );
+  }
+
+  @override
+  $LocalProfilePlaybackProgressTable createAlias(String alias) {
+    return $LocalProfilePlaybackProgressTable(attachedDatabase, alias);
+  }
+}
+
+class LocalProfilePlaybackProgressData extends DataClass
+    implements Insertable<LocalProfilePlaybackProgressData> {
+  final String profileId;
+  final String contentKey;
+  final String? playbackSessionId;
+  final String? titleId;
+  final String? episodeId;
+  final int positionMs;
+  final int durationMs;
+  final double fraction;
+  final bool isCompleted;
+  final DateTime lastWatchedAt;
+  final DateTime updatedAt;
+  final DateTime? deletedAt;
+  final int serverRevision;
+  const LocalProfilePlaybackProgressData({
+    required this.profileId,
+    required this.contentKey,
+    this.playbackSessionId,
+    this.titleId,
+    this.episodeId,
+    required this.positionMs,
+    required this.durationMs,
+    required this.fraction,
+    required this.isCompleted,
+    required this.lastWatchedAt,
+    required this.updatedAt,
+    this.deletedAt,
+    required this.serverRevision,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['profile_id'] = Variable<String>(profileId);
+    map['content_key'] = Variable<String>(contentKey);
+    if (!nullToAbsent || playbackSessionId != null) {
+      map['playback_session_id'] = Variable<String>(playbackSessionId);
+    }
+    if (!nullToAbsent || titleId != null) {
+      map['title_id'] = Variable<String>(titleId);
+    }
+    if (!nullToAbsent || episodeId != null) {
+      map['episode_id'] = Variable<String>(episodeId);
+    }
+    map['position_ms'] = Variable<int>(positionMs);
+    map['duration_ms'] = Variable<int>(durationMs);
+    map['fraction'] = Variable<double>(fraction);
+    map['is_completed'] = Variable<bool>(isCompleted);
+    map['last_watched_at'] = Variable<DateTime>(lastWatchedAt);
+    map['updated_at'] = Variable<DateTime>(updatedAt);
+    if (!nullToAbsent || deletedAt != null) {
+      map['deleted_at'] = Variable<DateTime>(deletedAt);
+    }
+    map['server_revision'] = Variable<int>(serverRevision);
+    return map;
+  }
+
+  LocalProfilePlaybackProgressCompanion toCompanion(bool nullToAbsent) {
+    return LocalProfilePlaybackProgressCompanion(
+      profileId: Value(profileId),
+      contentKey: Value(contentKey),
+      playbackSessionId: playbackSessionId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(playbackSessionId),
+      titleId: titleId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(titleId),
+      episodeId: episodeId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(episodeId),
+      positionMs: Value(positionMs),
+      durationMs: Value(durationMs),
+      fraction: Value(fraction),
+      isCompleted: Value(isCompleted),
+      lastWatchedAt: Value(lastWatchedAt),
+      updatedAt: Value(updatedAt),
+      deletedAt: deletedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deletedAt),
+      serverRevision: Value(serverRevision),
+    );
+  }
+
+  factory LocalProfilePlaybackProgressData.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return LocalProfilePlaybackProgressData(
+      profileId: serializer.fromJson<String>(json['profileId']),
+      contentKey: serializer.fromJson<String>(json['contentKey']),
+      playbackSessionId: serializer.fromJson<String?>(
+        json['playbackSessionId'],
+      ),
+      titleId: serializer.fromJson<String?>(json['titleId']),
+      episodeId: serializer.fromJson<String?>(json['episodeId']),
+      positionMs: serializer.fromJson<int>(json['positionMs']),
+      durationMs: serializer.fromJson<int>(json['durationMs']),
+      fraction: serializer.fromJson<double>(json['fraction']),
+      isCompleted: serializer.fromJson<bool>(json['isCompleted']),
+      lastWatchedAt: serializer.fromJson<DateTime>(json['lastWatchedAt']),
+      updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
+      deletedAt: serializer.fromJson<DateTime?>(json['deletedAt']),
+      serverRevision: serializer.fromJson<int>(json['serverRevision']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'profileId': serializer.toJson<String>(profileId),
+      'contentKey': serializer.toJson<String>(contentKey),
+      'playbackSessionId': serializer.toJson<String?>(playbackSessionId),
+      'titleId': serializer.toJson<String?>(titleId),
+      'episodeId': serializer.toJson<String?>(episodeId),
+      'positionMs': serializer.toJson<int>(positionMs),
+      'durationMs': serializer.toJson<int>(durationMs),
+      'fraction': serializer.toJson<double>(fraction),
+      'isCompleted': serializer.toJson<bool>(isCompleted),
+      'lastWatchedAt': serializer.toJson<DateTime>(lastWatchedAt),
+      'updatedAt': serializer.toJson<DateTime>(updatedAt),
+      'deletedAt': serializer.toJson<DateTime?>(deletedAt),
+      'serverRevision': serializer.toJson<int>(serverRevision),
+    };
+  }
+
+  LocalProfilePlaybackProgressData copyWith({
+    String? profileId,
+    String? contentKey,
+    Value<String?> playbackSessionId = const Value.absent(),
+    Value<String?> titleId = const Value.absent(),
+    Value<String?> episodeId = const Value.absent(),
+    int? positionMs,
+    int? durationMs,
+    double? fraction,
+    bool? isCompleted,
+    DateTime? lastWatchedAt,
+    DateTime? updatedAt,
+    Value<DateTime?> deletedAt = const Value.absent(),
+    int? serverRevision,
+  }) => LocalProfilePlaybackProgressData(
+    profileId: profileId ?? this.profileId,
+    contentKey: contentKey ?? this.contentKey,
+    playbackSessionId: playbackSessionId.present
+        ? playbackSessionId.value
+        : this.playbackSessionId,
+    titleId: titleId.present ? titleId.value : this.titleId,
+    episodeId: episodeId.present ? episodeId.value : this.episodeId,
+    positionMs: positionMs ?? this.positionMs,
+    durationMs: durationMs ?? this.durationMs,
+    fraction: fraction ?? this.fraction,
+    isCompleted: isCompleted ?? this.isCompleted,
+    lastWatchedAt: lastWatchedAt ?? this.lastWatchedAt,
+    updatedAt: updatedAt ?? this.updatedAt,
+    deletedAt: deletedAt.present ? deletedAt.value : this.deletedAt,
+    serverRevision: serverRevision ?? this.serverRevision,
+  );
+  LocalProfilePlaybackProgressData copyWithCompanion(
+    LocalProfilePlaybackProgressCompanion data,
+  ) {
+    return LocalProfilePlaybackProgressData(
+      profileId: data.profileId.present ? data.profileId.value : this.profileId,
+      contentKey: data.contentKey.present
+          ? data.contentKey.value
+          : this.contentKey,
+      playbackSessionId: data.playbackSessionId.present
+          ? data.playbackSessionId.value
+          : this.playbackSessionId,
+      titleId: data.titleId.present ? data.titleId.value : this.titleId,
+      episodeId: data.episodeId.present ? data.episodeId.value : this.episodeId,
+      positionMs: data.positionMs.present
+          ? data.positionMs.value
+          : this.positionMs,
+      durationMs: data.durationMs.present
+          ? data.durationMs.value
+          : this.durationMs,
+      fraction: data.fraction.present ? data.fraction.value : this.fraction,
+      isCompleted: data.isCompleted.present
+          ? data.isCompleted.value
+          : this.isCompleted,
+      lastWatchedAt: data.lastWatchedAt.present
+          ? data.lastWatchedAt.value
+          : this.lastWatchedAt,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+      deletedAt: data.deletedAt.present ? data.deletedAt.value : this.deletedAt,
+      serverRevision: data.serverRevision.present
+          ? data.serverRevision.value
+          : this.serverRevision,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('LocalProfilePlaybackProgressData(')
+          ..write('profileId: $profileId, ')
+          ..write('contentKey: $contentKey, ')
+          ..write('playbackSessionId: $playbackSessionId, ')
+          ..write('titleId: $titleId, ')
+          ..write('episodeId: $episodeId, ')
+          ..write('positionMs: $positionMs, ')
+          ..write('durationMs: $durationMs, ')
+          ..write('fraction: $fraction, ')
+          ..write('isCompleted: $isCompleted, ')
+          ..write('lastWatchedAt: $lastWatchedAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('deletedAt: $deletedAt, ')
+          ..write('serverRevision: $serverRevision')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    profileId,
+    contentKey,
+    playbackSessionId,
+    titleId,
+    episodeId,
+    positionMs,
+    durationMs,
+    fraction,
+    isCompleted,
+    lastWatchedAt,
+    updatedAt,
+    deletedAt,
+    serverRevision,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is LocalProfilePlaybackProgressData &&
+          other.profileId == this.profileId &&
+          other.contentKey == this.contentKey &&
+          other.playbackSessionId == this.playbackSessionId &&
+          other.titleId == this.titleId &&
+          other.episodeId == this.episodeId &&
+          other.positionMs == this.positionMs &&
+          other.durationMs == this.durationMs &&
+          other.fraction == this.fraction &&
+          other.isCompleted == this.isCompleted &&
+          other.lastWatchedAt == this.lastWatchedAt &&
+          other.updatedAt == this.updatedAt &&
+          other.deletedAt == this.deletedAt &&
+          other.serverRevision == this.serverRevision);
+}
+
+class LocalProfilePlaybackProgressCompanion
+    extends UpdateCompanion<LocalProfilePlaybackProgressData> {
+  final Value<String> profileId;
+  final Value<String> contentKey;
+  final Value<String?> playbackSessionId;
+  final Value<String?> titleId;
+  final Value<String?> episodeId;
+  final Value<int> positionMs;
+  final Value<int> durationMs;
+  final Value<double> fraction;
+  final Value<bool> isCompleted;
+  final Value<DateTime> lastWatchedAt;
+  final Value<DateTime> updatedAt;
+  final Value<DateTime?> deletedAt;
+  final Value<int> serverRevision;
+  final Value<int> rowid;
+  const LocalProfilePlaybackProgressCompanion({
+    this.profileId = const Value.absent(),
+    this.contentKey = const Value.absent(),
+    this.playbackSessionId = const Value.absent(),
+    this.titleId = const Value.absent(),
+    this.episodeId = const Value.absent(),
+    this.positionMs = const Value.absent(),
+    this.durationMs = const Value.absent(),
+    this.fraction = const Value.absent(),
+    this.isCompleted = const Value.absent(),
+    this.lastWatchedAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.deletedAt = const Value.absent(),
+    this.serverRevision = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  LocalProfilePlaybackProgressCompanion.insert({
+    required String profileId,
+    required String contentKey,
+    this.playbackSessionId = const Value.absent(),
+    this.titleId = const Value.absent(),
+    this.episodeId = const Value.absent(),
+    this.positionMs = const Value.absent(),
+    this.durationMs = const Value.absent(),
+    this.fraction = const Value.absent(),
+    this.isCompleted = const Value.absent(),
+    required DateTime lastWatchedAt,
+    required DateTime updatedAt,
+    this.deletedAt = const Value.absent(),
+    this.serverRevision = const Value.absent(),
+    this.rowid = const Value.absent(),
+  }) : profileId = Value(profileId),
+       contentKey = Value(contentKey),
+       lastWatchedAt = Value(lastWatchedAt),
+       updatedAt = Value(updatedAt);
+  static Insertable<LocalProfilePlaybackProgressData> custom({
+    Expression<String>? profileId,
+    Expression<String>? contentKey,
+    Expression<String>? playbackSessionId,
+    Expression<String>? titleId,
+    Expression<String>? episodeId,
+    Expression<int>? positionMs,
+    Expression<int>? durationMs,
+    Expression<double>? fraction,
+    Expression<bool>? isCompleted,
+    Expression<DateTime>? lastWatchedAt,
+    Expression<DateTime>? updatedAt,
+    Expression<DateTime>? deletedAt,
+    Expression<int>? serverRevision,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (profileId != null) 'profile_id': profileId,
+      if (contentKey != null) 'content_key': contentKey,
+      if (playbackSessionId != null) 'playback_session_id': playbackSessionId,
+      if (titleId != null) 'title_id': titleId,
+      if (episodeId != null) 'episode_id': episodeId,
+      if (positionMs != null) 'position_ms': positionMs,
+      if (durationMs != null) 'duration_ms': durationMs,
+      if (fraction != null) 'fraction': fraction,
+      if (isCompleted != null) 'is_completed': isCompleted,
+      if (lastWatchedAt != null) 'last_watched_at': lastWatchedAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (deletedAt != null) 'deleted_at': deletedAt,
+      if (serverRevision != null) 'server_revision': serverRevision,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  LocalProfilePlaybackProgressCompanion copyWith({
+    Value<String>? profileId,
+    Value<String>? contentKey,
+    Value<String?>? playbackSessionId,
+    Value<String?>? titleId,
+    Value<String?>? episodeId,
+    Value<int>? positionMs,
+    Value<int>? durationMs,
+    Value<double>? fraction,
+    Value<bool>? isCompleted,
+    Value<DateTime>? lastWatchedAt,
+    Value<DateTime>? updatedAt,
+    Value<DateTime?>? deletedAt,
+    Value<int>? serverRevision,
+    Value<int>? rowid,
+  }) {
+    return LocalProfilePlaybackProgressCompanion(
+      profileId: profileId ?? this.profileId,
+      contentKey: contentKey ?? this.contentKey,
+      playbackSessionId: playbackSessionId ?? this.playbackSessionId,
+      titleId: titleId ?? this.titleId,
+      episodeId: episodeId ?? this.episodeId,
+      positionMs: positionMs ?? this.positionMs,
+      durationMs: durationMs ?? this.durationMs,
+      fraction: fraction ?? this.fraction,
+      isCompleted: isCompleted ?? this.isCompleted,
+      lastWatchedAt: lastWatchedAt ?? this.lastWatchedAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      deletedAt: deletedAt ?? this.deletedAt,
+      serverRevision: serverRevision ?? this.serverRevision,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (profileId.present) {
+      map['profile_id'] = Variable<String>(profileId.value);
+    }
+    if (contentKey.present) {
+      map['content_key'] = Variable<String>(contentKey.value);
+    }
+    if (playbackSessionId.present) {
+      map['playback_session_id'] = Variable<String>(playbackSessionId.value);
+    }
+    if (titleId.present) {
+      map['title_id'] = Variable<String>(titleId.value);
+    }
+    if (episodeId.present) {
+      map['episode_id'] = Variable<String>(episodeId.value);
+    }
+    if (positionMs.present) {
+      map['position_ms'] = Variable<int>(positionMs.value);
+    }
+    if (durationMs.present) {
+      map['duration_ms'] = Variable<int>(durationMs.value);
+    }
+    if (fraction.present) {
+      map['fraction'] = Variable<double>(fraction.value);
+    }
+    if (isCompleted.present) {
+      map['is_completed'] = Variable<bool>(isCompleted.value);
+    }
+    if (lastWatchedAt.present) {
+      map['last_watched_at'] = Variable<DateTime>(lastWatchedAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    if (deletedAt.present) {
+      map['deleted_at'] = Variable<DateTime>(deletedAt.value);
+    }
+    if (serverRevision.present) {
+      map['server_revision'] = Variable<int>(serverRevision.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('LocalProfilePlaybackProgressCompanion(')
+          ..write('profileId: $profileId, ')
+          ..write('contentKey: $contentKey, ')
+          ..write('playbackSessionId: $playbackSessionId, ')
+          ..write('titleId: $titleId, ')
+          ..write('episodeId: $episodeId, ')
+          ..write('positionMs: $positionMs, ')
+          ..write('durationMs: $durationMs, ')
+          ..write('fraction: $fraction, ')
+          ..write('isCompleted: $isCompleted, ')
+          ..write('lastWatchedAt: $lastWatchedAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('deletedAt: $deletedAt, ')
+          ..write('serverRevision: $serverRevision, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $LocalProfileHistoryTable extends LocalProfileHistory
+    with TableInfo<$LocalProfileHistoryTable, LocalProfileHistoryData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $LocalProfileHistoryTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _profileIdMeta = const VerificationMeta(
+    'profileId',
+  );
+  @override
+  late final GeneratedColumn<String> profileId = GeneratedColumn<String>(
+    'profile_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _playbackSessionIdMeta = const VerificationMeta(
+    'playbackSessionId',
+  );
+  @override
+  late final GeneratedColumn<String> playbackSessionId =
+      GeneratedColumn<String>(
+        'playback_session_id',
+        aliasedName,
+        false,
+        type: DriftSqlType.string,
+        requiredDuringInsert: true,
+      );
+  static const VerificationMeta _contentKeyMeta = const VerificationMeta(
+    'contentKey',
+  );
+  @override
+  late final GeneratedColumn<String> contentKey = GeneratedColumn<String>(
+    'content_key',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _titleIdMeta = const VerificationMeta(
+    'titleId',
+  );
+  @override
+  late final GeneratedColumn<String> titleId = GeneratedColumn<String>(
+    'title_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _episodeIdMeta = const VerificationMeta(
+    'episodeId',
+  );
+  @override
+  late final GeneratedColumn<String> episodeId = GeneratedColumn<String>(
+    'episode_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _stoppedAtMsMeta = const VerificationMeta(
+    'stoppedAtMs',
+  );
+  @override
+  late final GeneratedColumn<int> stoppedAtMs = GeneratedColumn<int>(
+    'stopped_at_ms',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _durationMsMeta = const VerificationMeta(
+    'durationMs',
+  );
+  @override
+  late final GeneratedColumn<int> durationMs = GeneratedColumn<int>(
+    'duration_ms',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _fractionMeta = const VerificationMeta(
+    'fraction',
+  );
+  @override
+  late final GeneratedColumn<double> fraction = GeneratedColumn<double>(
+    'fraction',
+    aliasedName,
+    false,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0.0),
+  );
+  static const VerificationMeta _isCompletedMeta = const VerificationMeta(
+    'isCompleted',
+  );
+  @override
+  late final GeneratedColumn<bool> isCompleted = GeneratedColumn<bool>(
+    'is_completed',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_completed" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  static const VerificationMeta _watchedAtMeta = const VerificationMeta(
+    'watchedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> watchedAt = GeneratedColumn<DateTime>(
+    'watched_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _serverRevisionMeta = const VerificationMeta(
+    'serverRevision',
+  );
+  @override
+  late final GeneratedColumn<int> serverRevision = GeneratedColumn<int>(
+    'server_revision',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    profileId,
+    playbackSessionId,
+    contentKey,
+    titleId,
+    episodeId,
+    stoppedAtMs,
+    durationMs,
+    fraction,
+    isCompleted,
+    watchedAt,
+    serverRevision,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'local_profile_history';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<LocalProfileHistoryData> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('profile_id')) {
+      context.handle(
+        _profileIdMeta,
+        profileId.isAcceptableOrUnknown(data['profile_id']!, _profileIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_profileIdMeta);
+    }
+    if (data.containsKey('playback_session_id')) {
+      context.handle(
+        _playbackSessionIdMeta,
+        playbackSessionId.isAcceptableOrUnknown(
+          data['playback_session_id']!,
+          _playbackSessionIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_playbackSessionIdMeta);
+    }
+    if (data.containsKey('content_key')) {
+      context.handle(
+        _contentKeyMeta,
+        contentKey.isAcceptableOrUnknown(data['content_key']!, _contentKeyMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_contentKeyMeta);
+    }
+    if (data.containsKey('title_id')) {
+      context.handle(
+        _titleIdMeta,
+        titleId.isAcceptableOrUnknown(data['title_id']!, _titleIdMeta),
+      );
+    }
+    if (data.containsKey('episode_id')) {
+      context.handle(
+        _episodeIdMeta,
+        episodeId.isAcceptableOrUnknown(data['episode_id']!, _episodeIdMeta),
+      );
+    }
+    if (data.containsKey('stopped_at_ms')) {
+      context.handle(
+        _stoppedAtMsMeta,
+        stoppedAtMs.isAcceptableOrUnknown(
+          data['stopped_at_ms']!,
+          _stoppedAtMsMeta,
+        ),
+      );
+    }
+    if (data.containsKey('duration_ms')) {
+      context.handle(
+        _durationMsMeta,
+        durationMs.isAcceptableOrUnknown(data['duration_ms']!, _durationMsMeta),
+      );
+    }
+    if (data.containsKey('fraction')) {
+      context.handle(
+        _fractionMeta,
+        fraction.isAcceptableOrUnknown(data['fraction']!, _fractionMeta),
+      );
+    }
+    if (data.containsKey('is_completed')) {
+      context.handle(
+        _isCompletedMeta,
+        isCompleted.isAcceptableOrUnknown(
+          data['is_completed']!,
+          _isCompletedMeta,
+        ),
+      );
+    }
+    if (data.containsKey('watched_at')) {
+      context.handle(
+        _watchedAtMeta,
+        watchedAt.isAcceptableOrUnknown(data['watched_at']!, _watchedAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_watchedAtMeta);
+    }
+    if (data.containsKey('server_revision')) {
+      context.handle(
+        _serverRevisionMeta,
+        serverRevision.isAcceptableOrUnknown(
+          data['server_revision']!,
+          _serverRevisionMeta,
+        ),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  LocalProfileHistoryData map(
+    Map<String, dynamic> data, {
+    String? tablePrefix,
+  }) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return LocalProfileHistoryData(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      profileId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}profile_id'],
+      )!,
+      playbackSessionId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}playback_session_id'],
+      )!,
+      contentKey: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}content_key'],
+      )!,
+      titleId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}title_id'],
+      ),
+      episodeId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}episode_id'],
+      ),
+      stoppedAtMs: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}stopped_at_ms'],
+      )!,
+      durationMs: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}duration_ms'],
+      )!,
+      fraction: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}fraction'],
+      )!,
+      isCompleted: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_completed'],
+      )!,
+      watchedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}watched_at'],
+      )!,
+      serverRevision: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}server_revision'],
+      )!,
+    );
+  }
+
+  @override
+  $LocalProfileHistoryTable createAlias(String alias) {
+    return $LocalProfileHistoryTable(attachedDatabase, alias);
+  }
+}
+
+class LocalProfileHistoryData extends DataClass
+    implements Insertable<LocalProfileHistoryData> {
+  final String id;
+  final String profileId;
+  final String playbackSessionId;
+  final String contentKey;
+  final String? titleId;
+  final String? episodeId;
+  final int stoppedAtMs;
+  final int durationMs;
+  final double fraction;
+  final bool isCompleted;
+  final DateTime watchedAt;
+  final int serverRevision;
+  const LocalProfileHistoryData({
+    required this.id,
+    required this.profileId,
+    required this.playbackSessionId,
+    required this.contentKey,
+    this.titleId,
+    this.episodeId,
+    required this.stoppedAtMs,
+    required this.durationMs,
+    required this.fraction,
+    required this.isCompleted,
+    required this.watchedAt,
+    required this.serverRevision,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['profile_id'] = Variable<String>(profileId);
+    map['playback_session_id'] = Variable<String>(playbackSessionId);
+    map['content_key'] = Variable<String>(contentKey);
+    if (!nullToAbsent || titleId != null) {
+      map['title_id'] = Variable<String>(titleId);
+    }
+    if (!nullToAbsent || episodeId != null) {
+      map['episode_id'] = Variable<String>(episodeId);
+    }
+    map['stopped_at_ms'] = Variable<int>(stoppedAtMs);
+    map['duration_ms'] = Variable<int>(durationMs);
+    map['fraction'] = Variable<double>(fraction);
+    map['is_completed'] = Variable<bool>(isCompleted);
+    map['watched_at'] = Variable<DateTime>(watchedAt);
+    map['server_revision'] = Variable<int>(serverRevision);
+    return map;
+  }
+
+  LocalProfileHistoryCompanion toCompanion(bool nullToAbsent) {
+    return LocalProfileHistoryCompanion(
+      id: Value(id),
+      profileId: Value(profileId),
+      playbackSessionId: Value(playbackSessionId),
+      contentKey: Value(contentKey),
+      titleId: titleId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(titleId),
+      episodeId: episodeId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(episodeId),
+      stoppedAtMs: Value(stoppedAtMs),
+      durationMs: Value(durationMs),
+      fraction: Value(fraction),
+      isCompleted: Value(isCompleted),
+      watchedAt: Value(watchedAt),
+      serverRevision: Value(serverRevision),
+    );
+  }
+
+  factory LocalProfileHistoryData.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return LocalProfileHistoryData(
+      id: serializer.fromJson<String>(json['id']),
+      profileId: serializer.fromJson<String>(json['profileId']),
+      playbackSessionId: serializer.fromJson<String>(json['playbackSessionId']),
+      contentKey: serializer.fromJson<String>(json['contentKey']),
+      titleId: serializer.fromJson<String?>(json['titleId']),
+      episodeId: serializer.fromJson<String?>(json['episodeId']),
+      stoppedAtMs: serializer.fromJson<int>(json['stoppedAtMs']),
+      durationMs: serializer.fromJson<int>(json['durationMs']),
+      fraction: serializer.fromJson<double>(json['fraction']),
+      isCompleted: serializer.fromJson<bool>(json['isCompleted']),
+      watchedAt: serializer.fromJson<DateTime>(json['watchedAt']),
+      serverRevision: serializer.fromJson<int>(json['serverRevision']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'profileId': serializer.toJson<String>(profileId),
+      'playbackSessionId': serializer.toJson<String>(playbackSessionId),
+      'contentKey': serializer.toJson<String>(contentKey),
+      'titleId': serializer.toJson<String?>(titleId),
+      'episodeId': serializer.toJson<String?>(episodeId),
+      'stoppedAtMs': serializer.toJson<int>(stoppedAtMs),
+      'durationMs': serializer.toJson<int>(durationMs),
+      'fraction': serializer.toJson<double>(fraction),
+      'isCompleted': serializer.toJson<bool>(isCompleted),
+      'watchedAt': serializer.toJson<DateTime>(watchedAt),
+      'serverRevision': serializer.toJson<int>(serverRevision),
+    };
+  }
+
+  LocalProfileHistoryData copyWith({
+    String? id,
+    String? profileId,
+    String? playbackSessionId,
+    String? contentKey,
+    Value<String?> titleId = const Value.absent(),
+    Value<String?> episodeId = const Value.absent(),
+    int? stoppedAtMs,
+    int? durationMs,
+    double? fraction,
+    bool? isCompleted,
+    DateTime? watchedAt,
+    int? serverRevision,
+  }) => LocalProfileHistoryData(
+    id: id ?? this.id,
+    profileId: profileId ?? this.profileId,
+    playbackSessionId: playbackSessionId ?? this.playbackSessionId,
+    contentKey: contentKey ?? this.contentKey,
+    titleId: titleId.present ? titleId.value : this.titleId,
+    episodeId: episodeId.present ? episodeId.value : this.episodeId,
+    stoppedAtMs: stoppedAtMs ?? this.stoppedAtMs,
+    durationMs: durationMs ?? this.durationMs,
+    fraction: fraction ?? this.fraction,
+    isCompleted: isCompleted ?? this.isCompleted,
+    watchedAt: watchedAt ?? this.watchedAt,
+    serverRevision: serverRevision ?? this.serverRevision,
+  );
+  LocalProfileHistoryData copyWithCompanion(LocalProfileHistoryCompanion data) {
+    return LocalProfileHistoryData(
+      id: data.id.present ? data.id.value : this.id,
+      profileId: data.profileId.present ? data.profileId.value : this.profileId,
+      playbackSessionId: data.playbackSessionId.present
+          ? data.playbackSessionId.value
+          : this.playbackSessionId,
+      contentKey: data.contentKey.present
+          ? data.contentKey.value
+          : this.contentKey,
+      titleId: data.titleId.present ? data.titleId.value : this.titleId,
+      episodeId: data.episodeId.present ? data.episodeId.value : this.episodeId,
+      stoppedAtMs: data.stoppedAtMs.present
+          ? data.stoppedAtMs.value
+          : this.stoppedAtMs,
+      durationMs: data.durationMs.present
+          ? data.durationMs.value
+          : this.durationMs,
+      fraction: data.fraction.present ? data.fraction.value : this.fraction,
+      isCompleted: data.isCompleted.present
+          ? data.isCompleted.value
+          : this.isCompleted,
+      watchedAt: data.watchedAt.present ? data.watchedAt.value : this.watchedAt,
+      serverRevision: data.serverRevision.present
+          ? data.serverRevision.value
+          : this.serverRevision,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('LocalProfileHistoryData(')
+          ..write('id: $id, ')
+          ..write('profileId: $profileId, ')
+          ..write('playbackSessionId: $playbackSessionId, ')
+          ..write('contentKey: $contentKey, ')
+          ..write('titleId: $titleId, ')
+          ..write('episodeId: $episodeId, ')
+          ..write('stoppedAtMs: $stoppedAtMs, ')
+          ..write('durationMs: $durationMs, ')
+          ..write('fraction: $fraction, ')
+          ..write('isCompleted: $isCompleted, ')
+          ..write('watchedAt: $watchedAt, ')
+          ..write('serverRevision: $serverRevision')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    profileId,
+    playbackSessionId,
+    contentKey,
+    titleId,
+    episodeId,
+    stoppedAtMs,
+    durationMs,
+    fraction,
+    isCompleted,
+    watchedAt,
+    serverRevision,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is LocalProfileHistoryData &&
+          other.id == this.id &&
+          other.profileId == this.profileId &&
+          other.playbackSessionId == this.playbackSessionId &&
+          other.contentKey == this.contentKey &&
+          other.titleId == this.titleId &&
+          other.episodeId == this.episodeId &&
+          other.stoppedAtMs == this.stoppedAtMs &&
+          other.durationMs == this.durationMs &&
+          other.fraction == this.fraction &&
+          other.isCompleted == this.isCompleted &&
+          other.watchedAt == this.watchedAt &&
+          other.serverRevision == this.serverRevision);
+}
+
+class LocalProfileHistoryCompanion
+    extends UpdateCompanion<LocalProfileHistoryData> {
+  final Value<String> id;
+  final Value<String> profileId;
+  final Value<String> playbackSessionId;
+  final Value<String> contentKey;
+  final Value<String?> titleId;
+  final Value<String?> episodeId;
+  final Value<int> stoppedAtMs;
+  final Value<int> durationMs;
+  final Value<double> fraction;
+  final Value<bool> isCompleted;
+  final Value<DateTime> watchedAt;
+  final Value<int> serverRevision;
+  final Value<int> rowid;
+  const LocalProfileHistoryCompanion({
+    this.id = const Value.absent(),
+    this.profileId = const Value.absent(),
+    this.playbackSessionId = const Value.absent(),
+    this.contentKey = const Value.absent(),
+    this.titleId = const Value.absent(),
+    this.episodeId = const Value.absent(),
+    this.stoppedAtMs = const Value.absent(),
+    this.durationMs = const Value.absent(),
+    this.fraction = const Value.absent(),
+    this.isCompleted = const Value.absent(),
+    this.watchedAt = const Value.absent(),
+    this.serverRevision = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  LocalProfileHistoryCompanion.insert({
+    required String id,
+    required String profileId,
+    required String playbackSessionId,
+    required String contentKey,
+    this.titleId = const Value.absent(),
+    this.episodeId = const Value.absent(),
+    this.stoppedAtMs = const Value.absent(),
+    this.durationMs = const Value.absent(),
+    this.fraction = const Value.absent(),
+    this.isCompleted = const Value.absent(),
+    required DateTime watchedAt,
+    this.serverRevision = const Value.absent(),
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       profileId = Value(profileId),
+       playbackSessionId = Value(playbackSessionId),
+       contentKey = Value(contentKey),
+       watchedAt = Value(watchedAt);
+  static Insertable<LocalProfileHistoryData> custom({
+    Expression<String>? id,
+    Expression<String>? profileId,
+    Expression<String>? playbackSessionId,
+    Expression<String>? contentKey,
+    Expression<String>? titleId,
+    Expression<String>? episodeId,
+    Expression<int>? stoppedAtMs,
+    Expression<int>? durationMs,
+    Expression<double>? fraction,
+    Expression<bool>? isCompleted,
+    Expression<DateTime>? watchedAt,
+    Expression<int>? serverRevision,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (profileId != null) 'profile_id': profileId,
+      if (playbackSessionId != null) 'playback_session_id': playbackSessionId,
+      if (contentKey != null) 'content_key': contentKey,
+      if (titleId != null) 'title_id': titleId,
+      if (episodeId != null) 'episode_id': episodeId,
+      if (stoppedAtMs != null) 'stopped_at_ms': stoppedAtMs,
+      if (durationMs != null) 'duration_ms': durationMs,
+      if (fraction != null) 'fraction': fraction,
+      if (isCompleted != null) 'is_completed': isCompleted,
+      if (watchedAt != null) 'watched_at': watchedAt,
+      if (serverRevision != null) 'server_revision': serverRevision,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  LocalProfileHistoryCompanion copyWith({
+    Value<String>? id,
+    Value<String>? profileId,
+    Value<String>? playbackSessionId,
+    Value<String>? contentKey,
+    Value<String?>? titleId,
+    Value<String?>? episodeId,
+    Value<int>? stoppedAtMs,
+    Value<int>? durationMs,
+    Value<double>? fraction,
+    Value<bool>? isCompleted,
+    Value<DateTime>? watchedAt,
+    Value<int>? serverRevision,
+    Value<int>? rowid,
+  }) {
+    return LocalProfileHistoryCompanion(
+      id: id ?? this.id,
+      profileId: profileId ?? this.profileId,
+      playbackSessionId: playbackSessionId ?? this.playbackSessionId,
+      contentKey: contentKey ?? this.contentKey,
+      titleId: titleId ?? this.titleId,
+      episodeId: episodeId ?? this.episodeId,
+      stoppedAtMs: stoppedAtMs ?? this.stoppedAtMs,
+      durationMs: durationMs ?? this.durationMs,
+      fraction: fraction ?? this.fraction,
+      isCompleted: isCompleted ?? this.isCompleted,
+      watchedAt: watchedAt ?? this.watchedAt,
+      serverRevision: serverRevision ?? this.serverRevision,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (profileId.present) {
+      map['profile_id'] = Variable<String>(profileId.value);
+    }
+    if (playbackSessionId.present) {
+      map['playback_session_id'] = Variable<String>(playbackSessionId.value);
+    }
+    if (contentKey.present) {
+      map['content_key'] = Variable<String>(contentKey.value);
+    }
+    if (titleId.present) {
+      map['title_id'] = Variable<String>(titleId.value);
+    }
+    if (episodeId.present) {
+      map['episode_id'] = Variable<String>(episodeId.value);
+    }
+    if (stoppedAtMs.present) {
+      map['stopped_at_ms'] = Variable<int>(stoppedAtMs.value);
+    }
+    if (durationMs.present) {
+      map['duration_ms'] = Variable<int>(durationMs.value);
+    }
+    if (fraction.present) {
+      map['fraction'] = Variable<double>(fraction.value);
+    }
+    if (isCompleted.present) {
+      map['is_completed'] = Variable<bool>(isCompleted.value);
+    }
+    if (watchedAt.present) {
+      map['watched_at'] = Variable<DateTime>(watchedAt.value);
+    }
+    if (serverRevision.present) {
+      map['server_revision'] = Variable<int>(serverRevision.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('LocalProfileHistoryCompanion(')
+          ..write('id: $id, ')
+          ..write('profileId: $profileId, ')
+          ..write('playbackSessionId: $playbackSessionId, ')
+          ..write('contentKey: $contentKey, ')
+          ..write('titleId: $titleId, ')
+          ..write('episodeId: $episodeId, ')
+          ..write('stoppedAtMs: $stoppedAtMs, ')
+          ..write('durationMs: $durationMs, ')
+          ..write('fraction: $fraction, ')
+          ..write('isCompleted: $isCompleted, ')
+          ..write('watchedAt: $watchedAt, ')
+          ..write('serverRevision: $serverRevision, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $LocalProfilePreferencesTable extends LocalProfilePreferences
+    with TableInfo<$LocalProfilePreferencesTable, LocalProfilePreference> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $LocalProfilePreferencesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _profileIdMeta = const VerificationMeta(
+    'profileId',
+  );
+  @override
+  late final GeneratedColumn<String> profileId = GeneratedColumn<String>(
+    'profile_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _preferredAudioLanguageMeta =
+      const VerificationMeta('preferredAudioLanguage');
+  @override
+  late final GeneratedColumn<String> preferredAudioLanguage =
+      GeneratedColumn<String>(
+        'preferred_audio_language',
+        aliasedName,
+        true,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+      );
+  static const VerificationMeta _preferredSubtitleLanguageMeta =
+      const VerificationMeta('preferredSubtitleLanguage');
+  @override
+  late final GeneratedColumn<String> preferredSubtitleLanguage =
+      GeneratedColumn<String>(
+        'preferred_subtitle_language',
+        aliasedName,
+        true,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+      );
+  static const VerificationMeta _subtitlesEnabledMeta = const VerificationMeta(
+    'subtitlesEnabled',
+  );
+  @override
+  late final GeneratedColumn<bool> subtitlesEnabled = GeneratedColumn<bool>(
+    'subtitles_enabled',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("subtitles_enabled" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  static const VerificationMeta _autoPlayNextMeta = const VerificationMeta(
+    'autoPlayNext',
+  );
+  @override
+  late final GeneratedColumn<bool> autoPlayNext = GeneratedColumn<bool>(
+    'auto_play_next',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("auto_play_next" IN (0, 1))',
+    ),
+    defaultValue: const Constant(true),
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+    'updated_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _serverRevisionMeta = const VerificationMeta(
+    'serverRevision',
+  );
+  @override
+  late final GeneratedColumn<int> serverRevision = GeneratedColumn<int>(
+    'server_revision',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    profileId,
+    preferredAudioLanguage,
+    preferredSubtitleLanguage,
+    subtitlesEnabled,
+    autoPlayNext,
+    updatedAt,
+    serverRevision,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'local_profile_preferences';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<LocalProfilePreference> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('profile_id')) {
+      context.handle(
+        _profileIdMeta,
+        profileId.isAcceptableOrUnknown(data['profile_id']!, _profileIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_profileIdMeta);
+    }
+    if (data.containsKey('preferred_audio_language')) {
+      context.handle(
+        _preferredAudioLanguageMeta,
+        preferredAudioLanguage.isAcceptableOrUnknown(
+          data['preferred_audio_language']!,
+          _preferredAudioLanguageMeta,
+        ),
+      );
+    }
+    if (data.containsKey('preferred_subtitle_language')) {
+      context.handle(
+        _preferredSubtitleLanguageMeta,
+        preferredSubtitleLanguage.isAcceptableOrUnknown(
+          data['preferred_subtitle_language']!,
+          _preferredSubtitleLanguageMeta,
+        ),
+      );
+    }
+    if (data.containsKey('subtitles_enabled')) {
+      context.handle(
+        _subtitlesEnabledMeta,
+        subtitlesEnabled.isAcceptableOrUnknown(
+          data['subtitles_enabled']!,
+          _subtitlesEnabledMeta,
+        ),
+      );
+    }
+    if (data.containsKey('auto_play_next')) {
+      context.handle(
+        _autoPlayNextMeta,
+        autoPlayNext.isAcceptableOrUnknown(
+          data['auto_play_next']!,
+          _autoPlayNextMeta,
+        ),
+      );
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_updatedAtMeta);
+    }
+    if (data.containsKey('server_revision')) {
+      context.handle(
+        _serverRevisionMeta,
+        serverRevision.isAcceptableOrUnknown(
+          data['server_revision']!,
+          _serverRevisionMeta,
+        ),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {profileId};
+  @override
+  LocalProfilePreference map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return LocalProfilePreference(
+      profileId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}profile_id'],
+      )!,
+      preferredAudioLanguage: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}preferred_audio_language'],
+      ),
+      preferredSubtitleLanguage: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}preferred_subtitle_language'],
+      ),
+      subtitlesEnabled: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}subtitles_enabled'],
+      )!,
+      autoPlayNext: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}auto_play_next'],
+      )!,
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}updated_at'],
+      )!,
+      serverRevision: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}server_revision'],
+      )!,
+    );
+  }
+
+  @override
+  $LocalProfilePreferencesTable createAlias(String alias) {
+    return $LocalProfilePreferencesTable(attachedDatabase, alias);
+  }
+}
+
+class LocalProfilePreference extends DataClass
+    implements Insertable<LocalProfilePreference> {
+  final String profileId;
+  final String? preferredAudioLanguage;
+  final String? preferredSubtitleLanguage;
+  final bool subtitlesEnabled;
+  final bool autoPlayNext;
+  final DateTime updatedAt;
+  final int serverRevision;
+  const LocalProfilePreference({
+    required this.profileId,
+    this.preferredAudioLanguage,
+    this.preferredSubtitleLanguage,
+    required this.subtitlesEnabled,
+    required this.autoPlayNext,
+    required this.updatedAt,
+    required this.serverRevision,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['profile_id'] = Variable<String>(profileId);
+    if (!nullToAbsent || preferredAudioLanguage != null) {
+      map['preferred_audio_language'] = Variable<String>(
+        preferredAudioLanguage,
+      );
+    }
+    if (!nullToAbsent || preferredSubtitleLanguage != null) {
+      map['preferred_subtitle_language'] = Variable<String>(
+        preferredSubtitleLanguage,
+      );
+    }
+    map['subtitles_enabled'] = Variable<bool>(subtitlesEnabled);
+    map['auto_play_next'] = Variable<bool>(autoPlayNext);
+    map['updated_at'] = Variable<DateTime>(updatedAt);
+    map['server_revision'] = Variable<int>(serverRevision);
+    return map;
+  }
+
+  LocalProfilePreferencesCompanion toCompanion(bool nullToAbsent) {
+    return LocalProfilePreferencesCompanion(
+      profileId: Value(profileId),
+      preferredAudioLanguage: preferredAudioLanguage == null && nullToAbsent
+          ? const Value.absent()
+          : Value(preferredAudioLanguage),
+      preferredSubtitleLanguage:
+          preferredSubtitleLanguage == null && nullToAbsent
+          ? const Value.absent()
+          : Value(preferredSubtitleLanguage),
+      subtitlesEnabled: Value(subtitlesEnabled),
+      autoPlayNext: Value(autoPlayNext),
+      updatedAt: Value(updatedAt),
+      serverRevision: Value(serverRevision),
+    );
+  }
+
+  factory LocalProfilePreference.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return LocalProfilePreference(
+      profileId: serializer.fromJson<String>(json['profileId']),
+      preferredAudioLanguage: serializer.fromJson<String?>(
+        json['preferredAudioLanguage'],
+      ),
+      preferredSubtitleLanguage: serializer.fromJson<String?>(
+        json['preferredSubtitleLanguage'],
+      ),
+      subtitlesEnabled: serializer.fromJson<bool>(json['subtitlesEnabled']),
+      autoPlayNext: serializer.fromJson<bool>(json['autoPlayNext']),
+      updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
+      serverRevision: serializer.fromJson<int>(json['serverRevision']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'profileId': serializer.toJson<String>(profileId),
+      'preferredAudioLanguage': serializer.toJson<String?>(
+        preferredAudioLanguage,
+      ),
+      'preferredSubtitleLanguage': serializer.toJson<String?>(
+        preferredSubtitleLanguage,
+      ),
+      'subtitlesEnabled': serializer.toJson<bool>(subtitlesEnabled),
+      'autoPlayNext': serializer.toJson<bool>(autoPlayNext),
+      'updatedAt': serializer.toJson<DateTime>(updatedAt),
+      'serverRevision': serializer.toJson<int>(serverRevision),
+    };
+  }
+
+  LocalProfilePreference copyWith({
+    String? profileId,
+    Value<String?> preferredAudioLanguage = const Value.absent(),
+    Value<String?> preferredSubtitleLanguage = const Value.absent(),
+    bool? subtitlesEnabled,
+    bool? autoPlayNext,
+    DateTime? updatedAt,
+    int? serverRevision,
+  }) => LocalProfilePreference(
+    profileId: profileId ?? this.profileId,
+    preferredAudioLanguage: preferredAudioLanguage.present
+        ? preferredAudioLanguage.value
+        : this.preferredAudioLanguage,
+    preferredSubtitleLanguage: preferredSubtitleLanguage.present
+        ? preferredSubtitleLanguage.value
+        : this.preferredSubtitleLanguage,
+    subtitlesEnabled: subtitlesEnabled ?? this.subtitlesEnabled,
+    autoPlayNext: autoPlayNext ?? this.autoPlayNext,
+    updatedAt: updatedAt ?? this.updatedAt,
+    serverRevision: serverRevision ?? this.serverRevision,
+  );
+  LocalProfilePreference copyWithCompanion(
+    LocalProfilePreferencesCompanion data,
+  ) {
+    return LocalProfilePreference(
+      profileId: data.profileId.present ? data.profileId.value : this.profileId,
+      preferredAudioLanguage: data.preferredAudioLanguage.present
+          ? data.preferredAudioLanguage.value
+          : this.preferredAudioLanguage,
+      preferredSubtitleLanguage: data.preferredSubtitleLanguage.present
+          ? data.preferredSubtitleLanguage.value
+          : this.preferredSubtitleLanguage,
+      subtitlesEnabled: data.subtitlesEnabled.present
+          ? data.subtitlesEnabled.value
+          : this.subtitlesEnabled,
+      autoPlayNext: data.autoPlayNext.present
+          ? data.autoPlayNext.value
+          : this.autoPlayNext,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+      serverRevision: data.serverRevision.present
+          ? data.serverRevision.value
+          : this.serverRevision,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('LocalProfilePreference(')
+          ..write('profileId: $profileId, ')
+          ..write('preferredAudioLanguage: $preferredAudioLanguage, ')
+          ..write('preferredSubtitleLanguage: $preferredSubtitleLanguage, ')
+          ..write('subtitlesEnabled: $subtitlesEnabled, ')
+          ..write('autoPlayNext: $autoPlayNext, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('serverRevision: $serverRevision')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    profileId,
+    preferredAudioLanguage,
+    preferredSubtitleLanguage,
+    subtitlesEnabled,
+    autoPlayNext,
+    updatedAt,
+    serverRevision,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is LocalProfilePreference &&
+          other.profileId == this.profileId &&
+          other.preferredAudioLanguage == this.preferredAudioLanguage &&
+          other.preferredSubtitleLanguage == this.preferredSubtitleLanguage &&
+          other.subtitlesEnabled == this.subtitlesEnabled &&
+          other.autoPlayNext == this.autoPlayNext &&
+          other.updatedAt == this.updatedAt &&
+          other.serverRevision == this.serverRevision);
+}
+
+class LocalProfilePreferencesCompanion
+    extends UpdateCompanion<LocalProfilePreference> {
+  final Value<String> profileId;
+  final Value<String?> preferredAudioLanguage;
+  final Value<String?> preferredSubtitleLanguage;
+  final Value<bool> subtitlesEnabled;
+  final Value<bool> autoPlayNext;
+  final Value<DateTime> updatedAt;
+  final Value<int> serverRevision;
+  final Value<int> rowid;
+  const LocalProfilePreferencesCompanion({
+    this.profileId = const Value.absent(),
+    this.preferredAudioLanguage = const Value.absent(),
+    this.preferredSubtitleLanguage = const Value.absent(),
+    this.subtitlesEnabled = const Value.absent(),
+    this.autoPlayNext = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.serverRevision = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  LocalProfilePreferencesCompanion.insert({
+    required String profileId,
+    this.preferredAudioLanguage = const Value.absent(),
+    this.preferredSubtitleLanguage = const Value.absent(),
+    this.subtitlesEnabled = const Value.absent(),
+    this.autoPlayNext = const Value.absent(),
+    required DateTime updatedAt,
+    this.serverRevision = const Value.absent(),
+    this.rowid = const Value.absent(),
+  }) : profileId = Value(profileId),
+       updatedAt = Value(updatedAt);
+  static Insertable<LocalProfilePreference> custom({
+    Expression<String>? profileId,
+    Expression<String>? preferredAudioLanguage,
+    Expression<String>? preferredSubtitleLanguage,
+    Expression<bool>? subtitlesEnabled,
+    Expression<bool>? autoPlayNext,
+    Expression<DateTime>? updatedAt,
+    Expression<int>? serverRevision,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (profileId != null) 'profile_id': profileId,
+      if (preferredAudioLanguage != null)
+        'preferred_audio_language': preferredAudioLanguage,
+      if (preferredSubtitleLanguage != null)
+        'preferred_subtitle_language': preferredSubtitleLanguage,
+      if (subtitlesEnabled != null) 'subtitles_enabled': subtitlesEnabled,
+      if (autoPlayNext != null) 'auto_play_next': autoPlayNext,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (serverRevision != null) 'server_revision': serverRevision,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  LocalProfilePreferencesCompanion copyWith({
+    Value<String>? profileId,
+    Value<String?>? preferredAudioLanguage,
+    Value<String?>? preferredSubtitleLanguage,
+    Value<bool>? subtitlesEnabled,
+    Value<bool>? autoPlayNext,
+    Value<DateTime>? updatedAt,
+    Value<int>? serverRevision,
+    Value<int>? rowid,
+  }) {
+    return LocalProfilePreferencesCompanion(
+      profileId: profileId ?? this.profileId,
+      preferredAudioLanguage:
+          preferredAudioLanguage ?? this.preferredAudioLanguage,
+      preferredSubtitleLanguage:
+          preferredSubtitleLanguage ?? this.preferredSubtitleLanguage,
+      subtitlesEnabled: subtitlesEnabled ?? this.subtitlesEnabled,
+      autoPlayNext: autoPlayNext ?? this.autoPlayNext,
+      updatedAt: updatedAt ?? this.updatedAt,
+      serverRevision: serverRevision ?? this.serverRevision,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (profileId.present) {
+      map['profile_id'] = Variable<String>(profileId.value);
+    }
+    if (preferredAudioLanguage.present) {
+      map['preferred_audio_language'] = Variable<String>(
+        preferredAudioLanguage.value,
+      );
+    }
+    if (preferredSubtitleLanguage.present) {
+      map['preferred_subtitle_language'] = Variable<String>(
+        preferredSubtitleLanguage.value,
+      );
+    }
+    if (subtitlesEnabled.present) {
+      map['subtitles_enabled'] = Variable<bool>(subtitlesEnabled.value);
+    }
+    if (autoPlayNext.present) {
+      map['auto_play_next'] = Variable<bool>(autoPlayNext.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    if (serverRevision.present) {
+      map['server_revision'] = Variable<int>(serverRevision.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('LocalProfilePreferencesCompanion(')
+          ..write('profileId: $profileId, ')
+          ..write('preferredAudioLanguage: $preferredAudioLanguage, ')
+          ..write('preferredSubtitleLanguage: $preferredSubtitleLanguage, ')
+          ..write('subtitlesEnabled: $subtitlesEnabled, ')
+          ..write('autoPlayNext: $autoPlayNext, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('serverRevision: $serverRevision, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $LocalProfileSyncQueueTable extends LocalProfileSyncQueue
+    with TableInfo<$LocalProfileSyncQueueTable, LocalProfileSyncQueueData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $LocalProfileSyncQueueTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _operationIdMeta = const VerificationMeta(
+    'operationId',
+  );
+  @override
+  late final GeneratedColumn<String> operationId = GeneratedColumn<String>(
+    'operation_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _profileIdMeta = const VerificationMeta(
+    'profileId',
+  );
+  @override
+  late final GeneratedColumn<String> profileId = GeneratedColumn<String>(
+    'profile_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _deviceIdMeta = const VerificationMeta(
+    'deviceId',
+  );
+  @override
+  late final GeneratedColumn<String> deviceId = GeneratedColumn<String>(
+    'device_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _clientSequenceMeta = const VerificationMeta(
+    'clientSequence',
+  );
+  @override
+  late final GeneratedColumn<int> clientSequence = GeneratedColumn<int>(
+    'client_sequence',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _playbackSessionIdMeta = const VerificationMeta(
+    'playbackSessionId',
+  );
+  @override
+  late final GeneratedColumn<String> playbackSessionId =
+      GeneratedColumn<String>(
+        'playback_session_id',
+        aliasedName,
+        true,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+      );
+  static const VerificationMeta _operationTypeMeta = const VerificationMeta(
+    'operationType',
+  );
+  @override
+  late final GeneratedColumn<String> operationType = GeneratedColumn<String>(
+    'operation_type',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _contentKeyMeta = const VerificationMeta(
+    'contentKey',
+  );
+  @override
+  late final GeneratedColumn<String> contentKey = GeneratedColumn<String>(
+    'content_key',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _titleIdMeta = const VerificationMeta(
+    'titleId',
+  );
+  @override
+  late final GeneratedColumn<String> titleId = GeneratedColumn<String>(
+    'title_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _episodeIdMeta = const VerificationMeta(
+    'episodeId',
+  );
+  @override
+  late final GeneratedColumn<String> episodeId = GeneratedColumn<String>(
+    'episode_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _payloadMeta = const VerificationMeta(
+    'payload',
+  );
+  @override
+  late final GeneratedColumn<String> payload = GeneratedColumn<String>(
+    'payload',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('{}'),
+  );
+  static const VerificationMeta _clientTimestampMeta = const VerificationMeta(
+    'clientTimestamp',
+  );
+  @override
+  late final GeneratedColumn<DateTime> clientTimestamp =
+      GeneratedColumn<DateTime>(
+        'client_timestamp',
+        aliasedName,
+        false,
+        type: DriftSqlType.dateTime,
+        requiredDuringInsert: true,
+      );
+  static const VerificationMeta _statusMeta = const VerificationMeta('status');
+  @override
+  late final GeneratedColumn<String> status = GeneratedColumn<String>(
+    'status',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('pending'),
+  );
+  static const VerificationMeta _retryCountMeta = const VerificationMeta(
+    'retryCount',
+  );
+  @override
+  late final GeneratedColumn<int> retryCount = GeneratedColumn<int>(
+    'retry_count',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    operationId,
+    profileId,
+    deviceId,
+    clientSequence,
+    playbackSessionId,
+    operationType,
+    contentKey,
+    titleId,
+    episodeId,
+    payload,
+    clientTimestamp,
+    status,
+    retryCount,
+    createdAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'local_profile_sync_queue';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<LocalProfileSyncQueueData> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('operation_id')) {
+      context.handle(
+        _operationIdMeta,
+        operationId.isAcceptableOrUnknown(
+          data['operation_id']!,
+          _operationIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_operationIdMeta);
+    }
+    if (data.containsKey('profile_id')) {
+      context.handle(
+        _profileIdMeta,
+        profileId.isAcceptableOrUnknown(data['profile_id']!, _profileIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_profileIdMeta);
+    }
+    if (data.containsKey('device_id')) {
+      context.handle(
+        _deviceIdMeta,
+        deviceId.isAcceptableOrUnknown(data['device_id']!, _deviceIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_deviceIdMeta);
+    }
+    if (data.containsKey('client_sequence')) {
+      context.handle(
+        _clientSequenceMeta,
+        clientSequence.isAcceptableOrUnknown(
+          data['client_sequence']!,
+          _clientSequenceMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_clientSequenceMeta);
+    }
+    if (data.containsKey('playback_session_id')) {
+      context.handle(
+        _playbackSessionIdMeta,
+        playbackSessionId.isAcceptableOrUnknown(
+          data['playback_session_id']!,
+          _playbackSessionIdMeta,
+        ),
+      );
+    }
+    if (data.containsKey('operation_type')) {
+      context.handle(
+        _operationTypeMeta,
+        operationType.isAcceptableOrUnknown(
+          data['operation_type']!,
+          _operationTypeMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_operationTypeMeta);
+    }
+    if (data.containsKey('content_key')) {
+      context.handle(
+        _contentKeyMeta,
+        contentKey.isAcceptableOrUnknown(data['content_key']!, _contentKeyMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_contentKeyMeta);
+    }
+    if (data.containsKey('title_id')) {
+      context.handle(
+        _titleIdMeta,
+        titleId.isAcceptableOrUnknown(data['title_id']!, _titleIdMeta),
+      );
+    }
+    if (data.containsKey('episode_id')) {
+      context.handle(
+        _episodeIdMeta,
+        episodeId.isAcceptableOrUnknown(data['episode_id']!, _episodeIdMeta),
+      );
+    }
+    if (data.containsKey('payload')) {
+      context.handle(
+        _payloadMeta,
+        payload.isAcceptableOrUnknown(data['payload']!, _payloadMeta),
+      );
+    }
+    if (data.containsKey('client_timestamp')) {
+      context.handle(
+        _clientTimestampMeta,
+        clientTimestamp.isAcceptableOrUnknown(
+          data['client_timestamp']!,
+          _clientTimestampMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_clientTimestampMeta);
+    }
+    if (data.containsKey('status')) {
+      context.handle(
+        _statusMeta,
+        status.isAcceptableOrUnknown(data['status']!, _statusMeta),
+      );
+    }
+    if (data.containsKey('retry_count')) {
+      context.handle(
+        _retryCountMeta,
+        retryCount.isAcceptableOrUnknown(data['retry_count']!, _retryCountMeta),
+      );
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {operationId};
+  @override
+  LocalProfileSyncQueueData map(
+    Map<String, dynamic> data, {
+    String? tablePrefix,
+  }) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return LocalProfileSyncQueueData(
+      operationId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}operation_id'],
+      )!,
+      profileId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}profile_id'],
+      )!,
+      deviceId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}device_id'],
+      )!,
+      clientSequence: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}client_sequence'],
+      )!,
+      playbackSessionId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}playback_session_id'],
+      ),
+      operationType: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}operation_type'],
+      )!,
+      contentKey: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}content_key'],
+      )!,
+      titleId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}title_id'],
+      ),
+      episodeId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}episode_id'],
+      ),
+      payload: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}payload'],
+      )!,
+      clientTimestamp: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}client_timestamp'],
+      )!,
+      status: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}status'],
+      )!,
+      retryCount: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}retry_count'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+    );
+  }
+
+  @override
+  $LocalProfileSyncQueueTable createAlias(String alias) {
+    return $LocalProfileSyncQueueTable(attachedDatabase, alias);
+  }
+}
+
+class LocalProfileSyncQueueData extends DataClass
+    implements Insertable<LocalProfileSyncQueueData> {
+  final String operationId;
+  final String profileId;
+  final String deviceId;
+  final int clientSequence;
+  final String? playbackSessionId;
+  final String operationType;
+  final String contentKey;
+  final String? titleId;
+  final String? episodeId;
+  final String payload;
+  final DateTime clientTimestamp;
+  final String status;
+  final int retryCount;
+  final DateTime createdAt;
+  const LocalProfileSyncQueueData({
+    required this.operationId,
+    required this.profileId,
+    required this.deviceId,
+    required this.clientSequence,
+    this.playbackSessionId,
+    required this.operationType,
+    required this.contentKey,
+    this.titleId,
+    this.episodeId,
+    required this.payload,
+    required this.clientTimestamp,
+    required this.status,
+    required this.retryCount,
+    required this.createdAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['operation_id'] = Variable<String>(operationId);
+    map['profile_id'] = Variable<String>(profileId);
+    map['device_id'] = Variable<String>(deviceId);
+    map['client_sequence'] = Variable<int>(clientSequence);
+    if (!nullToAbsent || playbackSessionId != null) {
+      map['playback_session_id'] = Variable<String>(playbackSessionId);
+    }
+    map['operation_type'] = Variable<String>(operationType);
+    map['content_key'] = Variable<String>(contentKey);
+    if (!nullToAbsent || titleId != null) {
+      map['title_id'] = Variable<String>(titleId);
+    }
+    if (!nullToAbsent || episodeId != null) {
+      map['episode_id'] = Variable<String>(episodeId);
+    }
+    map['payload'] = Variable<String>(payload);
+    map['client_timestamp'] = Variable<DateTime>(clientTimestamp);
+    map['status'] = Variable<String>(status);
+    map['retry_count'] = Variable<int>(retryCount);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    return map;
+  }
+
+  LocalProfileSyncQueueCompanion toCompanion(bool nullToAbsent) {
+    return LocalProfileSyncQueueCompanion(
+      operationId: Value(operationId),
+      profileId: Value(profileId),
+      deviceId: Value(deviceId),
+      clientSequence: Value(clientSequence),
+      playbackSessionId: playbackSessionId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(playbackSessionId),
+      operationType: Value(operationType),
+      contentKey: Value(contentKey),
+      titleId: titleId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(titleId),
+      episodeId: episodeId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(episodeId),
+      payload: Value(payload),
+      clientTimestamp: Value(clientTimestamp),
+      status: Value(status),
+      retryCount: Value(retryCount),
+      createdAt: Value(createdAt),
+    );
+  }
+
+  factory LocalProfileSyncQueueData.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return LocalProfileSyncQueueData(
+      operationId: serializer.fromJson<String>(json['operationId']),
+      profileId: serializer.fromJson<String>(json['profileId']),
+      deviceId: serializer.fromJson<String>(json['deviceId']),
+      clientSequence: serializer.fromJson<int>(json['clientSequence']),
+      playbackSessionId: serializer.fromJson<String?>(
+        json['playbackSessionId'],
+      ),
+      operationType: serializer.fromJson<String>(json['operationType']),
+      contentKey: serializer.fromJson<String>(json['contentKey']),
+      titleId: serializer.fromJson<String?>(json['titleId']),
+      episodeId: serializer.fromJson<String?>(json['episodeId']),
+      payload: serializer.fromJson<String>(json['payload']),
+      clientTimestamp: serializer.fromJson<DateTime>(json['clientTimestamp']),
+      status: serializer.fromJson<String>(json['status']),
+      retryCount: serializer.fromJson<int>(json['retryCount']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'operationId': serializer.toJson<String>(operationId),
+      'profileId': serializer.toJson<String>(profileId),
+      'deviceId': serializer.toJson<String>(deviceId),
+      'clientSequence': serializer.toJson<int>(clientSequence),
+      'playbackSessionId': serializer.toJson<String?>(playbackSessionId),
+      'operationType': serializer.toJson<String>(operationType),
+      'contentKey': serializer.toJson<String>(contentKey),
+      'titleId': serializer.toJson<String?>(titleId),
+      'episodeId': serializer.toJson<String?>(episodeId),
+      'payload': serializer.toJson<String>(payload),
+      'clientTimestamp': serializer.toJson<DateTime>(clientTimestamp),
+      'status': serializer.toJson<String>(status),
+      'retryCount': serializer.toJson<int>(retryCount),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+    };
+  }
+
+  LocalProfileSyncQueueData copyWith({
+    String? operationId,
+    String? profileId,
+    String? deviceId,
+    int? clientSequence,
+    Value<String?> playbackSessionId = const Value.absent(),
+    String? operationType,
+    String? contentKey,
+    Value<String?> titleId = const Value.absent(),
+    Value<String?> episodeId = const Value.absent(),
+    String? payload,
+    DateTime? clientTimestamp,
+    String? status,
+    int? retryCount,
+    DateTime? createdAt,
+  }) => LocalProfileSyncQueueData(
+    operationId: operationId ?? this.operationId,
+    profileId: profileId ?? this.profileId,
+    deviceId: deviceId ?? this.deviceId,
+    clientSequence: clientSequence ?? this.clientSequence,
+    playbackSessionId: playbackSessionId.present
+        ? playbackSessionId.value
+        : this.playbackSessionId,
+    operationType: operationType ?? this.operationType,
+    contentKey: contentKey ?? this.contentKey,
+    titleId: titleId.present ? titleId.value : this.titleId,
+    episodeId: episodeId.present ? episodeId.value : this.episodeId,
+    payload: payload ?? this.payload,
+    clientTimestamp: clientTimestamp ?? this.clientTimestamp,
+    status: status ?? this.status,
+    retryCount: retryCount ?? this.retryCount,
+    createdAt: createdAt ?? this.createdAt,
+  );
+  LocalProfileSyncQueueData copyWithCompanion(
+    LocalProfileSyncQueueCompanion data,
+  ) {
+    return LocalProfileSyncQueueData(
+      operationId: data.operationId.present
+          ? data.operationId.value
+          : this.operationId,
+      profileId: data.profileId.present ? data.profileId.value : this.profileId,
+      deviceId: data.deviceId.present ? data.deviceId.value : this.deviceId,
+      clientSequence: data.clientSequence.present
+          ? data.clientSequence.value
+          : this.clientSequence,
+      playbackSessionId: data.playbackSessionId.present
+          ? data.playbackSessionId.value
+          : this.playbackSessionId,
+      operationType: data.operationType.present
+          ? data.operationType.value
+          : this.operationType,
+      contentKey: data.contentKey.present
+          ? data.contentKey.value
+          : this.contentKey,
+      titleId: data.titleId.present ? data.titleId.value : this.titleId,
+      episodeId: data.episodeId.present ? data.episodeId.value : this.episodeId,
+      payload: data.payload.present ? data.payload.value : this.payload,
+      clientTimestamp: data.clientTimestamp.present
+          ? data.clientTimestamp.value
+          : this.clientTimestamp,
+      status: data.status.present ? data.status.value : this.status,
+      retryCount: data.retryCount.present
+          ? data.retryCount.value
+          : this.retryCount,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('LocalProfileSyncQueueData(')
+          ..write('operationId: $operationId, ')
+          ..write('profileId: $profileId, ')
+          ..write('deviceId: $deviceId, ')
+          ..write('clientSequence: $clientSequence, ')
+          ..write('playbackSessionId: $playbackSessionId, ')
+          ..write('operationType: $operationType, ')
+          ..write('contentKey: $contentKey, ')
+          ..write('titleId: $titleId, ')
+          ..write('episodeId: $episodeId, ')
+          ..write('payload: $payload, ')
+          ..write('clientTimestamp: $clientTimestamp, ')
+          ..write('status: $status, ')
+          ..write('retryCount: $retryCount, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    operationId,
+    profileId,
+    deviceId,
+    clientSequence,
+    playbackSessionId,
+    operationType,
+    contentKey,
+    titleId,
+    episodeId,
+    payload,
+    clientTimestamp,
+    status,
+    retryCount,
+    createdAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is LocalProfileSyncQueueData &&
+          other.operationId == this.operationId &&
+          other.profileId == this.profileId &&
+          other.deviceId == this.deviceId &&
+          other.clientSequence == this.clientSequence &&
+          other.playbackSessionId == this.playbackSessionId &&
+          other.operationType == this.operationType &&
+          other.contentKey == this.contentKey &&
+          other.titleId == this.titleId &&
+          other.episodeId == this.episodeId &&
+          other.payload == this.payload &&
+          other.clientTimestamp == this.clientTimestamp &&
+          other.status == this.status &&
+          other.retryCount == this.retryCount &&
+          other.createdAt == this.createdAt);
+}
+
+class LocalProfileSyncQueueCompanion
+    extends UpdateCompanion<LocalProfileSyncQueueData> {
+  final Value<String> operationId;
+  final Value<String> profileId;
+  final Value<String> deviceId;
+  final Value<int> clientSequence;
+  final Value<String?> playbackSessionId;
+  final Value<String> operationType;
+  final Value<String> contentKey;
+  final Value<String?> titleId;
+  final Value<String?> episodeId;
+  final Value<String> payload;
+  final Value<DateTime> clientTimestamp;
+  final Value<String> status;
+  final Value<int> retryCount;
+  final Value<DateTime> createdAt;
+  final Value<int> rowid;
+  const LocalProfileSyncQueueCompanion({
+    this.operationId = const Value.absent(),
+    this.profileId = const Value.absent(),
+    this.deviceId = const Value.absent(),
+    this.clientSequence = const Value.absent(),
+    this.playbackSessionId = const Value.absent(),
+    this.operationType = const Value.absent(),
+    this.contentKey = const Value.absent(),
+    this.titleId = const Value.absent(),
+    this.episodeId = const Value.absent(),
+    this.payload = const Value.absent(),
+    this.clientTimestamp = const Value.absent(),
+    this.status = const Value.absent(),
+    this.retryCount = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  LocalProfileSyncQueueCompanion.insert({
+    required String operationId,
+    required String profileId,
+    required String deviceId,
+    required int clientSequence,
+    this.playbackSessionId = const Value.absent(),
+    required String operationType,
+    required String contentKey,
+    this.titleId = const Value.absent(),
+    this.episodeId = const Value.absent(),
+    this.payload = const Value.absent(),
+    required DateTime clientTimestamp,
+    this.status = const Value.absent(),
+    this.retryCount = const Value.absent(),
+    required DateTime createdAt,
+    this.rowid = const Value.absent(),
+  }) : operationId = Value(operationId),
+       profileId = Value(profileId),
+       deviceId = Value(deviceId),
+       clientSequence = Value(clientSequence),
+       operationType = Value(operationType),
+       contentKey = Value(contentKey),
+       clientTimestamp = Value(clientTimestamp),
+       createdAt = Value(createdAt);
+  static Insertable<LocalProfileSyncQueueData> custom({
+    Expression<String>? operationId,
+    Expression<String>? profileId,
+    Expression<String>? deviceId,
+    Expression<int>? clientSequence,
+    Expression<String>? playbackSessionId,
+    Expression<String>? operationType,
+    Expression<String>? contentKey,
+    Expression<String>? titleId,
+    Expression<String>? episodeId,
+    Expression<String>? payload,
+    Expression<DateTime>? clientTimestamp,
+    Expression<String>? status,
+    Expression<int>? retryCount,
+    Expression<DateTime>? createdAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (operationId != null) 'operation_id': operationId,
+      if (profileId != null) 'profile_id': profileId,
+      if (deviceId != null) 'device_id': deviceId,
+      if (clientSequence != null) 'client_sequence': clientSequence,
+      if (playbackSessionId != null) 'playback_session_id': playbackSessionId,
+      if (operationType != null) 'operation_type': operationType,
+      if (contentKey != null) 'content_key': contentKey,
+      if (titleId != null) 'title_id': titleId,
+      if (episodeId != null) 'episode_id': episodeId,
+      if (payload != null) 'payload': payload,
+      if (clientTimestamp != null) 'client_timestamp': clientTimestamp,
+      if (status != null) 'status': status,
+      if (retryCount != null) 'retry_count': retryCount,
+      if (createdAt != null) 'created_at': createdAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  LocalProfileSyncQueueCompanion copyWith({
+    Value<String>? operationId,
+    Value<String>? profileId,
+    Value<String>? deviceId,
+    Value<int>? clientSequence,
+    Value<String?>? playbackSessionId,
+    Value<String>? operationType,
+    Value<String>? contentKey,
+    Value<String?>? titleId,
+    Value<String?>? episodeId,
+    Value<String>? payload,
+    Value<DateTime>? clientTimestamp,
+    Value<String>? status,
+    Value<int>? retryCount,
+    Value<DateTime>? createdAt,
+    Value<int>? rowid,
+  }) {
+    return LocalProfileSyncQueueCompanion(
+      operationId: operationId ?? this.operationId,
+      profileId: profileId ?? this.profileId,
+      deviceId: deviceId ?? this.deviceId,
+      clientSequence: clientSequence ?? this.clientSequence,
+      playbackSessionId: playbackSessionId ?? this.playbackSessionId,
+      operationType: operationType ?? this.operationType,
+      contentKey: contentKey ?? this.contentKey,
+      titleId: titleId ?? this.titleId,
+      episodeId: episodeId ?? this.episodeId,
+      payload: payload ?? this.payload,
+      clientTimestamp: clientTimestamp ?? this.clientTimestamp,
+      status: status ?? this.status,
+      retryCount: retryCount ?? this.retryCount,
+      createdAt: createdAt ?? this.createdAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (operationId.present) {
+      map['operation_id'] = Variable<String>(operationId.value);
+    }
+    if (profileId.present) {
+      map['profile_id'] = Variable<String>(profileId.value);
+    }
+    if (deviceId.present) {
+      map['device_id'] = Variable<String>(deviceId.value);
+    }
+    if (clientSequence.present) {
+      map['client_sequence'] = Variable<int>(clientSequence.value);
+    }
+    if (playbackSessionId.present) {
+      map['playback_session_id'] = Variable<String>(playbackSessionId.value);
+    }
+    if (operationType.present) {
+      map['operation_type'] = Variable<String>(operationType.value);
+    }
+    if (contentKey.present) {
+      map['content_key'] = Variable<String>(contentKey.value);
+    }
+    if (titleId.present) {
+      map['title_id'] = Variable<String>(titleId.value);
+    }
+    if (episodeId.present) {
+      map['episode_id'] = Variable<String>(episodeId.value);
+    }
+    if (payload.present) {
+      map['payload'] = Variable<String>(payload.value);
+    }
+    if (clientTimestamp.present) {
+      map['client_timestamp'] = Variable<DateTime>(clientTimestamp.value);
+    }
+    if (status.present) {
+      map['status'] = Variable<String>(status.value);
+    }
+    if (retryCount.present) {
+      map['retry_count'] = Variable<int>(retryCount.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('LocalProfileSyncQueueCompanion(')
+          ..write('operationId: $operationId, ')
+          ..write('profileId: $profileId, ')
+          ..write('deviceId: $deviceId, ')
+          ..write('clientSequence: $clientSequence, ')
+          ..write('playbackSessionId: $playbackSessionId, ')
+          ..write('operationType: $operationType, ')
+          ..write('contentKey: $contentKey, ')
+          ..write('titleId: $titleId, ')
+          ..write('episodeId: $episodeId, ')
+          ..write('payload: $payload, ')
+          ..write('clientTimestamp: $clientTimestamp, ')
+          ..write('status: $status, ')
+          ..write('retryCount: $retryCount, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $LocalProfileSyncCheckpointTable extends LocalProfileSyncCheckpoint
+    with
+        TableInfo<
+          $LocalProfileSyncCheckpointTable,
+          LocalProfileSyncCheckpointData
+        > {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $LocalProfileSyncCheckpointTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _profileIdMeta = const VerificationMeta(
+    'profileId',
+  );
+  @override
+  late final GeneratedColumn<String> profileId = GeneratedColumn<String>(
+    'profile_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _latestServerRevisionMeta =
+      const VerificationMeta('latestServerRevision');
+  @override
+  late final GeneratedColumn<int> latestServerRevision = GeneratedColumn<int>(
+    'latest_server_revision',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _lastSyncedAtMeta = const VerificationMeta(
+    'lastSyncedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> lastSyncedAt = GeneratedColumn<DateTime>(
+    'last_synced_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _lastSuccessfulSequenceMeta =
+      const VerificationMeta('lastSuccessfulSequence');
+  @override
+  late final GeneratedColumn<int> lastSuccessfulSequence = GeneratedColumn<int>(
+    'last_successful_sequence',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    profileId,
+    latestServerRevision,
+    lastSyncedAt,
+    lastSuccessfulSequence,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'local_profile_sync_checkpoint';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<LocalProfileSyncCheckpointData> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('profile_id')) {
+      context.handle(
+        _profileIdMeta,
+        profileId.isAcceptableOrUnknown(data['profile_id']!, _profileIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_profileIdMeta);
+    }
+    if (data.containsKey('latest_server_revision')) {
+      context.handle(
+        _latestServerRevisionMeta,
+        latestServerRevision.isAcceptableOrUnknown(
+          data['latest_server_revision']!,
+          _latestServerRevisionMeta,
+        ),
+      );
+    }
+    if (data.containsKey('last_synced_at')) {
+      context.handle(
+        _lastSyncedAtMeta,
+        lastSyncedAt.isAcceptableOrUnknown(
+          data['last_synced_at']!,
+          _lastSyncedAtMeta,
+        ),
+      );
+    }
+    if (data.containsKey('last_successful_sequence')) {
+      context.handle(
+        _lastSuccessfulSequenceMeta,
+        lastSuccessfulSequence.isAcceptableOrUnknown(
+          data['last_successful_sequence']!,
+          _lastSuccessfulSequenceMeta,
+        ),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {profileId};
+  @override
+  LocalProfileSyncCheckpointData map(
+    Map<String, dynamic> data, {
+    String? tablePrefix,
+  }) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return LocalProfileSyncCheckpointData(
+      profileId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}profile_id'],
+      )!,
+      latestServerRevision: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}latest_server_revision'],
+      )!,
+      lastSyncedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}last_synced_at'],
+      ),
+      lastSuccessfulSequence: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}last_successful_sequence'],
+      )!,
+    );
+  }
+
+  @override
+  $LocalProfileSyncCheckpointTable createAlias(String alias) {
+    return $LocalProfileSyncCheckpointTable(attachedDatabase, alias);
+  }
+}
+
+class LocalProfileSyncCheckpointData extends DataClass
+    implements Insertable<LocalProfileSyncCheckpointData> {
+  final String profileId;
+  final int latestServerRevision;
+  final DateTime? lastSyncedAt;
+  final int lastSuccessfulSequence;
+  const LocalProfileSyncCheckpointData({
+    required this.profileId,
+    required this.latestServerRevision,
+    this.lastSyncedAt,
+    required this.lastSuccessfulSequence,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['profile_id'] = Variable<String>(profileId);
+    map['latest_server_revision'] = Variable<int>(latestServerRevision);
+    if (!nullToAbsent || lastSyncedAt != null) {
+      map['last_synced_at'] = Variable<DateTime>(lastSyncedAt);
+    }
+    map['last_successful_sequence'] = Variable<int>(lastSuccessfulSequence);
+    return map;
+  }
+
+  LocalProfileSyncCheckpointCompanion toCompanion(bool nullToAbsent) {
+    return LocalProfileSyncCheckpointCompanion(
+      profileId: Value(profileId),
+      latestServerRevision: Value(latestServerRevision),
+      lastSyncedAt: lastSyncedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lastSyncedAt),
+      lastSuccessfulSequence: Value(lastSuccessfulSequence),
+    );
+  }
+
+  factory LocalProfileSyncCheckpointData.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return LocalProfileSyncCheckpointData(
+      profileId: serializer.fromJson<String>(json['profileId']),
+      latestServerRevision: serializer.fromJson<int>(
+        json['latestServerRevision'],
+      ),
+      lastSyncedAt: serializer.fromJson<DateTime?>(json['lastSyncedAt']),
+      lastSuccessfulSequence: serializer.fromJson<int>(
+        json['lastSuccessfulSequence'],
+      ),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'profileId': serializer.toJson<String>(profileId),
+      'latestServerRevision': serializer.toJson<int>(latestServerRevision),
+      'lastSyncedAt': serializer.toJson<DateTime?>(lastSyncedAt),
+      'lastSuccessfulSequence': serializer.toJson<int>(lastSuccessfulSequence),
+    };
+  }
+
+  LocalProfileSyncCheckpointData copyWith({
+    String? profileId,
+    int? latestServerRevision,
+    Value<DateTime?> lastSyncedAt = const Value.absent(),
+    int? lastSuccessfulSequence,
+  }) => LocalProfileSyncCheckpointData(
+    profileId: profileId ?? this.profileId,
+    latestServerRevision: latestServerRevision ?? this.latestServerRevision,
+    lastSyncedAt: lastSyncedAt.present ? lastSyncedAt.value : this.lastSyncedAt,
+    lastSuccessfulSequence:
+        lastSuccessfulSequence ?? this.lastSuccessfulSequence,
+  );
+  LocalProfileSyncCheckpointData copyWithCompanion(
+    LocalProfileSyncCheckpointCompanion data,
+  ) {
+    return LocalProfileSyncCheckpointData(
+      profileId: data.profileId.present ? data.profileId.value : this.profileId,
+      latestServerRevision: data.latestServerRevision.present
+          ? data.latestServerRevision.value
+          : this.latestServerRevision,
+      lastSyncedAt: data.lastSyncedAt.present
+          ? data.lastSyncedAt.value
+          : this.lastSyncedAt,
+      lastSuccessfulSequence: data.lastSuccessfulSequence.present
+          ? data.lastSuccessfulSequence.value
+          : this.lastSuccessfulSequence,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('LocalProfileSyncCheckpointData(')
+          ..write('profileId: $profileId, ')
+          ..write('latestServerRevision: $latestServerRevision, ')
+          ..write('lastSyncedAt: $lastSyncedAt, ')
+          ..write('lastSuccessfulSequence: $lastSuccessfulSequence')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    profileId,
+    latestServerRevision,
+    lastSyncedAt,
+    lastSuccessfulSequence,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is LocalProfileSyncCheckpointData &&
+          other.profileId == this.profileId &&
+          other.latestServerRevision == this.latestServerRevision &&
+          other.lastSyncedAt == this.lastSyncedAt &&
+          other.lastSuccessfulSequence == this.lastSuccessfulSequence);
+}
+
+class LocalProfileSyncCheckpointCompanion
+    extends UpdateCompanion<LocalProfileSyncCheckpointData> {
+  final Value<String> profileId;
+  final Value<int> latestServerRevision;
+  final Value<DateTime?> lastSyncedAt;
+  final Value<int> lastSuccessfulSequence;
+  final Value<int> rowid;
+  const LocalProfileSyncCheckpointCompanion({
+    this.profileId = const Value.absent(),
+    this.latestServerRevision = const Value.absent(),
+    this.lastSyncedAt = const Value.absent(),
+    this.lastSuccessfulSequence = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  LocalProfileSyncCheckpointCompanion.insert({
+    required String profileId,
+    this.latestServerRevision = const Value.absent(),
+    this.lastSyncedAt = const Value.absent(),
+    this.lastSuccessfulSequence = const Value.absent(),
+    this.rowid = const Value.absent(),
+  }) : profileId = Value(profileId);
+  static Insertable<LocalProfileSyncCheckpointData> custom({
+    Expression<String>? profileId,
+    Expression<int>? latestServerRevision,
+    Expression<DateTime>? lastSyncedAt,
+    Expression<int>? lastSuccessfulSequence,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (profileId != null) 'profile_id': profileId,
+      if (latestServerRevision != null)
+        'latest_server_revision': latestServerRevision,
+      if (lastSyncedAt != null) 'last_synced_at': lastSyncedAt,
+      if (lastSuccessfulSequence != null)
+        'last_successful_sequence': lastSuccessfulSequence,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  LocalProfileSyncCheckpointCompanion copyWith({
+    Value<String>? profileId,
+    Value<int>? latestServerRevision,
+    Value<DateTime?>? lastSyncedAt,
+    Value<int>? lastSuccessfulSequence,
+    Value<int>? rowid,
+  }) {
+    return LocalProfileSyncCheckpointCompanion(
+      profileId: profileId ?? this.profileId,
+      latestServerRevision: latestServerRevision ?? this.latestServerRevision,
+      lastSyncedAt: lastSyncedAt ?? this.lastSyncedAt,
+      lastSuccessfulSequence:
+          lastSuccessfulSequence ?? this.lastSuccessfulSequence,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (profileId.present) {
+      map['profile_id'] = Variable<String>(profileId.value);
+    }
+    if (latestServerRevision.present) {
+      map['latest_server_revision'] = Variable<int>(latestServerRevision.value);
+    }
+    if (lastSyncedAt.present) {
+      map['last_synced_at'] = Variable<DateTime>(lastSyncedAt.value);
+    }
+    if (lastSuccessfulSequence.present) {
+      map['last_successful_sequence'] = Variable<int>(
+        lastSuccessfulSequence.value,
+      );
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('LocalProfileSyncCheckpointCompanion(')
+          ..write('profileId: $profileId, ')
+          ..write('latestServerRevision: $latestServerRevision, ')
+          ..write('lastSyncedAt: $lastSyncedAt, ')
+          ..write('lastSuccessfulSequence: $lastSuccessfulSequence, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $LocalGuestImportAuditTable extends LocalGuestImportAudit
+    with TableInfo<$LocalGuestImportAuditTable, LocalGuestImportAuditData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $LocalGuestImportAuditTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _targetProfileIdMeta = const VerificationMeta(
+    'targetProfileId',
+  );
+  @override
+  late final GeneratedColumn<String> targetProfileId = GeneratedColumn<String>(
+    'target_profile_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _importBatchIdMeta = const VerificationMeta(
+    'importBatchId',
+  );
+  @override
+  late final GeneratedColumn<String> importBatchId = GeneratedColumn<String>(
+    'import_batch_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _statusMeta = const VerificationMeta('status');
+  @override
+  late final GeneratedColumn<String> status = GeneratedColumn<String>(
+    'status',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _favoritesCountMeta = const VerificationMeta(
+    'favoritesCount',
+  );
+  @override
+  late final GeneratedColumn<int> favoritesCount = GeneratedColumn<int>(
+    'favorites_count',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _progressCountMeta = const VerificationMeta(
+    'progressCount',
+  );
+  @override
+  late final GeneratedColumn<int> progressCount = GeneratedColumn<int>(
+    'progress_count',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _historyCountMeta = const VerificationMeta(
+    'historyCount',
+  );
+  @override
+  late final GeneratedColumn<int> historyCount = GeneratedColumn<int>(
+    'history_count',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _errorMessageMeta = const VerificationMeta(
+    'errorMessage',
+  );
+  @override
+  late final GeneratedColumn<String> errorMessage = GeneratedColumn<String>(
+    'error_message',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _completedAtMeta = const VerificationMeta(
+    'completedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> completedAt = GeneratedColumn<DateTime>(
+    'completed_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    targetProfileId,
+    importBatchId,
+    status,
+    favoritesCount,
+    progressCount,
+    historyCount,
+    errorMessage,
+    createdAt,
+    completedAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'local_guest_import_audit';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<LocalGuestImportAuditData> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('target_profile_id')) {
+      context.handle(
+        _targetProfileIdMeta,
+        targetProfileId.isAcceptableOrUnknown(
+          data['target_profile_id']!,
+          _targetProfileIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_targetProfileIdMeta);
+    }
+    if (data.containsKey('import_batch_id')) {
+      context.handle(
+        _importBatchIdMeta,
+        importBatchId.isAcceptableOrUnknown(
+          data['import_batch_id']!,
+          _importBatchIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_importBatchIdMeta);
+    }
+    if (data.containsKey('status')) {
+      context.handle(
+        _statusMeta,
+        status.isAcceptableOrUnknown(data['status']!, _statusMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_statusMeta);
+    }
+    if (data.containsKey('favorites_count')) {
+      context.handle(
+        _favoritesCountMeta,
+        favoritesCount.isAcceptableOrUnknown(
+          data['favorites_count']!,
+          _favoritesCountMeta,
+        ),
+      );
+    }
+    if (data.containsKey('progress_count')) {
+      context.handle(
+        _progressCountMeta,
+        progressCount.isAcceptableOrUnknown(
+          data['progress_count']!,
+          _progressCountMeta,
+        ),
+      );
+    }
+    if (data.containsKey('history_count')) {
+      context.handle(
+        _historyCountMeta,
+        historyCount.isAcceptableOrUnknown(
+          data['history_count']!,
+          _historyCountMeta,
+        ),
+      );
+    }
+    if (data.containsKey('error_message')) {
+      context.handle(
+        _errorMessageMeta,
+        errorMessage.isAcceptableOrUnknown(
+          data['error_message']!,
+          _errorMessageMeta,
+        ),
+      );
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    if (data.containsKey('completed_at')) {
+      context.handle(
+        _completedAtMeta,
+        completedAt.isAcceptableOrUnknown(
+          data['completed_at']!,
+          _completedAtMeta,
+        ),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  LocalGuestImportAuditData map(
+    Map<String, dynamic> data, {
+    String? tablePrefix,
+  }) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return LocalGuestImportAuditData(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      targetProfileId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}target_profile_id'],
+      )!,
+      importBatchId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}import_batch_id'],
+      )!,
+      status: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}status'],
+      )!,
+      favoritesCount: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}favorites_count'],
+      )!,
+      progressCount: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}progress_count'],
+      )!,
+      historyCount: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}history_count'],
+      )!,
+      errorMessage: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}error_message'],
+      ),
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+      completedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}completed_at'],
+      ),
+    );
+  }
+
+  @override
+  $LocalGuestImportAuditTable createAlias(String alias) {
+    return $LocalGuestImportAuditTable(attachedDatabase, alias);
+  }
+}
+
+class LocalGuestImportAuditData extends DataClass
+    implements Insertable<LocalGuestImportAuditData> {
+  final String id;
+  final String targetProfileId;
+  final String importBatchId;
+  final String status;
+  final int favoritesCount;
+  final int progressCount;
+  final int historyCount;
+  final String? errorMessage;
+  final DateTime createdAt;
+  final DateTime? completedAt;
+  const LocalGuestImportAuditData({
+    required this.id,
+    required this.targetProfileId,
+    required this.importBatchId,
+    required this.status,
+    required this.favoritesCount,
+    required this.progressCount,
+    required this.historyCount,
+    this.errorMessage,
+    required this.createdAt,
+    this.completedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['target_profile_id'] = Variable<String>(targetProfileId);
+    map['import_batch_id'] = Variable<String>(importBatchId);
+    map['status'] = Variable<String>(status);
+    map['favorites_count'] = Variable<int>(favoritesCount);
+    map['progress_count'] = Variable<int>(progressCount);
+    map['history_count'] = Variable<int>(historyCount);
+    if (!nullToAbsent || errorMessage != null) {
+      map['error_message'] = Variable<String>(errorMessage);
+    }
+    map['created_at'] = Variable<DateTime>(createdAt);
+    if (!nullToAbsent || completedAt != null) {
+      map['completed_at'] = Variable<DateTime>(completedAt);
+    }
+    return map;
+  }
+
+  LocalGuestImportAuditCompanion toCompanion(bool nullToAbsent) {
+    return LocalGuestImportAuditCompanion(
+      id: Value(id),
+      targetProfileId: Value(targetProfileId),
+      importBatchId: Value(importBatchId),
+      status: Value(status),
+      favoritesCount: Value(favoritesCount),
+      progressCount: Value(progressCount),
+      historyCount: Value(historyCount),
+      errorMessage: errorMessage == null && nullToAbsent
+          ? const Value.absent()
+          : Value(errorMessage),
+      createdAt: Value(createdAt),
+      completedAt: completedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(completedAt),
+    );
+  }
+
+  factory LocalGuestImportAuditData.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return LocalGuestImportAuditData(
+      id: serializer.fromJson<String>(json['id']),
+      targetProfileId: serializer.fromJson<String>(json['targetProfileId']),
+      importBatchId: serializer.fromJson<String>(json['importBatchId']),
+      status: serializer.fromJson<String>(json['status']),
+      favoritesCount: serializer.fromJson<int>(json['favoritesCount']),
+      progressCount: serializer.fromJson<int>(json['progressCount']),
+      historyCount: serializer.fromJson<int>(json['historyCount']),
+      errorMessage: serializer.fromJson<String?>(json['errorMessage']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      completedAt: serializer.fromJson<DateTime?>(json['completedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'targetProfileId': serializer.toJson<String>(targetProfileId),
+      'importBatchId': serializer.toJson<String>(importBatchId),
+      'status': serializer.toJson<String>(status),
+      'favoritesCount': serializer.toJson<int>(favoritesCount),
+      'progressCount': serializer.toJson<int>(progressCount),
+      'historyCount': serializer.toJson<int>(historyCount),
+      'errorMessage': serializer.toJson<String?>(errorMessage),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+      'completedAt': serializer.toJson<DateTime?>(completedAt),
+    };
+  }
+
+  LocalGuestImportAuditData copyWith({
+    String? id,
+    String? targetProfileId,
+    String? importBatchId,
+    String? status,
+    int? favoritesCount,
+    int? progressCount,
+    int? historyCount,
+    Value<String?> errorMessage = const Value.absent(),
+    DateTime? createdAt,
+    Value<DateTime?> completedAt = const Value.absent(),
+  }) => LocalGuestImportAuditData(
+    id: id ?? this.id,
+    targetProfileId: targetProfileId ?? this.targetProfileId,
+    importBatchId: importBatchId ?? this.importBatchId,
+    status: status ?? this.status,
+    favoritesCount: favoritesCount ?? this.favoritesCount,
+    progressCount: progressCount ?? this.progressCount,
+    historyCount: historyCount ?? this.historyCount,
+    errorMessage: errorMessage.present ? errorMessage.value : this.errorMessage,
+    createdAt: createdAt ?? this.createdAt,
+    completedAt: completedAt.present ? completedAt.value : this.completedAt,
+  );
+  LocalGuestImportAuditData copyWithCompanion(
+    LocalGuestImportAuditCompanion data,
+  ) {
+    return LocalGuestImportAuditData(
+      id: data.id.present ? data.id.value : this.id,
+      targetProfileId: data.targetProfileId.present
+          ? data.targetProfileId.value
+          : this.targetProfileId,
+      importBatchId: data.importBatchId.present
+          ? data.importBatchId.value
+          : this.importBatchId,
+      status: data.status.present ? data.status.value : this.status,
+      favoritesCount: data.favoritesCount.present
+          ? data.favoritesCount.value
+          : this.favoritesCount,
+      progressCount: data.progressCount.present
+          ? data.progressCount.value
+          : this.progressCount,
+      historyCount: data.historyCount.present
+          ? data.historyCount.value
+          : this.historyCount,
+      errorMessage: data.errorMessage.present
+          ? data.errorMessage.value
+          : this.errorMessage,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      completedAt: data.completedAt.present
+          ? data.completedAt.value
+          : this.completedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('LocalGuestImportAuditData(')
+          ..write('id: $id, ')
+          ..write('targetProfileId: $targetProfileId, ')
+          ..write('importBatchId: $importBatchId, ')
+          ..write('status: $status, ')
+          ..write('favoritesCount: $favoritesCount, ')
+          ..write('progressCount: $progressCount, ')
+          ..write('historyCount: $historyCount, ')
+          ..write('errorMessage: $errorMessage, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('completedAt: $completedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    targetProfileId,
+    importBatchId,
+    status,
+    favoritesCount,
+    progressCount,
+    historyCount,
+    errorMessage,
+    createdAt,
+    completedAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is LocalGuestImportAuditData &&
+          other.id == this.id &&
+          other.targetProfileId == this.targetProfileId &&
+          other.importBatchId == this.importBatchId &&
+          other.status == this.status &&
+          other.favoritesCount == this.favoritesCount &&
+          other.progressCount == this.progressCount &&
+          other.historyCount == this.historyCount &&
+          other.errorMessage == this.errorMessage &&
+          other.createdAt == this.createdAt &&
+          other.completedAt == this.completedAt);
+}
+
+class LocalGuestImportAuditCompanion
+    extends UpdateCompanion<LocalGuestImportAuditData> {
+  final Value<String> id;
+  final Value<String> targetProfileId;
+  final Value<String> importBatchId;
+  final Value<String> status;
+  final Value<int> favoritesCount;
+  final Value<int> progressCount;
+  final Value<int> historyCount;
+  final Value<String?> errorMessage;
+  final Value<DateTime> createdAt;
+  final Value<DateTime?> completedAt;
+  final Value<int> rowid;
+  const LocalGuestImportAuditCompanion({
+    this.id = const Value.absent(),
+    this.targetProfileId = const Value.absent(),
+    this.importBatchId = const Value.absent(),
+    this.status = const Value.absent(),
+    this.favoritesCount = const Value.absent(),
+    this.progressCount = const Value.absent(),
+    this.historyCount = const Value.absent(),
+    this.errorMessage = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.completedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  LocalGuestImportAuditCompanion.insert({
+    required String id,
+    required String targetProfileId,
+    required String importBatchId,
+    required String status,
+    this.favoritesCount = const Value.absent(),
+    this.progressCount = const Value.absent(),
+    this.historyCount = const Value.absent(),
+    this.errorMessage = const Value.absent(),
+    required DateTime createdAt,
+    this.completedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       targetProfileId = Value(targetProfileId),
+       importBatchId = Value(importBatchId),
+       status = Value(status),
+       createdAt = Value(createdAt);
+  static Insertable<LocalGuestImportAuditData> custom({
+    Expression<String>? id,
+    Expression<String>? targetProfileId,
+    Expression<String>? importBatchId,
+    Expression<String>? status,
+    Expression<int>? favoritesCount,
+    Expression<int>? progressCount,
+    Expression<int>? historyCount,
+    Expression<String>? errorMessage,
+    Expression<DateTime>? createdAt,
+    Expression<DateTime>? completedAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (targetProfileId != null) 'target_profile_id': targetProfileId,
+      if (importBatchId != null) 'import_batch_id': importBatchId,
+      if (status != null) 'status': status,
+      if (favoritesCount != null) 'favorites_count': favoritesCount,
+      if (progressCount != null) 'progress_count': progressCount,
+      if (historyCount != null) 'history_count': historyCount,
+      if (errorMessage != null) 'error_message': errorMessage,
+      if (createdAt != null) 'created_at': createdAt,
+      if (completedAt != null) 'completed_at': completedAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  LocalGuestImportAuditCompanion copyWith({
+    Value<String>? id,
+    Value<String>? targetProfileId,
+    Value<String>? importBatchId,
+    Value<String>? status,
+    Value<int>? favoritesCount,
+    Value<int>? progressCount,
+    Value<int>? historyCount,
+    Value<String?>? errorMessage,
+    Value<DateTime>? createdAt,
+    Value<DateTime?>? completedAt,
+    Value<int>? rowid,
+  }) {
+    return LocalGuestImportAuditCompanion(
+      id: id ?? this.id,
+      targetProfileId: targetProfileId ?? this.targetProfileId,
+      importBatchId: importBatchId ?? this.importBatchId,
+      status: status ?? this.status,
+      favoritesCount: favoritesCount ?? this.favoritesCount,
+      progressCount: progressCount ?? this.progressCount,
+      historyCount: historyCount ?? this.historyCount,
+      errorMessage: errorMessage ?? this.errorMessage,
+      createdAt: createdAt ?? this.createdAt,
+      completedAt: completedAt ?? this.completedAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (targetProfileId.present) {
+      map['target_profile_id'] = Variable<String>(targetProfileId.value);
+    }
+    if (importBatchId.present) {
+      map['import_batch_id'] = Variable<String>(importBatchId.value);
+    }
+    if (status.present) {
+      map['status'] = Variable<String>(status.value);
+    }
+    if (favoritesCount.present) {
+      map['favorites_count'] = Variable<int>(favoritesCount.value);
+    }
+    if (progressCount.present) {
+      map['progress_count'] = Variable<int>(progressCount.value);
+    }
+    if (historyCount.present) {
+      map['history_count'] = Variable<int>(historyCount.value);
+    }
+    if (errorMessage.present) {
+      map['error_message'] = Variable<String>(errorMessage.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (completedAt.present) {
+      map['completed_at'] = Variable<DateTime>(completedAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('LocalGuestImportAuditCompanion(')
+          ..write('id: $id, ')
+          ..write('targetProfileId: $targetProfileId, ')
+          ..write('importBatchId: $importBatchId, ')
+          ..write('status: $status, ')
+          ..write('favoritesCount: $favoritesCount, ')
+          ..write('progressCount: $progressCount, ')
+          ..write('historyCount: $historyCount, ')
+          ..write('errorMessage: $errorMessage, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('completedAt: $completedAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$CatalogDatabase extends GeneratedDatabase {
   _$CatalogDatabase(QueryExecutor e) : super(e);
   $CatalogDatabaseManager get managers => $CatalogDatabaseManager(this);
@@ -4050,7 +8375,22 @@ abstract class _$CatalogDatabase extends GeneratedDatabase {
   late final $LocalSourcesTable localSources = $LocalSourcesTable(this);
   late final $CatalogSyncStatesTable catalogSyncStates =
       $CatalogSyncStatesTable(this);
+  late final $LocalProfileFavoritesTable localProfileFavorites =
+      $LocalProfileFavoritesTable(this);
+  late final $LocalProfilePlaybackProgressTable localProfilePlaybackProgress =
+      $LocalProfilePlaybackProgressTable(this);
+  late final $LocalProfileHistoryTable localProfileHistory =
+      $LocalProfileHistoryTable(this);
+  late final $LocalProfilePreferencesTable localProfilePreferences =
+      $LocalProfilePreferencesTable(this);
+  late final $LocalProfileSyncQueueTable localProfileSyncQueue =
+      $LocalProfileSyncQueueTable(this);
+  late final $LocalProfileSyncCheckpointTable localProfileSyncCheckpoint =
+      $LocalProfileSyncCheckpointTable(this);
+  late final $LocalGuestImportAuditTable localGuestImportAudit =
+      $LocalGuestImportAuditTable(this);
   late final CatalogDao catalogDao = CatalogDao(this as CatalogDatabase);
+  late final UserDataDao userDataDao = UserDataDao(this as CatalogDatabase);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -4064,6 +8404,13 @@ abstract class _$CatalogDatabase extends GeneratedDatabase {
     localEpisodes,
     localSources,
     catalogSyncStates,
+    localProfileFavorites,
+    localProfilePlaybackProgress,
+    localProfileHistory,
+    localProfilePreferences,
+    localProfileSyncQueue,
+    localProfileSyncCheckpoint,
+    localGuestImportAudit,
   ];
   @override
   StreamQueryUpdateRules get streamUpdateRules => const StreamQueryUpdateRules([
@@ -7463,6 +11810,2285 @@ typedef $$CatalogSyncStatesTableProcessedTableManager =
       CatalogSyncState,
       PrefetchHooks Function()
     >;
+typedef $$LocalProfileFavoritesTableCreateCompanionBuilder =
+    LocalProfileFavoritesCompanion Function({
+      required String profileId,
+      required String contentKey,
+      Value<String?> titleId,
+      Value<bool> isFavorite,
+      required DateTime updatedAt,
+      Value<int> serverRevision,
+      Value<int> rowid,
+    });
+typedef $$LocalProfileFavoritesTableUpdateCompanionBuilder =
+    LocalProfileFavoritesCompanion Function({
+      Value<String> profileId,
+      Value<String> contentKey,
+      Value<String?> titleId,
+      Value<bool> isFavorite,
+      Value<DateTime> updatedAt,
+      Value<int> serverRevision,
+      Value<int> rowid,
+    });
+
+class $$LocalProfileFavoritesTableFilterComposer
+    extends Composer<_$CatalogDatabase, $LocalProfileFavoritesTable> {
+  $$LocalProfileFavoritesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get profileId => $composableBuilder(
+    column: $table.profileId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get contentKey => $composableBuilder(
+    column: $table.contentKey,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get titleId => $composableBuilder(
+    column: $table.titleId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get isFavorite => $composableBuilder(
+    column: $table.isFavorite,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get serverRevision => $composableBuilder(
+    column: $table.serverRevision,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$LocalProfileFavoritesTableOrderingComposer
+    extends Composer<_$CatalogDatabase, $LocalProfileFavoritesTable> {
+  $$LocalProfileFavoritesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get profileId => $composableBuilder(
+    column: $table.profileId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get contentKey => $composableBuilder(
+    column: $table.contentKey,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get titleId => $composableBuilder(
+    column: $table.titleId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get isFavorite => $composableBuilder(
+    column: $table.isFavorite,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get serverRevision => $composableBuilder(
+    column: $table.serverRevision,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$LocalProfileFavoritesTableAnnotationComposer
+    extends Composer<_$CatalogDatabase, $LocalProfileFavoritesTable> {
+  $$LocalProfileFavoritesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get profileId =>
+      $composableBuilder(column: $table.profileId, builder: (column) => column);
+
+  GeneratedColumn<String> get contentKey => $composableBuilder(
+    column: $table.contentKey,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get titleId =>
+      $composableBuilder(column: $table.titleId, builder: (column) => column);
+
+  GeneratedColumn<bool> get isFavorite => $composableBuilder(
+    column: $table.isFavorite,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+
+  GeneratedColumn<int> get serverRevision => $composableBuilder(
+    column: $table.serverRevision,
+    builder: (column) => column,
+  );
+}
+
+class $$LocalProfileFavoritesTableTableManager
+    extends
+        RootTableManager<
+          _$CatalogDatabase,
+          $LocalProfileFavoritesTable,
+          LocalProfileFavorite,
+          $$LocalProfileFavoritesTableFilterComposer,
+          $$LocalProfileFavoritesTableOrderingComposer,
+          $$LocalProfileFavoritesTableAnnotationComposer,
+          $$LocalProfileFavoritesTableCreateCompanionBuilder,
+          $$LocalProfileFavoritesTableUpdateCompanionBuilder,
+          (
+            LocalProfileFavorite,
+            BaseReferences<
+              _$CatalogDatabase,
+              $LocalProfileFavoritesTable,
+              LocalProfileFavorite
+            >,
+          ),
+          LocalProfileFavorite,
+          PrefetchHooks Function()
+        > {
+  $$LocalProfileFavoritesTableTableManager(
+    _$CatalogDatabase db,
+    $LocalProfileFavoritesTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$LocalProfileFavoritesTableFilterComposer(
+                $db: db,
+                $table: table,
+              ),
+          createOrderingComposer: () =>
+              $$LocalProfileFavoritesTableOrderingComposer(
+                $db: db,
+                $table: table,
+              ),
+          createComputedFieldComposer: () =>
+              $$LocalProfileFavoritesTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<String> profileId = const Value.absent(),
+                Value<String> contentKey = const Value.absent(),
+                Value<String?> titleId = const Value.absent(),
+                Value<bool> isFavorite = const Value.absent(),
+                Value<DateTime> updatedAt = const Value.absent(),
+                Value<int> serverRevision = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => LocalProfileFavoritesCompanion(
+                profileId: profileId,
+                contentKey: contentKey,
+                titleId: titleId,
+                isFavorite: isFavorite,
+                updatedAt: updatedAt,
+                serverRevision: serverRevision,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String profileId,
+                required String contentKey,
+                Value<String?> titleId = const Value.absent(),
+                Value<bool> isFavorite = const Value.absent(),
+                required DateTime updatedAt,
+                Value<int> serverRevision = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => LocalProfileFavoritesCompanion.insert(
+                profileId: profileId,
+                contentKey: contentKey,
+                titleId: titleId,
+                isFavorite: isFavorite,
+                updatedAt: updatedAt,
+                serverRevision: serverRevision,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<
+                    $LocalProfileFavoritesTable,
+                    LocalProfileFavorite
+                  >(table),
+                  BaseReferences<
+                    _$CatalogDatabase,
+                    $LocalProfileFavoritesTable,
+                    LocalProfileFavorite
+                  >(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$LocalProfileFavoritesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$CatalogDatabase,
+      $LocalProfileFavoritesTable,
+      LocalProfileFavorite,
+      $$LocalProfileFavoritesTableFilterComposer,
+      $$LocalProfileFavoritesTableOrderingComposer,
+      $$LocalProfileFavoritesTableAnnotationComposer,
+      $$LocalProfileFavoritesTableCreateCompanionBuilder,
+      $$LocalProfileFavoritesTableUpdateCompanionBuilder,
+      (
+        LocalProfileFavorite,
+        BaseReferences<
+          _$CatalogDatabase,
+          $LocalProfileFavoritesTable,
+          LocalProfileFavorite
+        >,
+      ),
+      LocalProfileFavorite,
+      PrefetchHooks Function()
+    >;
+typedef $$LocalProfilePlaybackProgressTableCreateCompanionBuilder =
+    LocalProfilePlaybackProgressCompanion Function({
+      required String profileId,
+      required String contentKey,
+      Value<String?> playbackSessionId,
+      Value<String?> titleId,
+      Value<String?> episodeId,
+      Value<int> positionMs,
+      Value<int> durationMs,
+      Value<double> fraction,
+      Value<bool> isCompleted,
+      required DateTime lastWatchedAt,
+      required DateTime updatedAt,
+      Value<DateTime?> deletedAt,
+      Value<int> serverRevision,
+      Value<int> rowid,
+    });
+typedef $$LocalProfilePlaybackProgressTableUpdateCompanionBuilder =
+    LocalProfilePlaybackProgressCompanion Function({
+      Value<String> profileId,
+      Value<String> contentKey,
+      Value<String?> playbackSessionId,
+      Value<String?> titleId,
+      Value<String?> episodeId,
+      Value<int> positionMs,
+      Value<int> durationMs,
+      Value<double> fraction,
+      Value<bool> isCompleted,
+      Value<DateTime> lastWatchedAt,
+      Value<DateTime> updatedAt,
+      Value<DateTime?> deletedAt,
+      Value<int> serverRevision,
+      Value<int> rowid,
+    });
+
+class $$LocalProfilePlaybackProgressTableFilterComposer
+    extends Composer<_$CatalogDatabase, $LocalProfilePlaybackProgressTable> {
+  $$LocalProfilePlaybackProgressTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get profileId => $composableBuilder(
+    column: $table.profileId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get contentKey => $composableBuilder(
+    column: $table.contentKey,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get playbackSessionId => $composableBuilder(
+    column: $table.playbackSessionId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get titleId => $composableBuilder(
+    column: $table.titleId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get episodeId => $composableBuilder(
+    column: $table.episodeId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get positionMs => $composableBuilder(
+    column: $table.positionMs,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get durationMs => $composableBuilder(
+    column: $table.durationMs,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get fraction => $composableBuilder(
+    column: $table.fraction,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get isCompleted => $composableBuilder(
+    column: $table.isCompleted,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get lastWatchedAt => $composableBuilder(
+    column: $table.lastWatchedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get deletedAt => $composableBuilder(
+    column: $table.deletedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get serverRevision => $composableBuilder(
+    column: $table.serverRevision,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$LocalProfilePlaybackProgressTableOrderingComposer
+    extends Composer<_$CatalogDatabase, $LocalProfilePlaybackProgressTable> {
+  $$LocalProfilePlaybackProgressTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get profileId => $composableBuilder(
+    column: $table.profileId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get contentKey => $composableBuilder(
+    column: $table.contentKey,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get playbackSessionId => $composableBuilder(
+    column: $table.playbackSessionId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get titleId => $composableBuilder(
+    column: $table.titleId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get episodeId => $composableBuilder(
+    column: $table.episodeId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get positionMs => $composableBuilder(
+    column: $table.positionMs,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get durationMs => $composableBuilder(
+    column: $table.durationMs,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get fraction => $composableBuilder(
+    column: $table.fraction,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get isCompleted => $composableBuilder(
+    column: $table.isCompleted,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get lastWatchedAt => $composableBuilder(
+    column: $table.lastWatchedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get deletedAt => $composableBuilder(
+    column: $table.deletedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get serverRevision => $composableBuilder(
+    column: $table.serverRevision,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$LocalProfilePlaybackProgressTableAnnotationComposer
+    extends Composer<_$CatalogDatabase, $LocalProfilePlaybackProgressTable> {
+  $$LocalProfilePlaybackProgressTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get profileId =>
+      $composableBuilder(column: $table.profileId, builder: (column) => column);
+
+  GeneratedColumn<String> get contentKey => $composableBuilder(
+    column: $table.contentKey,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get playbackSessionId => $composableBuilder(
+    column: $table.playbackSessionId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get titleId =>
+      $composableBuilder(column: $table.titleId, builder: (column) => column);
+
+  GeneratedColumn<String> get episodeId =>
+      $composableBuilder(column: $table.episodeId, builder: (column) => column);
+
+  GeneratedColumn<int> get positionMs => $composableBuilder(
+    column: $table.positionMs,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get durationMs => $composableBuilder(
+    column: $table.durationMs,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<double> get fraction =>
+      $composableBuilder(column: $table.fraction, builder: (column) => column);
+
+  GeneratedColumn<bool> get isCompleted => $composableBuilder(
+    column: $table.isCompleted,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get lastWatchedAt => $composableBuilder(
+    column: $table.lastWatchedAt,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get deletedAt =>
+      $composableBuilder(column: $table.deletedAt, builder: (column) => column);
+
+  GeneratedColumn<int> get serverRevision => $composableBuilder(
+    column: $table.serverRevision,
+    builder: (column) => column,
+  );
+}
+
+class $$LocalProfilePlaybackProgressTableTableManager
+    extends
+        RootTableManager<
+          _$CatalogDatabase,
+          $LocalProfilePlaybackProgressTable,
+          LocalProfilePlaybackProgressData,
+          $$LocalProfilePlaybackProgressTableFilterComposer,
+          $$LocalProfilePlaybackProgressTableOrderingComposer,
+          $$LocalProfilePlaybackProgressTableAnnotationComposer,
+          $$LocalProfilePlaybackProgressTableCreateCompanionBuilder,
+          $$LocalProfilePlaybackProgressTableUpdateCompanionBuilder,
+          (
+            LocalProfilePlaybackProgressData,
+            BaseReferences<
+              _$CatalogDatabase,
+              $LocalProfilePlaybackProgressTable,
+              LocalProfilePlaybackProgressData
+            >,
+          ),
+          LocalProfilePlaybackProgressData,
+          PrefetchHooks Function()
+        > {
+  $$LocalProfilePlaybackProgressTableTableManager(
+    _$CatalogDatabase db,
+    $LocalProfilePlaybackProgressTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$LocalProfilePlaybackProgressTableFilterComposer(
+                $db: db,
+                $table: table,
+              ),
+          createOrderingComposer: () =>
+              $$LocalProfilePlaybackProgressTableOrderingComposer(
+                $db: db,
+                $table: table,
+              ),
+          createComputedFieldComposer: () =>
+              $$LocalProfilePlaybackProgressTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<String> profileId = const Value.absent(),
+                Value<String> contentKey = const Value.absent(),
+                Value<String?> playbackSessionId = const Value.absent(),
+                Value<String?> titleId = const Value.absent(),
+                Value<String?> episodeId = const Value.absent(),
+                Value<int> positionMs = const Value.absent(),
+                Value<int> durationMs = const Value.absent(),
+                Value<double> fraction = const Value.absent(),
+                Value<bool> isCompleted = const Value.absent(),
+                Value<DateTime> lastWatchedAt = const Value.absent(),
+                Value<DateTime> updatedAt = const Value.absent(),
+                Value<DateTime?> deletedAt = const Value.absent(),
+                Value<int> serverRevision = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => LocalProfilePlaybackProgressCompanion(
+                profileId: profileId,
+                contentKey: contentKey,
+                playbackSessionId: playbackSessionId,
+                titleId: titleId,
+                episodeId: episodeId,
+                positionMs: positionMs,
+                durationMs: durationMs,
+                fraction: fraction,
+                isCompleted: isCompleted,
+                lastWatchedAt: lastWatchedAt,
+                updatedAt: updatedAt,
+                deletedAt: deletedAt,
+                serverRevision: serverRevision,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String profileId,
+                required String contentKey,
+                Value<String?> playbackSessionId = const Value.absent(),
+                Value<String?> titleId = const Value.absent(),
+                Value<String?> episodeId = const Value.absent(),
+                Value<int> positionMs = const Value.absent(),
+                Value<int> durationMs = const Value.absent(),
+                Value<double> fraction = const Value.absent(),
+                Value<bool> isCompleted = const Value.absent(),
+                required DateTime lastWatchedAt,
+                required DateTime updatedAt,
+                Value<DateTime?> deletedAt = const Value.absent(),
+                Value<int> serverRevision = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => LocalProfilePlaybackProgressCompanion.insert(
+                profileId: profileId,
+                contentKey: contentKey,
+                playbackSessionId: playbackSessionId,
+                titleId: titleId,
+                episodeId: episodeId,
+                positionMs: positionMs,
+                durationMs: durationMs,
+                fraction: fraction,
+                isCompleted: isCompleted,
+                lastWatchedAt: lastWatchedAt,
+                updatedAt: updatedAt,
+                deletedAt: deletedAt,
+                serverRevision: serverRevision,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<
+                    $LocalProfilePlaybackProgressTable,
+                    LocalProfilePlaybackProgressData
+                  >(table),
+                  BaseReferences<
+                    _$CatalogDatabase,
+                    $LocalProfilePlaybackProgressTable,
+                    LocalProfilePlaybackProgressData
+                  >(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$LocalProfilePlaybackProgressTableProcessedTableManager =
+    ProcessedTableManager<
+      _$CatalogDatabase,
+      $LocalProfilePlaybackProgressTable,
+      LocalProfilePlaybackProgressData,
+      $$LocalProfilePlaybackProgressTableFilterComposer,
+      $$LocalProfilePlaybackProgressTableOrderingComposer,
+      $$LocalProfilePlaybackProgressTableAnnotationComposer,
+      $$LocalProfilePlaybackProgressTableCreateCompanionBuilder,
+      $$LocalProfilePlaybackProgressTableUpdateCompanionBuilder,
+      (
+        LocalProfilePlaybackProgressData,
+        BaseReferences<
+          _$CatalogDatabase,
+          $LocalProfilePlaybackProgressTable,
+          LocalProfilePlaybackProgressData
+        >,
+      ),
+      LocalProfilePlaybackProgressData,
+      PrefetchHooks Function()
+    >;
+typedef $$LocalProfileHistoryTableCreateCompanionBuilder =
+    LocalProfileHistoryCompanion Function({
+      required String id,
+      required String profileId,
+      required String playbackSessionId,
+      required String contentKey,
+      Value<String?> titleId,
+      Value<String?> episodeId,
+      Value<int> stoppedAtMs,
+      Value<int> durationMs,
+      Value<double> fraction,
+      Value<bool> isCompleted,
+      required DateTime watchedAt,
+      Value<int> serverRevision,
+      Value<int> rowid,
+    });
+typedef $$LocalProfileHistoryTableUpdateCompanionBuilder =
+    LocalProfileHistoryCompanion Function({
+      Value<String> id,
+      Value<String> profileId,
+      Value<String> playbackSessionId,
+      Value<String> contentKey,
+      Value<String?> titleId,
+      Value<String?> episodeId,
+      Value<int> stoppedAtMs,
+      Value<int> durationMs,
+      Value<double> fraction,
+      Value<bool> isCompleted,
+      Value<DateTime> watchedAt,
+      Value<int> serverRevision,
+      Value<int> rowid,
+    });
+
+class $$LocalProfileHistoryTableFilterComposer
+    extends Composer<_$CatalogDatabase, $LocalProfileHistoryTable> {
+  $$LocalProfileHistoryTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get profileId => $composableBuilder(
+    column: $table.profileId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get playbackSessionId => $composableBuilder(
+    column: $table.playbackSessionId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get contentKey => $composableBuilder(
+    column: $table.contentKey,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get titleId => $composableBuilder(
+    column: $table.titleId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get episodeId => $composableBuilder(
+    column: $table.episodeId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get stoppedAtMs => $composableBuilder(
+    column: $table.stoppedAtMs,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get durationMs => $composableBuilder(
+    column: $table.durationMs,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get fraction => $composableBuilder(
+    column: $table.fraction,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get isCompleted => $composableBuilder(
+    column: $table.isCompleted,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get watchedAt => $composableBuilder(
+    column: $table.watchedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get serverRevision => $composableBuilder(
+    column: $table.serverRevision,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$LocalProfileHistoryTableOrderingComposer
+    extends Composer<_$CatalogDatabase, $LocalProfileHistoryTable> {
+  $$LocalProfileHistoryTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get profileId => $composableBuilder(
+    column: $table.profileId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get playbackSessionId => $composableBuilder(
+    column: $table.playbackSessionId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get contentKey => $composableBuilder(
+    column: $table.contentKey,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get titleId => $composableBuilder(
+    column: $table.titleId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get episodeId => $composableBuilder(
+    column: $table.episodeId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get stoppedAtMs => $composableBuilder(
+    column: $table.stoppedAtMs,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get durationMs => $composableBuilder(
+    column: $table.durationMs,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get fraction => $composableBuilder(
+    column: $table.fraction,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get isCompleted => $composableBuilder(
+    column: $table.isCompleted,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get watchedAt => $composableBuilder(
+    column: $table.watchedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get serverRevision => $composableBuilder(
+    column: $table.serverRevision,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$LocalProfileHistoryTableAnnotationComposer
+    extends Composer<_$CatalogDatabase, $LocalProfileHistoryTable> {
+  $$LocalProfileHistoryTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get profileId =>
+      $composableBuilder(column: $table.profileId, builder: (column) => column);
+
+  GeneratedColumn<String> get playbackSessionId => $composableBuilder(
+    column: $table.playbackSessionId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get contentKey => $composableBuilder(
+    column: $table.contentKey,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get titleId =>
+      $composableBuilder(column: $table.titleId, builder: (column) => column);
+
+  GeneratedColumn<String> get episodeId =>
+      $composableBuilder(column: $table.episodeId, builder: (column) => column);
+
+  GeneratedColumn<int> get stoppedAtMs => $composableBuilder(
+    column: $table.stoppedAtMs,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get durationMs => $composableBuilder(
+    column: $table.durationMs,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<double> get fraction =>
+      $composableBuilder(column: $table.fraction, builder: (column) => column);
+
+  GeneratedColumn<bool> get isCompleted => $composableBuilder(
+    column: $table.isCompleted,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get watchedAt =>
+      $composableBuilder(column: $table.watchedAt, builder: (column) => column);
+
+  GeneratedColumn<int> get serverRevision => $composableBuilder(
+    column: $table.serverRevision,
+    builder: (column) => column,
+  );
+}
+
+class $$LocalProfileHistoryTableTableManager
+    extends
+        RootTableManager<
+          _$CatalogDatabase,
+          $LocalProfileHistoryTable,
+          LocalProfileHistoryData,
+          $$LocalProfileHistoryTableFilterComposer,
+          $$LocalProfileHistoryTableOrderingComposer,
+          $$LocalProfileHistoryTableAnnotationComposer,
+          $$LocalProfileHistoryTableCreateCompanionBuilder,
+          $$LocalProfileHistoryTableUpdateCompanionBuilder,
+          (
+            LocalProfileHistoryData,
+            BaseReferences<
+              _$CatalogDatabase,
+              $LocalProfileHistoryTable,
+              LocalProfileHistoryData
+            >,
+          ),
+          LocalProfileHistoryData,
+          PrefetchHooks Function()
+        > {
+  $$LocalProfileHistoryTableTableManager(
+    _$CatalogDatabase db,
+    $LocalProfileHistoryTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$LocalProfileHistoryTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$LocalProfileHistoryTableOrderingComposer(
+                $db: db,
+                $table: table,
+              ),
+          createComputedFieldComposer: () =>
+              $$LocalProfileHistoryTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> profileId = const Value.absent(),
+                Value<String> playbackSessionId = const Value.absent(),
+                Value<String> contentKey = const Value.absent(),
+                Value<String?> titleId = const Value.absent(),
+                Value<String?> episodeId = const Value.absent(),
+                Value<int> stoppedAtMs = const Value.absent(),
+                Value<int> durationMs = const Value.absent(),
+                Value<double> fraction = const Value.absent(),
+                Value<bool> isCompleted = const Value.absent(),
+                Value<DateTime> watchedAt = const Value.absent(),
+                Value<int> serverRevision = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => LocalProfileHistoryCompanion(
+                id: id,
+                profileId: profileId,
+                playbackSessionId: playbackSessionId,
+                contentKey: contentKey,
+                titleId: titleId,
+                episodeId: episodeId,
+                stoppedAtMs: stoppedAtMs,
+                durationMs: durationMs,
+                fraction: fraction,
+                isCompleted: isCompleted,
+                watchedAt: watchedAt,
+                serverRevision: serverRevision,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String profileId,
+                required String playbackSessionId,
+                required String contentKey,
+                Value<String?> titleId = const Value.absent(),
+                Value<String?> episodeId = const Value.absent(),
+                Value<int> stoppedAtMs = const Value.absent(),
+                Value<int> durationMs = const Value.absent(),
+                Value<double> fraction = const Value.absent(),
+                Value<bool> isCompleted = const Value.absent(),
+                required DateTime watchedAt,
+                Value<int> serverRevision = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => LocalProfileHistoryCompanion.insert(
+                id: id,
+                profileId: profileId,
+                playbackSessionId: playbackSessionId,
+                contentKey: contentKey,
+                titleId: titleId,
+                episodeId: episodeId,
+                stoppedAtMs: stoppedAtMs,
+                durationMs: durationMs,
+                fraction: fraction,
+                isCompleted: isCompleted,
+                watchedAt: watchedAt,
+                serverRevision: serverRevision,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<
+                    $LocalProfileHistoryTable,
+                    LocalProfileHistoryData
+                  >(table),
+                  BaseReferences<
+                    _$CatalogDatabase,
+                    $LocalProfileHistoryTable,
+                    LocalProfileHistoryData
+                  >(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$LocalProfileHistoryTableProcessedTableManager =
+    ProcessedTableManager<
+      _$CatalogDatabase,
+      $LocalProfileHistoryTable,
+      LocalProfileHistoryData,
+      $$LocalProfileHistoryTableFilterComposer,
+      $$LocalProfileHistoryTableOrderingComposer,
+      $$LocalProfileHistoryTableAnnotationComposer,
+      $$LocalProfileHistoryTableCreateCompanionBuilder,
+      $$LocalProfileHistoryTableUpdateCompanionBuilder,
+      (
+        LocalProfileHistoryData,
+        BaseReferences<
+          _$CatalogDatabase,
+          $LocalProfileHistoryTable,
+          LocalProfileHistoryData
+        >,
+      ),
+      LocalProfileHistoryData,
+      PrefetchHooks Function()
+    >;
+typedef $$LocalProfilePreferencesTableCreateCompanionBuilder =
+    LocalProfilePreferencesCompanion Function({
+      required String profileId,
+      Value<String?> preferredAudioLanguage,
+      Value<String?> preferredSubtitleLanguage,
+      Value<bool> subtitlesEnabled,
+      Value<bool> autoPlayNext,
+      required DateTime updatedAt,
+      Value<int> serverRevision,
+      Value<int> rowid,
+    });
+typedef $$LocalProfilePreferencesTableUpdateCompanionBuilder =
+    LocalProfilePreferencesCompanion Function({
+      Value<String> profileId,
+      Value<String?> preferredAudioLanguage,
+      Value<String?> preferredSubtitleLanguage,
+      Value<bool> subtitlesEnabled,
+      Value<bool> autoPlayNext,
+      Value<DateTime> updatedAt,
+      Value<int> serverRevision,
+      Value<int> rowid,
+    });
+
+class $$LocalProfilePreferencesTableFilterComposer
+    extends Composer<_$CatalogDatabase, $LocalProfilePreferencesTable> {
+  $$LocalProfilePreferencesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get profileId => $composableBuilder(
+    column: $table.profileId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get preferredAudioLanguage => $composableBuilder(
+    column: $table.preferredAudioLanguage,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get preferredSubtitleLanguage => $composableBuilder(
+    column: $table.preferredSubtitleLanguage,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get subtitlesEnabled => $composableBuilder(
+    column: $table.subtitlesEnabled,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get autoPlayNext => $composableBuilder(
+    column: $table.autoPlayNext,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get serverRevision => $composableBuilder(
+    column: $table.serverRevision,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$LocalProfilePreferencesTableOrderingComposer
+    extends Composer<_$CatalogDatabase, $LocalProfilePreferencesTable> {
+  $$LocalProfilePreferencesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get profileId => $composableBuilder(
+    column: $table.profileId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get preferredAudioLanguage => $composableBuilder(
+    column: $table.preferredAudioLanguage,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get preferredSubtitleLanguage => $composableBuilder(
+    column: $table.preferredSubtitleLanguage,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get subtitlesEnabled => $composableBuilder(
+    column: $table.subtitlesEnabled,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get autoPlayNext => $composableBuilder(
+    column: $table.autoPlayNext,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get serverRevision => $composableBuilder(
+    column: $table.serverRevision,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$LocalProfilePreferencesTableAnnotationComposer
+    extends Composer<_$CatalogDatabase, $LocalProfilePreferencesTable> {
+  $$LocalProfilePreferencesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get profileId =>
+      $composableBuilder(column: $table.profileId, builder: (column) => column);
+
+  GeneratedColumn<String> get preferredAudioLanguage => $composableBuilder(
+    column: $table.preferredAudioLanguage,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get preferredSubtitleLanguage => $composableBuilder(
+    column: $table.preferredSubtitleLanguage,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<bool> get subtitlesEnabled => $composableBuilder(
+    column: $table.subtitlesEnabled,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<bool> get autoPlayNext => $composableBuilder(
+    column: $table.autoPlayNext,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+
+  GeneratedColumn<int> get serverRevision => $composableBuilder(
+    column: $table.serverRevision,
+    builder: (column) => column,
+  );
+}
+
+class $$LocalProfilePreferencesTableTableManager
+    extends
+        RootTableManager<
+          _$CatalogDatabase,
+          $LocalProfilePreferencesTable,
+          LocalProfilePreference,
+          $$LocalProfilePreferencesTableFilterComposer,
+          $$LocalProfilePreferencesTableOrderingComposer,
+          $$LocalProfilePreferencesTableAnnotationComposer,
+          $$LocalProfilePreferencesTableCreateCompanionBuilder,
+          $$LocalProfilePreferencesTableUpdateCompanionBuilder,
+          (
+            LocalProfilePreference,
+            BaseReferences<
+              _$CatalogDatabase,
+              $LocalProfilePreferencesTable,
+              LocalProfilePreference
+            >,
+          ),
+          LocalProfilePreference,
+          PrefetchHooks Function()
+        > {
+  $$LocalProfilePreferencesTableTableManager(
+    _$CatalogDatabase db,
+    $LocalProfilePreferencesTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$LocalProfilePreferencesTableFilterComposer(
+                $db: db,
+                $table: table,
+              ),
+          createOrderingComposer: () =>
+              $$LocalProfilePreferencesTableOrderingComposer(
+                $db: db,
+                $table: table,
+              ),
+          createComputedFieldComposer: () =>
+              $$LocalProfilePreferencesTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<String> profileId = const Value.absent(),
+                Value<String?> preferredAudioLanguage = const Value.absent(),
+                Value<String?> preferredSubtitleLanguage = const Value.absent(),
+                Value<bool> subtitlesEnabled = const Value.absent(),
+                Value<bool> autoPlayNext = const Value.absent(),
+                Value<DateTime> updatedAt = const Value.absent(),
+                Value<int> serverRevision = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => LocalProfilePreferencesCompanion(
+                profileId: profileId,
+                preferredAudioLanguage: preferredAudioLanguage,
+                preferredSubtitleLanguage: preferredSubtitleLanguage,
+                subtitlesEnabled: subtitlesEnabled,
+                autoPlayNext: autoPlayNext,
+                updatedAt: updatedAt,
+                serverRevision: serverRevision,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String profileId,
+                Value<String?> preferredAudioLanguage = const Value.absent(),
+                Value<String?> preferredSubtitleLanguage = const Value.absent(),
+                Value<bool> subtitlesEnabled = const Value.absent(),
+                Value<bool> autoPlayNext = const Value.absent(),
+                required DateTime updatedAt,
+                Value<int> serverRevision = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => LocalProfilePreferencesCompanion.insert(
+                profileId: profileId,
+                preferredAudioLanguage: preferredAudioLanguage,
+                preferredSubtitleLanguage: preferredSubtitleLanguage,
+                subtitlesEnabled: subtitlesEnabled,
+                autoPlayNext: autoPlayNext,
+                updatedAt: updatedAt,
+                serverRevision: serverRevision,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<
+                    $LocalProfilePreferencesTable,
+                    LocalProfilePreference
+                  >(table),
+                  BaseReferences<
+                    _$CatalogDatabase,
+                    $LocalProfilePreferencesTable,
+                    LocalProfilePreference
+                  >(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$LocalProfilePreferencesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$CatalogDatabase,
+      $LocalProfilePreferencesTable,
+      LocalProfilePreference,
+      $$LocalProfilePreferencesTableFilterComposer,
+      $$LocalProfilePreferencesTableOrderingComposer,
+      $$LocalProfilePreferencesTableAnnotationComposer,
+      $$LocalProfilePreferencesTableCreateCompanionBuilder,
+      $$LocalProfilePreferencesTableUpdateCompanionBuilder,
+      (
+        LocalProfilePreference,
+        BaseReferences<
+          _$CatalogDatabase,
+          $LocalProfilePreferencesTable,
+          LocalProfilePreference
+        >,
+      ),
+      LocalProfilePreference,
+      PrefetchHooks Function()
+    >;
+typedef $$LocalProfileSyncQueueTableCreateCompanionBuilder =
+    LocalProfileSyncQueueCompanion Function({
+      required String operationId,
+      required String profileId,
+      required String deviceId,
+      required int clientSequence,
+      Value<String?> playbackSessionId,
+      required String operationType,
+      required String contentKey,
+      Value<String?> titleId,
+      Value<String?> episodeId,
+      Value<String> payload,
+      required DateTime clientTimestamp,
+      Value<String> status,
+      Value<int> retryCount,
+      required DateTime createdAt,
+      Value<int> rowid,
+    });
+typedef $$LocalProfileSyncQueueTableUpdateCompanionBuilder =
+    LocalProfileSyncQueueCompanion Function({
+      Value<String> operationId,
+      Value<String> profileId,
+      Value<String> deviceId,
+      Value<int> clientSequence,
+      Value<String?> playbackSessionId,
+      Value<String> operationType,
+      Value<String> contentKey,
+      Value<String?> titleId,
+      Value<String?> episodeId,
+      Value<String> payload,
+      Value<DateTime> clientTimestamp,
+      Value<String> status,
+      Value<int> retryCount,
+      Value<DateTime> createdAt,
+      Value<int> rowid,
+    });
+
+class $$LocalProfileSyncQueueTableFilterComposer
+    extends Composer<_$CatalogDatabase, $LocalProfileSyncQueueTable> {
+  $$LocalProfileSyncQueueTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get operationId => $composableBuilder(
+    column: $table.operationId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get profileId => $composableBuilder(
+    column: $table.profileId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get deviceId => $composableBuilder(
+    column: $table.deviceId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get clientSequence => $composableBuilder(
+    column: $table.clientSequence,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get playbackSessionId => $composableBuilder(
+    column: $table.playbackSessionId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get operationType => $composableBuilder(
+    column: $table.operationType,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get contentKey => $composableBuilder(
+    column: $table.contentKey,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get titleId => $composableBuilder(
+    column: $table.titleId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get episodeId => $composableBuilder(
+    column: $table.episodeId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get payload => $composableBuilder(
+    column: $table.payload,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get clientTimestamp => $composableBuilder(
+    column: $table.clientTimestamp,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get retryCount => $composableBuilder(
+    column: $table.retryCount,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$LocalProfileSyncQueueTableOrderingComposer
+    extends Composer<_$CatalogDatabase, $LocalProfileSyncQueueTable> {
+  $$LocalProfileSyncQueueTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get operationId => $composableBuilder(
+    column: $table.operationId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get profileId => $composableBuilder(
+    column: $table.profileId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get deviceId => $composableBuilder(
+    column: $table.deviceId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get clientSequence => $composableBuilder(
+    column: $table.clientSequence,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get playbackSessionId => $composableBuilder(
+    column: $table.playbackSessionId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get operationType => $composableBuilder(
+    column: $table.operationType,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get contentKey => $composableBuilder(
+    column: $table.contentKey,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get titleId => $composableBuilder(
+    column: $table.titleId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get episodeId => $composableBuilder(
+    column: $table.episodeId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get payload => $composableBuilder(
+    column: $table.payload,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get clientTimestamp => $composableBuilder(
+    column: $table.clientTimestamp,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get retryCount => $composableBuilder(
+    column: $table.retryCount,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$LocalProfileSyncQueueTableAnnotationComposer
+    extends Composer<_$CatalogDatabase, $LocalProfileSyncQueueTable> {
+  $$LocalProfileSyncQueueTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get operationId => $composableBuilder(
+    column: $table.operationId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get profileId =>
+      $composableBuilder(column: $table.profileId, builder: (column) => column);
+
+  GeneratedColumn<String> get deviceId =>
+      $composableBuilder(column: $table.deviceId, builder: (column) => column);
+
+  GeneratedColumn<int> get clientSequence => $composableBuilder(
+    column: $table.clientSequence,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get playbackSessionId => $composableBuilder(
+    column: $table.playbackSessionId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get operationType => $composableBuilder(
+    column: $table.operationType,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get contentKey => $composableBuilder(
+    column: $table.contentKey,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get titleId =>
+      $composableBuilder(column: $table.titleId, builder: (column) => column);
+
+  GeneratedColumn<String> get episodeId =>
+      $composableBuilder(column: $table.episodeId, builder: (column) => column);
+
+  GeneratedColumn<String> get payload =>
+      $composableBuilder(column: $table.payload, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get clientTimestamp => $composableBuilder(
+    column: $table.clientTimestamp,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get status =>
+      $composableBuilder(column: $table.status, builder: (column) => column);
+
+  GeneratedColumn<int> get retryCount => $composableBuilder(
+    column: $table.retryCount,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+}
+
+class $$LocalProfileSyncQueueTableTableManager
+    extends
+        RootTableManager<
+          _$CatalogDatabase,
+          $LocalProfileSyncQueueTable,
+          LocalProfileSyncQueueData,
+          $$LocalProfileSyncQueueTableFilterComposer,
+          $$LocalProfileSyncQueueTableOrderingComposer,
+          $$LocalProfileSyncQueueTableAnnotationComposer,
+          $$LocalProfileSyncQueueTableCreateCompanionBuilder,
+          $$LocalProfileSyncQueueTableUpdateCompanionBuilder,
+          (
+            LocalProfileSyncQueueData,
+            BaseReferences<
+              _$CatalogDatabase,
+              $LocalProfileSyncQueueTable,
+              LocalProfileSyncQueueData
+            >,
+          ),
+          LocalProfileSyncQueueData,
+          PrefetchHooks Function()
+        > {
+  $$LocalProfileSyncQueueTableTableManager(
+    _$CatalogDatabase db,
+    $LocalProfileSyncQueueTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$LocalProfileSyncQueueTableFilterComposer(
+                $db: db,
+                $table: table,
+              ),
+          createOrderingComposer: () =>
+              $$LocalProfileSyncQueueTableOrderingComposer(
+                $db: db,
+                $table: table,
+              ),
+          createComputedFieldComposer: () =>
+              $$LocalProfileSyncQueueTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<String> operationId = const Value.absent(),
+                Value<String> profileId = const Value.absent(),
+                Value<String> deviceId = const Value.absent(),
+                Value<int> clientSequence = const Value.absent(),
+                Value<String?> playbackSessionId = const Value.absent(),
+                Value<String> operationType = const Value.absent(),
+                Value<String> contentKey = const Value.absent(),
+                Value<String?> titleId = const Value.absent(),
+                Value<String?> episodeId = const Value.absent(),
+                Value<String> payload = const Value.absent(),
+                Value<DateTime> clientTimestamp = const Value.absent(),
+                Value<String> status = const Value.absent(),
+                Value<int> retryCount = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => LocalProfileSyncQueueCompanion(
+                operationId: operationId,
+                profileId: profileId,
+                deviceId: deviceId,
+                clientSequence: clientSequence,
+                playbackSessionId: playbackSessionId,
+                operationType: operationType,
+                contentKey: contentKey,
+                titleId: titleId,
+                episodeId: episodeId,
+                payload: payload,
+                clientTimestamp: clientTimestamp,
+                status: status,
+                retryCount: retryCount,
+                createdAt: createdAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String operationId,
+                required String profileId,
+                required String deviceId,
+                required int clientSequence,
+                Value<String?> playbackSessionId = const Value.absent(),
+                required String operationType,
+                required String contentKey,
+                Value<String?> titleId = const Value.absent(),
+                Value<String?> episodeId = const Value.absent(),
+                Value<String> payload = const Value.absent(),
+                required DateTime clientTimestamp,
+                Value<String> status = const Value.absent(),
+                Value<int> retryCount = const Value.absent(),
+                required DateTime createdAt,
+                Value<int> rowid = const Value.absent(),
+              }) => LocalProfileSyncQueueCompanion.insert(
+                operationId: operationId,
+                profileId: profileId,
+                deviceId: deviceId,
+                clientSequence: clientSequence,
+                playbackSessionId: playbackSessionId,
+                operationType: operationType,
+                contentKey: contentKey,
+                titleId: titleId,
+                episodeId: episodeId,
+                payload: payload,
+                clientTimestamp: clientTimestamp,
+                status: status,
+                retryCount: retryCount,
+                createdAt: createdAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<
+                    $LocalProfileSyncQueueTable,
+                    LocalProfileSyncQueueData
+                  >(table),
+                  BaseReferences<
+                    _$CatalogDatabase,
+                    $LocalProfileSyncQueueTable,
+                    LocalProfileSyncQueueData
+                  >(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$LocalProfileSyncQueueTableProcessedTableManager =
+    ProcessedTableManager<
+      _$CatalogDatabase,
+      $LocalProfileSyncQueueTable,
+      LocalProfileSyncQueueData,
+      $$LocalProfileSyncQueueTableFilterComposer,
+      $$LocalProfileSyncQueueTableOrderingComposer,
+      $$LocalProfileSyncQueueTableAnnotationComposer,
+      $$LocalProfileSyncQueueTableCreateCompanionBuilder,
+      $$LocalProfileSyncQueueTableUpdateCompanionBuilder,
+      (
+        LocalProfileSyncQueueData,
+        BaseReferences<
+          _$CatalogDatabase,
+          $LocalProfileSyncQueueTable,
+          LocalProfileSyncQueueData
+        >,
+      ),
+      LocalProfileSyncQueueData,
+      PrefetchHooks Function()
+    >;
+typedef $$LocalProfileSyncCheckpointTableCreateCompanionBuilder =
+    LocalProfileSyncCheckpointCompanion Function({
+      required String profileId,
+      Value<int> latestServerRevision,
+      Value<DateTime?> lastSyncedAt,
+      Value<int> lastSuccessfulSequence,
+      Value<int> rowid,
+    });
+typedef $$LocalProfileSyncCheckpointTableUpdateCompanionBuilder =
+    LocalProfileSyncCheckpointCompanion Function({
+      Value<String> profileId,
+      Value<int> latestServerRevision,
+      Value<DateTime?> lastSyncedAt,
+      Value<int> lastSuccessfulSequence,
+      Value<int> rowid,
+    });
+
+class $$LocalProfileSyncCheckpointTableFilterComposer
+    extends Composer<_$CatalogDatabase, $LocalProfileSyncCheckpointTable> {
+  $$LocalProfileSyncCheckpointTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get profileId => $composableBuilder(
+    column: $table.profileId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get latestServerRevision => $composableBuilder(
+    column: $table.latestServerRevision,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get lastSyncedAt => $composableBuilder(
+    column: $table.lastSyncedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get lastSuccessfulSequence => $composableBuilder(
+    column: $table.lastSuccessfulSequence,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$LocalProfileSyncCheckpointTableOrderingComposer
+    extends Composer<_$CatalogDatabase, $LocalProfileSyncCheckpointTable> {
+  $$LocalProfileSyncCheckpointTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get profileId => $composableBuilder(
+    column: $table.profileId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get latestServerRevision => $composableBuilder(
+    column: $table.latestServerRevision,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get lastSyncedAt => $composableBuilder(
+    column: $table.lastSyncedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get lastSuccessfulSequence => $composableBuilder(
+    column: $table.lastSuccessfulSequence,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$LocalProfileSyncCheckpointTableAnnotationComposer
+    extends Composer<_$CatalogDatabase, $LocalProfileSyncCheckpointTable> {
+  $$LocalProfileSyncCheckpointTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get profileId =>
+      $composableBuilder(column: $table.profileId, builder: (column) => column);
+
+  GeneratedColumn<int> get latestServerRevision => $composableBuilder(
+    column: $table.latestServerRevision,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get lastSyncedAt => $composableBuilder(
+    column: $table.lastSyncedAt,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get lastSuccessfulSequence => $composableBuilder(
+    column: $table.lastSuccessfulSequence,
+    builder: (column) => column,
+  );
+}
+
+class $$LocalProfileSyncCheckpointTableTableManager
+    extends
+        RootTableManager<
+          _$CatalogDatabase,
+          $LocalProfileSyncCheckpointTable,
+          LocalProfileSyncCheckpointData,
+          $$LocalProfileSyncCheckpointTableFilterComposer,
+          $$LocalProfileSyncCheckpointTableOrderingComposer,
+          $$LocalProfileSyncCheckpointTableAnnotationComposer,
+          $$LocalProfileSyncCheckpointTableCreateCompanionBuilder,
+          $$LocalProfileSyncCheckpointTableUpdateCompanionBuilder,
+          (
+            LocalProfileSyncCheckpointData,
+            BaseReferences<
+              _$CatalogDatabase,
+              $LocalProfileSyncCheckpointTable,
+              LocalProfileSyncCheckpointData
+            >,
+          ),
+          LocalProfileSyncCheckpointData,
+          PrefetchHooks Function()
+        > {
+  $$LocalProfileSyncCheckpointTableTableManager(
+    _$CatalogDatabase db,
+    $LocalProfileSyncCheckpointTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$LocalProfileSyncCheckpointTableFilterComposer(
+                $db: db,
+                $table: table,
+              ),
+          createOrderingComposer: () =>
+              $$LocalProfileSyncCheckpointTableOrderingComposer(
+                $db: db,
+                $table: table,
+              ),
+          createComputedFieldComposer: () =>
+              $$LocalProfileSyncCheckpointTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<String> profileId = const Value.absent(),
+                Value<int> latestServerRevision = const Value.absent(),
+                Value<DateTime?> lastSyncedAt = const Value.absent(),
+                Value<int> lastSuccessfulSequence = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => LocalProfileSyncCheckpointCompanion(
+                profileId: profileId,
+                latestServerRevision: latestServerRevision,
+                lastSyncedAt: lastSyncedAt,
+                lastSuccessfulSequence: lastSuccessfulSequence,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String profileId,
+                Value<int> latestServerRevision = const Value.absent(),
+                Value<DateTime?> lastSyncedAt = const Value.absent(),
+                Value<int> lastSuccessfulSequence = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => LocalProfileSyncCheckpointCompanion.insert(
+                profileId: profileId,
+                latestServerRevision: latestServerRevision,
+                lastSyncedAt: lastSyncedAt,
+                lastSuccessfulSequence: lastSuccessfulSequence,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<
+                    $LocalProfileSyncCheckpointTable,
+                    LocalProfileSyncCheckpointData
+                  >(table),
+                  BaseReferences<
+                    _$CatalogDatabase,
+                    $LocalProfileSyncCheckpointTable,
+                    LocalProfileSyncCheckpointData
+                  >(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$LocalProfileSyncCheckpointTableProcessedTableManager =
+    ProcessedTableManager<
+      _$CatalogDatabase,
+      $LocalProfileSyncCheckpointTable,
+      LocalProfileSyncCheckpointData,
+      $$LocalProfileSyncCheckpointTableFilterComposer,
+      $$LocalProfileSyncCheckpointTableOrderingComposer,
+      $$LocalProfileSyncCheckpointTableAnnotationComposer,
+      $$LocalProfileSyncCheckpointTableCreateCompanionBuilder,
+      $$LocalProfileSyncCheckpointTableUpdateCompanionBuilder,
+      (
+        LocalProfileSyncCheckpointData,
+        BaseReferences<
+          _$CatalogDatabase,
+          $LocalProfileSyncCheckpointTable,
+          LocalProfileSyncCheckpointData
+        >,
+      ),
+      LocalProfileSyncCheckpointData,
+      PrefetchHooks Function()
+    >;
+typedef $$LocalGuestImportAuditTableCreateCompanionBuilder =
+    LocalGuestImportAuditCompanion Function({
+      required String id,
+      required String targetProfileId,
+      required String importBatchId,
+      required String status,
+      Value<int> favoritesCount,
+      Value<int> progressCount,
+      Value<int> historyCount,
+      Value<String?> errorMessage,
+      required DateTime createdAt,
+      Value<DateTime?> completedAt,
+      Value<int> rowid,
+    });
+typedef $$LocalGuestImportAuditTableUpdateCompanionBuilder =
+    LocalGuestImportAuditCompanion Function({
+      Value<String> id,
+      Value<String> targetProfileId,
+      Value<String> importBatchId,
+      Value<String> status,
+      Value<int> favoritesCount,
+      Value<int> progressCount,
+      Value<int> historyCount,
+      Value<String?> errorMessage,
+      Value<DateTime> createdAt,
+      Value<DateTime?> completedAt,
+      Value<int> rowid,
+    });
+
+class $$LocalGuestImportAuditTableFilterComposer
+    extends Composer<_$CatalogDatabase, $LocalGuestImportAuditTable> {
+  $$LocalGuestImportAuditTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get targetProfileId => $composableBuilder(
+    column: $table.targetProfileId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get importBatchId => $composableBuilder(
+    column: $table.importBatchId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get favoritesCount => $composableBuilder(
+    column: $table.favoritesCount,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get progressCount => $composableBuilder(
+    column: $table.progressCount,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get historyCount => $composableBuilder(
+    column: $table.historyCount,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get errorMessage => $composableBuilder(
+    column: $table.errorMessage,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get completedAt => $composableBuilder(
+    column: $table.completedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$LocalGuestImportAuditTableOrderingComposer
+    extends Composer<_$CatalogDatabase, $LocalGuestImportAuditTable> {
+  $$LocalGuestImportAuditTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get targetProfileId => $composableBuilder(
+    column: $table.targetProfileId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get importBatchId => $composableBuilder(
+    column: $table.importBatchId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get favoritesCount => $composableBuilder(
+    column: $table.favoritesCount,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get progressCount => $composableBuilder(
+    column: $table.progressCount,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get historyCount => $composableBuilder(
+    column: $table.historyCount,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get errorMessage => $composableBuilder(
+    column: $table.errorMessage,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get completedAt => $composableBuilder(
+    column: $table.completedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$LocalGuestImportAuditTableAnnotationComposer
+    extends Composer<_$CatalogDatabase, $LocalGuestImportAuditTable> {
+  $$LocalGuestImportAuditTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get targetProfileId => $composableBuilder(
+    column: $table.targetProfileId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get importBatchId => $composableBuilder(
+    column: $table.importBatchId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get status =>
+      $composableBuilder(column: $table.status, builder: (column) => column);
+
+  GeneratedColumn<int> get favoritesCount => $composableBuilder(
+    column: $table.favoritesCount,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get progressCount => $composableBuilder(
+    column: $table.progressCount,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get historyCount => $composableBuilder(
+    column: $table.historyCount,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get errorMessage => $composableBuilder(
+    column: $table.errorMessage,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get completedAt => $composableBuilder(
+    column: $table.completedAt,
+    builder: (column) => column,
+  );
+}
+
+class $$LocalGuestImportAuditTableTableManager
+    extends
+        RootTableManager<
+          _$CatalogDatabase,
+          $LocalGuestImportAuditTable,
+          LocalGuestImportAuditData,
+          $$LocalGuestImportAuditTableFilterComposer,
+          $$LocalGuestImportAuditTableOrderingComposer,
+          $$LocalGuestImportAuditTableAnnotationComposer,
+          $$LocalGuestImportAuditTableCreateCompanionBuilder,
+          $$LocalGuestImportAuditTableUpdateCompanionBuilder,
+          (
+            LocalGuestImportAuditData,
+            BaseReferences<
+              _$CatalogDatabase,
+              $LocalGuestImportAuditTable,
+              LocalGuestImportAuditData
+            >,
+          ),
+          LocalGuestImportAuditData,
+          PrefetchHooks Function()
+        > {
+  $$LocalGuestImportAuditTableTableManager(
+    _$CatalogDatabase db,
+    $LocalGuestImportAuditTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$LocalGuestImportAuditTableFilterComposer(
+                $db: db,
+                $table: table,
+              ),
+          createOrderingComposer: () =>
+              $$LocalGuestImportAuditTableOrderingComposer(
+                $db: db,
+                $table: table,
+              ),
+          createComputedFieldComposer: () =>
+              $$LocalGuestImportAuditTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> targetProfileId = const Value.absent(),
+                Value<String> importBatchId = const Value.absent(),
+                Value<String> status = const Value.absent(),
+                Value<int> favoritesCount = const Value.absent(),
+                Value<int> progressCount = const Value.absent(),
+                Value<int> historyCount = const Value.absent(),
+                Value<String?> errorMessage = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<DateTime?> completedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => LocalGuestImportAuditCompanion(
+                id: id,
+                targetProfileId: targetProfileId,
+                importBatchId: importBatchId,
+                status: status,
+                favoritesCount: favoritesCount,
+                progressCount: progressCount,
+                historyCount: historyCount,
+                errorMessage: errorMessage,
+                createdAt: createdAt,
+                completedAt: completedAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String targetProfileId,
+                required String importBatchId,
+                required String status,
+                Value<int> favoritesCount = const Value.absent(),
+                Value<int> progressCount = const Value.absent(),
+                Value<int> historyCount = const Value.absent(),
+                Value<String?> errorMessage = const Value.absent(),
+                required DateTime createdAt,
+                Value<DateTime?> completedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => LocalGuestImportAuditCompanion.insert(
+                id: id,
+                targetProfileId: targetProfileId,
+                importBatchId: importBatchId,
+                status: status,
+                favoritesCount: favoritesCount,
+                progressCount: progressCount,
+                historyCount: historyCount,
+                errorMessage: errorMessage,
+                createdAt: createdAt,
+                completedAt: completedAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<
+                    $LocalGuestImportAuditTable,
+                    LocalGuestImportAuditData
+                  >(table),
+                  BaseReferences<
+                    _$CatalogDatabase,
+                    $LocalGuestImportAuditTable,
+                    LocalGuestImportAuditData
+                  >(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$LocalGuestImportAuditTableProcessedTableManager =
+    ProcessedTableManager<
+      _$CatalogDatabase,
+      $LocalGuestImportAuditTable,
+      LocalGuestImportAuditData,
+      $$LocalGuestImportAuditTableFilterComposer,
+      $$LocalGuestImportAuditTableOrderingComposer,
+      $$LocalGuestImportAuditTableAnnotationComposer,
+      $$LocalGuestImportAuditTableCreateCompanionBuilder,
+      $$LocalGuestImportAuditTableUpdateCompanionBuilder,
+      (
+        LocalGuestImportAuditData,
+        BaseReferences<
+          _$CatalogDatabase,
+          $LocalGuestImportAuditTable,
+          LocalGuestImportAuditData
+        >,
+      ),
+      LocalGuestImportAuditData,
+      PrefetchHooks Function()
+    >;
 
 class $CatalogDatabaseManager {
   final _$CatalogDatabase _db;
@@ -7483,4 +14109,29 @@ class $CatalogDatabaseManager {
       $$LocalSourcesTableTableManager(_db, _db.localSources);
   $$CatalogSyncStatesTableTableManager get catalogSyncStates =>
       $$CatalogSyncStatesTableTableManager(_db, _db.catalogSyncStates);
+  $$LocalProfileFavoritesTableTableManager get localProfileFavorites =>
+      $$LocalProfileFavoritesTableTableManager(_db, _db.localProfileFavorites);
+  $$LocalProfilePlaybackProgressTableTableManager
+  get localProfilePlaybackProgress =>
+      $$LocalProfilePlaybackProgressTableTableManager(
+        _db,
+        _db.localProfilePlaybackProgress,
+      );
+  $$LocalProfileHistoryTableTableManager get localProfileHistory =>
+      $$LocalProfileHistoryTableTableManager(_db, _db.localProfileHistory);
+  $$LocalProfilePreferencesTableTableManager get localProfilePreferences =>
+      $$LocalProfilePreferencesTableTableManager(
+        _db,
+        _db.localProfilePreferences,
+      );
+  $$LocalProfileSyncQueueTableTableManager get localProfileSyncQueue =>
+      $$LocalProfileSyncQueueTableTableManager(_db, _db.localProfileSyncQueue);
+  $$LocalProfileSyncCheckpointTableTableManager
+  get localProfileSyncCheckpoint =>
+      $$LocalProfileSyncCheckpointTableTableManager(
+        _db,
+        _db.localProfileSyncCheckpoint,
+      );
+  $$LocalGuestImportAuditTableTableManager get localGuestImportAudit =>
+      $$LocalGuestImportAuditTableTableManager(_db, _db.localGuestImportAudit);
 }

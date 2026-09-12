@@ -2,7 +2,9 @@ import 'dart:io';
 import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'tables/catalog_tables.dart';
+import 'tables/user_data_tables.dart';
 import 'daos/catalog_dao.dart';
+import 'daos/user_data_dao.dart';
 
 part 'catalog_database.g.dart';
 
@@ -16,8 +18,15 @@ part 'catalog_database.g.dart';
     LocalEpisodes,
     LocalSources,
     CatalogSyncStates,
+    LocalProfileFavorites,
+    LocalProfilePlaybackProgress,
+    LocalProfileHistory,
+    LocalProfilePreferences,
+    LocalProfileSyncQueue,
+    LocalProfileSyncCheckpoint,
+    LocalGuestImportAudit,
   ],
-  daos: [CatalogDao],
+  daos: [CatalogDao, UserDataDao],
 )
 class CatalogDatabase extends _$CatalogDatabase {
   CatalogDatabase(super.e);
@@ -29,7 +38,7 @@ class CatalogDatabase extends _$CatalogDatabase {
   }
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -46,6 +55,18 @@ class CatalogDatabase extends _$CatalogDatabase {
         );
       ''');
       await _createIndices();
+    },
+    onUpgrade: (Migrator m, int from, int to) async {
+      if (from < 2) {
+        await m.createTable(localProfileFavorites);
+        await m.createTable(localProfilePlaybackProgress);
+        await m.createTable(localProfileHistory);
+        await m.createTable(localProfilePreferences);
+        await m.createTable(localProfileSyncQueue);
+        await m.createTable(localProfileSyncCheckpoint);
+        await m.createTable(localGuestImportAudit);
+        await _createIndices();
+      }
     },
     beforeOpen: (details) async {
       await customStatement('PRAGMA foreign_keys = ON;');
@@ -77,6 +98,20 @@ class CatalogDatabase extends _$CatalogDatabase {
     );
     await customStatement(
       'CREATE INDEX IF NOT EXISTS idx_sources_episode ON local_sources(episode_id);',
+    );
+
+    // Índices de Datos de Usuario y Sincronización
+    await customStatement(
+      'CREATE INDEX IF NOT EXISTS idx_profile_favorites_profile_fav ON local_profile_favorites(profile_id, is_favorite, updated_at DESC);',
+    );
+    await customStatement(
+      'CREATE INDEX IF NOT EXISTS idx_profile_progress_continue ON local_profile_playback_progress(profile_id, is_completed, last_watched_at DESC);',
+    );
+    await customStatement(
+      'CREATE INDEX IF NOT EXISTS idx_profile_history_timeline ON local_profile_history(profile_id, watched_at DESC);',
+    );
+    await customStatement(
+      'CREATE INDEX IF NOT EXISTS idx_profile_sync_queue_order ON local_profile_sync_queue(profile_id, status, client_sequence ASC);',
     );
   }
 }
