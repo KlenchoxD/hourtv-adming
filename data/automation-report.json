@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-09-13T19:27:11.546Z",
-  "durationMs": 630,
+  "generatedAt": "2026-09-13T21:32:38.448Z",
+  "durationMs": 1976,
   "dryRun": false,
   "moviesFound": 34,
   "moviesDiscarded": 24,
@@ -98,14 +98,19 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1294189,
+      "title": "The Mongoose",
+      "reason": "Rating 0 por debajo del mínimo (5.5)"
+    },
+    {
       "tmdbId": 1440098,
       "title": "Enfrentados: Marfil",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1294189,
-      "title": "The Mongoose",
-      "reason": "Rating 0 por debajo del mínimo (5.5)"
+      "tmdbId": 1285366,
+      "title": "愛のぬくもり",
+      "reason": "Rating 5.2 por debajo del mínimo (5.5)"
     },
     {
       "tmdbId": 1386315,
@@ -118,19 +123,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1285366,
-      "title": "愛のぬくもり",
-      "reason": "Rating 5.2 por debajo del mínimo (5.5)"
-    },
-    {
       "tmdbId": 1323244,
       "title": "La señal del apocalipsis",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1560520,
-      "title": "Batman: Knightfall Part 1: Knightfall",
-      "reason": "Sin fuente autorizada configurada"
+      "tmdbId": 1494843,
+      "title": "丫丫",
+      "reason": "Rating 0 por debajo del mínimo (5.5)"
     }
   ]
 }

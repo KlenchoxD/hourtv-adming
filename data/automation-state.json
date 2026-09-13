@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-09-13T19:27:12.171Z",
+  "lastRunAt": "2026-09-13T21:32:40.418Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -24,17 +24,17 @@
     1523145,
     1368337,
     1375646,
-    1440098,
     1294189,
-    1386315,
-    1506560,
-    1393326,
+    1440098,
     1285366,
+    1386315,
+    1393326,
+    1506560,
     1339713,
     1516698,
-    1621552,
     1323244,
-    1560520,
+    1621552,
+    1494843,
     1335666
   ],
   "tmdbIdsPublished": [],
@@ -127,14 +127,19 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1294189,
+      "title": "The Mongoose",
+      "reason": "Rating 0 por debajo del mínimo (5.5)"
+    },
+    {
       "tmdbId": 1440098,
       "title": "Enfrentados: Marfil",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1294189,
-      "title": "The Mongoose",
-      "reason": "Rating 0 por debajo del mínimo (5.5)"
+      "tmdbId": 1285366,
+      "title": "愛のぬくもり",
+      "reason": "Rating 5.2 por debajo del mínimo (5.5)"
     },
     {
       "tmdbId": 1386315,
@@ -147,19 +152,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1285366,
-      "title": "愛のぬくもり",
-      "reason": "Rating 5.2 por debajo del mínimo (5.5)"
-    },
-    {
       "tmdbId": 1323244,
       "title": "La señal del apocalipsis",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1560520,
-      "title": "Batman: Knightfall Part 1: Knightfall",
-      "reason": "Sin fuente autorizada configurada"
+      "tmdbId": 1494843,
+      "title": "丫丫",
+      "reason": "Rating 0 por debajo del mínimo (5.5)"
     }
   ]
 }
