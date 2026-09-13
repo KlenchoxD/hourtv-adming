@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-09-13T13:54:07.085Z",
+  "lastRunAt": "2026-09-13T17:09:12.608Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -9,19 +9,19 @@
     1137844,
     1084244,
     1315772,
+    1101383,
     860508,
     1275779,
-    1083381,
-    1101383,
-    1302904,
     1127384,
+    1083381,
     1433367,
     1228710,
+    1302904,
     1081003,
-    1273221,
     1185806,
+    1273221,
     454639,
-    1355228,
+    1523145,
     1368337,
     1375646,
     1440098,
@@ -67,19 +67,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1275779,
-      "title": "El día de la revelación",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1101383,
       "title": "El final de Oak Street",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1302904,
-      "title": "Hechizo de amor: La magia continúa",
-      "reason": "Votos 30 por debajo del mínimo (50)"
+      "tmdbId": 1275779,
+      "title": "El día de la revelación",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1127384,
@@ -97,6 +92,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1302904,
+      "title": "Hechizo de amor: La magia continúa",
+      "reason": "Votos 31 por debajo del mínimo (50)"
+    },
+    {
       "tmdbId": 1081003,
       "title": "Supergirl",
       "reason": "Sin fuente autorizada configurada"
@@ -112,9 +112,9 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1355228,
-      "title": "Gandhari",
-      "reason": "Rating 5.1 por debajo del mínimo (5.5)"
+      "tmdbId": 1523145,
+      "title": "Tu corazón se romperá",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1368337,

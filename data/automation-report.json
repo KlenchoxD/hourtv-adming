@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-09-13T13:54:04.637Z",
-  "durationMs": 2453,
+  "generatedAt": "2026-09-13T17:09:09.732Z",
+  "durationMs": 2879,
   "dryRun": false,
   "moviesFound": 34,
   "moviesDiscarded": 24,
@@ -38,19 +38,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1275779,
-      "title": "El día de la revelación",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1101383,
       "title": "El final de Oak Street",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1302904,
-      "title": "Hechizo de amor: La magia continúa",
-      "reason": "Votos 30 por debajo del mínimo (50)"
+      "tmdbId": 1275779,
+      "title": "El día de la revelación",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1127384,
@@ -68,6 +63,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1302904,
+      "title": "Hechizo de amor: La magia continúa",
+      "reason": "Votos 31 por debajo del mínimo (50)"
+    },
+    {
       "tmdbId": 1081003,
       "title": "Supergirl",
       "reason": "Sin fuente autorizada configurada"
@@ -83,9 +83,9 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1355228,
-      "title": "Gandhari",
-      "reason": "Rating 5.1 por debajo del mínimo (5.5)"
+      "tmdbId": 1523145,
+      "title": "Tu corazón se romperá",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1368337,
