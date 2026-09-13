@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-09-13T04:42:12.568Z",
+  "lastRunAt": "2026-09-13T09:44:27.685Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -13,10 +13,10 @@
     1275779,
     1083381,
     1101383,
+    1302904,
     1127384,
     1433367,
     1228710,
-    1302904,
     1081003,
     1273221,
     1185806,
@@ -77,6 +77,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1302904,
+      "title": "Hechizo de amor: La magia continúa",
+      "reason": "Votos 30 por debajo del mínimo (50)"
+    },
+    {
       "tmdbId": 1127384,
       "title": "En mar abierto",
       "reason": "Sin fuente autorizada configurada"
@@ -90,11 +95,6 @@
       "tmdbId": 1228710,
       "title": "The Mandalorian and Grogu",
       "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1302904,
-      "title": "Hechizo de amor: La magia continúa",
-      "reason": "Votos 28 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1081003,
@@ -134,7 +134,7 @@
     {
       "tmdbId": 1440098,
       "title": "Enfrentados: Marfil",
-      "reason": "Votos 45 por debajo del mínimo (50)"
+      "reason": "Votos 47 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1386315,

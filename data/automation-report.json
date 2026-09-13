@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-09-13T04:42:08.612Z",
-  "durationMs": 3961,
+  "generatedAt": "2026-09-13T09:44:26.105Z",
+  "durationMs": 1584,
   "dryRun": false,
   "moviesFound": 34,
   "moviesDiscarded": 24,
@@ -48,6 +48,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1302904,
+      "title": "Hechizo de amor: La magia continúa",
+      "reason": "Votos 30 por debajo del mínimo (50)"
+    },
+    {
       "tmdbId": 1127384,
       "title": "En mar abierto",
       "reason": "Sin fuente autorizada configurada"
@@ -61,11 +66,6 @@
       "tmdbId": 1228710,
       "title": "The Mandalorian and Grogu",
       "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1302904,
-      "title": "Hechizo de amor: La magia continúa",
-      "reason": "Votos 28 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1081003,
@@ -105,7 +105,7 @@
     {
       "tmdbId": 1440098,
       "title": "Enfrentados: Marfil",
-      "reason": "Votos 45 por debajo del mínimo (50)"
+      "reason": "Votos 47 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1386315,
