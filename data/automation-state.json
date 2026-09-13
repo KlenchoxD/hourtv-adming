@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-09-13T09:44:27.685Z",
+  "lastRunAt": "2026-09-13T13:54:07.085Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -24,8 +24,8 @@
     1355228,
     1368337,
     1375646,
-    1294189,
     1440098,
+    1294189,
     1386315,
     1506560,
     1393326,
@@ -127,14 +127,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1440098,
+      "title": "Enfrentados: Marfil",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1294189,
       "title": "The Mongoose",
       "reason": "Rating 0 por debajo del mínimo (5.5)"
-    },
-    {
-      "tmdbId": 1440098,
-      "title": "Enfrentados: Marfil",
-      "reason": "Votos 47 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1386315,

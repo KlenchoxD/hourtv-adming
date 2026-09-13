@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-09-13T09:44:26.105Z",
-  "durationMs": 1584,
+  "generatedAt": "2026-09-13T13:54:04.637Z",
+  "durationMs": 2453,
   "dryRun": false,
   "moviesFound": 34,
   "moviesDiscarded": 24,
@@ -98,14 +98,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1440098,
+      "title": "Enfrentados: Marfil",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1294189,
       "title": "The Mongoose",
       "reason": "Rating 0 por debajo del mínimo (5.5)"
-    },
-    {
-      "tmdbId": 1440098,
-      "title": "Enfrentados: Marfil",
-      "reason": "Votos 47 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1386315,
