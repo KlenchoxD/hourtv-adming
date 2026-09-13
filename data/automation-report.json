@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-09-12T22:25:33.916Z",
-  "durationMs": 2533,
+  "generatedAt": "2026-09-13T00:05:31.449Z",
+  "durationMs": 1745,
   "dryRun": false,
   "moviesFound": 34,
   "moviesDiscarded": 24,
@@ -65,7 +65,7 @@
     {
       "tmdbId": 1302904,
       "title": "Hechizo de amor: La magia continúa",
-      "reason": "Votos 27 por debajo del mínimo (50)"
+      "reason": "Votos 28 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1081003,
@@ -105,7 +105,7 @@
     {
       "tmdbId": 1440098,
       "title": "Enfrentados: Marfil",
-      "reason": "Votos 40 por debajo del mínimo (50)"
+      "reason": "Votos 45 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1386315,
