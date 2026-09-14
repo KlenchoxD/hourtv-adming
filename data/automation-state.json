@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-09-14T18:46:36.071Z",
+  "lastRunAt": "2026-09-14T22:13:16.461Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -10,16 +10,16 @@
     1084244,
     1101383,
     1315772,
-    860508,
-    1275779,
     1127384,
+    1275779,
+    860508,
     1083381,
-    1433367,
-    1228710,
-    1302904,
-    1081003,
     1185806,
-    1273221,
+    1302904,
+    1228710,
+    1433367,
+    1081003,
+    1212763,
     454639,
     1523145,
     1375646,
@@ -72,23 +72,18 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1275779,
-      "title": "El día de la revelación",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1127384,
       "title": "En mar abierto",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1433367,
-      "title": "Una noche al año",
+      "tmdbId": 1275779,
+      "title": "El día de la revelación",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1228710,
-      "title": "The Mandalorian and Grogu",
+      "tmdbId": 1185806,
+      "title": "La Patrulla Canina: La dino película",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -97,13 +92,23 @@
       "reason": "Votos 46 por debajo del mínimo (50)"
     },
     {
+      "tmdbId": 1228710,
+      "title": "The Mandalorian and Grogu",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1433367,
+      "title": "Una noche al año",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1081003,
       "title": "Supergirl",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1185806,
-      "title": "La Patrulla Canina: La dino película",
+      "tmdbId": 1212763,
+      "title": "Posesión infernal: En llamas",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -154,7 +159,7 @@
     {
       "tmdbId": 1408162,
       "title": "Vishwanath e hijos",
-      "reason": "Votos 19 por debajo del mínimo (50)"
+      "reason": "Votos 20 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1323244,
@@ -164,7 +169,7 @@
     {
       "tmdbId": 1482547,
       "title": "Zip Wire",
-      "reason": "Votos 6 por debajo del mínimo (50)"
+      "reason": "Votos 8 por debajo del mínimo (50)"
     }
   ]
 }
