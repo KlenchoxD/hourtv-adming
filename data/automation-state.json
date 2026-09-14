@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-09-14T06:41:30.972Z",
+  "lastRunAt": "2026-09-14T13:21:24.134Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -8,8 +8,8 @@
     1108427,
     1137844,
     1084244,
-    1315772,
     1101383,
+    1315772,
     860508,
     1275779,
     1127384,
@@ -27,8 +27,8 @@
     1294189,
     1440098,
     1285366,
-    1386315,
     1393326,
+    1386315,
     1506560,
     1339713,
     1516698,
@@ -93,7 +93,7 @@
     {
       "tmdbId": 1302904,
       "title": "Prácticamente magia 2",
-      "reason": "Votos 41 por debajo del mínimo (50)"
+      "reason": "Votos 46 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1081003,
@@ -141,13 +141,13 @@
       "reason": "Rating 5.2 por debajo del mínimo (5.5)"
     },
     {
-      "tmdbId": 1386315,
-      "title": "A la carrera",
+      "tmdbId": 1393326,
+      "title": "Ghost in the Cell",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1393326,
-      "title": "Ghost in the Cell",
+      "tmdbId": 1386315,
+      "title": "A la carrera",
       "reason": "Sin fuente autorizada configurada"
     },
     {

@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-09-14T06:41:29.087Z",
-  "durationMs": 1889,
+  "generatedAt": "2026-09-14T13:21:20.454Z",
+  "durationMs": 3685,
   "dryRun": false,
   "moviesFound": 33,
   "moviesDiscarded": 23,
@@ -65,7 +65,7 @@
     {
       "tmdbId": 1302904,
       "title": "Prácticamente magia 2",
-      "reason": "Votos 41 por debajo del mínimo (50)"
+      "reason": "Votos 46 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1081003,
@@ -113,13 +113,13 @@
       "reason": "Rating 5.2 por debajo del mínimo (5.5)"
     },
     {
-      "tmdbId": 1386315,
-      "title": "A la carrera",
+      "tmdbId": 1393326,
+      "title": "Ghost in the Cell",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1393326,
-      "title": "Ghost in the Cell",
+      "tmdbId": 1386315,
+      "title": "A la carrera",
       "reason": "Sin fuente autorizada configurada"
     },
     {
