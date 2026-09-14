@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-09-14T01:26:56.817Z",
-  "durationMs": 1715,
+  "generatedAt": "2026-09-14T06:41:29.087Z",
+  "durationMs": 1889,
   "dryRun": false,
-  "moviesFound": 34,
-  "moviesDiscarded": 24,
+  "moviesFound": 33,
+  "moviesDiscarded": 23,
   "moviesAdded": 0,
   "moviesEnriched": 0,
   "duplicates": 10,
@@ -126,11 +126,6 @@
       "tmdbId": 1323244,
       "title": "La señal del apocalipsis",
       "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1494843,
-      "title": "丫丫",
-      "reason": "Rating 0 por debajo del mínimo (5.5)"
     }
   ]
 }

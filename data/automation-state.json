@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-09-14T01:26:58.529Z",
+  "lastRunAt": "2026-09-14T06:41:30.972Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -34,7 +34,6 @@
     1516698,
     1323244,
     1621552,
-    1494843,
     1335666
   ],
   "tmdbIdsPublished": [],
@@ -155,11 +154,6 @@
       "tmdbId": 1323244,
       "title": "La señal del apocalipsis",
       "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1494843,
-      "title": "丫丫",
-      "reason": "Rating 0 por debajo del mínimo (5.5)"
     }
   ]
 }
