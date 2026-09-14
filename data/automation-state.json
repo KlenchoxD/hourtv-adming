@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-09-14T13:21:24.134Z",
+  "lastRunAt": "2026-09-14T18:46:36.071Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -22,18 +22,19 @@
     1273221,
     454639,
     1523145,
-    1368337,
     1375646,
+    1368337,
     1294189,
     1440098,
-    1285366,
-    1393326,
     1386315,
+    1393326,
+    1285366,
     1506560,
     1339713,
     1516698,
+    1408162,
     1323244,
-    1621552,
+    1482547,
     1335666
   ],
   "tmdbIdsPublished": [],
@@ -116,13 +117,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1368337,
-      "title": "La Odisea",
+      "tmdbId": 1375646,
+      "title": "Colony",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1375646,
-      "title": "Colony",
+      "tmdbId": 1368337,
+      "title": "La Odisea",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -136,9 +137,9 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1285366,
-      "title": "愛のぬくもり",
-      "reason": "Rating 5.2 por debajo del mínimo (5.5)"
+      "tmdbId": 1386315,
+      "title": "A la carrera",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1393326,
@@ -146,14 +147,24 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1386315,
-      "title": "A la carrera",
-      "reason": "Sin fuente autorizada configurada"
+      "tmdbId": 1285366,
+      "title": "愛のぬくもり",
+      "reason": "Rating 5.2 por debajo del mínimo (5.5)"
+    },
+    {
+      "tmdbId": 1408162,
+      "title": "Vishwanath e hijos",
+      "reason": "Votos 19 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1323244,
       "title": "La señal del apocalipsis",
       "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1482547,
+      "title": "Zip Wire",
+      "reason": "Votos 6 por debajo del mínimo (50)"
     }
   ]
 }

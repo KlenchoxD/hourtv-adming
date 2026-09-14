@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-09-14T13:21:20.454Z",
-  "durationMs": 3685,
+  "generatedAt": "2026-09-14T18:46:32.444Z",
+  "durationMs": 3631,
   "dryRun": false,
-  "moviesFound": 33,
-  "moviesDiscarded": 23,
+  "moviesFound": 34,
+  "moviesDiscarded": 25,
   "moviesAdded": 0,
   "moviesEnriched": 0,
-  "duplicates": 10,
+  "duplicates": 9,
   "tmdbErrors": 0,
   "providerErrors": 0,
   "invalidSources": 0,
@@ -88,13 +88,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1368337,
-      "title": "La Odisea",
+      "tmdbId": 1375646,
+      "title": "Colony",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1375646,
-      "title": "Colony",
+      "tmdbId": 1368337,
+      "title": "La Odisea",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -108,9 +108,9 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1285366,
-      "title": "愛のぬくもり",
-      "reason": "Rating 5.2 por debajo del mínimo (5.5)"
+      "tmdbId": 1386315,
+      "title": "A la carrera",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1393326,
@@ -118,14 +118,24 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1386315,
-      "title": "A la carrera",
-      "reason": "Sin fuente autorizada configurada"
+      "tmdbId": 1285366,
+      "title": "愛のぬくもり",
+      "reason": "Rating 5.2 por debajo del mínimo (5.5)"
+    },
+    {
+      "tmdbId": 1408162,
+      "title": "Vishwanath e hijos",
+      "reason": "Votos 19 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1323244,
       "title": "La señal del apocalipsis",
       "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1482547,
+      "title": "Zip Wire",
+      "reason": "Votos 6 por debajo del mínimo (50)"
     }
   ]
 }
