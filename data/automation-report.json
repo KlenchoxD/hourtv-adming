@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-09-15T05:21:13.274Z",
-  "durationMs": 2654,
+  "generatedAt": "2026-09-15T10:14:47.840Z",
+  "durationMs": 2933,
   "dryRun": false,
   "moviesFound": 34,
   "moviesDiscarded": 26,
@@ -140,7 +140,7 @@
     {
       "tmdbId": 1482547,
       "title": "Zip Wire",
-      "reason": "Votos 8 por debajo del mínimo (50)"
+      "reason": "Votos 7 por debajo del mínimo (50)"
     }
   ]
 }

@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-09-15T05:21:15.923Z",
+  "lastRunAt": "2026-09-15T10:14:50.769Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -169,7 +169,7 @@
     {
       "tmdbId": 1482547,
       "title": "Zip Wire",
-      "reason": "Votos 8 por debajo del mínimo (50)"
+      "reason": "Votos 7 por debajo del mínimo (50)"
     }
   ]
 }
