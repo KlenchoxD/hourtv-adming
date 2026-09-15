@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-09-15T00:38:31.142Z",
-  "durationMs": 1327,
+  "generatedAt": "2026-09-15T05:21:13.274Z",
+  "durationMs": 2654,
   "dryRun": false,
   "moviesFound": 34,
   "moviesDiscarded": 26,
@@ -130,7 +130,7 @@
     {
       "tmdbId": 1408162,
       "title": "Vishwanath e hijos",
-      "reason": "Votos 20 por debajo del mínimo (50)"
+      "reason": "Votos 21 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1323244,
