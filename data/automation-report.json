@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-09-15T10:14:47.840Z",
-  "durationMs": 2933,
+  "generatedAt": "2026-09-15T15:02:15.415Z",
+  "durationMs": 2258,
   "dryRun": false,
   "moviesFound": 34,
   "moviesDiscarded": 26,
@@ -125,7 +125,7 @@
     {
       "tmdbId": 1285366,
       "title": "愛のぬくもり",
-      "reason": "Rating 5.2 por debajo del mínimo (5.5)"
+      "reason": "Rating 5.4 por debajo del mínimo (5.5)"
     },
     {
       "tmdbId": 1408162,
