@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-09-16T17:29:49.830Z",
-  "durationMs": 4261,
+  "generatedAt": "2026-09-16T20:21:56.765Z",
+  "durationMs": 1693,
   "dryRun": false,
   "moviesFound": 34,
-  "moviesDiscarded": 26,
+  "moviesDiscarded": 27,
   "moviesAdded": 0,
   "moviesEnriched": 0,
-  "duplicates": 8,
+  "duplicates": 7,
   "tmdbErrors": 0,
   "providerErrors": 0,
   "invalidSources": 0,
@@ -63,11 +63,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1228710,
-      "title": "The Mandalorian and Grogu",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1081003,
       "title": "Supergirl",
       "reason": "Sin fuente autorizada configurada"
@@ -75,6 +70,16 @@
     {
       "tmdbId": 1433367,
       "title": "Una noche al año",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1228710,
+      "title": "The Mandalorian and Grogu",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1212763,
+      "title": "Posesión infernal: En llamas",
       "reason": "Sin fuente autorizada configurada"
     },
     {

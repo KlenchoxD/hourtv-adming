@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-09-16T17:29:54.086Z",
+  "lastRunAt": "2026-09-16T20:21:58.453Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -13,13 +13,13 @@
     1127384,
     1185806,
     1275779,
-    1083381,
-    1302904,
     860508,
-    1228710,
+    1302904,
+    1083381,
     1081003,
     1433367,
-    1273221,
+    1228710,
+    1212763,
     671,
     1523145,
     1375646,
@@ -92,11 +92,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1228710,
-      "title": "The Mandalorian and Grogu",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1081003,
       "title": "Supergirl",
       "reason": "Sin fuente autorizada configurada"
@@ -104,6 +99,16 @@
     {
       "tmdbId": 1433367,
       "title": "Una noche al año",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1228710,
+      "title": "The Mandalorian and Grogu",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1212763,
+      "title": "Posesión infernal: En llamas",
       "reason": "Sin fuente autorizada configurada"
     },
     {
