@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-09-16T12:58:22.337Z",
+  "lastRunAt": "2026-09-16T17:29:54.086Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -26,15 +26,15 @@
     1368337,
     1294189,
     1440098,
+    1285366,
+    264980,
+    30723,
     1386315,
     1393326,
-    1285366,
-    1506560,
-    1408162,
     1482547,
-    264980,
-    1516698,
-    30723,
+    1408162,
+    1506560,
+    1339713,
     1335666
   ],
   "tmdbIdsPublished": [],
@@ -89,7 +89,7 @@
     {
       "tmdbId": 1302904,
       "title": "Prácticamente magia 2",
-      "reason": "Votos 49 por debajo del mínimo (50)"
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1228710,
@@ -137,29 +137,9 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1386315,
-      "title": "A la carrera",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1393326,
-      "title": "Ghost in the Cell",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1285366,
       "title": "愛のぬくもり",
       "reason": "Votos 8 por debajo del mínimo (50)"
-    },
-    {
-      "tmdbId": 1408162,
-      "title": "Vishwanath e hijos",
-      "reason": "Votos 22 por debajo del mínimo (50)"
-    },
-    {
-      "tmdbId": 1482547,
-      "title": "Zip Wire",
-      "reason": "Votos 10 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 264980,
@@ -170,6 +150,26 @@
       "tmdbId": 30723,
       "title": "Cavegirl: La chica de las cavernas (Cavernícola 2)",
       "reason": "Rating 4 por debajo del mínimo (5.5)"
+    },
+    {
+      "tmdbId": 1386315,
+      "title": "A la carrera",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1393326,
+      "title": "Ghost in the Cell",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1482547,
+      "title": "Zip Wire",
+      "reason": "Votos 10 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 1408162,
+      "title": "Vishwanath e hijos",
+      "reason": "Votos 22 por debajo del mínimo (50)"
     }
   ]
 }
