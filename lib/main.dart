@@ -17,6 +17,10 @@ import 'services/device_type.dart';
 import 'services/iptv_server_service.dart';
 import 'services/profiles/supabase_profile_repository.dart';
 import 'services/storage_service.dart';
+import 'dart:io';
+
+import 'package:path_provider/path_provider.dart';
+
 import 'services/sync/profile_sync_engine.dart';
 import 'services/recommendations/recommendation_engine.dart';
 import 'services/catalog/catalog_infrastructure.dart';
@@ -25,36 +29,57 @@ import 'services/supabase_config.dart';
 import 'services/update_service.dart';
 
 void main() {
+  final tBoot = DateTime.now().millisecondsSinceEpoch;
+  debugPrint('[PERF_TTI] APP_BOOT: time=$tBoot');
   runZonedGuarded(() async {
     WidgetsFlutterBinding.ensureInitialized();
     ErrorWidget.builder = (details) => _FatalError(details.exceptionAsString());
-    try {
-      await StorageService.init();
-    } catch (_) {}
-    try {
-      await SupabaseBootstrap.instance
-          .initialize(SupabaseConfig.fromEnvironment());
-    } catch (e, st) {
+
+    final tDartStart = DateTime.now().millisecondsSinceEpoch;
+    debugPrint('[PERF_TTI] DART_INIT_START: time=$tDartStart');
+
+    // Inicializaciones concurrentes tempranas (almacenamiento, Supabase, dispositivo y ruta de BD)
+    final tInitStart = DateTime.now().millisecondsSinceEpoch;
+    final docsDirFuture =
+        getApplicationDocumentsDirectory().catchError((_) => Directory.systemTemp);
+    final storageFuture = StorageService.init().catchError((_) {});
+    final deviceProfileFuture = DeviceProfile.warmUp().catchError((_) {});
+    final supabaseFuture = SupabaseBootstrap.instance
+        .initialize(SupabaseConfig.fromEnvironment())
+        .catchError((e, st) {
       debugPrint('Error al inicializar Supabase: ${e.runtimeType}');
-      if (kDebugMode) {
-        debugPrintStack(stackTrace: st);
-      }
-    }
-    CatalogInfrastructure? catalogInfra;
-    try {
-      catalogInfra = await initializeCatalogInfrastructure();
-    } catch (e, st) {
+      if (kDebugMode) debugPrintStack(stackTrace: st);
+    });
+
+    // Iniciar apertura de Drift tan pronto como la ruta de documentos esté disponible,
+    // solapando la apertura de SQLite en segundo plano con la inicialización de Supabase y SharedPreferences.
+    final docsDir = await docsDirFuture;
+    final tDriftStart = DateTime.now().millisecondsSinceEpoch;
+    final Future<CatalogInfrastructure?> driftFuture =
+        initializeCatalogInfrastructure(
+      databaseFile: File('${docsDir.path}/hourtv_catalog.db'),
+    ).then<CatalogInfrastructure?>((infra) => infra).catchError((e, st) {
       debugPrint('Error al inicializar infraestructura de catálogo: ${e.runtimeType}');
-      if (kDebugMode) {
-        debugPrintStack(stackTrace: st);
-      }
-    }
-    await DeviceProfile.warmUp();
-    await SystemChrome.setPreferredOrientations([
+      if (kDebugMode) debugPrintStack(stackTrace: st);
+      return null;
+    });
+
+    // Esperar almacenamiento y sesión
+    await Future.wait([storageFuture, supabaseFuture, deviceProfileFuture]);
+    final tSessionEnd = DateTime.now().millisecondsSinceEpoch;
+    debugPrint('[PERF_TTI] SESSION_RESTORE_DONE: time=$tSessionEnd elapsedMs=${tSessionEnd - tInitStart}');
+
+    // Esperar finalización de Drift (que corrió en paralelo)
+    final catalogInfra = await driftFuture;
+    final tDriftEnd = DateTime.now().millisecondsSinceEpoch;
+    debugPrint('[PERF_TTI] DRIFT_OPEN_DONE: time=$tDriftEnd elapsedMs=${tDriftEnd - tDriftStart}');
+
+    // Configuración de pantalla no bloqueante
+    unawaited(SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.landscapeLeft,
       DeviceOrientation.landscapeRight,
-    ]);
+    ]));
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
@@ -63,7 +88,11 @@ void main() {
         systemNavigationBarIconBrightness: Brightness.light,
       ),
     );
+
+    final tDartInitEnd = DateTime.now().millisecondsSinceEpoch;
+    debugPrint('[PERF_TTI] DART_INIT_DONE: time=$tDartInitEnd totalDartMs=${tDartInitEnd - tDartStart}');
     runApp(HourTVApp(catalogInfrastructure: catalogInfra));
+
     if (StorageService.getSetting('iptv_server_enabled', defaultValue: false) ==
         true) {
       unawaited(IptvServerService.instance.start().catchError((_) {}));

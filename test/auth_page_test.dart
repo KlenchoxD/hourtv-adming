@@ -76,6 +76,12 @@ class MockAuthGateway implements AuthGateway {
     _state = const AuthSessionState(AuthSessionPhase.signedOut);
     _controller.add(_state);
   }
+
+  @override
+  Future<bool> signInWithGoogle() async {
+    if (shouldFail) throw Exception(failMessage);
+    return true;
+  }
 }
 
 Widget testApp(Widget child) {

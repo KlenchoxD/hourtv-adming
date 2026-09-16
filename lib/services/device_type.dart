@@ -62,3 +62,71 @@ class DeviceProfile {
       of(context) == DeviceType.tablet;
   static bool isPhone(BuildContext context) => of(context) == DeviceType.phone;
 }
+
+enum AdaptiveLayoutSize { compact, medium, expanded }
+
+enum AdaptiveInputMode { touch, pointer, dpad }
+
+class AdaptiveProfileData {
+  const AdaptiveProfileData({
+    required this.layoutSize,
+    required this.inputMode,
+    required this.deviceType,
+  });
+
+  final AdaptiveLayoutSize layoutSize;
+  final AdaptiveInputMode inputMode;
+  final DeviceType deviceType;
+
+  bool get isCompact => layoutSize == AdaptiveLayoutSize.compact;
+  bool get isMedium => layoutSize == AdaptiveLayoutSize.medium;
+  bool get isExpanded => layoutSize == AdaptiveLayoutSize.expanded;
+
+  bool get isTouch => inputMode == AdaptiveInputMode.touch;
+  bool get isPointer => inputMode == AdaptiveInputMode.pointer;
+  bool get isDpad => inputMode == AdaptiveInputMode.dpad;
+}
+
+class AdaptiveProfile {
+  static final ValueNotifier<AdaptiveLayoutSize?> overrideLayoutSize =
+      ValueNotifier<AdaptiveLayoutSize?>(null);
+  static final ValueNotifier<AdaptiveInputMode?> overrideInputMode =
+      ValueNotifier<AdaptiveInputMode?>(null);
+
+  static AdaptiveProfileData of(BuildContext context) {
+    final devType = DeviceProfile.of(context);
+    final size = MediaQuery.sizeOf(context);
+
+    final AdaptiveLayoutSize layoutSize;
+    if (overrideLayoutSize.value != null) {
+      layoutSize = overrideLayoutSize.value!;
+    } else if (size.width < 600) {
+      layoutSize = AdaptiveLayoutSize.compact;
+    } else if (size.width < 1024) {
+      layoutSize = AdaptiveLayoutSize.medium;
+    } else {
+      layoutSize = AdaptiveLayoutSize.expanded;
+    }
+
+    final AdaptiveInputMode inputMode;
+    if (overrideInputMode.value != null) {
+      inputMode = overrideInputMode.value!;
+    } else if (devType == DeviceType.tv) {
+      inputMode = AdaptiveInputMode.dpad;
+    } else if (kIsWeb) {
+      inputMode = AdaptiveInputMode.pointer;
+    } else if (defaultTargetPlatform == TargetPlatform.windows ||
+        defaultTargetPlatform == TargetPlatform.linux ||
+        defaultTargetPlatform == TargetPlatform.macOS) {
+      inputMode = AdaptiveInputMode.pointer;
+    } else {
+      inputMode = AdaptiveInputMode.touch;
+    }
+
+    return AdaptiveProfileData(
+      layoutSize: layoutSize,
+      inputMode: inputMode,
+      deviceType: devType,
+    );
+  }
+}

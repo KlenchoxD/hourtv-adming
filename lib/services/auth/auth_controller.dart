@@ -1,9 +1,10 @@
 import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'auth_gateway.dart';
+import 'auth_telemetry.dart';
 
 class AuthController extends ChangeNotifier {
-  AuthController({required this._gateway}) {
+  AuthController({required this.gateway}) {
     _subscription = _gateway.states.listen((state) {
       if (!_isGuest) {
         notifyListeners();
@@ -11,7 +12,8 @@ class AuthController extends ChangeNotifier {
     });
   }
 
-  final AuthGateway _gateway;
+  final AuthGateway gateway;
+  AuthGateway get _gateway => gateway;
   StreamSubscription<AuthSessionState>? _subscription;
 
   bool _isLoading = false;
@@ -73,14 +75,55 @@ class AuthController extends ChangeNotifier {
     }
 
     _setLoading(true);
+    final sw = Stopwatch()..start();
     try {
       _isGuest = false;
       await _gateway.signIn(email: cleanEmail, password: cleanPassword);
+      sw.stop();
+      AuthTelemetry.instance.recordNetworkRequest(
+        sw.elapsedMilliseconds,
+        metadata: {'action': 'signIn', 'success': true},
+      );
       _errorMessage = null;
       _setLoading(false);
       return true;
     } catch (e) {
+      sw.stop();
+      AuthTelemetry.instance.recordNetworkRequest(
+        sw.elapsedMilliseconds,
+        metadata: {'action': 'signIn', 'success': false, 'error_type': e.runtimeType.toString()},
+      );
       _errorMessage = _mapAuthError(e);
+      _setLoading(false);
+      return false;
+    }
+  }
+
+  Future<bool> signInWithGoogle() async {
+    _setLoading(true);
+    final sw = Stopwatch()..start();
+    try {
+      _isGuest = false;
+      final launched = await _gateway.signInWithGoogle();
+      sw.stop();
+      AuthTelemetry.instance.recordNetworkRequest(
+        sw.elapsedMilliseconds,
+        metadata: {'action': 'signInWithGoogle', 'success': true},
+      );
+      _errorMessage = null;
+      _setLoading(false);
+      return launched;
+    } catch (e) {
+      sw.stop();
+      AuthTelemetry.instance.recordNetworkRequest(
+        sw.elapsedMilliseconds,
+        metadata: {'action': 'signInWithGoogle', 'success': false, 'error_type': e.runtimeType.toString()},
+      );
+      if (e is GoogleAuthNotConfiguredException) {
+        _errorMessage = e.message;
+      } else {
+        _errorMessage = _mapAuthError(e);
+      }
       _setLoading(false);
       return false;
     }
@@ -105,13 +148,24 @@ class AuthController extends ChangeNotifier {
     }
 
     _setLoading(true);
+    final sw = Stopwatch()..start();
     try {
       _isGuest = false;
       await _gateway.signUp(email: cleanEmail, password: cleanPassword);
+      sw.stop();
+      AuthTelemetry.instance.recordNetworkRequest(
+        sw.elapsedMilliseconds,
+        metadata: {'action': 'signUp', 'success': true},
+      );
       _errorMessage = null;
       _setLoading(false);
       return true;
     } catch (e) {
+      sw.stop();
+      AuthTelemetry.instance.recordNetworkRequest(
+        sw.elapsedMilliseconds,
+        metadata: {'action': 'signUp', 'success': false, 'error_type': e.runtimeType.toString()},
+      );
       _errorMessage = _mapAuthError(e);
       _setLoading(false);
       return false;
@@ -218,6 +272,12 @@ class AuthController extends ChangeNotifier {
     }
     if (msg.contains('email not confirmed')) {
       return 'Debes confirmar tu correo electrónico antes de entrar.';
+    }
+    if (msg.contains('not enabled') ||
+        msg.contains('unsupported') ||
+        msg.contains('provider') ||
+        msg.contains('google')) {
+      return 'El inicio de sesión con Google aún no está configurado en el servidor.';
     }
     return 'No se pudo completar la operación. Inténtalo de nuevo más tarde.';
   }

@@ -16,6 +16,12 @@ import io.flutter.plugin.common.MethodChannel
 class MainActivity : FlutterActivity() {
     private val channel = "hourtv/device"
 
+    override fun onCreate(savedInstanceState: android.os.Bundle?) {
+        val nativeStart = System.currentTimeMillis()
+        android.util.Log.i("PERF_TTI", "[PERF_TTI] NATIVE_START: time=$nativeStart")
+        super.onCreate(savedInstanceState)
+    }
+
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, channel).setMethodCallHandler { call, result ->

@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../services/content_store.dart';
 import '../services/parental_control_service.dart';
 import '../services/storage_service.dart';
+import '../services/supabase_bootstrap.dart';
 import '../services/sync/profile_sync_engine.dart';
 import 'hourtv_focusable.dart';
 import 'hourtv_parental_gate.dart';
@@ -143,6 +144,7 @@ class _HourTvProfilePageState extends State<HourTvProfilePage> {
   }
 
   Future<void> _logout() async {
+    final isConfigured = SupabaseBootstrap.instance.isAvailable;
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (dialogContext) => AlertDialog(
@@ -151,11 +153,13 @@ class _HourTvProfilePageState extends State<HourTvProfilePage> {
           'Cerrar sesión',
           style: TextStyle(color: Colors.white),
         ),
-        content: const Text(
-          'Vas a volver a la pantalla de elegir perfil. HourTV no usa '
-          'cuentas con usuario y contraseña: el perfil es local a este '
-          'dispositivo.',
-          style: TextStyle(color: _muted),
+        content: Text(
+          isConfigured
+              ? 'Vas a cerrar la sesión activa y volver a la pantalla de inicio de sesión.'
+              : 'Vas a volver a la pantalla de elegir perfil. HourTV no usa '
+                  'cuentas con usuario y contraseña: el perfil es local a este '
+                  'dispositivo.',
+          style: const TextStyle(color: _muted),
         ),
         actions: [
           TextButton(
@@ -171,6 +175,9 @@ class _HourTvProfilePageState extends State<HourTvProfilePage> {
       ),
     );
     if (confirmed != true || !mounted) return;
+    if (isConfigured) {
+      await SupabaseBootstrap.instance.authGateway.signOut();
+    }
     await _switchProfile();
     widget.onLoggedOut?.call();
   }

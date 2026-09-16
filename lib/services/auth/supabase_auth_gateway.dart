@@ -1,24 +1,38 @@
 import 'dart:async';
 import 'package:supabase_flutter/supabase_flutter.dart' hide AuthUser;
+import '../supabase_config.dart';
 import 'auth_gateway.dart';
+import 'native_google_auth.dart';
 
 class SupabaseAuthGateway implements AuthGateway {
-  SupabaseAuthGateway(this._client);
+  SupabaseAuthGateway(
+    this._client, {
+    NativeGoogleAccountSelector? googleAccountSelector,
+  }) : _googleAccountSelector =
+           googleAccountSelector ??
+           GoogleNativeAccountSelector(
+             serverClientId: SupabaseConfig.googleWebClientId,
+           );
+
+  static const String defaultProjectRef = SupabaseConfig.defaultProjectRef;
+  static const String googleOAuthWebCallbackUrl =
+      SupabaseConfig.googleOAuthCallbackUrl;
+  static const String appRedirectUrl = SupabaseConfig.appRedirectUrl;
 
   final SupabaseClient _client;
+  final NativeGoogleAccountSelector _googleAccountSelector;
 
   @override
   AuthSessionState get currentState => _mapSession(
-        _client.auth.currentSession,
-        explicitUser: _client.auth.currentUser,
-      );
+    _client.auth.currentSession,
+    explicitUser: _client.auth.currentUser,
+  );
 
   @override
-  Stream<AuthSessionState> get states =>
-      _client.auth.onAuthStateChange.map((event) => _mapSession(
-            event.session,
-            explicitUser: _client.auth.currentUser,
-          ));
+  Stream<AuthSessionState> get states => _client.auth.onAuthStateChange.map(
+    (event) =>
+        _mapSession(event.session, explicitUser: _client.auth.currentUser),
+  );
 
   @override
   Future<AuthSessionState> signUp({
@@ -28,7 +42,7 @@ class SupabaseAuthGateway implements AuthGateway {
     final response = await _client.auth.signUp(
       email: email,
       password: password,
-      emailRedirectTo: 'hourtv://auth-callback',
+      emailRedirectTo: appRedirectUrl,
     );
     return _mapSession(response.session, explicitUser: response.user);
   }
@@ -43,6 +57,34 @@ class SupabaseAuthGateway implements AuthGateway {
       password: password,
     );
     return _mapSession(response.session, explicitUser: response.user);
+  }
+
+  @override
+  Future<bool> signInWithGoogle() async {
+    try {
+      return await NativeGoogleAuthFlow(
+        selector: _googleAccountSelector,
+        exchangeIdToken: (credential) async {
+          await _client.auth.signInWithIdToken(
+            provider: OAuthProvider.google,
+            idToken: credential.idToken,
+          );
+        },
+        openBrowserFallback: () => _client.auth.signInWithOAuth(
+          OAuthProvider.google,
+          redirectTo: appRedirectUrl,
+        ),
+      ).signIn();
+    } catch (e) {
+      final msg = e.toString().toLowerCase();
+      if (msg.contains('not enabled') ||
+          msg.contains('provider') ||
+          msg.contains('unsupported') ||
+          msg.contains('validation_failed')) {
+        throw const GoogleAuthNotConfiguredException();
+      }
+      rethrow;
+    }
   }
 
   @override
@@ -68,16 +110,13 @@ class SupabaseAuthGateway implements AuthGateway {
     await _client.auth.resend(
       type: OtpType.signup,
       email: email,
-      emailRedirectTo: 'hourtv://auth-callback',
+      emailRedirectTo: appRedirectUrl,
     );
   }
 
   @override
   Future<void> resetPassword(String email) async {
-    await _client.auth.resetPasswordForEmail(
-      email,
-      redirectTo: 'hourtv://auth-callback',
-    );
+    await _client.auth.resetPasswordForEmail(email, redirectTo: appRedirectUrl);
   }
 
   @override
@@ -102,9 +141,6 @@ class SupabaseAuthGateway implements AuthGateway {
         user: authUser,
       );
     }
-    return AuthSessionState(
-      AuthSessionPhase.authenticated,
-      user: authUser,
-    );
+    return AuthSessionState(AuthSessionPhase.authenticated, user: authUser);
   }
 }

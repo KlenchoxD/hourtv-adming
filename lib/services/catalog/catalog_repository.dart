@@ -18,6 +18,7 @@ enum CatalogRepositoryStatus {
   idle,
   syncing,
   ready,
+  readyEmpty,
   offlineReady,
   failed,
 }
@@ -81,6 +82,7 @@ class CatalogRepository extends ChangeNotifier {
 
   bool get isReady =>
       _status == CatalogRepositoryStatus.ready ||
+      _status == CatalogRepositoryStatus.readyEmpty ||
       _status == CatalogRepositoryStatus.offlineReady;
 
   @visibleForTesting
@@ -441,6 +443,11 @@ class CatalogRepository extends ChangeNotifier {
 
   Future<List<LocalTitle>> searchTitles({required String query, int limit = 20}) =>
       dao.searchTitlesFts(rawQuery: query, limit: limit);
+
+  Future<int> countMovies() => dao.countTitles(mediaType: 'movie');
+  Future<int> countSeries() => dao.countTitles(mediaType: 'series');
+  Future<int> countEpisodes() => dao.countEpisodes();
+  Future<int> countSources() => dao.countSources();
 
   /// Hidrata un Channel completo a partir de Drift para la vista de detalle y el reproductor actual.
   Future<Channel?> hydrateChannel(String titleId) async {

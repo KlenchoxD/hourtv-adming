@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../models/channel.dart';
 import '../new_ui/hourtv_profile_avatar.dart';
+import '../services/catalog/hero_tag_helper.dart';
 import '../services/update_service.dart';
 import 'hourtv_mobile_theme.dart';
 
@@ -222,92 +223,98 @@ class HourTvBottomNavigation extends StatelessWidget {
   ];
 
   @override
-  Widget build(BuildContext context) => DecoratedBox(
-    decoration: const BoxDecoration(
-      color: HourTvMobileTokens.background,
-      border: Border(top: BorderSide(color: HourTvMobileTokens.borderSubtle)),
-    ),
-    child: SafeArea(
-      top: false,
-      child: SizedBox(
-        height: HourTvMobileTokens.bottomNavigationHeight,
-        child: Row(
-          children: [
-            for (var i = 0; i < destinations.length; i++)
-              Expanded(
-                child: Semantics(
-                  selected: index == i,
-                  button: true,
-                  label: destinations[i].label,
-                  child: InkWell(
-                    onTap: () => onChanged(i),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Stack(
-                          clipBehavior: Clip.none,
-                          children: [
-                            Icon(
-                              destinations[i].icon,
-                              size: 20,
-                              color: index == i
-                                  ? HourTvMobileTokens.emerald
-                                  : HourTvMobileTokens.textMuted,
-                            ),
-                            // Punto de actualizacion disponible, solo en
-                            // "Perfil": ahi vive la pantalla que la instala.
-                            if (destinations[i].label == 'Perfil')
-                              Positioned(
-                                top: -2,
-                                right: -3,
-                                child: ValueListenableBuilder<bool>(
-                                  valueListenable:
-                                      UpdateService.instance.hasUpdateAvailable,
-                                  builder: (context, hasUpdate, _) =>
-                                      hasUpdate
-                                      ? Container(
-                                          width: 8,
-                                          height: 8,
-                                          decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color: HourTvMobileTokens.emerald,
-                                            border: Border.all(
-                                              color:
-                                                  HourTvMobileTokens.background,
-                                              width: 2,
-                                            ),
-                                          ),
-                                        )
-                                      : const SizedBox.shrink(),
-                                ),
+  Widget build(BuildContext context) {
+    final isNarrow = MediaQuery.sizeOf(context).width < 360;
+    return DecoratedBox(
+      decoration: const BoxDecoration(
+        color: HourTvMobileTokens.background,
+        border: Border(top: BorderSide(color: HourTvMobileTokens.borderSubtle)),
+      ),
+      child: SafeArea(
+        top: false,
+        child: SizedBox(
+          height: HourTvMobileTokens.bottomNavigationHeight,
+          child: Row(
+            children: [
+              for (var i = 0; i < destinations.length; i++)
+                Expanded(
+                  child: Semantics(
+                    selected: index == i,
+                    button: true,
+                    label: destinations[i].label,
+                    child: InkWell(
+                      onTap: () => onChanged(i),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Stack(
+                            clipBehavior: Clip.none,
+                            children: [
+                              Icon(
+                                destinations[i].icon,
+                                size: 20,
+                                color: index == i
+                                    ? HourTvMobileTokens.emerald
+                                    : HourTvMobileTokens.textMuted,
                               ),
-                          ],
-                        ),
-                        const SizedBox(height: 3),
-                        FittedBox(
-                          fit: BoxFit.scaleDown,
-                          child: Text(
-                            destinations[i].label.toUpperCase(),
-                            maxLines: 1,
-                            style: TextStyle(
-                              fontSize: 10,
-                              height: 1.4,
-                              color: index == i
-                                  ? HourTvMobileTokens.emerald
-                                  : HourTvMobileTokens.textMuted,
+                              // Punto de actualizacion disponible, solo en
+                              // "Perfil": ahi vive la pantalla que la instala.
+                              if (destinations[i].label == 'Perfil')
+                                Positioned(
+                                  top: -2,
+                                  right: -3,
+                                  child: ValueListenableBuilder<bool>(
+                                    valueListenable:
+                                        UpdateService.instance.hasUpdateAvailable,
+                                    builder: (context, hasUpdate, _) =>
+                                        hasUpdate
+                                        ? Container(
+                                            width: 8,
+                                            height: 8,
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: HourTvMobileTokens.emerald,
+                                              border: Border.all(
+                                                color:
+                                                    HourTvMobileTokens.background,
+                                                width: 2,
+                                              ),
+                                            ),
+                                          )
+                                        : const SizedBox.shrink(),
+                                  ),
+                                ),
+                            ],
+                          ),
+                          const SizedBox(height: 3),
+                          FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Text(
+                              (isNarrow && destinations[i].label == 'Mi Biblioteca'
+                                      ? 'Biblioteca'
+                                      : destinations[i].label)
+                                  .toUpperCase(),
+                              maxLines: 1,
+                              style: TextStyle(
+                                fontSize: 10,
+                                height: 1.4,
+                                color: index == i
+                                    ? HourTvMobileTokens.emerald
+                                    : HourTvMobileTokens.textMuted,
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-          ],
+            ],
+          ),
         ),
       ),
-    ),
-  );
+    );
+  }
 }
 
 /// Boton principal (CTA) del hero: pildora solida con sombra, para que
@@ -546,6 +553,8 @@ class HourTvArtwork extends StatelessWidget {
     // topCenter deja ver la parte alta del poster, donde suele estar la cara.
     this.alignment = Alignment.center,
     this.borderRadius,
+    this.memCacheWidth = 360,
+    this.memCacheHeight = 540,
   });
 
   final String? url;
@@ -553,6 +562,8 @@ class HourTvArtwork extends StatelessWidget {
   final BoxFit fit;
   final Alignment alignment;
   final BorderRadius? borderRadius;
+  final int? memCacheWidth;
+  final int? memCacheHeight;
 
   @override
   Widget build(BuildContext context) {
@@ -562,6 +573,8 @@ class HourTvArtwork extends StatelessWidget {
             imageUrl: cleanUrl,
             fit: fit,
             alignment: alignment,
+            memCacheWidth: memCacheWidth,
+            memCacheHeight: memCacheHeight,
             fadeInDuration: const Duration(milliseconds: 120),
             placeholder: (_, _) =>
                 const ColoredBox(color: HourTvMobileTokens.surfacePrimary),
@@ -572,13 +585,18 @@ class HourTvArtwork extends StatelessWidget {
             asset!,
             fit: fit,
             alignment: alignment,
+            cacheWidth: memCacheWidth,
+            cacheHeight: memCacheHeight,
             errorBuilder: (_, _, _) => _fallback(),
           )
         : _fallback();
-    return ClipRRect(
-      borderRadius: borderRadius ?? BorderRadius.zero,
-      child: SizedBox.expand(child: image),
-    );
+    if (borderRadius != null && borderRadius != BorderRadius.zero) {
+      return ClipRRect(
+        borderRadius: borderRadius!,
+        child: SizedBox.expand(child: image),
+      );
+    }
+    return SizedBox.expand(child: image);
   }
 
   Widget _fallback() => const DecoratedBox(
@@ -604,6 +622,7 @@ class HourTvPosterCard extends StatefulWidget {
     this.assetFallback,
     this.progress,
     this.secondaryProgressLabel,
+    this.heroScope,
   });
 
   final Channel channel;
@@ -612,6 +631,7 @@ class HourTvPosterCard extends StatefulWidget {
   final String? assetFallback;
   final double? progress;
   final String? secondaryProgressLabel;
+  final String? heroScope;
 
   @override
   State<HourTvPosterCard> createState() => _HourTvPosterCardState();
@@ -647,11 +667,22 @@ class _HourTvPosterCardState extends State<HourTvPosterCard> {
                   child: Stack(
                     fit: StackFit.expand,
                     children: [
-                      HourTvArtwork(
-                        url: widget.channel.logo,
-                        asset: widget.assetFallback,
-                        borderRadius: BorderRadius.circular(11),
-                      ),
+                      if (widget.heroScope != null)
+                        Hero(
+                          tag: makeHeroTag(
+                            contextScope: widget.heroScope!,
+                            id: widget.channel.stableTitleId ?? widget.channel.url,
+                          ),
+                          child: HourTvArtwork(
+                            url: widget.channel.logo,
+                            asset: widget.assetFallback,
+                          ),
+                        )
+                      else
+                        HourTvArtwork(
+                          url: widget.channel.logo,
+                          asset: widget.assetFallback,
+                        ),
                       if (widget.progress != null && widget.progress! > 0)
                         Align(
                           alignment: Alignment.bottomCenter,

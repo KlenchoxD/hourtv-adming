@@ -199,9 +199,9 @@ void main() {
       await tester.pumpAndSettle();
 
       // Inicialmente en T1 se ven ep1 y ep2
-      expect(find.text('Sombras en el límite'), findsOneWidget);
-      expect(find.text('Vuelo ciego'), findsOneWidget);
-      expect(find.text('Regreso al origen'), findsNothing);
+      expect(find.text('Sombras en el límite', skipOffstage: false), findsOneWidget);
+      expect(find.text('Vuelo ciego', skipOffstage: false), findsOneWidget);
+      expect(find.text('Regreso al origen', skipOffstage: false), findsNothing);
 
       // Abrir dropdown y seleccionar T2
       final seasonButton = find.text('Temporada 1').first;
@@ -214,8 +214,8 @@ void main() {
       await tester.pumpAndSettle();
 
       // Ahora se debe ver el episodio de T2
-      expect(find.text('Regreso al origen'), findsOneWidget);
-      expect(find.text('Sombras en el límite'), findsNothing);
+      expect(find.text('Regreso al origen', skipOffstage: false), findsOneWidget);
+      expect(find.text('Sombras en el límite', skipOffstage: false), findsNothing);
       expect(find.text('Reproducir T2:E1'), findsOneWidget);
     },
   );
@@ -226,17 +226,17 @@ void main() {
       await tester.pumpWidget(buildTestWidget(tester: tester));
       await tester.pumpAndSettle();
 
-      expect(find.text('Sombras en el límite'), findsOneWidget);
-      expect(find.textContaining('Episodio 1'), findsWidgets);
-      expect(find.textContaining('52 min'), findsOneWidget);
+      expect(find.text('Sombras en el límite', skipOffstage: false), findsOneWidget);
+      expect(find.textContaining('Episodio 1', skipOffstage: false), findsWidgets);
+      expect(find.textContaining('52 min', skipOffstage: false), findsOneWidget);
       expect(
-        find.text('Lucía llega al puesto fronterizo bajo una identidad civil.'),
+        find.text('Lucía llega al puesto fronterizo bajo una identidad civil.', skipOffstage: false),
         findsOneWidget,
       );
       // Play overlay
-      expect(find.byIcon(Icons.play_arrow_rounded), findsWidgets);
+      expect(find.byIcon(Icons.play_arrow_rounded, skipOffstage: false), findsWidgets);
       // Barra de progreso presente en ep1 (75%)
-      expect(find.byType(LinearProgressIndicator), findsOneWidget);
+      expect(find.byType(LinearProgressIndicator, skipOffstage: false), findsOneWidget);
     },
   );
 
@@ -247,7 +247,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // Pulsar ep2 (Vuelo ciego - index 1)
-      final ep2Finder = find.text('Vuelo ciego');
+      final ep2Finder = find.text('Vuelo ciego', skipOffstage: false);
       await tester.ensureVisible(ep2Finder);
       await tester.pumpAndSettle();
       await tester.tap(ep2Finder);
@@ -270,7 +270,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // Pulsar ep1
-      final ep1Finder = find.text('Sombras en el límite');
+      final ep1Finder = find.text('Sombras en el límite', skipOffstage: false);
       await tester.ensureVisible(ep1Finder);
       await tester.pumpAndSettle();
       await tester.tap(ep1Finder);
@@ -304,7 +304,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(
-      find.text('No hay episodios disponibles para esta temporada.'),
+      find.text('No hay episodios disponibles para esta temporada.', skipOffstage: false),
       findsOneWidget,
     );
   });
@@ -315,10 +315,10 @@ void main() {
       await tester.pumpWidget(buildTestWidget(tester: tester));
       await tester.pumpAndSettle();
 
-      expect(find.text('Reparto Principal'), findsOneWidget);
-      expect(find.text('Valeria Solís'), findsOneWidget);
-      expect(find.text('Rodrigo Santoro'), findsOneWidget);
-      expect(find.text('Alba Flores'), findsOneWidget);
+      expect(find.text('Reparto Principal', skipOffstage: false), findsOneWidget);
+      expect(find.text('Valeria Solís', skipOffstage: false), findsOneWidget);
+      expect(find.text('Rodrigo Santoro', skipOffstage: false), findsOneWidget);
+      expect(find.text('Alba Flores', skipOffstage: false), findsOneWidget);
     },
   );
 }

@@ -99,6 +99,9 @@ class FakeAuthGateway implements AuthGateway {
     final newState = const AuthSessionState(AuthSessionPhase.signedOut);
     emit(newState);
   }
+
+  @override
+  Future<bool> signInWithGoogle() async => true;
 }
 
 Widget testApp(Widget child) {

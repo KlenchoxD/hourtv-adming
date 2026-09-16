@@ -6,13 +6,16 @@ import 'package:flutter/material.dart';
 import '../models/channel.dart';
 import '../services/content_store.dart';
 import '../services/device_type.dart';
+import '../services/parental_control_service.dart';
 import '../services/playback_progress.dart';
+import '../services/recommendations/related_content_engine.dart';
 import '../services/share_service.dart';
 import '../services/tmdb_service.dart';
 import '../services/xtream_service.dart';
 import 'hourtv_focusable.dart';
 import 'hourtv_parental_gate.dart';
 import 'hourtv_player_screen.dart';
+import '../services/catalog/series_title_sanitizer.dart';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Paleta visual fiel a Google AI Studio (src/index.css)
@@ -154,6 +157,11 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
   String? season;
   bool _opening = false;
 
+  /// Resultado de RelatedContentEngine, precalculado fuera de build().
+  /// Se invalida cuando cambia la serie, el control parental o el catálogo.
+  List<Channel> _relatedChannels = const [];
+  String? _relatedCacheKey;
+
   Channel get channel {
     final item = hourTvSeriesChannel(widget.series);
     final favorite = store.favorites.any((saved) => saved.url == item.url);
@@ -231,6 +239,7 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
     super.initState();
     store.addListener(_refresh);
     unawaited(_load());
+    _rebuildRelated();
   }
 
   @override
@@ -240,7 +249,33 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
   }
 
   void _refresh() {
-    if (mounted) setState(() {});
+    if (mounted) {
+      _rebuildRelated();
+      setState(() {});
+    }
+  }
+
+  /// Recalcula los contenidos relacionados usando RelatedContentEngine.
+  /// Clave de invalidación: serie actual + perfil infantil + tamaño del catálogo.
+  void _rebuildRelated() {
+    final isKids = ParentalControlService.isEnabled;
+    final seriesKey = widget.series.seriesId;
+    final catalogRevision = store.visibleAll.length;
+    final newKey = '$seriesKey|$isKids|$catalogRevision';
+    if (newKey == _relatedCacheKey) return;
+    _relatedCacheKey = newKey;
+
+    final target = hourTvSeriesChannel(widget.series);
+    final candidates = store.visibleAll
+        .where((c) => c.type == MediaType.series || c.forcedType == 'series')
+        .toList();
+
+    _relatedChannels = RelatedContentEngine.instance.getRelated(
+      target: target,
+      candidates: candidates,
+      isKidsProfile: isKids,
+      limit: 6,
+    );
   }
 
   Future<void> _load() async {
@@ -350,11 +385,13 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
   // LAYOUT: Móvil (Fiel a DetailsView.tsx de Google AI Studio)
   // ─────────────────────────────────────────────────────────────────────────
   Widget _phone() {
+    final epList = currentSeasonEpisodes;
     return Scaffold(
       backgroundColor: _bgPrimary,
       body: Stack(
         children: [
           CustomScrollView(
+            key: const PageStorageKey('hourtv-series-detail-scroll'),
             slivers: [
               // Hero Backdrop (Aspect Ratio 16/10)
               SliverToBoxAdapter(
@@ -394,70 +431,128 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
                   ),
                 ),
               ),
-              // Main Content Section with -mt-6 overlap (-24px)
+              // Main Content Section
               SliverToBoxAdapter(
-                child: Transform.translate(
-                  offset: const Offset(0, -24),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // Title
-                        Text(
-                          widget.series.name,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 26,
-                            fontWeight: FontWeight.w900,
-                            letterSpacing: -0.5,
-                            height: 1.2,
-                          ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Title
+                      Text(
+                        SeriesTitleSanitizer.sanitize(widget.series.name),
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 26,
+                          fontWeight: FontWeight.w900,
+                          letterSpacing: -0.5,
+                          height: 1.2,
                         ),
-                        const SizedBox(height: 8),
-                        // Quality Badges
-                        Wrap(
-                          spacing: 6,
-                          runSpacing: 6,
-                          children: [
-                            for (final badge in ['4K UHD', 'HDR10+', '5.1'])
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 8,
-                                  vertical: 2,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: _surface,
-                                  borderRadius: BorderRadius.circular(4),
-                                  border: Border.all(color: _line),
-                                ),
-                                child: Text(
-                                  badge,
-                                  style: const TextStyle(
-                                    color: _red,
-                                    fontSize: 10,
-                                    fontFamily: 'monospace',
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                      ),
+                      const SizedBox(height: 8),
+                      // Quality Badges
+                      Wrap(
+                        spacing: 6,
+                        runSpacing: 6,
+                        children: [
+                          for (final badge in ['4K UHD', 'HDR10+', '5.1'])
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8,
+                                vertical: 2,
+                              ),
+                              decoration: BoxDecoration(
+                                color: _surface,
+                                borderRadius: BorderRadius.circular(4),
+                                border: Border.all(color: _line),
+                              ),
+                              child: Text(
+                                badge,
+                                style: const TextStyle(
+                                  color: _red,
+                                  fontSize: 10,
+                                  fontFamily: 'monospace',
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
-                          ],
-                        ),
-                        const SizedBox(height: 16),
-                        // Primary & Secondary Action Buttons
-                        _actionsPhone(),
-                        const SizedBox(height: 20),
-                        // Synopsis & Technical Specs
-                        _synopsisSection(),
-                        // Episodes & Seasons
-                        _episodesBodyPhone(),
-                        // Reparto Principal
-                        _castSection(),
-                        // También te puede gustar
-                        _relatedSection(),
-                        const SizedBox(height: 48),
-                      ],
+                            ),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+                      // Primary & Secondary Action Buttons
+                      _actionsPhone(),
+                      const SizedBox(height: 20),
+                      // Synopsis & Technical Specs
+                      _synopsisSection(),
+                      const SizedBox(height: 16),
+                      // Episodes Header
+                      _episodesHeader(),
+                    ],
+                  ),
+                ),
+              ),
+              // Virtualized Episodes Slivers
+              if (loading)
+                const SliverToBoxAdapter(
+                  child: Center(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(vertical: 32),
+                      child: CircularProgressIndicator(color: _red),
                     ),
+                  ),
+                )
+              else if (error != null)
+                SliverToBoxAdapter(
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 32),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Icon(Icons.cloud_off_rounded, color: _muted, size: 40),
+                          const SizedBox(height: 10),
+                          Text(error!, style: const TextStyle(color: _muted)),
+                          TextButton(
+                            onPressed: _load,
+                            child: const Text('Reintentar', style: TextStyle(color: _red)),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                )
+              else if (epList.isEmpty)
+                const SliverToBoxAdapter(
+                  child: Center(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(vertical: 32),
+                      child: Text(
+                        'No hay episodios disponibles para esta temporada.',
+                        style: TextStyle(color: _muted, fontSize: 13),
+                      ),
+                    ),
+                  ),
+                )
+              else
+                SliverPadding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  sliver: SliverList.builder(
+                    key: const ValueKey('hourtv-series-episodes-sliver-list'),
+                    itemCount: epList.length,
+                    itemBuilder: (context, index) => _episodeCard(epList[index], index),
+                  ),
+                ),
+              // Reparto Principal & Recomendados
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _castSection(),
+                      _relatedSection(),
+                      const SizedBox(height: 48),
+                    ],
                   ),
                 ),
               ),
@@ -542,12 +637,16 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
             color: Color(0xFF050505),
             size: 20,
           ),
-          label: Text(
-            _primaryPlayLabel,
-            style: const TextStyle(
-              color: Color(0xFF050505),
-              fontWeight: FontWeight.bold,
-              fontSize: 15,
+          label: FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(
+              _primaryPlayLabel,
+              maxLines: 1,
+              style: const TextStyle(
+                color: Color(0xFF050505),
+                fontWeight: FontWeight.bold,
+                fontSize: 15,
+              ),
             ),
           ),
         ),
@@ -795,39 +894,46 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
               ),
             ],
           ),
-          Material(
-            color: Colors.transparent,
-            child: InkWell(
-              onTap: () => unawaited(_openSeasonSelector(context)),
-              borderRadius: BorderRadius.circular(8),
-              child: Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 8,
-                ),
-                decoration: BoxDecoration(
-                  color: _surfaceControl,
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: _line),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      label,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
+          const SizedBox(width: 8),
+          Flexible(
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                onTap: () => unawaited(_openSeasonSelector(context)),
+                borderRadius: BorderRadius.circular(8),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 6,
+                  ),
+                  decoration: BoxDecoration(
+                    color: _surfaceControl,
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(color: _line),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Flexible(
+                        child: Text(
+                          label,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
-                    ),
-                    const SizedBox(width: 6),
-                    const Icon(
-                      Icons.keyboard_arrow_down_rounded,
-                      size: 16,
-                      color: _muted,
-                    ),
-                  ],
+                      const SizedBox(width: 6),
+                      const Icon(
+                        Icons.keyboard_arrow_down_rounded,
+                        size: 16,
+                        color: _muted,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -1087,58 +1193,6 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
     );
   }
 
-  Widget _episodesBodyPhone() {
-    if (loading) {
-      return const Center(
-        child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 32),
-          child: CircularProgressIndicator(color: _red),
-        ),
-      );
-    }
-    if (error != null) {
-      return Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 32),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Icon(Icons.cloud_off_rounded, color: _muted, size: 40),
-              const SizedBox(height: 10),
-              Text(error!, style: const TextStyle(color: _muted)),
-              TextButton(
-                onPressed: _load,
-                child: const Text('Reintentar', style: TextStyle(color: _red)),
-              ),
-            ],
-          ),
-        ),
-      );
-    }
-
-    final visible = currentSeasonEpisodes;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _episodesHeader(),
-        if (visible.isEmpty)
-          const Center(
-            child: Padding(
-              padding: EdgeInsets.symmetric(vertical: 32),
-              child: Text(
-                'No hay episodios disponibles para esta temporada.',
-                style: TextStyle(color: _muted, fontSize: 13),
-              ),
-            ),
-          )
-        else
-          ...List.generate(
-            visible.length,
-            (index) => _episodeCard(visible[index], index),
-          ),
-      ],
-    );
-  }
 
   // Reparto Principal (DetailsView.tsx L271-294)
   Widget _castSection() {
@@ -1219,13 +1273,7 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
 
   // También te puede gustar (DetailsView.tsx L298-318)
   Widget _relatedSection() {
-    final related = store.visibleAll
-        .where(
-          (c) =>
-              c.type == MediaType.series && c.displayName != widget.series.name,
-        )
-        .take(6)
-        .toList();
+    final related = _relatedChannels;
     if (related.isEmpty) return const SizedBox.shrink();
 
     return Column(
@@ -1411,22 +1459,31 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
     final targetIndex = (nextIndex != null && nextIndex >= 0) ? nextIndex : 0;
     return Row(
       children: [
-        FilledButton.icon(
-          onPressed: next == null
-              ? null
-              : () => _play(next, index: targetIndex),
-          style: FilledButton.styleFrom(
-            backgroundColor: _red,
-            foregroundColor: Colors.black,
-            minimumSize: const Size(156, 52),
-            shape: const StadiumBorder(),
-          ),
-          icon: const Icon(Icons.play_arrow_rounded),
-          label: Text(
-            _primaryPlayLabel,
-            style: const TextStyle(
-              fontWeight: FontWeight.w900,
-              letterSpacing: .3,
+        Flexible(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 280),
+            child: FilledButton.icon(
+              onPressed: next == null
+                  ? null
+                  : () => _play(next, index: targetIndex),
+              style: FilledButton.styleFrom(
+                backgroundColor: _red,
+                foregroundColor: Colors.black,
+                minimumSize: const Size(140, 52),
+                shape: const StadiumBorder(),
+              ),
+              icon: const Icon(Icons.play_arrow_rounded),
+              label: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  _primaryPlayLabel,
+                  maxLines: 1,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w900,
+                    letterSpacing: .3,
+                  ),
+                ),
+              ),
             ),
           ),
         ),
@@ -1505,6 +1562,12 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
 
   Widget _tvSummary() {
     final item = channel;
+    final next = _nextUnfinishedEpisode;
+    final nextIndex = next == null
+        ? null
+        : currentSeasonEpisodes.indexWhere((c) => c.url == next.url);
+    final targetIndex = (nextIndex != null && nextIndex >= 0) ? nextIndex : 0;
+    final targetEp = next;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -1525,33 +1588,38 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
         const SizedBox(height: 18),
         Row(
           children: [
-            FilledButton.icon(
-              onPressed: _nextUnfinishedEpisode == null
-                  ? null
-                  : () => unawaited(() async {
-                        final next = _nextUnfinishedEpisode!;
-                        final nextIndex = currentSeasonEpisodes.indexWhere(
-                          (c) => c.url == next.url,
-                        );
-                        await _play(
-                          next,
-                          index: nextIndex >= 0 ? nextIndex : 0,
-                        );
-                      }()),
-              style: FilledButton.styleFrom(
-                backgroundColor: _red,
-                foregroundColor: Colors.black,
-                minimumSize: const Size(190, 56),
-                elevation: 4,
-                shadowColor: _red.withValues(alpha: .5),
-                shape: const StadiumBorder(),
-              ),
-              icon: const Icon(Icons.play_arrow_rounded),
-              label: Text(
-                _primaryPlayLabel,
-                style: const TextStyle(
-                  fontWeight: FontWeight.w900,
-                  letterSpacing: .3,
+            Flexible(
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 320),
+                child: FilledButton.icon(
+                  onPressed: targetEp == null
+                      ? null
+                      : () => unawaited(() async {
+                            await _play(
+                              targetEp,
+                              index: targetIndex,
+                            );
+                          }()),
+                  style: FilledButton.styleFrom(
+                    backgroundColor: _red,
+                    foregroundColor: Colors.black,
+                    minimumSize: const Size(160, 56),
+                    elevation: 4,
+                    shadowColor: _red.withValues(alpha: .5),
+                    shape: const StadiumBorder(),
+                  ),
+                  icon: const Icon(Icons.play_arrow_rounded),
+                  label: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      _primaryPlayLabel,
+                      maxLines: 1,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w900,
+                        letterSpacing: .3,
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -1689,7 +1757,7 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
   }
 
   Widget _heroTitle(double size) => Text(
-    widget.series.name,
+    SeriesTitleSanitizer.sanitize(widget.series.name),
     maxLines: 2,
     overflow: TextOverflow.ellipsis,
     style: TextStyle(

@@ -61,7 +61,10 @@ void main() {
     repository = CatalogRepository(
       dao: dao,
       gateway: SupabaseCatalogGateway(),
-      syncEngine: CatalogSyncEngine(gateway: SupabaseCatalogGateway(), dao: dao),
+      syncEngine: CatalogSyncEngine(
+        gateway: SupabaseCatalogGateway(),
+        dao: dao,
+      ),
     );
     CatalogRepository.setInstanceForTesting(repository);
   });
@@ -71,29 +74,30 @@ void main() {
     await db.close();
   });
 
-
-
   group('HourTvMobileShell Catalog Widget Tests', () {
-    testWidgets('1. Carga perezosa de catálogo Drift en inicio al hacer scroll', (tester) async {
-      final now = DateTime.utc(2026, 9, 10, 12, 0, 0);
-
-      // Insertar 25 títulos de películas
-      for (var i = 1; i <= 25; i++) {
+    testWidgets('Inicio carga como máximo una página por llegada al final', (
+      tester,
+    ) async {
+      final now = DateTime.utc(2026, 9, 10, 12);
+      for (var i = 1; i <= 45; i++) {
         await dao.upsertTitle(
           LocalTitlesCompanion.insert(
-            id: 'movie-$i',
+            id: 'smooth-movie-$i',
             mediaType: 'movie',
-            title: 'Drift Movie $i',
-            normalizedTitle: 'drift movie $i',
+            title: 'Smooth Movie $i',
+            normalizedTitle: 'smooth movie $i',
             createdAt: now.add(Duration(minutes: i)),
             updatedAt: now.add(Duration(minutes: i)),
           ),
         );
       }
 
-      final pageSource = CatalogPageSource(dao: dao, mediaType: 'movie', pageSize: 10);
+      final pageSource = CatalogPageSource(
+        dao: dao,
+        mediaType: 'movie',
+        pageSize: 10,
+      );
       await pageSource.loadInitialPage();
-      expect(pageSource.items.length, equals(10));
 
       await tester.pumpWidget(
         MaterialApp(
@@ -112,22 +116,81 @@ void main() {
         ),
       );
       await tester.pump();
-      await tester.pump(const Duration(milliseconds: 100));
 
-      // Verificar que los primeros items están presentes en la UI
-      expect(find.text('Drift Movie 25'), findsOneWidget);
+      final home = find.byKey(const PageStorageKey('hourtv-mobile-home'));
+      await tester.drag(home, const Offset(0, -40));
+      await tester.pump(const Duration(milliseconds: 150));
 
-      // Deslizar para activar la paginación perezosa
-      final scrollFinder = find.byKey(const PageStorageKey('hourtv-mobile-home'));
-      expect(scrollFinder, findsOneWidget);
-
-      await tester.drag(scrollFinder, const Offset(0, -600));
-      await tester.pump();
-      await tester.pump(const Duration(milliseconds: 100));
-
-      // El scroll activa automáticamente la carga de la siguiente página
-      expect(pageSource.items.length, greaterThanOrEqualTo(20));
+      expect(
+        pageSource.items.length,
+        lessThanOrEqualTo(20),
+        reason: 'Un solo gesto no debe drenar varias páginas seguidas',
+      );
     });
+
+    testWidgets(
+      '1. Carga perezosa de catálogo Drift en inicio al hacer scroll',
+      (tester) async {
+        final now = DateTime.utc(2026, 9, 10, 12, 0, 0);
+
+        // Insertar 25 títulos de películas
+        for (var i = 1; i <= 25; i++) {
+          await dao.upsertTitle(
+            LocalTitlesCompanion.insert(
+              id: 'movie-$i',
+              mediaType: 'movie',
+              title: 'Drift Movie $i',
+              normalizedTitle: 'drift movie $i',
+              createdAt: now.add(Duration(minutes: i)),
+              updatedAt: now.add(Duration(minutes: i)),
+            ),
+          );
+        }
+
+        final pageSource = CatalogPageSource(
+          dao: dao,
+          mediaType: 'movie',
+          pageSize: 10,
+        );
+        await pageSource.loadInitialPage();
+        expect(pageSource.items.length, equals(10));
+
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: HourTvMobileHome(
+                movies: const [],
+                allContent: const [],
+                store: ContentStore.instance,
+                onOpen: (_) {},
+                onSearch: () {},
+                onProfile: () {},
+                catalogRepository: repository,
+                moviesPageSource: pageSource,
+              ),
+            ),
+          ),
+        );
+        await tester.pump();
+        await tester.pump(const Duration(milliseconds: 100));
+
+        // Verificar que los primeros items están presentes en la UI
+        expect(find.text('Drift Movie 25'), findsOneWidget);
+
+        // Deslizar para activar la paginación perezosa
+        final scrollFinder = find.byKey(
+          const PageStorageKey('hourtv-mobile-home'),
+        );
+        expect(scrollFinder, findsOneWidget);
+
+        await tester.drag(scrollFinder, const Offset(0, -5000));
+        await tester.pump();
+        await tester.pump(const Duration(milliseconds: 100));
+
+        // El scroll activa automáticamente la carga de la siguiente página
+        expect(pageSource.items.length, greaterThanOrEqualTo(20));
+      },
+    );
 
     testWidgets('2. Búsqueda en Drift con filtro y FTS5', (tester) async {
       final now = DateTime.utc(2026, 9, 10, 12, 0, 0);
@@ -173,7 +236,9 @@ void main() {
       await tester.pumpAndSettle();
 
       // Escribir en el buscador
-      final searchField = find.byKey(const ValueKey('hourtv-mobile-search-field'));
+      final searchField = find.byKey(
+        const ValueKey('hourtv-mobile-search-field'),
+      );
       expect(searchField, findsOneWidget);
 
       await tester.enterText(searchField, 'matrix');
@@ -185,7 +250,9 @@ void main() {
       expect(find.text('Batman Begins'), findsNothing);
     });
 
-    testWidgets('3. Visualización de estado de error y acción de reintento', (tester) async {
+    testWidgets('3. Visualización de estado de error y acción de reintento', (
+      tester,
+    ) async {
       final failingDao = TestFailingCatalogDao(db);
       final failingSource = CatalogPageSource(dao: failingDao, pageSize: 10);
 
@@ -226,208 +293,248 @@ void main() {
       expect(failingSource.hasError, isFalse);
     });
 
-    testWidgets('4. Película Drift: tarjeta -> hidratación asíncrona -> HourTvDetailPage -> Reproducir -> PlayerScreen con URL y servidores reales', (tester) async {
-      await dao.upsertTitle(
-        LocalTitlesCompanion.insert(
-          id: 'movie-real-1',
+    testWidgets(
+      '4. Película Drift: tarjeta -> hidratación asíncrona -> HourTvDetailPage -> Reproducir -> PlayerScreen con URL y servidores reales',
+      (tester) async {
+        await dao.upsertTitle(
+          LocalTitlesCompanion.insert(
+            id: 'movie-real-1',
+            mediaType: 'movie',
+            title: 'Interstellar Real',
+            normalizedTitle: 'interstellar real',
+            createdAt: DateTime.now(),
+            updatedAt: DateTime.now(),
+          ),
+        );
+        await dao.upsertSource(
+          LocalSourcesCompanion.insert(
+            id: 'src-real-1',
+            titleId: const Value('movie-real-1'),
+            name: 'Servidor Principal',
+            url: 'https://stream.example.com/interstellar.mp4',
+            orderIndex: const Value(0),
+          ),
+        );
+        await dao.upsertSource(
+          LocalSourcesCompanion.insert(
+            id: 'src-real-2',
+            titleId: const Value('movie-real-1'),
+            name: 'Servidor Mirror',
+            url: 'https://mirror.example.com/interstellar.mp4',
+            orderIndex: const Value(1),
+          ),
+        );
+
+        final pageSource = CatalogPageSource(
+          dao: dao,
           mediaType: 'movie',
-          title: 'Interstellar Real',
-          normalizedTitle: 'interstellar real',
-          createdAt: DateTime.now(),
-          updatedAt: DateTime.now(),
-        ),
-      );
-      await dao.upsertSource(
-        LocalSourcesCompanion.insert(
-          id: 'src-real-1',
-          titleId: const Value('movie-real-1'),
-          name: 'Servidor Principal',
-          url: 'https://stream.example.com/interstellar.mp4',
-          orderIndex: const Value(0),
-        ),
-      );
-      await dao.upsertSource(
-        LocalSourcesCompanion.insert(
-          id: 'src-real-2',
-          titleId: const Value('movie-real-1'),
-          name: 'Servidor Mirror',
-          url: 'https://mirror.example.com/interstellar.mp4',
-          orderIndex: const Value(1),
-        ),
-      );
+          pageSize: 10,
+        );
+        await pageSource.loadInitialPage();
 
-      final pageSource = CatalogPageSource(dao: dao, mediaType: 'movie', pageSize: 10);
-      await pageSource.loadInitialPage();
-
-      await tester.pumpWidget(
-        MaterialApp(
-          home: HourTvMobileShell(
-            catalogRepository: repository,
-            catalogPageSource: pageSource,
+        await tester.pumpWidget(
+          MaterialApp(
+            home: HourTvMobileShell(
+              catalogRepository: repository,
+              catalogPageSource: pageSource,
+            ),
           ),
-        ),
-      );
-      await tester.pump();
-      await tester.pump(const Duration(milliseconds: 100));
+        );
+        await tester.pump();
+        await tester.pump(const Duration(milliseconds: 100));
 
-      // Tocar la tarjeta de la película asegurando visibilidad
-      final cardFinder = find.text('Interstellar Real');
-      expect(cardFinder, findsOneWidget);
-      await tester.ensureVisible(cardFinder);
-      await tester.pump();
-      await tester.tap(cardFinder);
+        // Tocar la tarjeta de la película asegurando visibilidad
+        final cardFinder = find.text('Interstellar Real');
+        expect(cardFinder, findsOneWidget);
+        await tester.ensureVisible(cardFinder);
+        await tester.pump();
+        await tester.tap(cardFinder);
 
-      // Esperar hidratación y navegación
-      await tester.pump();
-      await tester.pump(const Duration(milliseconds: 300));
+        // Esperar hidratación y navegación
+        await tester.pump();
+        await tester.pump(const Duration(milliseconds: 300));
 
-      expect(find.byType(HourTvDetailPage), findsOneWidget);
-      final detailPage = tester.widget<HourTvDetailPage>(find.byType(HourTvDetailPage));
-      expect(detailPage.channel.url, 'https://stream.example.com/interstellar.mp4');
-      expect(detailPage.channel.servers.length, 2);
+        expect(find.byType(HourTvDetailPage), findsOneWidget);
+        final detailPage = tester.widget<HourTvDetailPage>(
+          find.byType(HourTvDetailPage),
+        );
+        expect(
+          detailPage.channel.url,
+          'https://stream.example.com/interstellar.mp4',
+        );
+        expect(detailPage.channel.servers.length, 2);
 
-      // Tocar reproducir asegurando visibilidad
-      final playBtn = find.text('REPRODUCIR');
-      expect(playBtn, findsOneWidget);
-      await tester.ensureVisible(playBtn);
-      await tester.pump();
-      await tester.tap(playBtn);
+        // Tocar reproducir asegurando visibilidad
+        final playBtn = find.text('REPRODUCIR');
+        expect(playBtn, findsOneWidget);
+        await tester.ensureVisible(playBtn);
+        await tester.pump();
+        await tester.tap(playBtn);
 
-      await tester.pump();
-      await tester.pump(const Duration(milliseconds: 300));
+        await tester.pump();
+        await tester.pump(const Duration(milliseconds: 300));
 
-      // Verificar que PlayerScreen se abrió y recibió la URL real HTTPS y ambos servidores
-      expect(find.byType(PlayerScreen), findsOneWidget);
-      final player = tester.widget<PlayerScreen>(find.byType(PlayerScreen));
-      expect(player.channel.url, 'https://stream.example.com/interstellar.mp4');
-      expect(player.channel.servers.length, 2);
-      expect(player.channel.servers.first.url, 'https://stream.example.com/interstellar.mp4');
-      expect(player.channel.servers.last.url, 'https://mirror.example.com/interstellar.mp4');
-      expect(player.channel.url.startsWith('catalog://'), isFalse);
-    });
+        // Verificar que PlayerScreen se abrió y recibió la URL real HTTPS y ambos servidores
+        expect(find.byType(PlayerScreen), findsOneWidget);
+        final player = tester.widget<PlayerScreen>(find.byType(PlayerScreen));
+        expect(
+          player.channel.url,
+          'https://stream.example.com/interstellar.mp4',
+        );
+        expect(player.channel.servers.length, 2);
+        expect(
+          player.channel.servers.first.url,
+          'https://stream.example.com/interstellar.mp4',
+        );
+        expect(
+          player.channel.servers.last.url,
+          'https://mirror.example.com/interstellar.mp4',
+        );
+        expect(player.channel.url.startsWith('catalog://'), isFalse);
+      },
+    );
 
-    testWidgets('5. Serie Drift: 2 temporadas -> abrir desde Inicio -> comprobar selector de temporadas -> tocar episodio -> PlayerScreen con URL y servidores reales', (tester) async {
-      await dao.upsertTitle(
-        LocalTitlesCompanion.insert(
-          id: 'series-real-1',
+    testWidgets(
+      '5. Serie Drift: 2 temporadas -> abrir desde Inicio -> comprobar selector de temporadas -> tocar episodio -> PlayerScreen con URL y servidores reales',
+      (tester) async {
+        await dao.upsertTitle(
+          LocalTitlesCompanion.insert(
+            id: 'series-real-1',
+            mediaType: 'series',
+            title: 'Breaking Bad Real',
+            normalizedTitle: 'breaking bad real',
+            createdAt: DateTime.now(),
+            updatedAt: DateTime.now(),
+          ),
+        );
+        await dao.upsertSeason(
+          LocalSeasonsCompanion.insert(
+            id: 'season-real-1',
+            titleId: 'series-real-1',
+            seasonNumber: 1,
+            name: const Value('Temporada 1'),
+          ),
+        );
+        await dao.upsertSeason(
+          LocalSeasonsCompanion.insert(
+            id: 'season-real-2',
+            titleId: 'series-real-1',
+            seasonNumber: 2,
+            name: const Value('Temporada 2'),
+          ),
+        );
+        await dao.upsertEpisode(
+          LocalEpisodesCompanion.insert(
+            id: 'ep-s1-1',
+            seasonId: 'season-real-1',
+            episodeNumber: 1,
+            title: 'Piloto',
+          ),
+        );
+        await dao.upsertEpisode(
+          LocalEpisodesCompanion.insert(
+            id: 'ep-s2-1',
+            seasonId: 'season-real-2',
+            episodeNumber: 1,
+            title: 'Siete Treinta y Siete',
+          ),
+        );
+        await dao.upsertSource(
+          LocalSourcesCompanion.insert(
+            id: 'src-ep-1',
+            episodeId: const Value('ep-s1-1'),
+            name: 'Servidor 1',
+            url: 'https://stream.example.com/s1e1.mp4',
+            orderIndex: const Value(0),
+          ),
+        );
+        await dao.upsertSource(
+          LocalSourcesCompanion.insert(
+            id: 'src-ep-2',
+            episodeId: const Value('ep-s1-1'),
+            name: 'Servidor 2 (Mirror)',
+            url: 'https://mirror.example.com/s1e1.mp4',
+            orderIndex: const Value(1),
+          ),
+        );
+
+        final moviesPageSource = CatalogPageSource(
+          dao: dao,
+          mediaType: 'movie',
+          pageSize: 10,
+        );
+        await moviesPageSource.loadInitialPage();
+
+        final seriesPageSource = CatalogPageSource(
+          dao: dao,
           mediaType: 'series',
-          title: 'Breaking Bad Real',
-          normalizedTitle: 'breaking bad real',
-          createdAt: DateTime.now(),
-          updatedAt: DateTime.now(),
-        ),
-      );
-      await dao.upsertSeason(
-        LocalSeasonsCompanion.insert(
-          id: 'season-real-1',
-          titleId: 'series-real-1',
-          seasonNumber: 1,
-          name: const Value('Temporada 1'),
-        ),
-      );
-      await dao.upsertSeason(
-        LocalSeasonsCompanion.insert(
-          id: 'season-real-2',
-          titleId: 'series-real-1',
-          seasonNumber: 2,
-          name: const Value('Temporada 2'),
-        ),
-      );
-      await dao.upsertEpisode(
-        LocalEpisodesCompanion.insert(
-          id: 'ep-s1-1',
-          seasonId: 'season-real-1',
-          episodeNumber: 1,
-          title: 'Piloto',
-        ),
-      );
-      await dao.upsertEpisode(
-        LocalEpisodesCompanion.insert(
-          id: 'ep-s2-1',
-          seasonId: 'season-real-2',
-          episodeNumber: 1,
-          title: 'Siete Treinta y Siete',
-        ),
-      );
-      await dao.upsertSource(
-        LocalSourcesCompanion.insert(
-          id: 'src-ep-1',
-          episodeId: const Value('ep-s1-1'),
-          name: 'Servidor 1',
-          url: 'https://stream.example.com/s1e1.mp4',
-          orderIndex: const Value(0),
-        ),
-      );
-      await dao.upsertSource(
-        LocalSourcesCompanion.insert(
-          id: 'src-ep-2',
-          episodeId: const Value('ep-s1-1'),
-          name: 'Servidor 2 (Mirror)',
-          url: 'https://mirror.example.com/s1e1.mp4',
-          orderIndex: const Value(1),
-        ),
-      );
+          pageSize: 10,
+        );
+        await seriesPageSource.loadInitialPage();
 
-      final moviesPageSource = CatalogPageSource(dao: dao, mediaType: 'movie', pageSize: 10);
-      await moviesPageSource.loadInitialPage();
-
-      final seriesPageSource = CatalogPageSource(dao: dao, mediaType: 'series', pageSize: 10);
-      await seriesPageSource.loadInitialPage();
-
-      await tester.pumpWidget(
-        MaterialApp(
-          home: HourTvMobileShell(
-            catalogRepository: repository,
-            catalogPageSource: moviesPageSource,
-            seriesPageSource: seriesPageSource,
+        await tester.pumpWidget(
+          MaterialApp(
+            home: HourTvMobileShell(
+              catalogRepository: repository,
+              catalogPageSource: moviesPageSource,
+              seriesPageSource: seriesPageSource,
+            ),
           ),
-        ),
-      );
-      await tester.pump();
-      await tester.pump(const Duration(milliseconds: 100));
+        );
+        await tester.pump();
+        await tester.pump(const Duration(milliseconds: 100));
 
-      // Tocar la tarjeta de la serie haciendo scroll hasta que sea visible
-      final seriesCard = find.text('Breaking Bad Real');
-      await tester.scrollUntilVisible(
-        seriesCard,
-        250,
-        scrollable: find.byType(Scrollable).first,
-      );
-      await tester.pump();
-      expect(seriesCard, findsOneWidget);
-      await tester.tap(seriesCard);
+        // Tocar la tarjeta de la serie haciendo scroll hasta que sea visible
+        final seriesCard = find.text('Breaking Bad Real');
+        await tester.scrollUntilVisible(
+          seriesCard,
+          250,
+          scrollable: find.byType(Scrollable).first,
+        );
+        await tester.pump();
+        expect(seriesCard, findsOneWidget);
+        await tester.tap(seriesCard);
 
-      // Esperar hidratación y navegación
-      await tester.pump();
-      await tester.pump(const Duration(milliseconds: 300));
+        // Esperar hidratación y navegación
+        await tester.pump();
+        await tester.pump(const Duration(milliseconds: 300));
 
-      // Verificar que se abrió HourTvSeriesDetailPage
-      expect(find.byType(HourTvSeriesDetailPage), findsOneWidget);
-      final seriesPage = tester.widget<HourTvSeriesDetailPage>(find.byType(HourTvSeriesDetailPage));
-      expect(seriesPage.series.seriesId, 'series-real-1');
-      expect(seriesPage.series.episodes?.length, 2);
+        // Verificar que se abrió HourTvSeriesDetailPage
+        expect(find.byType(HourTvSeriesDetailPage), findsOneWidget);
+        final seriesPage = tester.widget<HourTvSeriesDetailPage>(
+          find.byType(HourTvSeriesDetailPage),
+        );
+        expect(seriesPage.series.seriesId, 'series-real-1');
+        expect(seriesPage.series.episodes?.length, 2);
 
-      // Comprobar selector de temporadas
-      expect(find.text('Temporada 1'), findsWidgets);
+        // Comprobar selector de temporadas
+        expect(find.text('Temporada 1'), findsWidgets);
 
-      // Tocar el botón principal de reproducción que reproduce el primer capítulo T1:E1
-      final playBtn = find.text('Reproducir T1:E1');
-      expect(playBtn, findsOneWidget);
-      await tester.ensureVisible(playBtn);
-      await tester.pump();
-      await tester.tap(playBtn);
+        // Tocar el botón principal de reproducción que reproduce el primer capítulo T1:E1
+        final playBtn = find.text('Reproducir T1:E1');
+        expect(playBtn, findsOneWidget);
+        await tester.ensureVisible(playBtn);
+        await tester.pump();
+        await tester.tap(playBtn);
 
-      await tester.pump();
-      await tester.pump(const Duration(milliseconds: 300));
+        await tester.pump();
+        await tester.pump(const Duration(milliseconds: 300));
 
-      // Verificar que PlayerScreen se abrió y recibió la URL real HTTPS y ambos servidores
-      expect(find.byType(PlayerScreen), findsOneWidget);
-      final player = tester.widget<PlayerScreen>(find.byType(PlayerScreen));
-      expect(player.channel.url, 'https://stream.example.com/s1e1.mp4');
-      expect(player.channel.servers.length, 2);
-      expect(player.channel.servers.first.url, 'https://stream.example.com/s1e1.mp4');
-      expect(player.channel.servers.last.url, 'https://mirror.example.com/s1e1.mp4');
-      expect(player.channel.url.startsWith('catalog://'), isFalse);
-    });
+        // Verificar que PlayerScreen se abrió y recibió la URL real HTTPS y ambos servidores
+        expect(find.byType(PlayerScreen), findsOneWidget);
+        final player = tester.widget<PlayerScreen>(find.byType(PlayerScreen));
+        expect(player.channel.url, 'https://stream.example.com/s1e1.mp4');
+        expect(player.channel.servers.length, 2);
+        expect(
+          player.channel.servers.first.url,
+          'https://stream.example.com/s1e1.mp4',
+        );
+        expect(
+          player.channel.servers.last.url,
+          'https://mirror.example.com/s1e1.mp4',
+        );
+        expect(player.channel.url.startsWith('catalog://'), isFalse);
+      },
+    );
   });
 }

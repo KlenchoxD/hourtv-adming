@@ -51,11 +51,21 @@ class AuthUnavailableException implements Exception {
   String toString() => message;
 }
 
+class GoogleAuthNotConfiguredException implements Exception {
+  final String message;
+  const GoogleAuthNotConfiguredException([
+    this.message = 'El inicio de sesión con Google aún no está configurado en el servidor.',
+  ]);
+  @override
+  String toString() => message;
+}
+
 abstract interface class AuthGateway {
   AuthSessionState get currentState;
   Stream<AuthSessionState> get states;
   Future<AuthSessionState> signUp({required String email, required String password});
   Future<AuthSessionState> signIn({required String email, required String password});
+  Future<bool> signInWithGoogle();
   Future<AuthSessionState> refreshSession();
   Future<void> resendVerification(String email);
   Future<void> resetPassword(String email);

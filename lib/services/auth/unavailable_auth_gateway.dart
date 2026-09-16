@@ -24,6 +24,11 @@ class UnavailableAuthGateway implements AuthGateway {
   }
 
   @override
+  Future<bool> signInWithGoogle() async {
+    throw const AuthUnavailableException();
+  }
+
+  @override
   Future<AuthSessionState> signUp({
     required String email,
     required String password,

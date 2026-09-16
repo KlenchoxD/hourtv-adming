@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import '../mobile_ui/hourtv_mobile_components.dart';
@@ -27,6 +29,7 @@ class HourTvStartupCover extends StatefulWidget {
 class _HourTvStartupCoverState extends State<HourTvStartupCover> {
   late final ContentStore _store;
   CatalogRepository? _catalogRepo;
+  Timer? _legacyLoadTimer;
   bool _revealed = false;
 
   @override
@@ -34,11 +37,26 @@ class _HourTvStartupCoverState extends State<HourTvStartupCover> {
     super.initState();
     _store = widget.store ?? ContentStore.instance;
     _store.addListener(_onStoreChanged);
-    _store.ensureLoaded();
-
-    _catalogRepo = widget.catalogRepository ??
+    _catalogRepo =
+        widget.catalogRepository ??
         (CatalogRepository.hasInstance ? CatalogRepository.instance : null);
     _catalogRepo?.addListener(_onCatalogChanged);
+
+    // Drift is now the primary catalog. Defer the legacy cache parser until
+    // after the first frame so it cannot block Home's initial layout/scroll.
+    final repoHasUsableCache =
+        _catalogRepo != null &&
+        (_catalogRepo!.status == CatalogRepositoryStatus.ready ||
+            _catalogRepo!.status == CatalogRepositoryStatus.offlineReady);
+    if (repoHasUsableCache) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _legacyLoadTimer = Timer(const Duration(milliseconds: 1200), () {
+          if (mounted) _store.ensureLoaded();
+        });
+      });
+    } else {
+      _store.ensureLoaded();
+    }
 
     _checkReadiness();
   }
@@ -47,6 +65,7 @@ class _HourTvStartupCoverState extends State<HourTvStartupCover> {
   void dispose() {
     _store.removeListener(_onStoreChanged);
     _catalogRepo?.removeListener(_onCatalogChanged);
+    _legacyLoadTimer?.cancel();
     super.dispose();
   }
 
@@ -63,20 +82,43 @@ class _HourTvStartupCoverState extends State<HourTvStartupCover> {
 
     final storeReady = _store.readiness.canEnterApp;
     final repo = _catalogRepo;
-    final repoReady = repo == null ||
+    final repoReady =
+        repo == null ||
         repo.status == CatalogRepositoryStatus.ready ||
+        repo.status == CatalogRepositoryStatus.readyEmpty ||
         repo.status == CatalogRepositoryStatus.offlineReady;
 
-    if (storeReady && repoReady) {
+    final repoHasUsableCache =
+        repo != null &&
+        (repo.status == CatalogRepositoryStatus.ready ||
+            repo.status == CatalogRepositoryStatus.offlineReady);
+
+    // Drift already contains renderable catalog data. Do not keep the whole
+    // app behind the legacy ContentStore cache parser; it can continue in the
+    // background while Inicio renders the same lazy pages used by Buscar.
+    if ((storeReady || repoHasUsableCache) && repoReady) {
+      debugPrint(
+        '[PERF_TTI] CatalogReadiness.canEnterApp: phase=${_store.readiness.phase} time=${DateTime.now().millisecondsSinceEpoch}',
+      );
       if (mounted) {
         if (WidgetsBinding.instance.schedulerPhase ==
             SchedulerPhase.persistentCallbacks) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            if (mounted) setState(() => _revealed = true);
+            if (mounted) {
+              setState(() => _revealed = true);
+              debugPrint(
+                '[PERF_TTI] FIRST_INTERACTIVE_FRAME: time=${DateTime.now().millisecondsSinceEpoch}',
+              );
+            }
           });
         } else {
           setState(() {
             _revealed = true;
+          });
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            debugPrint(
+              '[PERF_TTI] FIRST_INTERACTIVE_FRAME: time=${DateTime.now().millisecondsSinceEpoch}',
+            );
           });
         }
       }
@@ -90,23 +132,35 @@ class _HourTvStartupCoverState extends State<HourTvStartupCover> {
     CatalogLoadPhase.openingCache => 'Abriendo caché local',
     CatalogLoadPhase.syncingCatalog => 'Sincronizando catálogo inicial',
     CatalogLoadPhase.buildingHome => 'Construyendo Inicio',
-    CatalogLoadPhase.ready || CatalogLoadPhase.offlineReady => 'Listo',
+    CatalogLoadPhase.ready ||
+    CatalogLoadPhase.readyWithContent ||
+    CatalogLoadPhase.readyEmpty ||
+    CatalogLoadPhase.offlineReady => 'Listo',
     CatalogLoadPhase.failed => 'No se pudo cargar el catálogo',
   };
 
   @override
   Widget build(BuildContext context) {
     final repo = _catalogRepo;
-    final repoReady = repo == null ||
+    final repoReady =
+        repo == null ||
         repo.status == CatalogRepositoryStatus.ready ||
+        repo.status == CatalogRepositoryStatus.readyEmpty ||
         repo.status == CatalogRepositoryStatus.offlineReady;
 
-    if (_revealed || (_store.readiness.canEnterApp && repoReady)) {
+    final repoHasUsableCache =
+        repo != null &&
+        (repo.status == CatalogRepositoryStatus.ready ||
+            repo.status == CatalogRepositoryStatus.offlineReady);
+
+    if (_revealed ||
+        ((_store.readiness.canEnterApp || repoHasUsableCache) && repoReady)) {
       return widget.child;
     }
 
     final readiness = _store.readiness;
-    final repoFailed = repo != null && repo.status == CatalogRepositoryStatus.failed;
+    final repoFailed =
+        repo != null && repo.status == CatalogRepositoryStatus.failed;
 
     if (readiness.phase == CatalogLoadPhase.failed || repoFailed) {
       return Scaffold(
@@ -149,7 +203,8 @@ class _HourTvStartupCoverState extends State<HourTvStartupCover> {
                       _store.retry();
                     }
                     if (_catalogRepo != null &&
-                        _catalogRepo!.status == CatalogRepositoryStatus.failed) {
+                        _catalogRepo!.status ==
+                            CatalogRepositoryStatus.failed) {
                       _catalogRepo!.initialize();
                     }
                   },
@@ -174,7 +229,8 @@ class _HourTvStartupCoverState extends State<HourTvStartupCover> {
       );
     }
 
-    final isSyncingRepo = repo != null && repo.status == CatalogRepositoryStatus.syncing;
+    final isSyncingRepo =
+        repo != null && repo.status == CatalogRepositoryStatus.syncing;
     final stageTitle = isSyncingRepo
         ? 'Sincronizando catálogo inicial'
         : _stageTitle(readiness.phase);
@@ -184,10 +240,7 @@ class _HourTvStartupCoverState extends State<HourTvStartupCover> {
 
     return Scaffold(
       backgroundColor: HourTvMobileTokens.deepBlack,
-      body: HourTvBootLoading(
-        title: stageTitle,
-        subtitle: stageSubtitle,
-      ),
+      body: HourTvBootLoading(title: stageTitle, subtitle: stageSubtitle),
     );
   }
 }

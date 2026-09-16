@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../services/auth/auth_controller.dart';
+import '../services/auth/auth_telemetry.dart';
 
 class HourTvAuthPage extends StatefulWidget {
   const HourTvAuthPage({
@@ -19,6 +20,23 @@ class _HourTvAuthPageState extends State<HourTvAuthPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _isSignUp = false;
+  bool _obscurePassword = true;
+  final Stopwatch _renderStopwatch = Stopwatch()..start();
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        _renderStopwatch.stop();
+        debugPrint('[PERF_TTI] FIRST_INTERACTIVE_FRAME: time=${DateTime.now().millisecondsSinceEpoch}');
+        AuthTelemetry.instance.recordUiRender(
+          _renderStopwatch.elapsedMilliseconds,
+          metadata: {'is_signup': _isSignUp},
+        );
+      }
+    });
+  }
 
   @override
   void dispose() {
@@ -190,51 +208,80 @@ class _HourTvAuthPageState extends State<HourTvAuthPage> {
                       const SizedBox(height: 14),
                     ],
 
-                    // Form Fields
-                    TextField(
-                      key: const Key('auth_email_field'),
-                      controller: _emailController,
-                      keyboardType: TextInputType.emailAddress,
-                      autocorrect: false,
-                      style: const TextStyle(color: Colors.white, fontSize: 14),
-                      decoration: InputDecoration(
-                        labelText: 'Correo electrónico',
-                        labelStyle: const TextStyle(color: Colors.white54, fontSize: 13),
-                        prefixIcon: const Icon(Icons.email_outlined, color: Colors.white54, size: 20),
-                        filled: true,
-                        fillColor: const Color(0xFF16161B),
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.1)),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: const BorderSide(color: Color(0xFF00E676)),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 12),
-                    TextField(
-                      key: const Key('auth_password_field'),
-                      controller: _passwordController,
-                      obscureText: true,
-                      style: const TextStyle(color: Colors.white, fontSize: 14),
-                      decoration: InputDecoration(
-                        labelText: 'Contraseña (mínimo 8 caracteres)',
-                        labelStyle: const TextStyle(color: Colors.white54, fontSize: 13),
-                        prefixIcon: const Icon(Icons.lock_outline, color: Colors.white54, size: 20),
-                        filled: true,
-                        fillColor: const Color(0xFF16161B),
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.1)),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: const BorderSide(color: Color(0xFF00E676)),
-                        ),
+                    // Form Fields with Autofill
+                    AutofillGroup(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          TextField(
+                            key: const Key('auth_email_field'),
+                            controller: _emailController,
+                            keyboardType: TextInputType.emailAddress,
+                            autofillHints: const [AutofillHints.email],
+                            textInputAction: TextInputAction.next,
+                            autocorrect: false,
+                            style: const TextStyle(color: Colors.white, fontSize: 14),
+                            decoration: InputDecoration(
+                              labelText: 'Correo electrónico',
+                              labelStyle: const TextStyle(color: Colors.white54, fontSize: 13),
+                              prefixIcon: const Icon(Icons.email_outlined, color: Colors.white54, size: 20),
+                              filled: true,
+                              fillColor: const Color(0xFF16161B),
+                              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.1)),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: const BorderSide(color: Color(0xFF00E676)),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 12),
+                          TextField(
+                            key: const Key('auth_password_field'),
+                            controller: _passwordController,
+                            obscureText: _obscurePassword,
+                            autofillHints: const [AutofillHints.password],
+                            textInputAction: TextInputAction.done,
+                            onSubmitted: (_) => _handleSubmit(),
+                            style: const TextStyle(color: Colors.white, fontSize: 14),
+                            decoration: InputDecoration(
+                              labelText: 'Contraseña (mínimo 8 caracteres)',
+                              labelStyle: const TextStyle(color: Colors.white54, fontSize: 13),
+                              prefixIcon: const Icon(Icons.lock_outline, color: Colors.white54, size: 20),
+                              suffixIcon: IconButton(
+                                key: const Key('auth_password_toggle_button'),
+                                icon: Icon(
+                                  _obscurePassword ? Icons.visibility_outlined : Icons.visibility_off_outlined,
+                                  color: Colors.white54,
+                                  size: 20,
+                                ),
+                                onPressed: () {
+                                  final sw = Stopwatch()..start();
+                                  setState(() => _obscurePassword = !_obscurePassword);
+                                  sw.stop();
+                                  AuthTelemetry.instance.recordKeyboardToggle(
+                                    sw.elapsedMilliseconds,
+                                    metadata: {'obscured': _obscurePassword},
+                                  );
+                                },
+                              ),
+                              filled: true,
+                              fillColor: const Color(0xFF16161B),
+                              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.1)),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: const BorderSide(color: Color(0xFF00E676)),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                     const SizedBox(height: 8),
@@ -291,6 +338,26 @@ class _HourTvAuthPageState extends State<HourTvAuthPage> {
                                 letterSpacing: 0.5,
                               ),
                             ),
+                    ),
+                    const SizedBox(height: 12),
+
+                    // Continuar con Google
+                    OutlinedButton.icon(
+                      key: const Key('auth_google_button'),
+                      onPressed: isLoading ? null : () => widget.controller.signInWithGoogle(),
+                      icon: const Icon(Icons.g_mobiledata_rounded, size: 24, color: Colors.white),
+                      label: const Text(
+                        'Continuar con Google',
+                        style: TextStyle(fontWeight: FontWeight.w700, fontSize: 13),
+                      ),
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: Colors.white,
+                        side: BorderSide(color: Colors.white.withValues(alpha: 0.2)),
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
                     ),
                     const SizedBox(height: 20),
 

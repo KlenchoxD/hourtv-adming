@@ -8,8 +8,10 @@ import 'package:flutter_chrome_cast/flutter_chrome_cast.dart';
 
 import '../models/channel.dart';
 import '../services/cast_service.dart';
+import '../services/catalog/hero_tag_helper.dart';
 import '../services/content_store.dart';
 import '../services/device_type.dart';
+import '../services/recommendations/related_content_engine.dart';
 import '../services/storage_service.dart';
 import 'hourtv_artwork.dart';
 import 'hourtv_cast_controls_screen.dart';
@@ -43,9 +45,11 @@ class HourTvDetailPage extends StatefulWidget {
     required this.channel,
     required this.preview,
     this.fromContinueWatching = false,
+    this.heroScope,
   });
   final Channel channel;
   final bool preview;
+  final String? heroScope;
 
   /// Entrada desde la fila "Continuar viendo": el botón REPRODUCIR reanuda
   /// la posición guardada directamente, sin volver a preguntar.
@@ -76,35 +80,12 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
   ContentStore get store => ContentStore.instance;
 
   List<Channel> get related {
-    // `channel.genre` suele venir como varios generos separados por coma
-    // ("Acción, Aventura, Ciencia ficción..."). Antes se comparaba esa
-    // cadena completa contra el genero (casi siempre uno solo) de cada otro
-    // titulo, asi que solo coincidia si algun otro titulo tenia exactamente
-    // los mismos generos combinados: en la practica, "Relacionados" salia en
-    // unas fichas si y en otras no, sin ningun criterio visible para el
-    // usuario. Ahora se compara genero por genero.
-    final genres = (channel.genre ?? '')
-        .toLowerCase()
-        .split(RegExp(r'[,/]'))
-        .map((value) => value.trim())
-        .where((value) => value.isNotEmpty)
-        .toList();
-    final others = store.movies.where((item) => item.url != channel.url);
-    final byGenre = others.where((item) {
-      if (genres.isEmpty) return false;
-      final itemGenres = [
-        (item.genre ?? '').toLowerCase(),
-        ...item.categories.map((value) => value.toLowerCase()),
-      ];
-      return genres.any(
-        (genre) => itemGenres.any((value) => value.contains(genre)),
-      );
-    });
-    // Si no hay ningun otro titulo con un genero en comun, se muestra otro
-    // contenido igual: la seccion no debe desaparecer solo porque el genero
-    // de esta ficha es poco frecuente en el catalogo.
-    final candidates = byGenre.isNotEmpty ? byGenre : others;
-    return candidates.take(6).toList();
+    return RelatedContentEngine.instance.getRelated(
+      target: channel,
+      candidates: store.movies,
+      isKidsProfile: StorageService.activeProfileIsKids,
+      limit: 6,
+    );
   }
 
   @override
@@ -411,7 +392,7 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
   Widget _heroPoster() {
     final url = _heroPosterUrl;
     if (url == null) return const SizedBox.shrink();
-    return ClipRRect(
+    final imageWidget = ClipRRect(
       borderRadius: BorderRadius.circular(8),
       child: CachedNetworkImage(
         imageUrl: url,
@@ -421,6 +402,16 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
         errorWidget: (_, _, _) => const SizedBox.shrink(),
       ),
     );
+    if (widget.heroScope != null) {
+      return Hero(
+        tag: makeHeroTag(
+          contextScope: widget.heroScope!,
+          id: channel.stableTitleId ?? channel.url,
+        ),
+        child: imageWidget,
+      );
+    }
+    return imageWidget;
   }
 
   Widget tabletLayout() {
@@ -877,15 +868,19 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
         // resto de la app para texto sobre superficies emerald (el logo,
         // los botones de HourTvButton).
         foregroundColor: Colors.black,
-        minimumSize: const Size(158, 52),
+        minimumSize: const Size(140, 52),
         elevation: desktop ? 0 : 4,
         shadowColor: _red.withValues(alpha: .5),
         shape: const StadiumBorder(),
       ),
       icon: const Icon(Icons.play_arrow_rounded),
-      label: const Text(
-        'REPRODUCIR',
-        style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: .3),
+      label: const FittedBox(
+        fit: BoxFit.scaleDown,
+        child: Text(
+          'REPRODUCIR',
+          maxLines: 1,
+          style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: .3),
+        ),
       ),
     );
 
@@ -941,8 +936,14 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
     }
 
     return Row(
+      mainAxisSize: MainAxisSize.min,
       children: [
-        playButton,
+        Flexible(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 240),
+            child: playButton,
+          ),
+        ),
         const SizedBox(width: 10),
         _roundAction(
           channel.isFavorite

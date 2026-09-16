@@ -19,6 +19,9 @@ import '../services/embed_resolver.dart';
 import '../services/playback_progress.dart';
 import '../services/playback_source_fallback.dart';
 import '../services/sync/profile_sync_engine.dart';
+import '../services/subtitles/hourtv_subtitle_track.dart';
+import '../services/subtitles/subtitle_controller.dart';
+import '../services/subtitles/subtitle_discovery_service.dart';
 import 'hourtv_focusable.dart';
 import 'hourtv_cast_controls_screen.dart';
 import 'hourtv_cast_sheet.dart';
@@ -111,6 +114,12 @@ class _PlayerScreenState extends State<PlayerScreen>
   // que HourTV dibuja la linea de subtitulo con este estilo.
   double _subtitleScale = 1;
   bool _subtitleBold = false;
+  final SubtitleController _subtitleController = SubtitleController();
+  final SubtitleDiscoveryService _subtitleDiscovery =
+      SubtitleDiscoveryService();
+  List<HourTvSubtitleTrack> _availableSubtitles = const [];
+  HourTvSubtitleTrack _selectedSubtitle = HourTvSubtitleTrack.off;
+  int _subtitleDiscoveryGeneration = 0;
   // Ultimo recurso cuando ni el servidor actual ni ningun mirror se pudo
   // resolver a un stream directo: se reproduce la pagina embed dentro de un
   // WebView contenido en vez de dejar la pelicula sin reproducir.
@@ -257,10 +266,7 @@ class _PlayerScreenState extends State<PlayerScreen>
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: const Text(
           '¿Continuar viendo?',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.w900,
-          ),
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w900),
         ),
         content: Text(
           'Guardaste este título hasta ${formatResumeClock(offer.positionMs)}.',
@@ -307,7 +313,8 @@ class _PlayerScreenState extends State<PlayerScreen>
     final duration = controller.value.duration;
     // Si el stream cambio de duracion (otra version del video), no saltar
     // mas alla del final.
-    final target = duration > Duration.zero && positionMs > duration.inMilliseconds
+    final target =
+        duration > Duration.zero && positionMs > duration.inMilliseconds
         ? (duration.inMilliseconds - 5000).clamp(0, duration.inMilliseconds)
         : positionMs;
     _resumePositionMs = target;
@@ -449,7 +456,8 @@ class _PlayerScreenState extends State<PlayerScreen>
     if (targetUrl.startsWith('catalog://') || ch.url.startsWith('catalog://')) {
       setState(() {
         _loading = false;
-        _err = 'Error de catálogo: el canal no fue hidratado antes de reproducir.';
+        _err =
+            'Error de catálogo: el canal no fue hidratado antes de reproducir.';
         _errDetail = 'URL no reproducible: $targetUrl';
       });
       return;
@@ -472,6 +480,11 @@ class _PlayerScreenState extends State<PlayerScreen>
     _cc = null;
     _vc = null;
     _embedController = null;
+    // D.E: avanzar epoch para invalidar descargas en vuelo del vídeo anterior
+    _subtitleController.advanceEpoch();
+    final subtitleGeneration = ++_subtitleDiscoveryGeneration;
+    _availableSubtitles = const [];
+    _selectedSubtitle = HourTvSubtitleTrack.off;
     try {
       var playUrl = targetUrl;
       Map<String, String> playHeaders = ch.userAgent?.isNotEmpty == true
@@ -538,6 +551,16 @@ class _PlayerScreenState extends State<PlayerScreen>
         httpHeaders: playHeaders,
       );
       await _vc!.initialize();
+      unawaited(
+        _discoverSubtitles(
+          ch,
+          activeUrl: Uri.parse(playUrl),
+          selectedServerUrl: targetUrl,
+          headers: playHeaders,
+          generation: subtitleGeneration,
+          controller: _vc!,
+        ),
+      );
       unawaited(_applyPreferredAudioLanguage(_vc!));
       _cc = ChewieController(
         videoPlayerController: _vc!,
@@ -596,6 +619,42 @@ class _PlayerScreenState extends State<PlayerScreen>
         _loading = false;
       });
     }
+  }
+
+  Future<void> _discoverSubtitles(
+    Channel channel, {
+    required Uri activeUrl,
+    required String selectedServerUrl,
+    required Map<String, String> headers,
+    required int generation,
+    required VideoPlayerController controller,
+  }) async {
+    final tracks = await _subtitleDiscovery.discover(
+      channel: channel,
+      activeUrl: activeUrl,
+      selectedServerUrl: selectedServerUrl,
+      activeHeaders: headers,
+    );
+    if (!mounted ||
+        generation != _subtitleDiscoveryGeneration ||
+        !identical(_vc, controller)) {
+      return;
+    }
+    setState(() => _availableSubtitles = tracks);
+    final mode = StorageService.getSetting(
+      'preferredSubtitleMode',
+      defaultValue: 'auto',
+    ).toString();
+    if (mode != 'auto' || tracks.isEmpty) return;
+    final preferred = StorageService.getSetting(
+      'preferredSubtitleLanguage',
+      defaultValue: 'es',
+    ).toString();
+    final automatic = SubtitleController.resolveAutomaticTrack(
+      tracks: tracks,
+      profileLanguage: preferred,
+    );
+    if (automatic.id != 'off') await _applySubtitleTrack(automatic);
   }
 
   /// Si `failedUrl` es la fuente activa del plan y quedan mirrors por probar,
@@ -1135,10 +1194,144 @@ class _PlayerScreenState extends State<PlayerScreen>
     if (mounted) _screenFocus.requestFocus();
   }
 
-  Future<void> _showSubtitleSelector() => _showMessage(
-    'Subtítulos',
-    'Esta fuente no ofrece subtítulos seleccionables. Se mantienen desactivados.',
-  );
+  /// D.I: Al cambiar pista de subtítulos se conserva:
+  /// posición, estado play/pause, velocidad y volumen.
+  Future<void> _applySubtitleTrack(HourTvSubtitleTrack track) async {
+    final vc = _vc;
+    if (vc == null) return;
+
+    // D.J: HLS segmentado no compatible → mensaje claro
+    if (track.isHlsMediaPlaylist) {
+      if (mounted) {
+        await _showMessage(
+          'Subtítulos no disponibles',
+          'Subtítulo HLS no compatible con el reproductor actual.',
+        );
+      }
+      return;
+    }
+
+    // Capturar estado actual ANTES de cualquier operación asíncrona
+    final wasPlaying = vc.value.isInitialized && vc.value.isPlaying;
+    final position = vc.value.isInitialized ? vc.value.position : null;
+    final speed = vc.value.isInitialized ? vc.value.playbackSpeed : 1.0;
+    final volume = _volume;
+
+    if (track.id == 'off') {
+      await vc.setClosedCaptionFile(null);
+      if (mounted && identical(_vc, vc)) {
+        setState(() => _selectedSubtitle = track);
+      }
+      return;
+    }
+
+    try {
+      final captionFile = await _subtitleController.loadCaptionFile(track);
+      if (!mounted || !identical(_vc, vc)) return;
+      if (captionFile != null) {
+        await vc.setClosedCaptionFile(Future.value(captionFile));
+        // D.I: restaurar estado preservado
+        if (position != null) await vc.seekTo(position);
+        await vc.setPlaybackSpeed(speed);
+        await vc.setVolume(volume);
+        if (wasPlaying) await vc.play();
+        if (mounted && identical(_vc, vc)) {
+          setState(() => _selectedSubtitle = track);
+        }
+      } else if (mounted) {
+        await _showMessage(
+          'Subtítulos no disponibles',
+          'No se pudo cargar esta pista. Prueba otra opción.',
+        );
+      }
+    } catch (e) {
+      // D.F: sanitizar error, no exponer track.url ni tokens
+      debugPrint('[SUBTITLES] error type=${e.runtimeType}');
+    }
+  }
+
+  Future<void> _showSubtitleSelector() async {
+    final vc = _vc;
+    if (vc == null || !vc.value.isInitialized) return;
+
+    final allTracks = [
+      HourTvSubtitleTrack.off,
+      if (_availableSubtitles.isNotEmpty) HourTvSubtitleTrack.auto,
+      ..._availableSubtitles,
+    ];
+
+    if (_availableSubtitles.isEmpty) {
+      await _showMessage(
+        'Subtítulos',
+        'Esta fuente no ofrece subtítulos seleccionables. Se mantienen desactivados.',
+      );
+      return;
+    }
+
+    await showDialog<void>(
+      context: context,
+      builder: (dialogContext) => SimpleDialog(
+        title: const Text('Subtítulos'),
+        children: [
+          for (final track in allTracks)
+            SimpleDialogOption(
+              onPressed: () async {
+                Navigator.pop(dialogContext);
+                if (track.isAuto) {
+                  await StorageService.saveSetting(
+                    'preferredSubtitleMode',
+                    'auto',
+                  );
+                  final preferred = StorageService.getSetting(
+                    'preferredSubtitleLanguage',
+                    defaultValue: 'es',
+                  ).toString();
+                  final autoTrack = SubtitleController.resolveAutomaticTrack(
+                    tracks: _availableSubtitles,
+                    profileLanguage: preferred,
+                  );
+                  await _applySubtitleTrack(autoTrack);
+                } else {
+                  await StorageService.saveSetting(
+                    'preferredSubtitleMode',
+                    track.id == 'off' ? 'off' : 'manual',
+                  );
+                  if (track.id != 'off') {
+                    await StorageService.saveSetting(
+                      'preferredSubtitleLanguage',
+                      track.languageCode,
+                    );
+                  }
+                  await _applySubtitleTrack(track);
+                }
+              },
+              child: ListTile(
+                contentPadding: EdgeInsets.zero,
+                leading: Icon(
+                  _selectedSubtitle.id == track.id
+                      ? Icons.radio_button_checked
+                      : Icons.radio_button_off,
+                  color: _selectedSubtitle.id == track.id ? _hourRed : null,
+                ),
+                title: Text(track.label),
+                subtitle: track.isHlsMediaPlaylist
+                    ? const Text(
+                        'Subtítulo HLS no compatible con el reproductor actual',
+                        style: TextStyle(color: _hourError, fontSize: 11),
+                      )
+                    : (track.hearingImpaired
+                          ? const Text(
+                              'Descriptivo (CC)',
+                              style: TextStyle(color: _hourMuted, fontSize: 11),
+                            )
+                          : null),
+              ),
+            ),
+        ],
+      ),
+    );
+    if (mounted) _screenFocus.requestFocus();
+  }
 
   Future<void> _showQualitySelector() async {
     final value = _vc?.value;
@@ -2687,8 +2880,7 @@ class _PlayerScreenState extends State<PlayerScreen>
                   }
                 },
               ),
-            if (!DeviceProfile.isTv(context))
-              _castButton(),
+            if (!DeviceProfile.isTv(context)) _castButton(),
             IconButton(
               tooltip: 'Audio, subtítulos, calidad y aspecto',
               icon: const Icon(Icons.tune_rounded, color: Colors.white),
@@ -2923,8 +3115,8 @@ ResumeOffer? resumeOfferFor(Channel channel, {required bool autoResume}) {
   if (saved.isCompleted) return null;
   final positionMs = saved.resumePositionMs;
   if (positionMs < 10 * 1000) return null;
-  final isSeries = channel.type == MediaType.series ||
-      channel.forcedType == 'series';
+  final isSeries =
+      channel.type == MediaType.series || channel.forcedType == 'series';
   return ResumeOffer(
     positionMs: positionMs,
     autoResume: autoResume || isSeries,
@@ -3050,7 +3242,6 @@ String playbackErrorMessage(String? raw) {
   }
   return 'No se pudo reproducir este contenido. Probá con otro servidor.';
 }
-
 
 /// True si la URL es una pagina web (embed tipo niramirus/dood/streamtape) en
 /// vez de un stream directo. Los esquemas propios (archive:, stalker:) y los

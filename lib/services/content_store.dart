@@ -30,6 +30,8 @@ enum CatalogLoadPhase {
   syncingCatalog,
   buildingHome,
   ready,
+  readyWithContent,
+  readyEmpty,
   offlineReady,
   failed,
 }
@@ -40,7 +42,10 @@ class CatalogReadiness {
   final String? message;
   final bool canRetry;
   bool get canEnterApp =>
-      phase == CatalogLoadPhase.ready || phase == CatalogLoadPhase.offlineReady;
+      phase == CatalogLoadPhase.ready ||
+      phase == CatalogLoadPhase.readyWithContent ||
+      phase == CatalogLoadPhase.readyEmpty ||
+      phase == CatalogLoadPhase.offlineReady;
 }
 
 /// Almacén único en memoria del contenido (canales en vivo + VOD). Lo comparten

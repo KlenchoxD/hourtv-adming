@@ -1,4 +1,5 @@
 import 'epg_program.dart';
+import '../services/subtitles/hourtv_subtitle_track.dart';
 
 /// Tipo de contenido. En vivo = TV en directo; pelicula/serie = bajo demanda (VOD).
 enum MediaType { live, movie, series }
@@ -91,21 +92,43 @@ class ChannelServer {
   final String name;
   final String url;
   final String? language;
+  final List<HourTvSubtitleTrack> subtitleTracks;
 
-  const ChannelServer({required this.name, required this.url, this.language});
+  const ChannelServer({
+    required this.name,
+    required this.url,
+    this.language,
+    this.subtitleTracks = const [],
+  });
 
   Map<String, dynamic> toJson() => {
     'name': name,
     'url': url,
     'language': language,
+    'subtitles': subtitleTracks.map((track) => track.toJson()).toList(),
   };
 
   factory ChannelServer.fromJson(Map<String, dynamic> json) => ChannelServer(
     name: json['name']?.toString() ?? '',
     url: json['url']?.toString() ?? '',
     language: json['language']?.toString(),
+    subtitleTracks: _subtitleTracksFromJson(
+      json['subtitles'] ?? json['subtitleTracks'] ?? json['subtitle_tracks'],
+    ),
   );
 }
+
+List<HourTvSubtitleTrack> _subtitleTracksFromJson(dynamic value) =>
+    (value as List<dynamic>? ?? const [])
+        .whereType<Map>()
+        .map(
+          (item) =>
+              HourTvSubtitleTrack.fromJson(Map<String, dynamic>.from(item)),
+        )
+        .where(
+          (track) => track.id.isNotEmpty && (track.url?.isNotEmpty ?? false),
+        )
+        .toList(growable: false);
 
 class Channel {
   final String name;
@@ -138,6 +161,7 @@ class Channel {
   String? userAgent;
   bool hasCatchup; // El canal Xtream permite reproducir programas ya emitidos.
   final List<ChannelServer> servers;
+  final List<HourTvSubtitleTrack> subtitleTracks;
   final List<String> categories;
   final bool isFeatured;
   final bool isKidsSafe;
@@ -149,10 +173,10 @@ class Channel {
 
   String? get stableTitleId =>
       (catalogTitleId != null && catalogTitleId!.isNotEmpty)
-          ? catalogTitleId
-          : (url.startsWith('catalog://')
-              ? url.replaceFirst('catalog://', '')
-              : (tvgId != null && tvgId!.isNotEmpty ? tvgId : null));
+      ? catalogTitleId
+      : (url.startsWith('catalog://')
+            ? url.replaceFirst('catalog://', '')
+            : (tvgId != null && tvgId!.isNotEmpty ? tvgId : null));
 
   Channel({
     required this.name,
@@ -182,6 +206,7 @@ class Channel {
     this.userAgent,
     this.hasCatchup = false,
     this.servers = const [],
+    this.subtitleTracks = const [],
     this.categories = const [],
     this.isFeatured = false,
     this.isKidsSafe = false,
@@ -259,6 +284,7 @@ class Channel {
     'userAgent': userAgent,
     'hasCatchup': hasCatchup,
     'servers': servers.map((server) => server.toJson()).toList(),
+    'subtitles': subtitleTracks.map((track) => track.toJson()).toList(),
     'categories': categories,
     'isFeatured': isFeatured,
     'isKidsSafe': isKidsSafe,
@@ -299,6 +325,9 @@ class Channel {
         )
         .where((server) => server.url.isNotEmpty)
         .toList(),
+    subtitleTracks: _subtitleTracksFromJson(
+      json['subtitles'] ?? json['subtitleTracks'] ?? json['subtitle_tracks'],
+    ),
     categories: (json['categories'] as List<dynamic>? ?? const [])
         .map((category) => category.toString())
         .where((category) => category.isNotEmpty)
@@ -336,6 +365,7 @@ class Channel {
     String? userAgent,
     bool? hasCatchup,
     List<ChannelServer>? servers,
+    List<HourTvSubtitleTrack>? subtitleTracks,
     List<String>? categories,
     bool? isFeatured,
     bool? isKidsSafe,
@@ -369,6 +399,7 @@ class Channel {
       userAgent: userAgent ?? this.userAgent,
       hasCatchup: hasCatchup ?? this.hasCatchup,
       servers: servers ?? this.servers,
+      subtitleTracks: subtitleTracks ?? this.subtitleTracks,
       categories: categories ?? this.categories,
       isFeatured: isFeatured ?? this.isFeatured,
       isKidsSafe: isKidsSafe ?? this.isKidsSafe,

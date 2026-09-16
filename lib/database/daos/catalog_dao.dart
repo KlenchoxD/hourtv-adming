@@ -7,6 +7,22 @@ import '../../mobile_ui/hourtv_genre_service.dart';
 
 part 'catalog_dao.g.dart';
 
+class SearchKeysetCursor {
+  final int matchTier;
+  final double bm25Score;
+  final int? year;
+  final DateTime createdAt;
+  final String id;
+
+  const SearchKeysetCursor({
+    required this.matchTier,
+    required this.bm25Score,
+    this.year,
+    required this.createdAt,
+    required this.id,
+  });
+}
+
 @DriftAccessor(tables: [
   LocalTitles,
   LocalGenres,
@@ -207,6 +223,267 @@ class CatalogDao extends DatabaseAccessor<CatalogDatabase> with _$CatalogDaoMixi
     return rows.map((row) => localTitles.map(row.data)).toList();
   }
 
+  /// Caché keyset compuesto por (consulta normalizada, titleId) → cursor.
+  /// Límite de 256 entradas; se evictan en orden FIFO cuando se supera.
+  static const int _cursorCacheMaxEntries = 256;
+  final Map<String, SearchKeysetCursor> _searchCursorCache = {};
+
+  /// Clave compuesta de caché: evita colisión de un mismo título bajo
+  /// consultas distintas que producen distinto matchTier / bm25Score.
+  static String _cursorCacheKey(String normalizedQuery, String titleId) =>
+      '$normalizedQuery\x00$titleId';
+
+  /// Limpia el caché de cursores.
+  /// Debe llamarse cuando cambia la consulta activa o la revisión del catálogo.
+  void clearCursorCache() => _searchCursorCache.clear();
+
+  /// Extrae el cursor determinista para la paginación keyset.
+  ///
+  /// Devuelve `null` si el título no fue devuelto por una consulta puntada
+  /// reciente (es decir, si el score BM25 real no está disponible).
+  /// El llamador debe reiniciar la paginación o abstenerse de paginar.
+  SearchKeysetCursor? extractSearchCursor(LocalTitle title, {required String query}) {
+    final normQuery = HourTvGenreService.normalize(query).trim();
+    final key = _cursorCacheKey(normQuery, title.id);
+    final cached = _searchCursorCache[key];
+    if (cached != null) {
+      // Touch: mover al frente para comportamiento LRU
+      _searchCursorCache.remove(key);
+      _searchCursorCache[key] = cached;
+    }
+    // Devuelve null si no hay cursor real: no fabricar bm25Score=0.0.
+    return cached;
+  }
+
+  /// Búsqueda ponderada BM25 con orden estricto de coincidencia y cursor keyset determinista.
+  Future<List<LocalTitle>> searchRankedKeyset({
+    required String query,
+    SearchKeysetCursor? cursor,
+    int limit = 20,
+    String? mediaType,
+    String? genreSlug,
+    CatalogSortOrder sort = CatalogSortOrder.recent,
+  }) async {
+    final sanitized = sanitizeFts5Query(query);
+    if (sanitized.isEmpty) return [];
+
+    final normalized = HourTvGenreService.normalize(query).trim();
+    final exactMatch = normalized;
+    final prefixMatch = '$normalized %';
+    final wordMatch = '% $normalized %';
+    final partialMatch = '%$normalized%';
+
+    // Variables para el SELECT (match_tier)
+    final selectVariables = <Variable>[
+      Variable.withString(exactMatch),
+      Variable.withString(prefixMatch),
+      Variable.withString(wordMatch),
+      Variable.withString(partialMatch),
+    ];
+
+    // Cláusulas y variables para el WHERE
+    final whereClauses = <String>[
+      't.is_deleted = 0',
+      'local_titles_fts MATCH ?',
+    ];
+    final whereVariables = <Variable>[
+      Variable.withString(sanitized),
+    ];
+
+    if (mediaType != null && mediaType.isNotEmpty && mediaType != 'all') {
+      whereClauses.add('t.media_type = ?');
+      whereVariables.add(Variable.withString(mediaType));
+    }
+
+    if (genreSlug != null && genreSlug.isNotEmpty && genreSlug != 'all') {
+      whereClauses.add('''
+        t.id IN (
+          SELECT tg.title_id FROM local_title_genres tg
+          JOIN local_genres g ON g.id = tg.genre_id
+          WHERE g.slug = ?
+        )
+      ''');
+      whereVariables.add(Variable.withString(genreSlug));
+    }
+
+    if (cursor != null) {
+      whereClauses.add('''
+        (
+          (
+            CASE
+              WHEN t.normalized_title = ? THEN 1
+              WHEN t.normalized_title LIKE ? THEN 2
+              WHEN t.normalized_title LIKE ? THEN 3
+              WHEN t.normalized_title LIKE ? THEN 4
+              ELSE 5
+            END > ?
+          )
+          OR (
+            CASE
+              WHEN t.normalized_title = ? THEN 1
+              WHEN t.normalized_title LIKE ? THEN 2
+              WHEN t.normalized_title LIKE ? THEN 3
+              WHEN t.normalized_title LIKE ? THEN 4
+              ELSE 5
+            END = ? AND bm25(local_titles_fts, 0.0, 10.0, 5.0, 0.2) > ?
+          )
+          OR (
+            CASE
+              WHEN t.normalized_title = ? THEN 1
+              WHEN t.normalized_title LIKE ? THEN 2
+              WHEN t.normalized_title LIKE ? THEN 3
+              WHEN t.normalized_title LIKE ? THEN 4
+              ELSE 5
+            END = ? AND ABS(bm25(local_titles_fts, 0.0, 10.0, 5.0, 0.2) - ?) < 0.0001
+            AND COALESCE(t.year, -9999) < COALESCE(?, -9999)
+          )
+          OR (
+            CASE
+              WHEN t.normalized_title = ? THEN 1
+              WHEN t.normalized_title LIKE ? THEN 2
+              WHEN t.normalized_title LIKE ? THEN 3
+              WHEN t.normalized_title LIKE ? THEN 4
+              ELSE 5
+            END = ? AND ABS(bm25(local_titles_fts, 0.0, 10.0, 5.0, 0.2) - ?) < 0.0001
+            AND COALESCE(t.year, -9999) = COALESCE(?, -9999)
+            AND t.created_at < ?
+          )
+          OR (
+            CASE
+              WHEN t.normalized_title = ? THEN 1
+              WHEN t.normalized_title LIKE ? THEN 2
+              WHEN t.normalized_title LIKE ? THEN 3
+              WHEN t.normalized_title LIKE ? THEN 4
+              ELSE 5
+            END = ? AND ABS(bm25(local_titles_fts, 0.0, 10.0, 5.0, 0.2) - ?) < 0.0001
+            AND COALESCE(t.year, -9999) = COALESCE(?, -9999)
+            AND t.created_at = ?
+            AND t.id < ?
+          )
+        )
+      ''');
+      for (var i = 0; i < 5; i++) {
+        whereVariables.addAll([
+          Variable.withString(exactMatch),
+          Variable.withString(prefixMatch),
+          Variable.withString(wordMatch),
+          Variable.withString(partialMatch),
+        ]);
+        if (i == 0) {
+          whereVariables.add(Variable.withInt(cursor.matchTier));
+        } else if (i == 1) {
+          whereVariables.add(Variable.withInt(cursor.matchTier));
+          whereVariables.add(Variable.withReal(cursor.bm25Score));
+        } else if (i == 2) {
+          whereVariables.add(Variable.withInt(cursor.matchTier));
+          whereVariables.add(Variable.withReal(cursor.bm25Score));
+          whereVariables.add(Variable.withInt(cursor.year ?? -9999));
+        } else if (i == 3) {
+          whereVariables.add(Variable.withInt(cursor.matchTier));
+          whereVariables.add(Variable.withReal(cursor.bm25Score));
+          whereVariables.add(Variable.withInt(cursor.year ?? -9999));
+          whereVariables.add(Variable.withDateTime(cursor.createdAt));
+        } else if (i == 4) {
+          whereVariables.add(Variable.withInt(cursor.matchTier));
+          whereVariables.add(Variable.withReal(cursor.bm25Score));
+          whereVariables.add(Variable.withInt(cursor.year ?? -9999));
+          whereVariables.add(Variable.withDateTime(cursor.createdAt));
+          whereVariables.add(Variable.withString(cursor.id));
+        }
+      }
+    }
+
+    final allVariables = <Variable>[
+      ...selectVariables,
+      ...whereVariables,
+      Variable.withInt(limit),
+    ];
+
+    final String orderByClause;
+    switch (sort) {
+      case CatalogSortOrder.ratingDesc:
+        orderByClause = 't.rating DESC, t.id DESC';
+        break;
+      case CatalogSortOrder.titleAsc:
+        orderByClause = 't.normalized_title ASC, t.id ASC';
+        break;
+      case CatalogSortOrder.recent:
+        orderByClause = '''
+          match_tier ASC,
+          bm25_score ASC,
+          t.year DESC,
+          t.created_at DESC,
+          t.id DESC
+        ''';
+        break;
+    }
+
+    final sql = '''
+      SELECT
+        t.*,
+        CASE
+          WHEN t.normalized_title = ? THEN 1
+          WHEN t.normalized_title LIKE ? THEN 2
+          WHEN t.normalized_title LIKE ? THEN 3
+          WHEN t.normalized_title LIKE ? THEN 4
+          ELSE 5
+        END AS match_tier,
+        bm25(local_titles_fts, 0.0, 10.0, 5.0, 0.2) AS bm25_score
+      FROM local_titles t
+      JOIN local_titles_fts fts ON fts.title_id = t.id
+      WHERE ${whereClauses.join(' AND ')}
+      ORDER BY
+        $orderByClause
+      LIMIT ?
+    ''';
+
+    final rows = await customSelect(
+      sql,
+      variables: allVariables,
+      readsFrom: {localTitles},
+    ).get();
+
+    final normQuery = HourTvGenreService.normalize(query).trim();
+    final result = <LocalTitle>[];
+    for (final row in rows) {
+      final title = localTitles.map(row.data);
+      final tier = row.read<int>('match_tier');
+      final bm25 = row.read<double>('bm25_score');
+      final cacheKey = _cursorCacheKey(normQuery, title.id);
+      // Evictar entradas antiguas si se supera el límite
+      if (!_searchCursorCache.containsKey(cacheKey) &&
+          _searchCursorCache.length >= _cursorCacheMaxEntries) {
+        _searchCursorCache.remove(_searchCursorCache.keys.first);
+      }
+      _searchCursorCache[cacheKey] = SearchKeysetCursor(
+        matchTier: tier,
+        bm25Score: bm25,
+        year: title.year,
+        createdAt: title.createdAt,
+        id: title.id,
+      );
+      result.add(title);
+    }
+    return result;
+  }
+
+  /// Búsqueda FTS5 con ordenamiento por relevancia BM25 y jerarquía de títulos.
+  Future<List<LocalTitle>> searchTitlesFts({
+    required String rawQuery,
+    String? mediaType,
+    String? genreSlug,
+    CatalogSortOrder sort = CatalogSortOrder.recent,
+    int limit = 20,
+  }) {
+    return searchRankedKeyset(
+      query: rawQuery,
+      limit: limit,
+      mediaType: mediaType,
+      genreSlug: genreSlug,
+      sort: sort,
+    );
+  }
+
   // --- Operaciones de Sincronización y Revisiones ---
 
   Future<int> getLastCatalogRevision({String syncKey = 'default_sync'}) async {
@@ -381,72 +658,6 @@ class CatalogDao extends DatabaseAccessor<CatalogDatabase> with _$CatalogDaoMixi
     }
   }
 
-  /// Búsqueda por FTS5 con soporte completo de filtros por tipo, género y orden.
-  Future<List<LocalTitle>> searchTitlesFts({
-    required String rawQuery,
-    String? mediaType,
-    String? genreSlug,
-    CatalogSortOrder sort = CatalogSortOrder.recent,
-    int limit = 20,
-  }) async {
-    final sanitized = sanitizeFts5Query(rawQuery);
-    if (sanitized.isEmpty) return [];
-
-    final whereClauses = <String>[
-      't.is_deleted = 0',
-      'local_titles_fts MATCH :matchQuery',
-    ];
-    final variables = <Variable>[
-      Variable.withString(sanitized),
-    ];
-
-    if (mediaType != null && mediaType.isNotEmpty && mediaType != 'all') {
-      whereClauses.add('t.media_type = :mediaType');
-      variables.add(Variable.withString(mediaType));
-    }
-
-    if (genreSlug != null && genreSlug.isNotEmpty && genreSlug != 'all') {
-      whereClauses.add('''
-        t.id IN (
-          SELECT tg.title_id FROM local_title_genres tg
-          JOIN local_genres g ON g.id = tg.genre_id
-          WHERE g.slug = :genreSlug
-        )
-      ''');
-      variables.add(Variable.withString(genreSlug));
-    }
-
-    String orderByClause;
-    switch (sort) {
-      case CatalogSortOrder.recent:
-        orderByClause = 't.created_at DESC, t.id DESC';
-        break;
-      case CatalogSortOrder.ratingDesc:
-        orderByClause = 't.rating DESC, t.id DESC';
-        break;
-      case CatalogSortOrder.titleAsc:
-        orderByClause = 't.normalized_title ASC, t.id ASC';
-        break;
-    }
-
-    final sql = '''
-      SELECT t.* FROM local_titles t
-      JOIN local_titles_fts fts ON fts.title_id = t.id
-      WHERE ${whereClauses.join(' AND ')}
-      ORDER BY $orderByClause
-      LIMIT :limit
-    ''';
-    variables.add(Variable.withInt(limit));
-
-    final rows = await customSelect(
-      sql,
-      variables: variables,
-      readsFrom: {localTitles},
-    ).get();
-
-    return rows.map((row) => localTitles.map(row.data)).toList();
-  }
-
   /// Aplica de forma atómica un lote de sincronización delta junto con el nuevo checkpoint de revisión.
   /// Si cualquier operación falla, la transacción se revierte por completo y la revisión no avanza.
   Future<void> applySyncBatchAtomic({
@@ -480,5 +691,38 @@ class CatalogDao extends DatabaseAccessor<CatalogDatabase> with _$CatalogDaoMixi
       await delete(localLanguages).go();
       await customStatement('DELETE FROM local_titles_fts;');
     });
+  }
+
+  /// Conteo de títulos según tipo de medio ('movie', 'series', o todos si es null).
+  Future<int> countTitles({String? mediaType}) async {
+    final countExpr = localTitles.id.count();
+    final query = selectOnly(localTitles)..addColumns([countExpr]);
+    query.where(localTitles.isDeleted.equals(false));
+    if (mediaType != null) {
+      query.where(localTitles.mediaType.equals(mediaType));
+    }
+    final row = await query.getSingle();
+    return row.read(countExpr) ?? 0;
+  }
+
+  /// Conteo de temporadas en la base de datos local.
+  Future<int> countSeasons() async {
+    final countExpr = localSeasons.id.count();
+    final row = await (selectOnly(localSeasons)..addColumns([countExpr])).getSingle();
+    return row.read(countExpr) ?? 0;
+  }
+
+  /// Conteo de episodios en la base de datos local.
+  Future<int> countEpisodes() async {
+    final countExpr = localEpisodes.id.count();
+    final row = await (selectOnly(localEpisodes)..addColumns([countExpr])).getSingle();
+    return row.read(countExpr) ?? 0;
+  }
+
+  /// Conteo de fuentes/servidores en la base de datos local.
+  Future<int> countSources() async {
+    final countExpr = localSources.id.count();
+    final row = await (selectOnly(localSources)..addColumns([countExpr])).getSingle();
+    return row.read(countExpr) ?? 0;
   }
 }

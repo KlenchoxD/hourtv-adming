@@ -6,6 +6,8 @@ import 'catalog_repository.dart';
 
 /// Origen de datos reactivo y paginado determinista por cursor tupla (createdAt, id)
 /// conectado directamente a la base de datos local SQLite (Drift).
+/// Incluye protecciones contra carreras en búsquedas/paginación, de-duplicación
+/// estricta por ID y manejo seguro de dispose.
 class CatalogPageSource extends ChangeNotifier {
   final CatalogDao dao;
   final CatalogRepository? repository;
@@ -16,6 +18,11 @@ class CatalogPageSource extends ChangeNotifier {
 
   CatalogRepository? _attachedRepo;
   bool _needsReloadAfterLoading = false;
+  bool _disposed = false;
+  bool get isDisposed => _disposed;
+
+  int _searchSequence = 0;
+  final Set<String> _seenIds = <String>{};
 
   void updateFilters({
     String? mediaType,
@@ -62,12 +69,19 @@ class CatalogPageSource extends ChangeNotifier {
 
   @override
   void dispose() {
+    _disposed = true;
     _attachedRepo?.removeListener(_onRepositoryChanged);
     super.dispose();
   }
 
+  void _safeNotifyListeners() {
+    if (!_disposed) {
+      notifyListeners();
+    }
+  }
+
   void _onRepositoryChanged() {
-    if (_lastSearchQuery != null) return;
+    if (_disposed || _lastSearchQuery != null) return;
     if (_isLoading) {
       _needsReloadAfterLoading = true;
       return;
@@ -77,21 +91,30 @@ class CatalogPageSource extends ChangeNotifier {
 
   /// Reinicia el cursor y carga la primera página.
   Future<void> loadInitialPage() async {
+    if (_disposed) return;
     _lastSearchQuery = null;
+    final currentSeq = ++_searchSequence;
     _cursorCreatedAt = null;
     _cursorId = null;
     _items = [];
+    _seenIds.clear();
     _hasMore = true;
     _error = null;
-    await loadNextPage();
+    await _loadPageInternal(currentSeq, isInitial: true);
   }
 
   /// Carga la siguiente página determinista basada en el cursor actual.
   Future<void> loadNextPage() async {
-    if (_isLoading || !_hasMore) return;
+    if (_isLoading || !_hasMore || _disposed) return;
+    final currentSeq = _searchSequence;
+    await _loadPageInternal(currentSeq, isInitial: false);
+  }
+
+  Future<void> _loadPageInternal(int seq, {required bool isInitial}) async {
+    if (_disposed || seq != _searchSequence) return;
     _isLoading = true;
     _error = null;
-    notifyListeners();
+    _safeNotifyListeners();
 
     try {
       final newItems = await dao.getPage(
@@ -103,8 +126,20 @@ class CatalogPageSource extends ChangeNotifier {
         sort: sort,
       );
 
+      if (_disposed || seq != _searchSequence) return;
+
+      if (isInitial) {
+        _items = [];
+        _seenIds.clear();
+      }
+
+      for (final item in newItems) {
+        if (_seenIds.add(item.id)) {
+          _items.add(item);
+        }
+      }
+
       if (newItems.isNotEmpty) {
-        _items.addAll(newItems);
         final last = newItems.last;
         _cursorCreatedAt = last.createdAt;
         _cursorId = last.id;
@@ -112,13 +147,16 @@ class CatalogPageSource extends ChangeNotifier {
 
       _hasMore = newItems.length >= pageSize;
     } catch (e) {
+      if (_disposed || seq != _searchSequence) return;
       _error = e;
     } finally {
-      _isLoading = false;
-      notifyListeners();
-      if (_needsReloadAfterLoading) {
-        _needsReloadAfterLoading = false;
-        refresh();
+      if (!_disposed && seq == _searchSequence) {
+        _isLoading = false;
+        _safeNotifyListeners();
+        if (_needsReloadAfterLoading) {
+          _needsReloadAfterLoading = false;
+          refresh();
+        }
       }
     }
   }
@@ -126,13 +164,15 @@ class CatalogPageSource extends ChangeNotifier {
   /// Recarga el catálogo reactivamente desde el inicio preservando elementos
   /// existentes mientras carga para evitar parpadeos en pantalla.
   Future<void> refresh() async {
+    if (_disposed) return;
     if (_isLoading) {
       _needsReloadAfterLoading = true;
       return;
     }
+    final currentSeq = ++_searchSequence;
     _isLoading = true;
     _error = null;
-    notifyListeners();
+    _safeNotifyListeners();
 
     try {
       final newItems = await dao.getPage(
@@ -144,7 +184,16 @@ class CatalogPageSource extends ChangeNotifier {
         sort: sort,
       );
 
-      _items = List.of(newItems);
+      if (_disposed || currentSeq != _searchSequence) return;
+
+      _items = [];
+      _seenIds.clear();
+      for (final item in newItems) {
+        if (_seenIds.add(item.id)) {
+          _items.add(item);
+        }
+      }
+
       if (newItems.isNotEmpty) {
         final last = newItems.last;
         _cursorCreatedAt = last.createdAt;
@@ -156,20 +205,23 @@ class CatalogPageSource extends ChangeNotifier {
 
       _hasMore = newItems.length >= pageSize;
     } catch (e) {
+      if (_disposed || currentSeq != _searchSequence) return;
       _error = e;
     } finally {
-      _isLoading = false;
-      notifyListeners();
-      if (_needsReloadAfterLoading) {
-        _needsReloadAfterLoading = false;
-        refresh();
+      if (!_disposed && currentSeq == _searchSequence) {
+        _isLoading = false;
+        _safeNotifyListeners();
+        if (_needsReloadAfterLoading) {
+          _needsReloadAfterLoading = false;
+          refresh();
+        }
       }
     }
   }
 
   /// Reintenta la última operación fallida preservando el estado previo.
   Future<void> retry() async {
-    if (_isLoading) return;
+    if (_isLoading || _disposed) return;
     if (_lastSearchQuery != null) {
       await search(_lastSearchQuery!);
     } else {
@@ -177,27 +229,40 @@ class CatalogPageSource extends ChangeNotifier {
     }
   }
 
-  /// Realiza una búsqueda FTS5 sanitizada y parametrizada.
+  /// Realiza una búsqueda FTS5 sanitizada y parametrizada con control estricto de carreras.
   Future<void> search(String query) async {
+    if (_disposed) return;
     _lastSearchQuery = query;
+    final currentSeq = ++_searchSequence;
     _isLoading = true;
     _error = null;
-    notifyListeners();
+    _safeNotifyListeners();
 
     try {
-      _items = await dao.searchTitlesFts(
+      final results = await dao.searchTitlesFts(
         rawQuery: query,
         mediaType: mediaType,
         genreSlug: genreSlug,
         sort: sort,
         limit: pageSize,
       );
+
+      if (_disposed || currentSeq != _searchSequence) return;
+
+      _items = results;
+      _seenIds.clear();
+      for (final item in results) {
+        _seenIds.add(item.id);
+      }
       _hasMore = false;
     } catch (e) {
+      if (_disposed || currentSeq != _searchSequence) return;
       _error = e;
     } finally {
-      _isLoading = false;
-      notifyListeners();
+      if (!_disposed && currentSeq == _searchSequence) {
+        _isLoading = false;
+        _safeNotifyListeners();
+      }
     }
   }
 }
