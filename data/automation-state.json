@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-09-16T02:37:17.298Z",
+  "lastRunAt": "2026-09-16T07:54:22.461Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -32,9 +32,9 @@
     1506560,
     1408162,
     1482547,
-    1339713,
     264980,
     1516698,
+    30723,
     1335666
   ],
   "tmdbIdsPublished": [],
@@ -154,7 +154,7 @@
     {
       "tmdbId": 1408162,
       "title": "Vishwanath e hijos",
-      "reason": "Votos 21 por debajo del mínimo (50)"
+      "reason": "Votos 22 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1482547,
@@ -165,6 +165,11 @@
       "tmdbId": 264980,
       "title": "Das Mädchen mit der heißen Masche",
       "reason": "Rating 4.2 por debajo del mínimo (5.5)"
+    },
+    {
+      "tmdbId": 30723,
+      "title": "Cavegirl: La chica de las cavernas (Cavernícola 2)",
+      "reason": "Rating 4 por debajo del mínimo (5.5)"
     }
   ]
 }

@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-09-16T02:37:16.597Z",
-  "durationMs": 705,
+  "generatedAt": "2026-09-16T07:54:19.544Z",
+  "durationMs": 2922,
   "dryRun": false,
   "moviesFound": 34,
-  "moviesDiscarded": 25,
+  "moviesDiscarded": 26,
   "moviesAdded": 0,
   "moviesEnriched": 0,
-  "duplicates": 9,
+  "duplicates": 8,
   "tmdbErrors": 0,
   "providerErrors": 0,
   "invalidSources": 0,
@@ -125,7 +125,7 @@
     {
       "tmdbId": 1408162,
       "title": "Vishwanath e hijos",
-      "reason": "Votos 21 por debajo del mínimo (50)"
+      "reason": "Votos 22 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1482547,
@@ -136,6 +136,11 @@
       "tmdbId": 264980,
       "title": "Das Mädchen mit der heißen Masche",
       "reason": "Rating 4.2 por debajo del mínimo (5.5)"
+    },
+    {
+      "tmdbId": 30723,
+      "title": "Cavegirl: La chica de las cavernas (Cavernícola 2)",
+      "reason": "Rating 4 por debajo del mínimo (5.5)"
     }
   ]
 }
