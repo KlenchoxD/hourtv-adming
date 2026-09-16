@@ -101,13 +101,13 @@ class _PrerollScreenState extends State<_PrerollScreen> {
   int _progress = 0;
   String? _loadError;
   String? _lockedHost;
+  bool _adReady = false;
 
   bool get _canSkip => _secondsLeft == 0;
 
   @override
   void initState() {
     super.initState();
-    _startCountdown();
     if (widget.useWebView) {
       _createWebView();
       // Timeout tolerante de 10s: permite la cadena de redirecciones del
@@ -116,8 +116,13 @@ class _PrerollScreenState extends State<_PrerollScreen> {
         if (mounted && _progress < 100 && _loadError == null) {
           debugPrint('[ADS] timeout');
           setState(() => _loadError = 'Espacio publicitario');
+          _beginSkipCountdown();
         }
       });
+    } else {
+      // En plataformas sin WebView se muestra el fallback; el contador empieza
+      // aquí porque no existe una carga publicitaria que esperar.
+      _beginSkipCountdown();
     }
   }
 
@@ -151,6 +156,12 @@ class _PrerollScreenState extends State<_PrerollScreen> {
         setState(() => _secondsLeft--);
       }
     });
+  }
+
+  void _beginSkipCountdown() {
+    if (_adReady || !mounted) return;
+    _adReady = true;
+    _startCountdown();
   }
 
   void _createWebView() {
@@ -198,6 +209,7 @@ class _PrerollScreenState extends State<_PrerollScreen> {
                     _lockedHost ??= host;
                   }
                 });
+                _beginSkipCountdown();
               }
             },
             onWebResourceError: (error) {
@@ -211,6 +223,7 @@ class _PrerollScreenState extends State<_PrerollScreen> {
     } catch (_) {
       _controller = null;
       _loadError = 'Espacio publicitario';
+      _beginSkipCountdown();
     }
   }
 

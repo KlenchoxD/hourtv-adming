@@ -22,6 +22,7 @@ import '../services/sync/profile_sync_engine.dart';
 import '../services/subtitles/hourtv_subtitle_track.dart';
 import '../services/subtitles/subtitle_controller.dart';
 import '../services/subtitles/subtitle_discovery_service.dart';
+import '../services/subtitles/github_subtitle_repository.dart';
 import 'hourtv_focusable.dart';
 import 'hourtv_cast_controls_screen.dart';
 import 'hourtv_cast_sheet.dart';
@@ -135,6 +136,13 @@ class _PlayerScreenState extends State<PlayerScreen>
   final ValueNotifier<int?> _nextEpisodeCountdown = ValueNotifier(null);
   final ValueNotifier<bool> _creditsMode = ValueNotifier(false);
   final ValueNotifier<bool> _playbackEnded = ValueNotifier(false);
+  final ValueNotifier<bool> _bufferingNotifier = ValueNotifier(false);
+  final GithubSubtitleRepository _githubSubtitles = GithubSubtitleRepository();
+  bool _wasBuffering = false;
+  DateTime? _bufferingStartTime;
+  Duration? _lastObservedPosition;
+  int _stallTicks = 0;
+  bool _stallReported = false;
   bool _autoNextCancelled = false;
   bool _advancingEpisode = false;
   int _lastProgressSecond = -1;
@@ -339,6 +347,7 @@ class _PlayerScreenState extends State<PlayerScreen>
     final controller = _vc;
     if (controller == null) return;
     if (controller.value.hasError) {
+      debugPrint('[PLAYER] playback_error');
       _handlePlaybackError(controller);
       return;
     }
@@ -348,6 +357,37 @@ class _PlayerScreenState extends State<PlayerScreen>
     final value = controller.value;
     final duration = value.duration;
     if (duration <= Duration.zero) return;
+
+    // Detección y registro de buffering sin reconstruir toda la pantalla
+    final isBuffering = value.isBuffering;
+    if (isBuffering != _wasBuffering) {
+      _wasBuffering = isBuffering;
+      _bufferingNotifier.value = isBuffering;
+      if (isBuffering) {
+        _bufferingStartTime = DateTime.now();
+        debugPrint('[PLAYER] buffering_start');
+      } else {
+        if (_bufferingStartTime != null) {
+          debugPrint('[PLAYER] buffering_end');
+          _bufferingStartTime = null;
+        }
+      }
+    }
+
+    // Detección de atascamiento en reproducción (stall)
+    if (value.isPlaying && !isBuffering && !value.isCompleted) {
+      if (value.position == _lastObservedPosition) {
+        _stallTicks++;
+        if (_stallTicks >= 3 && !_stallReported) {
+          _stallReported = true;
+          debugPrint('[PLAYER] position_stall');
+        }
+      } else {
+        _lastObservedPosition = value.position;
+        _stallTicks = 0;
+        _stallReported = false;
+      }
+    }
 
     // Si se reanudó, ignorar ticks espurios previos a la posición de seek
     if (_resumePositionMs > 0 &&
@@ -474,6 +514,11 @@ class _PlayerScreenState extends State<PlayerScreen>
       _activeServerUrl = targetUrl;
       _embedUrl = null;
     });
+    if (_vc != null) {
+      debugPrint('[PLAYER] controller_replaced');
+    }
+    _bufferingNotifier.value = false;
+    _wasBuffering = false;
     _vc?.removeListener(_onVideoProgress);
     _cc?.dispose();
     _vc?.dispose();
@@ -546,11 +591,13 @@ class _PlayerScreenState extends State<PlayerScreen>
       }
       _resolvedPlaybackUrl = playUrl;
       _resolvedPlaybackNeedsHeaders = playHeaders.isNotEmpty;
+      debugPrint('[PLAYER] initialize_start');
       _vc = VideoPlayerController.networkUrl(
         Uri.parse(playUrl),
         httpHeaders: playHeaders,
       );
       await _vc!.initialize();
+      debugPrint('[PLAYER] initialize_done');
       unawaited(
         _discoverSubtitles(
           ch,
@@ -612,6 +659,7 @@ class _PlayerScreenState extends State<PlayerScreen>
       // laterales se quedaban visibles para siempre al entrar a una peli.
       _showChromeControls();
     } catch (e) {
+      debugPrint('[PLAYER] playback_error');
       if (await _tryFallback(ch, targetUrl)) return;
       setState(() {
         _err = playbackErrorMessage(e.toString());
@@ -629,6 +677,7 @@ class _PlayerScreenState extends State<PlayerScreen>
     required int generation,
     required VideoPlayerController controller,
   }) async {
+    debugPrint('[PLAYER] subtitle_discovery_start');
     final tracks = await _subtitleDiscovery.discover(
       channel: channel,
       activeUrl: activeUrl,
@@ -640,21 +689,78 @@ class _PlayerScreenState extends State<PlayerScreen>
         !identical(_vc, controller)) {
       return;
     }
-    setState(() => _availableSubtitles = tracks);
+    final combinedTracks = <HourTvSubtitleTrack>[...tracks];
+    setState(() => _availableSubtitles = combinedTracks);
+
+    // Consulta en segundo plano al repositorio GitHub
+    try {
+      final season = _extractSeason(channel.name);
+      final episode = _extractEpisode(channel.name);
+      final cleanTitle = _extractCleanTitle(channel.name);
+
+      final ghTracks = await _githubSubtitles.searchSubtitles(
+        title: cleanTitle.isNotEmpty ? cleanTitle : channel.displayName,
+        year: channel.year,
+        season: season,
+        episode: episode,
+      );
+
+      if (mounted &&
+          generation == _subtitleDiscoveryGeneration &&
+          identical(_vc, controller) &&
+          ghTracks.isNotEmpty) {
+        final existingUrls = combinedTracks
+            .map((t) => t.url?.trim().toLowerCase())
+            .whereType<String>()
+            .toSet();
+
+        for (final track in ghTracks) {
+          final clean = track.url?.trim().toLowerCase();
+          if (clean != null && !existingUrls.contains(clean)) {
+            existingUrls.add(clean);
+            combinedTracks.add(track);
+          }
+        }
+        setState(() => _availableSubtitles = List.unmodifiable(combinedTracks));
+      }
+    } catch (_) {}
+
+    debugPrint('[PLAYER] subtitle_discovery_done');
+
     final mode = StorageService.getSetting(
       'preferredSubtitleMode',
       defaultValue: 'auto',
     ).toString();
-    if (mode != 'auto' || tracks.isEmpty) return;
+    if (mode != 'auto' || combinedTracks.isEmpty) return;
     final preferred = StorageService.getSetting(
       'preferredSubtitleLanguage',
       defaultValue: 'es',
     ).toString();
     final automatic = SubtitleController.resolveAutomaticTrack(
-      tracks: tracks,
+      tracks: combinedTracks,
       profileLanguage: preferred,
     );
     if (automatic.id != 'off') await _applySubtitleTrack(automatic);
+  }
+
+  static int? _extractSeason(String name) {
+    final match = RegExp(r'[sS](\d+)|[tT](\d+)|[tT]emporada\s*(\d+)').firstMatch(name);
+    if (match != null) {
+      return int.tryParse(match.group(1) ?? match.group(2) ?? match.group(3) ?? '');
+    }
+    return null;
+  }
+
+  static int? _extractEpisode(String name) {
+    final match = RegExp(r'[eE](\d+)|[cC]ap[ií]tulo\s*(\d+)|[eE]pisodio\s*(\d+)').firstMatch(name);
+    if (match != null) {
+      return int.tryParse(match.group(1) ?? match.group(2) ?? match.group(3) ?? '');
+    }
+    return null;
+  }
+
+  static String _extractCleanTitle(String name) {
+    return name.split(RegExp(r'[sS]\d+|[tT]\d+|[tT]emporada|[eE]\d+|[cC]ap[ií]tulo')).first.trim();
   }
 
   /// Si `failedUrl` es la fuente activa del plan y quedan mirrors por probar,
@@ -1211,12 +1317,6 @@ class _PlayerScreenState extends State<PlayerScreen>
       return;
     }
 
-    // Capturar estado actual ANTES de cualquier operación asíncrona
-    final wasPlaying = vc.value.isInitialized && vc.value.isPlaying;
-    final position = vc.value.isInitialized ? vc.value.position : null;
-    final speed = vc.value.isInitialized ? vc.value.playbackSpeed : 1.0;
-    final volume = _volume;
-
     if (track.id == 'off') {
       await vc.setClosedCaptionFile(null);
       if (mounted && identical(_vc, vc)) {
@@ -1230,11 +1330,8 @@ class _PlayerScreenState extends State<PlayerScreen>
       if (!mounted || !identical(_vc, vc)) return;
       if (captionFile != null) {
         await vc.setClosedCaptionFile(Future.value(captionFile));
-        // D.I: restaurar estado preservado
-        if (position != null) await vc.seekTo(position);
-        await vc.setPlaybackSpeed(speed);
-        await vc.setVolume(volume);
-        if (wasPlaying) await vc.play();
+        // No forzar seekTo ni play innecesarios para evitar que ExoPlayer
+        // vacíe el búfer o produzca microcongelamientos.
         if (mounted && identical(_vc, vc)) {
           setState(() => _selectedSubtitle = track);
         }
@@ -1721,6 +1818,31 @@ class _PlayerScreenState extends State<PlayerScreen>
                           ),
                           child: Stack(
                           children: [
+                            ValueListenableBuilder<bool>(
+                              valueListenable: _bufferingNotifier,
+                              builder: (context, isBuffering, _) {
+                                if (!isBuffering) return const SizedBox.shrink();
+                                return Center(
+                                  child: DecoratedBox(
+                                    decoration: BoxDecoration(
+                                      color: Colors.black.withValues(alpha: 0.6),
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: const Padding(
+                                      padding: EdgeInsets.all(16),
+                                      child: SizedBox(
+                                        width: 36,
+                                        height: 36,
+                                        child: CircularProgressIndicator(
+                                          color: _hourRed,
+                                          strokeWidth: 3.2,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
                             if (_screenDim > 0)
                               Positioned.fill(
                                 child: IgnorePointer(
