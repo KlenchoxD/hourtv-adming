@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-09-16T07:54:19.544Z",
-  "durationMs": 2922,
+  "generatedAt": "2026-09-16T12:58:19.536Z",
+  "durationMs": 2805,
   "dryRun": false,
   "moviesFound": 34,
   "moviesDiscarded": 26,
@@ -23,13 +23,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1288445,
-      "title": "El motín",
+      "tmdbId": 1101383,
+      "title": "El final de Oak Street",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1101383,
-      "title": "El final de Oak Street",
+      "tmdbId": 1288445,
+      "title": "El motín",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -48,19 +48,24 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1275779,
-      "title": "El día de la revelación",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1185806,
       "title": "La Patrulla Canina: La dino película",
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1275779,
+      "title": "El día de la revelación",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1302904,
       "title": "Prácticamente magia 2",
-      "reason": "Votos 48 por debajo del mínimo (50)"
+      "reason": "Votos 49 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 1228710,
+      "title": "The Mandalorian and Grogu",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1081003,
@@ -70,11 +75,6 @@
     {
       "tmdbId": 1433367,
       "title": "Una noche al año",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1228710,
-      "title": "The Mandalorian and Grogu",
       "reason": "Sin fuente autorizada configurada"
     },
     {

@@ -1,24 +1,24 @@
 {
-  "lastRunAt": "2026-09-16T07:54:22.461Z",
+  "lastRunAt": "2026-09-16T12:58:22.337Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
     1204680,
+    1101383,
     1288445,
     1108427,
-    1101383,
     1137844,
     1084244,
     1315772,
     1127384,
-    1275779,
-    860508,
     1185806,
+    1275779,
     1083381,
     1302904,
+    860508,
+    1228710,
     1081003,
     1433367,
-    1228710,
     1273221,
     671,
     1523145,
@@ -52,13 +52,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1288445,
-      "title": "El motín",
+      "tmdbId": 1101383,
+      "title": "El final de Oak Street",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1101383,
-      "title": "El final de Oak Street",
+      "tmdbId": 1288445,
+      "title": "El motín",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -77,19 +77,24 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1275779,
-      "title": "El día de la revelación",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1185806,
       "title": "La Patrulla Canina: La dino película",
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1275779,
+      "title": "El día de la revelación",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1302904,
       "title": "Prácticamente magia 2",
-      "reason": "Votos 48 por debajo del mínimo (50)"
+      "reason": "Votos 49 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 1228710,
+      "title": "The Mandalorian and Grogu",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1081003,
@@ -99,11 +104,6 @@
     {
       "tmdbId": 1433367,
       "title": "Una noche al año",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1228710,
-      "title": "The Mandalorian and Grogu",
       "reason": "Sin fuente autorizada configurada"
     },
     {
