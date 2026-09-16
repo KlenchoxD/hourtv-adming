@@ -1684,25 +1684,29 @@ class _PlayerScreenState extends State<PlayerScreen>
                     // probar en dispositivo.
                     if (defaultTargetPlatform == TargetPlatform.android)
                       Positioned.fill(
-                        child: Center(
-                          child: _loading
-                              ? _lw()
-                              : _err != null
-                              ? _ew()
-                              : _cc != null
-                              ? _androidVideoStage()
-                              : const SizedBox(),
+                        child: RepaintBoundary(
+                          child: Center(
+                            child: _loading
+                                ? _lw()
+                                : _err != null
+                                ? _ew()
+                                : _cc != null
+                                ? _androidVideoStage()
+                                : const SizedBox(),
+                          ),
                         ),
                       )
                     else
                       Positioned.fill(
-                        child: _loading
-                            ? Center(child: _lw())
-                            : _err != null
-                            ? Center(child: _ew())
-                            : _vc != null
-                            ? _videoStage()
-                            : const SizedBox(),
+                        child: RepaintBoundary(
+                          child: _loading
+                              ? Center(child: _lw())
+                              : _err != null
+                              ? Center(child: _ew())
+                              : _vc != null
+                              ? _videoStage()
+                              : const SizedBox(),
+                        ),
                       ),
                     // Positioned.fill obligatorio: como hijo sin posicionar,
                     // este SafeArea se dimensionaba a su contenido, y el Stack
@@ -1710,11 +1714,12 @@ class _PlayerScreenState extends State<PlayerScreen>
                     // a 0x0 y arrastraba al Stack exterior. Resultado: pantalla
                     // completamente negra, sin video y sin controles.
                     Positioned.fill(
-                      child: SafeArea(
-                        minimum: EdgeInsets.symmetric(
-                          horizontal: DeviceProfile.isTv(context) ? 12 : 0,
-                        ),
-                        child: Stack(
+                      child: RepaintBoundary(
+                        child: SafeArea(
+                          minimum: EdgeInsets.symmetric(
+                            horizontal: DeviceProfile.isTv(context) ? 12 : 0,
+                          ),
+                          child: Stack(
                           children: [
                             if (_screenDim > 0)
                               Positioned.fill(
@@ -1822,9 +1827,10 @@ class _PlayerScreenState extends State<PlayerScreen>
                         ),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
+            ),
       ),
     ),
   );

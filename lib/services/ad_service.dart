@@ -26,6 +26,13 @@ class AdService {
           defaultTargetPlatform == TargetPlatform.iOS ||
           defaultTargetPlatform == TargetPlatform.macOS);
 
+  static bool isSmartlinkProvider(String? host) {
+    if (host == null || host.isEmpty) return false;
+    final h = host.toLowerCase();
+    final smartHost = Uri.parse(smartlink).host.toLowerCase();
+    return h == smartHost || h.endsWith('.profitableratecpmnetwork.com');
+  }
+
   static bool allowsContainedNavigation(
     String url, {
     required String? lockedHost,
@@ -35,11 +42,20 @@ class AdService {
       return false;
     }
     if (lockedHost == null || lockedHost.isEmpty) return true;
-    return uri.host.toLowerCase() == lockedHost.toLowerCase();
+    final host = uri.host.toLowerCase();
+    final locked = lockedHost.toLowerCase();
+    if (host == locked) return true;
+    if (isSmartlinkProvider(locked)) return true;
+    return false;
+  }
+
+  static String sanitizeHost(String url) {
+    return Uri.tryParse(url)?.host.toLowerCase() ?? 'unknown';
   }
 
   static Future<void> showPreroll(BuildContext context, Channel channel) async {
     if (!shouldShowPreroll(channel) || !context.mounted) return;
+    debugPrint('[ADS] preroll_requested');
     await Navigator.of(context, rootNavigator: true).push<void>(
       PageRouteBuilder<void>(
         opaque: true,
@@ -94,10 +110,11 @@ class _PrerollScreenState extends State<_PrerollScreen> {
     _startCountdown();
     if (widget.useWebView) {
       _createWebView();
-      // Si el anuncio no renderiza en unos segundos (típico en TV o con
-      // DNS/ad-blocker), muestra el fallback en vez de una pantalla negra.
-      _loadTimeout = Timer(const Duration(seconds: 4), () {
+      // Timeout tolerante de 10s: permite la cadena de redirecciones del
+      // Smartlink en conexiones móviles sin desmontar prematuramente el WebView.
+      _loadTimeout = Timer(const Duration(seconds: 10), () {
         if (mounted && _progress < 100 && _loadError == null) {
+          debugPrint('[ADS] timeout');
           setState(() => _loadError = 'Espacio publicitario');
         }
       });
@@ -138,32 +155,53 @@ class _PrerollScreenState extends State<_PrerollScreen> {
 
   void _createWebView() {
     try {
+      debugPrint('[ADS] webview_created');
       _controller = WebViewController()
         ..setJavaScriptMode(JavaScriptMode.unrestricted)
         ..setBackgroundColor(Colors.black)
         ..setNavigationDelegate(
           NavigationDelegate(
             onNavigationRequest: (request) {
-              return AdService.allowsContainedNavigation(
-                    request.url,
-                    lockedHost: _lockedHost,
-                  )
-                  ? NavigationDecision.navigate
-                  : NavigationDecision.prevent;
+              final allowed = AdService.allowsContainedNavigation(
+                request.url,
+                lockedHost: _lockedHost,
+              );
+              if (!allowed) {
+                debugPrint(
+                  '[ADS] navigation_blocked host=${AdService.sanitizeHost(request.url)}',
+                );
+                return NavigationDecision.prevent;
+              }
+              return NavigationDecision.navigate;
+            },
+            onPageStarted: (url) {
+              debugPrint(
+                '[ADS] navigation_started host=${AdService.sanitizeHost(url)}',
+              );
             },
             onProgress: (progress) {
               if (mounted) setState(() => _progress = progress);
             },
             onPageFinished: (url) {
               final host = Uri.tryParse(url)?.host;
+              debugPrint(
+                '[ADS] page_finished host=${AdService.sanitizeHost(url)}',
+              );
               if (mounted) {
                 setState(() {
                   _progress = 100;
-                  if (host?.isNotEmpty == true) _lockedHost ??= host;
+                  // No fijar lockedHost al intermediario de redirecciones
+                  // del Smartlink; permitir que llegue a la landing final.
+                  if (host != null &&
+                      host.isNotEmpty &&
+                      !AdService.isSmartlinkProvider(host)) {
+                    _lockedHost ??= host;
+                  }
                 });
               }
             },
             onWebResourceError: (error) {
+              debugPrint('[ADS] webview_error code=${error.errorCode}');
               if (error.isForMainFrame == false || !mounted) return;
               setState(() => _loadError = 'No se pudo cargar la publicidad.');
             },
@@ -177,7 +215,10 @@ class _PrerollScreenState extends State<_PrerollScreen> {
   }
 
   void _close() {
-    if (_canSkip) Navigator.of(context).pop();
+    if (_canSkip) {
+      debugPrint('[ADS] preroll_closed');
+      Navigator.of(context).pop();
+    }
   }
 
   @override

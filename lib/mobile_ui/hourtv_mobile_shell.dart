@@ -474,10 +474,9 @@ class _HourTvMobileHomeState extends State<HourTvMobileHome> {
   void _onHomeScroll() {
     if (!_scrollController.hasClients) return;
     final pos = _scrollController.position;
-    // Igual que Buscar: no pedir datos por cada píxel desplazado. Las filas
-    // de Inicio muestran una vista previa fija, de modo que agregar páginas
-    // no aumenta necesariamente el alto vertical; sin este cerrojo un solo
-    // gesto drenaba el catálogo completo y reconstruía Inicio repetidamente.
+    // Igual que Buscar: no pedir datos por cada píxel desplazado.
+    // Solo pide una sola página cuando el usuario se acerca al final del scroll.
+    // Requiere volver a subir más allá de 800px para rearmar la siguiente página.
     if (pos.extentAfter > 800) {
       _homePaginationArmed = true;
       return;
@@ -657,10 +656,12 @@ class _HourTvMobileHomeState extends State<HourTvMobileHome> {
           else ...[
             if (featuredChannels.isNotEmpty)
               SliverToBoxAdapter(
-                child: _HeroCarousel(
-                  channels: featuredChannels,
-                  onPlay: widget.onOpen,
-                  onFavorite: widget.store.toggleFavorite,
+                child: RepaintBoundary(
+                  child: _HeroCarousel(
+                    channels: featuredChannels,
+                    onPlay: widget.onOpen,
+                    onFavorite: widget.store.toggleFavorite,
+                  ),
                 ),
               ),
             if (continueWatching.isNotEmpty) ...[
@@ -671,24 +672,28 @@ class _HourTvMobileHomeState extends State<HourTvMobileHome> {
                 ),
               ),
               SliverToBoxAdapter(
-                child: SizedBox(
-                  height: 220,
-                  child: ListView.separated(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    scrollDirection: Axis.horizontal,
-                    itemCount: continueWatching.length,
-                    separatorBuilder: (_, _) => const SizedBox(width: 12),
-                    itemBuilder: (_, index) {
-                      final item = continueWatching[index];
-                      return HourTvPosterCard(
-                        channel: item,
-                        progress: item.progressFraction,
-                        secondaryProgressLabel: remainingLabel(item),
-                        onTap: () =>
-                            (widget.onOpenContinue ?? widget.onOpen)(item),
-                        assetFallback: _fallbackArtwork(index),
-                      );
-                    },
+                child: RepaintBoundary(
+                  child: SizedBox(
+                    height: 220,
+                    child: ListView.separated(
+                      key: const PageStorageKey('hourtv-home-continue-watching'),
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      scrollDirection: Axis.horizontal,
+                      itemCount: continueWatching.length,
+                      separatorBuilder: (_, _) => const SizedBox(width: 12),
+                      itemBuilder: (_, index) {
+                        final item = continueWatching[index];
+                        return HourTvPosterCard(
+                          key: ValueKey('continue-${item.url}'),
+                          channel: item,
+                          progress: item.progressFraction,
+                          secondaryProgressLabel: remainingLabel(item),
+                          onTap: () =>
+                              (widget.onOpenContinue ?? widget.onOpen)(item),
+                          assetFallback: _fallbackArtwork(index),
+                        );
+                      },
+                    ),
                   ),
                 ),
               ),
@@ -704,21 +709,25 @@ class _HourTvMobileHomeState extends State<HourTvMobileHome> {
                 ),
               ),
               SliverToBoxAdapter(
-                child: SizedBox(
-                  height: 220,
-                  child: ListView.separated(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    scrollDirection: Axis.horizontal,
-                    itemCount: _recommendations.length,
-                    separatorBuilder: (_, _) => const SizedBox(width: 12),
-                    itemBuilder: (_, index) {
-                      final item = _recommendations[index].channel;
-                      return HourTvPosterCard(
-                        channel: item,
-                        onTap: () => widget.onOpen(item),
-                        assetFallback: _fallbackArtwork(index),
-                      );
-                    },
+                child: RepaintBoundary(
+                  child: SizedBox(
+                    height: 220,
+                    child: ListView.separated(
+                      key: const PageStorageKey('hourtv-home-recommendations'),
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      scrollDirection: Axis.horizontal,
+                      itemCount: _recommendations.length,
+                      separatorBuilder: (_, _) => const SizedBox(width: 12),
+                      itemBuilder: (_, index) {
+                        final item = _recommendations[index].channel;
+                        return HourTvPosterCard(
+                          key: ValueKey('rec-${item.url}'),
+                          channel: item,
+                          onTap: () => widget.onOpen(item),
+                          assetFallback: _fallbackArtwork(index),
+                        );
+                      },
+                    ),
                   ),
                 ),
               ),
@@ -742,11 +751,6 @@ class _HourTvMobileHomeState extends State<HourTvMobileHome> {
     required List<Channel> effectiveMovies,
     required List<Channel> effectiveSeries,
   }) {
-    // Cada fila guarda la lista completa: la horizontal solo muestra las
-    // primeras `_rowPreview` y "Ver más" abre el resto en una cuadricula.
-    // Antes estas tres filas repartian el mismo catalogo con distinto orden
-    // (una era literalmente la lista al reves) para simular variedad; ahora
-    // cada una es una categoria real filtrada por el catalogo.
     final rows = <(String, List<Channel>)>[
       ('Películas', effectiveMovies),
       ('Series', effectiveSeries),
@@ -769,17 +773,24 @@ class _HourTvMobileHomeState extends State<HourTvMobileHome> {
           ),
         ),
         SliverToBoxAdapter(
-          child: SizedBox(
-            height: 220,
-            child: ListView.separated(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              scrollDirection: Axis.horizontal,
-              itemCount: math.min(row.$2.length, _rowPreview),
-              separatorBuilder: (_, _) => const SizedBox(width: 12),
-              itemBuilder: (_, index) => HourTvPosterCard(
-                channel: row.$2[index],
-                onTap: () => widget.onOpen(row.$2[index]),
-                assetFallback: _fallbackArtwork(index + 1),
+          child: RepaintBoundary(
+            child: SizedBox(
+              height: 220,
+              child: ListView.separated(
+                key: PageStorageKey('hourtv-home-row-${row.$1}'),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                scrollDirection: Axis.horizontal,
+                itemCount: math.min(row.$2.length, _rowPreview),
+                separatorBuilder: (_, _) => const SizedBox(width: 12),
+                itemBuilder: (_, index) {
+                  final channel = row.$2[index];
+                  return HourTvPosterCard(
+                    key: ValueKey('row-${row.$1}-${channel.url}'),
+                    channel: channel,
+                    onTap: () => widget.onOpen(channel),
+                    assetFallback: _fallbackArtwork(index + 1),
+                  );
+                },
               ),
             ),
           ),

@@ -105,5 +105,36 @@ void main() {
         isTrue,
       );
     });
+
+    test('permite redirección desde el intermediario de Smartlink hacia el anunciante', () {
+      // Si el proveedor intermediario de Smartlink está como lockedHost provisional,
+      // no debe impedir la navegación a la oferta legítima del anunciante.
+      expect(
+        AdService.allowsContainedNavigation(
+          'https://anunciante.com/landing',
+          lockedHost: 'www.profitableratecpmnetwork.com',
+        ),
+        isTrue,
+      );
+      expect(
+        AdService.isSmartlinkProvider('www.profitableratecpmnetwork.com'),
+        isTrue,
+      );
+      expect(
+        AdService.isSmartlinkProvider('subdomain.profitableratecpmnetwork.com'),
+        isTrue,
+      );
+      expect(
+        AdService.isSmartlinkProvider('anunciante.com'),
+        isFalse,
+      );
+    });
+
+    test('sanitiza hosts sin exponer parámetros de URL ni claves', () {
+      final sanitized = AdService.sanitizeHost(AdService.smartlink);
+      expect(sanitized, 'www.profitableratecpmnetwork.com');
+      expect(sanitized.contains('key'), isFalse);
+      expect(sanitized.contains('02db82eac7ad89e5799436cbc25c9946'), isFalse);
+    });
   });
 }
