@@ -27,6 +27,7 @@ import '../services/recommendations/recommendation_engine.dart';
 import '../services/catalog/catalog_dtos.dart';
 import '../services/catalog/catalog_repository.dart';
 import '../services/catalog/catalog_detail_navigator.dart';
+import '../services/image_resolution_service.dart';
 
 enum HourTvMobileDestination { home, live, search, library, profile }
 
@@ -355,6 +356,20 @@ class _HourTvMobileHomeState extends State<HourTvMobileHome> {
   List<Channel> _cachedDriftMovies = const [];
   List<Channel> _cachedDriftSeries = const [];
   bool _homePaginationArmed = true;
+  List<Channel>? _memoizedFallbackFeatured;
+  Object? _lastAllContentRef;
+
+  List<Channel> _getFallbackFeatured(List<Channel> allContent) {
+    if (allContent.isEmpty) return const <Channel>[];
+    if (_memoizedFallbackFeatured != null &&
+        identical(_lastAllContentRef, allContent)) {
+      return _memoizedFallbackFeatured!;
+    }
+    _lastAllContentRef = allContent;
+    _memoizedFallbackFeatured =
+        CatalogPresentationIndex.build(allContent).featured(limit: 5);
+    return _memoizedFallbackFeatured!;
+  }
 
   @override
   void initState() {
@@ -508,12 +523,7 @@ class _HourTvMobileHomeState extends State<HourTvMobileHome> {
               .toList();
 
     final featuredChannels =
-        widget.featured ??
-        (widget.allContent.isNotEmpty
-            ? CatalogPresentationIndex.build(
-                widget.allContent,
-              ).featured(limit: 5)
-            : const <Channel>[]);
+        widget.featured ?? _getFallbackFeatured(widget.allContent);
 
     final hasError =
         (_moviesPageSource != null && _moviesPageSource!.hasError) ||
@@ -1056,6 +1066,9 @@ class _HourTvHero extends StatelessWidget {
         url: channel.backdrop ?? channel.logo,
         asset: 'assets/figma/phase-3-1/hero-el-ultimo-amanecer.png',
         alignment: Alignment.topCenter,
+        variant: ImageResolutionVariant.heroBackdrop,
+        memCacheWidth: 780,
+        memCacheHeight: 439,
       ),
       const DecoratedBox(
         decoration: BoxDecoration(

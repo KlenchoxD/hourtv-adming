@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import '../services/image_resolution_service.dart';
 
 /// Imagen de catalogo con ajuste adaptable.
 ///
@@ -62,10 +63,17 @@ class _AdaptiveArtworkState extends State<AdaptiveArtwork> {
     }
   }
 
+  String get _normalizedUrl => ImageResolutionService.normalize(
+        widget.url,
+        variant: widget.cacheWidth > 400
+            ? ImageResolutionVariant.heroBackdrop
+            : ImageResolutionVariant.poster,
+      );
+
   void _measure() {
     _drop();
-    final url = widget.url;
-    if (!widget.adaptive || url == null || url.trim().isEmpty) return;
+    final url = _normalizedUrl;
+    if (!widget.adaptive || url.isEmpty) return;
     final stream = CachedNetworkImageProvider(
       url,
       maxWidth: widget.cacheWidth,
@@ -95,8 +103,8 @@ class _AdaptiveArtworkState extends State<AdaptiveArtwork> {
 
   @override
   Widget build(BuildContext context) {
-    final url = widget.url;
-    if (url == null || url.trim().isEmpty) return widget.fallback;
+    final url = _normalizedUrl;
+    if (url.isEmpty) return widget.fallback;
     return CachedNetworkImage(
       imageUrl: url,
       fit: _wide ? BoxFit.cover : widget.fit,

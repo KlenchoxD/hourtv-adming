@@ -200,8 +200,15 @@ class CatalogRepository extends ChangeNotifier {
     String? raw;
     try {
       final file = File(path);
-      if (file.existsSync()) {
-        raw = await file.readAsString();
+      final isTestEnv = !kIsWeb && Platform.environment.containsKey('FLUTTER_TEST');
+      if (isTestEnv) {
+        if (file.existsSync()) {
+          raw = file.readAsStringSync();
+        }
+      } else {
+        if (await file.exists()) {
+          raw = await file.readAsString();
+        }
       }
     } catch (_) {}
     if (raw == null) {
@@ -210,6 +217,11 @@ class CatalogRepository extends ChangeNotifier {
       } catch (_) {}
     }
     if (raw == null) return const CatalogPayload();
+    final isTestEnv = !kIsWeb && Platform.environment.containsKey('FLUTTER_TEST');
+    return isTestEnv ? _parsePayloadInIsolate(raw) : compute(_parsePayloadInIsolate, raw);
+  }
+
+  static CatalogPayload _parsePayloadInIsolate(String raw) {
     return CatalogParser.parse(jsonDecode(raw));
   }
 

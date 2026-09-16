@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io' show File;
+import 'dart:io' show File, Platform;
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart' show rootBundle;
@@ -109,6 +109,9 @@ class ContentStore extends ChangeNotifier {
     _legacyLoading = false;
     error = null;
     failedSourceNames = {};
+    _visibleSeriesCache = null;
+    _genreCategoryCache.clear();
+    _trendingCache = null;
   }
 
   bool _started = false;
@@ -700,11 +703,18 @@ class ContentStore extends ChangeNotifier {
         raw = await _fetchRemoteSourcesFromNetwork();
       }
       raw ??= _cachedRemoteSources();
+      final isTestEnv = !kIsWeb && Platform.environment.containsKey('FLUTTER_TEST');
       if (raw == null && !kIsWeb) {
         try {
           final file = File('assets/data/sources.json');
-          if (file.existsSync()) {
-            raw = file.readAsStringSync();
+          if (isTestEnv) {
+            if (file.existsSync()) {
+              raw = file.readAsStringSync();
+            }
+          } else {
+            if (await file.exists()) {
+              raw = await file.readAsString();
+            }
           }
         } catch (_) {}
       }
@@ -714,18 +724,28 @@ class ContentStore extends ChangeNotifier {
         } catch (_) {}
       }
       if (raw == null) return const _AssetSources([], [], [], []);
-      var parsed = CatalogParser.parse(jsonDecode(raw));
+      var parsed = isTestEnv
+          ? _parseSourcesInIsolate(raw)
+          : await compute(_parseSourcesInIsolate, raw);
       if (parsed.series.isEmpty) {
         try {
           String? assetRaw;
           if (!kIsWeb) {
             final file = File('assets/data/sources.json');
-            if (file.existsSync()) {
-              assetRaw = file.readAsStringSync();
+            if (isTestEnv) {
+              if (file.existsSync()) {
+                assetRaw = file.readAsStringSync();
+              }
+            } else {
+              if (await file.exists()) {
+                assetRaw = await file.readAsString();
+              }
             }
           }
           assetRaw ??= await rootBundle.loadString('assets/data/sources.json');
-          final assetParsed = CatalogParser.parse(jsonDecode(assetRaw));
+          final assetParsed = isTestEnv
+              ? _parseSourcesInIsolate(assetRaw)
+              : await compute(_parseSourcesInIsolate, assetRaw);
           if (assetParsed.series.isNotEmpty) {
             parsed = CatalogPayload(
               lists: [...parsed.lists, ...assetParsed.lists],
@@ -747,6 +767,10 @@ class ContentStore extends ChangeNotifier {
     } catch (_) {
       return const _AssetSources([], [], [], []);
     }
+  }
+
+  static CatalogPayload _parseSourcesInIsolate(String raw) {
+    return CatalogParser.parse(jsonDecode(raw));
   }
 
   Future<void> _loadEpg(List<String> urls) async {
@@ -823,8 +847,27 @@ class ContentStore extends ChangeNotifier {
     return filtered;
   }
 
-  List<XtreamSeries> get visibleSeries =>
-      ParentalControlService.filterSeries(series);
+  List<XtreamSeries>? _visibleSeriesCache;
+  List<XtreamSeries>? _visibleSeriesSource;
+  int _visibleSeriesLength = -1;
+  bool _visibleSeriesRestricted = false;
+
+  List<XtreamSeries> get visibleSeries {
+    final restricted = ParentalControlService.isEnabled;
+    final cached = _visibleSeriesCache;
+    if (cached != null &&
+        identical(_visibleSeriesSource, series) &&
+        _visibleSeriesLength == series.length &&
+        _visibleSeriesRestricted == restricted) {
+      return cached;
+    }
+    final filtered = ParentalControlService.filterSeries(series);
+    _visibleSeriesCache = filtered;
+    _visibleSeriesSource = series;
+    _visibleSeriesLength = series.length;
+    _visibleSeriesRestricted = restricted;
+    return filtered;
+  }
 
   bool get hasRawMovies => all.any((item) => item.type == MediaType.movie);
 
@@ -973,10 +1016,40 @@ class ContentStore extends ChangeNotifier {
   List<Channel> get seriesChannels =>
       visibleAll.where((c) => c.type == MediaType.series).toList();
 
-  List<Channel> _nonLiveByCanonicalGenre(String genre) => visibleAll
-      .where((c) => c.type != MediaType.live)
-      .where((c) => _genresForMovie(c).contains(genre))
-      .toList();
+  final Map<String, List<Channel>> _genreCategoryCache = {};
+  List<Channel>? _trendingCache;
+  Object? _genreCategorySource;
+  int _genreCategoryLength = -1;
+  bool _genreCategoryRestricted = false;
+  int _trendingTitlesCount = -1;
+
+  void _checkAndInvalidateGenreCache() {
+    final restricted = ParentalControlService.isEnabled;
+    if (!identical(_genreCategorySource, all) ||
+        _genreCategoryLength != all.length ||
+        _genreCategoryRestricted != restricted ||
+        _trendingTitlesCount != _trendingTitles.length) {
+      _genreCategoryCache.clear();
+      _trendingCache = null;
+      _genreCategorySource = all;
+      _genreCategoryLength = all.length;
+      _genreCategoryRestricted = restricted;
+      _trendingTitlesCount = _trendingTitles.length;
+    }
+  }
+
+  List<Channel> _nonLiveByCanonicalGenre(String genre) {
+    _checkAndInvalidateGenreCache();
+    final cached = _genreCategoryCache[genre];
+    if (cached != null) return cached;
+
+    final computed = visibleAll
+        .where((c) => c.type != MediaType.live)
+        .where((c) => _genresForMovie(c).contains(genre))
+        .toList(growable: false);
+    _genreCategoryCache[genre] = computed;
+    return computed;
+  }
 
   /// Anime y K-Drama pueden venir como película o como serie: a diferencia
   /// de `moviesByGenre` (solo películas), estas dos filas del Inicio buscan
@@ -990,6 +1063,9 @@ class ContentStore extends ChangeNotifier {
   /// sin coincidencias, cae a lo mas reproducido localmente (tambien real,
   /// via `StorageService.loadWatchCounts`) para que la fila no desaparezca.
   List<Channel> get trending {
+    _checkAndInvalidateGenreCache();
+    if (_trendingCache != null) return _trendingCache!;
+
     if (_trendingTitles.isNotEmpty) {
       final byTmdb = visibleAll
           .where((c) => c.type != MediaType.live)
@@ -998,8 +1074,11 @@ class ContentStore extends ChangeNotifier {
               TmdbService.normalizeTitle(c.displayName),
             ),
           )
-          .toList();
-      if (byTmdb.isNotEmpty) return byTmdb;
+          .toList(growable: false);
+      if (byTmdb.isNotEmpty) {
+        _trendingCache = byTmdb;
+        return byTmdb;
+      }
     }
     final counts = StorageService.loadWatchCounts();
     final candidates = visibleAll
@@ -1008,7 +1087,9 @@ class ContentStore extends ChangeNotifier {
     candidates.sort(
       (a, b) => (counts[b.url] ?? 0).compareTo(counts[a.url] ?? 0),
     );
-    return candidates;
+    final result = List<Channel>.unmodifiable(candidates);
+    _trendingCache = result;
+    return result;
   }
 
   List<Channel> live(String genre) => visibleAll
