@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-09-15T23:52:10.969Z",
-  "durationMs": 569,
+  "generatedAt": "2026-09-16T02:37:16.597Z",
+  "durationMs": 705,
   "dryRun": false,
   "moviesFound": 34,
   "moviesDiscarded": 25,
@@ -60,7 +60,7 @@
     {
       "tmdbId": 1302904,
       "title": "Prácticamente magia 2",
-      "reason": "Votos 46 por debajo del mínimo (50)"
+      "reason": "Votos 48 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1081003,
