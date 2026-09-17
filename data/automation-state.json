@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-09-17T15:57:59.186Z",
+  "lastRunAt": "2026-09-17T19:34:02.690Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -12,15 +12,15 @@
     1084244,
     1315772,
     1127384,
+    1275779,
     1185806,
     1083381,
-    1275779,
     860508,
-    1302904,
     1081003,
-    1433367,
+    1302904,
     1228710,
     1273221,
+    671,
     1212763,
     1375646,
     1368337,
@@ -81,18 +81,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1185806,
-      "title": "La Patrulla Canina: La dino película",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1275779,
       "title": "El día de la revelación",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1302904,
-      "title": "Prácticamente magia 2",
+      "tmdbId": 1185806,
+      "title": "La Patrulla Canina: La dino película",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -101,13 +96,18 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1433367,
-      "title": "Una noche al año",
+      "tmdbId": 1302904,
+      "title": "Prácticamente magia 2",
       "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1228710,
       "title": "The Mandalorian and Grogu",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 671,
+      "title": "Harry Potter y la piedra filosofal",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -163,7 +163,7 @@
     {
       "tmdbId": 1408162,
       "title": "Vishwanath e hijos",
-      "reason": "Votos 22 por debajo del mínimo (50)"
+      "reason": "Votos 24 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1393326,

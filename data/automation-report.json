@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-09-17T15:57:58.638Z",
-  "durationMs": 552,
+  "generatedAt": "2026-09-17T19:33:59.701Z",
+  "durationMs": 2994,
   "dryRun": false,
   "moviesFound": 33,
   "moviesDiscarded": 26,
@@ -53,18 +53,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1185806,
-      "title": "La Patrulla Canina: La dino película",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1275779,
       "title": "El día de la revelación",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1302904,
-      "title": "Prácticamente magia 2",
+      "tmdbId": 1185806,
+      "title": "La Patrulla Canina: La dino película",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -73,13 +68,18 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1433367,
-      "title": "Una noche al año",
+      "tmdbId": 1302904,
+      "title": "Prácticamente magia 2",
       "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1228710,
       "title": "The Mandalorian and Grogu",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 671,
+      "title": "Harry Potter y la piedra filosofal",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -135,7 +135,7 @@
     {
       "tmdbId": 1408162,
       "title": "Vishwanath e hijos",
-      "reason": "Votos 22 por debajo del mínimo (50)"
+      "reason": "Votos 24 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1393326,
