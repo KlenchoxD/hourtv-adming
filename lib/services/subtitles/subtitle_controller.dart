@@ -300,6 +300,45 @@ class SubtitleController {
     }
   }
 
+  /// Registra un archivo de subtítulos pre-descargado y validado en la caché LRU.
+  void registerPreloadedCaption({
+    required HourTvSubtitleTrack track,
+    required String content,
+  }) {
+    if (track.url == null || track.url!.isEmpty) return;
+    final uri = Uri.tryParse(track.url!);
+    if (uri == null) return;
+    final cacheKey = computeCacheKey(uri, track.id);
+    final body = content.trim();
+
+    ClosedCaptionFile? captionFile;
+    if (track.format == SubtitleFormat.srt || body.contains('-->')) {
+      try {
+        captionFile = HourTvSrtCaptionFile(body);
+      } catch (_) {
+        try {
+          captionFile = WebVTTCaptionFile(body);
+        } catch (_) {}
+      }
+    } else {
+      try {
+        captionFile = WebVTTCaptionFile(body);
+      } catch (_) {
+        try {
+          captionFile = HourTvSrtCaptionFile(body);
+        } catch (_) {}
+      }
+    }
+
+    if (captionFile != null) {
+      if (_captionCache.length >= maxCacheEntries) {
+        _captionCache.remove(_captionCache.keys.first);
+      }
+      _captionCache[cacheKey] = captionFile;
+    }
+  }
+
+
   /// Descarga el cuerpo de [uri] siguiendo redirecciones manualmente.
   ///
   /// - Máximo [maxRedirects] saltos.

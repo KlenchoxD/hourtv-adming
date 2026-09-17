@@ -356,6 +356,7 @@ class _HourTvMobileHomeState extends State<HourTvMobileHome> {
   List<Channel> _cachedDriftMovies = const [];
   List<Channel> _cachedDriftSeries = const [];
   bool _homePaginationArmed = true;
+  Timer? _genreWarmupTimer;
   List<Channel>? _memoizedFallbackFeatured;
   Object? _lastAllContentRef;
 
@@ -366,8 +367,9 @@ class _HourTvMobileHomeState extends State<HourTvMobileHome> {
       return _memoizedFallbackFeatured!;
     }
     _lastAllContentRef = allContent;
-    _memoizedFallbackFeatured =
-        CatalogPresentationIndex.build(allContent).featured(limit: 5);
+    _memoizedFallbackFeatured = CatalogPresentationIndex.build(
+      allContent,
+    ).featured(limit: 5);
     return _memoizedFallbackFeatured!;
   }
 
@@ -376,6 +378,17 @@ class _HourTvMobileHomeState extends State<HourTvMobileHome> {
     super.initState();
     _scrollController.addListener(_onHomeScroll);
     _initPageSources();
+    // Las filas de Anime/K-Drama/Tendencia consultan todo el catálogo la
+    // primera vez que se acceden. Prepararlas después del primer frame evita
+    // que ese recorrido ocurra justo durante el gesto de scroll del usuario.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _genreWarmupTimer = Timer(const Duration(milliseconds: 250), () {
+        if (!mounted) return;
+        widget.store.anime;
+        widget.store.kDramas;
+        widget.store.trending;
+      });
+    });
     if (widget.initialRecommendations != null) {
       _recommendations = widget.initialRecommendations!;
     } else {
@@ -488,6 +501,7 @@ class _HourTvMobileHomeState extends State<HourTvMobileHome> {
 
   @override
   void dispose() {
+    _genreWarmupTimer?.cancel();
     _scrollController.removeListener(_onHomeScroll);
     _scrollController.dispose();
     _moviesPageSource?.removeListener(_onSourceChanged);
@@ -676,7 +690,9 @@ class _HourTvMobileHomeState extends State<HourTvMobileHome> {
                   child: SizedBox(
                     height: 220,
                     child: ListView.separated(
-                      key: const PageStorageKey('hourtv-home-continue-watching'),
+                      key: const PageStorageKey(
+                        'hourtv-home-continue-watching',
+                      ),
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       scrollDirection: Axis.horizontal,
                       itemCount: continueWatching.length,

@@ -23,6 +23,7 @@ import '../services/subtitles/hourtv_subtitle_track.dart';
 import '../services/subtitles/subtitle_controller.dart';
 import '../services/subtitles/subtitle_discovery_service.dart';
 import '../services/subtitles/github_subtitle_repository.dart';
+import '../services/subtitles/opensubtitles_repository.dart';
 import 'hourtv_focusable.dart';
 import 'hourtv_cast_controls_screen.dart';
 import 'hourtv_cast_sheet.dart';
@@ -138,6 +139,7 @@ class _PlayerScreenState extends State<PlayerScreen>
   final ValueNotifier<bool> _playbackEnded = ValueNotifier(false);
   final ValueNotifier<bool> _bufferingNotifier = ValueNotifier(false);
   final GithubSubtitleRepository _githubSubtitles = GithubSubtitleRepository();
+  final OpenSubtitlesRepository _openSubtitles = OpenSubtitlesRepository();
   bool _wasBuffering = false;
   DateTime? _bufferingStartTime;
   Duration? _lastObservedPosition;
@@ -719,6 +721,63 @@ class _PlayerScreenState extends State<PlayerScreen>
           if (clean != null && !existingUrls.contains(clean)) {
             existingUrls.add(clean);
             combinedTracks.add(track);
+          }
+        }
+        setState(() => _availableSubtitles = List.unmodifiable(combinedTracks));
+      }
+    } catch (_) {}
+
+    // Consulta en segundo plano a OpenSubtitles.com (API oficial v1)
+    try {
+      final season = _extractSeason(channel.name);
+      final episode = _extractEpisode(channel.name);
+      final cleanTitle = _extractCleanTitle(channel.name);
+
+      String? tmdbId;
+      String? imdbId;
+      final tvg = channel.tvgId?.trim();
+      if (tvg != null && tvg.isNotEmpty) {
+        if (tvg.toLowerCase().startsWith('tt')) {
+          imdbId = tvg;
+        } else if (tvg.toLowerCase().startsWith('tmdb:') ||
+            tvg.toLowerCase().startsWith('tmdb/')) {
+          tmdbId = tvg.split(RegExp(r'[:/]')).last;
+        } else if (RegExp(r'^\d+$').hasMatch(tvg)) {
+          tmdbId = tvg;
+        }
+      }
+
+      final osTracks = await _openSubtitles.searchSubtitles(
+        title: cleanTitle.isNotEmpty ? cleanTitle : channel.displayName,
+        year: channel.year,
+        season: season,
+        episode: episode,
+        tmdbId: tmdbId,
+        imdbId: imdbId,
+        languages: const ['es', 'en'],
+      );
+
+      if (mounted &&
+          generation == _subtitleDiscoveryGeneration &&
+          identical(_vc, controller) &&
+          osTracks.isNotEmpty) {
+        final existingUrls = combinedTracks
+            .map((t) => t.url?.trim().toLowerCase())
+            .whereType<String>()
+            .toSet();
+
+        for (final track in osTracks) {
+          final clean = track.url?.trim().toLowerCase();
+          if (clean != null && !existingUrls.contains(clean)) {
+            existingUrls.add(clean);
+            combinedTracks.add(track);
+            final content = _openSubtitles.getDownloadedContent(track.id);
+            if (content != null) {
+              _subtitleController.registerPreloadedCaption(
+                track: track,
+                content: content,
+              );
+            }
           }
         }
         setState(() => _availableSubtitles = List.unmodifiable(combinedTracks));
