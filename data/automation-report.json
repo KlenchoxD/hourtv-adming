@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-09-17T11:55:30.415Z",
-  "durationMs": 2746,
+  "generatedAt": "2026-09-17T15:57:58.638Z",
+  "durationMs": 552,
   "dryRun": false,
   "moviesFound": 33,
   "moviesDiscarded": 26,
@@ -35,7 +35,7 @@
     {
       "tmdbId": 1423191,
       "title": "Resident Evil",
-      "reason": "Votos 22 por debajo del mínimo (50)"
+      "reason": "Votos 23 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1137844,
@@ -103,34 +103,19 @@
       "reason": "Rating 0 por debajo del mínimo (5.5)"
     },
     {
-      "tmdbId": 1440098,
-      "title": "Enfrentados: Marfil",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1285366,
-      "title": "愛のぬくもり",
-      "reason": "Votos 8 por debajo del mínimo (50)"
-    },
-    {
       "tmdbId": 264980,
       "title": "Das Mädchen mit der heißen Masche",
       "reason": "Rating 4.2 por debajo del mínimo (5.5)"
     },
     {
+      "tmdbId": 1440098,
+      "title": "Enfrentados: Marfil",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 30723,
       "title": "Cavegirl: La chica de las cavernas (Cavernícola 2)",
-      "reason": "Rating 4 por debajo del mínimo (5.5)"
-    },
-    {
-      "tmdbId": 1386315,
-      "title": "A la carrera",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1393326,
-      "title": "Ghost in the Cell",
-      "reason": "Sin fuente autorizada configurada"
+      "reason": "Rating 3.9 por debajo del mínimo (5.5)"
     },
     {
       "tmdbId": 1482547,
@@ -138,9 +123,24 @@
       "reason": "Votos 11 por debajo del mínimo (50)"
     },
     {
+      "tmdbId": 1285366,
+      "title": "愛のぬくもり",
+      "reason": "Votos 8 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 1386315,
+      "title": "A la carrera",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1408162,
       "title": "Vishwanath e hijos",
       "reason": "Votos 22 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 1393326,
+      "title": "Ghost in the Cell",
+      "reason": "Sin fuente autorizada configurada"
     }
   ]
 }
