@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-09-17T01:22:26.556Z",
+  "lastRunAt": "2026-09-17T06:19:32.788Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -7,21 +7,21 @@
     1101383,
     1288445,
     1108427,
+    1423191,
     1137844,
     1084244,
     1315772,
-    1423191,
     1127384,
     1185806,
+    1083381,
     1275779,
     860508,
     1302904,
-    1083381,
     1081003,
     1433367,
     1228710,
+    1273221,
     1212763,
-    671,
     1375646,
     1368337,
     1294189,
@@ -34,7 +34,6 @@
     1482547,
     1408162,
     1506560,
-    1339713,
     1335666
   ],
   "tmdbIdsPublished": [],
@@ -62,6 +61,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1423191,
+      "title": "Resident Evil",
+      "reason": "Votos 18 por debajo del mínimo (50)"
+    },
+    {
       "tmdbId": 1137844,
       "title": "Mayday",
       "reason": "Sin fuente autorizada configurada"
@@ -70,11 +74,6 @@
       "tmdbId": 1084244,
       "title": "Toy Story 5",
       "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1423191,
-      "title": "Resident Evil",
-      "reason": "Votos 18 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1127384,
@@ -114,11 +113,6 @@
     {
       "tmdbId": 1212763,
       "title": "Posesión infernal: En llamas",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 671,
-      "title": "Harry Potter y la piedra filosofal",
       "reason": "Sin fuente autorizada configurada"
     },
     {
