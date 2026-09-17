@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-09-17T06:19:32.788Z",
+  "lastRunAt": "2026-09-17T11:55:33.158Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -63,7 +63,7 @@
     {
       "tmdbId": 1423191,
       "title": "Resident Evil",
-      "reason": "Votos 18 por debajo del mínimo (50)"
+      "reason": "Votos 22 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1137844,
