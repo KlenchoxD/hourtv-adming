@@ -94,9 +94,9 @@ CREATE TABLE private.source_health_checks (
 ALTER TABLE private.source_health_checks ENABLE ROW LEVEL SECURITY;
 REVOKE ALL ON private.source_health_checks FROM PUBLIC, anon, authenticated;
 
-ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA private 
+ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA private
   REVOKE ALL ON TABLES FROM PUBLIC, anon, authenticated;
-ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA private 
+ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA private
   REVOKE ALL ON SEQUENCES FROM PUBLIC, anon, authenticated;
 
 CREATE INDEX idx_source_health_checks_sid_checked_at ON private.source_health_checks(source_id, checked_at);
