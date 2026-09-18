@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-09-18T05:11:41.464Z",
+  "lastRunAt": "2026-09-18T09:44:44.800Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -22,8 +22,8 @@
     1273221,
     671,
     1212763,
-    1375646,
     1368337,
+    1375646,
     1294189,
     264980,
     1440098,
@@ -116,13 +116,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1375646,
-      "title": "Colony",
+      "tmdbId": 1368337,
+      "title": "La Odisea",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1368337,
-      "title": "La Odisea",
+      "tmdbId": 1375646,
+      "title": "Colony",
       "reason": "Sin fuente autorizada configurada"
     },
     {

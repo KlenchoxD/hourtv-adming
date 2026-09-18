@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-09-18T05:11:38.366Z",
-  "durationMs": 3103,
+  "generatedAt": "2026-09-18T09:44:42.060Z",
+  "durationMs": 2744,
   "dryRun": false,
   "moviesFound": 33,
   "moviesDiscarded": 26,
@@ -88,13 +88,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1375646,
-      "title": "Colony",
+      "tmdbId": 1368337,
+      "title": "La Odisea",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1368337,
-      "title": "La Odisea",
+      "tmdbId": 1375646,
+      "title": "Colony",
       "reason": "Sin fuente autorizada configurada"
     },
     {
