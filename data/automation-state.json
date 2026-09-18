@@ -1,27 +1,27 @@
 {
-  "lastRunAt": "2026-09-18T19:49:05.213Z",
+  "lastRunAt": "2026-09-18T22:06:57.055Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
     1204680,
     1101383,
     1288445,
-    1108427,
     1423191,
-    1137844,
+    1108427,
     1084244,
+    1137844,
     1315772,
     1127384,
-    1275779,
     1185806,
+    1275779,
     1083381,
     860508,
+    1228710,
     1081003,
     1302904,
-    1228710,
     1273221,
-    671,
     1212763,
+    671,
     264980,
     1375646,
     1368337,
@@ -66,13 +66,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1137844,
-      "title": "Mayday",
+      "tmdbId": 1084244,
+      "title": "Toy Story 5",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1084244,
-      "title": "Toy Story 5",
+      "tmdbId": 1137844,
+      "title": "Mayday",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -81,13 +81,18 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1185806,
+      "title": "La Patrulla Canina: La dino película",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1275779,
       "title": "El día de la revelación",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1185806,
-      "title": "La Patrulla Canina: La dino película",
+      "tmdbId": 1228710,
+      "title": "The Mandalorian and Grogu",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -101,18 +106,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1228710,
-      "title": "The Mandalorian and Grogu",
+      "tmdbId": 1212763,
+      "title": "Posesión infernal: En llamas",
       "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 671,
       "title": "Harry Potter y la piedra filosofal",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1212763,
-      "title": "Posesión infernal: En llamas",
       "reason": "Sin fuente autorizada configurada"
     },
     {
