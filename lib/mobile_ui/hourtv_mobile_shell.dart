@@ -355,7 +355,6 @@ class _HourTvMobileHomeState extends State<HourTvMobileHome> {
   List<RecommendationItem> _recommendations = [];
   List<Channel> _cachedDriftMovies = const [];
   List<Channel> _cachedDriftSeries = const [];
-  bool _homePaginationArmed = true;
   Timer? _genreWarmupTimer;
   List<Channel>? _memoizedFallbackFeatured;
   Object? _lastAllContentRef;
@@ -376,7 +375,9 @@ class _HourTvMobileHomeState extends State<HourTvMobileHome> {
   @override
   void initState() {
     super.initState();
-    _scrollController.addListener(_onHomeScroll);
+    // Las filas de Inicio son previews virtualizadas. No paginar mientras el
+    // usuario desliza: esa consulta provocaba reconstrucciones y jank. La
+    // paginación completa vive en la pantalla de cada fila (Ver más).
     _initPageSources();
     // Las filas de Anime/K-Drama/Tendencia consultan todo el catálogo la
     // primera vez que se acceden. Prepararlas después del primer frame evita
@@ -471,38 +472,13 @@ class _HourTvMobileHomeState extends State<HourTvMobileHome> {
     }
   }
 
-  void _triggerPagination() {
-    if (_moviesPageSource != null &&
-        _moviesPageSource!.hasMore &&
-        !_moviesPageSource!.isLoading) {
-      unawaited(_moviesPageSource!.loadNextPage());
-    }
-    if (_seriesPageSource != null &&
-        _seriesPageSource!.hasMore &&
-        !_seriesPageSource!.isLoading) {
-      unawaited(_seriesPageSource!.loadNextPage());
-    }
-  }
-
   void _onHomeScroll() {
-    if (!_scrollController.hasClients) return;
-    final pos = _scrollController.position;
-    // Igual que Buscar: no pedir datos por cada píxel desplazado.
-    // Solo pide una sola página cuando el usuario se acerca al final del scroll.
-    // Requiere volver a subir más allá de 800px para rearmar la siguiente página.
-    if (pos.extentAfter > 800) {
-      _homePaginationArmed = true;
-      return;
-    }
-    if (pos.extentAfter >= 600 || !_homePaginationArmed) return;
-    _homePaginationArmed = false;
-    _triggerPagination();
+    // Compatibilidad con callers antiguos; deliberadamente no hace I/O.
   }
 
   @override
   void dispose() {
     _genreWarmupTimer?.cancel();
-    _scrollController.removeListener(_onHomeScroll);
     _scrollController.dispose();
     _moviesPageSource?.removeListener(_onSourceChanged);
     _seriesPageSource?.removeListener(_onSourceChanged);

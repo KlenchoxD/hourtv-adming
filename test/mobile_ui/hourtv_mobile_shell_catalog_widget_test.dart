@@ -75,7 +75,7 @@ void main() {
   });
 
   group('HourTvMobileShell Catalog Widget Tests', () {
-    testWidgets('Inicio carga como máximo una página por llegada al final', (
+    testWidgets('Inicio no pagina previews durante el scroll', (
       tester,
     ) async {
       final now = DateTime.utc(2026, 9, 10, 12);
@@ -123,13 +123,13 @@ void main() {
 
       expect(
         pageSource.items.length,
-        lessThanOrEqualTo(20),
-        reason: 'Un solo gesto no debe drenar varias páginas seguidas',
+        equals(10),
+        reason: 'El scroll vertical no debe cargar datos invisibles',
       );
     });
 
     testWidgets(
-      '1. Carga perezosa de catálogo Drift en inicio al hacer scroll',
+      '1. Inicio conserva su página de preview durante el scroll',
       (tester) async {
         final now = DateTime.utc(2026, 9, 10, 12, 0, 0);
 
@@ -187,8 +187,8 @@ void main() {
         await tester.pump();
         await tester.pump(const Duration(milliseconds: 100));
 
-        // El scroll activa automáticamente la carga de la siguiente página
-        expect(pageSource.items.length, greaterThanOrEqualTo(20));
+        // Ver más tiene paginación propia; Inicio no carga páginas invisibles.
+        expect(pageSource.items.length, equals(10));
       },
     );
 
