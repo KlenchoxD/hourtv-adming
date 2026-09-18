@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-09-18T00:32:39.755Z",
+  "lastRunAt": "2026-09-18T05:11:41.464Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -63,7 +63,7 @@
     {
       "tmdbId": 1423191,
       "title": "Resident Evil",
-      "reason": "Votos 30 por debajo del mínimo (50)"
+      "reason": "Votos 49 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1137844,
@@ -163,7 +163,7 @@
     {
       "tmdbId": 1408162,
       "title": "Vishwanath e hijos",
-      "reason": "Votos 24 por debajo del mínimo (50)"
+      "reason": "Votos 25 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1393326,

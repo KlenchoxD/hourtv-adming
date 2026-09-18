@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-09-18T00:32:36.786Z",
-  "durationMs": 2974,
+  "generatedAt": "2026-09-18T05:11:38.366Z",
+  "durationMs": 3103,
   "dryRun": false,
   "moviesFound": 33,
   "moviesDiscarded": 26,
@@ -35,7 +35,7 @@
     {
       "tmdbId": 1423191,
       "title": "Resident Evil",
-      "reason": "Votos 30 por debajo del mínimo (50)"
+      "reason": "Votos 49 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1137844,
@@ -135,7 +135,7 @@
     {
       "tmdbId": 1408162,
       "title": "Vishwanath e hijos",
-      "reason": "Votos 24 por debajo del mínimo (50)"
+      "reason": "Votos 25 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1393326,
