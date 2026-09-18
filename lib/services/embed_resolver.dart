@@ -33,7 +33,7 @@ class EmbedResolver {
       '(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36';
 
   static const Map<String, Set<String>> _trustedRedirectAliases = {
-    'voe.sx': {'eugenemakedraw.com'},
+    'voe.sx': {'eugenemakedraw.com', 'katherineschoolphone.com'},
   };
 
   static Future<ResolvedStream?> resolve(String embedUrl) async {
@@ -169,7 +169,11 @@ class EmbedResolver {
 
   static String? _safeWebRedirect(String html, String sourceUrl) {
     final source = Uri.tryParse(sourceUrl);
-    if (source == null || source.scheme != 'https') return null;
+    if (source == null ||
+        source.scheme != 'https' ||
+        source.userInfo.isNotEmpty) {
+      return null;
+    }
     final allowed = _trustedRedirectAliases[source.host.toLowerCase()];
     if (allowed == null) return null;
 
@@ -188,7 +192,8 @@ class EmbedResolver {
         final target = Uri.tryParse(match.group(1) ?? '');
         if (target == null ||
             target.scheme != 'https' ||
-            !target.hasAuthority) {
+            !target.hasAuthority ||
+            target.userInfo.isNotEmpty) {
           continue;
         }
         final host = target.host.toLowerCase();
@@ -250,6 +255,7 @@ class EmbedResolver {
     final page = Uri.tryParse(pageUrl);
     if (page == null ||
         page.scheme != 'https' ||
+        page.userInfo.isNotEmpty ||
         !_isTrustedVoeAlias(page.host)) {
       return null;
     }

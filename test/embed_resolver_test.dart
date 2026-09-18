@@ -60,6 +60,77 @@ void main() {
     );
   });
 
+  test(
+    'detecta la redireccion HTTPS legitima de VOE hacia katherineschoolphone.com',
+    () {
+      const html = '''<script>
+      window.location.href = 'https://katherineschoolphone.com/e/2suzh7well4u';
+    </script>''';
+
+      expect(
+        EmbedResolver.debugSafeWebRedirect(
+          html,
+          'https://voe.sx/e/2suzh7well4u',
+        ),
+        'https://katherineschoolphone.com/e/2suzh7well4u',
+      );
+    },
+  );
+
+  test('rechaza alias maliciosos con coincidencia parcial', () {
+    const evilSuffix = '''<script>
+      window.location.href = 'https://katherineschoolphone.com.evil.example/e/id';
+    </script>''';
+    const evilPrefix = '''<script>
+      window.location.href = 'https://evilkatherineschoolphone.com/e/id';
+    </script>''';
+
+    expect(
+      EmbedResolver.debugSafeWebRedirect(evilSuffix, 'https://voe.sx/e/id'),
+      isNull,
+    );
+    expect(
+      EmbedResolver.debugSafeWebRedirect(evilPrefix, 'https://voe.sx/e/id'),
+      isNull,
+    );
+  });
+
+  test('acepta subdominios legitimos con la frontera correcta', () {
+    const html = '''<script>
+      window.location.href = 'https://edge.katherineschoolphone.com/e/id';
+    </script>''';
+
+    expect(
+      EmbedResolver.debugSafeWebRedirect(html, 'https://voe.sx/e/id'),
+      'https://edge.katherineschoolphone.com/e/id',
+    );
+  });
+
+  test(
+    'rechaza URLs engañosas con userInfo (authority injection) en target',
+    () {
+      const html = '''<script>
+      window.location.href = 'https://evil.example@katherineschoolphone.com/e/id';
+    </script>''';
+
+      expect(
+        EmbedResolver.debugSafeWebRedirect(html, 'https://voe.sx/e/id'),
+        isNull,
+      );
+    },
+  );
+
+  test('rechaza sourceUrl engañoso con userInfo (authority injection)', () {
+    const html = '''<script>
+      window.location.href = 'https://eugenemakedraw.com/e/id';
+    </script>''';
+
+    expect(
+      EmbedResolver.debugSafeWebRedirect(html, 'https://attacker@voe.sx/e/id'),
+      isNull,
+    );
+  });
+
   test('rechaza redirecciones de VOE hacia publicidad o HTTP', () {
     const ad =
         "<script>window.location.href='https://ads.example/click';</script>";
@@ -180,6 +251,17 @@ void main() {
       // El Referer que exige el CDN de VOE: el origen de la pagina embed.
       expect(resolved.headers['Referer'], 'https://eugenemakedraw.com/');
     });
+
+    test('rechaza pageUrl engañoso con userInfo (authority injection)', () {
+      final html = _voeScriptTag(_voeEncrypt(payload));
+      expect(
+        EmbedResolver.debugVoeSource(
+          html,
+          'https://attacker@katherineschoolphone.com/e/id',
+        ),
+        isNull,
+      );
+    });
   });
 
   // ─────────────────────────────────────────────────────────────────────
@@ -229,6 +311,40 @@ void main() {
         'https://eugenemakedraw.com/',
       );
     });
+
+    test(
+      'resolveForPlayback voe.sx -> katherineschoolphone.com entrega stream',
+      () {
+        final resolution = EmbedResolver.debugResolve(
+          'https://voe.sx/e/2suzh7well4u',
+          [
+            (
+              'https://voe.sx/e/2suzh7well4u',
+              '<script>window.location.href = '
+                  "'https://katherineschoolphone.com/e/2suzh7well4u';</script>",
+            ),
+            (
+              'https://katherineschoolphone.com/e/2suzh7well4u',
+              _voeScriptTag(_voeEncrypt(voePayload)),
+            ),
+          ],
+        );
+        expect(
+          resolution.stream,
+          isNotNull,
+          reason: 'VOE debe resolverse nativo, no con WebView',
+        );
+        expect(resolution.safeWebUrl, isNull);
+        expect(
+          resolution.stream!.url,
+          'https://cdn.voe.example/engine/hls2/01/17384/2suzh7well4u_,n,.urlset/master.m3u8?t=TOKEN',
+        );
+        expect(
+          resolution.stream!.headers['Referer'],
+          'https://katherineschoolphone.com/',
+        );
+      },
+    );
 
     test(
       'si el alias tampoco resuelve, safeWebUrl queda como ultimo recurso',
