@@ -94,9 +94,9 @@ CREATE TABLE private.source_health_checks (
 ALTER TABLE private.source_health_checks ENABLE ROW LEVEL SECURITY;
 REVOKE ALL ON private.source_health_checks FROM PUBLIC, anon, authenticated;
 
-ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA private
+ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA private 
   REVOKE ALL ON TABLES FROM PUBLIC, anon, authenticated;
-ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA private
+ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA private 
   REVOKE ALL ON SEQUENCES FROM PUBLIC, anon, authenticated;
 
 CREATE INDEX idx_source_health_checks_sid_checked_at ON private.source_health_checks(source_id, checked_at);
@@ -114,9 +114,9 @@ COMMIT;
 Ante error, ejecuta `ROLLBACK`. La conexión se realiza directamente a PostgreSQL con Connection Pooler, nunca a través de la REST API desde GitHub. La limpieza de 30 días se ejecuta en el mismo bloque y no depende de pg_cron externo de forma ciega.
 
 ## 8. Health Checker
-- **Mecánica**: Extracción de Embed conservando Cookies, Referer, User-Agent.
-- **Media streams (MP4/MKV)**: Enviar solicitud `GET` con `Range: bytes=0-2048`. Aceptar `206 Partial Content` y `200 OK` solo si Content-Type/magic bytes son válidos. Leer unos pocos KB para comprobar firmas mágicas y Content-Type, y cancelar la lectura del cuerpo restante para abortar la descarga completa.
-- **Media streams (HLS/M3U8)**: Realizar `GET` al manifiesto. Si es master, resolver una variante. Parsear el Media Playlist, e intentar `GET` a un segmento audiovisual auténtico (`.ts`, `.aac`, `.m4s`). Archivos `.vtt` de subtítulos no valen como segmento de vídeo. Resolver URLs relativas y conservar cookies. Se acepta `200` y `206` verificando contenido coherente de vídeo. Redirecciones o páginas HTML o anuncios no se clasifican como video.
+- **Mecánica**: Extracción de Embed conservando Cookies, Referer, Origin y User-Agent.
+- **Media streams (MP4/MKV)**: Enviar solicitud `GET` con `Range: bytes=0-2048`. Aceptar `200 OK` o `206 Partial Content` únicamente después de validar firmas mágicas (magic bytes) y estructura multimedia en el Content-Type. Leer unos pocos KB y cancelar el cuerpo restante para abortar la descarga completa.
+- **Media streams (HLS/M3U8)**: Realizar `GET` al manifiesto. Si es master playlist, resolver una variante. Realizar `GET` parcial (`Range: bytes=0-2048`) de un segmento audiovisual auténtico (`.ts` o `.m4s`). Aceptar `200 OK` o `206 Partial Content` únicamente después de validar magic bytes/estructura multimedia. Se debe limitar la lectura y abortar el cuerpo restante. Conservar explícitamente cookies, Referer, Origin y User-Agent necesarios en todas las peticiones y resolver URLs relativas. No admitir bajo ninguna circunstancia `.aac`, `.vtt`, HTML, anuncios ni páginas de redirección como prueba de video reproducible.
 
 ## 9. Estados y Transiciones
 - **Fallo Concluyente (404, 410, DNS_NXDOMAIN de stream base):** Suma fallos. Asigna `firstFailureAt`.
@@ -125,7 +125,12 @@ Ante error, ejecuta `ROLLBACK`. La conexión se realiza directamente a PostgreSQ
 - **Recuperado**: Un éxito concluyente sobre un stream en `down` cambia estado a `recovered` e interrumpe los contadores. Éxitos subsiguientes la estabilizan en `active`.
 
 ## 10. Circuit Breaker
-Protección contra baneos. El Circuit Breaker cancela actualizaciones (Exit Status 3) si en una corrida fallan por igual >15% global o >30% de un dominio en particular. Esta regla requiere una **muestra mínima de 20 fuentes** para el dominio. No escribirá ni realizará commit/push bajo ninguna circunstancia cuando se active. Un dry-run devolverá código 2 si hay cambios, y nunca realizará escrituras.
+Protección contra baneos e inestabilidad temporal.
+- Tanto el umbral global (>15%) como el umbral por host (>30%) requieren al menos 20 fuentes evaluables en su muestra correspondiente para aplicar.
+- Las respuestas inconclusas (403, 405, 429, timeout o Cloudflare) no deben contabilizarse como fallos concluyentes para disparar estos porcentajes.
+- Si no se alcanza la muestra mínima (menos de 20 fuentes), se generará una advertencia en los logs, pero no se activará el circuit breaker.
+- Si se activa: finalizará con exit status 3 y se generará un reporte/artifact, pero no realizará ninguna escritura de `catalog.json`, ningún commit, push ni sincronización a PostgreSQL.
+- Modo Dry-run: nunca realiza escrituras; devolverá exit status 2 solamente cuando detecte cambios aplicables y siempre que no se haya activado el circuit breaker.
 
 ## 11. Panel "Caídos"
 - Filtro mediante iteración de películas/series/episodios en JSON usando `health.status === 'down'`.
@@ -180,12 +185,15 @@ La API `PlaybackSourcePlan` jamás lanzará error (RangeError) en accesos vacío
 - Los logs iniciales de extracción no muestran `playback_error` durante inicialización.
 - No hay fallback visual al WebView cuando la extracción nativa es exitosa.
 - Un test rechaza `evilkatherineschoolphone.com`.
+- Un test HLS demuestra que se envía el parámetro `Range` al segmento `.ts`/`.m4s` resolviendo correctamente relativas.
+- Un test rechaza expresamente `.aac`, `.vtt` y páginas HTML como validación de video.
+- Tests del circuit breaker cubren exhaustivamente: muestra global < 20, muestra por host < 20, respuestas inconclusas y activación real sin mutaciones en el sistema.
+- Los tests de seguridad de Supabase RLS verifican explícitamente operaciones `SELECT`, `INSERT`, `UPDATE` y `DELETE` comprobando que `anon` y `authenticated` obtienen acceso denegado total, no solo en lectura.
 - El dry-run no modifica archivos.
-- Circuit breaker no hace commit ni sincroniza.
-- Los roles `anon` y `authenticated` no acceden al historial, recibiendo denegación (Access Denied).
-- Una fuente confirmada como `down` jamás logra reentrar al plan a través de `channel.url` o `preferredUrl`.
-- Un plan vacío (`isEmpty`) provee un `current` nulo manejado con elegancia, evitando emitir RangeError.
-- AutoCatálogo conserva `id`, `health` y campos de reemplazo inmutables.
+- Circuit breaker activado no hace commit, push ni sincroniza a PostgreSQL.
+- Una fuente confirmada como `down` jamás logra reentrar al plan de reproducción a través de `channel.url` o `preferredUrl`.
+- Un plan vacío (`isEmpty`) provee un `current` nulo manejado con elegancia, evitando emitir RangeError bajo ninguna circunstancia.
+- AutoCatálogo conserva `id`, `health` y campos de reemplazo inmutables durante concurrencia.
 
 ## 18. Rollback
 No se afirmará que un simple *re-run* restaura un estado previo ni que `git revert` lo hace aisladamente. Un rollback verdadero implica:
