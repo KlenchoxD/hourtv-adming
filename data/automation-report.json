@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-09-18T09:44:42.060Z",
-  "durationMs": 2744,
+  "generatedAt": "2026-09-18T13:52:40.142Z",
+  "durationMs": 2136,
   "dryRun": false,
   "moviesFound": 33,
   "moviesDiscarded": 26,
@@ -35,7 +35,7 @@
     {
       "tmdbId": 1423191,
       "title": "Resident Evil",
-      "reason": "Votos 49 por debajo del mínimo (50)"
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1137844,
