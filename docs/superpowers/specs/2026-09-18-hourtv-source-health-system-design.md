@@ -1,12 +1,12 @@
 # Sistema de Salud de Servidores (HourTV)
 
 ## 1. Contexto y Diagnóstico
-La aplicación HourTV consume fuentes de video (películas, series, canales) de diversos proveedores mediante scrapers. Muchos de estos proveedores pueden reportar falsos positivos (como Barmonrey, que retorna HTTP 200 en su página pero HTTP 404 en el M3U8 subyacente), o bien cambiar dominios de proxys (como VOE). El catálogo tiene más de 776 fuentes registradas en `public.sources` con la propiedad editorial `status`, pero carece de telemetría de salud automatizada (uptime). Además, el administrador y el reproductor necesitan información fidedigna de qué enlaces están caídos, sin confundir el estado editorial (visible/oculto) de la salud técnica del enlace.
+La aplicación HourTV consume fuentes de video (películas, series, canales) de diversos proveedores mediante scrapers. Muchos de estos proveedores pueden reportar falsos positivos (como Barmonrey, que retorna HTTP 200 en su página pero HTTP 404 en el M3U8 subyacente), o bien cambiar dominios de proxys (como VOE). El catálogo tiene fuentes registradas en `public.sources` con la propiedad editorial `status` (se observaron 776 fuentes en la base local del dispositivo auditado, sin afirmar obligatoriamente que Supabase contenga exactamente la misma cifra sin previa consulta), pero carece de un historial auditable automatizado (uptime). Además, el administrador y el reproductor necesitan información fidedigna de qué enlaces están caídos, sin confundir el estado editorial (visible/oculto) de la salud técnica del enlace.
 
 ## 2. Objetivos y No Objetivos
 
 ### Objetivos
-- Dotar al repositorio y a Supabase de un sistema de telemetría inmutable de salud.
+- Dotar al repositorio y a Supabase de un sistema de historial auditable con retención de 30 días de salud.
 - Separar estrictamente el estado editorial del estado de salud de red de una fuente.
 - Detectar con precisión extrema la funcionalidad de un stream HLS o MP4 directo, validando bytes de medios reales.
 - Prevenir la visualización de servidores definitivamente inactivos en el reproductor.
@@ -56,16 +56,16 @@ export interface CatalogServer {
   language?: string;
   health?: CatalogServerHealth;
   replacementForId?: string;
-  replacedById?: string; 
+  replacedById?: string;
 }
 ```
 
 ## 6. SQL Conceptual
-Se evita modificar la definición del `status` actual. Se extiende `public.sources` con estado técnico y se centraliza el auditor en `private.source_health_checks`.
+Se evita modificar la definición del `status` actual. Se extiende `public.sources` con estado técnico y se centraliza el auditor en `private.source_health_checks`. No se debe afirmar que RLS sustituye los GRANT/REVOKE explícitos.
 
 ```sql
 ALTER TABLE public.sources
-  ADD COLUMN health_status text NOT NULL DEFAULT 'pending' 
+  ADD COLUMN health_status text NOT NULL DEFAULT 'pending'
       CHECK (health_status IN ('pending', 'active', 'degraded', 'down', 'recovered')),
   ADD COLUMN health_last_error text,
   ADD COLUMN health_http_code int CHECK (health_http_code >= 100 AND health_http_code <= 599),
@@ -76,22 +76,30 @@ ALTER TABLE public.sources
   ADD COLUMN health_last_check_run_id text,
   ADD COLUMN replaced_by_id uuid REFERENCES public.sources(id) ON DELETE SET NULL;
 
+CREATE INDEX idx_sources_health_status ON public.sources(health_status);
+
 CREATE SCHEMA IF NOT EXISTS private;
 REVOKE ALL ON SCHEMA private FROM PUBLIC, anon, authenticated;
-REVOKE ALL ON ALL TABLES IN SCHEMA private FROM PUBLIC, anon, authenticated;
-REVOKE ALL ON ALL SEQUENCES IN SCHEMA private FROM PUBLIC, anon, authenticated;
 
 CREATE TABLE private.source_health_checks (
   id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
   source_id uuid NOT NULL REFERENCES public.sources(id) ON DELETE CASCADE,
   run_id text NOT NULL,
-  status_checked text NOT NULL,
+  status_checked text NOT NULL CHECK (status_checked IN ('pending', 'active', 'degraded', 'down', 'recovered')),
   error_msg text,
-  http_code int,
+  http_code int CHECK (http_code IS NULL OR (http_code >= 100 AND http_code <= 599)),
   checked_at timestamptz NOT NULL DEFAULT now()
 );
 
 ALTER TABLE private.source_health_checks ENABLE ROW LEVEL SECURITY;
+REVOKE ALL ON private.source_health_checks FROM PUBLIC, anon, authenticated;
+
+ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA private
+  REVOKE ALL ON TABLES FROM PUBLIC, anon, authenticated;
+ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA private
+  REVOKE ALL ON SEQUENCES FROM PUBLIC, anon, authenticated;
+
+CREATE INDEX idx_source_health_checks_sid_checked_at ON private.source_health_checks(source_id, checked_at);
 ```
 
 ## 7. Sincronización GitHub → PostgreSQL
@@ -103,32 +111,38 @@ BEGIN;
 -- DELETE FROM private.source_health_checks WHERE checked_at < NOW() - INTERVAL '30 days'.
 COMMIT;
 ```
-Ante error, ejecuta `ROLLBACK`. La conexión se realiza directamente a PostgreSQL con Connection Pooler, nunca a través de la REST API desde GitHub.
+Ante error, ejecuta `ROLLBACK`. La conexión se realiza directamente a PostgreSQL con Connection Pooler, nunca a través de la REST API desde GitHub. La limpieza de 30 días se ejecuta en el mismo bloque y no depende de pg_cron externo de forma ciega.
 
 ## 8. Health Checker
 - **Mecánica**: Extracción de Embed conservando Cookies, Referer, User-Agent.
-- **Media streams (MP4/MKV)**: Enviar solicitud `GET` con `Range: bytes=0-2048`. Aceptar `206 Partial Content` y `200 OK`. Leer unos pocos KB para comprobar firmas mágicas y Content-Type, y cancelar la lectura del cuerpo restante para abortar la descarga completa.
-- **Media streams (HLS/M3U8)**: Realizar `GET` al manifiesto. Si es master, resolver una variante. Parsear el Media Playlist, e intentar `GET` con `Range: bytes=0-2048` a un segmento audiovisual auténtico (`.ts`, `.aac`, `.m4s`). Archivos `.vtt` de subtítulos no valen. Resolver URLs relativas. Se acepta `200` y `206` verificando contenido coherente de vídeo. Redirecciones o páginas HTML no valen.
+- **Media streams (MP4/MKV)**: Enviar solicitud `GET` con `Range: bytes=0-2048`. Aceptar `206 Partial Content` y `200 OK` solo si Content-Type/magic bytes son válidos. Leer unos pocos KB para comprobar firmas mágicas y Content-Type, y cancelar la lectura del cuerpo restante para abortar la descarga completa.
+- **Media streams (HLS/M3U8)**: Realizar `GET` al manifiesto. Si es master, resolver una variante. Parsear el Media Playlist, e intentar `GET` a un segmento audiovisual auténtico (`.ts`, `.aac`, `.m4s`). Archivos `.vtt` de subtítulos no valen como segmento de vídeo. Resolver URLs relativas y conservar cookies. Se acepta `200` y `206` verificando contenido coherente de vídeo. Redirecciones o páginas HTML o anuncios no se clasifican como video.
 
 ## 9. Estados y Transiciones
 - **Fallo Concluyente (404, 410, DNS_NXDOMAIN de stream base):** Suma fallos. Asigna `firstFailureAt`.
-- **Fallo No Concluyente (403, 405, 429, Timeout, Cloudflare):** Una fuente `down` permanece `down`. Una fuente sana pasa visualmente a `degraded` en el panel pero **no aumenta contadores**, ni borra el `firstFailureAt`. Solo un éxito concluyente la mueve a `recovered`.
+- **Fallo No Concluyente (403, 405, 429, Timeout, Cloudflare):** Una fuente `down` permanece `down`. Una fuente sana pasa visualmente a `degraded` en el panel pero **no aumenta contadores**, ni borra el `firstFailureAt` anterior. Solo un éxito concluyente la mueve a `recovered`.
 - **Definitivo Down:** Se asigna solo si la fuente tiene 3 fallos concluyentes en **run IDs distintos** y habiendo transcurrido `>= 12 horas` desde el `firstFailureAt`.
 - **Recuperado**: Un éxito concluyente sobre un stream en `down` cambia estado a `recovered` e interrumpe los contadores. Éxitos subsiguientes la estabilizan en `active`.
 
 ## 10. Circuit Breaker
-Protección contra baneos. El Circuit Breaker cancela actualizaciones (Dry-run o Silent Alarm con Exit Status 3) si en una corrida fallan por igual >15% global o >30% de un dominio en particular. Esta regla requiere una **muestra mínima de 20 fuentes** para el dominio.
+Protección contra baneos. El Circuit Breaker cancela actualizaciones (Exit Status 3) si en una corrida fallan por igual >15% global o >30% de un dominio en particular. Esta regla requiere una **muestra mínima de 20 fuentes** para el dominio. No escribirá ni realizará commit/push bajo ninguna circunstancia cuando se active. Un dry-run devolverá código 2 si hay cambios, y nunca realizará escrituras.
 
 ## 11. Panel "Caídos"
 - Filtro mediante iteración de películas/series/episodios en JSON usando `health.status === 'down'`.
-- "Revalidar": Añade `recheckRequestedAt` al JSON del panel. El bot al detectarlo le dará prioridad en el próximo cron y borrará este campo. Esto **no modifica estado de salud original** ni contadores.
-- "Reemplazar": El JSON recibe una fuente nueva con un ID nuevo y un apuntador `replacementForId`. El panel *nunca* elimina automáticamente servidores antiguos reemplazados. La eliminación es de acción humana deliberada. Nunca almacenar secretos de Supabase en el panel.
+- "Revalidar": Añade `recheckRequestedAt` al JSON del panel. El bot al detectarlo le dará prioridad en el próximo cron y borrará este campo. Esto **no modifica estado de salud original** ni contadores. Una fuente `down` sigue excluida.
+- "Reemplazar": El JSON recibe una fuente nueva con un ID nuevo y un apuntador `replacementForId` y salud `pending`. La anterior no se elimina automáticamente. La nueva se prueba y, si es válida, la vieja recibe la propiedad `replacedById`. Nunca almacenar secretos de Supabase en el panel. La eliminación definitiva es siempre fuera de la automatización y requiere confirmación explícita. El AutoCatálogo debe estar protegido y nunca destruir `id`, `health` y variables de reemplazo en operaciones concurrentes.
 
 ## 12. Drift/Flutter
-- Migración SQLite incrementando `schemaVersion`:
+- Incremento de schemaVersion, migración addColumn y regeneración de catalog_database.g.dart.
   ```dart
   TextColumn get healthStatus => text().withDefault(const Constant('pending'))();
-  // [...] incluir todos los campos de salud, actualizar DAOs y métodos copyWith/hydrate.
+  TextColumn get healthLastError => text().nullable()();
+  IntColumn get healthHttpCode => integer().nullable()();
+  IntColumn get healthConsecutiveFailures => integer().withDefault(const Constant(0))();
+  DateTimeColumn get healthFirstFailureAt => dateTime().nullable()();
+  DateTimeColumn get healthLastSuccessAt => dateTime().nullable()();
+  DateTimeColumn get healthLastCheck => dateTime().nullable()();
+  TextColumn get healthLastCheckRunId => text().nullable()();
   ```
 
 ## 13. PlaybackCandidate y Fallback
@@ -140,27 +154,42 @@ class PlaybackCandidate {
   final String healthStatus;
 }
 ```
-Si una URL (incluyendo la `channel.url` o `preferredUrl`) coincide de forma unívoca con un `PlaybackCandidate` con estado `down`, prevalece el estado `down` y la excluye.
-La API `PlaybackSourcePlan` jamás lanzará error en accesos nulos. Devolverá estado tipado (ej. `bool get isEmpty`) sin excepción al acceder a `current`. Las fuentes desconocidas o legacy entran como `unknown`. No eliminar fuentes de forma silenciosa.
+Si una URL (incluyendo la `channel.url` o `preferredUrl`) coincide de forma unívoca con un `PlaybackCandidate` con estado `down`, prevalece el estado `down` y la excluye totalmente. No puede reentrar.
+La API `PlaybackSourcePlan` jamás lanzará error (RangeError) en accesos vacíos. Devolverá estado tipado (ej. `bool get isEmpty`) sin excepción al acceder a `current`. Las fuentes desconocidas o legacy entran como `unknown`. No se permiten indexaciones directas sin control.
 
 ## 14. Seguridad/RLS
 - Revocación estricta al esquema `private`.
 - Nada del PAT de GitHub ni Service Keys/Connection String de Supabase estará presente en el frontend (Flutter/Vercel) ni en logs.
 
 ## 15. Compatibilidad
-- Las versiones anteriores del APK en el campo ignorarán en `fromJson` las nuevas propiedades `health`, preservando operaciones previas sin fallos (`status` editorial sigue intacto).
+- Las versiones anteriores del APK ignorarán en `fromJson` las nuevas propiedades `health`, preservando operaciones previas sin fallos (`status` editorial sigue intacto). Los SELECT de Supabase son explícitos, protegiendo las retrocompatibilidad.
 
 ## 16. TDD por Fases
-- Fase 1: Identidades estables en el bot, emparejamiento seguro, mock HLS validator (RED -> GREEN). Unit test circuit breaker.
-- Fase 2: SQL y Transacción directa PostgreSQL. Comprobación RLS (`anon` == denied).
-- Fase 3: Deduplicación Flutter `PlaybackCandidate`, testing de plan vacío sin excepciones.
-- Fase 4: Panel Revalidar y reemplazos sin eliminación automática.
+- Fase 0: Parche urgente VOE. Fixture real anonimizado, extracción estricta, alias `katherineschoolphone.com` sin aceptar `evilkatherineschoolphone.com`.
+- Fase 1: Identidad y reconciliación dry-run.
+- Fase 2: Modelo JSON, SQL y Drift (Columnas completas).
+- Fase 3: Health checker y validación profunda (HLS/MP4).
+- Fase 4: Circuit breaker/workflow.
+- Fase 5: Sincronización PostgreSQL y seguridad.
+- Fase 6: Panel Caídos.
+- Fase 7: PlaybackCandidate/fallback (Aseguramiento contra RangeError).
+- Fase 8: Auditoría física de película/episodio y release separada.
 
 ## 17. Criterios de Aceptación
-- Extracción de un segmento HLS válido (`.ts`/`.m4s`) abortando descargas completas.
-- Reconciliación de IDs limpia (`ambiguous = 0`) para las 776 fuentes.
-- La aplicación descarta la provisión si el `PlaybackCandidate` deduce una URL prioritaria como `down`.
-- Ausencia total de credenciales de backend en binarios o el DOM.
+- VOE reproduce película y episodio reales (dispositivo físico).
+- Los logs iniciales de extracción no muestran `playback_error` durante inicialización.
+- No hay fallback visual al WebView cuando la extracción nativa es exitosa.
+- Un test rechaza `evilkatherineschoolphone.com`.
+- El dry-run no modifica archivos.
+- Circuit breaker no hace commit ni sincroniza.
+- Los roles `anon` y `authenticated` no acceden al historial, recibiendo denegación (Access Denied).
+- Una fuente confirmada como `down` jamás logra reentrar al plan a través de `channel.url` o `preferredUrl`.
+- Un plan vacío (`isEmpty`) provee un `current` nulo manejado con elegancia, evitando emitir RangeError.
+- AutoCatálogo conserva `id`, `health` y campos de reemplazo inmutables.
 
 ## 18. Rollback
-Restaurar `catalog.json` copiando desde el commit anterior y commiteando un nuevo cambio: `git checkout HEAD^ -- catalog.json && git commit -m "Rollback catalog"`. Esto asegura una nueva revisión para que el script sincronizador PostgreSQL la propague hacia adelante, manteniendo la inmutabilidad de la historia. No se debe afirmar que `git revert` simple puede limitarse a un solo archivo sin conflicto.
+No se afirmará que un simple *re-run* restaura un estado previo ni que `git revert` lo hace aisladamente. Un rollback verdadero implica:
+a) Revertir el commit que modificó `catalog.json` (ej: `git checkout HEAD^ -- catalog.json && git commit -m "Rollback catalog"`).
+b) Ejecutar una sincronización idempotente PostgreSQL a partir de ese commit seguro.
+c) No borrar ni alterar el historial de auditoría de la tabla privada.
+d) Generar un nuevo número/identidad de revisión hacia adelante en el pipeline de Supabase. El sistema ofrecerá herramienta dry-run para evaluar el impacto antes del rollback.
