@@ -73,3 +73,6 @@ HANDOFF.md
 # android/, no hace falta versionarla aparte.
 /Logo/
 supabase_snapshot.json
+/admin/reconciliation_manifest.json
+/diff_fase2.diff
+admin/*.tmp
