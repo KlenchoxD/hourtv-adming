@@ -1,12 +1,12 @@
 {
-  "lastRunAt": "2026-09-19T04:49:18.546Z",
+  "lastRunAt": "2026-09-19T09:05:54.636Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
     1204680,
     1101383,
-    1288445,
     1423191,
+    1288445,
     1108427,
     1084244,
     1137844,
@@ -56,13 +56,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1288445,
-      "title": "El motín",
+      "tmdbId": 1423191,
+      "title": "Resident Evil",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1423191,
-      "title": "Resident Evil",
+      "tmdbId": 1288445,
+      "title": "El motín",
       "reason": "Sin fuente autorizada configurada"
     },
     {

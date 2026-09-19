@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-09-19T04:49:15.480Z",
-  "durationMs": 3070,
+  "generatedAt": "2026-09-19T09:05:52.189Z",
+  "durationMs": 2452,
   "dryRun": false,
   "moviesFound": 33,
   "moviesDiscarded": 26,
@@ -28,13 +28,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1288445,
-      "title": "El motín",
+      "tmdbId": 1423191,
+      "title": "Resident Evil",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1423191,
-      "title": "Resident Evil",
+      "tmdbId": 1288445,
+      "title": "El motín",
       "reason": "Sin fuente autorizada configurada"
     },
     {
