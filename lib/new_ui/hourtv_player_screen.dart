@@ -140,6 +140,7 @@ class _PlayerScreenState extends State<PlayerScreen>
   final ValueNotifier<bool> _bufferingNotifier = ValueNotifier(false);
   final GithubSubtitleRepository _githubSubtitles = GithubSubtitleRepository();
   final OpenSubtitlesRepository _openSubtitles = OpenSubtitlesRepository();
+
   bool _wasBuffering = false;
   DateTime? _bufferingStartTime;
   Duration? _lastObservedPosition;
@@ -378,7 +379,7 @@ class _PlayerScreenState extends State<PlayerScreen>
 
     // Detección de atascamiento en reproducción (stall)
     if (value.isPlaying && !isBuffering && !value.isCompleted) {
-      if (value.position == _lastObservedPosition) {
+      if (_lastObservedPosition == value.position) {
         _stallTicks++;
         if (_stallTicks >= 3 && !_stallReported) {
           _stallReported = true;
@@ -597,6 +598,9 @@ class _PlayerScreenState extends State<PlayerScreen>
       _vc = VideoPlayerController.networkUrl(
         Uri.parse(playUrl),
         httpHeaders: playHeaders,
+        viewType: defaultTargetPlatform == TargetPlatform.android
+            ? VideoViewType.platformView
+            : VideoViewType.textureView,
       );
       await _vc!.initialize();
       debugPrint('[PLAYER] initialize_done');
@@ -803,23 +807,34 @@ class _PlayerScreenState extends State<PlayerScreen>
   }
 
   static int? _extractSeason(String name) {
-    final match = RegExp(r'[sS](\d+)|[tT](\d+)|[tT]emporada\s*(\d+)').firstMatch(name);
+    final match = RegExp(
+      r'[sS](\d+)|[tT](\d+)|[tT]emporada\s*(\d+)',
+    ).firstMatch(name);
     if (match != null) {
-      return int.tryParse(match.group(1) ?? match.group(2) ?? match.group(3) ?? '');
+      return int.tryParse(
+        match.group(1) ?? match.group(2) ?? match.group(3) ?? '',
+      );
     }
     return null;
   }
 
   static int? _extractEpisode(String name) {
-    final match = RegExp(r'[eE](\d+)|[cC]ap[ií]tulo\s*(\d+)|[eE]pisodio\s*(\d+)').firstMatch(name);
+    final match = RegExp(
+      r'[eE](\d+)|[cC]ap[ií]tulo\s*(\d+)|[eE]pisodio\s*(\d+)',
+    ).firstMatch(name);
     if (match != null) {
-      return int.tryParse(match.group(1) ?? match.group(2) ?? match.group(3) ?? '');
+      return int.tryParse(
+        match.group(1) ?? match.group(2) ?? match.group(3) ?? '',
+      );
     }
     return null;
   }
 
   static String _extractCleanTitle(String name) {
-    return name.split(RegExp(r'[sS]\d+|[tT]\d+|[tT]emporada|[eE]\d+|[cC]ap[ií]tulo')).first.trim();
+    return name
+        .split(RegExp(r'[sS]\d+|[tT]\d+|[tT]emporada|[eE]\d+|[cC]ap[ií]tulo'))
+        .first
+        .trim();
   }
 
   /// Si `failedUrl` es la fuente activa del plan y quedan mirrors por probar,
@@ -1876,142 +1891,149 @@ class _PlayerScreenState extends State<PlayerScreen>
                             horizontal: DeviceProfile.isTv(context) ? 12 : 0,
                           ),
                           child: Stack(
-                          children: [
-                            ValueListenableBuilder<bool>(
-                              valueListenable: _bufferingNotifier,
-                              builder: (context, isBuffering, _) {
-                                if (!isBuffering) return const SizedBox.shrink();
-                                return Center(
-                                  child: DecoratedBox(
-                                    decoration: BoxDecoration(
-                                      color: Colors.black.withValues(alpha: 0.6),
-                                      shape: BoxShape.circle,
-                                    ),
-                                    child: const Padding(
-                                      padding: EdgeInsets.all(16),
-                                      child: SizedBox(
-                                        width: 36,
-                                        height: 36,
-                                        child: CircularProgressIndicator(
-                                          color: _hourRed,
-                                          strokeWidth: 3.2,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              },
-                            ),
-                            if (_screenDim > 0)
-                              Positioned.fill(
-                                child: IgnorePointer(
-                                  child: ColoredBox(
-                                    color: Colors.black.withValues(
-                                      alpha: _screenDim,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            if (_vc != null) _subtitleOverlay(_vc!),
-                            if (_chromeVisible)
-                              Positioned(
-                                top: 0,
-                                left: 0,
-                                right: 0,
-                                child: _tb(),
-                              ),
-                            if (_chromeVisible &&
-                                DeviceProfile.isTv(context) &&
-                                !_showList)
-                              Positioned(
-                                left: 46,
-                                right: 46,
-                                bottom: 34,
-                                child: _tvTransport(),
-                              ),
-                            if (_chromeVisible &&
-                                !DeviceProfile.isDesktop(context) &&
-                                !DeviceProfile.isTv(context) &&
-                                !_showList)
-                              Positioned(
-                                left: 16,
-                                right: 16,
-                                bottom: 12,
-                                child: _touchTransport(),
-                              ),
-                            if (_chromeVisible &&
-                                DeviceProfile.isDesktop(context) &&
-                                !_showList)
-                              Positioned.fill(
-                                child: IgnorePointer(
-                                  child: Center(child: _desktopShortcutHint()),
-                                ),
-                              ),
-                            if (_gestureLabel != null)
-                              Positioned.fill(
-                                child: IgnorePointer(
-                                  child: Center(
-                                    child: Container(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 18,
-                                        vertical: 10,
-                                      ),
+                            children: [
+                              ValueListenableBuilder<bool>(
+                                valueListenable: _bufferingNotifier,
+                                builder: (context, isBuffering, _) {
+                                  if (!isBuffering)
+                                    return const SizedBox.shrink();
+                                  return Center(
+                                    child: DecoratedBox(
                                       decoration: BoxDecoration(
-                                        color: Colors.black87,
-                                        borderRadius: BorderRadius.circular(12),
+                                        color: Colors.black.withValues(
+                                          alpha: 0.6,
+                                        ),
+                                        shape: BoxShape.circle,
                                       ),
-                                      child: Text(
-                                        _gestureLabel!,
-                                        style: const TextStyle(
-                                          color: Colors.white,
+                                      child: const Padding(
+                                        padding: EdgeInsets.all(16),
+                                        child: SizedBox(
+                                          width: 36,
+                                          height: 36,
+                                          child: CircularProgressIndicator(
+                                            color: _hourRed,
+                                            strokeWidth: 3.2,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                              if (_screenDim > 0)
+                                Positioned.fill(
+                                  child: IgnorePointer(
+                                    child: ColoredBox(
+                                      color: Colors.black.withValues(
+                                        alpha: _screenDim,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              if (_vc != null) _subtitleOverlay(_vc!),
+                              if (_chromeVisible)
+                                Positioned(
+                                  top: 0,
+                                  left: 0,
+                                  right: 0,
+                                  child: _tb(),
+                                ),
+                              if (_chromeVisible &&
+                                  DeviceProfile.isTv(context) &&
+                                  !_showList)
+                                Positioned(
+                                  left: 46,
+                                  right: 46,
+                                  bottom: 34,
+                                  child: _tvTransport(),
+                                ),
+                              if (_chromeVisible &&
+                                  !DeviceProfile.isDesktop(context) &&
+                                  !DeviceProfile.isTv(context) &&
+                                  !_showList)
+                                Positioned(
+                                  left: 16,
+                                  right: 16,
+                                  bottom: 12,
+                                  child: _touchTransport(),
+                                ),
+                              if (_chromeVisible &&
+                                  DeviceProfile.isDesktop(context) &&
+                                  !_showList)
+                                Positioned.fill(
+                                  child: IgnorePointer(
+                                    child: Center(
+                                      child: _desktopShortcutHint(),
+                                    ),
+                                  ),
+                                ),
+                              if (_gestureLabel != null)
+                                Positioned.fill(
+                                  child: IgnorePointer(
+                                    child: Center(
+                                      child: Container(
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 18,
+                                          vertical: 10,
+                                        ),
+                                        decoration: BoxDecoration(
+                                          color: Colors.black87,
+                                          borderRadius: BorderRadius.circular(
+                                            12,
+                                          ),
+                                        ),
+                                        child: Text(
+                                          _gestureLabel!,
+                                          style: const TextStyle(
+                                            color: Colors.white,
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            if (_vc != null) _introPrompt(),
-                            _nextEpisodePrompt(),
-                            _endOfPlaybackOverlay(),
-                            if (_showList && _isLive) _ov(),
-                            if (_chromeVisible &&
-                                !_showList &&
-                                _isLive &&
-                                !DeviceProfile.isDesktop(context) &&
-                                !DeviceProfile.isTv(context)) ...[
-                              Positioned(
-                                left: 8,
-                                top: 0,
-                                bottom: 0,
-                                child: Center(
-                                  child: _nb(
-                                    Icons.chevron_left,
-                                    () => _chg(-1),
-                                    label: 'Canal anterior',
+                              if (_vc != null) _introPrompt(),
+                              _nextEpisodePrompt(),
+                              _endOfPlaybackOverlay(),
+                              if (_showList && _isLive) _ov(),
+                              if (_chromeVisible &&
+                                  !_showList &&
+                                  _isLive &&
+                                  !DeviceProfile.isDesktop(context) &&
+                                  !DeviceProfile.isTv(context)) ...[
+                                Positioned(
+                                  left: 8,
+                                  top: 0,
+                                  bottom: 0,
+                                  child: Center(
+                                    child: _nb(
+                                      Icons.chevron_left,
+                                      () => _chg(-1),
+                                      label: 'Canal anterior',
+                                    ),
                                   ),
                                 ),
-                              ),
-                              Positioned(
-                                right: 8,
-                                top: 0,
-                                bottom: 0,
-                                child: Center(
-                                  child: _nb(
-                                    Icons.chevron_right,
-                                    () => _chg(1),
-                                    label: 'Canal siguiente',
+                                Positioned(
+                                  right: 8,
+                                  top: 0,
+                                  bottom: 0,
+                                  child: Center(
+                                    child: _nb(
+                                      Icons.chevron_right,
+                                      () => _chg(1),
+                                      label: 'Canal siguiente',
+                                    ),
                                   ),
                                 ),
-                              ),
+                              ],
                             ],
-                          ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
       ),
     ),
   );
