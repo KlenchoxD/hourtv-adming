@@ -51,7 +51,7 @@ class MockVideoPlayerPlatform extends VideoPlayerPlatform with MockPlatformInter
 
   @override
   Widget buildView(int textureId) => Container();
-  
+
   @override
   Widget buildViewWithOptions(VideoViewOptions options) => Container();
 }
@@ -85,9 +85,9 @@ void main() {
 
     await tester.pump();
     await tester.pump(const Duration(seconds: 1)); // wait for init
-    
+
     expect(mockPlatform.lastViewType, equals(VideoViewType.platformView));
-    
+
     debugDefaultTargetPlatformOverride = null;
   });
 
@@ -107,9 +107,9 @@ void main() {
 
     await tester.pump();
     await tester.pump(const Duration(seconds: 1)); // wait for init
-    
+
     expect(mockPlatform.lastViewType, equals(VideoViewType.textureView));
-    
+
     debugDefaultTargetPlatformOverride = null;
   });
 }
