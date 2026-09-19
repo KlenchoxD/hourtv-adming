@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-09-18T22:06:55.484Z",
-  "durationMs": 1573,
+  "generatedAt": "2026-09-19T00:17:56.436Z",
+  "durationMs": 1991,
   "dryRun": false,
   "moviesFound": 33,
   "moviesDiscarded": 26,
@@ -63,11 +63,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1228710,
-      "title": "The Mandalorian and Grogu",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1081003,
       "title": "Supergirl",
       "reason": "Sin fuente autorizada configurada"
@@ -88,9 +83,9 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 264980,
-      "title": "Das Mädchen mit der heißen Masche",
-      "reason": "Rating 4.2 por debajo del mínimo (5.5)"
+      "tmdbId": 454639,
+      "title": "He-Man y los Masters del Universo",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1375646,
@@ -140,6 +135,11 @@
     {
       "tmdbId": 1323244,
       "title": "La señal del apocalipsis",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1232569,
+      "title": "Pinocho: Desatado",
       "reason": "Sin fuente autorizada configurada"
     }
   ]
