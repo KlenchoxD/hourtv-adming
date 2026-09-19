@@ -72,3 +72,4 @@ HANDOFF.md
 # Fuente original del logo: ya copiada a assets/branding/ y a los iconos de
 # android/, no hace falta versionarla aparte.
 /Logo/
+supabase_snapshot.json
