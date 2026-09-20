@@ -50,7 +50,7 @@ async function persistHealthResults(client, runId, results) {
 }
 
 async function loadSources(client, limit) {
-  const query = `SELECT id, url, health_status, health_last_error,
+  const query = `SELECT id, url, requires_webview, health_status, health_last_error,
       health_http_code, health_consecutive_failures, health_first_failure_at,
       health_last_success_at, health_last_check, health_last_check_run_id
     FROM public.sources WHERE deleted_at IS NULL ORDER BY id LIMIT $1`;
@@ -67,7 +67,9 @@ async function run({ client, limit = 976, dryRun = true, probe = probeUrl, now =
     const checked = await Promise.all(batch.map(async (source) => ({
       id: source.id,
       previous: { status: source.health_status, consecutiveFailures: source.health_consecutive_failures, firstFailureAt: source.health_first_failure_at },
-      result: await probe(source.url),
+      result: await probe(source.url).then((result) => source.requires_webview && result.reason === 'html'
+        ? { ...result, conclusive: false, reason: 'requires-webview' }
+        : result),
       checkedAt: now.toISOString(),
     })));
     results.push(...checked);

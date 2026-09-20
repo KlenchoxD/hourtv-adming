@@ -67,3 +67,15 @@ test('checks sources in bounded concurrent batches', async () => {
   assert.equal(report.total, 9);
   assert.equal(peak, 3);
 });
+
+test('does not mark HTML embeds as down when the source requires WebView', async () => {
+  const client = { async query(text) {
+    if (text.startsWith('SELECT')) return { rows: [{ id: 'embed-1', url: 'https://embed.test/1', requires_webview: true, health_status: 'pending', health_consecutive_failures: 0 }] };
+    return { rows: [] };
+  } };
+  const report = await require('./source-health-sync').run({
+    client, probe: async () => ({ ok: false, conclusive: true, reason: 'html' }),
+  });
+  assert.equal(report.results[0].result.reason, 'requires-webview');
+  assert.equal(report.results[0].result.conclusive, false);
+});
