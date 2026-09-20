@@ -78,6 +78,16 @@ function createValidPlan() {
   return plan;
 }
 
+test("El runner acepta un plan firmado cuyo total de operaciones no es fijo", () => {
+  const plan = createValidPlan();
+  plan.operations.pop();
+  plan.planSha256 = computeLogicalHash(plan);
+
+  const result = validatePlanStructure(plan, plan.planSha256);
+
+  assert.deepStrictEqual(result, { valid: true });
+});
+
 class MockClient {
   constructor() {
     this.queries = [];

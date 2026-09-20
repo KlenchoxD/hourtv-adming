@@ -4429,32 +4429,7 @@
           "url": "https://barmonrey.com/player/5Wy9lP6iC4G2V1P/",
           "language": "Idioma sin identificar",
           "id": "1db0197a-c9aa-4ddf-a515-5e5a6a15a865"
-        }
-      ]
-    },
-    {
-      "id": "60e6eb8dabea48cc918f3f678b53fed8",
-      "title": "Operación Cacahuete 2. Misión: Salvar el parque",
-      "plot": "Continuación de Operación cacahuete en la que conoceremos las nuevas aventuras de la malhumorada ardilla Surly junto a su fiel compinche, la positiva rata Buddy. En esta ocasión, los amigos tratarán de acabar con los planes del alcalde de Oakton City, que pretende demoler su hogar, el Parque Liberty, para así poder construir un parque de atracciones en la zona.",
-      "cast": "Will Arnett, Maya Rudolph, Bobby Cannavale, Bobby Moynihan, Isabela Merced, Peter Stormare, Gabriel Iglesias, Jeff Dunham",
-      "director": "Cal Brunker",
-      "writer": "Cal Brunker",
-      "releaseDate": "2017-08-11",
-      "year": "2014",
-      "genre": "Animación, Familia, Aventura, Comedia",
-      "rating": 6.1,
-      "duration": "95 min",
-      "poster": "https://image.tmdb.org/t/p/w500/zHEA1SxWhIzaqa82FY2GtbJE39p.jpg",
-      "backdrop": "https://image.tmdb.org/t/p/w1280/snobCf0u4ex9OKNNFuNQKmGe3gJ.jpg",
-      "categories": [
-        "comedia",
-        "aventura",
-        "infantil",
-        "familia"
-      ],
-      "tmdbId": 335777,
-      "tmdbType": "movie",
-      "servers": [
+        },
         {
           "name": "Barmonrey",
           "url": "https://barmonrey.com/player/pwEGc0dO6XulmS1/",

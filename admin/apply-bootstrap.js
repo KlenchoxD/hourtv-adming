@@ -146,8 +146,8 @@ function validatePlanStructure(plan, expectedSha) {
   if (expectedSha !== plan.planSha256)
     return { valid: false, error: "Expected SHA-256 does not match plan" };
 
-  if (plan.operations.length !== 1970)
-    return { valid: false, error: "Operations count mismatch" };
+  if (!Array.isArray(plan.operations))
+    return { valid: false, error: "Operations must be an array" };
 
   const uuidSet = new Set();
   for (const op of plan.operations) {

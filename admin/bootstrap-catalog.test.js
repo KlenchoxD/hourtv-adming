@@ -199,6 +199,34 @@ test("Identidad canónica duplicada", () => {
   });
 });
 
+test("TMDB duplicado dentro del mismo tipo de contenido aborta el plan", () => {
+  withTempFiles((tmpDir, catPath) => {
+    fs.writeFileSync(
+      catPath,
+      JSON.stringify({
+        movies: [
+          { id: "legacy-2017", tmdbId: 335777, title: "Película", servers: [] },
+          {
+            id: "legacy-2014",
+            tmdbId: 335777,
+            title: "Película duplicada",
+            servers: [],
+          },
+        ],
+      }),
+    );
+
+    const { plan, code } = generateBootstrapPlan(catPath);
+
+    assert.strictEqual(code, 3);
+    assert.strictEqual(plan.stats.duplicate, 1);
+    assert.strictEqual(
+      plan.operations.filter((op) => op.entityType === "title").length,
+      1,
+    );
+  });
+});
+
 // NEW 3: UUID duplicado
 test("UUID duplicado entre entidades u operaciones", () => {
   withTempFiles((tmpDir, catPath) => {

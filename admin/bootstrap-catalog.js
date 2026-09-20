@@ -181,6 +181,7 @@ function generateBootstrapPlan(
 
   const seenIds = new Set();
   const identityHashes = new Set();
+  const titleDatabaseIdentities = new Set();
 
   const trackIdentity = (uuid, identityStr) => {
     if (!isUUID(uuid)) {
@@ -193,6 +194,17 @@ function generateBootstrapPlan(
     }
     seenIds.add(uuid);
     identityHashes.add(identityStr);
+    return true;
+  };
+
+  const trackTitleDatabaseIdentity = (mediaType, tmdbId) => {
+    if (tmdbId === null) return true;
+    const databaseIdentity = `${mediaType}|${tmdbId}`;
+    if (titleDatabaseIdentities.has(databaseIdentity)) {
+      plan.stats.duplicate++;
+      return false;
+    }
+    titleDatabaseIdentities.add(databaseIdentity);
     return true;
   };
 
@@ -295,7 +307,11 @@ function generateBootstrapPlan(
       } else {
         const identityStr = `title:movie:${legacyId}`;
         titleId = uuidv5(identityStr, NAMESPACE);
-        if (trackIdentity(titleId, identityStr)) {
+        const tmdbId = parseNum(m.tmdbId);
+        if (
+          trackTitleDatabaseIdentity("movie", tmdbId) &&
+          trackIdentity(titleId, identityStr)
+        ) {
           const titleRec = {
             id: titleId,
             legacy_id: legacyId,
@@ -316,7 +332,7 @@ function generateBootstrapPlan(
             director: m.director || null,
             writer: m.writer || null,
             country_code: null,
-            tmdb_id: parseNum(m.tmdbId),
+            tmdb_id: tmdbId,
             imdb_id: null,
           };
           addOp("title", titleRec);
@@ -365,7 +381,11 @@ function generateBootstrapPlan(
       } else {
         const identityStr = `title:series:${legacyId}`;
         titleId = uuidv5(identityStr, NAMESPACE);
-        if (trackIdentity(titleId, identityStr)) {
+        const tmdbId = parseNum(s.tmdbId);
+        if (
+          trackTitleDatabaseIdentity("series", tmdbId) &&
+          trackIdentity(titleId, identityStr)
+        ) {
           const titleRec = {
             id: titleId,
             legacy_id: legacyId,
@@ -386,7 +406,7 @@ function generateBootstrapPlan(
             director: s.director || null,
             writer: s.writer || null,
             country_code: null,
-            tmdb_id: parseNum(s.tmdbId),
+            tmdb_id: tmdbId,
             imdb_id: null,
           };
           addOp("title", titleRec);
