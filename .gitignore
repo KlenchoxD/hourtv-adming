@@ -74,5 +74,6 @@ HANDOFF.md
 /Logo/
 supabase_snapshot.json
 /admin/reconciliation_manifest.json
+/admin/bootstrap_plan.json
 /diff_fase2.diff
 admin/*.tmp
