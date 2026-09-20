@@ -46,3 +46,24 @@ test('rolls back if any source update fails', async () => {
   }]));
   assert.equal(calls.at(-1).text, 'ROLLBACK');
 });
+
+test('checks sources in bounded concurrent batches', async () => {
+  let active = 0;
+  let peak = 0;
+  const client = { async query(text) {
+    if (text.startsWith('SELECT')) return { rows: Array.from({ length: 9 }, (_, i) => ({
+      id: `source-${i}`, url: `https://example.test/${i}`, health_status: 'pending', health_consecutive_failures: 0,
+    })) };
+    return { rows: [] };
+  } };
+  const report = await require('./source-health-sync').run({
+    client, concurrency: 3, probe: async () => {
+      active += 1; peak = Math.max(peak, active);
+      await new Promise((resolve) => setTimeout(resolve, 2));
+      active -= 1;
+      return { ok: true, conclusive: true, reason: 'media' };
+    },
+  });
+  assert.equal(report.total, 9);
+  assert.equal(peak, 3);
+});

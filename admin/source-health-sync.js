@@ -58,18 +58,19 @@ async function loadSources(client, limit) {
   return rows;
 }
 
-async function run({ client, limit = 976, dryRun = true, probe = probeUrl, now = new Date() }) {
+async function run({ client, limit = 976, dryRun = true, probe = probeUrl, now = new Date(), concurrency = 8 }) {
   const sources = await loadSources(client, limit);
   const runId = `${now.toISOString()}-${require('node:crypto').randomUUID()}`;
   const results = [];
-  for (const source of sources) {
-    const result = await probe(source.url);
-    results.push({
+  for (let offset = 0; offset < sources.length; offset += concurrency) {
+    const batch = sources.slice(offset, offset + concurrency);
+    const checked = await Promise.all(batch.map(async (source) => ({
       id: source.id,
       previous: { status: source.health_status, consecutiveFailures: source.health_consecutive_failures, firstFailureAt: source.health_first_failure_at },
-      result,
+      result: await probe(source.url),
       checkedAt: now.toISOString(),
-    });
+    })));
+    results.push(...checked);
   }
   if (!dryRun) await persistHealthResults(client, runId, results);
   return { runId, dryRun, total: results.length, results };
