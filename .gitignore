@@ -77,3 +77,4 @@ supabase_snapshot.json
 /admin/bootstrap_plan.json
 /diff_fase2.diff
 admin/*.tmp
+/admin/node_modules/
