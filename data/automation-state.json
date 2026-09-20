@@ -1,39 +1,39 @@
 {
-  "lastRunAt": "2026-09-18T17:23:13.635Z",
+  "lastRunAt": "2026-09-20T14:12:54.178Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
-    1204680,
+    1423191,
     1101383,
+    1204680,
     1288445,
     1108427,
-    1423191,
-    1137844,
     1084244,
+    1137844,
     1315772,
     1127384,
-    1275779,
     1185806,
     1083381,
+    1275779,
     860508,
     1081003,
     1302904,
-    1228710,
     1273221,
+    1240889,
     671,
     1212763,
-    264980,
-    1375646,
     1368337,
+    1375646,
     1294189,
     1285366,
-    1440098,
     1482547,
     1386315,
+    1440098,
     1408162,
-    1393326,
     1339713,
+    1393326,
     1323244,
+    1232569,
     1335666
   ],
   "tmdbIdsPublished": [],
@@ -46,8 +46,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1204680,
-      "title": "Coyote vs. Acme",
+      "tmdbId": 1423191,
+      "title": "Resident Evil",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -56,18 +56,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1204680,
+      "title": "Coyote vs. Acme",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1288445,
       "title": "El motín",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1423191,
-      "title": "Resident Evil",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1137844,
-      "title": "Mayday",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -76,18 +71,23 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1137844,
+      "title": "Mayday",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1127384,
       "title": "En mar abierto",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1275779,
-      "title": "El día de la revelación",
+      "tmdbId": 1185806,
+      "title": "La Patrulla Canina: La dino película",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1185806,
-      "title": "La Patrulla Canina: La dino película",
+      "tmdbId": 1275779,
+      "title": "El día de la revelación",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -101,8 +101,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1228710,
-      "title": "The Mandalorian and Grogu",
+      "tmdbId": 1240889,
+      "title": "Adolescencia, sexo y muerte en campamento Miasma",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -116,18 +116,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 264980,
-      "title": "Das Mädchen mit der heißen Masche",
-      "reason": "Rating 4.2 por debajo del mínimo (5.5)"
+      "tmdbId": 1368337,
+      "title": "La Odisea",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1375646,
       "title": "Colony",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1368337,
-      "title": "La Odisea",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -141,18 +136,18 @@
       "reason": "Votos 8 por debajo del mínimo (50)"
     },
     {
-      "tmdbId": 1440098,
-      "title": "Enfrentados: Marfil",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1482547,
       "title": "Zip Wire",
-      "reason": "Votos 11 por debajo del mínimo (50)"
+      "reason": "Votos 12 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1386315,
       "title": "A la carrera",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1440098,
+      "title": "Enfrentados: Marfil",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -168,6 +163,11 @@
     {
       "tmdbId": 1323244,
       "title": "La señal del apocalipsis",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1232569,
+      "title": "Pinocho: Desatado",
       "reason": "Sin fuente autorizada configurada"
     }
   ]
