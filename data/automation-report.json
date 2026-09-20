@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-09-20T05:34:25.299Z",
-  "durationMs": 857,
+  "generatedAt": "2026-09-20T10:05:48.277Z",
+  "durationMs": 2931,
   "dryRun": false,
   "moviesFound": 33,
   "moviesDiscarded": 26,
@@ -18,8 +18,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1204680,
-      "title": "Coyote vs. Acme",
+      "tmdbId": 1423191,
+      "title": "Resident Evil",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -28,8 +28,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1423191,
-      "title": "Resident Evil",
+      "tmdbId": 1204680,
+      "title": "Coyote vs. Acme",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -73,6 +73,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1240889,
+      "title": "Adolescencia, sexo y muerte en campamento Miasma",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 671,
       "title": "Harry Potter y la piedra filosofal",
       "reason": "Sin fuente autorizada configurada"
@@ -80,11 +85,6 @@
     {
       "tmdbId": 1212763,
       "title": "Posesión infernal: En llamas",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 454639,
-      "title": "He-Man y los Masters del Universo",
       "reason": "Sin fuente autorizada configurada"
     },
     {

@@ -1,11 +1,11 @@
 {
-  "lastRunAt": "2026-09-20T05:34:26.151Z",
+  "lastRunAt": "2026-09-20T10:05:51.203Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
-    1204680,
-    1101383,
     1423191,
+    1101383,
+    1204680,
     1288445,
     1108427,
     1084244,
@@ -19,9 +19,9 @@
     1081003,
     1302904,
     1273221,
+    1240889,
     671,
     1212763,
-    454639,
     1368337,
     1375646,
     1294189,
@@ -46,8 +46,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1204680,
-      "title": "Coyote vs. Acme",
+      "tmdbId": 1423191,
+      "title": "Resident Evil",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -56,8 +56,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1423191,
-      "title": "Resident Evil",
+      "tmdbId": 1204680,
+      "title": "Coyote vs. Acme",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -101,6 +101,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1240889,
+      "title": "Adolescencia, sexo y muerte en campamento Miasma",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 671,
       "title": "Harry Potter y la piedra filosofal",
       "reason": "Sin fuente autorizada configurada"
@@ -108,11 +113,6 @@
     {
       "tmdbId": 1212763,
       "title": "Posesión infernal: En llamas",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 454639,
-      "title": "He-Man y los Masters del Universo",
       "reason": "Sin fuente autorizada configurada"
     },
     {
