@@ -49,8 +49,10 @@ class LocalLanguages extends Table {
 }
 
 class LocalTitleGenres extends Table {
-  TextColumn get titleId => text().references(LocalTitles, #id, onDelete: KeyAction.cascade)();
-  TextColumn get genreId => text().references(LocalGenres, #id, onDelete: KeyAction.cascade)();
+  TextColumn get titleId =>
+      text().references(LocalTitles, #id, onDelete: KeyAction.cascade)();
+  TextColumn get genreId =>
+      text().references(LocalGenres, #id, onDelete: KeyAction.cascade)();
 
   @override
   Set<Column> get primaryKey => {titleId, genreId};
@@ -58,7 +60,8 @@ class LocalTitleGenres extends Table {
 
 class LocalSeasons extends Table {
   TextColumn get id => text()();
-  TextColumn get titleId => text().references(LocalTitles, #id, onDelete: KeyAction.cascade)();
+  TextColumn get titleId =>
+      text().references(LocalTitles, #id, onDelete: KeyAction.cascade)();
   IntColumn get seasonNumber => integer()();
   TextColumn get name => text().nullable()();
   TextColumn get plot => text().nullable()();
@@ -71,7 +74,8 @@ class LocalSeasons extends Table {
 
 class LocalEpisodes extends Table {
   TextColumn get id => text()();
-  TextColumn get seasonId => text().references(LocalSeasons, #id, onDelete: KeyAction.cascade)();
+  TextColumn get seasonId =>
+      text().references(LocalSeasons, #id, onDelete: KeyAction.cascade)();
   IntColumn get episodeNumber => integer()();
   TextColumn get title => text()();
   TextColumn get plot => text().nullable()();
@@ -85,17 +89,38 @@ class LocalEpisodes extends Table {
 
 class LocalSources extends Table {
   TextColumn get id => text()();
-  TextColumn get titleId => text().nullable().references(LocalTitles, #id, onDelete: KeyAction.cascade)();
-  TextColumn get episodeId => text().nullable().references(LocalEpisodes, #id, onDelete: KeyAction.cascade)();
+  TextColumn get titleId => text().nullable().references(
+    LocalTitles,
+    #id,
+    onDelete: KeyAction.cascade,
+  )();
+  TextColumn get episodeId => text().nullable().references(
+    LocalEpisodes,
+    #id,
+    onDelete: KeyAction.cascade,
+  )();
   TextColumn get name => text()();
   TextColumn get url => text()();
   TextColumn get language => text().nullable()();
   IntColumn get orderIndex => integer().withDefault(const Constant(0))();
   TextColumn get status => text().withDefault(const Constant('active'))();
-  BoolColumn get requiresWebview => boolean().withDefault(const Constant(false))();
+  BoolColumn get requiresWebview =>
+      boolean().withDefault(const Constant(false))();
   TextColumn get refererUrl => text().nullable()();
   TextColumn get originUrl => text().nullable()();
   TextColumn get userAgentProfile => text().nullable()();
+
+  TextColumn get healthStatus =>
+      text().withDefault(const Constant('pending'))();
+  TextColumn get healthLastError => text().nullable()();
+  IntColumn get healthHttpCode => integer().nullable()();
+  IntColumn get healthConsecutiveFailures =>
+      integer().withDefault(const Constant(0))();
+  DateTimeColumn get healthFirstFailureAt => dateTime().nullable()();
+  DateTimeColumn get healthLastSuccessAt => dateTime().nullable()();
+  DateTimeColumn get healthLastCheck => dateTime().nullable()();
+  TextColumn get healthLastCheckRunId => text().nullable()();
+
   BoolColumn get isDeleted => boolean().withDefault(const Constant(false))();
 
   @override
@@ -105,7 +130,8 @@ class LocalSources extends Table {
 class CatalogSyncStates extends Table {
   TextColumn get syncKey => text()();
   // IntColumn en Drift mapea a int de Dart (64-bit integer), soportando revisiones > 2^31
-  IntColumn get lastCatalogRevision => integer().withDefault(const Constant(0))();
+  IntColumn get lastCatalogRevision =>
+      integer().withDefault(const Constant(0))();
   DateTimeColumn get lastSyncTimestamp => dateTime()();
   IntColumn get totalSynced => integer().withDefault(const Constant(0))();
 

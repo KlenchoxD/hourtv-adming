@@ -194,5 +194,40 @@ void main() {
       expect(restored.categories, ['featured']);
       expect(restored.isFeatured, isTrue);
     });
+
+    test(
+      'preserva identidad, salud y reemplazos de servidores del catálogo',
+      () {
+        final payload = CatalogParser.parse({
+          'movies': [
+            {
+              'id': 'movie-health',
+              'title': 'Movie Health',
+              'servers': [
+                {
+                  'id': '550e8400-e29b-41d4-a716-446655440000',
+                  'name': 'Servidor saludable',
+                  'url': 'https://video.test/health.m3u8',
+                  'health': {
+                    'status': 'degraded',
+                    'consecutiveFailures': 2,
+                    'httpCode': 503,
+                  },
+                  'replacementForId': 'old-source',
+                  'replacedById': 'new-source',
+                },
+              ],
+            },
+          ],
+        });
+
+        final server = payload.channels.single.servers.single;
+        expect(server.id, '550e8400-e29b-41d4-a716-446655440000');
+        expect(server.health?.status, 'degraded');
+        expect(server.health?.consecutiveFailures, 2);
+        expect(server.replacementForId, 'old-source');
+        expect(server.replacedById, 'new-source');
+      },
+    );
   });
 }

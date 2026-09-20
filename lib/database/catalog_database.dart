@@ -38,7 +38,7 @@ class CatalogDatabase extends _$CatalogDatabase {
   }
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 3;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -66,6 +66,16 @@ class CatalogDatabase extends _$CatalogDatabase {
         await m.createTable(localProfileSyncCheckpoint);
         await m.createTable(localGuestImportAudit);
         await _createIndices();
+      }
+      if (from < 3) {
+        await m.addColumn(localSources, localSources.healthStatus);
+        await m.addColumn(localSources, localSources.healthLastError);
+        await m.addColumn(localSources, localSources.healthHttpCode);
+        await m.addColumn(localSources, localSources.healthConsecutiveFailures);
+        await m.addColumn(localSources, localSources.healthFirstFailureAt);
+        await m.addColumn(localSources, localSources.healthLastSuccessAt);
+        await m.addColumn(localSources, localSources.healthLastCheck);
+        await m.addColumn(localSources, localSources.healthLastCheckRunId);
       }
     },
     beforeOpen: (details) async {

@@ -598,7 +598,7 @@ void main() {
         updatedAt: DateTime.now(),
       ));
 
-      gateway.sourcesOnServer['src-1'] = const CatalogSourceDto(
+      gateway.sourcesOnServer['src-1'] = CatalogSourceDto(
         id: 'src-1',
         titleId: 'movie-x',
         name: 'Stream 1080p',
@@ -606,6 +606,12 @@ void main() {
         orderIndex: 0,
         status: 'active',
         requiresWebview: false,
+        healthStatus: 'degraded',
+        healthLastError: 'timeout',
+        healthHttpCode: 504,
+        healthConsecutiveFailures: 2,
+        healthLastCheck: DateTime.utc(2026, 9, 20, 10, 5),
+        healthLastCheckRunId: 'run-incremental',
       );
 
       // 1. Upsert
@@ -623,6 +629,10 @@ void main() {
       var sources = await dao.getSourcesForTitle('movie-x');
       expect(sources.length, equals(1));
       expect(sources.first.url, equals('https://cdn.test/stream.m3u8'));
+      expect(sources.first.healthStatus, equals('degraded'));
+      expect(sources.first.healthHttpCode, equals(504));
+      expect(sources.first.healthConsecutiveFailures, equals(2));
+      expect(sources.first.healthLastCheckRunId, equals('run-incremental'));
 
       // 2. Delete
       gateway.changesToReturn = [
@@ -785,6 +795,11 @@ void main() {
           orderIndex: 0,
           status: 'active',
           requiresWebview: false,
+          healthStatus: 'down',
+          healthLastError: 'server error',
+          healthHttpCode: 503,
+          healthConsecutiveFailures: 4,
+          healthLastCheckRunId: 'run-full',
         ),
       ];
 
@@ -812,6 +827,10 @@ void main() {
       final sources = await dao.getSourcesForEpisode('ep-101');
       expect(sources.length, equals(1));
       expect(sources.first.url, equals('https://cdn.example.com/live/ep101.m3u8'));
+      expect(sources.first.healthStatus, equals('down'));
+      expect(sources.first.healthHttpCode, equals(503));
+      expect(sources.first.healthConsecutiveFailures, equals(4));
+      expect(sources.first.healthLastCheckRunId, equals('run-full'));
     });
 
     test('14. Full Resync captura watermark coherente y procesa deltas posteriores', () async {

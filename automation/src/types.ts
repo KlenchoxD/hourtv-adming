@@ -1,9 +1,25 @@
 // Tipos compartidos por todo el automatizador HourTV.
 
+export interface CatalogServerHealth {
+  status: "pending" | "active" | "degraded" | "down" | "recovered";
+  lastError?: string;
+  httpCode?: number;
+  consecutiveFailures: number;
+  firstFailureAt?: string;
+  lastSuccessAt?: string;
+  lastCheck?: string;
+  lastCheckRunId?: string;
+  recheckRequestedAt?: string;
+}
+
 export interface CatalogServer {
+  id: string;
   name: string;
   url: string;
-  language: string;
+  language?: string;
+  health?: CatalogServerHealth;
+  replacementForId?: string;
+  replacedById?: string;
 }
 
 export interface CatalogMovie {

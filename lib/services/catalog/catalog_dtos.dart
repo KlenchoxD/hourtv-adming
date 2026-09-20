@@ -219,6 +219,14 @@ class CatalogSourceDto {
   final String? refererUrl;
   final String? originUrl;
   final String? userAgentProfile;
+  final String healthStatus;
+  final String? healthLastError;
+  final int? healthHttpCode;
+  final int healthConsecutiveFailures;
+  final DateTime? healthFirstFailureAt;
+  final DateTime? healthLastSuccessAt;
+  final DateTime? healthLastCheck;
+  final String? healthLastCheckRunId;
 
   const CatalogSourceDto({
     required this.id,
@@ -234,6 +242,14 @@ class CatalogSourceDto {
     this.refererUrl,
     this.originUrl,
     this.userAgentProfile,
+    this.healthStatus = 'pending',
+    this.healthLastError,
+    this.healthHttpCode,
+    this.healthConsecutiveFailures = 0,
+    this.healthFirstFailureAt,
+    this.healthLastSuccessAt,
+    this.healthLastCheck,
+    this.healthLastCheckRunId,
   });
 
   factory CatalogSourceDto.fromJson(Map<String, dynamic> json) {
@@ -256,8 +272,18 @@ class CatalogSourceDto {
       refererUrl: json['referer_url'] as String?,
       originUrl: json['origin_url'] as String?,
       userAgentProfile: json['user_agent_profile'] as String?,
+      healthStatus: json['health_status'] as String? ?? 'pending',
+      healthLastError: json['health_last_error'] as String?,
+      healthHttpCode: json['health_http_code'] as int?,
+      healthConsecutiveFailures: json['health_consecutive_failures'] as int? ?? 0,
+      healthFirstFailureAt: _tryDateTime(json['health_first_failure_at']),
+      healthLastSuccessAt: _tryDateTime(json['health_last_success_at']),
+      healthLastCheck: _tryDateTime(json['health_last_check']),
+      healthLastCheckRunId: json['health_last_check_run_id'] as String?,
     );
   }
+
+  static DateTime? _tryDateTime(dynamic value) => value is String ? DateTime.tryParse(value) : null;
 }
 
 /// DTO para un episodio de una serie.

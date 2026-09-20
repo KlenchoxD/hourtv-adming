@@ -261,14 +261,7 @@ class CatalogRepository extends ChangeNotifier {
           var order = 0;
           for (final server in ch.servers) {
             await dao.upsertSource(
-              LocalSourcesCompanion.insert(
-                id: '${titleId}_server_$order',
-                titleId: Value(titleId),
-                name: server.name,
-                url: server.url,
-                language: Value(server.language),
-                orderIndex: Value(order++),
-              ),
+              _sourceCompanionFromServer(server: server, fallbackId: '${titleId}_server_$order', titleId: titleId, orderIndex: order++),
             );
           }
         } else if (ch.url.isNotEmpty) {
@@ -355,14 +348,7 @@ class CatalogRepository extends ChangeNotifier {
               var sOrder = 0;
               for (final server in ep.servers) {
                 await dao.upsertSource(
-                  LocalSourcesCompanion.insert(
-                    id: '${episodeId}_server_$sOrder',
-                    episodeId: Value(episodeId),
-                    name: server.name,
-                    url: server.url,
-                    language: Value(server.language),
-                    orderIndex: Value(sOrder++),
-                  ),
+                  _sourceCompanionFromServer(server: server, fallbackId: '${episodeId}_server_$sOrder', episodeId: episodeId, orderIndex: sOrder++),
                 );
               }
             } else if (ep.url.isNotEmpty) {
@@ -410,14 +396,7 @@ class CatalogRepository extends ChangeNotifier {
           var order = 0;
           for (final server in ch.servers) {
             await dao.upsertSource(
-              LocalSourcesCompanion.insert(
-                id: '${titleId}_server_$order',
-                titleId: Value(titleId),
-                name: server.name,
-                url: server.url,
-                language: Value(server.language),
-                orderIndex: Value(order++),
-              ),
+              _sourceCompanionFromServer(server: server, fallbackId: '${titleId}_server_$order', titleId: titleId, orderIndex: order++),
             );
           }
         } else if (ch.url.isNotEmpty) {
@@ -468,7 +447,7 @@ class CatalogRepository extends ChangeNotifier {
 
     final sources = await dao.getSourcesForTitle(titleId);
     final servers = sources
-        .map((s) => ChannelServer(name: s.name, url: s.url, language: s.language))
+        .map(_serverFromLocalSource)
         .toList();
 
     return Channel(
@@ -503,7 +482,7 @@ class CatalogRepository extends ChangeNotifier {
       for (final ep in episodes) {
         final epSources = await dao.getSourcesForEpisode(ep.id);
         final servers = epSources
-            .map((src) => ChannelServer(name: src.name, url: src.url, language: src.language))
+            .map(_serverFromLocalSource)
             .toList();
 
         episodeChannels.add(
@@ -542,6 +521,45 @@ class CatalogRepository extends ChangeNotifier {
       isFeatured: title.isFeatured,
     );
   }
+
+  LocalSourcesCompanion _sourceCompanionFromServer({required ChannelServer server, required String fallbackId, String? titleId, String? episodeId, required int orderIndex}) {
+    final health = server.health;
+    DateTime? parseDate(String? value) => value == null ? null : DateTime.tryParse(value);
+    return LocalSourcesCompanion.insert(
+      id: server.id ?? fallbackId,
+      titleId: Value(titleId),
+      episodeId: Value(episodeId),
+      name: server.name,
+      url: server.url,
+      language: Value(server.language),
+      orderIndex: Value(orderIndex),
+      healthStatus: Value(health?.status ?? 'pending'),
+      healthLastError: Value(health?.lastError),
+      healthHttpCode: Value(health?.httpCode),
+      healthConsecutiveFailures: Value(health?.consecutiveFailures ?? 0),
+      healthFirstFailureAt: Value(parseDate(health?.firstFailureAt)),
+      healthLastSuccessAt: Value(parseDate(health?.lastSuccessAt)),
+      healthLastCheck: Value(parseDate(health?.lastCheck)),
+      healthLastCheckRunId: Value(health?.lastCheckRunId),
+    );
+  }
+
+  ChannelServer _serverFromLocalSource(LocalSource source) => ChannelServer(
+    id: source.id,
+    name: source.name,
+    url: source.url,
+    language: source.language,
+    health: CatalogServerHealth(
+      status: source.healthStatus,
+      lastError: source.healthLastError,
+      httpCode: source.healthHttpCode,
+      consecutiveFailures: source.healthConsecutiveFailures,
+      firstFailureAt: source.healthFirstFailureAt?.toUtc().toIso8601String(),
+      lastSuccessAt: source.healthLastSuccessAt?.toUtc().toIso8601String(),
+      lastCheck: source.healthLastCheck?.toUtc().toIso8601String(),
+      lastCheckRunId: source.healthLastCheckRunId,
+    ),
+  );
 
   /// Resuelve una lista de canales a partir de sus IDs (para favoritos y continuar viendo)
   Future<List<Channel>> resolveChannelsByIds(List<String> ids) async {

@@ -1,3 +1,4 @@
+import { randomUUID } from "node:crypto";
 import {
   CATALOG_PATH,
   CONTENT_PROVIDER_API_KEY,
@@ -301,7 +302,13 @@ async function main() {
     const validServers: CatalogServer[] = [];
     for (const v of validations) {
       if (v.ok) {
-        validServers.push({ name: v.result.serverName, url: v.result.url, language: v.result.language });
+        validServers.push({
+          id: randomUUID(),
+          name: v.result.serverName,
+          url: v.result.url,
+          language: v.result.language,
+          health: { status: "pending", consecutiveFailures: 0 },
+        });
       } else {
         report.invalidSources++;
         logger.warn(`Fuente descartada para "${movie.title}"`, { reason: v.reason });

@@ -194,6 +194,14 @@ class CatalogSyncEngine {
                   refererUrl: Value(source.refererUrl),
                   originUrl: Value(source.originUrl),
                   userAgentProfile: Value(source.userAgentProfile),
+                  healthStatus: Value(source.healthStatus),
+                  healthLastError: Value(source.healthLastError),
+                  healthHttpCode: Value(source.healthHttpCode),
+                  healthConsecutiveFailures: Value(source.healthConsecutiveFailures),
+                  healthFirstFailureAt: Value(source.healthFirstFailureAt),
+                  healthLastSuccessAt: Value(source.healthLastSuccessAt),
+                  healthLastCheck: Value(source.healthLastCheck),
+                  healthLastCheckRunId: Value(source.healthLastCheckRunId),
                 ));
               });
             }
@@ -416,6 +424,14 @@ class CatalogSyncEngine {
           refererUrl: Value(src.refererUrl),
           originUrl: Value(src.originUrl),
           userAgentProfile: Value(src.userAgentProfile),
+          healthStatus: Value(src.healthStatus),
+          healthLastError: Value(src.healthLastError),
+          healthHttpCode: Value(src.healthHttpCode),
+          healthConsecutiveFailures: Value(src.healthConsecutiveFailures),
+          healthFirstFailureAt: Value(src.healthFirstFailureAt),
+          healthLastSuccessAt: Value(src.healthLastSuccessAt),
+          healthLastCheck: Value(src.healthLastCheck),
+          healthLastCheckRunId: Value(src.healthLastCheckRunId),
         ));
       }
 

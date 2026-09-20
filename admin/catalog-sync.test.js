@@ -2,10 +2,11 @@ const {test}=require('node:test');
 const assert=require('node:assert/strict');
 const {merge,createPublisher}=require('./catalog-sync');
 test('preserves remote servers and local metadata in existing movie',()=>{
- const base={movies:[{id:'a',title:'Old',servers:[{url:'a'}]}]};
- const local={movies:[{id:'a',title:'Edited',servers:[{url:'a'}]}]};
+ const health={status:'down',consecutiveFailures:3};
+ const base={movies:[{id:'a',title:'Old',servers:[{id:'source-a',url:'a',health,replacementForId:'older',replacedById:'newer'}]}]};
+ const local={movies:[{id:'a',title:'Edited',servers:[{id:'source-a',url:'a',health,replacementForId:'older',replacedById:'newer'}]}]};
  const remote={movies:[{id:'a',title:'Old',servers:[{url:'a'},{url:'b'}]},{id:'b'}]};
- assert.deepEqual(merge(base,local,remote),{movies:[{id:'a',title:'Edited',servers:[{url:'a'},{url:'b'}]},{id:'b'}]});
+ assert.deepEqual(merge(base,local,remote),{movies:[{id:'a',title:'Edited',servers:[{id:'source-a',url:'a',health,replacementForId:'older',replacedById:'newer'},{url:'b'}]},{id:'b'}]});
 });
 test('preserves intentional deletions and remote metadata',()=>{
  assert.deepEqual(merge({movies:[{id:'a'},{id:'b'}]}, {movies:[{id:'a'}]}, {movies:[{id:'a',year:2024},{id:'b'}]}),{movies:[{id:'a',year:2024}]});

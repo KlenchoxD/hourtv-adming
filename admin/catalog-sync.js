@@ -4,13 +4,31 @@
   const copy=x=>x===undefined?undefined:JSON.parse(JSON.stringify(x));
   function key(x){
     if(!x||typeof x!=='object')return JSON.stringify(x);
+    if(x.url)return JSON.stringify([x.url,x.language||'',x.name||'']);
     if(x.id!=null)return 'id:'+x.id;
     if(x.number!=null)return 'number:'+x.number;
-    if(x.url)return JSON.stringify([x.url,x.language||'',x.name||'']);
     return JSON.stringify(x);
   }
   function merge(base,local,remote){
-    if(same(local,base))return copy(remote);
+    if(same(local,base)){
+      const result=copy(remote);
+      if(Array.isArray(local)&&Array.isArray(result)){
+        const localByKey=new Map(local.map(item=>[key(item),item]));
+        for(const item of result){
+          const localItem=localByKey.get(key(item));
+          if(!localItem||!item||!item.url)continue;
+          for(const field of ['id','health','replacementForId','replacedById']){
+            if(localItem[field]!==undefined)item[field]=copy(localItem[field]);
+          }
+        }
+      }
+      if(local&&remote&&typeof local==='object'&&typeof remote==='object'&&local.url&&local.url===remote.url){
+        for(const field of ['id','health','replacementForId','replacedById']){
+          if(local[field]!==undefined)result[field]=copy(local[field]);
+        }
+      }
+      return result;
+    }
     if(same(remote,base)||same(local,remote))return copy(local);
     if(local===undefined)return undefined;
     if(remote===undefined)return copy(local);

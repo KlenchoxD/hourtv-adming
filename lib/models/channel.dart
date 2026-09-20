@@ -88,34 +88,151 @@ String countryFlag(String? code) {
       String.fromCharCode(0x1F1E6 + b - 65);
 }
 
+class CatalogServerHealth {
+  final String status;
+  final String? lastError;
+  final int? httpCode;
+  final int consecutiveFailures;
+  final String? firstFailureAt;
+  final String? lastSuccessAt;
+  final String? lastCheck;
+  final String? lastCheckRunId;
+  final String? recheckRequestedAt;
+
+  const CatalogServerHealth({
+    required this.status,
+    this.lastError,
+    this.httpCode,
+    required this.consecutiveFailures,
+    this.firstFailureAt,
+    this.lastSuccessAt,
+    this.lastCheck,
+    this.lastCheckRunId,
+    this.recheckRequestedAt,
+  });
+
+  factory CatalogServerHealth.fromJson(Map<String, dynamic> json) {
+    final status = json['status']?.toString() ?? 'pending';
+    if (![
+      'pending',
+      'active',
+      'degraded',
+      'down',
+      'recovered',
+    ].contains(status)) {
+      throw FormatException('Invalid health status: $status');
+    }
+
+    final rawHttpCode = json['httpCode'];
+    if (rawHttpCode != null && rawHttpCode is! int) {
+      throw const FormatException('health.httpCode must be an integer');
+    }
+    final httpCode = rawHttpCode as int?;
+    if (httpCode != null && (httpCode < 100 || httpCode > 599)) {
+      throw FormatException('Invalid httpCode: $httpCode');
+    }
+
+    final rawFailures = json['consecutiveFailures'];
+    if (rawFailures != null && rawFailures is! int) {
+      throw const FormatException(
+        'health.consecutiveFailures must be an integer',
+      );
+    }
+    final consecutiveFailures = rawFailures as int? ?? 0;
+    if (consecutiveFailures < 0) {
+      throw FormatException(
+        'Invalid consecutiveFailures: $consecutiveFailures',
+      );
+    }
+
+    return CatalogServerHealth(
+      status: status,
+      lastError: json['lastError']?.toString(),
+      httpCode: httpCode,
+      consecutiveFailures: consecutiveFailures,
+      firstFailureAt: json['firstFailureAt']?.toString(),
+      lastSuccessAt: json['lastSuccessAt']?.toString(),
+      lastCheck: json['lastCheck']?.toString(),
+      lastCheckRunId: json['lastCheckRunId']?.toString(),
+      recheckRequestedAt: json['recheckRequestedAt']?.toString(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final m = <String, dynamic>{
+      'status': status,
+      'consecutiveFailures': consecutiveFailures,
+    };
+    if (lastError != null) m['lastError'] = lastError;
+    if (httpCode != null) m['httpCode'] = httpCode;
+    if (firstFailureAt != null) m['firstFailureAt'] = firstFailureAt;
+    if (lastSuccessAt != null) m['lastSuccessAt'] = lastSuccessAt;
+    if (lastCheck != null) m['lastCheck'] = lastCheck;
+    if (lastCheckRunId != null) m['lastCheckRunId'] = lastCheckRunId;
+    if (recheckRequestedAt != null) {
+      m['recheckRequestedAt'] = recheckRequestedAt;
+    }
+    return m;
+  }
+}
+
 class ChannelServer {
+  final String? id;
   final String name;
   final String url;
   final String? language;
+  final CatalogServerHealth? health;
+  final String? replacementForId;
+  final String? replacedById;
   final List<HourTvSubtitleTrack> subtitleTracks;
 
   const ChannelServer({
+    this.id,
     required this.name,
     required this.url,
     this.language,
+    this.health,
+    this.replacementForId,
+    this.replacedById,
     this.subtitleTracks = const [],
   });
 
-  Map<String, dynamic> toJson() => {
-    'name': name,
-    'url': url,
-    'language': language,
-    'subtitles': subtitleTracks.map((track) => track.toJson()).toList(),
-  };
+  String get effectiveHealthStatus => health?.status ?? 'pending';
 
-  factory ChannelServer.fromJson(Map<String, dynamic> json) => ChannelServer(
-    name: json['name']?.toString() ?? '',
-    url: json['url']?.toString() ?? '',
-    language: json['language']?.toString(),
-    subtitleTracks: _subtitleTracksFromJson(
-      json['subtitles'] ?? json['subtitleTracks'] ?? json['subtitle_tracks'],
-    ),
-  );
+  Map<String, dynamic> toJson() {
+    final m = <String, dynamic>{
+      'name': name,
+      'url': url,
+      'language': language,
+      'subtitles': subtitleTracks.map((track) => track.toJson()).toList(),
+    };
+    if (id != null) m['id'] = id;
+    if (health != null) m['health'] = health!.toJson();
+    if (replacementForId != null) m['replacementForId'] = replacementForId;
+    if (replacedById != null) m['replacedById'] = replacedById;
+    return m;
+  }
+
+  factory ChannelServer.fromJson(Map<String, dynamic> json) {
+    final rawHealth = json['health'];
+    if (rawHealth != null && rawHealth is! Map) {
+      throw const FormatException('health must be a JSON object');
+    }
+    return ChannelServer(
+      id: json['id']?.toString(),
+      name: json['name']?.toString() ?? '',
+      url: json['url']?.toString() ?? '',
+      language: json['language']?.toString(),
+      health: rawHealth == null
+          ? null
+          : CatalogServerHealth.fromJson(Map<String, dynamic>.from(rawHealth)),
+      replacementForId: json['replacementForId']?.toString(),
+      replacedById: json['replacedById']?.toString(),
+      subtitleTracks: _subtitleTracksFromJson(
+        json['subtitles'] ?? json['subtitleTracks'] ?? json['subtitle_tracks'],
+      ),
+    );
+  }
 }
 
 List<HourTvSubtitleTrack> _subtitleTracksFromJson(dynamic value) =>

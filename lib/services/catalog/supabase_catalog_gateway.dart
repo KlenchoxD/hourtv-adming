@@ -128,7 +128,10 @@ class SupabaseCatalogGateway {
           .select('''
             id, title_id, episode_id, language_id, name, url,
             order_index, status, requires_webview, referer_url,
-            origin_url, user_agent_profile,
+            origin_url, user_agent_profile, health_status, health_last_error,
+            health_http_code, health_consecutive_failures,
+            health_first_failure_at, health_last_success_at,
+            health_last_check, health_last_check_run_id,
             languages (code, name)
           ''')
           .eq('title_id', titleId)
@@ -313,7 +316,10 @@ class SupabaseCatalogGateway {
           .select('''
             id, title_id, episode_id, language_id, name, url,
             order_index, status, requires_webview, referer_url,
-            origin_url, user_agent_profile,
+            origin_url, user_agent_profile, health_status, health_last_error,
+            health_http_code, health_consecutive_failures,
+            health_first_failure_at, health_last_success_at,
+            health_last_check, health_last_check_run_id,
             languages (code, name)
           ''')
           .eq('id', id)
@@ -475,7 +481,10 @@ class SupabaseCatalogGateway {
       var query = _effectiveClient.from('sources').select('''
         id, title_id, episode_id, language_id, name, url,
         order_index, status, requires_webview, referer_url,
-        origin_url, user_agent_profile,
+        origin_url, user_agent_profile, health_status, health_last_error,
+        health_http_code, health_consecutive_failures,
+        health_first_failure_at, health_last_success_at,
+        health_last_check, health_last_check_run_id,
         languages (code, name)
       ''').eq('status', 'active');
       if (lastId != null) {

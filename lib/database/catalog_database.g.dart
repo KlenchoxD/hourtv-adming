@@ -3068,6 +3068,97 @@ class $LocalSourcesTable extends LocalSources
     type: DriftSqlType.string,
     requiredDuringInsert: false,
   );
+  static const VerificationMeta _healthStatusMeta = const VerificationMeta(
+    'healthStatus',
+  );
+  @override
+  late final GeneratedColumn<String> healthStatus = GeneratedColumn<String>(
+    'health_status',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('pending'),
+  );
+  static const VerificationMeta _healthLastErrorMeta = const VerificationMeta(
+    'healthLastError',
+  );
+  @override
+  late final GeneratedColumn<String> healthLastError = GeneratedColumn<String>(
+    'health_last_error',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _healthHttpCodeMeta = const VerificationMeta(
+    'healthHttpCode',
+  );
+  @override
+  late final GeneratedColumn<int> healthHttpCode = GeneratedColumn<int>(
+    'health_http_code',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _healthConsecutiveFailuresMeta =
+      const VerificationMeta('healthConsecutiveFailures');
+  @override
+  late final GeneratedColumn<int> healthConsecutiveFailures =
+      GeneratedColumn<int>(
+        'health_consecutive_failures',
+        aliasedName,
+        false,
+        type: DriftSqlType.int,
+        requiredDuringInsert: false,
+        defaultValue: const Constant(0),
+      );
+  static const VerificationMeta _healthFirstFailureAtMeta =
+      const VerificationMeta('healthFirstFailureAt');
+  @override
+  late final GeneratedColumn<DateTime> healthFirstFailureAt =
+      GeneratedColumn<DateTime>(
+        'health_first_failure_at',
+        aliasedName,
+        true,
+        type: DriftSqlType.dateTime,
+        requiredDuringInsert: false,
+      );
+  static const VerificationMeta _healthLastSuccessAtMeta =
+      const VerificationMeta('healthLastSuccessAt');
+  @override
+  late final GeneratedColumn<DateTime> healthLastSuccessAt =
+      GeneratedColumn<DateTime>(
+        'health_last_success_at',
+        aliasedName,
+        true,
+        type: DriftSqlType.dateTime,
+        requiredDuringInsert: false,
+      );
+  static const VerificationMeta _healthLastCheckMeta = const VerificationMeta(
+    'healthLastCheck',
+  );
+  @override
+  late final GeneratedColumn<DateTime> healthLastCheck =
+      GeneratedColumn<DateTime>(
+        'health_last_check',
+        aliasedName,
+        true,
+        type: DriftSqlType.dateTime,
+        requiredDuringInsert: false,
+      );
+  static const VerificationMeta _healthLastCheckRunIdMeta =
+      const VerificationMeta('healthLastCheckRunId');
+  @override
+  late final GeneratedColumn<String> healthLastCheckRunId =
+      GeneratedColumn<String>(
+        'health_last_check_run_id',
+        aliasedName,
+        true,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+      );
   static const VerificationMeta _isDeletedMeta = const VerificationMeta(
     'isDeleted',
   );
@@ -3097,6 +3188,14 @@ class $LocalSourcesTable extends LocalSources
     refererUrl,
     originUrl,
     userAgentProfile,
+    healthStatus,
+    healthLastError,
+    healthHttpCode,
+    healthConsecutiveFailures,
+    healthFirstFailureAt,
+    healthLastSuccessAt,
+    healthLastCheck,
+    healthLastCheckRunId,
     isDeleted,
   ];
   @override
@@ -3192,6 +3291,78 @@ class $LocalSourcesTable extends LocalSources
         ),
       );
     }
+    if (data.containsKey('health_status')) {
+      context.handle(
+        _healthStatusMeta,
+        healthStatus.isAcceptableOrUnknown(
+          data['health_status']!,
+          _healthStatusMeta,
+        ),
+      );
+    }
+    if (data.containsKey('health_last_error')) {
+      context.handle(
+        _healthLastErrorMeta,
+        healthLastError.isAcceptableOrUnknown(
+          data['health_last_error']!,
+          _healthLastErrorMeta,
+        ),
+      );
+    }
+    if (data.containsKey('health_http_code')) {
+      context.handle(
+        _healthHttpCodeMeta,
+        healthHttpCode.isAcceptableOrUnknown(
+          data['health_http_code']!,
+          _healthHttpCodeMeta,
+        ),
+      );
+    }
+    if (data.containsKey('health_consecutive_failures')) {
+      context.handle(
+        _healthConsecutiveFailuresMeta,
+        healthConsecutiveFailures.isAcceptableOrUnknown(
+          data['health_consecutive_failures']!,
+          _healthConsecutiveFailuresMeta,
+        ),
+      );
+    }
+    if (data.containsKey('health_first_failure_at')) {
+      context.handle(
+        _healthFirstFailureAtMeta,
+        healthFirstFailureAt.isAcceptableOrUnknown(
+          data['health_first_failure_at']!,
+          _healthFirstFailureAtMeta,
+        ),
+      );
+    }
+    if (data.containsKey('health_last_success_at')) {
+      context.handle(
+        _healthLastSuccessAtMeta,
+        healthLastSuccessAt.isAcceptableOrUnknown(
+          data['health_last_success_at']!,
+          _healthLastSuccessAtMeta,
+        ),
+      );
+    }
+    if (data.containsKey('health_last_check')) {
+      context.handle(
+        _healthLastCheckMeta,
+        healthLastCheck.isAcceptableOrUnknown(
+          data['health_last_check']!,
+          _healthLastCheckMeta,
+        ),
+      );
+    }
+    if (data.containsKey('health_last_check_run_id')) {
+      context.handle(
+        _healthLastCheckRunIdMeta,
+        healthLastCheckRunId.isAcceptableOrUnknown(
+          data['health_last_check_run_id']!,
+          _healthLastCheckRunIdMeta,
+        ),
+      );
+    }
     if (data.containsKey('is_deleted')) {
       context.handle(
         _isDeletedMeta,
@@ -3255,6 +3426,38 @@ class $LocalSourcesTable extends LocalSources
         DriftSqlType.string,
         data['${effectivePrefix}user_agent_profile'],
       ),
+      healthStatus: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}health_status'],
+      )!,
+      healthLastError: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}health_last_error'],
+      ),
+      healthHttpCode: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}health_http_code'],
+      ),
+      healthConsecutiveFailures: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}health_consecutive_failures'],
+      )!,
+      healthFirstFailureAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}health_first_failure_at'],
+      ),
+      healthLastSuccessAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}health_last_success_at'],
+      ),
+      healthLastCheck: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}health_last_check'],
+      ),
+      healthLastCheckRunId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}health_last_check_run_id'],
+      ),
       isDeleted: attachedDatabase.typeMapping.read(
         DriftSqlType.bool,
         data['${effectivePrefix}is_deleted'],
@@ -3281,6 +3484,14 @@ class LocalSource extends DataClass implements Insertable<LocalSource> {
   final String? refererUrl;
   final String? originUrl;
   final String? userAgentProfile;
+  final String healthStatus;
+  final String? healthLastError;
+  final int? healthHttpCode;
+  final int healthConsecutiveFailures;
+  final DateTime? healthFirstFailureAt;
+  final DateTime? healthLastSuccessAt;
+  final DateTime? healthLastCheck;
+  final String? healthLastCheckRunId;
   final bool isDeleted;
   const LocalSource({
     required this.id,
@@ -3295,6 +3506,14 @@ class LocalSource extends DataClass implements Insertable<LocalSource> {
     this.refererUrl,
     this.originUrl,
     this.userAgentProfile,
+    required this.healthStatus,
+    this.healthLastError,
+    this.healthHttpCode,
+    required this.healthConsecutiveFailures,
+    this.healthFirstFailureAt,
+    this.healthLastSuccessAt,
+    this.healthLastCheck,
+    this.healthLastCheckRunId,
     required this.isDeleted,
   });
   @override
@@ -3323,6 +3542,28 @@ class LocalSource extends DataClass implements Insertable<LocalSource> {
     }
     if (!nullToAbsent || userAgentProfile != null) {
       map['user_agent_profile'] = Variable<String>(userAgentProfile);
+    }
+    map['health_status'] = Variable<String>(healthStatus);
+    if (!nullToAbsent || healthLastError != null) {
+      map['health_last_error'] = Variable<String>(healthLastError);
+    }
+    if (!nullToAbsent || healthHttpCode != null) {
+      map['health_http_code'] = Variable<int>(healthHttpCode);
+    }
+    map['health_consecutive_failures'] = Variable<int>(
+      healthConsecutiveFailures,
+    );
+    if (!nullToAbsent || healthFirstFailureAt != null) {
+      map['health_first_failure_at'] = Variable<DateTime>(healthFirstFailureAt);
+    }
+    if (!nullToAbsent || healthLastSuccessAt != null) {
+      map['health_last_success_at'] = Variable<DateTime>(healthLastSuccessAt);
+    }
+    if (!nullToAbsent || healthLastCheck != null) {
+      map['health_last_check'] = Variable<DateTime>(healthLastCheck);
+    }
+    if (!nullToAbsent || healthLastCheckRunId != null) {
+      map['health_last_check_run_id'] = Variable<String>(healthLastCheckRunId);
     }
     map['is_deleted'] = Variable<bool>(isDeleted);
     return map;
@@ -3354,6 +3595,26 @@ class LocalSource extends DataClass implements Insertable<LocalSource> {
       userAgentProfile: userAgentProfile == null && nullToAbsent
           ? const Value.absent()
           : Value(userAgentProfile),
+      healthStatus: Value(healthStatus),
+      healthLastError: healthLastError == null && nullToAbsent
+          ? const Value.absent()
+          : Value(healthLastError),
+      healthHttpCode: healthHttpCode == null && nullToAbsent
+          ? const Value.absent()
+          : Value(healthHttpCode),
+      healthConsecutiveFailures: Value(healthConsecutiveFailures),
+      healthFirstFailureAt: healthFirstFailureAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(healthFirstFailureAt),
+      healthLastSuccessAt: healthLastSuccessAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(healthLastSuccessAt),
+      healthLastCheck: healthLastCheck == null && nullToAbsent
+          ? const Value.absent()
+          : Value(healthLastCheck),
+      healthLastCheckRunId: healthLastCheckRunId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(healthLastCheckRunId),
       isDeleted: Value(isDeleted),
     );
   }
@@ -3376,6 +3637,22 @@ class LocalSource extends DataClass implements Insertable<LocalSource> {
       refererUrl: serializer.fromJson<String?>(json['refererUrl']),
       originUrl: serializer.fromJson<String?>(json['originUrl']),
       userAgentProfile: serializer.fromJson<String?>(json['userAgentProfile']),
+      healthStatus: serializer.fromJson<String>(json['healthStatus']),
+      healthLastError: serializer.fromJson<String?>(json['healthLastError']),
+      healthHttpCode: serializer.fromJson<int?>(json['healthHttpCode']),
+      healthConsecutiveFailures: serializer.fromJson<int>(
+        json['healthConsecutiveFailures'],
+      ),
+      healthFirstFailureAt: serializer.fromJson<DateTime?>(
+        json['healthFirstFailureAt'],
+      ),
+      healthLastSuccessAt: serializer.fromJson<DateTime?>(
+        json['healthLastSuccessAt'],
+      ),
+      healthLastCheck: serializer.fromJson<DateTime?>(json['healthLastCheck']),
+      healthLastCheckRunId: serializer.fromJson<String?>(
+        json['healthLastCheckRunId'],
+      ),
       isDeleted: serializer.fromJson<bool>(json['isDeleted']),
     );
   }
@@ -3395,6 +3672,18 @@ class LocalSource extends DataClass implements Insertable<LocalSource> {
       'refererUrl': serializer.toJson<String?>(refererUrl),
       'originUrl': serializer.toJson<String?>(originUrl),
       'userAgentProfile': serializer.toJson<String?>(userAgentProfile),
+      'healthStatus': serializer.toJson<String>(healthStatus),
+      'healthLastError': serializer.toJson<String?>(healthLastError),
+      'healthHttpCode': serializer.toJson<int?>(healthHttpCode),
+      'healthConsecutiveFailures': serializer.toJson<int>(
+        healthConsecutiveFailures,
+      ),
+      'healthFirstFailureAt': serializer.toJson<DateTime?>(
+        healthFirstFailureAt,
+      ),
+      'healthLastSuccessAt': serializer.toJson<DateTime?>(healthLastSuccessAt),
+      'healthLastCheck': serializer.toJson<DateTime?>(healthLastCheck),
+      'healthLastCheckRunId': serializer.toJson<String?>(healthLastCheckRunId),
       'isDeleted': serializer.toJson<bool>(isDeleted),
     };
   }
@@ -3412,6 +3701,14 @@ class LocalSource extends DataClass implements Insertable<LocalSource> {
     Value<String?> refererUrl = const Value.absent(),
     Value<String?> originUrl = const Value.absent(),
     Value<String?> userAgentProfile = const Value.absent(),
+    String? healthStatus,
+    Value<String?> healthLastError = const Value.absent(),
+    Value<int?> healthHttpCode = const Value.absent(),
+    int? healthConsecutiveFailures,
+    Value<DateTime?> healthFirstFailureAt = const Value.absent(),
+    Value<DateTime?> healthLastSuccessAt = const Value.absent(),
+    Value<DateTime?> healthLastCheck = const Value.absent(),
+    Value<String?> healthLastCheckRunId = const Value.absent(),
     bool? isDeleted,
   }) => LocalSource(
     id: id ?? this.id,
@@ -3428,6 +3725,27 @@ class LocalSource extends DataClass implements Insertable<LocalSource> {
     userAgentProfile: userAgentProfile.present
         ? userAgentProfile.value
         : this.userAgentProfile,
+    healthStatus: healthStatus ?? this.healthStatus,
+    healthLastError: healthLastError.present
+        ? healthLastError.value
+        : this.healthLastError,
+    healthHttpCode: healthHttpCode.present
+        ? healthHttpCode.value
+        : this.healthHttpCode,
+    healthConsecutiveFailures:
+        healthConsecutiveFailures ?? this.healthConsecutiveFailures,
+    healthFirstFailureAt: healthFirstFailureAt.present
+        ? healthFirstFailureAt.value
+        : this.healthFirstFailureAt,
+    healthLastSuccessAt: healthLastSuccessAt.present
+        ? healthLastSuccessAt.value
+        : this.healthLastSuccessAt,
+    healthLastCheck: healthLastCheck.present
+        ? healthLastCheck.value
+        : this.healthLastCheck,
+    healthLastCheckRunId: healthLastCheckRunId.present
+        ? healthLastCheckRunId.value
+        : this.healthLastCheckRunId,
     isDeleted: isDeleted ?? this.isDeleted,
   );
   LocalSource copyWithCompanion(LocalSourcesCompanion data) {
@@ -3452,6 +3770,30 @@ class LocalSource extends DataClass implements Insertable<LocalSource> {
       userAgentProfile: data.userAgentProfile.present
           ? data.userAgentProfile.value
           : this.userAgentProfile,
+      healthStatus: data.healthStatus.present
+          ? data.healthStatus.value
+          : this.healthStatus,
+      healthLastError: data.healthLastError.present
+          ? data.healthLastError.value
+          : this.healthLastError,
+      healthHttpCode: data.healthHttpCode.present
+          ? data.healthHttpCode.value
+          : this.healthHttpCode,
+      healthConsecutiveFailures: data.healthConsecutiveFailures.present
+          ? data.healthConsecutiveFailures.value
+          : this.healthConsecutiveFailures,
+      healthFirstFailureAt: data.healthFirstFailureAt.present
+          ? data.healthFirstFailureAt.value
+          : this.healthFirstFailureAt,
+      healthLastSuccessAt: data.healthLastSuccessAt.present
+          ? data.healthLastSuccessAt.value
+          : this.healthLastSuccessAt,
+      healthLastCheck: data.healthLastCheck.present
+          ? data.healthLastCheck.value
+          : this.healthLastCheck,
+      healthLastCheckRunId: data.healthLastCheckRunId.present
+          ? data.healthLastCheckRunId.value
+          : this.healthLastCheckRunId,
       isDeleted: data.isDeleted.present ? data.isDeleted.value : this.isDeleted,
     );
   }
@@ -3471,13 +3813,21 @@ class LocalSource extends DataClass implements Insertable<LocalSource> {
           ..write('refererUrl: $refererUrl, ')
           ..write('originUrl: $originUrl, ')
           ..write('userAgentProfile: $userAgentProfile, ')
+          ..write('healthStatus: $healthStatus, ')
+          ..write('healthLastError: $healthLastError, ')
+          ..write('healthHttpCode: $healthHttpCode, ')
+          ..write('healthConsecutiveFailures: $healthConsecutiveFailures, ')
+          ..write('healthFirstFailureAt: $healthFirstFailureAt, ')
+          ..write('healthLastSuccessAt: $healthLastSuccessAt, ')
+          ..write('healthLastCheck: $healthLastCheck, ')
+          ..write('healthLastCheckRunId: $healthLastCheckRunId, ')
           ..write('isDeleted: $isDeleted')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(
+  int get hashCode => Object.hashAll([
     id,
     titleId,
     episodeId,
@@ -3490,8 +3840,16 @@ class LocalSource extends DataClass implements Insertable<LocalSource> {
     refererUrl,
     originUrl,
     userAgentProfile,
+    healthStatus,
+    healthLastError,
+    healthHttpCode,
+    healthConsecutiveFailures,
+    healthFirstFailureAt,
+    healthLastSuccessAt,
+    healthLastCheck,
+    healthLastCheckRunId,
     isDeleted,
-  );
+  ]);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -3508,6 +3866,14 @@ class LocalSource extends DataClass implements Insertable<LocalSource> {
           other.refererUrl == this.refererUrl &&
           other.originUrl == this.originUrl &&
           other.userAgentProfile == this.userAgentProfile &&
+          other.healthStatus == this.healthStatus &&
+          other.healthLastError == this.healthLastError &&
+          other.healthHttpCode == this.healthHttpCode &&
+          other.healthConsecutiveFailures == this.healthConsecutiveFailures &&
+          other.healthFirstFailureAt == this.healthFirstFailureAt &&
+          other.healthLastSuccessAt == this.healthLastSuccessAt &&
+          other.healthLastCheck == this.healthLastCheck &&
+          other.healthLastCheckRunId == this.healthLastCheckRunId &&
           other.isDeleted == this.isDeleted);
 }
 
@@ -3524,6 +3890,14 @@ class LocalSourcesCompanion extends UpdateCompanion<LocalSource> {
   final Value<String?> refererUrl;
   final Value<String?> originUrl;
   final Value<String?> userAgentProfile;
+  final Value<String> healthStatus;
+  final Value<String?> healthLastError;
+  final Value<int?> healthHttpCode;
+  final Value<int> healthConsecutiveFailures;
+  final Value<DateTime?> healthFirstFailureAt;
+  final Value<DateTime?> healthLastSuccessAt;
+  final Value<DateTime?> healthLastCheck;
+  final Value<String?> healthLastCheckRunId;
   final Value<bool> isDeleted;
   final Value<int> rowid;
   const LocalSourcesCompanion({
@@ -3539,6 +3913,14 @@ class LocalSourcesCompanion extends UpdateCompanion<LocalSource> {
     this.refererUrl = const Value.absent(),
     this.originUrl = const Value.absent(),
     this.userAgentProfile = const Value.absent(),
+    this.healthStatus = const Value.absent(),
+    this.healthLastError = const Value.absent(),
+    this.healthHttpCode = const Value.absent(),
+    this.healthConsecutiveFailures = const Value.absent(),
+    this.healthFirstFailureAt = const Value.absent(),
+    this.healthLastSuccessAt = const Value.absent(),
+    this.healthLastCheck = const Value.absent(),
+    this.healthLastCheckRunId = const Value.absent(),
     this.isDeleted = const Value.absent(),
     this.rowid = const Value.absent(),
   });
@@ -3555,6 +3937,14 @@ class LocalSourcesCompanion extends UpdateCompanion<LocalSource> {
     this.refererUrl = const Value.absent(),
     this.originUrl = const Value.absent(),
     this.userAgentProfile = const Value.absent(),
+    this.healthStatus = const Value.absent(),
+    this.healthLastError = const Value.absent(),
+    this.healthHttpCode = const Value.absent(),
+    this.healthConsecutiveFailures = const Value.absent(),
+    this.healthFirstFailureAt = const Value.absent(),
+    this.healthLastSuccessAt = const Value.absent(),
+    this.healthLastCheck = const Value.absent(),
+    this.healthLastCheckRunId = const Value.absent(),
     this.isDeleted = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : id = Value(id),
@@ -3573,6 +3963,14 @@ class LocalSourcesCompanion extends UpdateCompanion<LocalSource> {
     Expression<String>? refererUrl,
     Expression<String>? originUrl,
     Expression<String>? userAgentProfile,
+    Expression<String>? healthStatus,
+    Expression<String>? healthLastError,
+    Expression<int>? healthHttpCode,
+    Expression<int>? healthConsecutiveFailures,
+    Expression<DateTime>? healthFirstFailureAt,
+    Expression<DateTime>? healthLastSuccessAt,
+    Expression<DateTime>? healthLastCheck,
+    Expression<String>? healthLastCheckRunId,
     Expression<bool>? isDeleted,
     Expression<int>? rowid,
   }) {
@@ -3589,6 +3987,18 @@ class LocalSourcesCompanion extends UpdateCompanion<LocalSource> {
       if (refererUrl != null) 'referer_url': refererUrl,
       if (originUrl != null) 'origin_url': originUrl,
       if (userAgentProfile != null) 'user_agent_profile': userAgentProfile,
+      if (healthStatus != null) 'health_status': healthStatus,
+      if (healthLastError != null) 'health_last_error': healthLastError,
+      if (healthHttpCode != null) 'health_http_code': healthHttpCode,
+      if (healthConsecutiveFailures != null)
+        'health_consecutive_failures': healthConsecutiveFailures,
+      if (healthFirstFailureAt != null)
+        'health_first_failure_at': healthFirstFailureAt,
+      if (healthLastSuccessAt != null)
+        'health_last_success_at': healthLastSuccessAt,
+      if (healthLastCheck != null) 'health_last_check': healthLastCheck,
+      if (healthLastCheckRunId != null)
+        'health_last_check_run_id': healthLastCheckRunId,
       if (isDeleted != null) 'is_deleted': isDeleted,
       if (rowid != null) 'rowid': rowid,
     });
@@ -3607,6 +4017,14 @@ class LocalSourcesCompanion extends UpdateCompanion<LocalSource> {
     Value<String?>? refererUrl,
     Value<String?>? originUrl,
     Value<String?>? userAgentProfile,
+    Value<String>? healthStatus,
+    Value<String?>? healthLastError,
+    Value<int?>? healthHttpCode,
+    Value<int>? healthConsecutiveFailures,
+    Value<DateTime?>? healthFirstFailureAt,
+    Value<DateTime?>? healthLastSuccessAt,
+    Value<DateTime?>? healthLastCheck,
+    Value<String?>? healthLastCheckRunId,
     Value<bool>? isDeleted,
     Value<int>? rowid,
   }) {
@@ -3623,6 +4041,15 @@ class LocalSourcesCompanion extends UpdateCompanion<LocalSource> {
       refererUrl: refererUrl ?? this.refererUrl,
       originUrl: originUrl ?? this.originUrl,
       userAgentProfile: userAgentProfile ?? this.userAgentProfile,
+      healthStatus: healthStatus ?? this.healthStatus,
+      healthLastError: healthLastError ?? this.healthLastError,
+      healthHttpCode: healthHttpCode ?? this.healthHttpCode,
+      healthConsecutiveFailures:
+          healthConsecutiveFailures ?? this.healthConsecutiveFailures,
+      healthFirstFailureAt: healthFirstFailureAt ?? this.healthFirstFailureAt,
+      healthLastSuccessAt: healthLastSuccessAt ?? this.healthLastSuccessAt,
+      healthLastCheck: healthLastCheck ?? this.healthLastCheck,
+      healthLastCheckRunId: healthLastCheckRunId ?? this.healthLastCheckRunId,
       isDeleted: isDeleted ?? this.isDeleted,
       rowid: rowid ?? this.rowid,
     );
@@ -3667,6 +4094,38 @@ class LocalSourcesCompanion extends UpdateCompanion<LocalSource> {
     if (userAgentProfile.present) {
       map['user_agent_profile'] = Variable<String>(userAgentProfile.value);
     }
+    if (healthStatus.present) {
+      map['health_status'] = Variable<String>(healthStatus.value);
+    }
+    if (healthLastError.present) {
+      map['health_last_error'] = Variable<String>(healthLastError.value);
+    }
+    if (healthHttpCode.present) {
+      map['health_http_code'] = Variable<int>(healthHttpCode.value);
+    }
+    if (healthConsecutiveFailures.present) {
+      map['health_consecutive_failures'] = Variable<int>(
+        healthConsecutiveFailures.value,
+      );
+    }
+    if (healthFirstFailureAt.present) {
+      map['health_first_failure_at'] = Variable<DateTime>(
+        healthFirstFailureAt.value,
+      );
+    }
+    if (healthLastSuccessAt.present) {
+      map['health_last_success_at'] = Variable<DateTime>(
+        healthLastSuccessAt.value,
+      );
+    }
+    if (healthLastCheck.present) {
+      map['health_last_check'] = Variable<DateTime>(healthLastCheck.value);
+    }
+    if (healthLastCheckRunId.present) {
+      map['health_last_check_run_id'] = Variable<String>(
+        healthLastCheckRunId.value,
+      );
+    }
     if (isDeleted.present) {
       map['is_deleted'] = Variable<bool>(isDeleted.value);
     }
@@ -3691,6 +4150,14 @@ class LocalSourcesCompanion extends UpdateCompanion<LocalSource> {
           ..write('refererUrl: $refererUrl, ')
           ..write('originUrl: $originUrl, ')
           ..write('userAgentProfile: $userAgentProfile, ')
+          ..write('healthStatus: $healthStatus, ')
+          ..write('healthLastError: $healthLastError, ')
+          ..write('healthHttpCode: $healthHttpCode, ')
+          ..write('healthConsecutiveFailures: $healthConsecutiveFailures, ')
+          ..write('healthFirstFailureAt: $healthFirstFailureAt, ')
+          ..write('healthLastSuccessAt: $healthLastSuccessAt, ')
+          ..write('healthLastCheck: $healthLastCheck, ')
+          ..write('healthLastCheckRunId: $healthLastCheckRunId, ')
           ..write('isDeleted: $isDeleted, ')
           ..write('rowid: $rowid')
           ..write(')'))
@@ -11049,6 +11516,14 @@ typedef $$LocalSourcesTableCreateCompanionBuilder =
       Value<String?> refererUrl,
       Value<String?> originUrl,
       Value<String?> userAgentProfile,
+      Value<String> healthStatus,
+      Value<String?> healthLastError,
+      Value<int?> healthHttpCode,
+      Value<int> healthConsecutiveFailures,
+      Value<DateTime?> healthFirstFailureAt,
+      Value<DateTime?> healthLastSuccessAt,
+      Value<DateTime?> healthLastCheck,
+      Value<String?> healthLastCheckRunId,
       Value<bool> isDeleted,
       Value<int> rowid,
     });
@@ -11066,6 +11541,14 @@ typedef $$LocalSourcesTableUpdateCompanionBuilder =
       Value<String?> refererUrl,
       Value<String?> originUrl,
       Value<String?> userAgentProfile,
+      Value<String> healthStatus,
+      Value<String?> healthLastError,
+      Value<int?> healthHttpCode,
+      Value<int> healthConsecutiveFailures,
+      Value<DateTime?> healthFirstFailureAt,
+      Value<DateTime?> healthLastSuccessAt,
+      Value<DateTime?> healthLastCheck,
+      Value<String?> healthLastCheckRunId,
       Value<bool> isDeleted,
       Value<int> rowid,
     });
@@ -11166,6 +11649,46 @@ class $$LocalSourcesTableFilterComposer
 
   ColumnFilters<String> get userAgentProfile => $composableBuilder(
     column: $table.userAgentProfile,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get healthStatus => $composableBuilder(
+    column: $table.healthStatus,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get healthLastError => $composableBuilder(
+    column: $table.healthLastError,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get healthHttpCode => $composableBuilder(
+    column: $table.healthHttpCode,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get healthConsecutiveFailures => $composableBuilder(
+    column: $table.healthConsecutiveFailures,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get healthFirstFailureAt => $composableBuilder(
+    column: $table.healthFirstFailureAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get healthLastSuccessAt => $composableBuilder(
+    column: $table.healthLastSuccessAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get healthLastCheck => $composableBuilder(
+    column: $table.healthLastCheck,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get healthLastCheckRunId => $composableBuilder(
+    column: $table.healthLastCheckRunId,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -11280,6 +11803,46 @@ class $$LocalSourcesTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get healthStatus => $composableBuilder(
+    column: $table.healthStatus,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get healthLastError => $composableBuilder(
+    column: $table.healthLastError,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get healthHttpCode => $composableBuilder(
+    column: $table.healthHttpCode,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get healthConsecutiveFailures => $composableBuilder(
+    column: $table.healthConsecutiveFailures,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get healthFirstFailureAt => $composableBuilder(
+    column: $table.healthFirstFailureAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get healthLastSuccessAt => $composableBuilder(
+    column: $table.healthLastSuccessAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get healthLastCheck => $composableBuilder(
+    column: $table.healthLastCheck,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get healthLastCheckRunId => $composableBuilder(
+    column: $table.healthLastCheckRunId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<bool> get isDeleted => $composableBuilder(
     column: $table.isDeleted,
     builder: (column) => ColumnOrderings(column),
@@ -11379,6 +11942,46 @@ class $$LocalSourcesTableAnnotationComposer
     builder: (column) => column,
   );
 
+  GeneratedColumn<String> get healthStatus => $composableBuilder(
+    column: $table.healthStatus,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get healthLastError => $composableBuilder(
+    column: $table.healthLastError,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get healthHttpCode => $composableBuilder(
+    column: $table.healthHttpCode,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get healthConsecutiveFailures => $composableBuilder(
+    column: $table.healthConsecutiveFailures,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get healthFirstFailureAt => $composableBuilder(
+    column: $table.healthFirstFailureAt,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get healthLastSuccessAt => $composableBuilder(
+    column: $table.healthLastSuccessAt,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get healthLastCheck => $composableBuilder(
+    column: $table.healthLastCheck,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get healthLastCheckRunId => $composableBuilder(
+    column: $table.healthLastCheckRunId,
+    builder: (column) => column,
+  );
+
   GeneratedColumn<bool> get isDeleted =>
       $composableBuilder(column: $table.isDeleted, builder: (column) => column);
 
@@ -11471,6 +12074,14 @@ class $$LocalSourcesTableTableManager
                 Value<String?> refererUrl = const Value.absent(),
                 Value<String?> originUrl = const Value.absent(),
                 Value<String?> userAgentProfile = const Value.absent(),
+                Value<String> healthStatus = const Value.absent(),
+                Value<String?> healthLastError = const Value.absent(),
+                Value<int?> healthHttpCode = const Value.absent(),
+                Value<int> healthConsecutiveFailures = const Value.absent(),
+                Value<DateTime?> healthFirstFailureAt = const Value.absent(),
+                Value<DateTime?> healthLastSuccessAt = const Value.absent(),
+                Value<DateTime?> healthLastCheck = const Value.absent(),
+                Value<String?> healthLastCheckRunId = const Value.absent(),
                 Value<bool> isDeleted = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => LocalSourcesCompanion(
@@ -11486,6 +12097,14 @@ class $$LocalSourcesTableTableManager
                 refererUrl: refererUrl,
                 originUrl: originUrl,
                 userAgentProfile: userAgentProfile,
+                healthStatus: healthStatus,
+                healthLastError: healthLastError,
+                healthHttpCode: healthHttpCode,
+                healthConsecutiveFailures: healthConsecutiveFailures,
+                healthFirstFailureAt: healthFirstFailureAt,
+                healthLastSuccessAt: healthLastSuccessAt,
+                healthLastCheck: healthLastCheck,
+                healthLastCheckRunId: healthLastCheckRunId,
                 isDeleted: isDeleted,
                 rowid: rowid,
               ),
@@ -11503,6 +12122,14 @@ class $$LocalSourcesTableTableManager
                 Value<String?> refererUrl = const Value.absent(),
                 Value<String?> originUrl = const Value.absent(),
                 Value<String?> userAgentProfile = const Value.absent(),
+                Value<String> healthStatus = const Value.absent(),
+                Value<String?> healthLastError = const Value.absent(),
+                Value<int?> healthHttpCode = const Value.absent(),
+                Value<int> healthConsecutiveFailures = const Value.absent(),
+                Value<DateTime?> healthFirstFailureAt = const Value.absent(),
+                Value<DateTime?> healthLastSuccessAt = const Value.absent(),
+                Value<DateTime?> healthLastCheck = const Value.absent(),
+                Value<String?> healthLastCheckRunId = const Value.absent(),
                 Value<bool> isDeleted = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => LocalSourcesCompanion.insert(
@@ -11518,6 +12145,14 @@ class $$LocalSourcesTableTableManager
                 refererUrl: refererUrl,
                 originUrl: originUrl,
                 userAgentProfile: userAgentProfile,
+                healthStatus: healthStatus,
+                healthLastError: healthLastError,
+                healthHttpCode: healthHttpCode,
+                healthConsecutiveFailures: healthConsecutiveFailures,
+                healthFirstFailureAt: healthFirstFailureAt,
+                healthLastSuccessAt: healthLastSuccessAt,
+                healthLastCheck: healthLastCheck,
+                healthLastCheckRunId: healthLastCheckRunId,
                 isDeleted: isDeleted,
                 rowid: rowid,
               ),

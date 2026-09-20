@@ -157,6 +157,13 @@ void main() {
           name: 'Opción 1 - Full HD',
           url: 'https://cdn.example.com/movie.mp4',
           language: const Value('Latino'),
+          healthStatus: const Value('degraded'),
+          healthLastError: const Value('timeout'),
+          healthHttpCode: const Value(504),
+          healthConsecutiveFailures: const Value(2),
+          healthFirstFailureAt: Value(DateTime.utc(2026, 9, 20, 10)),
+          healthLastCheck: Value(DateTime.utc(2026, 9, 20, 10, 5)),
+          healthLastCheckRunId: const Value('run-1'),
         ),
       );
 
@@ -168,6 +175,12 @@ void main() {
       expect(channel.servers.length, equals(1));
       expect(channel.servers.first.url, equals('https://cdn.example.com/movie.mp4'));
       expect(channel.servers.first.language, equals('Latino'));
+      expect(channel.servers.first.id, equals('src-1'));
+      expect(channel.servers.first.health?.status, equals('degraded'));
+      expect(channel.servers.first.health?.lastError, equals('timeout'));
+      expect(channel.servers.first.health?.httpCode, equals(504));
+      expect(channel.servers.first.health?.consecutiveFailures, equals(2));
+      expect(channel.servers.first.health?.lastCheckRunId, equals('run-1'));
     });
 
     test('4. Resolución de favoritos y continuar viendo por IDs sin cargar el catálogo completo', () async {

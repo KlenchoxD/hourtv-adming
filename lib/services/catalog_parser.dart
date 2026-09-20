@@ -298,13 +298,11 @@ class CatalogParser {
       final url = _text(server['url']);
       if (url == null) continue;
       final name = _text(server['name']) ?? 'Servidor ${servers.length + 1}';
-      servers.add(
-        ChannelServer(
-          name: name,
-          url: url,
-          language: _text(server['language'] ?? server['idioma']),
-        ),
-      );
+      final normalized = Map<String, dynamic>.from(server);
+      normalized['name'] = name;
+      normalized['url'] = url;
+      normalized['language'] = _text(server['language'] ?? server['idioma']);
+      servers.add(ChannelServer.fromJson(normalized));
     }
     return servers;
   }
