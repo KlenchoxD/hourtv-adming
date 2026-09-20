@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-09-20T17:28:30.750Z",
-  "durationMs": 3119,
+  "generatedAt": "2026-09-20T19:39:22.867Z",
+  "durationMs": 2033,
   "dryRun": false,
   "moviesFound": 33,
   "moviesDiscarded": 26,
@@ -48,13 +48,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1127384,
-      "title": "En mar abierto",
+      "tmdbId": 1185806,
+      "title": "La Patrulla Canina: La dino película",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1185806,
-      "title": "La Patrulla Canina: La dino película",
+      "tmdbId": 1127384,
+      "title": "En mar abierto",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -78,13 +78,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 671,
-      "title": "Harry Potter y la piedra filosofal",
+      "tmdbId": 1212763,
+      "title": "Posesión infernal: En llamas",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1212763,
-      "title": "Posesión infernal: En llamas",
+      "tmdbId": 671,
+      "title": "Harry Potter y la piedra filosofal",
       "reason": "Sin fuente autorizada configurada"
     },
     {
