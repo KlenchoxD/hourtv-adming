@@ -125,10 +125,11 @@ function normalizeRec(r, typeName) {
 
 function validatePlanStructure(plan, expectedSha) {
   if (!plan) return { valid: false, error: "Plan is empty" };
-  if (plan.version === 1)
+  if (plan.version === 1 || plan.version === 2)
     return {
       valid: false,
-      error: "Unsupported plan version. V1 plans are explicitly rejected.",
+      error:
+        "Unsupported plan version. V1 and V2 plans are explicitly rejected.",
     };
   if (plan.version !== PLAN_VERSION)
     return { valid: false, error: `Expected version ${PLAN_VERSION}` };

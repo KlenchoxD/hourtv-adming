@@ -1,6 +1,6 @@
 const crypto = require("crypto");
 
-const PLAN_VERSION = 2;
+const PLAN_VERSION = 3;
 
 function computeLogicalHash(plan) {
   const logicalPlan = {

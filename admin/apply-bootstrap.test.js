@@ -446,6 +446,26 @@ test("23. Rejects V1 plan explicitly before connecting", () => {
     ["--apply", "--plan", pPath, "--expected-sha256", plan.planSha256],
     { SUPABASE_DB_URL: "postgres://f", CONFIRM_PRODUCTION_APPLY: "true" },
   );
-  assert.match(r.stderr, /V1 plans are explicitly rejected/);
+  assert.match(r.stderr, /V1 and V2 plans are explicitly rejected/);
+  fs.unlinkSync(pPath);
+});
+
+test("24. Rejects V2 plan explicitly before connecting", () => {
+  const runScript = (args, env) =>
+    spawnSync(
+      process.execPath,
+      [path.join(__dirname, "apply-bootstrap.js"), ...args],
+      { env: { ...process.env, ...env }, encoding: "utf8" },
+    );
+  const pPath = path.join(__dirname, "test_plan_v2.json");
+  const plan = createValidPlan();
+  plan.version = 2;
+  fs.writeFileSync(pPath, JSON.stringify(plan));
+
+  let r = runScript(
+    ["--apply", "--plan", pPath, "--expected-sha256", plan.planSha256],
+    { SUPABASE_DB_URL: "postgres://f", CONFIRM_PRODUCTION_APPLY: "true" },
+  );
+  assert.match(r.stderr, /V1 and V2 plans are explicitly rejected/);
   fs.unlinkSync(pPath);
 });
