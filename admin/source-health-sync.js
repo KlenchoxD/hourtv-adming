@@ -98,6 +98,11 @@ if (require.main === module) {
             const status = buildHealthUpdate(item.previous, item.result, item.checkedAt).healthStatus;
             out[status] = (out[status] || 0) + 1;
             return out;
+          }, {}),
+          reasons: report.results.reduce((out, item) => {
+            const reason = item.result.reason || 'unknown';
+            out[reason] = (out[reason] || 0) + 1;
+            return out;
           }, {}) }, null, 2));
       })
       .catch((error) => { console.error(`Health sync failed: ${error.message}`); process.exitCode = 4; })
