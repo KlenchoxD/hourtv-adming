@@ -503,7 +503,7 @@ function generateBootstrapPlan(
 
   return {
     plan,
-    planStr: JSON.stringify(plan, null, 2),
+    planStr: JSON.stringify({ ...plan, planUnchanged: false }, null, 2),
     code,
     catalogSha256,
     schemaSha256,
@@ -531,7 +531,8 @@ if (require.main === module) {
   }
 
   const isDryRun = args.includes("--dry-run");
-  const isWritePlan = args.includes("--write-plan");
+  const writePlanIndex = args.indexOf("--write-plan");
+  const isWritePlan = writePlanIndex !== -1;
 
   const catalogIndex = args.indexOf("--catalog");
   if (catalogIndex === -1 || !args[catalogIndex + 1]) {
@@ -542,8 +543,16 @@ if (require.main === module) {
   const catalogPath = path.resolve(process.cwd(), args[catalogIndex + 1]);
 
   const planIndex = args.indexOf("--plan");
+  const documentedWritePlanPath =
+    writePlanIndex !== -1 &&
+    args[writePlanIndex + 1] &&
+    !args[writePlanIndex + 1].startsWith("--")
+      ? args[writePlanIndex + 1]
+      : null;
   const planPath =
-    planIndex !== -1 && args[planIndex + 1]
+    documentedWritePlanPath !== null
+      ? path.resolve(process.cwd(), documentedWritePlanPath)
+      : planIndex !== -1 && args[planIndex + 1]
       ? path.resolve(process.cwd(), args[planIndex + 1])
       : path.resolve(__dirname, "bootstrap_plan.json");
 

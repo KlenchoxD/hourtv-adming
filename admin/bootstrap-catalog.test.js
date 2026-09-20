@@ -463,3 +463,39 @@ test("Help flag works without other arguments", () => {
   assert.strictEqual(res.status, 0);
   assert.match(res.stdout, /Usage: node bootstrap-catalog.js/);
 });
+
+test("--write-plan accepts its documented output path directly", () => {
+  withTempFiles((tmpDir, catPath, planPath) => {
+    fs.writeFileSync(catPath, JSON.stringify({ movies: [] }));
+    const scriptPath = path.resolve(__dirname, "bootstrap-catalog.js");
+
+    const res = cp.spawnSync(
+      "node",
+      [scriptPath, "--write-plan", planPath, "--catalog", catPath],
+      { encoding: "utf8" },
+    );
+
+    assert.strictEqual(res.status, 2);
+    assert.strictEqual(fs.existsSync(planPath), true);
+    assert.match(res.stdout, new RegExp(path.basename(planPath)));
+  });
+});
+
+test("rewriting the same plan path preserves identical bytes", () => {
+  withTempFiles((tmpDir, catPath, planPath) => {
+    fs.writeFileSync(catPath, JSON.stringify({ movies: [] }));
+    const scriptPath = path.resolve(__dirname, "bootstrap-catalog.js");
+    const args = [scriptPath, "--write-plan", planPath, "--catalog", catPath];
+
+    const first = cp.spawnSync("node", args, { encoding: "utf8" });
+    assert.strictEqual(first.status, 2);
+    const firstBytes = fs.readFileSync(planPath);
+
+    const second = cp.spawnSync("node", args, { encoding: "utf8" });
+    assert.strictEqual(second.status, 2);
+    const secondBytes = fs.readFileSync(planPath);
+
+    assert.deepStrictEqual(secondBytes, firstBytes);
+    assert.match(second.stdout, /planUnchanged: true/);
+  });
+});
