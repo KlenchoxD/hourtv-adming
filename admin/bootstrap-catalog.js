@@ -1,6 +1,7 @@
 const fs = require("fs");
 const crypto = require("crypto");
 const path = require("path");
+const { PLAN_VERSION, computeLogicalHash } = require("./bootstrap-plan-format");
 
 const NAMESPACE = "e9089519-c6bd-41e8-9a54-6cb6d9da98d8";
 const SCHEMA_MIGRATION = "20260910165527_create_catalog_schema.sql";
@@ -129,11 +130,7 @@ function generateBootstrapPlan(
 
       // Check plan corruption
       const oldHash = existingPlan.planSha256;
-      delete existingPlan.planSha256;
-      const computedOldHash = crypto
-        .createHash("sha256")
-        .update(JSON.stringify(existingPlan))
-        .digest("hex");
+      const computedOldHash = computeLogicalHash(existingPlan);
       if (oldHash !== computedOldHash) {
         return { error: "Plan corrupted or manipulated", code: 3 };
       }
@@ -159,7 +156,7 @@ function generateBootstrapPlan(
   }
 
   const plan = {
-    version: 1,
+    version: PLAN_VERSION,
     namespace: NAMESPACE,
     catalogCommit: null,
     catalogSha256,
@@ -490,11 +487,7 @@ function generateBootstrapPlan(
     }
   }
 
-  const planStrWithoutHash = JSON.stringify(plan);
-  plan.planSha256 = crypto
-    .createHash("sha256")
-    .update(planStrWithoutHash)
-    .digest("hex");
+  plan.planSha256 = computeLogicalHash(plan);
 
   let code = 0;
   if (
@@ -529,6 +522,14 @@ module.exports = {
 
 if (require.main === module) {
   const args = process.argv.slice(2);
+
+  if (args.includes("--help")) {
+    console.log(
+      "Usage: node bootstrap-catalog.js --catalog <ruta> [--write-plan <ruta>] [--dry-run] [--snapshot <ruta>]",
+    );
+    process.exit(0);
+  }
+
   const isDryRun = args.includes("--dry-run");
   const isWritePlan = args.includes("--write-plan");
 

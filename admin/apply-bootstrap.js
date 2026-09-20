@@ -1,6 +1,6 @@
 const fs = require("fs");
-const crypto = require("crypto");
 const { Client } = require("pg");
+const { PLAN_VERSION, computeLogicalHash } = require("./bootstrap-plan-format");
 
 const NAMESPACE = "e9089519-c6bd-41e8-9a54-6cb6d9da98d8";
 const SCHEMA_MIGRATION = "20260910165527_create_catalog_schema.sql";
@@ -123,21 +123,30 @@ function normalizeRec(r, typeName) {
   return norm;
 }
 
-function validatePlanStructure(plan) {
-  if (!plan || plan.version !== 1 || plan.namespace !== NAMESPACE) return false;
-  if (plan.schemaMigration !== SCHEMA_MIGRATION) return false;
+function validatePlanStructure(plan, expectedSha) {
+  if (!plan) return { valid: false, error: "Plan is empty" };
+  if (plan.version === 1)
+    return {
+      valid: false,
+      error: "Unsupported plan version. V1 plans are explicitly rejected.",
+    };
+  if (plan.version !== PLAN_VERSION)
+    return { valid: false, error: `Expected version ${PLAN_VERSION}` };
+  if (plan.namespace !== NAMESPACE)
+    return { valid: false, error: "Invalid namespace" };
+  if (plan.schemaMigration !== SCHEMA_MIGRATION)
+    return { valid: false, error: "Invalid schemaMigration" };
   if (!plan.catalogSha256 || !plan.schemaSha256 || !plan.planSha256)
-    return false;
+    return { valid: false, error: "Missing SHA-256 properties" };
 
-  const clone = JSON.parse(JSON.stringify(plan));
-  delete clone.planSha256;
-  const computedHash = crypto
-    .createHash("sha256")
-    .update(JSON.stringify(clone))
-    .digest("hex");
-  if (computedHash !== plan.planSha256) return false;
+  const computedHash = computeLogicalHash(plan);
+  if (computedHash !== plan.planSha256)
+    return { valid: false, error: "Plan corrupted or manipulated" };
+  if (expectedSha !== plan.planSha256)
+    return { valid: false, error: "Expected SHA-256 does not match plan" };
 
-  if (plan.operations.length !== 1970) return false;
+  if (plan.operations.length !== 1970)
+    return { valid: false, error: "Operations count mismatch" };
 
   const uuidSet = new Set();
   for (const op of plan.operations) {
@@ -145,7 +154,7 @@ function validatePlanStructure(plan) {
     uuidSet.add(op.record.id);
   }
 
-  return true;
+  return { valid: true };
 }
 
 async function runBootstrap(client, plan, mode) {
@@ -440,13 +449,9 @@ async function main() {
     process.exit(3);
   }
 
-  if (!validatePlanStructure(plan)) {
-    console.error("Plan validation failed");
-    process.exit(3);
-  }
-
-  if (expectedSha !== plan.planSha256) {
-    console.error("Expected SHA-256 does not match plan");
+  const validationResult = validatePlanStructure(plan, expectedSha);
+  if (!validationResult.valid) {
+    console.error("Plan validation failed: " + validationResult.error);
     process.exit(3);
   }
 

@@ -9,13 +9,14 @@ const { spawnSync } = require("child_process");
 const fs = require("fs");
 const path = require("path");
 const crypto = require("crypto");
+const { computeLogicalHash, PLAN_VERSION } = require("./bootstrap-plan-format");
 
 const NAMESPACE = "e9089519-c6bd-41e8-9a54-6cb6d9da98d8";
 const SCHEMA_MIGRATION = "20260910165527_create_catalog_schema.sql";
 
 function createValidPlan() {
   const plan = {
-    version: 1,
+    version: PLAN_VERSION,
     namespace: NAMESPACE,
     schemaMigration: SCHEMA_MIGRATION,
     schemaSha256:
@@ -73,11 +74,7 @@ function createValidPlan() {
       },
     });
   }
-  const clone = JSON.parse(JSON.stringify(plan));
-  plan.planSha256 = crypto
-    .createHash("sha256")
-    .update(JSON.stringify(clone))
-    .digest("hex");
+  plan.planSha256 = computeLogicalHash(plan);
   return plan;
 }
 
@@ -431,4 +428,24 @@ test("22. SET LOCAL y separación de flujos", async () => {
   assert.ok(texts.includes("BEGIN ISOLATION LEVEL SERIALIZABLE"));
   assert.ok(texts.includes("SET LOCAL statement_timeout = 60000"));
   assert.ok(texts.includes("SET LOCAL lock_timeout = 10000"));
+});
+
+test("23. Rejects V1 plan explicitly before connecting", () => {
+  const runScript = (args, env) =>
+    spawnSync(
+      process.execPath,
+      [path.join(__dirname, "apply-bootstrap.js"), ...args],
+      { env: { ...process.env, ...env }, encoding: "utf8" },
+    );
+  const pPath = path.join(__dirname, "test_plan_v1.json");
+  const plan = createValidPlan();
+  plan.version = 1;
+  fs.writeFileSync(pPath, JSON.stringify(plan));
+
+  let r = runScript(
+    ["--apply", "--plan", pPath, "--expected-sha256", plan.planSha256],
+    { SUPABASE_DB_URL: "postgres://f", CONFIRM_PRODUCTION_APPLY: "true" },
+  );
+  assert.match(r.stderr, /V1 plans are explicitly rejected/);
+  fs.unlinkSync(pPath);
 });

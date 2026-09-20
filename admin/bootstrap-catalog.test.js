@@ -255,7 +255,7 @@ test("Plan con planSha256 manipulado o contenido corrupto", () => {
     const { planStr } = generateBootstrapPlan(catPath);
 
     const plan = JSON.parse(planStr);
-    plan.counts.titles = 999; // corrupt!
+    plan.namespace = "00000000-0000-0000-0000-000000000000"; // corrupt!
     fs.writeFileSync(planPath, JSON.stringify(plan));
 
     const res = generateBootstrapPlan(catPath, planPath);
@@ -384,4 +384,82 @@ test("Snapshot RLS-limited o sin autoridad nunca permite calcular alreadyPresent
     assert.strictEqual(plan.stats.alreadyPresent, 0); // Ignore snapshot
     assert.strictEqual(plan.stats.ready, 1);
   });
+});
+
+// NEW 11: Igualdad dry-run/write-plan/read-back
+test("Igualdad dry-run/write-plan/read-back", () => {
+  withTempFiles((tmpDir, catPath, planPath) => {
+    fs.writeFileSync(
+      catPath,
+      JSON.stringify({ movies: [{ id: "m1", title: "M1", servers: [] }] }),
+    );
+    const { plan: dryRunPlan } = generateBootstrapPlan(catPath);
+
+    const { plan: writePlanGen } = generateBootstrapPlan(catPath, null);
+    fs.writeFileSync(planPath, JSON.stringify(writePlanGen));
+
+    const { plan: readBackPlan } = generateBootstrapPlan(catPath, planPath);
+
+    assert.strictEqual(dryRunPlan.planSha256, writePlanGen.planSha256);
+    assert.strictEqual(writePlanGen.planSha256, readBackPlan.planSha256);
+  });
+});
+
+// NEW 12: Independencia de la ruta de salida
+test("Independencia de la ruta de salida", () => {
+  withTempFiles((tmpDir, catPath) => {
+    fs.writeFileSync(
+      catPath,
+      JSON.stringify({ movies: [{ id: "m1", title: "M1", servers: [] }] }),
+    );
+    const { plan: p1 } = generateBootstrapPlan(catPath, "/fake/path/1.json");
+    const { plan: p2 } = generateBootstrapPlan(catPath, "/another/path/2.json");
+    assert.strictEqual(p1.planSha256, p2.planSha256);
+  });
+});
+
+// NEW 13: Independencia de timestamps y estado planUnchanged
+test("Independencia de timestamps y estado planUnchanged", () => {
+  withTempFiles((tmpDir, catPath, planPath) => {
+    fs.writeFileSync(
+      catPath,
+      JSON.stringify({ movies: [{ id: "m1", title: "M1", servers: [] }] }),
+    );
+    const { plan } = generateBootstrapPlan(catPath);
+    const hashUnchangedFalse = plan.planSha256;
+
+    plan.planUnchanged = true;
+    fs.writeFileSync(planPath, JSON.stringify(plan));
+    const res = generateBootstrapPlan(catPath, planPath);
+
+    assert.strictEqual(res.plan.planSha256, hashUnchangedFalse);
+  });
+});
+
+// NEW 14: Verificación fallida si cambia una operación real
+test("Verificación fallida si cambia una operación real", () => {
+  withTempFiles((tmpDir, catPath, planPath) => {
+    fs.writeFileSync(
+      catPath,
+      JSON.stringify({ movies: [{ id: "m1", title: "M1", servers: [] }] }),
+    );
+    const { plan } = generateBootstrapPlan(catPath);
+
+    plan.operations[0].record.title = "HACKED";
+    fs.writeFileSync(planPath, JSON.stringify(plan));
+
+    const res = generateBootstrapPlan(catPath, planPath);
+    assert.strictEqual(res.code, 3);
+    assert.match(res.error, /Plan corrupted or manipulated/);
+  });
+});
+
+// NEW 15: Help flag works and exits with 0
+test("Help flag works without other arguments", () => {
+  const scriptPath = path.resolve(__dirname, "bootstrap-catalog.js");
+  const res = cp.spawnSync("node", [scriptPath, "--help"], {
+    encoding: "utf8",
+  });
+  assert.strictEqual(res.status, 0);
+  assert.match(res.stdout, /Usage: node bootstrap-catalog.js/);
 });
