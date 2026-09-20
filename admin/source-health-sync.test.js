@@ -79,3 +79,13 @@ test('does not mark HTML embeds as down when the source requires WebView', async
   assert.equal(report.results[0].result.reason, 'requires-webview');
   assert.equal(report.results[0].result.conclusive, false);
 });
+
+test('recognizes known embed hosts even when editorial flag is false', async () => {
+  const client = { async query(text) {
+    if (text.startsWith('SELECT')) return { rows: [{ id: 'voe-1', url: 'https://voe.sx/e/abc', requires_webview: false, health_status: 'pending', health_consecutive_failures: 0 }] };
+    return { rows: [] };
+  } };
+  const report = await require('./source-health-sync').run({ client, probe: async () => ({ ok: false, conclusive: true, reason: 'html' }) });
+  assert.equal(report.results[0].result.reason, 'requires-webview');
+  assert.equal(report.results[0].result.conclusive, false);
+});

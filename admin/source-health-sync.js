@@ -1,5 +1,12 @@
 #!/usr/bin/env node
 const { nextHealth, probeUrl } = require('./source-health-check');
+const EMBED_HOSTS = new Set(['barmonrey.com', 'voe.sx', 'streamwish.to', 'vimeus.com', 'primesrc.me']);
+function isKnownEmbed(url) {
+  try {
+    const host = new URL(url).hostname.toLowerCase();
+    return [...EMBED_HOSTS].some((name) => host === name || host.endsWith(`.${name}`));
+  } catch { return false; }
+}
 
 function buildHealthUpdate(previous, result, checkedAt) {
   const health = nextHealth(previous, result, checkedAt);
@@ -67,7 +74,7 @@ async function run({ client, limit = 976, dryRun = true, probe = probeUrl, now =
     const checked = await Promise.all(batch.map(async (source) => ({
       id: source.id,
       previous: { status: source.health_status, consecutiveFailures: source.health_consecutive_failures, firstFailureAt: source.health_first_failure_at },
-      result: await probe(source.url).then((result) => source.requires_webview && result.reason === 'html'
+      result: await probe(source.url).then((result) => (source.requires_webview || isKnownEmbed(source.url)) && result.reason === 'html'
         ? { ...result, conclusive: false, reason: 'requires-webview' }
         : result),
       checkedAt: now.toISOString(),
