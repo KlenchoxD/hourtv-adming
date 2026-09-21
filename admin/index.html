@@ -1196,7 +1196,7 @@
     </button>
   </div>
   <div class="header-actions">
-    <button class="btn-ghost btn-sm" onclick="openSupabaseAuth()" id="btn-supabase-auth">🔑 Supabase</button>
+    <button type="button" class="btn-ghost btn-sm" id="btn-supabase-auth">🔑 Supabase</button>
     <button class="btn-ghost btn-sm" onclick="openConfig()">⚙ GitHub</button>
     <button class="btn-ghost btn-sm" onclick="loadFromGitHub()">↻ Cargar</button>
     <button class="btn-primary btn-sm" onclick="publish()">⬆ Publicar</button>
@@ -2188,6 +2188,16 @@ function initSupabase() {
     updateSupabaseAuthBtn();
   }
 }
+
+// Bind explicitly as well as through the legacy inline handlers so the
+// Supabase control remains usable when the header is rendered dynamically.
+function bindSupabaseAuthButton() {
+  const btn = document.getElementById('btn-supabase-auth');
+  if (btn && !btn.dataset.bound) {
+    btn.addEventListener('click', openSupabaseAuth);
+    btn.dataset.bound = 'true';
+  }
+}
 function updateSupabaseAuthBtn() {
   const btn = document.getElementById('btn-supabase-auth');
   if (!btn) return;
@@ -2398,6 +2408,7 @@ if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', initSupabase);
 } else {
   initSupabase();
+  bindSupabaseAuthButton();
 }
 </script>
 </body>
