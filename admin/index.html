@@ -2198,7 +2198,7 @@ function initSupabase() {
 
 function signInWithGoogle() {
   if (!supabase) { toast('El SDK de Supabase todavía está cargando', 'err'); return; }
-  supabase.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: location.href.split('#')[0] } });
+  supabase.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: 'https://hourtv-adming.vercel.app/?auth=callback' } });
 }
 
 // Bind explicitly as well as through the legacy inline handlers so the
@@ -2453,7 +2453,7 @@ document.addEventListener('click', function (event) {
     if (!projectUrl) return;
     localStorage.setItem('hourtv_sb_url', projectUrl);
     localStorage.setItem('hourtv_sb_anon_key', document.getElementById('sb_fallback_key').value.trim());
-    const redirect = encodeURIComponent(location.href.split('#')[0]);
+    const redirect = encodeURIComponent('https://hourtv-adming.vercel.app/?auth=callback');
     location.href = projectUrl + '/auth/v1/authorize?provider=google&redirect_to=' + redirect;
   });
   overlay.classList.add('open');
