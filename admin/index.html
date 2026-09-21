@@ -2429,7 +2429,12 @@ document.addEventListener('click', function (event) {
   if (!overlay || !modal) return;
   const savedUrl = localStorage.getItem('hourtv_sb_url') || '';
   const savedKey = localStorage.getItem('hourtv_sb_anon_key') || '';
-  modal.innerHTML = '<div class="modal-head"><h3>Configurar Supabase</h3><button type="button" class="btn-ghost btn-sm" onclick="closeModal()">✕</button></div><div class="modal-body"><div class="row"><label>URL de Supabase</label><input id="sb_fallback_url" value="'+savedUrl+'" placeholder="https://tu-proyecto.supabase.co"></div><div class="row"><label>Clave pública anon/publishable</label><input id="sb_fallback_key" type="password" value="'+savedKey+'" placeholder="sb_publishable_..."></div><p class="hint">No introduzcas aquí la contraseña de PostgreSQL ni service_role.</p></div><div class="modal-foot"><span></span><button type="button" class="btn-primary" onclick="localStorage.setItem(\'hourtv_sb_url\',document.getElementById(\'sb_fallback_url\').value.trim());localStorage.setItem(\'hourtv_sb_anon_key\',document.getElementById(\'sb_fallback_key\').value.trim());location.reload()">Guardar y recargar</button></div>';
+  modal.innerHTML = '<div class="modal-head"><h3>Configurar Supabase</h3><button type="button" class="btn-ghost btn-sm" onclick="closeModal()">✕</button></div><div class="modal-body"><div class="row"><label>URL de Supabase</label><input id="sb_fallback_url" value="'+savedUrl+'" placeholder="https://tu-proyecto.supabase.co"></div><div class="row"><label>Clave pública anon/publishable</label><input id="sb_fallback_key" type="password" value="'+savedKey+'" placeholder="sb_publishable_..."></div><p class="hint">No introduzcas aquí la contraseña de PostgreSQL ni service_role.</p></div><div class="modal-foot"><span></span><button type="button" class="btn-primary" id="sb-fallback-save">Guardar y recargar</button></div>';
+  document.getElementById('sb-fallback-save').addEventListener('click', function () {
+    localStorage.setItem('hourtv_sb_url', document.getElementById('sb_fallback_url').value.trim());
+    localStorage.setItem('hourtv_sb_anon_key', document.getElementById('sb_fallback_key').value.trim());
+    location.reload();
+  });
   overlay.classList.add('open');
 });
 </script>
