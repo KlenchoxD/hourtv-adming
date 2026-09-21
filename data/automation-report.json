@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-09-21T07:12:02.116Z",
-  "durationMs": 2917,
+  "generatedAt": "2026-09-21T14:07:13.039Z",
+  "durationMs": 2395,
   "dryRun": false,
   "moviesFound": 33,
   "moviesDiscarded": 26,
@@ -18,13 +18,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1423191,
-      "title": "Resident Evil",
+      "tmdbId": 1101383,
+      "title": "El final de Oak Street",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1101383,
-      "title": "El final de Oak Street",
+      "tmdbId": 1423191,
+      "title": "Resident Evil",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -63,6 +63,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1240889,
+      "title": "Adolescencia, sexo y muerte en campamento Miasma",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1081003,
       "title": "Supergirl",
       "reason": "Sin fuente autorizada configurada"
@@ -70,11 +75,6 @@
     {
       "tmdbId": 1302904,
       "title": "Prácticamente magia 2",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1240889,
-      "title": "Adolescencia, sexo y muerte en campamento Miasma",
       "reason": "Sin fuente autorizada configurada"
     },
     {
