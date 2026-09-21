@@ -2216,16 +2216,17 @@ function updateSupabaseAuthBtn() {
 function openSupabaseAuth() {
   const url = localStorage.getItem('hourtv_sb_url') || '';
   const key = localStorage.getItem('hourtv_sb_anon_key') || '';
+  const safe = value => String(value ?? '').replace(/[&<>\"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'}[c]));
   const body = `
-    <div class="row"><label>Supabase URL</label><input id="sb_url" value="${esc(url)}" placeholder="https://xyz.supabase.co"></div>
-    <div class="row"><label>Supabase Anon Key</label><input id="sb_key" type="password" value="${esc(key)}" placeholder="eyJh..."></div>
+    <div class="row"><label>Supabase URL</label><input id="sb_url" value="${safe(url)}" placeholder="https://xyz.supabase.co"></div>
+    <div class="row"><label>Supabase Anon Key</label><input id="sb_key" type="password" value="${safe(key)}" placeholder="eyJh..."></div>
     <hr style="border:none;border-top:1px solid var(--line);margin:16px 0">
     ${supabase && !sbSession ? `
       <div class="row"><label>Email de Admin</label><input id="sb_email" placeholder="admin@hourtv.com"></div>
       <div class="row"><label>Contraseña</label><input id="sb_pass" type="password"></div>
     ` : ''}
     ${sbSession ? `
-      <p class="hint">Sesión iniciada como <b>${esc(sbSession.user.email)}</b>.</p>
+      <p class="hint">Sesión iniciada como <b>${safe(sbSession.user.email)}</b>.</p>
     ` : ''}
   `;
   document.getElementById('modal').innerHTML = `
