@@ -2185,8 +2185,20 @@ function initSupabase() {
       if (activeTab === 'down_servers') renderDownServers();
     });
   } else {
+    if (url && key && typeof window.supabase === 'undefined' && !document.getElementById('supabase-sdk-fallback')) {
+      const sdk = document.createElement('script');
+      sdk.id = 'supabase-sdk-fallback';
+      sdk.src = 'https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js';
+      sdk.onload = initSupabase;
+      document.head.appendChild(sdk);
+    }
     updateSupabaseAuthBtn();
   }
+}
+
+function signInWithGoogle() {
+  if (!supabase) { toast('El SDK de Supabase todavía está cargando', 'err'); return; }
+  supabase.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: location.href.split('#')[0] } });
 }
 
 // Bind explicitly as well as through the legacy inline handlers so the
@@ -2222,6 +2234,7 @@ function openSupabaseAuth() {
     <div class="row"><label>Supabase Anon Key</label><input id="sb_key" type="password" value="${safe(key)}" placeholder="eyJh..."></div>
     <hr style="border:none;border-top:1px solid var(--line);margin:16px 0">
     ${supabase && !sbSession ? `
+      <button type="button" class="btn-primary" onclick="signInWithGoogle()" style="width:100%;margin:8px 0 14px">Continuar con Google</button>
       <div class="row"><label>Email de Admin</label><input id="sb_email" placeholder="admin@hourtv.com"></div>
       <div class="row"><label>Contraseña</label><input id="sb_pass" type="password"></div>
     ` : ''}
