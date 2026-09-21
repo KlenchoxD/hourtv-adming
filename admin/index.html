@@ -2168,9 +2168,55 @@ let dsPageSize = 25;
 let dsTotal = 0;
 window._downServersCount = 0;
 
+function restSupabaseClient(url, key, token) {
+  const base = url.replace(/\/$/, '') + '/rest/v1/';
+  return {
+    auth: {
+      async getSession() { return { data: { session: token ? { access_token: token, user: { email: 'Administrador' } } : null } }; },
+      async onAuthStateChange() { return { data: { subscription: { unsubscribe() {} } } }; },
+      async signInWithOAuth() { return { error: new Error('Usa el botón Continuar con Google') }; },
+      async signOut() { localStorage.removeItem('hourtv_sb_access_token'); }
+    },
+    from(table) {
+      const params = new URLSearchParams();
+      let head = false;
+      let countExact = false;
+      const headers = { apikey: key, Authorization: token ? 'Bearer ' + token : 'Bearer ' + key };
+      const query = {
+        select(columns, options) { params.set('select', columns || '*'); head = !!(options && options.head); countExact = !!(options && options.count); return query; },
+        eq(column, value) { params.set(column, 'eq.' + value); return query; },
+        neq(column, value) { params.set(column, 'neq.' + value); return query; },
+        or(value) { params.set('or', '(' + value + ')'); return query; },
+        range(from, to) { headers.Range = from + '-' + to; return query; },
+        order(column, options) { params.set('order', column + '.' + ((options && options.ascending === false) ? 'desc' : 'asc')); return query; },
+        then(resolve, reject) {
+          const request = fetch(base + table + '?' + params.toString(), { method: head ? 'HEAD' : 'GET', headers: Object.assign(headers, countExact ? { Prefer: 'count=exact' } : {}) })
+            .then(async response => { const range = response.headers.get('content-range') || ''; const match = range.match(/\/(\d+)$/); const count = match ? Number(match[1]) : null; return { data: head ? null : await response.json(), error: response.ok ? null : new Error('Supabase HTTP ' + response.status), count }; });
+          return request.then(resolve, reject);
+        }
+      };
+      return query;
+    }
+  };
+}
+
 function initSupabase() {
   const url = localStorage.getItem('hourtv_sb_url');
   const key = localStorage.getItem('hourtv_sb_anon_key');
+  const hash = new URLSearchParams(location.hash.replace(/^#/, ''));
+  const callbackToken = hash.get('access_token');
+  if (callbackToken) {
+    localStorage.setItem('hourtv_sb_access_token', callbackToken);
+    history.replaceState({}, document.title, location.pathname + location.search);
+  }
+  const storedToken = localStorage.getItem('hourtv_sb_access_token');
+  if (url && key && typeof window.supabase === 'undefined' && storedToken) {
+    supabase = restSupabaseClient(url, key, storedToken);
+    sbSession = { access_token: storedToken, user: { email: 'Administrador' } };
+    updateSupabaseAuthBtn();
+    fetchDownServersCount();
+    return;
+  }
   if (url && key && typeof window.supabase !== 'undefined') {
     supabase = window.supabase.createClient(url, key);
     const hash = new URLSearchParams(location.hash.replace(/^#/, ''));
