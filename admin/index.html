@@ -2511,6 +2511,26 @@ document.addEventListener('click', function (event) {
   });
   overlay.classList.add('open');
 });
+
+// OAuth callback recovery runs independently of the optional SDK loader.
+(function recoverOAuthCallback() {
+  const params = new URLSearchParams(location.hash.replace(/^#/, ''));
+  const access = params.get('access_token');
+  if (!access) return;
+  localStorage.setItem('hourtv_sb_access_token', access);
+  history.replaceState({}, document.title, location.pathname + location.search);
+  if (typeof restSupabaseClient === 'function') {
+    const url = localStorage.getItem('hourtv_sb_url');
+    const key = localStorage.getItem('hourtv_sb_anon_key');
+    if (url && key) {
+      supabase = restSupabaseClient(url, key, access);
+      sbSession = { access_token: access, user: { email: 'Administrador' } };
+      updateSupabaseAuthBtn();
+      fetchDownServersCount();
+      if (activeTab === 'down_servers') renderDownServers();
+    }
+  }
+})();
 </script>
 </body>
 </html>
