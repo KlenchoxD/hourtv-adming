@@ -2173,6 +2173,13 @@ function initSupabase() {
   const key = localStorage.getItem('hourtv_sb_anon_key');
   if (url && key && typeof window.supabase !== 'undefined') {
     supabase = window.supabase.createClient(url, key);
+    const hash = new URLSearchParams(location.hash.replace(/^#/, ''));
+    const callbackAccessToken = hash.get('access_token');
+    const callbackRefreshToken = hash.get('refresh_token');
+    if (callbackAccessToken && callbackRefreshToken) {
+      supabase.auth.setSession({ access_token: callbackAccessToken, refresh_token: callbackRefreshToken })
+        .then(() => history.replaceState({}, document.title, location.pathname + location.search));
+    }
     supabase.auth.getSession().then(({ data: { session } }) => {
       sbSession = session;
       updateSupabaseAuthBtn();
