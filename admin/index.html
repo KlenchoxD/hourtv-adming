@@ -45,6 +45,27 @@
   ::-webkit-scrollbar-thumb { background: var(--elev2); border-radius: 4px; }
   ::-webkit-scrollbar-thumb:hover { background: #444; }
 
+  /* ═══ Down Servers Table ═══ */
+  .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--card); }
+  table { width: 100%; border-collapse: collapse; text-align: left; font-size: 13px; }
+  th, td { padding: 12px 16px; border-bottom: 1px solid var(--line); }
+  th { background: rgba(255, 255, 255, 0.02); color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 11px; letter-spacing: 0.5px; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(255, 255, 255, 0.02); }
+  .td-trunc { max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .status-badge { display: inline-block; padding: 3px 8px; border-radius: var(--radius-pill); font-size: 11px; font-weight: 700; text-transform: uppercase; }
+  .status-down { background: rgba(229, 9, 20, 0.15); color: var(--accent2); border: 1px solid rgba(229, 9, 20, 0.3); }
+  .status-active { background: rgba(45, 212, 168, 0.15); color: var(--ok); border: 1px solid rgba(45, 212, 168, 0.3); }
+
+  .pagination { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; border-top: 1px solid var(--line); background: var(--surface); }
+  .pagination-info { font-size: 12px; color: var(--dim); }
+  .pagination-controls { display: flex; gap: 8px; }
+
+  .filters-bar { display: flex; gap: 12px; align-items: center; margin-bottom: 16px; flex-wrap: wrap; }
+  .filters-bar select, .filters-bar input { max-width: 200px; padding: 8px 12px; font-size: 13px; }
+  ::-webkit-scrollbar-thumb { background: var(--elev2); border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: #444; }
+
   /* ═══ Header ═══ */
   header {
     position: sticky;
@@ -1172,6 +1193,7 @@
     </button>
   </div>
   <div class="header-actions">
+    <button class="btn-ghost btn-sm" onclick="openSupabaseAuth()" id="btn-supabase-auth">🔑 Supabase</button>
     <button class="btn-ghost btn-sm" onclick="openConfig()">⚙ GitHub</button>
     <button class="btn-ghost btn-sm" onclick="loadFromGitHub()">↻ Cargar</button>
     <button class="btn-primary btn-sm" onclick="publish()">⬆ Publicar</button>
@@ -1267,7 +1289,8 @@ const TABS = [
   {id:'movies', label:'Películas', kind:'vod'},
   {id:'series', label:'Series', kind:'series'},
   {id:'pending', label:'Pendientes', kind:'pending'},
-  {id:'sources', label:'Canales en vivo', kind:'live'}
+  {id:'sources', label:'Canales en vivo', kind:'live'},
+  {id:'down_servers', label:'Servidores caídos', kind:'down_servers'}
 ];
 let catalog = {version:2, movies:[], series:[], sources:[]};
 let activeTab = 'movies';
@@ -1307,7 +1330,10 @@ function pendingItems(){
   });
   return out;
 }
-function tabCount(id){return id==='pending'?pendingItems().length:(catalog[id]||[]).length}
+function tabCount(id){
+  if(id==='down_servers') return window._downServersCount || 0;
+  return id==='pending'?pendingItems().length:(catalog[id]||[]).length;
+}
 
 // ---------- Tabs ----------
 function renderTabs(){
@@ -1323,6 +1349,7 @@ function setTab(id){activeTab=id;document.getElementById('search').value='';rend
 function render(){
   renderTabs();
   const q=document.getElementById('search').value.toLowerCase().trim();
+  if(activeTab==='down_servers'){renderDownServers();return}
   if(activeTab==='pending'){renderPending(q);return}
   const isLive=activeTab==='sources';
   const items=(catalog[activeTab]||[]).filter(item=>!q||((item.title||item.name||'').toLowerCase().includes(q)));
@@ -2090,6 +2117,7 @@ async function loadFromGitHub(){
 </script>
 <script src="catalog-publish.js"></script>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 // ═══ Sidebar data updater — wraps existing render/refreshStatus ═══
 (function(){
@@ -2128,6 +2156,246 @@ async function loadFromGitHub(){
   };
   try{updateSidebar()}catch(e){}
 })();
+
+// ═══ SUPABASE AUTH & DOWN SERVERS ═══
+let supabase = null;
+let sbSession = null;
+let dsPage = 1;
+let dsPageSize = 25;
+let dsTotal = 0;
+window._downServersCount = 0;
+
+function initSupabase() {
+  const url = localStorage.getItem('hourtv_sb_url');
+  const key = localStorage.getItem('hourtv_sb_anon_key');
+  if (url && key && typeof window.supabase !== 'undefined') {
+    supabase = window.supabase.createClient(url, key);
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      sbSession = session;
+      updateSupabaseAuthBtn();
+      if (session) fetchDownServersCount();
+    });
+    supabase.auth.onAuthStateChange((_event, session) => {
+      sbSession = session;
+      updateSupabaseAuthBtn();
+      if (session) fetchDownServersCount();
+      if (activeTab === 'down_servers') renderDownServers();
+    });
+  } else {
+    updateSupabaseAuthBtn();
+  }
+}
+function updateSupabaseAuthBtn() {
+  const btn = document.getElementById('btn-supabase-auth');
+  if (!btn) return;
+  if (!supabase) { btn.innerHTML = '⚠️ Configurar Supabase'; btn.className = 'btn-ghost btn-sm'; btn.style.borderColor = 'var(--warn)'; return; }
+  if (sbSession) {
+    const email = sbSession.user.email || 'Admin';
+    btn.innerHTML = `👤 ${email}`;
+    btn.className = 'btn-ghost btn-sm';
+    btn.style.borderColor = 'var(--ok)';
+  } else {
+    btn.innerHTML = '🔑 Iniciar Sesión';
+    btn.className = 'btn-ghost btn-sm';
+    btn.style.borderColor = 'var(--warn)';
+  }
+}
+function openSupabaseAuth() {
+  const url = localStorage.getItem('hourtv_sb_url') || '';
+  const key = localStorage.getItem('hourtv_sb_anon_key') || '';
+  const body = `
+    <div class="row"><label>Supabase URL</label><input id="sb_url" value="${esc(url)}" placeholder="https://xyz.supabase.co"></div>
+    <div class="row"><label>Supabase Anon Key</label><input id="sb_key" type="password" value="${esc(key)}" placeholder="eyJh..."></div>
+    <hr style="border:none;border-top:1px solid var(--line);margin:16px 0">
+    ${supabase && !sbSession ? `
+      <div class="row"><label>Email de Admin</label><input id="sb_email" placeholder="admin@hourtv.com"></div>
+      <div class="row"><label>Contraseña</label><input id="sb_pass" type="password"></div>
+    ` : ''}
+    ${sbSession ? `
+      <p class="hint">Sesión iniciada como <b>${esc(sbSession.user.email)}</b>.</p>
+    ` : ''}
+  `;
+  document.getElementById('modal').innerHTML = `
+    <div class="modal-head"><h3>Autenticación Supabase</h3><button class="btn-ghost btn-sm" onclick="closeModal()">✕</button></div>
+    <div class="modal-body">${body}</div>
+    <div class="modal-foot">
+      ${sbSession ? `<button class="btn-danger" onclick="logoutSupabase()">Cerrar sesión</button>` : '<span></span>'}
+      <div style="display:flex;gap:10px">
+        <button class="btn-primary" onclick="saveSupabaseAuth()">${supabase && !sbSession ? 'Iniciar Sesión' : 'Guardar Configuración'}</button>
+      </div>
+    </div>
+  `;
+  document.getElementById('overlay').classList.add('open');
+}
+async function saveSupabaseAuth() {
+  const url = document.getElementById('sb_url').value.trim();
+  const key = document.getElementById('sb_key').value.trim();
+  localStorage.setItem('hourtv_sb_url', url);
+  localStorage.setItem('hourtv_sb_anon_key', key);
+
+  if (!supabase || url !== localStorage.getItem('hourtv_sb_url')) {
+    if (url && key) {
+      supabase = window.supabase.createClient(url, key);
+      updateSupabaseAuthBtn();
+    }
+  }
+
+  const emailInput = document.getElementById('sb_email');
+  const passInput = document.getElementById('sb_pass');
+  if (emailInput && passInput && emailInput.value && passInput.value) {
+    if (!supabase) { toast('Configura URL y Key primero', 'err'); return; }
+    toast('Iniciando sesión...');
+    const { data, error } = await supabase.auth.signInWithPassword({ email: emailInput.value, password: passInput.value });
+    if (error) { toast('Error de inicio de sesión: ' + error.message, 'err'); return; }
+    toast('Sesión iniciada', 'ok');
+  } else {
+    toast('Configuración guardada', 'ok');
+  }
+  closeModal();
+}
+async function logoutSupabase() {
+  if (supabase) await supabase.auth.signOut();
+  closeModal();
+  toast('Sesión cerrada', 'ok');
+}
+
+async function fetchDownServersCount() {
+  if (!supabase || !sbSession) return;
+  try {
+    const { count, error } = await supabase.from('admin_down_sources_view').select('*', { count: 'exact', head: true });
+    if (!error && count !== null) {
+      window._downServersCount = count;
+      renderTabs();
+    }
+  } catch (e) { console.error('Error fetching down servers count', e); }
+}
+
+async function renderDownServers() {
+  const list = document.getElementById('list');
+  list.className = '';
+  if (!supabase || !sbSession) {
+    list.innerHTML = `<div class="empty">Debes configurar e iniciar sesión en Supabase para ver esta sección.<br><br><button class="btn-primary" onclick="openSupabaseAuth()">Iniciar Sesión</button></div>`;
+    return;
+  }
+
+  const q = document.getElementById('search').value.toLowerCase().trim();
+  const typeFilter = document.getElementById('ds_type_filter') ? document.getElementById('ds_type_filter').value : 'all';
+
+  list.innerHTML = `
+    <div class="filters-bar">
+      <select id="ds_type_filter" onchange="dsPage=1;renderDownServers()">
+        <option value="all" ${typeFilter==='all'?'selected':''}>Todo (Películas y Series)</option>
+        <option value="movie" ${typeFilter==='movie'?'selected':''}>Solo Películas</option>
+        <option value="series" ${typeFilter==='series'?'selected':''}>Solo Series</option>
+      </select>
+    </div>
+    <div id="ds_table_container"><div class="empty" style="padding:40px">Cargando servidores caídos...</div></div>
+  `;
+
+  try {
+    let query = supabase.from('admin_down_sources_view').select('*', { count: 'exact' });
+    if (typeFilter === 'movie') query = query.eq('media_type', 'movie');
+    if (typeFilter === 'series') query = query.neq('media_type', 'movie');
+    if (q) {
+      const safeQ = q.replace(/[,()"]/g, ' ').trim();
+      query = query.or(`source_name.ilike.%${safeQ}%,title_name.ilike.%${safeQ}%`);
+    }
+
+    query = query.range((dsPage - 1) * dsPageSize, (dsPage * dsPageSize) - 1).order('health_first_failure_at', { ascending: false, nullsFirst: false });
+
+    const { data, error, count } = await query;
+    if (error) throw error;
+
+    dsTotal = count || 0;
+    if (q === '' && typeFilter === 'all') {
+      window._downServersCount = dsTotal;
+      renderTabs();
+    }
+
+    const container = document.getElementById('ds_table_container');
+    if (dsTotal === 0) {
+      container.innerHTML = `<div class="empty">No hay servidores caídos con estos filtros. 🎉</div>`;
+      return;
+    }
+
+    const rowsHtml = data.map(r => {
+      const isMovie = r.media_type === 'movie';
+      const contentName = isMovie ? r.title_name : `${r.title_name} (T${r.season_number} E${r.episode_number})`;
+      const dt = r.health_first_failure_at ? new Date(r.health_first_failure_at).toLocaleString() : 'Desconocida';
+      return `<tr style="cursor:pointer" onclick='openDownServerDetail(${JSON.stringify(r).replace(/'/g,"&#39;")})'>
+        <td class="td-trunc" title="${esc(r.source_name)}"><b>${esc(r.source_name)}</b></td>
+        <td class="td-trunc" title="${esc(contentName)}">${esc(contentName)}</td>
+        <td><span class="status-badge status-down">DOWN</span></td>
+        <td>${r.health_http_code ? `<span class="card-chip" style="color:var(--warn)">HTTP ${r.health_http_code}</span>` : 'Error conexión'}</td>
+        <td style="color:var(--dim)">${dt}</td>
+      </tr>`;
+    }).join('');
+
+    const totalPages = Math.ceil(dsTotal / dsPageSize);
+
+    container.innerHTML = `
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Fuente</th><th>Contenido</th><th>Estado</th><th>Causa</th><th>Desde</th></tr>
+          </thead>
+          <tbody>${rowsHtml}</tbody>
+        </table>
+        <div class="pagination">
+          <div class="pagination-info">Mostrando ${(dsPage-1)*dsPageSize + 1} - ${Math.min(dsPage*dsPageSize, dsTotal)} de ${dsTotal}</div>
+          <div class="pagination-controls">
+            <button class="btn-ghost btn-sm" onclick="dsPage--;renderDownServers()" ${dsPage<=1?'disabled':''}>Anterior</button>
+            <button class="btn-ghost btn-sm" onclick="dsPage++;renderDownServers()" ${dsPage>=totalPages?'disabled':''}>Siguiente</button>
+          </div>
+        </div>
+      </div>
+    `;
+  } catch (e) {
+    document.getElementById('ds_table_container').innerHTML = `<div class="empty" style="color:var(--accent2)">Error al cargar: ${esc(e.message)}</div>`;
+  }
+}
+
+function openDownServerDetail(r) {
+  const isMovie = r.media_type === 'movie';
+  const contentName = isMovie ? r.title_name : `${r.title_name} (Temp. ${r.season_number}, Ep. ${r.episode_number})`;
+  const dtFirst = r.health_first_failure_at ? new Date(r.health_first_failure_at).toLocaleString() : 'Desconocida';
+  const dtLast = r.health_last_check ? new Date(r.health_last_check).toLocaleString() : 'Desconocido';
+
+  const body = `
+    <div class="sb-section" style="margin-bottom:16px">
+      <div class="sb-row"><span class="sb-label">ID Fuente</span><span class="sb-value" style="user-select:all">${r.source_id}</span></div>
+      <div class="sb-row"><span class="sb-label">Nombre</span><span class="sb-value">${esc(r.source_name)}</span></div>
+      <div class="sb-row"><span class="sb-label">Contenido</span><span class="sb-value" style="white-space:normal;text-align:right">${esc(contentName)}</span></div>
+      <div class="sb-row"><span class="sb-label">URL Original</span><span class="sb-value" style="user-select:all;white-space:normal;text-align:right"><a href="${esc(r.source_url)}" target="_blank" style="word-break:break-all">${esc(r.source_url)}</a></span></div>
+    </div>
+    <div class="sb-section" style="border-color:var(--accent);background:rgba(229,9,20,0.02)">
+      <div class="sb-title" style="color:var(--accent2)">Diagnóstico de Salud</div>
+      <div class="sb-row"><span class="sb-label">Estado</span><span class="status-badge status-down">DOWN</span></div>
+      <div class="sb-row"><span class="sb-label">Último Error</span><span class="sb-value" style="color:var(--warn);white-space:normal;text-align:right">${esc(r.health_last_error || 'Desconocido')}</span></div>
+      <div class="sb-row"><span class="sb-label">Código HTTP</span><span class="sb-value">${r.health_http_code || '—'}</span></div>
+      <div class="sb-row"><span class="sb-label">Fallos Consecutivos</span><span class="sb-value">${r.health_consecutive_failures}</span></div>
+      <div class="sb-row"><span class="sb-label">Desde (Primer Fallo)</span><span class="sb-value">${dtFirst}</span></div>
+      <div class="sb-row"><span class="sb-label">Último Chequeo</span><span class="sb-value">${dtLast}</span></div>
+    </div>
+    <p class="hint" style="margin-top:16px">Puedes buscar esta fuente en las pestañas "Películas" o "Series" para reemplazarla o eliminarla localmente y luego publicar los cambios.</p>
+  `;
+  document.getElementById('modal').innerHTML = `
+    <div class="modal-head"><h3>Detalle de Servidor Caído</h3><button class="btn-ghost btn-sm" onclick="closeModal()">✕</button></div>
+    <div class="modal-body">${body}</div>
+    <div class="modal-foot">
+      <span></span>
+      <button class="btn-primary" onclick="closeModal()">Cerrar</button>
+    </div>
+  `;
+  document.getElementById('overlay').classList.add('open');
+}
+
+// Inicializar cliente Supabase si está en localStorage (requiere cargar script desde CDN)
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initSupabase);
+} else {
+  initSupabase();
+}
 </script>
 </body>
 </html>
