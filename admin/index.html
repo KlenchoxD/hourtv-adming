@@ -2427,7 +2427,9 @@ document.addEventListener('click', function (event) {
   const overlay = document.getElementById('overlay');
   const modal = document.getElementById('modal');
   if (!overlay || !modal) return;
-  modal.innerHTML = '<div class="modal-head"><h3>Configurar Supabase</h3><button type="button" class="btn-ghost btn-sm" onclick="closeModal()">✕</button></div><div class="modal-body"><p class="hint">El módulo de Supabase no terminó de cargar. Recarga la página e inténtalo de nuevo.</p></div><div class="modal-foot"><span></span><button type="button" class="btn-primary" onclick="closeModal()">Cerrar</button></div>';
+  const savedUrl = localStorage.getItem('hourtv_sb_url') || '';
+  const savedKey = localStorage.getItem('hourtv_sb_anon_key') || '';
+  modal.innerHTML = '<div class="modal-head"><h3>Configurar Supabase</h3><button type="button" class="btn-ghost btn-sm" onclick="closeModal()">✕</button></div><div class="modal-body"><div class="row"><label>URL de Supabase</label><input id="sb_fallback_url" value="'+savedUrl+'" placeholder="https://tu-proyecto.supabase.co"></div><div class="row"><label>Clave pública anon/publishable</label><input id="sb_fallback_key" type="password" value="'+savedKey+'" placeholder="sb_publishable_..."></div><p class="hint">No introduzcas aquí la contraseña de PostgreSQL ni service_role.</p></div><div class="modal-foot"><span></span><button type="button" class="btn-primary" onclick="localStorage.setItem(\'hourtv_sb_url\',document.getElementById(\'sb_fallback_url\').value.trim());localStorage.setItem(\'hourtv_sb_anon_key\',document.getElementById(\'sb_fallback_key\').value.trim());location.reload()">Guardar y recargar</button></div>';
   overlay.classList.add('open');
 });
 </script>
