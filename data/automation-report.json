@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-09-21T14:07:13.039Z",
-  "durationMs": 2395,
+  "generatedAt": "2026-09-21T19:24:33.071Z",
+  "durationMs": 2724,
   "dryRun": false,
   "moviesFound": 33,
   "moviesDiscarded": 26,
@@ -73,11 +73,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1302904,
-      "title": "Prácticamente magia 2",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1212763,
       "title": "Posesión infernal: En llamas",
       "reason": "Sin fuente autorizada configurada"
@@ -85,6 +80,11 @@
     {
       "tmdbId": 671,
       "title": "Harry Potter y la piedra filosofal",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1302904,
+      "title": "Prácticamente magia 2",
       "reason": "Sin fuente autorizada configurada"
     },
     {
