@@ -2411,5 +2411,24 @@ if (document.readyState === 'loading') {
   bindSupabaseAuthButton();
 }
 </script>
+<script>
+// Last-resort handler: keep the configuration dialog reachable even if an
+// optional Supabase initialization fails earlier in the page.
+document.addEventListener('click', function (event) {
+  const button = event.target.closest && event.target.closest('#btn-supabase-auth');
+  if (!button) return;
+  try {
+    if (typeof window.openSupabaseAuth === 'function') {
+      window.openSupabaseAuth();
+      return;
+    }
+  } catch (_) {}
+  const overlay = document.getElementById('overlay');
+  const modal = document.getElementById('modal');
+  if (!overlay || !modal) return;
+  modal.innerHTML = '<div class="modal-head"><h3>Configurar Supabase</h3><button type="button" class="btn-ghost btn-sm" onclick="closeModal()">✕</button></div><div class="modal-body"><p class="hint">El módulo de Supabase no terminó de cargar. Recarga la página e inténtalo de nuevo.</p></div><div class="modal-foot"><span></span><button type="button" class="btn-primary" onclick="closeModal()">Cerrar</button></div>';
+  overlay.classList.add('open');
+});
+</script>
 </body>
 </html>
