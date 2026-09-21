@@ -236,7 +236,8 @@
     border-radius: var(--radius-md);
     padding: 4px;
     border: 1px solid var(--line);
-    max-width: 680px;
+    width: 100%;
+    max-width: none;
     overflow-x: auto;
     scrollbar-width: none;
   }
@@ -254,7 +255,7 @@
     align-items: center;
     gap: 8px;
     transition: all var(--transition);
-    flex: 1;
+    flex: 0 1 auto;
     justify-content: center;
     min-width: 0;
   }
@@ -272,6 +273,7 @@
   .tab:nth-child(2)::before { content: '📺'; font-size: 13px; }
   .tab:nth-child(3)::before { content: '⏳'; font-size: 13px; }
   .tab:nth-child(4)::before { content: '📡'; font-size: 13px; }
+  .tab:nth-child(5)::before { content: '🚨'; font-size: 13px; }
   .tab-count {
     display: inline-block;
     padding: 2px 7px;
@@ -1147,7 +1149,8 @@
     .tab:nth-child(1)::before,
     .tab:nth-child(2)::before,
     .tab:nth-child(3)::before,
-    .tab:nth-child(4)::before { display: none; }
+    .tab:nth-child(4)::before,
+    .tab:nth-child(5)::before { display: none; }
     main { padding: 16px 14px; }
     .grid {
       grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
