@@ -2210,7 +2210,7 @@ function initSupabase() {
     history.replaceState({}, document.title, location.pathname + location.search);
   }
   const storedToken = localStorage.getItem('hourtv_sb_access_token');
-  if (url && key && typeof window.supabase === 'undefined' && storedToken) {
+  if (url && key && storedToken) {
     supabase = restSupabaseClient(url, key, storedToken);
     sbSession = { access_token: storedToken, user: { email: 'Administrador' } };
     updateSupabaseAuthBtn();
