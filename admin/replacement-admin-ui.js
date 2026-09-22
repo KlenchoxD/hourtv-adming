@@ -244,9 +244,10 @@
         publish:async()=>root.publish({throwOnError:true,skipReplacementFinalize:true})});
       const publishError=workflow.publishError;
       root.render(); root.closeModal();
-      if(workflow.phase==='pending_finalize'){localStorage.setItem('hourtv_replacements_pending_finalize','true');root.toast(workflow.published?'Catálogo publicado; sincronización final pendiente.':'Publicación pendiente y sincronización final pendiente.','err');}
-      else if (publishError) { localStorage.setItem('hourtv_replacements_pending_publish','true'); root.toast('Reemplazos aplicados; publicación pendiente. Puedes reintentar.', 'err'); }
-      else { localStorage.removeItem('hourtv_replacements_pending_publish'); root.toast(`${ids.length} reemplazos aplicados y publicados una sola vez.`, 'ok'); }
+      if(workflow.phase==='pending_finalize'){root.HourTVPublishRecovery.saveRecovery(localStorage,{phase:'pending_finalize',candidateIds:ids,error:workflow.finalizeError&&workflow.finalizeError.message});root.toast('Catálogo publicado; sincronización final pendiente.','err');}
+      else if (publishError) { root.HourTVPublishRecovery.saveRecovery(localStorage,{phase:'pending_publish',candidateIds:ids,error:publishError.message}); root.toast('Reemplazos aplicados; publicación pendiente. Puedes reintentar.', 'err'); }
+      else { root.HourTVPublishRecovery.clearRecovery(localStorage); root.toast(`${ids.length} reemplazos aplicados y publicados una sola vez.`, 'ok'); }
+      renderRecoveryIndicator();
       await renderNotifications();
     } catch (error) { root.save(); root.render(); root.toast('No se aplicó el lote: ' + error.message, 'err'); } finally { busy = false; }
   }
@@ -256,6 +257,21 @@
     const ids=[...new Set(open.map(item=>item.candidate_id).filter(Boolean))];if(!ids.length)return;
     await callRpc('admin_finalize_replacement_publish',{p_candidate_ids:ids,p_succeeded:succeeded,p_error:error||null});
     if(succeeded)localStorage.removeItem('hourtv_replacements_pending_publish');
+  }
+  function renderRecoveryIndicator(){
+    const state=root.HourTVPublishRecovery.loadRecovery(localStorage);let button=document.getElementById('replacement-recovery-btn');
+    if(!state){if(button)button.remove();return;}
+    if(!button){button=document.createElement('button');button.id='replacement-recovery-btn';button.className='btn-ghost btn-sm';button.onclick=retryReplacementRecovery;document.querySelector('.header-actions').prepend(button);}
+    button.textContent=state.phase==='pending_publish'?'⚠ Reintentar publicación':'⚠ Finalizar sincronización';
+    button.title=state.phase==='pending_publish'?'Publicará una vez y luego finalizará notificaciones':'El catálogo ya fue publicado; solo finalizará Supabase';
+  }
+  async function retryReplacementRecovery(){
+    if(busy)return;busy=true;
+    try{const result=await root.HourTVPublishRecovery.retryRecovery({storage:localStorage,publish:async()=>root.publish({throwOnError:true,skipReplacementFinalize:true}),callRpc});
+      if(result.phase==='complete')root.toast('Publicación y sincronización completadas.','ok');
+      else if(result.phase==='pending_finalize')root.toast('Catálogo publicado; sincronización final pendiente.','err');
+      else root.toast('La publicación sigue pendiente: '+result.error.message,'err');
+    }finally{busy=false;renderRecoveryIndicator();}
   }
 
   async function renderSourceHealth() {
@@ -311,6 +327,8 @@
   root.renderDownServers = renderSourceHealth; root.setHealthState = setHealthState; root.requestSourceRecheck = requestSourceRecheck;
   root.searchSourceReplacement = searchSourceReplacement; root.openSourceReplacement = openSourceReplacement; root.openSourceNotification = openSourceNotification;
   root.finalizePendingReplacementPublish=finalizePendingReplacementPublish;
+  root.retryReplacementRecovery=retryReplacementRecovery;
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',renderRecoveryIndicator);else renderRecoveryIndicator();
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', refreshAdminCounts);
   else refreshAdminCounts();
 }(window));

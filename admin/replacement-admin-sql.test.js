@@ -10,3 +10,7 @@ test('search persistence RPC owns attempts candidate provider increment and noti
   for(const table of ['replacement_search_attempts','replacement_candidates','backup_providers','admin_notifications'])assert.match(body,new RegExp(table));
   assert.match(sql,/security definer set search_path=''/);assert.match(sql,/public\.is_admin\(\)/);
 });
+test('publication recovery RPC accepts failed notifications and is idempotent',()=>{
+  const recovery=fs.readFileSync(path.join(__dirname,'../supabase/migrations/20260922100000_recover_replacement_publication.sql'),'utf8');
+  assert.match(recovery,/status in \('processing','failed'\)/);assert.match(recovery,/already_finalized/);assert.match(recovery,/security definer set search_path=''/);assert.match(recovery,/public\.is_admin\(\)/);
+});

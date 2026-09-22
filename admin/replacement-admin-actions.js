@@ -73,7 +73,7 @@
     if(afterApply)await afterApply();
     let error=null;try{await publish();}catch(caught){error=caught;}
     try{await callRpc('admin_finalize_replacement_publish',{p_candidate_ids:candidateIds,p_succeeded:!error,p_error:error&&error.message});}
-    catch(finalizeError){return {phase:'pending_finalize',published:!error,publishError:error,finalizeError};}
+    catch(finalizeError){return {phase:error?'pending_publish':'pending_finalize',published:!error,publishError:error,finalizeError};}
     return {phase:error?'pending_publish':'complete',published:!error,publishError:error};
   }
   async function revalidateStaleBatch({candidates,targetFor,providerForCandidate,registry,now=new Date()}){
