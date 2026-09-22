@@ -2120,7 +2120,6 @@ async function loadFromGitHub(){
 </script>
 <script src="catalog-publish.js"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 // ═══ Sidebar data updater — wraps existing render/refreshStatus ═══
 (function(){
@@ -2174,6 +2173,13 @@ function restSupabaseClient(url, key, token) {
     auth: {
       async getSession() { return { data: { session: token ? { access_token: token, user: { email: 'Administrador' } } : null } }; },
       async onAuthStateChange() { return { data: { subscription: { unsubscribe() {} } } }; },
+      async signInWithPassword({ email, password }) {
+        const response = await fetch(url.replace(/\/$/, '') + '/auth/v1/token?grant_type=password', { method: 'POST', headers: { apikey: key, 'Content-Type': 'application/json' }, body: JSON.stringify({ email, password }) });
+        const result = await response.json();
+        if (!response.ok || !result.access_token) return { data: null, error: new Error(result.error_description || result.msg || 'No se pudo iniciar sesión') };
+        localStorage.setItem('hourtv_sb_access_token', result.access_token);
+        return { data: { session: { access_token: result.access_token, user: { email } } }, error: null };
+      },
       async signInWithOAuth() { return { error: new Error('Usa el botón Continuar con Google') }; },
       async signOut() { localStorage.removeItem('hourtv_sb_access_token'); }
     },
@@ -2217,36 +2223,7 @@ function initSupabase() {
     fetchDownServersCount();
     return;
   }
-  if (url && key && typeof window.supabase !== 'undefined') {
-    supabase = window.supabase.createClient(url, key);
-    const hash = new URLSearchParams(location.hash.replace(/^#/, ''));
-    const callbackAccessToken = hash.get('access_token');
-    const callbackRefreshToken = hash.get('refresh_token');
-    if (callbackAccessToken && callbackRefreshToken) {
-      supabase.auth.setSession({ access_token: callbackAccessToken, refresh_token: callbackRefreshToken })
-        .then(() => history.replaceState({}, document.title, location.pathname + location.search));
-    }
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      sbSession = session;
-      updateSupabaseAuthBtn();
-      if (session) fetchDownServersCount();
-    });
-    supabase.auth.onAuthStateChange((_event, session) => {
-      sbSession = session;
-      updateSupabaseAuthBtn();
-      if (session) fetchDownServersCount();
-      if (activeTab === 'down_servers') renderDownServers();
-    });
-  } else {
-    if (url && key && typeof window.supabase === 'undefined' && !document.getElementById('supabase-sdk-fallback')) {
-      const sdk = document.createElement('script');
-      sdk.id = 'supabase-sdk-fallback';
-      sdk.src = 'https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js';
-      sdk.onload = initSupabase;
-      document.head.appendChild(sdk);
-    }
-    updateSupabaseAuthBtn();
-  }
+  updateSupabaseAuthBtn();
 }
 
 function signInWithGoogle() {
@@ -2286,7 +2263,7 @@ function openSupabaseAuth() {
     <div class="row"><label>Supabase URL</label><input id="sb_url" value="${safe(url)}" placeholder="https://xyz.supabase.co"></div>
     <div class="row"><label>Supabase Anon Key</label><input id="sb_key" type="password" value="${safe(key)}" placeholder="eyJh..."></div>
     <hr style="border:none;border-top:1px solid var(--line);margin:16px 0">
-    ${supabase && !sbSession ? `
+    ${!sbSession ? `
       <button type="button" class="btn-primary" onclick="signInWithGoogle()" style="width:100%;margin:8px 0 14px">Continuar con Google</button>
       <div class="row"><label>Email de Admin</label><input id="sb_email" placeholder="admin@hourtv.com"></div>
       <div class="row"><label>Contraseña</label><input id="sb_pass" type="password"></div>
@@ -2523,6 +2500,25 @@ document.addEventListener('click', function (event) {
   const params = new URLSearchParams(location.hash.replace(/^#/, ''));
   const access = params.get('access_token');
   if (!access) return;
+  if (params.get('type') === 'recovery') {
+    const url = localStorage.getItem('hourtv_sb_url') || '';
+    const key = localStorage.getItem('hourtv_sb_anon_key') || '';
+    const modal = document.getElementById('modal');
+    const overlay = document.getElementById('overlay');
+    modal.innerHTML = '<div class="modal-head"><h3>Establecer nueva contraseña</h3></div><div class="modal-body"><div class="row"><label>Nueva contraseña</label><input id="recovery_password" type="password" minlength="8"></div><div class="row"><label>Repetir contraseña</label><input id="recovery_password_confirm" type="password" minlength="8"></div><p class="hint">Usa al menos 8 caracteres.</p></div><div class="modal-foot"><span></span><button type="button" class="btn-primary" id="recovery_save">Guardar contraseña</button></div>';
+    overlay.classList.add('open');
+    document.getElementById('recovery_save').addEventListener('click', async function () {
+      const password = document.getElementById('recovery_password').value;
+      const confirm = document.getElementById('recovery_password_confirm').value;
+      if (password.length < 8 || password !== confirm) { toast('Las contraseñas deben coincidir y tener 8 caracteres', 'err'); return; }
+      const response = await fetch(url.replace(/\/$/, '') + '/auth/v1/user', { method: 'PUT', headers: { apikey: key, Authorization: 'Bearer ' + access, 'Content-Type': 'application/json' }, body: JSON.stringify({ password }) });
+      if (!response.ok) { toast('No se pudo actualizar la contraseña', 'err'); return; }
+      localStorage.setItem('hourtv_sb_access_token', access);
+      history.replaceState({}, document.title, location.pathname + location.search);
+      location.reload();
+    });
+    return;
+  }
   localStorage.setItem('hourtv_sb_access_token', access);
   history.replaceState({}, document.title, location.pathname + location.search);
   if (typeof restSupabaseClient === 'function') {
