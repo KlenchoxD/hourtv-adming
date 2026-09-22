@@ -1,13 +1,13 @@
 {
-  "lastRunAt": "2026-09-21T01:42:47.518Z",
+  "lastRunAt": "2026-09-22T01:10:01.861Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
-    1423191,
     1101383,
+    1423191,
     1204680,
-    1288445,
     1108427,
+    1288445,
     1084244,
     1315772,
     1137844,
@@ -15,25 +15,25 @@
     1127384,
     1275779,
     1083381,
+    1240889,
     860508,
     1081003,
-    1302904,
     1273221,
-    1240889,
     1212763,
     671,
+    1302904,
     1368337,
     1375646,
     1294189,
-    1285366,
     1482547,
+    1285366,
     1440098,
     1386315,
     1339713,
-    1408162,
     1232569,
     44980,
     1323244,
+    1469930,
     1335666
   ],
   "tmdbIdsPublished": [],
@@ -46,13 +46,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1423191,
-      "title": "Resident Evil",
+      "tmdbId": 1101383,
+      "title": "El final de Oak Street",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1101383,
-      "title": "El final de Oak Street",
+      "tmdbId": 1423191,
+      "title": "Resident Evil",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -91,18 +91,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1081003,
-      "title": "Supergirl",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1302904,
-      "title": "Prácticamente magia 2",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1240889,
       "title": "Adolescencia, sexo y muerte en campamento Miasma",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1081003,
+      "title": "Supergirl",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -113,6 +108,11 @@
     {
       "tmdbId": 671,
       "title": "Harry Potter y la piedra filosofal",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1302904,
+      "title": "Prácticamente magia 2",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -131,14 +131,14 @@
       "reason": "Rating 0 por debajo del mínimo (5.5)"
     },
     {
-      "tmdbId": 1285366,
-      "title": "愛のぬくもり",
-      "reason": "Votos 8 por debajo del mínimo (50)"
-    },
-    {
       "tmdbId": 1482547,
       "title": "Zip Wire",
       "reason": "Votos 12 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 1285366,
+      "title": "愛のぬくもり",
+      "reason": "Votos 8 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1440098,
@@ -149,11 +149,6 @@
       "tmdbId": 1386315,
       "title": "A la carrera",
       "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1408162,
-      "title": "Vishwanath e hijos",
-      "reason": "Votos 26 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1232569,
@@ -169,6 +164,11 @@
       "tmdbId": 1323244,
       "title": "La señal del apocalipsis",
       "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1469930,
+      "title": "Tumbal Proyek",
+      "reason": "Rating 3.9 por debajo del mínimo (5.5)"
     }
   ]
 }
