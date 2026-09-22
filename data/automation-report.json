@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-09-22T15:41:21.766Z",
-  "durationMs": 3395,
+  "generatedAt": "2026-09-22T19:10:23.435Z",
+  "durationMs": 3390,
   "dryRun": false,
   "moviesFound": 33,
   "moviesDiscarded": 26,
@@ -43,16 +43,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1185806,
-      "title": "La Patrulla Canina: La dino película",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1127384,
-      "title": "En mar abierto",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1240889,
       "title": "Adolescencia, sexo y muerte en campamento Miasma",
       "reason": "Sin fuente autorizada configurada"
@@ -63,8 +53,18 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1185806,
+      "title": "La Patrulla Canina: La dino película",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1275779,
       "title": "El día de la revelación",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1127384,
+      "title": "En mar abierto",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -78,13 +78,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 671,
-      "title": "Harry Potter y la piedra filosofal",
+      "tmdbId": 1302904,
+      "title": "Prácticamente magia 2",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1302904,
-      "title": "Prácticamente magia 2",
+      "tmdbId": 671,
+      "title": "Harry Potter y la piedra filosofal",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -105,7 +105,7 @@
     {
       "tmdbId": 1482547,
       "title": "Zip Wire",
-      "reason": "Votos 12 por debajo del mínimo (50)"
+      "reason": "Votos 13 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1285366,
