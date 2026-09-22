@@ -1,5 +1,7 @@
 'use strict';
 
+const { evaluateCandidate } = require('../replacement-logic');
+
 class AdapterRegistry {
   constructor() {
     this.adapters = new Map();
@@ -41,7 +43,7 @@ function selectFallbackCandidate(providerResults) {
   return null;
 }
 
-async function searchWithFallback({ providers, registry, kind, query, evaluate }) {
+async function searchWithFallback({ providers, registry, kind, query, now = new Date(), maxAgeMs }) {
   const method = kind === 'episode' ? 'searchEpisode' : 'searchMovie';
   const attempts = [];
   for (const provider of orderProviders(providers)) {
@@ -50,18 +52,31 @@ async function searchWithFallback({ providers, registry, kind, query, evaluate }
       attempts.push({ providerId: provider.id, reason: 'adapter_not_registered' });
       continue;
     }
+    let candidates;
     try {
-      const candidates = await adapter[method](query, provider);
-      if (!Array.isArray(candidates) || candidates.length === 0) {
+      candidates = await adapter[method](query, provider);
+    } catch (error) {
+      attempts.push({ providerId: provider.id, reason: 'adapter_error', error: error.message });
+      continue;
+    }
+    if (!Array.isArray(candidates)) {
+      attempts.push({ providerId: provider.id, reason: 'validator_error', error: 'Adapter result must be an array' });
+      continue;
+    }
+    if (candidates.length === 0) {
         attempts.push({ providerId: provider.id, reason: 'no_candidates' });
-        continue;
+      continue;
+    }
+    try {
+      if (candidates.some((candidate) => !candidate || typeof candidate !== 'object' || Array.isArray(candidate))) {
+        throw new TypeError('Every candidate must be an object');
       }
-      const evaluated = candidates.map((candidate) => evaluate(candidate, provider));
+      const evaluated = candidates.map((candidate) => ({ ...candidate, ...evaluateCandidate(query, candidate, { now, maxAgeMs }) }));
       const high = evaluated.find((candidate) => candidate.confidence === 'high');
       attempts.push({ providerId: provider.id, reason: high ? 'high_candidate_found' : 'no_high_candidate', candidates: evaluated });
       if (high) return { candidate: high, attempts };
     } catch (error) {
-      attempts.push({ providerId: provider.id, reason: 'adapter_error', error: error.message });
+      attempts.push({ providerId: provider.id, reason: 'validator_error', error: error.message });
     }
   }
   return { candidate: null, attempts };

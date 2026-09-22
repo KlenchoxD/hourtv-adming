@@ -42,11 +42,11 @@ test('searchWithFallback tries providers by priority and stops at the first high
   const registry = new AdapterRegistry();
   const calls = [];
   registry.register('page-a', {
-    async searchMovie() { calls.push('A'); return [{ id: 'medium' }]; },
+    async searchMovie() { calls.push('A'); return [{ id: 'medium', type: 'movie', tmdbId: 42, title: 'Example', year: 2026, language: null, url: 'https://video.example/a', reproducible: true, checkedAt: '2026-09-22T11:00:00Z' }]; },
     async searchEpisode() { return []; },
   });
   registry.register('page-b', {
-    async searchMovie() { calls.push('B'); return [{ id: 'high' }]; },
+    async searchMovie() { calls.push('B'); return [{ id: 'high', type: 'movie', tmdbId: 42, title: 'Example', year: 2026, language: 'es', url: 'https://video.example/b', reproducible: true, checkedAt: '2026-09-22T11:00:00Z' }]; },
     async searchEpisode() { return []; },
   });
   registry.register('page-c', {
@@ -62,8 +62,8 @@ test('searchWithFallback tries providers by priority and stops at the first high
     ],
     registry,
     kind: 'movie',
-    query: { tmdbId: 42, title: 'Example', year: 2026 },
-    evaluate: (candidate) => ({ ...candidate, confidence: candidate.id }),
+    query: { type: 'movie', tmdbId: 42, title: 'Example', year: 2026, language: 'es' },
+    now: new Date('2026-09-22T12:00:00Z'),
   });
 
   assert.deepEqual(calls, ['A', 'B']);
@@ -85,11 +85,50 @@ test('searchWithFallback records unsupported adapters and continues', async () =
     ],
     registry,
     kind: 'episode',
-    query: { title: 'Series', season: 1, episode: 2 },
-    evaluate: (candidate) => candidate,
+    query: { type: 'episode', tmdbId: 5, seriesTitle: 'Series', year: 2025, season: 1, episode: 2, language: 'es' },
   });
 
   assert.equal(result.candidate, null);
   assert.equal(result.attempts[0].reason, 'adapter_not_registered');
   assert.equal(result.attempts[1].reason, 'no_candidates');
+});
+
+test('searchWithFallback rejects malformed adapter results and unsafe high claims', async () => {
+  const registry = new AdapterRegistry();
+  registry.register('malformed', {
+    async searchMovie() { return { confidence: 'high' }; },
+    async searchEpisode() { return []; },
+  });
+  registry.register('unsafe', {
+    async searchMovie() { return [{ id: 'fake', confidence: 'high', type: 'movie', tmdbId: 999, title: 'Example', year: 2026, language: 'es', url: 'https://video.example/1', reproducible: true, checkedAt: '2026-09-22T11:00:00Z' }]; },
+    async searchEpisode() { return []; },
+  });
+  const result = await searchWithFallback({
+    providers: [
+      { id: 'malformed', adapterName: 'malformed', priority: 1 },
+      { id: 'unsafe', adapterName: 'unsafe', priority: 2 },
+    ],
+    registry,
+    kind: 'movie',
+    query: { type: 'movie', tmdbId: 42, title: 'Example', year: 2026, language: 'es' },
+    now: new Date('2026-09-22T12:00:00Z'),
+  });
+  assert.equal(result.candidate, null);
+  assert.equal(result.attempts[0].reason, 'validator_error');
+  assert.equal(result.attempts[1].reason, 'no_high_candidate');
+});
+
+test('searchWithFallback distinguishes adapter exceptions from validator errors', async () => {
+  const registry = new AdapterRegistry();
+  registry.register('throws', {
+    async searchMovie() { throw new Error('provider offline'); },
+    async searchEpisode() { return []; },
+  });
+  const result = await searchWithFallback({
+    providers: [{ id: 'throws', adapterName: 'throws', priority: 1 }],
+    registry,
+    kind: 'movie',
+    query: { type: 'movie', tmdbId: 42, title: 'Example', year: 2026, language: 'es' },
+  });
+  assert.equal(result.attempts[0].reason, 'adapter_error');
 });

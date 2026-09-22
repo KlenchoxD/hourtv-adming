@@ -27,6 +27,18 @@ test('evaluateCandidate returns high for fresh reproducible exact movie identity
   assert.equal(result.eligibleForBatch, true);
 });
 
+test('TMDB identity is mandatory when either side supplies it', () => {
+  assert.equal(evaluateCandidate(movie, candidate({ tmdbId: null }), { now: NOW }).confidence, 'rejected');
+  assert.equal(
+    evaluateCandidate({ ...movie, tmdbId: null }, candidate({ tmdbId: 42 }), { now: NOW }).confidence,
+    'rejected',
+  );
+  assert.equal(
+    evaluateCandidate({ ...movie, tmdbId: null }, candidate({ tmdbId: null }), { now: NOW }).confidence,
+    'high',
+  );
+});
+
 test('evaluateCandidate rejects contradictory TMDB identity even when title matches', () => {
   const result = evaluateCandidate(movie, candidate({ tmdbId: 99 }), { now: NOW });
   assert.equal(result.confidence, 'rejected');
@@ -43,14 +55,26 @@ test('evaluateCandidate rejects wrong episode, language, type, or unplayable URL
     candidate({ type: 'episode', tmdbId: 77, title: 'The Show', year: 2024, season: 2, episode: 4 }),
     candidate({ type: 'episode', tmdbId: 77, title: 'The Show', year: 2024, season: 2, episode: 3, language: 'en' }),
     candidate({ type: 'episode', tmdbId: 77, title: 'The Show', year: 2024, season: 2, episode: 3, reproducible: false }),
+    candidate({ type: 'episode', tmdbId: 77, title: 'Other Show', year: 2024, season: 2, episode: 3 }),
+    candidate({ type: 'episode', tmdbId: 77, title: 'The Show', year: 2024, season: 2, episode: 3, url: 'https://127.0.0.1/video' }),
   ];
   for (const item of cases) assert.equal(evaluateCandidate(episode, item, { now: NOW }).confidence, 'rejected');
 });
 
-test('evaluateCandidate grades incomplete and stale evidence below high', () => {
+test('episode type aliases are normalized before series identity matching', () => {
+  const target = { type: 'episode', tmdbId: 77, seriesTitle: 'The Show', year: 2024, season: 2, episode: 3, language: 'es' };
+  const result = evaluateCandidate(target, candidate({ type: 'EPISODIO', tmdbId: 77, title: 'The Show', year: 2024, season: 2, episode: 3 }), { now: NOW });
+  assert.equal(result.confidence, 'high');
+  assert.equal(
+    evaluateCandidate({ ...target, language: null }, candidate({ type: 'episode', tmdbId: 77, title: 'The Show', year: 2024, season: 2, episode: 3 }), { now: NOW }).confidence,
+    'rejected',
+  );
+});
+
+test('evaluateCandidate rejects incomplete identity and grades stale or partial evidence below high', () => {
   assert.equal(
     evaluateCandidate({ type: 'movie', title: 'Unknown', language: 'es' }, candidate({ tmdbId: null, title: 'Unknown', year: null }), { now: NOW }).confidence,
-    'low',
+    'rejected',
   );
   assert.equal(
     evaluateCandidate(movie, candidate({ checkedAt: '2026-09-20T11:00:00.000Z' }), { now: NOW }).confidence,
@@ -66,27 +90,32 @@ test('evaluateCandidate grades incomplete and stale evidence below high', () => 
   );
 });
 
-test('deduplicateCandidates canonicalizes URLs and retains the strongest candidate', () => {
+test('deduplicateCandidates canonicalizes URLs and deduplicates by URL and source', () => {
   const result = deduplicateCandidates([
-    { id: 'low', url: 'https://VIDEO.example/watch/?b=2&a=1#fragment', confidence: 'low', providerPriority: 1 },
-    { id: 'high', url: 'https://video.example/watch?a=1&b=2', confidence: 'high', providerPriority: 9 },
-    { id: 'other', url: 'https://video.example/watch/2', confidence: 'medium', providerPriority: 2 },
+    { id: 'low', sourceId: 's1', url: 'https://VIDEO.example:443/watch/?b=2&a=1#fragment', confidence: 'low', providerPriority: 1 },
+    { id: 'high', sourceId: 's2', url: 'https://video.example/watch?a=1&b=2', confidence: 'high', providerPriority: 9 },
+    { id: 'same-source', sourceId: 's2', url: 'https://video.example/watch/2', confidence: 'medium', providerPriority: 2 },
+    { id: 'other', sourceId: 's3', url: 'https://video.example/watch/3', confidence: 'medium', providerPriority: 2 },
   ]);
   assert.deepEqual(result.map((item) => item.id), ['high', 'other']);
 });
 
-test('buildBatchSummary includes only fresh high candidates and explains exclusions', () => {
+test('buildBatchSummary reevaluates official target evidence and ignores stored confidence', () => {
   const items = [
-    { sourceId: 's1', ...candidate({ id: 'h', confidence: 'high' }) },
-    { sourceId: 's2', ...candidate({ id: 'm', confidence: 'medium' }) },
-    { sourceId: 's3', ...candidate({ id: 'stale', confidence: 'high', checkedAt: '2026-09-20T00:00:00.000Z' }) },
-    { sourceId: 's1', ...candidate({ id: 'duplicate-source', confidence: 'high', url: 'https://video.example/other' }) },
+    { sourceId: 's1', ...candidate({ id: 'h', confidence: 'rejected', expiresAt: '2026-09-23T00:00:00.000Z' }) },
+    { sourceId: 's2', ...candidate({ id: 'bad-tmdb', tmdbId: 999, confidence: 'high', expiresAt: '2026-09-23T00:00:00.000Z' }) },
+    { sourceId: 's3', ...candidate({ id: 'expired', confidence: 'high', expiresAt: '2026-09-22T11:30:00.000Z' }) },
+    { sourceId: 's4', ...candidate({ id: 'invalid-expiry', confidence: 'high', expiresAt: 'not-a-date' }) },
+    { sourceId: '', ...candidate({ id: 'missing-source', confidence: 'high', expiresAt: '2026-09-23T00:00:00.000Z' }) },
+    { sourceId: 's1', ...candidate({ id: 'duplicate-source', confidence: 'high', url: 'https://video.example/other', expiresAt: '2026-09-23T00:00:00.000Z' }) },
   ];
-  const summary = buildBatchSummary(items, { now: NOW });
+  const targetsBySource = { s1: movie, s2: movie, s3: movie, s4: movie };
+  const summary = buildBatchSummary(items, { now: NOW, targetsBySource });
   assert.deepEqual(summary.included.map((item) => item.id), ['h']);
-  assert.equal(summary.excluded.length, 3);
-  assert.deepEqual(summary.counts, { total: 4, included: 1, excluded: 3 });
+  assert.equal(summary.included[0].confidence, 'high');
+  assert.equal(summary.excluded.length, 5);
+  assert.deepEqual(summary.counts, { total: 6, included: 1, excluded: 5 });
   assert.deepEqual(summary.excluded.map((item) => item.exclusionReason), [
-    'confidence_not_high', 'stale_validation', 'source_already_selected',
+    'not_eligible', 'expired_validation', 'expired_validation', 'missing_source_id', 'source_already_selected',
   ]);
 });
