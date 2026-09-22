@@ -108,8 +108,11 @@ begin
   left join public.seasons season on season.id = episode.season_id
   where src.id = new.source_id;
 
+  -- Keep this window aligned with admin/replacement-logic.js DEFAULT_MAX_AGE_MS (24 hours).
   if not found
      or new.is_reproducible is not true
+     or new.checked_at > now()
+     or new.checked_at < now() - interval '24 hours'
      or new.expires_at <= now()
      or new.content_type <> expected_type
      or new.proposed_language_code is distinct from expected_language

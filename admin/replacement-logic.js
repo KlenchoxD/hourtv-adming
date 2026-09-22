@@ -106,14 +106,17 @@ function deduplicateCandidates(candidates) {
 function buildBatchSummary(candidates, options = {}) {
   const now = options.now || new Date();
   const selectedSources = new Set();
+  const selectedUrls = new Set();
   const included = [];
   const excluded = [];
   for (const candidate of candidates) {
     let exclusionReason = null;
     let evaluated = null;
+    const canonicalCandidateUrl = canonicalUrl(candidate.url);
     const target = candidate.sourceId ? options.targetsBySource?.[candidate.sourceId] : null;
     if (!candidate.sourceId) exclusionReason = 'missing_source_id';
     else if (selectedSources.has(candidate.sourceId)) exclusionReason = 'source_already_selected';
+    else if (canonicalCandidateUrl && selectedUrls.has(canonicalCandidateUrl)) exclusionReason = 'url_already_selected';
     else if (!target) exclusionReason = 'missing_official_evidence';
     else {
       const expiresAt = Date.parse(candidate.expiresAt);
@@ -126,6 +129,7 @@ function buildBatchSummary(candidates, options = {}) {
     if (exclusionReason) excluded.push({ ...candidate, exclusionReason });
     else {
       selectedSources.add(candidate.sourceId);
+      selectedUrls.add(canonicalCandidateUrl);
       included.push({ ...candidate, ...evaluated });
     }
   }

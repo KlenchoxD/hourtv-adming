@@ -1,5 +1,5 @@
 begin;
-select plan(45);
+select plan(63);
 
 select has_table('public', 'backup_providers', 'backup providers table exists');
 select has_table('public', 'replacement_candidates', 'replacement candidates table exists');
@@ -30,6 +30,26 @@ select lives_ok($$ insert into public.source_replacement_events(id, source_id, c
  values ('20000000-0000-0000-0000-000000000004', '10000000-0000-0000-0000-000000000003',
  '20000000-0000-0000-0000-000000000002', 'approved') $$, 'admin seeds audit event');
 
+set local role anon;
+select set_config('request.jwt.claims', '{}', true);
+select throws_ok($$ select * from public.backup_providers $$, '42501', null, 'anon cannot select providers');
+select throws_ok($$ insert into public.backup_providers(name, adapter_name, priority) values ('anon','anon',90) $$, '42501', null, 'anon cannot insert providers');
+select throws_ok($$ update public.backup_providers set name = 'anon' $$, '42501', null, 'anon cannot update providers');
+select throws_ok($$ delete from public.backup_providers $$, '42501', null, 'anon cannot delete providers');
+select throws_ok($$ select * from public.replacement_candidates $$, '42501', null, 'anon cannot select candidates');
+select throws_ok($$ insert into public.replacement_candidates(source_id) values ('10000000-0000-0000-0000-000000000003') $$, '42501', null, 'anon cannot insert candidates');
+select throws_ok($$ update public.replacement_candidates set status = 'discarded' $$, '42501', null, 'anon cannot update candidates');
+select throws_ok($$ delete from public.replacement_candidates $$, '42501', null, 'anon cannot delete candidates');
+select throws_ok($$ select * from public.admin_notifications $$, '42501', null, 'anon cannot select notifications');
+select throws_ok($$ insert into public.admin_notifications(message) values ('anon') $$, '42501', null, 'anon cannot insert notifications');
+select throws_ok($$ update public.admin_notifications set status = 'dismissed' $$, '42501', null, 'anon cannot update notifications');
+select throws_ok($$ delete from public.admin_notifications $$, '42501', null, 'anon cannot delete notifications');
+select throws_ok($$ select * from public.source_replacement_events $$, '42501', null, 'anon cannot select events');
+select throws_ok($$ insert into public.source_replacement_events(source_id) values ('10000000-0000-0000-0000-000000000003') $$, '42501', null, 'anon cannot insert events');
+select throws_ok($$ update public.source_replacement_events set event_type = 'failed' $$, '42501', null, 'anon cannot update events');
+select throws_ok($$ delete from public.source_replacement_events $$, '42501', null, 'anon cannot delete events');
+
+set local role authenticated;
 select set_config('request.jwt.claims', '{"sub":"11111111-1111-1111-1111-111111111111","app_metadata":{"role":"viewer"}}', true);
 select is_empty($$ select * from public.backup_providers $$, 'non-admin cannot select providers');
 select throws_ok($$ insert into public.backup_providers(name, adapter_name, priority) values ('x','x',9) $$, '42501', null, 'non-admin cannot insert providers');
@@ -72,6 +92,18 @@ select throws_ok($$ insert into public.replacement_candidates(source_id, backup_
  values ('10000000-0000-0000-0000-000000000003', '20000000-0000-0000-0000-000000000001',
  'https://video.example/fake', 'es', 'movie', 42, 'amelie', 2001, false, 'high', now(), now() + interval '1 day') $$,
  '23514', 'high replacement candidate evidence does not match source', 'high candidate must be reproducible');
+select throws_ok($$ insert into public.replacement_candidates(source_id, backup_provider_id, proposed_url,
+ proposed_language_code, content_type, tmdb_id, normalized_title, release_year, is_reproducible, confidence, checked_at, expires_at)
+ values ('10000000-0000-0000-0000-000000000003', '20000000-0000-0000-0000-000000000001',
+ 'https://video.example/stale', 'es', 'movie', 42, 'amelie', 2001, true, 'high',
+ now() - interval '24 hours 1 second', now() + interval '1 hour') $$,
+ '23514', 'high replacement candidate evidence does not match source', 'high candidate rejects stale checked_at');
+select throws_ok($$ insert into public.replacement_candidates(source_id, backup_provider_id, proposed_url,
+ proposed_language_code, content_type, tmdb_id, normalized_title, release_year, is_reproducible, confidence, checked_at, expires_at)
+ values ('10000000-0000-0000-0000-000000000003', '20000000-0000-0000-0000-000000000001',
+ 'https://video.example/future', 'es', 'movie', 42, 'amelie', 2001, true, 'high',
+ now() + interval '1 minute', now() + interval '1 hour') $$,
+ '23514', 'high replacement candidate evidence does not match source', 'high candidate rejects future checked_at');
 select lives_ok($$ delete from public.admin_notifications where id = '20000000-0000-0000-0000-000000000003' $$, 'admin deletes notifications');
 select lives_ok($$ delete from public.replacement_candidates where id = '20000000-0000-0000-0000-000000000002' $$, 'admin deletes candidates');
 select lives_ok($$ delete from public.backup_providers $$, 'admin deletes providers');

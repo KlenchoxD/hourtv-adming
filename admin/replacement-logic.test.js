@@ -103,19 +103,20 @@ test('deduplicateCandidates canonicalizes URLs and deduplicates by URL and sourc
 test('buildBatchSummary reevaluates official target evidence and ignores stored confidence', () => {
   const items = [
     { sourceId: 's1', ...candidate({ id: 'h', confidence: 'rejected', expiresAt: '2026-09-23T00:00:00.000Z' }) },
-    { sourceId: 's2', ...candidate({ id: 'bad-tmdb', tmdbId: 999, confidence: 'high', expiresAt: '2026-09-23T00:00:00.000Z' }) },
-    { sourceId: 's3', ...candidate({ id: 'expired', confidence: 'high', expiresAt: '2026-09-22T11:30:00.000Z' }) },
-    { sourceId: 's4', ...candidate({ id: 'invalid-expiry', confidence: 'high', expiresAt: 'not-a-date' }) },
+    { sourceId: 's5', ...candidate({ id: 'duplicate-url', url: 'https://VIDEO.example:443/embed/1/#fragment', confidence: 'high', expiresAt: '2026-09-23T00:00:00.000Z' }) },
+    { sourceId: 's2', ...candidate({ id: 'bad-tmdb', url: 'https://video.example/embed/2', tmdbId: 999, confidence: 'high', expiresAt: '2026-09-23T00:00:00.000Z' }) },
+    { sourceId: 's3', ...candidate({ id: 'expired', url: 'https://video.example/embed/3', confidence: 'high', expiresAt: '2026-09-22T11:30:00.000Z' }) },
+    { sourceId: 's4', ...candidate({ id: 'invalid-expiry', url: 'https://video.example/embed/4', confidence: 'high', expiresAt: 'not-a-date' }) },
     { sourceId: '', ...candidate({ id: 'missing-source', confidence: 'high', expiresAt: '2026-09-23T00:00:00.000Z' }) },
     { sourceId: 's1', ...candidate({ id: 'duplicate-source', confidence: 'high', url: 'https://video.example/other', expiresAt: '2026-09-23T00:00:00.000Z' }) },
   ];
-  const targetsBySource = { s1: movie, s2: movie, s3: movie, s4: movie };
+  const targetsBySource = { s1: movie, s2: movie, s3: movie, s4: movie, s5: movie };
   const summary = buildBatchSummary(items, { now: NOW, targetsBySource });
   assert.deepEqual(summary.included.map((item) => item.id), ['h']);
   assert.equal(summary.included[0].confidence, 'high');
-  assert.equal(summary.excluded.length, 5);
-  assert.deepEqual(summary.counts, { total: 6, included: 1, excluded: 5 });
+  assert.equal(summary.excluded.length, 6);
+  assert.deepEqual(summary.counts, { total: 7, included: 1, excluded: 6 });
   assert.deepEqual(summary.excluded.map((item) => item.exclusionReason), [
-    'not_eligible', 'expired_validation', 'expired_validation', 'missing_source_id', 'source_already_selected',
+    'url_already_selected', 'not_eligible', 'expired_validation', 'expired_validation', 'missing_source_id', 'source_already_selected',
   ]);
 });
