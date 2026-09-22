@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-09-22T01:10:00.847Z",
-  "durationMs": 1019,
+  "generatedAt": "2026-09-22T06:11:14.063Z",
+  "durationMs": 2641,
   "dryRun": false,
   "moviesFound": 33,
   "moviesDiscarded": 26,
@@ -88,13 +88,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1368337,
-      "title": "La Odisea",
+      "tmdbId": 1375646,
+      "title": "Colony",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1375646,
-      "title": "Colony",
+      "tmdbId": 1368337,
+      "title": "La Odisea",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -128,11 +128,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 44980,
-      "title": "Zero WOMAN ＩＩ　警視庁０課の女",
-      "reason": "Sin sinopsis"
-    },
-    {
       "tmdbId": 1323244,
       "title": "La señal del apocalipsis",
       "reason": "Sin fuente autorizada configurada"
@@ -141,6 +136,11 @@
       "tmdbId": 1469930,
       "title": "Tumbal Proyek",
       "reason": "Rating 3.9 por debajo del mínimo (5.5)"
+    },
+    {
+      "tmdbId": 1408162,
+      "title": "Vishwanath e hijos",
+      "reason": "Votos 28 por debajo del mínimo (50)"
     }
   ]
 }
