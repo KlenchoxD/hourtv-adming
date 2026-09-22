@@ -5,6 +5,7 @@
   let notifications = [];
   let candidates = [];
   let healthRows = [];
+  let replacementEvents = [];
   let notificationType = 'all';
   let notificationState = 'all';
   let healthState = 'down';
@@ -20,6 +21,7 @@
     return false;
   };
   const unwrap = async promise => { const result = await promise; if (result.error) throw result.error; return result.data || []; };
+  const callRpc = async (name,args) => unwrap(root.HourTVAdminState.supabase.rpc(name,args));
   const candidateFor = id => candidates.find(candidate => candidate.id === id);
   const sourceFor = id => healthRows.find(source => source.source_id === id);
 
@@ -112,20 +114,21 @@
 
   async function testBackupProvider(id) {
     const provider = providers.find(item => item.id === id); if (!provider) return;
-    const registry = root.HourTVBackupAdapters;
-    const adapter = registry && (registry.get ? registry.get(provider.adapter_name) : registry[provider.adapter_name]);
-    const patch = { last_tested_at: new Date().toISOString(), last_error: adapter ? null : `No hay un adaptador compatible instalado para “${provider.adapter_name}”` };
-    try { await unwrap(root.HourTVAdminState.supabase.from('backup_providers').update(patch).eq('id', id).select('id')); root.toast(adapter ? 'Adaptador disponible' : patch.last_error, adapter ? 'ok' : 'err'); await renderBackupProviders(); }
+    try {
+      const result=await root.HourTVReplacementActions.testProviderConfiguration({provider,registry:root.HourTVBackupAdapters,save:async patch=>unwrap(root.HourTVAdminState.supabase.from('backup_providers').update({last_tested_at:patch.lastTestedAt,last_error:patch.lastError,successful_searches:patch.successfulSearches??provider.successful_searches}).eq('id',id).select('id'))});
+      root.toast(result.ok?'Configuración comprobada correctamente':result.error,result.ok?'ok':'err'); await renderBackupProviders();
+    }
     catch (error) { root.toast(error.message, 'err'); }
   }
 
   async function loadReplacementData() {
-    const [noticeData, candidateData, sourceData] = await Promise.all([
+    const [noticeData, candidateData, sourceData, eventData] = await Promise.all([
       unwrap(root.HourTVAdminState.supabase.from('admin_notifications').select('*').order('created_at', { ascending:false })),
       unwrap(root.HourTVAdminState.supabase.from('replacement_candidates').select('*').order('created_at', { ascending:false })),
       unwrap(root.HourTVAdminState.supabase.from('admin_source_health_view').select('*').order('health_last_check', { ascending:false })),
+      unwrap(root.HourTVAdminState.supabase.from('source_replacement_events').select('*').order('created_at', { ascending:false })),
     ]);
-    notifications = noticeData; candidates = candidateData; healthRows = sourceData;
+    notifications = noticeData; candidates = candidateData; healthRows = sourceData; replacementEvents=eventData;
     root._unreadNotificationsCount = notifications.filter(item => !item.is_read).length;
     root._downServersCount = healthRows.filter(item => item.health_status === 'down').length;
     root.renderTabs();
@@ -163,8 +166,8 @@
   async function dismissNotification(id) {
     const notification = notifications.find(item => item.id === id);
     try {
-      await unwrap(root.HourTVAdminState.supabase.from('admin_notifications').update({ status:'dismissed', is_read:true, read_at:new Date().toISOString() }).eq('id', id).select('id'));
-      if (notification && notification.candidate_id) await unwrap(root.HourTVAdminState.supabase.from('replacement_candidates').update({ status:'discarded' }).eq('id', notification.candidate_id).select('id'));
+      if(!notification||!notification.candidate_id)throw new Error('La notificación no tiene candidato');
+      await root.HourTVReplacementActions.discardAtomically({candidateId:notification.candidate_id,notificationId:id,callRpc});
       await renderNotifications();
     } catch (error) { root.toast(error.message, 'err'); }
   }
@@ -175,7 +178,8 @@
     document.getElementById('modal').innerHTML = `<div class="modal-head"><h3>Detalle de notificación</h3><button class="btn-ghost btn-sm" onclick="closeModal()">✕</button></div><div class="modal-body">
       <div class="sb-section"><div class="sb-row"><span class="sb-label">Tipo</span><span>${e(notification.notification_type)}</span></div><div class="sb-row"><span class="sb-label">Mensaje</span><span class="sb-value">${e(notification.message)}</span></div><div class="sb-row"><span class="sb-label">Estado</span><span>${e(notification.status)}</span></div></div>
       ${source ? `<div class="sb-section"><div class="sb-title">Servidor afectado</div><div class="sb-row"><span class="sb-label">Contenido</span><span>${e(source.title_name)}</span></div><div class="sb-row"><span class="sb-label">Servidor</span><span>${e(source.source_name)}</span></div><div class="sb-row"><span class="sb-label">Evidencia</span><span>${e(source.health_last_error || '—')} · HTTP ${e(source.health_http_code || '—')} · ${e(source.health_consecutive_failures)} fallos</span></div></div>` : ''}
-      ${candidate ? `<div class="sb-section"><div class="sb-title">Reemplazo propuesto</div><div class="sb-row"><span class="sb-label">URL</span><span class="sb-value">${e(candidate.proposed_url)}</span></div><div class="sb-row"><span class="sb-label">Idioma</span><span>${e(candidate.proposed_language_code)}</span></div><div class="sb-row"><span class="sb-label">Confianza</span><span>${e(candidate.confidence)}</span></div><div class="sb-row"><span class="sb-label">Comprobado</span><span>${iso(candidate.checked_at)}</span></div></div>` : ''}</div>
+      ${candidate ? `<div class="sb-section"><div class="sb-title">Reemplazo propuesto</div><div class="sb-row"><span class="sb-label">URL</span><span class="sb-value">${e(candidate.proposed_url)}</span></div><div class="sb-row"><span class="sb-label">Idioma</span><span>${e(candidate.proposed_language_code)}</span></div><div class="sb-row"><span class="sb-label">Confianza</span><span>${e(candidate.confidence)}</span></div><div class="sb-row"><span class="sb-label">Comprobado</span><span>${iso(candidate.checked_at)}</span></div></div>` : ''}
+      ${replacementEvents.some(event=>event.source_id===notification.source_id)?`<div class="sb-section"><div class="sb-title">Historial real</div>${replacementEvents.filter(event=>event.source_id===notification.source_id).map(event=>`<div class="sb-row"><span>${e(event.event_type)}</span><span>${iso(event.created_at)}</span></div>`).join('')}</div>`:''}</div>
       <div class="modal-foot"><span></span><button class="btn-primary" onclick="closeModal()">Cerrar</button></div>`;
     document.getElementById('overlay').classList.add('open');
     if (!notification.is_read) toggleNotificationRead(id, true);
@@ -185,20 +189,18 @@
     const source = sourceFor(candidate.source_id); if (!source) throw new Error('No se encontró el servidor oficial asociado');
     return { ...candidate, sourceId: source.source_id, previousUrl: source.source_url, contentType: source.episode_id ? 'episode' : 'movie', tmdbId: source.tmdb_id,
       season: source.season_number, episode: source.episode_number, url: candidate.proposed_url, proposedName: candidate.proposed_name,
-      checkedAt: candidate.checked_at, expiresAt: candidate.expires_at, reproducible: candidate.is_reproducible };
+      checkedAt: candidate.checked_at, expiresAt: candidate.expires_at, reproducible: candidate.is_reproducible,
+      confidence:candidate.confidence,providerAdapterName:(providers.find(p=>p.id===candidate.backup_provider_id)||{}).adapter_name };
   }
 
-  async function persistApplied(candidate, change, notificationId) {
-    const now = new Date().toISOString();
-    await unwrap(root.HourTVAdminState.supabase.from('sources').update({ url: change.next.url, name: change.next.name, health_status:'active', health_consecutive_failures:0, health_last_error:null }).eq('id', candidate.sourceId).select('id'));
-    try {
-      await unwrap(root.HourTVAdminState.supabase.from('replacement_candidates').update({ status:'applied' }).eq('id', candidate.id).select('id'));
-      await unwrap(root.HourTVAdminState.supabase.from('source_replacement_events').insert({ source_id:candidate.sourceId, candidate_id:candidate.id, event_type:'applied', previous_state:change.previous, resulting_state:change.next }).select('id'));
-      if (notificationId) await unwrap(root.HourTVAdminState.supabase.from('admin_notifications').update({ status:'resolved', is_read:true, read_at:now }).eq('id', notificationId).select('id'));
-    } catch (error) {
-      await root.HourTVAdminState.supabase.from('sources').update({ url:change.previous.url, name:change.previous.name }).eq('id', candidate.sourceId).select('id');
-      throw error;
-    }
+  async function revalidateIfNeeded(candidate){
+    if(Date.parse(candidate.expiresAt)>Date.now())return candidate;
+    const raw=candidateFor(candidate.id),provider=providers.find(p=>p.id===raw.backup_provider_id),source=sourceFor(candidate.sourceId);
+    const target={type:candidate.contentType,tmdbId:candidate.tmdbId,title:source.title_name,seriesTitle:source.title_name,year:source.release_year,season:candidate.season,episode:candidate.episode,language:source.language_code};
+    const checked=await root.HourTVReplacementActions.revalidateCandidate({candidate,target,provider,registry:root.HourTVBackupAdapters,now:new Date()});
+    if(checked.confidence!=='high')throw new Error('No se pudo revalidar el candidato: '+(checked.revalidationReason||checked.reasons||'evidencia insuficiente'));
+    await unwrap(root.HourTVAdminState.supabase.from('replacement_candidates').update({proposed_url:checked.url,confidence:'high',confidence_reasons:checked.reasons||[],is_reproducible:true,checked_at:checked.checkedAt,expires_at:checked.expiresAt}).eq('id',candidate.id).select('id'));
+    return checked;
   }
 
   async function replaceFromNotification(notificationId) {
@@ -206,14 +208,14 @@
     if (!raw) return root.toast('La notificación no tiene un candidato disponible', 'err');
     busy = true;
     try {
-      const candidate = enrichCandidate(raw);
-      await root.HourTVReplacementAdmin.applyReplacement({ catalog:root.HourTVAdminState.catalog, candidate, now:new Date(),
-        revalidate: async () => { throw new Error('El candidato venció. Usa “Buscar reemplazo” para generar una validación nueva.'); },
-        persist: ({ candidate:ready, previous, next }) => persistApplied(ready, { previous, next }, notificationId),
-        markPending: async () => { localStorage.setItem('hourtv_replacements_pending_publish', 'true'); root.save(); },
-      });
+      const candidate = await revalidateIfNeeded(enrichCandidate(raw));
+      const preview=JSON.parse(JSON.stringify(root.HourTVAdminState.catalog)); root.HourTVReplacementAdmin.replaceCatalogSource(preview,candidate);
+      const outcome=await root.HourTVReplacementActions.applyConfirmedReplacement({candidate,notificationId,confirm:()=>Promise.resolve(confirm(`¿Reemplazar ${raw.proposed_name||'el servidor'} por ${candidate.url}?`)),callRpc});
+      if(outcome&&outcome.cancelled)return;
+      Object.keys(root.HourTVAdminState.catalog).forEach(k=>delete root.HourTVAdminState.catalog[k]);Object.assign(root.HourTVAdminState.catalog,preview);
+      localStorage.setItem('hourtv_replacements_pending_publish','true');root.save();
       root.closeModal(); root.render(); root.toast('Reemplazo aplicado. Hay cambios pendientes de publicar.', 'ok'); await refreshAdminCounts();
-    } catch (error) { root.toast(error.message, 'err'); } finally { busy = false; }
+    } catch (error) { if(raw&&raw.id)try{await callRpc('admin_record_replacement_failure',{p_candidate_id:raw.id,p_event_type:'failed',p_reason:error.message})}catch(_){} root.toast(error.message, 'err'); } finally { busy = false; }
   }
 
   function targetsBySourceFor(list) {
@@ -235,19 +237,29 @@
   }
 
   async function confirmBatchReplacement() {
-    if (busy) return; busy = true; const persisted = [];
+    if (busy) return; busy = true;let attemptedIds=[];
     try {
-      const list = batchCandidates();
-      const result = await root.HourTVReplacementAdmin.applyReplacementBatch({ catalog:root.HourTVAdminState.catalog, candidates:list, targetsBySource:targetsBySourceFor(candidates), now:new Date(),
-        persist: async ({ candidate, previous, next }) => { const notice = notifications.find(item => item.candidate_id === candidate.id); await persistApplied(candidate, { previous, next }, notice && notice.id); persisted.push({ candidate, previous, next }); },
-        rollbackPersisted: async applied => { for (const item of applied.reverse()) { await root.HourTVAdminState.supabase.from('sources').update({ url:item.previous.url, name:item.previous.name }).eq('id', item.candidate.sourceId).select('id'); await root.HourTVAdminState.supabase.from('replacement_candidates').update({ status:'pending' }).eq('id', item.candidate.id).select('id'); await root.HourTVAdminState.supabase.from('source_replacement_events').insert({ source_id:item.candidate.sourceId, candidate_id:item.candidate.id, event_type:'rolled_back', previous_state:item.next, resulting_state:item.previous }).select('id'); } },
-        publish: async () => root.publish({ throwOnError:true }),
-      });
-      root.save(); root.render(); root.closeModal();
-      if (result.publishError) { localStorage.setItem('hourtv_replacements_pending_publish','true'); root.toast('Reemplazos guardados; falló la publicación y puedes reintentar.', 'err'); }
-      else { localStorage.removeItem('hourtv_replacements_pending_publish'); root.toast(`${result.applied.length} reemplazos aplicados y publicados una sola vez.`, 'ok'); }
+      const rawList=batchCandidates(),list=[];
+      for(const candidate of rawList){try{list.push(await revalidateIfNeeded(candidate))}catch(error){candidate.revalidationFailure=error.message}}
+      const summary=root.HourTVReplacementLogic.buildBatchSummary(list,{now:new Date(),targetsBySource:targetsBySourceFor(candidates)});
+      const preview=JSON.parse(JSON.stringify(root.HourTVAdminState.catalog));for(const candidate of summary.included)root.HourTVReplacementAdmin.replaceCatalogSource(preview,candidate);
+      const ids=summary.included.map(c=>c.id);attemptedIds=ids;if(!ids.length)throw new Error('Ningún candidato pudo revalidarse como high y vigente');
+      const workflow=await root.HourTVReplacementActions.executeBatchWorkflow({candidateIds:ids,callRpc,
+        afterApply:async()=>{Object.keys(root.HourTVAdminState.catalog).forEach(k=>delete root.HourTVAdminState.catalog[k]);Object.assign(root.HourTVAdminState.catalog,preview);root.save();},
+        publish:async()=>root.publish({throwOnError:true,skipReplacementFinalize:true})});
+      const publishError=workflow.publishError;
+      root.render(); root.closeModal();
+      if (publishError) { localStorage.setItem('hourtv_replacements_pending_publish','true'); root.toast('Reemplazos guardados; falló la publicación y puedes reintentar.', 'err'); }
+      else { localStorage.removeItem('hourtv_replacements_pending_publish'); root.toast(`${ids.length} reemplazos aplicados y publicados una sola vez.`, 'ok'); }
       await renderNotifications();
-    } catch (error) { root.save(); root.render(); root.toast('Se revirtió el lote: ' + error.message, 'err'); } finally { busy = false; }
+    } catch (error) { for(const id of attemptedIds)try{await callRpc('admin_record_replacement_failure',{p_candidate_id:id,p_event_type:'failed',p_reason:error.message})}catch(_){} root.save(); root.render(); root.toast('Se revirtió el lote: ' + error.message, 'err'); } finally { busy = false; }
+  }
+  async function finalizePendingReplacementPublish(succeeded,error){
+    if(!root.HourTVAdminState.supabase||!root.HourTVAdminState.session)return;
+    const open=await unwrap(root.HourTVAdminState.supabase.from('admin_notifications').select('*').eq('status','processing'));
+    const ids=[...new Set(open.map(item=>item.candidate_id).filter(Boolean))];if(!ids.length)return;
+    await callRpc('admin_finalize_replacement_publish',{p_candidate_ids:ids,p_succeeded:succeeded,p_error:error||null});
+    if(succeeded)localStorage.removeItem('hourtv_replacements_pending_publish');
   }
 
   async function renderSourceHealth() {
@@ -262,7 +274,7 @@
       list.innerHTML = `<div class="admin-toolbar"><select onchange="setHealthState(this.value)">${['all','down','suspected_down','blocked_or_unknown','recovered'].map(state => `<option value="${state}" ${healthState===state?'selected':''}>${state === 'all' ? 'Todos los estados' : state}</option>`).join('')}</select></div>` +
         (visible.length ? `<div class="admin-stack">${visible.map(row => `<article class="admin-card"><div class="admin-card-head"><div><b>${e(row.source_name)}</b><div class="hint">${e(row.title_name)}${row.episode_id ? ` · T${e(row.season_number)} E${e(row.episode_number)}` : ''}</div></div><span class="status-badge status-${row.health_status === 'down' ? 'down' : 'active'}">${e(row.health_status)}</span></div>
           <div class="admin-meta"><span>HTTP ${e(row.health_http_code || '—')}</span><span>${e(row.health_consecutive_failures)} fallos consecutivos</span><span>Última comprobación: ${iso(row.health_last_check)}</span></div><div class="hint">${e(row.health_last_error || 'Sin error registrado')}</div>
-          <div class="admin-actions"><button class="btn-ghost btn-sm" onclick="requestSourceRecheck('${row.source_id}')">Comprobar otra vez</button><button class="btn-ghost btn-sm" onclick="searchSourceReplacement('${row.source_id}')">Buscar reemplazo</button><button class="btn-primary btn-sm" onclick="openSourceReplacement('${row.source_id}')">Reemplazar servidor</button>${notifications.some(n => n.source_id === row.source_id) ? `<button class="btn-ghost btn-sm" onclick="openSourceNotification('${row.source_id}')">Ver notificación</button>` : ''}</div></article>`).join('')}</div>` : '<div class="empty">No hay servidores en este estado.</div>');
+          <div class="admin-actions"><button class="btn-ghost btn-sm" onclick="requestSourceRecheck('${row.source_id}')">Comprobar otra vez</button>${row.health_status==='down'?`<button class="btn-ghost btn-sm" onclick="searchSourceReplacement('${row.source_id}')">Buscar reemplazo</button><button class="btn-primary btn-sm" onclick="openSourceReplacement('${row.source_id}')">Reemplazar servidor</button>`:''}${notifications.some(n => n.source_id === row.source_id) ? `<button class="btn-ghost btn-sm" onclick="openSourceNotification('${row.source_id}')">Ver notificación</button>` : ''}</div></article>`).join('')}</div>` : '<div class="empty">No hay servidores en este estado.</div>');
     } catch (error) { list.innerHTML = `<div class="empty" style="color:var(--accent2)">No se pudo cargar la salud de servidores: ${e(error.message)}<br><small>Aplica localmente la migración admin_source_health_view si aún no existe.</small></div>`; }
   }
 
@@ -275,10 +287,14 @@
     const source = healthRows.find(row => row.source_id === sourceId); if (!source) return;
     try {
       if (!providers.length) providers = await unwrap(root.HourTVAdminState.supabase.from('backup_providers').select('*').eq('is_active', true).order('priority'));
-      const registry = root.HourTVBackupAdapters;
-      const compatible = providers.filter(provider => registry && (registry.get ? registry.get(provider.adapter_name) : registry[provider.adapter_name]));
-      if (!compatible.length) throw new Error('No hay páginas activas con un adaptador compatible. Configúralas en “Páginas de respaldo”.');
-      throw new Error('Los adaptadores instalados deben ejecutar la búsqueda desde el monitor seguro; el panel no extrae páginas directamente.');
+      const query={sourceId:source.source_id,type:source.episode_id?'episode':'movie',tmdbId:source.tmdb_id,title:source.title_name,seriesTitle:source.title_name,year:source.release_year,season:source.season_number,episode:source.episode_number,language:source.language_code};
+      const result=await root.HourTVReplacementActions.searchReplacement({source:query,providers,registry:root.HourTVBackupAdapters,now:new Date(),api:{
+        persistAttempts:attempts=>unwrap(root.HourTVAdminState.supabase.from('replacement_search_attempts').insert(attempts.map(a=>({source_id:sourceId,backup_provider_id:a.providerId||null,outcome:a.reason,detail:{error:a.error||null}}))).select('id')),
+        persistCandidate:c=>unwrap(root.HourTVAdminState.supabase.from('replacement_candidates').insert({source_id:sourceId,backup_provider_id:c.backupProviderId,proposed_url:c.url,proposed_name:c.name||null,proposed_language_code:c.language,content_type:query.type,tmdb_id:c.tmdbId,normalized_title:root.HourTVReplacementLogic.normalizeTitle(c.title||c.seriesTitle),release_year:c.year||null,season_number:c.season||null,episode_number:c.episode||null,is_reproducible:true,confidence:c.confidence,confidence_reasons:c.reasons||[],checked_at:c.checkedAt,expires_at:c.expiresAt||new Date(Date.parse(c.checkedAt)+86400000).toISOString()}).select('*').single()),
+        createNotification:n=>unwrap(root.HourTVAdminState.supabase.from('admin_notifications').insert({notification_type:n.notificationType,source_id:n.sourceId,candidate_id:n.candidateId||null,message:n.message}).select('id')),
+        incrementProviderSuccess:id=>{const p=providers.find(x=>x.id===id);return unwrap(root.HourTVAdminState.supabase.from('backup_providers').update({successful_searches:Number(p.successful_searches||0)+1}).eq('id',id).select('id'));}
+      }});
+      root.toast(result.candidate?'Reemplazo high encontrado y notificado':'No se encontró reemplazo high',result.candidate?'ok':'err');await renderSourceHealth();
     } catch (error) { root.toast(error.message, 'err'); }
   }
   function openSourceReplacement(sourceId) {
@@ -300,6 +316,7 @@
   root.openBatchPreview = openBatchPreview; root.confirmBatchReplacement = confirmBatchReplacement; root.refreshAdminCounts = refreshAdminCounts;
   root.renderDownServers = renderSourceHealth; root.setHealthState = setHealthState; root.requestSourceRecheck = requestSourceRecheck;
   root.searchSourceReplacement = searchSourceReplacement; root.openSourceReplacement = openSourceReplacement; root.openSourceNotification = openSourceNotification;
+  root.finalizePendingReplacementPublish=finalizePendingReplacementPublish;
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', refreshAdminCounts);
   else refreshAdminCounts();
 }(window));

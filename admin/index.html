@@ -1298,7 +1298,9 @@
 
 
 <script src="replacement-logic.js"></script>
+<script src="backup-adapters/index.js"></script>
 <script src="replacement-admin.js"></script>
+<script src="replacement-admin-actions.js"></script>
 <script src="catalog-sync.js"></script>
 <script>
 // ---------- Estado ----------
@@ -2193,6 +2195,7 @@ window.HourTVAdminState = {
   get activeTab(){ return activeTab; },
   set activeTab(value){ activeTab = value; }
 };
+window.HourTVBackupAdapters = new HourTVBackupAdapterCore.AdapterRegistry();
 
 function restSupabaseClient(url, key, token) {
   const base = url.replace(/\/$/, '') + '/rest/v1/';
@@ -2209,6 +2212,13 @@ function restSupabaseClient(url, key, token) {
       },
       async signInWithOAuth() { return { error: new Error('Usa el botón Continuar con Google') }; },
       async signOut() { localStorage.removeItem('hourtv_sb_access_token'); }
+    },
+    rpc(name, args) {
+      const headers = { apikey:key, Authorization:token ? 'Bearer '+token : 'Bearer '+key, 'Content-Type':'application/json' };
+      return fetch(base+'rpc/'+encodeURIComponent(name), { method:'POST', headers, body:JSON.stringify(args||{}) }).then(async response => {
+        const text=await response.text(); let data=null; if(text){try{data=JSON.parse(text)}catch(_){data=text}}
+        const detail=data&&(data.message||data.hint); return { data, error:response.ok?null:new Error(detail||'Supabase HTTP '+response.status) };
+      });
     },
     from(table) {
       const params = new URLSearchParams();

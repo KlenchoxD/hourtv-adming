@@ -1,6 +1,9 @@
+(function(root,factory){
 'use strict';
-
-const { evaluateCandidate } = require('../replacement-logic');
+const logic=typeof module==='object'&&module.exports?require('../replacement-logic'):root.HourTVReplacementLogic;
+const api=factory(logic);
+if(typeof module==='object'&&module.exports)module.exports=api;else root.HourTVBackupAdapterCore=api;
+}(typeof globalThis!=='undefined'?globalThis:this,function({ evaluateCandidate }){
 
 class AdapterRegistry {
   constructor() {
@@ -72,7 +75,8 @@ async function searchWithFallback({ providers, registry, kind, query, now = new 
         throw new TypeError('Every candidate must be an object');
       }
       const evaluated = candidates.map((candidate) => ({ ...candidate, ...evaluateCandidate(query, candidate, { now, maxAgeMs }) }));
-      const high = evaluated.find((candidate) => candidate.confidence === 'high');
+      const high = evaluated.filter((candidate) => candidate.confidence === 'high')
+        .sort((left,right)=>Date.parse(right.checkedAt)-Date.parse(left.checkedAt))[0];
       attempts.push({ providerId: provider.id, reason: high ? 'high_candidate_found' : 'no_high_candidate', candidates: evaluated });
       if (high) return { candidate: high, attempts };
     } catch (error) {
@@ -82,4 +86,5 @@ async function searchWithFallback({ providers, registry, kind, query, now = new 
   return { candidate: null, attempts };
 }
 
-module.exports = { AdapterRegistry, orderProviders, selectFallbackCandidate, searchWithFallback };
+return { AdapterRegistry, orderProviders, selectFallbackCandidate, searchWithFallback };
+}));

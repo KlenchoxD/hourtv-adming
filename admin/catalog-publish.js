@@ -39,7 +39,8 @@ async function publish(options){
     for(const id of deleting)deletedIds.delete(id);
     saveDeletedIds();save();render();
     toast('¡Publicado! Se conservaron los cambios remotos y tus servidores.','ok');
+    if(!options.skipReplacementFinalize&&typeof finalizePendingReplacementPublish==='function')await finalizePendingReplacementPublish(true);
     return true;
-  }catch(e){toast('Error: '+e.message,'err');if(options.throwOnError)throw e;return false}
+  }catch(e){toast('Error: '+e.message,'err');if(!options.skipReplacementFinalize&&typeof finalizePendingReplacementPublish==='function')await finalizePendingReplacementPublish(false,e.message);if(options.throwOnError)throw e;return false}
   finally{publishing=false}
 }
