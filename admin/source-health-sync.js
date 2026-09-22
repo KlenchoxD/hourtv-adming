@@ -8,8 +8,8 @@ function isKnownEmbed(url) {
   } catch { return false; }
 }
 
-function buildHealthUpdate(previous, result, checkedAt) {
-  const health = nextHealth(previous, result, checkedAt);
+function buildHealthUpdate(previous, result, checkedAt, runId) {
+  const health = nextHealth(previous, result, checkedAt, runId);
   return {
     healthStatus: health.status,
     healthLastError: health.lastError ?? null,
@@ -18,7 +18,7 @@ function buildHealthUpdate(previous, result, checkedAt) {
     healthFirstFailureAt: health.firstFailureAt ?? null,
     healthLastSuccessAt: health.lastSuccessAt ?? null,
     healthLastCheck: checkedAt,
-    healthLastCheckRunId: null,
+    healthLastCheckRunId: health.lastCheckRunId ?? null,
     conclusive: result.conclusive,
   };
 }
@@ -27,8 +27,7 @@ async function persistHealthResults(client, runId, results) {
   await client.query('BEGIN');
   try {
     for (const item of results) {
-      const update = buildHealthUpdate(item.previous || {}, item.result, item.checkedAt);
-      update.healthLastCheckRunId = runId;
+      const update = buildHealthUpdate(item.previous || {}, item.result, item.checkedAt, runId);
       await client.query(
         `UPDATE public.sources
          SET health_status = $1, health_last_error = $2, health_http_code = $3,
@@ -73,7 +72,12 @@ async function run({ client, limit = 976, dryRun = true, probe = probeUrl, now =
     const batch = sources.slice(offset, offset + concurrency);
     const checked = await Promise.all(batch.map(async (source) => ({
       id: source.id,
-      previous: { status: source.health_status, consecutiveFailures: source.health_consecutive_failures, firstFailureAt: source.health_first_failure_at },
+      previous: {
+        status: source.health_status,
+        consecutiveFailures: source.health_consecutive_failures,
+        firstFailureAt: source.health_first_failure_at,
+        lastCheckRunId: source.health_last_check_run_id,
+      },
       result: await probe(source.url).then((result) => (source.requires_webview || isKnownEmbed(source.url)) && result.reason === 'html'
         ? { ...result, conclusive: false, reason: 'requires-webview' }
         : result),
@@ -104,7 +108,7 @@ if (require.main === module) {
       .then((report) => {
         console.log(JSON.stringify({ runId: report.runId, dryRun: report.dryRun, total: report.total,
           statuses: report.results.reduce((out, item) => {
-            const status = buildHealthUpdate(item.previous, item.result, item.checkedAt).healthStatus;
+            const status = buildHealthUpdate(item.previous, item.result, item.checkedAt, report.runId).healthStatus;
             out[status] = (out[status] || 0) + 1;
             return out;
           }, {}),

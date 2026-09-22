@@ -7,10 +7,28 @@ test('builds a bounded health update and preserves inconclusive counters', () =>
     { status: 'down', consecutiveFailures: 3 },
     { ok: false, conclusive: false, reason: 'access-control', httpCode: 403 },
     '2026-09-20T12:00:00.000Z',
+    'run-2',
   );
   assert.equal(update.healthStatus, 'down');
   assert.equal(update.healthConsecutiveFailures, 3);
   assert.equal(update.healthHttpCode, 403);
+});
+
+test('buildHealthUpdate does not count the same health run twice', () => {
+  const update = buildHealthUpdate(
+    {
+      status: 'suspected_down',
+      consecutiveFailures: 1,
+      firstFailureAt: '2026-09-20T00:00:00.000Z',
+      lastCheckRunId: 'run-1',
+    },
+    { ok: false, conclusive: true, reason: 'http-404', httpCode: 404 },
+    '2026-09-20T12:00:00.000Z',
+    'run-1',
+  );
+  assert.equal(update.healthStatus, 'suspected_down');
+  assert.equal(update.healthConsecutiveFailures, 1);
+  assert.equal(update.healthLastCheckRunId, 'run-1');
 });
 
 test('persists source update and audit row in one transaction', async () => {
