@@ -1177,6 +1177,18 @@
     .episode-head button { grid-column: 1 / -1; }
     .sb-stat-grid { grid-template-columns: 1fr 1fr; }
   }
+  .admin-stack { display:grid; gap:12px; }
+  .admin-card { border:1px solid var(--line); border-radius:14px; padding:16px; background:var(--panel); display:grid; gap:12px; }
+  .admin-card-head { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; }
+  .admin-actions { display:flex; gap:8px; flex-wrap:wrap; }
+  .admin-meta { display:flex; gap:8px 16px; flex-wrap:wrap; color:var(--dim); font-size:12px; }
+  .admin-toolbar { display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-bottom:14px; }
+  .admin-toolbar select { width:auto; min-width:160px; }
+  .notice-unread { border-left:4px solid var(--accent); }
+  .notice-message { line-height:1.5; }
+  .batch-summary { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin:12px 0; }
+  .batch-summary > div { border:1px solid var(--line); border-radius:10px; padding:12px; text-align:center; }
+  @media (max-width:768px) { .admin-card-head { flex-direction:column; } .batch-summary { grid-template-columns:1fr; } }
 </style>
 </head>
 <body>
@@ -1285,6 +1297,8 @@
 <div class="toast" id="toast"></div>
 
 
+<script src="replacement-logic.js"></script>
+<script src="replacement-admin.js"></script>
 <script src="catalog-sync.js"></script>
 <script>
 // ---------- Estado ----------
@@ -1293,7 +1307,9 @@ const TABS = [
   {id:'series', label:'Series', kind:'series'},
   {id:'pending', label:'Pendientes', kind:'pending'},
   {id:'sources', label:'Canales en vivo', kind:'live'},
-  {id:'down_servers', label:'Servidores caídos', kind:'down_servers'}
+  {id:'down_servers', label:'Servidores caídos', kind:'down_servers'},
+  {id:'backup_providers', label:'Páginas de respaldo', kind:'backup_providers'},
+  {id:'notifications', label:'Notificaciones', kind:'notifications'}
 ];
 let catalog = {version:2, movies:[], series:[], sources:[]};
 let activeTab = 'movies';
@@ -1335,6 +1351,8 @@ function pendingItems(){
 }
 function tabCount(id){
   if(id==='down_servers') return window._downServersCount || 0;
+  if(id==='notifications') return window._unreadNotificationsCount || 0;
+  if(id==='backup_providers') return window._backupProvidersCount || 0;
   return id==='pending'?pendingItems().length:(catalog[id]||[]).length;
 }
 
@@ -1353,6 +1371,8 @@ function render(){
   renderTabs();
   const q=document.getElementById('search').value.toLowerCase().trim();
   if(activeTab==='down_servers'){renderDownServers();return}
+  if(activeTab==='backup_providers'){renderBackupProviders();return}
+  if(activeTab==='notifications'){renderNotifications();return}
   if(activeTab==='pending'){renderPending(q);return}
   const isLive=activeTab==='sources';
   const items=(catalog[activeTab]||[]).filter(item=>!q||((item.title||item.name||'').toLowerCase().includes(q)));
@@ -2166,6 +2186,13 @@ let dsPage = 1;
 let dsPageSize = 25;
 let dsTotal = 0;
 window._downServersCount = 0;
+window.HourTVAdminState = {
+  get supabase(){ return supabase; },
+  get session(){ return sbSession; },
+  get catalog(){ return catalog; },
+  get activeTab(){ return activeTab; },
+  set activeTab(value){ activeTab = value; }
+};
 
 function restSupabaseClient(url, key, token) {
   const base = url.replace(/\/$/, '') + '/rest/v1/';
@@ -2187,17 +2214,33 @@ function restSupabaseClient(url, key, token) {
       const params = new URLSearchParams();
       let head = false;
       let countExact = false;
+      let method = 'GET';
+      let body;
+      let returnSingle = false;
       const headers = { apikey: key, Authorization: token ? 'Bearer ' + token : 'Bearer ' + key };
       const query = {
         select(columns, options) { params.set('select', columns || '*'); head = !!(options && options.head); countExact = !!(options && options.count); return query; },
+        insert(values) { method = 'POST'; body = values; headers.Prefer = 'return=representation'; return query; },
+        update(values) { method = 'PATCH'; body = values; headers.Prefer = 'return=representation'; return query; },
+        delete() { method = 'DELETE'; headers.Prefer = 'return=representation'; return query; },
+        single() { returnSingle = true; headers.Accept = 'application/vnd.pgrst.object+json'; return query; },
         eq(column, value) { params.set(column, 'eq.' + value); return query; },
         neq(column, value) { params.set(column, 'neq.' + value); return query; },
         or(value) { params.set('or', '(' + value + ')'); return query; },
         range(from, to) { headers.Range = from + '-' + to; return query; },
         order(column, options) { params.set('order', column + '.' + ((options && options.ascending === false) ? 'desc' : 'asc')); return query; },
         then(resolve, reject) {
-          const request = fetch(base + table + '?' + params.toString(), { method: head ? 'HEAD' : 'GET', headers: Object.assign(headers, countExact ? { Prefer: 'count=exact' } : {}) })
-            .then(async response => { const range = response.headers.get('content-range') || ''; const match = range.match(/\/(\d+)$/); const count = match ? Number(match[1]) : null; return { data: head ? null : await response.json(), error: response.ok ? null : new Error('Supabase HTTP ' + response.status), count }; });
+          const requestHeaders = Object.assign(headers, countExact ? { Prefer: headers.Prefer ? headers.Prefer + ',count=exact' : 'count=exact' } : {});
+          if (body !== undefined) requestHeaders['Content-Type'] = 'application/json';
+          const request = fetch(base + table + '?' + params.toString(), { method: head ? 'HEAD' : method, headers: requestHeaders, body: body === undefined ? undefined : JSON.stringify(body) })
+            .then(async response => {
+              const range = response.headers.get('content-range') || ''; const match = range.match(/\/(\d+)$/); const count = match ? Number(match[1]) : null;
+              let data = null; const text = head ? '' : await response.text();
+              if (text) { try { data = JSON.parse(text); } catch (_) { data = text; } }
+              if (returnSingle && Array.isArray(data)) data = data[0] || null;
+              const detail = data && (data.message || data.hint || data.error_description);
+              return { data, error: response.ok ? null : new Error(detail || 'Supabase HTTP ' + response.status), count };
+            });
           return request.then(resolve, reject);
         }
       };
@@ -2290,11 +2333,10 @@ async function saveSupabaseAuth() {
   localStorage.setItem('hourtv_sb_url', url);
   localStorage.setItem('hourtv_sb_anon_key', key);
 
-  if (!supabase || url !== localStorage.getItem('hourtv_sb_url')) {
-    if (url && key) {
-      supabase = window.supabase.createClient(url, key);
-      updateSupabaseAuthBtn();
-    }
+  if (url && key) {
+    const access = localStorage.getItem('hourtv_sb_access_token') || '';
+    supabase = restSupabaseClient(url, key, access);
+    updateSupabaseAuthBtn();
   }
 
   const emailInput = document.getElementById('sb_email');
@@ -2304,6 +2346,10 @@ async function saveSupabaseAuth() {
     toast('Iniciando sesión...');
     const { data, error } = await supabase.auth.signInWithPassword({ email: emailInput.value, password: passInput.value });
     if (error) { toast('Error de inicio de sesión: ' + error.message, 'err'); return; }
+    sbSession = data.session;
+    supabase = restSupabaseClient(url, key, data.session.access_token);
+    updateSupabaseAuthBtn();
+    if (typeof refreshAdminCounts === 'function') refreshAdminCounts();
     toast('Sesión iniciada', 'ok');
   } else {
     toast('Configuración guardada', 'ok');
@@ -2312,6 +2358,9 @@ async function saveSupabaseAuth() {
 }
 async function logoutSupabase() {
   if (supabase) await supabase.auth.signOut();
+  sbSession = null;
+  supabase = null;
+  updateSupabaseAuthBtn();
   closeModal();
   toast('Sesión cerrada', 'ok');
 }
@@ -2455,6 +2504,7 @@ if (document.readyState === 'loading') {
   bindSupabaseAuthButton();
 }
 </script>
+<script src="replacement-admin-ui.js"></script>
 <script>
 // Last-resort handler: keep the configuration dialog reachable even if an
 // optional Supabase initialization fails earlier in the page.

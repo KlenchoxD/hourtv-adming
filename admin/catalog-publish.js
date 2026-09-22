@@ -2,9 +2,10 @@ let catalogBase;
 try{catalogBase=JSON.parse(localStorage.getItem('hourtv_admin_base')||'null')||undefined}catch(e){}
 const publishCatalogSafely=CatalogSync.createPublisher();
 let publishing=false;
-async function publish(){
-  if(!cfg.token){toast('Configura GitHub primero','err');openConfig();return}
-  if(publishing){toast('Ya hay una publicación en curso.','warn');return}
+async function publish(options){
+  options=options||{};
+  if(!cfg.token){const e=new Error('Configura GitHub primero');toast(e.message,'err');openConfig();if(options.throwOnError)throw e;return false}
+  if(publishing){const e=new Error('Ya hay una publicación en curso.');toast(e.message,'warn');if(options.throwOnError)throw e;return false}
   publishing=true;
   const pending=JSON.parse(JSON.stringify(catalog));
   const deleting=new Set(deletedIds);
@@ -38,6 +39,7 @@ async function publish(){
     for(const id of deleting)deletedIds.delete(id);
     saveDeletedIds();save();render();
     toast('¡Publicado! Se conservaron los cambios remotos y tus servidores.','ok');
-  }catch(e){toast('Error: '+e.message,'err')}
+    return true;
+  }catch(e){toast('Error: '+e.message,'err');if(options.throwOnError)throw e;return false}
   finally{publishing=false}
 }

@@ -136,7 +136,7 @@ function buildBatchSummary(candidates, options = {}) {
   return { included, excluded, counts: { total: candidates.length, included: included.length, excluded: excluded.length } };
 }
 
-module.exports = {
+const HourTVReplacementLogic = {
   normalizeTitle,
   normalizeContentType,
   isValidHttpsUrl,
@@ -145,3 +145,6 @@ module.exports = {
   deduplicateCandidates,
   buildBatchSummary,
 };
+
+if (typeof module === 'object' && module.exports) module.exports = HourTVReplacementLogic;
+if (typeof globalThis !== 'undefined') globalThis.HourTVReplacementLogic = HourTVReplacementLogic;
