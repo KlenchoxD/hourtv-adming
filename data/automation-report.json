@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-09-22T06:11:14.063Z",
-  "durationMs": 2641,
+  "generatedAt": "2026-09-22T11:34:51.073Z",
+  "durationMs": 2008,
   "dryRun": false,
   "moviesFound": 33,
   "moviesDiscarded": 26,
@@ -18,13 +18,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1101383,
-      "title": "El final de Oak Street",
+      "tmdbId": 1423191,
+      "title": "Resident Evil",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1423191,
-      "title": "Resident Evil",
+      "tmdbId": 1101383,
+      "title": "El final de Oak Street",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -43,11 +43,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1137844,
-      "title": "Mayday",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1185806,
       "title": "La Patrulla Canina: La dino película",
       "reason": "Sin fuente autorizada configurada"
@@ -58,13 +53,18 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1275779,
-      "title": "El día de la revelación",
+      "tmdbId": 1240889,
+      "title": "Adolescencia, sexo y muerte en campamento Miasma",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1240889,
-      "title": "Adolescencia, sexo y muerte en campamento Miasma",
+      "tmdbId": 1137844,
+      "title": "Mayday",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1275779,
+      "title": "El día de la revelación",
       "reason": "Sin fuente autorizada configurada"
     },
     {
