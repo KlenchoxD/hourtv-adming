@@ -13,6 +13,10 @@
   async function searchReplacement({source,providers,registry,api,now=new Date(),maxAgeMs}){
     const normalized=providers.map(p=>({...p,adapterName:providerAdapter(p),isActive:providerActive(p)}));
     const result=await adapters.searchWithFallback({providers:normalized,registry,kind:source.type==='episode'?'episode':'movie',query:source,now,maxAgeMs});
+    if(api.persistSearchResult){
+      const providerId=(result.attempts.find(a=>a.reason==='high_candidate_found')||{}).providerId||null;
+      return api.persistSearchResult({source,result,providerId});
+    }
     await api.persistAttempts(result.attempts);
     if(!result.candidate){
       await api.createNotification({notificationType:'replacement_unavailable',sourceId:source.sourceId,message:'No se encontró un reemplazo de confianza alta.'});
@@ -68,8 +72,9 @@
     await callRpc('admin_apply_replacement_batch',{p_candidate_ids:candidateIds});
     if(afterApply)await afterApply();
     let error=null;try{await publish();}catch(caught){error=caught;}
-    await callRpc('admin_finalize_replacement_publish',{p_candidate_ids:candidateIds,p_succeeded:!error,p_error:error&&error.message});
-    return {published:!error,publishError:error};
+    try{await callRpc('admin_finalize_replacement_publish',{p_candidate_ids:candidateIds,p_succeeded:!error,p_error:error&&error.message});}
+    catch(finalizeError){return {phase:'pending_finalize',published:!error,publishError:error,finalizeError};}
+    return {phase:error?'pending_publish':'complete',published:!error,publishError:error};
   }
   async function revalidateStaleBatch({candidates,targetFor,providerForCandidate,registry,now=new Date()}){
     const eligible=[],excluded=[];
@@ -80,5 +85,15 @@
     }
     return {eligible,excluded};
   }
-  return {escapeHtml,searchReplacement,testProviderConfiguration,revalidateCandidate,revalidateStaleBatch,applyConfirmedReplacement,discardAtomically,executeBatchWorkflow};
+  return {escapeHtml,selectOptimalCandidate,loadAdminData,searchReplacement,testProviderConfiguration,revalidateCandidate,revalidateStaleBatch,applyConfirmedReplacement,discardAtomically,executeBatchWorkflow};
 }));
+  function selectOptimalCandidate(candidates,providers){
+    const priority=new Map(providers.map(p=>[p.id,Number(p.priority)]));
+    return candidates.filter(c=>c.status==='pending'&&c.confidence==='high').sort((a,b)=>(priority.get(a.backup_provider_id)??Infinity)-(priority.get(b.backup_provider_id)??Infinity)||Date.parse(b.checked_at)-Date.parse(a.checked_at))[0]||null;
+  }
+  async function loadAdminData(client){
+    const unwrap=async q=>{const r=await q;if(r.error)throw r.error;return r.data||[]};
+    const [notifications,candidates,sources,events,providers]=await Promise.all([
+      unwrap(client.from('admin_notifications').select('*').order('created_at',{ascending:false})),unwrap(client.from('replacement_candidates').select('*').order('created_at',{ascending:false})),unwrap(client.from('admin_source_health_view').select('*').order('health_last_check',{ascending:false})),unwrap(client.from('source_replacement_events').select('*').order('created_at',{ascending:false})),unwrap(client.from('backup_providers').select('*').order('priority'))]);
+    return {notifications,candidates,sources,events,providers};
+  }

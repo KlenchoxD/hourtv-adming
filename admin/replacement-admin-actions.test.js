@@ -2,7 +2,7 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const { AdapterRegistry } = require('./backup-adapters');
-const { searchReplacement, testProviderConfiguration, revalidateCandidate, revalidateStaleBatch, applyConfirmedReplacement, discardAtomically, executeBatchWorkflow } = require('./replacement-admin-actions');
+const { searchReplacement, testProviderConfiguration, revalidateCandidate, revalidateStaleBatch, applyConfirmedReplacement, discardAtomically, executeBatchWorkflow, selectOptimalCandidate, loadAdminData } = require('./replacement-admin-actions');
 
 const target = { sourceId:'s1', type:'movie', tmdbId:7, title:'Peli', language:'es', year:2025 };
 const fresh = { type:'movie', tmdbId:7, title:'Peli', language:'es', year:2025, reproducible:true, url:'https://media.example/video.m3u8', checkedAt:'2026-09-22T01:00:00Z', expiresAt:'2026-09-23T01:00:00Z' };
@@ -16,6 +16,17 @@ test('search executes active adapters by priority and persists attempts, best fr
   }});
   assert.equal(result.candidate.url,'https://media.example/new.m3u8');
   assert.deepEqual(calls.map(c=>c[0]),['attempts','candidate','success','notice']);
+});
+
+test('direct admin load always includes providers',async()=>{
+  const calls=[];const client={from:table=>({select(){calls.push(table);return this},order(){return Promise.resolve({data:[{table}],error:null})}})};
+  const data=await loadAdminData(client);assert.ok(calls.includes('backup_providers'));assert.equal(data.providers[0].table,'backup_providers');
+});
+
+test('optimal candidate uses provider priority then freshest check',()=>{
+  const providers=[{id:'slow',priority:9},{id:'first',priority:1}];
+  const chosen=selectOptimalCandidate([{id:'x',backup_provider_id:'slow',confidence:'high',status:'pending',checked_at:'2026-09-22T03:00:00Z'},{id:'old',backup_provider_id:'first',confidence:'high',status:'pending',checked_at:'2026-09-22T01:00:00Z'},{id:'new',backup_provider_id:'first',confidence:'high',status:'pending',checked_at:'2026-09-22T02:00:00Z'}],providers);
+  assert.equal(chosen.id,'new');
 });
 
 test('provider test calls adapter testConfiguration and persists real result', async () => {
@@ -73,4 +84,9 @@ test('batch DB failure never publishes; publish failure finalizes pending state 
   assert.equal(publishes,0);
   const calls=[];const result=await executeBatchWorkflow({candidateIds:['a'],callRpc:async(name,args)=>(calls.push([name,args]),{}),publish:async()=>{publishes++;throw new Error('github')}});
   assert.equal(result.published,false);assert.equal(publishes,1);assert.equal(calls[1][1].p_succeeded,false);
+});
+
+test('published but finalize failure returns pending_finalize instead of false rollback',async()=>{
+  let step=0;const result=await executeBatchWorkflow({candidateIds:['a'],callRpc:async name=>{step++;if(name==='admin_finalize_replacement_publish')throw new Error('finalize')},publish:async()=>{step++;}});
+  assert.equal(result.phase,'pending_finalize');assert.equal(result.published,true);assert.equal(step,3);
 });

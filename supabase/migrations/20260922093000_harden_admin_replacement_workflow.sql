@@ -30,6 +30,7 @@ begin
   end if;
   select * into s from public.sources where id=c.source_id for update;
   if not found then raise exception using errcode='23503',message='source not found'; end if;
+  if s.health_status<>'down' then raise exception using errcode='23514',message='only confirmed down sources can be replaced'; end if;
   if exists(select 1 from public.sources other where other.id<>s.id and other.deleted_at is null and other.url=c.proposed_url
     and other.title_id is not distinct from s.title_id and other.episode_id is not distinct from s.episode_id) then
     raise exception using errcode='23505',message='replacement URL already exists for content';
@@ -79,35 +80,57 @@ end $$;
 
 create or replace function public.admin_finalize_replacement_publish(p_candidate_ids uuid[],p_succeeded boolean,p_error text default null)
 returns jsonb language plpgsql security definer set search_path='' as $$
+declare affected integer;
 begin
   if not public.is_admin() then raise exception using errcode='42501',message='admin required'; end if;
   if p_succeeded then
     update public.admin_notifications n set status='resolved',updated_at=now()
       where n.candidate_id=any(p_candidate_ids) and n.status='processing';
+    get diagnostics affected=row_count;
+    if affected=0 then return jsonb_build_object('ok',true,'already_finalized',true); end if;
     insert into public.admin_notifications(notification_type,message,status,is_read,read_at)
       values('publish_completed',cardinality(p_candidate_ids)||' reemplazos publicados.','resolved',true,now());
   else
     update public.admin_notifications n set status='failed',updated_at=now()
       where n.candidate_id=any(p_candidate_ids) and n.status='processing';
+    get diagnostics affected=row_count;
+    if affected=0 then return jsonb_build_object('ok',true,'already_finalized',true); end if;
     insert into public.admin_notifications(notification_type,message,status)
       values('publish_failed','Publicación pendiente: '||coalesce(nullif(p_error,''),'error desconocido'),'open');
   end if;
   return jsonb_build_object('ok',true,'published',p_succeeded);
 end $$;
 
-create or replace function public.admin_record_replacement_failure(p_candidate_id uuid,p_event_type text,p_reason text)
-returns void language plpgsql security definer set search_path='' as $$
-declare c public.replacement_candidates;
+create or replace function public.admin_persist_replacement_search(p_source_id uuid,p_provider_id uuid,p_attempts jsonb,p_candidate jsonb default null)
+returns jsonb language plpgsql security definer set search_path='' as $$
+declare s public.sources; item jsonb; candidate_id uuid;
 begin
   if not public.is_admin() then raise exception using errcode='42501',message='admin required'; end if;
-  if p_event_type not in ('failed','rolled_back') then raise exception using errcode='23514',message='invalid failure event'; end if;
-  select * into c from public.replacement_candidates where id=p_candidate_id;
-  if not found then raise exception using errcode='23503',message='candidate not found'; end if;
-  insert into public.source_replacement_events(source_id,candidate_id,event_type,failure_reason)
-    values(c.source_id,c.id,p_event_type,left(p_reason,1000));
+  select * into s from public.sources where id=p_source_id for update;
+  if not found then raise exception using errcode='23503',message='source not found'; end if;
+  if s.health_status<>'down' then raise exception using errcode='23514',message='search only allowed for confirmed down source'; end if;
+  if jsonb_typeof(p_attempts)<>'array' then raise exception using errcode='23514',message='attempts must be array'; end if;
+  for item in select value from jsonb_array_elements(p_attempts) loop
+    insert into public.replacement_search_attempts(source_id,backup_provider_id,outcome,detail)
+      values(p_source_id,nullif(item->>'providerId','')::uuid,coalesce(item->>'reason','unknown'),jsonb_build_object('error',item->>'error'));
+  end loop;
+  if p_candidate is not null then
+    if p_provider_id is null then raise exception using errcode='23514',message='provider required for candidate'; end if;
+    insert into public.replacement_candidates(source_id,backup_provider_id,proposed_url,proposed_name,proposed_language_code,content_type,tmdb_id,normalized_title,release_year,season_number,episode_number,is_reproducible,confidence,confidence_reasons,checked_at,expires_at)
+    values(p_source_id,p_provider_id,p_candidate->>'proposed_url',p_candidate->>'proposed_name',p_candidate->>'proposed_language_code',p_candidate->>'content_type',nullif(p_candidate->>'tmdb_id','')::integer,p_candidate->>'normalized_title',nullif(p_candidate->>'release_year','')::integer,nullif(p_candidate->>'season_number','')::integer,nullif(p_candidate->>'episode_number','')::integer,coalesce((p_candidate->>'is_reproducible')::boolean,false),p_candidate->>'confidence',coalesce(p_candidate->'confidence_reasons','[]'::jsonb),(p_candidate->>'checked_at')::timestamptz,(p_candidate->>'expires_at')::timestamptz)
+    returning id into candidate_id;
+    update public.backup_providers set successful_searches=successful_searches+1,updated_at=now() where id=p_provider_id;
+    insert into public.admin_notifications(notification_type,source_id,candidate_id,message)
+      values('replacement_found',p_source_id,candidate_id,'Se encontró un reemplazo de confianza alta.');
+  else
+    insert into public.admin_notifications(notification_type,source_id,message) values('replacement_unavailable',p_source_id,'No se encontró un reemplazo de confianza alta.');
+  end if;
+  return jsonb_build_object('ok',true,'candidate_id',candidate_id);
 end $$;
 
 revoke all on function public.admin_apply_replacement(uuid,uuid),public.admin_apply_replacement_batch(uuid[]),
-  public.admin_discard_replacement(uuid,uuid),public.admin_finalize_replacement_publish(uuid[],boolean,text),public.admin_record_replacement_failure(uuid,text,text) from public,anon;
+  public.admin_discard_replacement(uuid,uuid),public.admin_finalize_replacement_publish(uuid[],boolean,text) from public,anon;
+revoke all on function public.admin_persist_replacement_search(uuid,uuid,jsonb,jsonb) from public,anon;
 grant execute on function public.admin_apply_replacement(uuid,uuid),public.admin_apply_replacement_batch(uuid[]),
-  public.admin_discard_replacement(uuid,uuid),public.admin_finalize_replacement_publish(uuid[],boolean,text),public.admin_record_replacement_failure(uuid,text,text) to authenticated;
+  public.admin_discard_replacement(uuid,uuid),public.admin_finalize_replacement_publish(uuid[],boolean,text) to authenticated;
+grant execute on function public.admin_persist_replacement_search(uuid,uuid,jsonb,jsonb) to authenticated;
