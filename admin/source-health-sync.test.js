@@ -14,6 +14,16 @@ test('builds a bounded health update and preserves inconclusive counters', () =>
   assert.equal(update.healthHttpCode, 403);
 });
 
+test('persists useful diagnostic detail for inconclusive probes', () => {
+  const update = buildHealthUpdate(
+    { status: 'active', consecutiveFailures: 0 },
+    { ok: false, conclusive: false, reason: 'blocked-or-unknown', detail: 'timeout' },
+    '2026-09-20T12:00:00.000Z',
+    'run-2',
+  );
+  assert.equal(update.healthLastError, 'blocked-or-unknown: timeout');
+});
+
 test('buildHealthUpdate does not count the same health run twice', () => {
   const update = buildHealthUpdate(
     {
@@ -46,8 +56,31 @@ test('persists source update and audit row in one transaction', async () => {
   assert.match(calls[1].text, /UPDATE public\.sources/);
   assert.match(calls[1].text, /\$1/);
   assert.match(calls[2].text, /INSERT INTO private\.source_health_checks/);
+  assert.match(calls[3].text, /DELETE FROM private\.source_health_checks/);
+  assert.match(calls[3].text, /interval '30 days'/);
   assert.equal(calls.at(-1).text, 'COMMIT');
   assert.ok(!calls.some((call) => call.text.includes('source-1')));
+});
+
+test('run preserves the previous successful-check timestamp', async () => {
+  const client = { async query(text) {
+    if (text.startsWith('SELECT')) return { rows: [{
+      id: 'source-1',
+      url: 'https://example.test/video.mp4',
+      requires_webview: false,
+      health_status: 'active',
+      health_consecutive_failures: 0,
+      health_last_success_at: '2026-09-19T08:00:00.000Z',
+    }] };
+    return { rows: [] };
+  } };
+  const report = await require('./source-health-sync').run({
+    client,
+    probe: async () => ({ ok: false, conclusive: false, reason: 'blocked-or-unknown', detail: 'timeout' }),
+  });
+  assert.equal(report.results[0].previous.lastSuccessAt, '2026-09-19T08:00:00.000Z');
+  const update = buildHealthUpdate(report.results[0].previous, report.results[0].result, report.results[0].checkedAt, report.runId);
+  assert.equal(update.healthLastSuccessAt, '2026-09-19T08:00:00.000Z');
 });
 
 test('rolls back if any source update fails', async () => {

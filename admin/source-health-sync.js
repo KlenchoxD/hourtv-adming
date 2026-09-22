@@ -48,6 +48,7 @@ async function persistHealthResults(client, runId, results) {
           update.healthHttpCode, update.healthLastCheck],
       );
     }
+    await client.query("DELETE FROM private.source_health_checks WHERE checked_at < now() - interval '30 days'");
     await client.query('COMMIT');
   } catch (error) {
     await client.query('ROLLBACK');
@@ -76,6 +77,7 @@ async function run({ client, limit = 976, dryRun = true, probe = probeUrl, now =
         status: source.health_status,
         consecutiveFailures: source.health_consecutive_failures,
         firstFailureAt: source.health_first_failure_at,
+        lastSuccessAt: source.health_last_success_at,
         lastCheckRunId: source.health_last_check_run_id,
       },
       result: await probe(source.url).then((result) => (source.requires_webview || isKnownEmbed(source.url)) && result.reason === 'html'
