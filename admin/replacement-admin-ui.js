@@ -199,7 +199,7 @@
   }
 
   async function replaceFromNotification(notificationId) {
-    if (busy) return; const notification = notifications.find(item => item.id === notificationId); const raw = notification && candidateFor(notification.candidate_id);
+    if (busy||!ensureNoPendingRecovery()) return; const notification = notifications.find(item => item.id === notificationId); const raw = notification && candidateFor(notification.candidate_id);
     if (!raw) return root.toast('La notificación no tiene un candidato disponible', 'err');
     busy = true;
     try {
@@ -208,7 +208,7 @@
       const outcome=await root.HourTVReplacementActions.applyConfirmedReplacement({candidate,notificationId,confirm:()=>Promise.resolve(confirm(`¿Reemplazar ${raw.proposed_name||'el servidor'} por ${candidate.url}?`)),callRpc});
       if(outcome&&outcome.cancelled)return;
       Object.keys(root.HourTVAdminState.catalog).forEach(k=>delete root.HourTVAdminState.catalog[k]);Object.assign(root.HourTVAdminState.catalog,preview);
-      localStorage.setItem('hourtv_replacements_pending_publish','true');root.save();
+      root.HourTVPublishRecovery.beginIndividualRecovery(localStorage,candidate.id);root.save();renderRecoveryIndicator();
       root.closeModal(); root.render(); root.toast('Reemplazo aplicado. Hay cambios pendientes de publicar.', 'ok'); await refreshAdminCounts();
     } catch (error) { root.toast('No se aplicó el reemplazo: '+error.message, 'err'); } finally { busy = false; }
   }
@@ -222,6 +222,7 @@
 
   function batchCandidates() { return candidates.filter(item => item.status === 'pending').map(enrichCandidate); }
   function openBatchPreview() {
+    if(!ensureNoPendingRecovery())return;
     let list; try { list = batchCandidates(); } catch (error) { return root.toast(error.message, 'err'); }
     const summary = root.HourTVReplacementLogic.buildBatchSummary(list, { now:new Date(), targetsBySource:targetsBySourceFor(candidates) });
     const reasons = summary.excluded.reduce((map, item) => { map[item.exclusionReason] = (map[item.exclusionReason] || 0) + 1; return map; }, {});
@@ -232,7 +233,7 @@
   }
 
   async function confirmBatchReplacement() {
-    if (busy) return; busy = true;
+    if (busy||!ensureNoPendingRecovery()) return; busy = true;
     try {
       const rawList=batchCandidates(),list=[];
       for(const candidate of rawList){try{list.push(await revalidateIfNeeded(candidate))}catch(error){candidate.revalidationFailure=error.message}}
@@ -253,10 +254,11 @@
   }
   async function finalizePendingReplacementPublish(succeeded,error){
     if(!root.HourTVAdminState.supabase||!root.HourTVAdminState.session)return;
-    const open=await unwrap(root.HourTVAdminState.supabase.from('admin_notifications').select('*').eq('status','processing'));
-    const ids=[...new Set(open.map(item=>item.candidate_id).filter(Boolean))];if(!ids.length)return;
-    await callRpc('admin_finalize_replacement_publish',{p_candidate_ids:ids,p_succeeded:succeeded,p_error:error||null});
-    if(succeeded)localStorage.removeItem('hourtv_replacements_pending_publish');
+    const state=root.HourTVPublishRecovery.loadRecovery(localStorage);if(!state)return;
+    if(!succeeded){root.HourTVPublishRecovery.saveRecovery(localStorage,{...state,phase:'pending_publish',error:error||'Error de publicación'});renderRecoveryIndicator();return;}
+    try{await callRpc('admin_finalize_replacement_publish',{p_candidate_ids:state.candidateIds,p_succeeded:true,p_error:null});root.HourTVPublishRecovery.clearRecovery(localStorage);}
+    catch(finalizeError){root.HourTVPublishRecovery.saveRecovery(localStorage,{...state,phase:'pending_finalize',error:finalizeError.message});}
+    renderRecoveryIndicator();
   }
   function renderRecoveryIndicator(){
     const state=root.HourTVPublishRecovery.loadRecovery(localStorage);let button=document.getElementById('replacement-recovery-btn');
@@ -296,6 +298,7 @@
     catch (error) { root.toast(error.message, 'err'); }
   }
   async function searchSourceReplacement(sourceId) {
+    if(!ensureNoPendingRecovery())return;
     const source = healthRows.find(row => row.source_id === sourceId); if (!source) return;
     try {
       if (!providers.length) providers = await unwrap(root.HourTVAdminState.supabase.from('backup_providers').select('*').eq('is_active', true).order('priority'));
@@ -332,3 +335,7 @@
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', refreshAdminCounts);
   else refreshAdminCounts();
 }(window));
+  function ensureNoPendingRecovery(){
+    const state=root.HourTVPublishRecovery.loadRecovery(localStorage);if(!state)return true;
+    root.toast(state.phase==='pending_publish'?'Primero reintenta la publicación pendiente.':'Primero finaliza la sincronización pendiente.','err');renderRecoveryIndicator();return false;
+  }

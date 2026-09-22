@@ -5,10 +5,12 @@ function saveRecovery(storage,state){
  const clean={phase:state.phase,candidateIds:[...new Set(state.candidateIds||[])],updatedAt:new Date().toISOString(),error:state.error||null};
  storage.setItem(KEY,JSON.stringify(clean));
  storage.removeItem('hourtv_replacements_pending_publish');storage.removeItem('hourtv_replacements_pending_finalize');
- storage.setItem(clean.phase==='pending_publish'?'hourtv_replacements_pending_publish':'hourtv_replacements_pending_finalize','true');return clean;
+ return clean;
 }
-function loadRecovery(storage){try{const value=JSON.parse(storage.getItem(KEY)||'null');return value&&['pending_publish','pending_finalize'].includes(value.phase)&&Array.isArray(value.candidateIds)?value:null}catch(_){return null}}
+function loadRecovery(storage){storage.removeItem('hourtv_replacements_pending_publish');storage.removeItem('hourtv_replacements_pending_finalize');try{const value=JSON.parse(storage.getItem(KEY)||'null');return value&&['pending_publish','pending_finalize'].includes(value.phase)&&Array.isArray(value.candidateIds)?value:null}catch(_){return null}}
 function clearRecovery(storage){storage.removeItem(KEY);storage.removeItem('hourtv_replacements_pending_publish');storage.removeItem('hourtv_replacements_pending_finalize');}
+function hasPendingRecovery(storage){return Boolean(loadRecovery(storage));}
+function beginIndividualRecovery(storage,candidateId){if(hasPendingRecovery(storage))throw new Error('Hay una recuperación pendiente; resuélvela antes de iniciar otra operación');return saveRecovery(storage,{phase:'pending_publish',candidateIds:[candidateId]});}
 async function retryRecovery({storage,publish,callRpc}){
  const state=loadRecovery(storage);if(!state)return {phase:'none'};
  if(state.phase==='pending_publish'){
@@ -19,5 +21,5 @@ async function retryRecovery({storage,publish,callRpc}){
  catch(error){saveRecovery(storage,{...state,phase:'pending_finalize',error:error.message});return {phase:'pending_finalize',published:state.phase==='pending_publish',error};}
  clearRecovery(storage);return {phase:'complete',published:state.phase==='pending_publish'};
 }
-return {KEY,saveRecovery,loadRecovery,clearRecovery,retryRecovery};
+return {KEY,saveRecovery,loadRecovery,clearRecovery,hasPendingRecovery,beginIndividualRecovery,retryRecovery};
 }));
