@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-09-22T19:10:26.821Z",
+  "lastRunAt": "2026-09-22T22:05:51.657Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -22,18 +22,18 @@
     1273221,
     1302904,
     671,
-    1375646,
     1368337,
+    1375646,
     1294189,
     1482547,
     1285366,
     1440098,
-    1386315,
     1339713,
     1232569,
+    1386315,
     1323244,
     1469930,
-    1408162,
+    82976,
     1335666
   ],
   "tmdbIdsPublished": [],
@@ -116,13 +116,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1375646,
-      "title": "Colony",
+      "tmdbId": 1368337,
+      "title": "La Odisea",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1368337,
-      "title": "La Odisea",
+      "tmdbId": 1375646,
+      "title": "Colony",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -146,13 +146,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1386315,
-      "title": "A la carrera",
+      "tmdbId": 1232569,
+      "title": "Pinocho: Desatado",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1232569,
-      "title": "Pinocho: Desatado",
+      "tmdbId": 1386315,
+      "title": "A la carrera",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -166,9 +166,9 @@
       "reason": "Rating 3.9 por debajo del mínimo (5.5)"
     },
     {
-      "tmdbId": 1408162,
-      "title": "Vishwanath e hijos",
-      "reason": "Votos 28 por debajo del mínimo (50)"
+      "tmdbId": 82976,
+      "title": "La profesional y la debutante",
+      "reason": "Rating 4.8 por debajo del mínimo (5.5)"
     }
   ]
 }

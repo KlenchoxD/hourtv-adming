@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-09-22T19:10:23.435Z",
-  "durationMs": 3390,
+  "generatedAt": "2026-09-22T22:05:51.045Z",
+  "durationMs": 618,
   "dryRun": false,
   "moviesFound": 33,
   "moviesDiscarded": 26,
@@ -88,13 +88,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1375646,
-      "title": "Colony",
+      "tmdbId": 1368337,
+      "title": "La Odisea",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1368337,
-      "title": "La Odisea",
+      "tmdbId": 1375646,
+      "title": "Colony",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -118,13 +118,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1386315,
-      "title": "A la carrera",
+      "tmdbId": 1232569,
+      "title": "Pinocho: Desatado",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1232569,
-      "title": "Pinocho: Desatado",
+      "tmdbId": 1386315,
+      "title": "A la carrera",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -138,9 +138,9 @@
       "reason": "Rating 3.9 por debajo del mínimo (5.5)"
     },
     {
-      "tmdbId": 1408162,
-      "title": "Vishwanath e hijos",
-      "reason": "Votos 28 por debajo del mínimo (50)"
+      "tmdbId": 82976,
+      "title": "La profesional y la debutante",
+      "reason": "Rating 4.8 por debajo del mínimo (5.5)"
     }
   ]
 }
