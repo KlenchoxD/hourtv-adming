@@ -49,7 +49,7 @@ test('persists source update and audit row in one transaction', async () => {
   await persistHealthResults(client, 'run-1', [{
     id: 'source-1',
     previous: { status: 'active', consecutiveFailures: 0 },
-    result: { ok: false, conclusive: true, reason: 'timeout' },
+    result: { ok: false, conclusive: false, reason: 'blocked-or-unknown', detail: 'timeout' },
     checkedAt: '2026-09-20T12:00:00.000Z',
   }]);
   assert.equal(calls[0].text, 'BEGIN');

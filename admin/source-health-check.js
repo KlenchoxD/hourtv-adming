@@ -112,35 +112,113 @@ async function readPrefix(response, limit = 4096) {
 
 async function probeUrl(url, { fetchImpl = fetch, timeoutMs = 10000 } = {}) {
   const cookieJar = new Map();
-  const storeCookies = (response) => {
+  const defaultCookiePath = (target) => {
+    const pathname = new URL(target).pathname || '/';
+    const slash = pathname.lastIndexOf('/');
+    return slash <= 0 ? '/' : pathname.slice(0, slash);
+  };
+  const domainMatches = (hostname, domain, hostOnly) => hostOnly
+    ? hostname === domain
+    : hostname === domain || hostname.endsWith(`.${domain}`);
+  const pathMatches = (pathname, cookiePath) => pathname === cookiePath
+    || (pathname.startsWith(cookiePath) && (cookiePath.endsWith('/') || pathname[cookiePath.length] === '/'));
+  const storeCookies = (response, requestUrl) => {
+    const origin = new URL(requestUrl);
     const values = typeof response.headers?.getSetCookie === 'function'
       ? response.headers.getSetCookie()
       : [response.headers?.get('set-cookie')].filter(Boolean);
     for (const value of values) {
-      const pair = String(value).split(';', 1)[0];
+      const parts = String(value).split(';').map((part) => part.trim());
+      const pair = parts.shift() || '';
       const separator = pair.indexOf('=');
-      if (separator > 0) cookieJar.set(pair.slice(0, separator).trim(), pair.slice(separator + 1).trim());
+      if (separator <= 0) continue;
+      const name = pair.slice(0, separator).trim();
+      const cookieValue = pair.slice(separator + 1).trim();
+      let domain = origin.hostname.toLowerCase();
+      let hostOnly = true;
+      let path = defaultCookiePath(origin);
+      let secure = false;
+      let expiresAt = null;
+      for (const attribute of parts) {
+        const [rawName, ...rawValue] = attribute.split('=');
+        const attributeName = rawName.toLowerCase();
+        const attributeValue = rawValue.join('=').trim();
+        if (attributeName === 'domain' && attributeValue) {
+          const candidate = attributeValue.replace(/^\./, '').toLowerCase();
+          if (!domainMatches(origin.hostname.toLowerCase(), candidate, false)) {
+            domain = null;
+            break;
+          }
+          domain = candidate;
+          hostOnly = false;
+        } else if (attributeName === 'path' && attributeValue.startsWith('/')) path = attributeValue;
+        else if (attributeName === 'secure') secure = true;
+        else if (attributeName === 'max-age' && /^-?\d+$/.test(attributeValue)) expiresAt = Date.now() + Number(attributeValue) * 1000;
+        else if (attributeName === 'expires') {
+          const parsed = Date.parse(attributeValue);
+          if (Number.isFinite(parsed)) expiresAt = parsed;
+        }
+      }
+      if (!domain) continue;
+      const key = `${name}\u0000${domain}\u0000${path}`;
+      if (expiresAt !== null && expiresAt <= Date.now()) cookieJar.delete(key);
+      else cookieJar.set(key, { name, value: cookieValue, domain, hostOnly, path, secure, expiresAt });
     }
   };
-  const request = async (target, method = 'GET', contextUrl) => {
+  const cookiesFor = (target) => {
+    const requestUrl = new URL(target);
+    const now = Date.now();
+    const matches = [];
+    for (const [key, cookie] of cookieJar) {
+      if (cookie.expiresAt !== null && cookie.expiresAt <= now) {
+        cookieJar.delete(key);
+        continue;
+      }
+      if (cookie.secure && requestUrl.protocol !== 'https:') continue;
+      if (!domainMatches(requestUrl.hostname.toLowerCase(), cookie.domain, cookie.hostOnly)) continue;
+      if (!pathMatches(requestUrl.pathname || '/', cookie.path)) continue;
+      matches.push(cookie);
+    }
+    matches.sort((left, right) => right.path.length - left.path.length);
+    return matches.map((cookie) => `${cookie.name}=${cookie.value}`).join('; ');
+  };
+  const request = async (target, method = 'GET', contextUrl, readBody = method === 'GET') => {
     const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), timeoutMs);
-    const headers = {
-      Accept: '*/*',
-      'User-Agent': 'HourTV-HealthChecker/1.0',
+    let timer;
+    const timeout = new Promise((_, reject) => {
+      timer = setTimeout(() => {
+        controller.abort();
+        reject(Object.assign(new Error('request timeout'), { name: 'AbortError' }));
+      }, timeoutMs);
+    });
+    const perform = async () => {
+      let currentUrl = new URL(target);
+      let referer = contextUrl ? String(contextUrl) : null;
+      for (let redirects = 0; redirects <= 5; redirects += 1) {
+        const headers = { Accept: '*/*', 'User-Agent': 'HourTV-HealthChecker/1.0' };
+        if (method === 'GET') headers.Range = 'bytes=0-2048';
+        if (referer) {
+          headers.Referer = referer;
+          headers.Origin = new URL(referer).origin;
+        }
+        const cookieHeader = cookiesFor(currentUrl);
+        if (cookieHeader) headers.Cookie = cookieHeader;
+        const response = await fetchImpl(currentUrl, { method, redirect: 'manual', headers, signal: controller.signal });
+        storeCookies(response, currentUrl);
+        const location = response.headers?.get('location');
+        if (response.status >= 300 && response.status < 400 && location) {
+          if (redirects === 5) throw new Error('too many redirects');
+          referer = response.url || String(currentUrl);
+          currentUrl = new URL(location, referer);
+          continue;
+        }
+        const body = readBody ? await readPrefix(response) : null;
+        return { response, body };
+      }
+      throw new Error('too many redirects');
     };
-    if (method === 'GET') headers.Range = 'bytes=0-2048';
-    if (contextUrl) {
-      headers.Referer = String(contextUrl);
-      headers.Origin = new URL(contextUrl).origin;
-    }
-    if (cookieJar.size > 0) {
-      headers.Cookie = [...cookieJar].map(([name, value]) => `${name}=${value}`).join('; ');
-    }
     try {
-      const response = await fetchImpl(target, { method, redirect: 'follow', headers, signal: controller.signal });
-      storeCookies(response);
-      return response;
+      return await Promise.race([perform(), timeout]);
     } finally {
       clearTimeout(timer);
     }
@@ -174,35 +252,46 @@ async function probeUrl(url, { fetchImpl = fetch, timeoutMs = 10000 } = {}) {
       const playlistBase = responseUrl(playlistResponse, url);
       const variantUri = firstUriAfter(lines, '#EXT-X-STREAM-INF');
       if (variantUri) {
-        const variantResponse = await request(new URL(variantUri, playlistBase), 'GET', playlistBase);
+        const variant = await request(new URL(variantUri, playlistBase), 'GET', playlistBase);
+        const variantResponse = variant.response;
+        if (variantResponse.status < 200 || variantResponse.status >= 300) {
+          return { failure: classifyProbe({ status: variantResponse.status, contentType: variantResponse.headers.get('content-type'), body: variant.body }) };
+        }
         playlistResponse = variantResponse;
-        playlistBody = await readPrefix(variantResponse);
+        playlistBody = variant.body;
         continue;
       }
       const segmentUri = firstMediaUri(lines);
       if (!segmentUri) return null;
-      const segmentResponse = await request(new URL(segmentUri, playlistBase), 'GET', playlistBase);
-      return {
+      const segment = await request(new URL(segmentUri, playlistBase), 'GET', playlistBase);
+      const segmentResponse = segment.response;
+      if (segmentResponse.status < 200 || segmentResponse.status >= 300) {
+        return { failure: classifyProbe({ status: segmentResponse.status, contentType: segmentResponse.headers.get('content-type'), body: segment.body }) };
+      }
+      return { segment: {
         status: segmentResponse.status,
         contentType: segmentResponse.headers.get('content-type'),
-        body: await readPrefix(segmentResponse),
-      };
+        body: segment.body,
+      } };
     }
     return null;
   };
   try {
     let headResponse;
     try {
-      headResponse = await request(url, 'HEAD');
+      headResponse = (await request(url, 'HEAD', null, false)).response;
     } catch {
       // HEAD is advisory. A fresh GET request is the authoritative probe.
     }
-    const response = await request(url, 'GET', headResponse ? responseUrl(headResponse, url) : url);
-    const body = await readPrefix(response);
+    const primary = await request(url, 'GET', headResponse ? responseUrl(headResponse, url) : url);
+    const response = primary.response;
+    const body = primary.body;
     const result = { status: response.status, contentType: response.headers.get('content-type'), body };
     const type = normalizeType(result.contentType);
     if (response.status >= 200 && response.status < 300 && (HLS_TYPES.has(type) || body.toString('utf8').trimStart().startsWith('#EXTM3U'))) {
-      result.segment = await fetchHlsSegment(response, body);
+      const hls = await fetchHlsSegment(response, body);
+      if (hls?.failure) return hls.failure;
+      result.segment = hls?.segment || null;
     }
     return classifyProbe(result);
   } catch (error) {
