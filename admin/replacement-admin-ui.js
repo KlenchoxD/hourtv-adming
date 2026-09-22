@@ -24,6 +24,10 @@
   const callRpc = async (name,args) => unwrap(root.HourTVAdminState.supabase.rpc(name,args));
   const candidateFor = id => candidates.find(candidate => candidate.id === id);
   const sourceFor = id => healthRows.find(source => source.source_id === id);
+  function ensureNoPendingRecovery(){
+    const state=root.HourTVPublishRecovery.loadRecovery(localStorage);if(!state)return true;
+    root.toast(state.phase==='pending_publish'?'Primero reintenta la publicación pendiente.':'Primero finaliza la sincronización pendiente.','err');renderRecoveryIndicator();return false;
+  }
 
   async function refreshAdminCounts() {
     if (!root.HourTVAdminState.supabase || !root.HourTVAdminState.session) return;
@@ -335,7 +339,3 @@
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', refreshAdminCounts);
   else refreshAdminCounts();
 }(window));
-  function ensureNoPendingRecovery(){
-    const state=root.HourTVPublishRecovery.loadRecovery(localStorage);if(!state)return true;
-    root.toast(state.phase==='pending_publish'?'Primero reintenta la publicación pendiente.':'Primero finaliza la sincronización pendiente.','err');renderRecoveryIndicator();return false;
-  }
