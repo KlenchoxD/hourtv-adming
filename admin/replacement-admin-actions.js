@@ -16,7 +16,13 @@
     if(api.persistSearchResult){
       const providerId=(result.attempts.find(a=>a.reason==='high_candidate_found')||{}).providerId||null;
       const persisted=await api.persistSearchResult({source,result,providerId});
-      return {...result,...(persisted||{})};
+      const selectedProvider=providerFor(normalized,providerId);
+      const message=result.candidate
+        ? `Reemplazo recomendado: ${selectedProvider?.name || 'Página de respaldo'} (prioridad ${selectedProvider?.priority ?? '—'}, confianza alta ${Number(result.candidate.trustScore || 100)}/100).`
+        : result.reason === 'no_registered_adapter'
+          ? 'No se puede elegir un reemplazo: ninguna página de respaldo tiene un adaptador instalado.'
+          : 'No se encontró un reemplazo que coincida y pueda reproducirse con confianza alta.';
+      return {...result,...(persisted||{}),message};
     }
     await api.persistAttempts(result.attempts);
     if(!result.candidate){

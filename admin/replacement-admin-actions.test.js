@@ -5,7 +5,7 @@ const { AdapterRegistry } = require('./backup-adapters');
 const { searchReplacement, testProviderConfiguration, revalidateCandidate, revalidateStaleBatch, applyConfirmedReplacement, discardAtomically, executeBatchWorkflow, selectOptimalCandidate, loadAdminData } = require('./replacement-admin-actions');
 
 const target = { sourceId:'s1', type:'movie', tmdbId:7, title:'Peli', language:'es', year:2025 };
-const fresh = { type:'movie', tmdbId:7, title:'Peli', language:'es', year:2025, reproducible:true, url:'https://media.example/video.m3u8', checkedAt:'2026-09-22T01:00:00Z', expiresAt:'2026-09-23T01:00:00Z' };
+const fresh = { type:'movie', tmdbId:7, title:'Peli', language:'es', year:2025, reproducible:true, url:'https://media.example/video.m3u8', checkedAt:'2026-09-22T01:00:00Z', expiresAt:'2026-09-24T01:00:00Z' };
 
 test('search executes active adapters by priority and persists attempts, best fresh candidate and notification', async () => {
   const registry = new AdapterRegistry();
