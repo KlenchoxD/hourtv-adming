@@ -85,3 +85,31 @@ test('logout clears access, refresh, and expiry tokens', async () => {
   assert.equal(store.has('hourtv_sb_refresh_token'), false);
   assert.equal(store.has('hourtv_sb_expires_at'), false);
 });
+
+test('public session snapshot never exposes refresh or expiry metadata', () => {
+  const client = createClient({ url: 'https://example.supabase.co', key: 'anon', storage: storage() });
+  const snapshot = client._publicSession({
+    access_token: 'access-secret',
+    refresh_token: 'refresh-secret',
+    expires_at: 123,
+    user: { email: 'admin@example.test' },
+  });
+  assert.deepEqual(snapshot, { user: { email: 'admin@example.test' }, hasSession: true });
+  assert.equal(Object.prototype.hasOwnProperty.call(snapshot, 'access_token'), false);
+  assert.equal(Object.prototype.hasOwnProperty.call(snapshot, 'refresh_token'), false);
+  assert.equal(Object.prototype.hasOwnProperty.call(snapshot, 'expires_at'), false);
+});
+
+test('getSession remains usable while returning only the public snapshot', async () => {
+  const client = createClient({
+    url: 'https://example.supabase.co',
+    key: 'anon',
+    storage: storage({
+      hourtv_sb_access_token: 'access-secret',
+      hourtv_sb_refresh_token: 'refresh-secret',
+      hourtv_sb_expires_at: '123',
+    }),
+  });
+  const result = await client.auth.getSession();
+  assert.deepEqual(result.data.session, { user: { email: 'Administrador' }, hasSession: true });
+});

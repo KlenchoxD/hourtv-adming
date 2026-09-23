@@ -2192,7 +2192,7 @@ let dsTotal = 0;
 window._downServersCount = 0;
 window.HourTVAdminState = {
   get supabase(){ return supabase; },
-  get session(){ return sbSession; },
+  get session(){ return sbSession && supabase ? supabase._publicSession(sbSession) : null; },
   get catalog(){ return catalog; },
   get activeTab(){ return activeTab; },
   set activeTab(value){ activeTab = value; }

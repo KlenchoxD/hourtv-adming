@@ -26,6 +26,10 @@
     var expiresAt = Number(read(expiresKey) || 0);
     return { access_token: access, refresh_token: read(refreshKey) || undefined, expires_at: expiresAt || undefined, user: { email: 'Administrador' } };
   }
+  function publicSession(value) {
+    if (!value) return null;
+    return { user: value.user ? { email: value.user.email || null } : null, hasSession: !!value.access_token };
+  }
   function saveSession(value) {
     if (!value || !value.access_token) return;
     write(accessKey, value.access_token);
@@ -95,7 +99,7 @@
   }
   var client = {
     auth: {
-      getSession: function () { return Promise.resolve({ data: { session: session() } }); },
+      getSession: function () { return Promise.resolve({ data: { session: publicSession(session()) } }); },
       onAuthStateChange: function () { return Promise.resolve({ data: { subscription: { unsubscribe: function () {} } } }); },
       signInWithPassword: function (credentials) {
         return fetchImpl(url + '/auth/v1/token?grant_type=password', {
@@ -116,6 +120,7 @@
     _saveSession: saveSession,
     _refreshSession: refreshSession,
     _session: session,
+    _publicSession: publicSession,
     rpc: function (name, args) {
       return request(function (token) {
         return fetchImpl(url + '/rest/v1/rpc/' + encodeURIComponent(name), {
