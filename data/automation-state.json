@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-09-23T18:37:41.101Z",
+  "lastRunAt": "2026-09-23T21:46:46.676Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -26,13 +26,13 @@
     1375646,
     1294189,
     1482547,
-    1285366,
     1440098,
-    1339713,
+    1285366,
     1232569,
     1386315,
+    1339713,
     1323244,
-    1469930,
+    1751701,
     1335666
   ],
   "tmdbIdsPublished": [],
@@ -135,14 +135,14 @@
       "reason": "Votos 14 por debajo del mínimo (50)"
     },
     {
-      "tmdbId": 1285366,
-      "title": "愛のぬくもり",
-      "reason": "Votos 8 por debajo del mínimo (50)"
-    },
-    {
       "tmdbId": 1440098,
       "title": "Enfrentados: Marfil",
       "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1285366,
+      "title": "愛のぬくもり",
+      "reason": "Votos 8 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1232569,
@@ -160,9 +160,9 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1469930,
-      "title": "Tumbal Proyek",
-      "reason": "Rating 3.9 por debajo del mínimo (5.5)"
+      "tmdbId": 1751701,
+      "title": "After Impact",
+      "reason": "Rating 5.1 por debajo del mínimo (5.5)"
     }
   ]
 }
