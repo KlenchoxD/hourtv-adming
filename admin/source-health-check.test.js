@@ -241,16 +241,29 @@ test('probeUrl falls back to GET when HEAD is not supported', async () => {
   assert.deepEqual(calls.map((call) => call.method), ['HEAD', 'GET']);
 });
 
-test('probeUrl treats timeouts and DNS errors as inconclusive', async () => {
+test('probeUrl treats timeouts as inconclusive and confirmed DNS absence as down', async () => {
   for (const error of [Object.assign(new Error('timed out'), { name: 'AbortError' }), Object.assign(new Error('not found'), { code: 'ENOTFOUND' })]) {
     const result = await probeUrl('https://unavailable.example.test/video.mp4', {
       fetchImpl: async () => { throw error; },
     });
     assert.equal(result.ok, false);
-    assert.equal(result.conclusive, false);
-    assert.equal(result.reason, 'blocked-or-unknown');
+    assert.equal(result.conclusive, error.code === 'ENOTFOUND');
+    if (error.code === 'ENOTFOUND') assert.equal(result.permanent, true);
+    else assert.equal(result.permanent, undefined);
+    assert.equal(result.reason, error.code === 'ENOTFOUND' ? 'dns' : 'blocked-or-unknown');
     assert.match(result.detail, /^(timeout|dns)$/);
   }
+});
+
+test('permanent DNS failure confirms a source as down immediately', () => {
+  const result = nextHealth(
+    { status: 'active', consecutiveFailures: 0 },
+    { ok: false, conclusive: true, permanent: true, reason: 'dns' },
+    '2026-09-23T00:00:00.000Z',
+    'run-dns',
+  );
+  assert.equal(result.status, 'down');
+  assert.equal(result.consecutiveFailures, 1);
 });
 
 test('probeUrl times out when headers arrive but reading the body stalls', async () => {

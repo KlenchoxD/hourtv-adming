@@ -74,7 +74,11 @@ function nextHealth(previous = {}, result, now = new Date().toISOString(), runId
   const nextFailures = failures + (isDistinctRun ? 1 : 0);
   const firstFailureAt = previous.firstFailureAt || now;
   const elapsedMs = Date.parse(now) - Date.parse(firstFailureAt);
-  const isConfirmedDown = nextFailures >= 3 && Number.isFinite(elapsedMs) && elapsedMs >= 12 * 60 * 60 * 1000;
+  // Un NXDOMAIN es una evidencia concluyente de que el host publicado no
+  // existe en DNS. No lo dejamos bloqueado indefinidamente: el reemplazo
+  // debe poder activarse aunque nunca llegue a responder HTTP.
+  const isConfirmedDown = result.permanent === true
+    || (nextFailures >= 3 && Number.isFinite(elapsedMs) && elapsedMs >= 12 * 60 * 60 * 1000);
   return {
     ...base,
     status: isConfirmedDown ? 'down' : 'suspected_down',
@@ -317,11 +321,14 @@ async function probeUrl(url, { fetchImpl = fetch, timeoutMs = 10000 } = {}) {
     }
     return classifyProbe(result);
   } catch (error) {
+    const errorCode = error?.code || error?.cause?.code;
+    const dnsFailure = errorCode === 'ENOTFOUND';
     return {
       ok: false,
-      conclusive: false,
-      reason: 'blocked-or-unknown',
-      detail: error?.name === 'AbortError' ? 'timeout' : (error?.code === 'ENOTFOUND' ? 'dns' : 'network'),
+      conclusive: dnsFailure,
+      ...(dnsFailure ? { permanent: true } : {}),
+      reason: dnsFailure ? 'dns' : 'blocked-or-unknown',
+      detail: error?.name === 'AbortError' ? 'timeout' : (dnsFailure ? 'dns' : 'network'),
     };
   }
 }
