@@ -160,10 +160,10 @@
       : `<button class="btn-primary btn-sm" disabled title="Primero pulsa Buscar reemplazo y espera una coincidencia de confianza alta">Reemplazar servidor (requiere candidato)</button>`;
     const candidateHint = highCandidate
       ? `<div class="hint" style="color:var(--ok)">Candidato elegido: ${e(provider?.name || 'Página de respaldo')} · confianza alta (${candidateScore(highCandidate)}/100)</div>`
-      : '<div class="hint">No hay candidato verificable todavía. El sistema no elegirá una URL a ciegas.</div>';
+      : '<div class="hint">No hay candidato verificable todavía. No hay ninguna página de respaldo con adaptador instalado, así que esta búsqueda nunca encontrará una por su cuenta: usa "Reemplazar manualmente".</div>';
     return `<article class="admin-card"><div class="admin-card-head"><div><b>${e(row.source_name)}</b><div class="hint">${e(row.title_name)}${row.episode_id ? ` · T${e(row.season_number)} E${e(row.episode_number)}` : ''}</div></div><span class="status-badge status-${row.health_status === 'down' ? 'down' : 'active'}">${e(row.health_status)}</span></div>
       <div class="admin-meta"><span>HTTP ${e(row.health_http_code || '—')}</span><span>${e(row.health_consecutive_failures)} fallos consecutivos</span><span>Última comprobación: ${iso(row.health_last_check)}</span></div><div class="hint">${e(row.health_last_error || 'Sin error registrado')}</div>${candidateHint}
-      <div class="admin-actions"><button class="btn-ghost btn-sm" onclick="requestSourceRecheck('${row.source_id}')">Comprobar otra vez</button>${['down','suspected_down','blocked_or_unknown'].includes(row.health_status)?`<button class="btn-ghost btn-sm" onclick="searchSourceReplacement('${row.source_id}')">${highCandidate ? 'Buscar otro reemplazo' : 'Buscar reemplazo'}</button>${replacementButton}`:''}${notifications.some(n => n.source_id === row.source_id) ? `<button class="btn-ghost btn-sm" onclick="openSourceNotification('${row.source_id}')">Ver notificación</button>` : ''}</div></article>`;
+      <div class="admin-actions"><button class="btn-ghost btn-sm" onclick="requestSourceRecheck('${row.source_id}')">Comprobar otra vez</button>${['down','suspected_down','blocked_or_unknown'].includes(row.health_status)?`<button class="btn-ghost btn-sm" onclick="searchSourceReplacement('${row.source_id}')">${highCandidate ? 'Buscar otro reemplazo' : 'Buscar reemplazo'}</button>${replacementButton}<button class="btn-primary btn-sm" onclick="openManualReplace('${row.source_id}')">Reemplazar manualmente</button>`:''}${notifications.some(n => n.source_id === row.source_id) ? `<button class="btn-ghost btn-sm" onclick="openSourceNotification('${row.source_id}')">Ver notificación</button>` : ''}</div></article>`;
   }
 
   function notificationCard(notification) {
@@ -366,6 +366,40 @@
     root.HourTVAdminState.activeTab = 'notifications'; root.renderTabs(); renderNotifications().then(() => openNotificationDetail(notification.id));
   }
 
+  // Sin adaptador instalado el buscador automático nunca va a encontrar un
+  // candidato, así que aquí el admin escribe la URL a mano. Esto solo toca
+  // el catálogo local (igual que editar el servidor desde Películas/Series);
+  // no hay scraping, no hay candidato ni RPC de por medio.
+  function openManualReplace(sourceId) {
+    const source = healthRows.find(row => row.source_id === sourceId); if (!source) return;
+    document.getElementById('modal').innerHTML = `<div class="modal-head"><h3>Reemplazar servidor manualmente</h3><button class="btn-ghost btn-sm" onclick="closeModal()">✕</button></div>
+      <div class="modal-body">
+        <div class="sb-section">
+          <div class="sb-row"><span class="sb-label">Contenido</span><span class="sb-value" style="white-space:normal;text-align:right">${e(source.title_name)}${source.episode_id ? ` · T${e(source.season_number)} E${e(source.episode_number)}` : ''}</span></div>
+          <div class="sb-row"><span class="sb-label">Servidor anterior</span><span class="sb-value" style="white-space:normal;text-align:right">${e(source.source_url)}</span></div>
+        </div>
+        <label class="hint" for="manual_repl_url">URL del nuevo servidor</label>
+        <input type="text" id="manual_repl_url" style="width:100%" placeholder="https://..." />
+        <p class="hint" style="margin-top:8px">Se aplica solo al catálogo local. Publica los cambios cuando quieras que llegue a la app.</p>
+      </div>
+      <div class="modal-foot"><button class="btn-ghost" onclick="closeModal()">Cancelar</button><button class="btn-primary" onclick="confirmManualReplace('${sourceId}')">Aplicar reemplazo</button></div>`;
+    document.getElementById('overlay').classList.add('open');
+  }
+
+  function confirmManualReplace(sourceId) {
+    const source = healthRows.find(row => row.source_id === sourceId); if (!source) return;
+    const input = document.getElementById('manual_repl_url');
+    const url = input ? input.value.trim() : '';
+    if (!url) return root.toast('Escribe la URL del nuevo servidor', 'err');
+    if (!root.HourTVReplacementLogic.isValidHttpsUrl(url)) return root.toast('La URL debe ser HTTPS válida', 'err');
+    const locator = { sourceId: source.source_id, previousUrl: source.source_url, contentType: source.episode_id ? 'episode' : 'movie', tmdbId: source.tmdb_id, season: source.season_number, episode: source.episode_number, url, proposedName: source.source_name };
+    try {
+      root.HourTVReplacementAdmin.replaceCatalogSource(root.HourTVAdminState.catalog, locator);
+      root.save(); root.closeModal(); root.render();
+      root.toast('Reemplazo aplicado al catálogo local. Publica cuando quieras enviarlo a la app.', 'ok');
+    } catch (error) { root.toast('No se aplicó: ' + error.message, 'err'); }
+  }
+
   root.renderBackupProviders = renderBackupProviders; root.openBackupProviderEditor = openBackupProviderEditor; root.saveBackupProvider = saveBackupProvider;
   root.moveBackupProvider = moveBackupProvider; root.toggleBackupProvider = toggleBackupProvider; root.deleteBackupProvider = deleteBackupProvider; root.testBackupProvider = testBackupProvider;
   root.renderNotifications = renderNotifications; root.setNotificationFilter = setNotificationFilter; root.toggleNotificationRead = toggleNotificationRead;
@@ -373,6 +407,7 @@
   root.openBatchPreview = openBatchPreview; root.confirmBatchReplacement = confirmBatchReplacement; root.refreshAdminCounts = refreshAdminCounts;
   root.renderDownServers = renderSourceHealth; root.setHealthState = setHealthState; root.requestSourceRecheck = requestSourceRecheck;
   root.searchSourceReplacement = searchSourceReplacement; root.openSourceReplacement = openSourceReplacement; root.openSourceNotification = openSourceNotification;
+  root.openManualReplace = openManualReplace; root.confirmManualReplace = confirmManualReplace;
   root.finalizePendingReplacementPublish=finalizePendingReplacementPublish;
   root.retryReplacementRecovery=retryReplacementRecovery;
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',renderRecoveryIndicator);else renderRecoveryIndicator();
