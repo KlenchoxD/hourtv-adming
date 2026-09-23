@@ -276,6 +276,12 @@ async function probeUrl(url, { fetchImpl = fetch, timeoutMs = 10000 } = {}) {
     }
     return null;
   };
+  const embeddedMediaUrl = (body) => {
+    const text = Buffer.from(body || '').toString('utf8');
+    const match = text.match(/[\"']file[\"']\s*:\s*[\"'](https?:\/\/[^\"']+(?:\.m3u8|\.mp4)[^\"']*)[\"']/i)
+      || text.match(/https?:\/\/[^\"'\s\\]+?(?:\.m3u8|\.mp4)(?:[^\"'\s\\]*)/i);
+    return match ? match[1].replace(/\\\\\//g, '/').replace(/\\\//g, '/') : null;
+  };
   try {
     let headResponse;
     try {
@@ -288,6 +294,22 @@ async function probeUrl(url, { fetchImpl = fetch, timeoutMs = 10000 } = {}) {
     const body = primary.body;
     const result = { status: response.status, contentType: response.headers.get('content-type'), body };
     const type = normalizeType(result.contentType);
+    if (response.status >= 200 && response.status < 300 && looksHtml(body)) {
+      const mediaUrl = embeddedMediaUrl(body);
+      if (mediaUrl) {
+        const media = await request(mediaUrl, 'GET', responseUrl(response, url));
+        const mediaResponse = media.response;
+        const mediaResult = { status: mediaResponse.status, contentType: mediaResponse.headers.get('content-type'), body: media.body };
+        const mediaType = normalizeType(mediaResult.contentType);
+        if (mediaResponse.status >= 200 && mediaResponse.status < 300 && (HLS_TYPES.has(mediaType) || media.body.toString('utf8').trimStart().startsWith('#EXTM3U'))) {
+          const hls = await fetchHlsSegment(mediaResponse, media.body);
+          if (hls?.failure) return hls.failure;
+          mediaResult.segment = hls?.segment || null;
+        }
+        const embeddedResult = classifyProbe(mediaResult);
+        if (embeddedResult.conclusive || embeddedResult.ok) return { ...embeddedResult, detail: 'embedded-media' };
+      }
+    }
     if (response.status >= 200 && response.status < 300 && (HLS_TYPES.has(type) || body.toString('utf8').trimStart().startsWith('#EXTM3U'))) {
       const hls = await fetchHlsSegment(response, body);
       if (hls?.failure) return hls.failure;

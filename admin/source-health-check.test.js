@@ -34,6 +34,22 @@ test('classifies access-control and transient HTTP responses as blocked or unkno
   }
 });
 
+test('probes media declared inside an embed page instead of treating HTML 200 as healthy', async () => {
+  const calls = [];
+  const html = '<html><script>sources: [{"file":"https://media.example.test/pride/video.m3u8"}]</script></html>';
+  const result = await probeUrl('https://barmonrey.example.test/player/pride', {
+    fetchImpl: async (url, init) => {
+      calls.push(String(url));
+      if (init.method === 'HEAD') return { status: 200, url: String(url), headers: new Headers({ 'content-type': 'text/html' }), body: null };
+      if (String(url).includes('video.m3u8')) return { status: 404, url: String(url), headers: new Headers({ 'content-type': 'text/plain' }), body: new Response('missing').body };
+      return { status: 200, url: String(url), headers: new Headers({ 'content-type': 'text/html' }), body: new Response(html).body };
+    },
+  });
+  assert.equal(result.conclusive, true);
+  assert.equal(result.reason, 'http-404');
+  assert.ok(calls.some(url => url.includes('video.m3u8')));
+});
+
 test('rejects arbitrary octet-stream payloads', () => {
   for (const body of [Buffer.from('{"advertisement":true}'), Buffer.from('plain text payload')]) {
     const result = classifyProbe({ status: 200, contentType: 'application/octet-stream', body });
