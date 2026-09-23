@@ -2142,6 +2142,7 @@ async function loadFromGitHub(){
 })();
 </script>
 <script src="catalog-publish.js"></script>
+<script src="supabase-rest-auth.js"></script>
 
 <script>
 // ═══ Sidebar data updater — wraps existing render/refreshStatus ═══
@@ -2198,7 +2199,7 @@ window.HourTVAdminState = {
 };
 window.HourTVBackupAdapters = new HourTVBackupAdapterCore.AdapterRegistry();
 
-function restSupabaseClient(url, key, token) {
+function legacyRestSupabaseClient(url, key, token) {
   const base = url.replace(/\/$/, '') + '/rest/v1/';
   return {
     auth: {
@@ -2260,6 +2261,20 @@ function restSupabaseClient(url, key, token) {
   };
 }
 
+function restSupabaseClient(url, key) {
+  return window.HourTVSupabaseRestAuth({
+    url: url,
+    key: key,
+    storage: localStorage,
+    onSessionExpired: function () {
+      sbSession = null;
+      supabase = null;
+      updateSupabaseAuthBtn();
+      toast('La sesión expiró. Vuelve a iniciar sesión.', 'err');
+    }
+  });
+}
+
 function initSupabase() {
   const url = localStorage.getItem('hourtv_sb_url');
   const key = localStorage.getItem('hourtv_sb_anon_key');
@@ -2271,8 +2286,8 @@ function initSupabase() {
   }
   const storedToken = localStorage.getItem('hourtv_sb_access_token');
   if (url && key && storedToken) {
-    supabase = restSupabaseClient(url, key, storedToken);
-    sbSession = { access_token: storedToken, user: { email: 'Administrador' } };
+    supabase = restSupabaseClient(url, key);
+    sbSession = supabase._session();
     updateSupabaseAuthBtn();
     fetchDownServersCount();
     return;
@@ -2346,7 +2361,7 @@ async function saveSupabaseAuth() {
 
   if (url && key) {
     const access = localStorage.getItem('hourtv_sb_access_token') || '';
-    supabase = restSupabaseClient(url, key, access);
+    supabase = restSupabaseClient(url, key);
     updateSupabaseAuthBtn();
   }
 
@@ -2358,7 +2373,7 @@ async function saveSupabaseAuth() {
     const { data, error } = await supabase.auth.signInWithPassword({ email: emailInput.value, password: passInput.value });
     if (error) { toast('Error de inicio de sesión: ' + error.message, 'err'); return; }
     sbSession = data.session;
-    supabase = restSupabaseClient(url, key, data.session.access_token);
+    supabase = restSupabaseClient(url, key);
     updateSupabaseAuthBtn();
     if (typeof refreshAdminCounts === 'function') refreshAdminCounts();
     toast('Sesión iniciada', 'ok');
@@ -2551,6 +2566,8 @@ document.addEventListener('click', function (event) {
     localStorage.setItem('hourtv_sb_url', projectUrl);
     localStorage.setItem('hourtv_sb_anon_key', anonKey);
     localStorage.setItem('hourtv_sb_access_token', result.access_token);
+    if (result.refresh_token) localStorage.setItem('hourtv_sb_refresh_token', result.refresh_token);
+    if (result.expires_at || result.expires_in) localStorage.setItem('hourtv_sb_expires_at', String(result.expires_at || Math.floor(Date.now() / 1000) + Number(result.expires_in)));
     location.reload();
   });
   overlay.classList.add('open');
@@ -2575,19 +2592,23 @@ document.addEventListener('click', function (event) {
       const response = await fetch(url.replace(/\/$/, '') + '/auth/v1/user', { method: 'PUT', headers: { apikey: key, Authorization: 'Bearer ' + access, 'Content-Type': 'application/json' }, body: JSON.stringify({ password }) });
       if (!response.ok) { toast('No se pudo actualizar la contraseña', 'err'); return; }
       localStorage.setItem('hourtv_sb_access_token', access);
+      if (params.get('refresh_token')) localStorage.setItem('hourtv_sb_refresh_token', params.get('refresh_token'));
+      if (params.get('expires_at') || params.get('expires_in')) localStorage.setItem('hourtv_sb_expires_at', params.get('expires_at') || String(Math.floor(Date.now() / 1000) + Number(params.get('expires_in'))));
       history.replaceState({}, document.title, location.pathname + location.search);
       location.reload();
     });
     return;
   }
   localStorage.setItem('hourtv_sb_access_token', access);
+  if (params.get('refresh_token')) localStorage.setItem('hourtv_sb_refresh_token', params.get('refresh_token'));
+  if (params.get('expires_at') || params.get('expires_in')) localStorage.setItem('hourtv_sb_expires_at', params.get('expires_at') || String(Math.floor(Date.now() / 1000) + Number(params.get('expires_in'))));
   history.replaceState({}, document.title, location.pathname + location.search);
   if (typeof restSupabaseClient === 'function') {
     const url = localStorage.getItem('hourtv_sb_url');
     const key = localStorage.getItem('hourtv_sb_anon_key');
     if (url && key) {
-      supabase = restSupabaseClient(url, key, access);
-      sbSession = { access_token: access, user: { email: 'Administrador' } };
+      supabase = restSupabaseClient(url, key);
+      sbSession = supabase._session();
       updateSupabaseAuthBtn();
       fetchDownServersCount();
       if (activeTab === 'down_servers') renderDownServers();
