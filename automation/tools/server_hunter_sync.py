@@ -296,6 +296,7 @@ def main() -> None:
                     "language": server["language"],
                     "serverName": server["serverName"],
                     "url": server["url"],
+                    "sourcePage": page_url,
                 })
             print(f"  -> Coincidencia exacta: {tmdb_title} ({tmdb_year}) [tmdbId={tmdb_id}] — {len(servers)} servidor(es)")
         else:

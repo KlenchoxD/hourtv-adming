@@ -6,6 +6,26 @@ const { PLAN_VERSION, computeLogicalHash } = require("./bootstrap-plan-format");
 const NAMESPACE = "e9089519-c6bd-41e8-9a54-6cb6d9da98d8";
 const SCHEMA_MIGRATION = "20260910165527_create_catalog_schema.sql";
 
+function sourceProvenance(source) {
+  const page = String(source?.sourcePage || source?.source_page || source?.refererUrl || "").trim();
+  try {
+    const parsed = new URL(page);
+    if (parsed.protocol !== "https:" || parsed.username || parsed.password) return { referer_url: null, origin_url: null };
+    const host = parsed.hostname.toLowerCase();
+    if (
+      host === "localhost" || host === "127.0.0.1" || host === "0.0.0.0" || host === "::1" ||
+      /^(10\.|192\.168\.|169\.254\.|172\.(1[6-9]|2\d|3[0-1])\.)/.test(host) ||
+      !/^[a-z0-9.-]+$/.test(host)
+    ) return { referer_url: null, origin_url: null };
+    if (/(^|[?&])(token|api[_-]?key|secret|auth|cookie|jwt)=/i.test(parsed.search)) {
+      return { referer_url: null, origin_url: null };
+    }
+    return { referer_url: parsed.toString(), origin_url: parsed.origin };
+  } catch {
+    return { referer_url: null, origin_url: null };
+  }
+}
+
 function uuidToBytes(uuidStr) {
   const hex = uuidStr.replace(/-/g, "");
   return Buffer.from(hex, "hex");
@@ -361,8 +381,7 @@ function generateBootstrapPlan(
             order_index: 0,
             status: "active",
             requires_webview: false,
-            referer_url: null,
-            origin_url: null,
+            ...sourceProvenance(srv),
             user_agent_profile: null,
           };
           addOp("source", srcRec, [titleId, lId]);
@@ -484,8 +503,7 @@ function generateBootstrapPlan(
                     order_index: 0,
                     status: "active",
                     requires_webview: false,
-                    referer_url: null,
-                    origin_url: null,
+                    ...sourceProvenance(srv),
                     user_agent_profile: null,
                   };
                   addOp("source", srcRec, [episodeId, lId]);

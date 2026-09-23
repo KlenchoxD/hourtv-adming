@@ -16,6 +16,8 @@ export interface CatalogServer {
   id: string;
   name: string;
   url: string;
+  /** Página original de la que el scraper obtuvo este servidor. */
+  sourcePage?: string;
   language?: string;
   health?: CatalogServerHealth;
   replacementForId?: string;
@@ -130,6 +132,7 @@ export interface NormalizedMovie {
 
 export interface ProviderResult {
   url: string;
+  sourcePage?: string;
   serverName: string;
   language: string;
   providerId?: string;

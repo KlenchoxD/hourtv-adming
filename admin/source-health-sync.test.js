@@ -140,3 +140,22 @@ test('recognizes known embed hosts even when editorial flag is false', async () 
   assert.equal(report.results[0].result.reason, 'requires-webview');
   assert.equal(report.results[0].result.conclusive, false);
 });
+
+test('refreshes a failed source from its origin page and persists the new URL', async () => {
+  const client = { async query(text) {
+    if (text.startsWith('SELECT')) return { rows: [{
+      id: 'source-origin-1', url: 'https://voe.sx/e/old', referer_url: 'https://catalog.test/movie/pride',
+      requires_webview: false, health_status: 'down', health_consecutive_failures: 3,
+    }] };
+    return { rows: [] };
+  } };
+  const report = await require('./source-health-sync').run({
+    client,
+    probe: async (url) => ({ ok: url.endsWith('/new'), conclusive: true, reason: 'media' }),
+    refresh: async () => ({ recovered: true, originUrl: 'https://catalog.test/movie/pride', url: 'https://voe.sx/e/new', result: { ok: true, conclusive: true, reason: 'media' } }),
+  });
+  assert.equal(report.results[0].result.sourceUrl, 'https://voe.sx/e/new');
+  const update = buildHealthUpdate(report.results[0].previous, report.results[0].result, report.results[0].checkedAt, report.runId);
+  assert.equal(update.healthStatus, 'recovered');
+  assert.equal(update.sourceUrl, 'https://voe.sx/e/new');
+});

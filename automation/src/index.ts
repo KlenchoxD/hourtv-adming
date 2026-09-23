@@ -306,6 +306,7 @@ async function main() {
           id: randomUUID(),
           name: v.result.serverName,
           url: v.result.url,
+          sourcePage: v.result.sourcePage,
           language: v.result.language,
           health: { status: "pending", consecutiveFailures: 0 },
         });

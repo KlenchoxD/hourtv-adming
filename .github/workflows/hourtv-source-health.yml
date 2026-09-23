@@ -1,0 +1,51 @@
+name: HourTV Salud y renovación de fuentes
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Simular sin guardar cambios"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: hourtv-source-health
+  cancel-in-progress: false
+
+jobs:
+  check-sources:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout del repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: admin/package-lock.json
+
+      - name: Instalar dependencias del comprobador
+        working-directory: admin
+        run: npm ci
+
+      - name: Comprobar fuentes y renovar desde su página de origen
+        env:
+          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+          CONFIRM_SOURCE_HEALTH_APPLY: "true"
+        run: |
+          if [ -z "$SUPABASE_DB_URL" ]; then
+            echo "Falta configurar el secreto SUPABASE_DB_URL" >&2
+            exit 1
+          fi
+          if [ "${{ github.event.inputs.dry_run || 'false' }}" = "true" ]; then
+            node admin/source-health-sync.js --dry-run
+          else
+            node admin/source-health-sync.js --apply
+          fi

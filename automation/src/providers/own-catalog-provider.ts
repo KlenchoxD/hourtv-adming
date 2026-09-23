@@ -15,6 +15,7 @@ interface OwnCatalogEntry {
   language?: string;
   serverName?: string;
   url: string;
+  sourcePage?: string;
 }
 
 interface OwnCatalogFile {
@@ -61,6 +62,7 @@ export class OwnCatalogProvider implements ContentProvider {
     const matches = entries.filter((e) => e.tmdbId === movie.tmdbId && e.url);
     return matches.map((e) => ({
       url: e.url,
+      sourcePage: e.sourcePage,
       serverName: e.serverName || "Catálogo propio",
       language: e.language || "Español",
       providerId: this.name,
