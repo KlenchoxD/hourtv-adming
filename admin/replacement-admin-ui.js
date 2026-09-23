@@ -298,8 +298,17 @@
 
   function setHealthState(value) { healthState = value; renderSourceHealth(); }
   async function requestSourceRecheck(sourceId) {
-    try { await unwrap(root.HourTVAdminState.supabase.from('sources').update({ health_status:'pending', health_last_error:null }).eq('id', sourceId).select('id')); root.toast('Servidor marcado para una nueva comprobación', 'ok'); await renderSourceHealth(); }
-    catch (error) { root.toast(error.message, 'err'); }
+    try {
+      if (root.HourTVAdminState.hasPendingRecovery && root.HourTVAdminState.hasPendingRecovery()) throw new Error('Resuelve primero la recuperación pendiente');
+      const source = healthRows.find(row => row.source_id === sourceId);
+      if (!source) throw new Error('No se encontró la fuente');
+      const session = root.HourTVAdminState.session || {};
+      const url = localStorage.getItem('hourtv_sb_url'); const key = localStorage.getItem('hourtv_sb_anon_key');
+      const token = localStorage.getItem('hourtv_sb_access_token');
+      const response = await fetch('/api/health-check', { method:'POST', headers:{'Content-Type':'application/json', apikey:key || '', Authorization:token ? `Bearer ${token}` : ''}, body:JSON.stringify({sourceId, source, supabaseUrl:url}) });
+      const result = await response.json(); if (!response.ok) throw new Error(result.error || 'No se pudo comprobar el servidor');
+      root.toast(`Comprobación completada: ${result.health.health_status}`, result.health.health_status === 'down' ? 'err' : 'ok'); await renderSourceHealth();
+    } catch (error) { root.toast(error.message, 'err'); }
   }
   async function searchSourceReplacement(sourceId) {
     if(!ensureNoPendingRecovery())return;
