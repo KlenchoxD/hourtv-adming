@@ -397,7 +397,10 @@
       root.HourTVReplacementAdmin.replaceCatalogSource(root.HourTVAdminState.catalog, locator);
       root.save(); root.closeModal(); root.render();
       root.toast('Reemplazo aplicado al catálogo local. Publica cuando quieras enviarlo a la app.', 'ok');
-    } catch (error) { root.toast('No se aplicó: ' + error.message, 'err'); }
+    } catch (error) {
+      const hint = /no se encontró/i.test(error.message) ? ' Pulsa "↻ Cargar" arriba para refrescar el catálogo local desde GitHub y vuelve a intentarlo.' : '';
+      root.toast('No se aplicó: ' + error.message + hint, 'err');
+    }
   }
 
   root.renderBackupProviders = renderBackupProviders; root.openBackupProviderEditor = openBackupProviderEditor; root.saveBackupProvider = saveBackupProvider;
