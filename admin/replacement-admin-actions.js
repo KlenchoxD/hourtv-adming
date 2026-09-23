@@ -15,19 +15,25 @@
     const result=await adapters.searchWithFallback({providers:normalized,registry,kind:source.type==='episode'?'episode':'movie',query:source,now,maxAgeMs});
     if(api.persistSearchResult){
       const providerId=(result.attempts.find(a=>a.reason==='high_candidate_found')||{}).providerId||null;
-      return api.persistSearchResult({source,result,providerId});
+      const persisted=await api.persistSearchResult({source,result,providerId});
+      return {...result,...(persisted||{})};
     }
     await api.persistAttempts(result.attempts);
     if(!result.candidate){
-      await api.createNotification({notificationType:'replacement_unavailable',sourceId:source.sourceId,message:'No se encontró un reemplazo de confianza alta.'});
-      return result;
+      const message = result.reason === 'no_registered_adapter'
+        ? 'No se puede elegir un reemplazo: ninguna página de respaldo tiene un adaptador instalado.'
+        : 'No se encontró un reemplazo que coincida y pueda reproducirse con confianza alta.';
+      await api.createNotification({notificationType:'replacement_unavailable',sourceId:source.sourceId,message});
+      return {...result,message};
     }
     const winningAttempt=result.attempts.find(a=>a.reason==='high_candidate_found');
     const provider=providerFor(normalized,winningAttempt.providerId);
     const saved=await api.persistCandidate({...result.candidate,sourceId:source.sourceId,backupProviderId:provider.id});
     await api.incrementProviderSuccess(provider.id);
-    await api.createNotification({notificationType:'replacement_found',sourceId:source.sourceId,candidateId:saved.id,message:`Se encontró un reemplazo de confianza alta en ${provider.name}.`});
-    return {...result,candidate:saved};
+    const score = Number(result.candidate.trustScore || 100);
+    const message = `Reemplazo recomendado: ${provider.name} (prioridad ${provider.priority ?? '—'}, confianza alta ${score}/100).`;
+    await api.createNotification({notificationType:'replacement_found',sourceId:source.sourceId,candidateId:saved.id,message});
+    return {...result,candidate:{...saved,trustScore:score},message};
   }
 
   async function testProviderConfiguration({provider,registry,save,now=new Date()}){
@@ -89,7 +95,11 @@
 }));
   function selectOptimalCandidate(candidates,providers){
     const priority=new Map(providers.map(p=>[p.id,Number(p.priority)]));
-    return candidates.filter(c=>c.status==='pending'&&c.confidence==='high').sort((a,b)=>(priority.get(a.backup_provider_id)??Infinity)-(priority.get(b.backup_provider_id)??Infinity)||Date.parse(b.checked_at)-Date.parse(a.checked_at))[0]||null;
+    const score=c=>Number.isFinite(Number(c.trustScore))?Number(c.trustScore):({high:100,medium:60,low:25,rejected:0}[c.confidence]??0);
+    return candidates.filter(c=>c.status==='pending'&&c.confidence==='high').sort((a,b)=>
+      (priority.get(a.backup_provider_id)??Infinity)-(priority.get(b.backup_provider_id)??Infinity)
+      || score(b)-score(a)
+      || Date.parse(b.checked_at)-Date.parse(a.checked_at))[0]||null;
   }
   async function loadAdminData(client){
     const unwrap=async q=>{const r=await q;if(r.error)throw r.error;return r.data||[]};

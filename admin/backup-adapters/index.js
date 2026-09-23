@@ -40,7 +40,8 @@ function selectFallbackCandidate(providerResults) {
   const resultsById = new Map(providerResults.map((result) => [result.provider.id, result]));
   for (const provider of orderedProviders) {
     const high = (resultsById.get(provider.id)?.candidates || [])
-      .find((candidate) => candidate.confidence === 'high');
+      .filter((candidate) => candidate.confidence === 'high')
+      .sort((left, right) => (Number(right.trustScore || 0) - Number(left.trustScore || 0)) || (Date.parse(right.checkedAt) - Date.parse(left.checkedAt)))[0];
     if (high) return high;
   }
   return null;
@@ -52,38 +53,43 @@ async function searchWithFallback({ providers, registry, kind, query, now = new 
   for (const provider of orderProviders(providers)) {
     const adapter = registry.get(provider.adapterName);
     if (!adapter) {
-      attempts.push({ providerId: provider.id, reason: 'adapter_not_registered' });
+      attempts.push({ providerId: provider.id, providerName: provider.name, priority: provider.priority, reason: 'adapter_not_registered' });
       continue;
     }
     let candidates;
     try {
       candidates = await adapter[method](query, provider);
     } catch (error) {
-      attempts.push({ providerId: provider.id, reason: 'adapter_error', error: error.message });
+      attempts.push({ providerId: provider.id, providerName: provider.name, priority: provider.priority, reason: 'adapter_error', error: error.message });
       continue;
     }
     if (!Array.isArray(candidates)) {
-      attempts.push({ providerId: provider.id, reason: 'validator_error', error: 'Adapter result must be an array' });
+      attempts.push({ providerId: provider.id, providerName: provider.name, priority: provider.priority, reason: 'validator_error', error: 'Adapter result must be an array' });
       continue;
     }
     if (candidates.length === 0) {
-        attempts.push({ providerId: provider.id, reason: 'no_candidates' });
+        attempts.push({ providerId: provider.id, providerName: provider.name, priority: provider.priority, reason: 'no_candidates' });
       continue;
     }
     try {
       if (candidates.some((candidate) => !candidate || typeof candidate !== 'object' || Array.isArray(candidate))) {
         throw new TypeError('Every candidate must be an object');
       }
-      const evaluated = candidates.map((candidate) => ({ ...candidate, ...evaluateCandidate(query, candidate, { now, maxAgeMs }) }));
+      const evaluated = candidates.map((candidate) => ({ ...candidate, providerPriority: provider.priority, providerName: provider.name, ...evaluateCandidate(query, candidate, { now, maxAgeMs }) }));
       const high = evaluated.filter((candidate) => candidate.confidence === 'high')
-        .sort((left,right)=>Date.parse(right.checkedAt)-Date.parse(left.checkedAt))[0];
-      attempts.push({ providerId: provider.id, reason: high ? 'high_candidate_found' : 'no_high_candidate', candidates: evaluated });
-      if (high) return { candidate: high, attempts };
+        .sort((left,right)=>(Number(right.trustScore || 0)-Number(left.trustScore || 0)) || (Date.parse(right.checkedAt)-Date.parse(left.checkedAt)))[0];
+      attempts.push({ providerId: provider.id, providerName: provider.name, priority: provider.priority, reason: high ? 'high_candidate_found' : 'no_high_candidate', candidates: evaluated, selectedCandidateUrl: high?.url || null });
+      if (high) return { candidate: high, attempts, selectedProviderId: provider.id, selectionReason: `Página ${provider.name || provider.id} tiene prioridad ${provider.priority ?? 'definida'} y una coincidencia ${high.trustScore || 100}/100.` };
     } catch (error) {
-      attempts.push({ providerId: provider.id, reason: 'validator_error', error: error.message });
+      attempts.push({ providerId: provider.id, providerName: provider.name, priority: provider.priority, reason: 'validator_error', error: error.message });
     }
   }
-  return { candidate: null, attempts };
+  const reason = attempts.length && attempts.every((attempt) => attempt.reason === 'adapter_not_registered')
+    ? 'no_registered_adapter'
+    : attempts.some((attempt) => attempt.reason === 'no_high_candidate')
+      ? 'no_high_candidate'
+      : 'no_provider_result';
+  return { candidate: null, attempts, reason };
 }
 
 return { AdapterRegistry, orderProviders, selectFallbackCandidate, searchWithFallback };

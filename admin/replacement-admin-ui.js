@@ -24,6 +24,9 @@
   const callRpc = async (name,args) => unwrap(root.HourTVAdminState.supabase.rpc(name,args));
   const candidateFor = id => candidates.find(candidate => candidate.id === id);
   const sourceFor = id => healthRows.find(source => source.source_id === id);
+  const providerAdapterName = provider => provider && (provider.adapter_name || provider.adapterName);
+  const providerAdapterReady = provider => Boolean(root.HourTVBackupAdapters && providerAdapterName(provider) && root.HourTVBackupAdapters.get(providerAdapterName(provider)));
+  const candidateScore = candidate => root.HourTVReplacementLogic.candidateTrustScore(candidate);
   function ensureNoPendingRecovery(){
     const state=root.HourTVPublishRecovery.loadRecovery(localStorage);if(!state)return true;
     root.toast(state.phase==='pending_publish'?'Primero reintenta la publicación pendiente.':'Primero finaliza la sincronización pendiente.','err');renderRecoveryIndicator();return false;
@@ -49,12 +52,13 @@
     try {
       providers = await unwrap(root.HourTVAdminState.supabase.from('backup_providers').select('*').order('priority'));
       root._backupProvidersCount = providers.length; root.renderTabs();
-      list.innerHTML = '<div class="admin-toolbar"><button class="btn-primary" onclick="openBackupProviderEditor()">+ Añadir página</button><span class="hint">La prioridad superior se consulta primero. Cada página necesita un adaptador compatible.</span></div>' +
+      list.innerHTML = '<div class="admin-toolbar"><button class="btn-primary" onclick="openBackupProviderEditor()">+ Añadir página</button><span class="hint">Regla: se consulta en orden de prioridad; dentro de cada página se elige la coincidencia verificable más reciente. Una página sin adaptador nunca se usa.</span></div>' +
         (providers.length ? '<div class="admin-stack">' + providers.map((provider, index) => `
           <article class="admin-card">
             <div class="admin-card-head"><div><b>${e(provider.name)}</b><div class="hint">${e(provider.base_url || 'Sin URL base')}</div></div>
-              <span class="status-badge ${provider.is_active ? 'status-active' : ''}">${provider.is_active ? 'ACTIVA' : 'INACTIVA'}</span></div>
-            <div class="admin-meta"><span>Prioridad ${index + 1}</span><span>Adaptador: ${e(provider.adapter_name)}</span><span>Última prueba: ${iso(provider.last_tested_at)}</span><span>Éxitos: ${Number(provider.successful_searches || 0)}</span></div>
+              <span class="status-badge ${provider.is_active && providerAdapterReady(provider) ? 'status-active' : ''}">${provider.is_active ? 'ACTIVA' : 'INACTIVA'}</span></div>
+            <div class="admin-meta"><span>Prioridad ${index + 1}</span><span>Adaptador: ${e(provider.adapter_name)}</span><span>${providerAdapterReady(provider) ? 'ADAPTADOR LISTO' : 'ADAPTADOR NO INSTALADO'}</span><span>Última prueba: ${iso(provider.last_tested_at)}</span><span>Éxitos: ${Number(provider.successful_searches || 0)}</span></div>
+            ${!providerAdapterReady(provider) ? '<div class="hint" style="color:var(--warn)">Esta página está guardada, pero el sistema no puede buscar en ella hasta instalar su adaptador real.</div>' : ''}
             ${provider.last_error ? `<div class="hint" style="color:var(--warn)">${e(provider.last_error)}</div>` : ''}
             <div class="admin-actions">
               <button class="btn-ghost btn-sm" onclick="moveBackupProvider('${provider.id}',-1)" ${index === 0 ? 'disabled' : ''}>↑ Subir</button>
@@ -148,10 +152,25 @@
     } catch (error) { list.innerHTML = `<div class="empty" style="color:var(--accent2)">No se pudieron cargar las notificaciones: ${e(error.message)}</div>`; }
   }
 
+  function renderHealthRow(row) {
+    const highCandidate = candidates.find(item => item.source_id === row.source_id && item.status === 'pending' && item.confidence === 'high');
+    const provider = highCandidate && providers.find(item => item.id === highCandidate.backup_provider_id);
+    const replacementButton = highCandidate
+      ? `<button class="btn-primary btn-sm" onclick="openSourceReplacement('${row.source_id}')">Reemplazar servidor</button>`
+      : `<button class="btn-primary btn-sm" disabled title="Primero pulsa Buscar reemplazo y espera una coincidencia de confianza alta">Reemplazar servidor (requiere candidato)</button>`;
+    const candidateHint = highCandidate
+      ? `<div class="hint" style="color:var(--ok)">Candidato elegido: ${e(provider?.name || 'Página de respaldo')} · confianza alta (${candidateScore(highCandidate)}/100)</div>`
+      : '<div class="hint">No hay candidato verificable todavía. El sistema no elegirá una URL a ciegas.</div>';
+    return `<article class="admin-card"><div class="admin-card-head"><div><b>${e(row.source_name)}</b><div class="hint">${e(row.title_name)}${row.episode_id ? ` · T${e(row.season_number)} E${e(row.episode_number)}` : ''}</div></div><span class="status-badge status-${row.health_status === 'down' ? 'down' : 'active'}">${e(row.health_status)}</span></div>
+      <div class="admin-meta"><span>HTTP ${e(row.health_http_code || '—')}</span><span>${e(row.health_consecutive_failures)} fallos consecutivos</span><span>Última comprobación: ${iso(row.health_last_check)}</span></div><div class="hint">${e(row.health_last_error || 'Sin error registrado')}</div>${candidateHint}
+      <div class="admin-actions"><button class="btn-ghost btn-sm" onclick="requestSourceRecheck('${row.source_id}')">Comprobar otra vez</button>${['down','suspected_down','blocked_or_unknown'].includes(row.health_status)?`<button class="btn-ghost btn-sm" onclick="searchSourceReplacement('${row.source_id}')">${highCandidate ? 'Buscar otro reemplazo' : 'Buscar reemplazo'}</button>${replacementButton}`:''}${notifications.some(n => n.source_id === row.source_id) ? `<button class="btn-ghost btn-sm" onclick="openSourceNotification('${row.source_id}')">Ver notificación</button>` : ''}</div></article>`;
+  }
+
   function notificationCard(notification) {
     const candidate = candidateFor(notification.candidate_id); const source = sourceFor(notification.source_id);
+    const provider = candidate && providers.find(item => item.id === candidate.backup_provider_id);
     return `<article class="admin-card ${notification.is_read ? '' : 'notice-unread'}"><div class="admin-card-head"><div><b>${e(notification.notification_type)}</b><div class="notice-message">${e(notification.message)}</div></div><span class="status-badge">${e(notification.status)}</span></div>
-      <div class="admin-meta"><span>${iso(notification.created_at)}</span>${source ? `<span>${e(source.title_name)} · ${e(source.source_name)}</span>` : ''}${candidate ? `<span>Confianza: ${e(candidate.confidence)}</span>` : ''}</div>
+      <div class="admin-meta"><span>${iso(notification.created_at)}</span>${source ? `<span>${e(source.title_name)} · ${e(source.source_name)}</span>` : ''}${candidate ? `<span>Confianza: ${e(candidate.confidence)} (${candidateScore(candidate)}/100)</span>${provider ? `<span>Página: ${e(provider.name)} · prioridad ${e(provider.priority)}</span>` : ''}` : ''}</div>
       <div class="admin-actions"><button class="btn-ghost btn-sm" onclick="toggleNotificationRead('${notification.id}',${notification.is_read ? 'false' : 'true'})">${notification.is_read ? 'Marcar no leída' : 'Marcar leída'}</button>
       <button class="btn-ghost btn-sm" onclick="openNotificationDetail('${notification.id}')">Ver detalles</button>
       ${candidate && candidate.status === 'pending' ? `<button class="btn-primary btn-sm" onclick="replaceFromNotification('${notification.id}')">Reemplazar</button><button class="btn-danger btn-sm" onclick="dismissNotification('${notification.id}')">Descartar</button>` : ''}</div></article>`;
@@ -177,7 +196,7 @@
     document.getElementById('modal').innerHTML = `<div class="modal-head"><h3>Detalle de notificación</h3><button class="btn-ghost btn-sm" onclick="closeModal()">✕</button></div><div class="modal-body">
       <div class="sb-section"><div class="sb-row"><span class="sb-label">Tipo</span><span>${e(notification.notification_type)}</span></div><div class="sb-row"><span class="sb-label">Mensaje</span><span class="sb-value">${e(notification.message)}</span></div><div class="sb-row"><span class="sb-label">Estado</span><span>${e(notification.status)}</span></div></div>
       ${source ? `<div class="sb-section"><div class="sb-title">Servidor afectado</div><div class="sb-row"><span class="sb-label">Contenido</span><span>${e(source.title_name)}</span></div><div class="sb-row"><span class="sb-label">Servidor</span><span>${e(source.source_name)}</span></div><div class="sb-row"><span class="sb-label">Evidencia</span><span>${e(source.health_last_error || '—')} · HTTP ${e(source.health_http_code || '—')} · ${e(source.health_consecutive_failures)} fallos</span></div></div>` : ''}
-      ${candidate ? `<div class="sb-section"><div class="sb-title">Reemplazo propuesto</div><div class="sb-row"><span class="sb-label">URL</span><span class="sb-value">${e(candidate.proposed_url)}</span></div><div class="sb-row"><span class="sb-label">Idioma</span><span>${e(candidate.proposed_language_code)}</span></div><div class="sb-row"><span class="sb-label">Confianza</span><span>${e(candidate.confidence)}</span></div><div class="sb-row"><span class="sb-label">Comprobado</span><span>${iso(candidate.checked_at)}</span></div></div>` : ''}
+      ${candidate ? `<div class="sb-section"><div class="sb-title">Reemplazo propuesto</div><div class="sb-row"><span class="sb-label">URL</span><span class="sb-value">${e(candidate.proposed_url)}</span></div><div class="sb-row"><span class="sb-label">Idioma</span><span>${e(candidate.proposed_language_code)}</span></div><div class="sb-row"><span class="sb-label">Confianza</span><span>${e(candidate.confidence)} (${candidateScore(candidate)}/100)</span></div><div class="sb-row"><span class="sb-label">Criterios</span><span>${e((candidate.confidence_reasons || []).join(' · ') || 'Identidad exacta, URL reproducible y prueba reciente')}</span></div><div class="sb-row"><span class="sb-label">Comprobado</span><span>${iso(candidate.checked_at)}</span></div></div>` : ''}
       ${replacementEvents.some(event=>event.source_id===notification.source_id)?`<div class="sb-section"><div class="sb-title">Historial real</div>${replacementEvents.filter(event=>event.source_id===notification.source_id).map(event=>`<div class="sb-row"><span>${e(event.event_type)}</span><span>${iso(event.created_at)}</span></div>`).join('')}</div>`:''}</div>
       <div class="modal-foot"><span></span><button class="btn-primary" onclick="closeModal()">Cerrar</button></div>`;
     document.getElementById('overlay').classList.add('open');
@@ -209,7 +228,8 @@
     try {
       const candidate = await revalidateIfNeeded(enrichCandidate(raw));
       const preview=JSON.parse(JSON.stringify(root.HourTVAdminState.catalog)); root.HourTVReplacementAdmin.replaceCatalogSource(preview,candidate);
-      const outcome=await root.HourTVReplacementActions.applyConfirmedReplacement({candidate,notificationId,confirm:()=>Promise.resolve(confirm(`¿Reemplazar ${raw.proposed_name||'el servidor'} por ${candidate.url}?`)),callRpc});
+      const provider=providers.find(item=>item.id===raw.backup_provider_id);
+      const outcome=await root.HourTVReplacementActions.applyConfirmedReplacement({candidate,notificationId,confirm:()=>Promise.resolve(confirm(`¿Reemplazar ${raw.proposed_name||'el servidor'} por este candidato?\n\nPágina: ${provider?.name || 'desconocida'} · Prioridad: ${provider?.priority ?? '—'}\nConfianza: alta (${candidateScore(candidate)}/100)\nURL: ${candidate.url}`)),callRpc});
       if(outcome&&outcome.cancelled)return;
       Object.keys(root.HourTVAdminState.catalog).forEach(k=>delete root.HourTVAdminState.catalog[k]);Object.assign(root.HourTVAdminState.catalog,preview);
       root.HourTVPublishRecovery.beginIndividualRecovery(localStorage,candidate.id);root.save();renderRecoveryIndicator();
@@ -297,9 +317,7 @@
       });
       root._downServersCount = healthRows.filter(row => row.health_status === 'down').length; root.renderTabs();
       list.innerHTML = `<div class="admin-toolbar"><select onchange="setHealthState(this.value)">${['all','down','suspected_down','blocked_or_unknown','recovered','pending','active'].map(state => `<option value="${state}" ${healthState===state?'selected':''}>${state === 'all' ? 'Todos los estados' : state}</option>`).join('')}</select>${search && healthState === 'down' ? '<span class="hint">La búsqueda incluye fuentes aún no revisadas para poder comprobarlas.</span>' : ''}</div>` +
-        (visible.length ? `<div class="admin-stack">${visible.map(row => `<article class="admin-card"><div class="admin-card-head"><div><b>${e(row.source_name)}</b><div class="hint">${e(row.title_name)}${row.episode_id ? ` · T${e(row.season_number)} E${e(row.episode_number)}` : ''}</div></div><span class="status-badge status-${row.health_status === 'down' ? 'down' : 'active'}">${e(row.health_status)}</span></div>
-          <div class="admin-meta"><span>HTTP ${e(row.health_http_code || '—')}</span><span>${e(row.health_consecutive_failures)} fallos consecutivos</span><span>Última comprobación: ${iso(row.health_last_check)}</span></div><div class="hint">${e(row.health_last_error || 'Sin error registrado')}</div>
-          <div class="admin-actions"><button class="btn-ghost btn-sm" onclick="requestSourceRecheck('${row.source_id}')">Comprobar otra vez</button>${['down','suspected_down','blocked_or_unknown'].includes(row.health_status)?`<button class="btn-ghost btn-sm" onclick="searchSourceReplacement('${row.source_id}')">Buscar reemplazo</button><button class="btn-primary btn-sm" onclick="openSourceReplacement('${row.source_id}')">Reemplazar servidor</button>`:''}${notifications.some(n => n.source_id === row.source_id) ? `<button class="btn-ghost btn-sm" onclick="openSourceNotification('${row.source_id}')">Ver notificación</button>` : ''}</div></article>`).join('')}</div>` : '<div class="empty">No hay servidores en este estado.</div>');
+        (visible.length ? `<div class="admin-stack">${visible.map(renderHealthRow).join('')}</div>` : '<div class="empty">No hay servidores en este estado.</div>');
     } catch (error) { list.innerHTML = `<div class="empty" style="color:var(--accent2)">No se pudo cargar la salud de servidores: ${e(error.message)}<br><small>Aplica localmente la migración admin_source_health_view si aún no existe.</small></div>`; }
   }
 
@@ -325,17 +343,22 @@
       if (!providers.length) providers = await unwrap(root.HourTVAdminState.supabase.from('backup_providers').select('*').eq('is_active', true).order('priority'));
       const query={sourceId:source.source_id,type:source.episode_id?'episode':'movie',tmdbId:source.tmdb_id,title:source.title_name,seriesTitle:source.title_name,year:source.release_year,season:source.season_number,episode:source.episode_number,language:source.language_code};
       const result=await root.HourTVReplacementActions.searchReplacement({source:query,providers,registry:root.HourTVBackupAdapters,now:new Date(),api:{persistSearchResult:async payload=>{
-        const c=payload.result.candidate;const candidate=c?{proposed_url:c.url,proposed_name:c.name||null,proposed_language_code:c.language,content_type:query.type,tmdb_id:c.tmdbId,normalized_title:root.HourTVReplacementLogic.normalizeTitle(c.title||c.seriesTitle),release_year:c.year||null,season_number:c.season||null,episode_number:c.episode||null,is_reproducible:true,confidence:c.confidence,confidence_reasons:c.reasons||[],checked_at:c.checkedAt,expires_at:c.expiresAt||new Date(Date.parse(c.checkedAt)+86400000).toISOString()}:null;
+        const c=payload.result.candidate;const checks=(c?.trustChecks||[]).filter(check=>check.ok).map(check=>check.label);const candidate=c?{proposed_url:c.url,proposed_name:c.name||null,proposed_language_code:c.language,content_type:query.type,tmdb_id:c.tmdbId,normalized_title:root.HourTVReplacementLogic.normalizeTitle(c.title||c.seriesTitle),release_year:c.year||null,season_number:c.season||null,episode_number:c.episode||null,is_reproducible:true,confidence:c.confidence,confidence_reasons:[...checks,...(c.reasons||[])],checked_at:c.checkedAt,expires_at:c.expiresAt||new Date(Date.parse(c.checkedAt)+86400000).toISOString()}:null;
         const saved=await callRpc('admin_persist_replacement_search',{p_source_id:sourceId,p_provider_id:payload.providerId,p_attempts:payload.result.attempts,p_candidate:candidate});return {candidate:saved&&saved.candidate_id?{...c,id:saved.candidate_id}:null,attempts:payload.result.attempts};
       }}});
-      root.toast(result.candidate?'Reemplazo high encontrado y notificado':'No se encontró reemplazo high',result.candidate?'ok':'err');await renderSourceHealth();
+      root.toast(result.candidate ? result.message : (result.message || 'No se encontró reemplazo de confianza alta'), result.candidate ? 'ok' : 'err'); await renderSourceHealth();
     } catch (error) { root.toast(error.message, 'err'); }
   }
   function openSourceReplacement(sourceId) {
     const candidate = root.HourTVReplacementActions.selectOptimalCandidate(candidates.filter(item=>item.source_id===sourceId),providers);
     const notification = notifications.find(item => item.source_id === sourceId && item.candidate_id === (candidate && candidate.id));
     if (!candidate || !notification) return root.toast('Todavía no hay un reemplazo de confianza alta disponible', 'err');
-    replaceFromNotification(notification.id);
+    const provider = providers.find(item => item.id === candidate.backup_provider_id);
+    document.getElementById('modal').innerHTML = `<div class="modal-head"><h3>Reemplazo recomendado</h3><button class="btn-ghost btn-sm" onclick="closeModal()">✕</button></div><div class="modal-body">
+      <div class="sb-section"><div class="sb-title">Decisión automática</div><p class="hint">Se elige la primera página con prioridad disponible que entregue una coincidencia verificable. Si hay varias en la misma página, gana la mayor puntuación y la comprobación más reciente.</p><div class="sb-row"><span class="sb-label">Página elegida</span><b>${e(provider?.name || 'Desconocida')}</b></div><div class="sb-row"><span class="sb-label">Prioridad</span><span>${e(provider?.priority ?? '—')}</span></div><div class="sb-row"><span class="sb-label">Confianza</span><span class="status-badge status-active">ALTA · ${candidateScore(candidate)}/100</span></div><div class="sb-row"><span class="sb-label">URL</span><span class="sb-value">${e(candidate.proposed_url)}</span></div></div>
+      <div class="sb-section"><div class="sb-title">Qué se comprobó</div><p class="hint">Identidad del contenido, coincidencia de título/temporada/episodio, idioma cuando aplica, URL HTTPS reproducible y vigencia de la prueba.</p></div></div>
+      <div class="modal-foot"><button class="btn-ghost" onclick="closeModal()">Cancelar</button><button class="btn-primary" onclick="replaceFromNotification('${notification.id}')">Confirmar reemplazo</button></div>`;
+    document.getElementById('overlay').classList.add('open');
   }
   function openSourceNotification(sourceId) {
     const notification = notifications.find(item => item.source_id === sourceId);

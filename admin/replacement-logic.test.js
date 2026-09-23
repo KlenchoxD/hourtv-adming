@@ -25,6 +25,9 @@ test('evaluateCandidate returns high for fresh reproducible exact movie identity
   const result = evaluateCandidate(movie, candidate(), { now: NOW });
   assert.equal(result.confidence, 'high');
   assert.equal(result.eligibleForBatch, true);
+  assert.equal(result.trustScore, 100);
+  assert.match(result.trustLabel, /Confianza alta/);
+  assert.ok(result.trustChecks.every((check) => check.ok));
 });
 
 test('TMDB identity is mandatory when either side supplies it', () => {

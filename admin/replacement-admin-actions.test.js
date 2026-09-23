@@ -16,6 +16,21 @@ test('search executes active adapters by priority and persists attempts, best fr
   }});
   assert.equal(result.candidate.url,'https://media.example/new.m3u8');
   assert.deepEqual(calls.map(c=>c[0]),['attempts','candidate','success','notice']);
+  assert.match(calls.find(c=>c[0]==='notice')[1].message, /prioridad 1.*confianza alta 100\/100/i);
+});
+
+test('search explains that a backup page cannot be selected without its adapter', async () => {
+  const calls = [];
+  const result = await searchReplacement({
+    source: target,
+    providers: [{ id: 'p1', name: 'Página A', adapterName: 'missing', priority: 1, isActive: true }],
+    registry: new AdapterRegistry(),
+    api: { persistAttempts: async attempts => calls.push(['attempts', attempts]), createNotification: async notice => calls.push(['notice', notice]) },
+  });
+  assert.equal(result.candidate, null);
+  assert.equal(result.reason, 'no_registered_adapter');
+  assert.match(result.message, /adaptador instalado/i);
+  assert.equal(calls[0][1][0].reason, 'adapter_not_registered');
 });
 
 test('direct admin load always includes providers',async()=>{

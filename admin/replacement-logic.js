@@ -39,7 +39,7 @@ function isFresh(checkedAt, now, maxAgeMs = DEFAULT_MAX_AGE_MS) {
 function evaluateCandidate(target, candidate, options = {}) {
   const now = options.now || new Date();
   const reasons = [];
-  const reject = (reason) => ({ confidence: 'rejected', eligibleForBatch: false, reasons: [reason] });
+  const reject = (reason) => ({ confidence: 'rejected', eligibleForBatch: false, trustScore: 0, trustChecks: [{ label: reason, ok: false, weight: 0 }], reasons: [reason] });
 
   if (candidate.reproducible !== true || !isValidHttpsUrl(candidate.url)) return reject('URL is not reproducible');
   const targetType = normalizeContentType(target.type);
@@ -67,7 +67,31 @@ function evaluateCandidate(target, candidate, options = {}) {
   if (!fresh) reasons.push('Validation is stale');
 
   const confidence = strongIdentity && fresh && languageConfirmed ? 'high' : strongIdentity ? 'medium' : 'low';
-  return { confidence, eligibleForBatch: confidence === 'high', reasons };
+  const checks = [];
+  const addCheck = (label, ok, weight, enabled = true) => { if (enabled) checks.push({ label, ok: Boolean(ok), weight }); };
+  addCheck('Título exacto', true, 25);
+  addCheck('Identidad TMDB exacta', targetHasTmdb && candidateHasTmdb && String(target.tmdbId) === String(candidate.tmdbId), 40, targetHasTmdb);
+  addCheck('Año exacto', candidate.year != null && target.year != null && Number(target.year) === Number(candidate.year), targetHasTmdb ? 10 : 35, target.year != null);
+  addCheck('Idioma compatible', languageConfirmed && (target.language == null || sameValue(target.language, candidate.language)), 10, target.language != null);
+  addCheck('URL reproducible y HTTPS', candidate.reproducible === true && isValidHttpsUrl(candidate.url), 5);
+  addCheck('Comprobación reciente', fresh, 10);
+  const possible = checks.reduce((sum, check) => sum + check.weight, 0);
+  const earned = checks.reduce((sum, check) => sum + (check.ok ? check.weight : 0), 0);
+  const trustScore = possible ? Math.round((earned / possible) * 100) : 0;
+  return {
+    confidence,
+    eligibleForBatch: confidence === 'high',
+    trustScore,
+    trustChecks: checks,
+    trustLabel: confidence === 'high' ? `Confianza alta (${trustScore}/100)` : `No elegible (${trustScore}/100)`,
+    reasons,
+  };
+}
+
+function candidateTrustScore(candidate) {
+  if (Number.isFinite(Number(candidate?.trustScore))) return Number(candidate.trustScore);
+  if (Number.isFinite(Number(candidate?.confidenceScore))) return Number(candidate.confidenceScore);
+  return ({ high: 100, medium: 60, low: 25, rejected: 0 }[candidate?.confidence] ?? 0);
 }
 
 function canonicalUrl(value) {
@@ -142,6 +166,7 @@ const HourTVReplacementLogic = {
   isValidHttpsUrl,
   isFresh,
   evaluateCandidate,
+  candidateTrustScore,
   deduplicateCandidates,
   buildBatchSummary,
 };
