@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-09-23T05:00:58.138Z",
-  "durationMs": 2852,
+  "generatedAt": "2026-09-23T09:56:44.887Z",
+  "durationMs": 2951,
   "dryRun": false,
-  "moviesFound": 33,
-  "moviesDiscarded": 26,
+  "moviesFound": 32,
+  "moviesDiscarded": 25,
   "moviesAdded": 0,
   "moviesEnriched": 0,
   "duplicates": 7,
@@ -105,7 +105,7 @@
     {
       "tmdbId": 1482547,
       "title": "Zip Wire",
-      "reason": "Votos 13 por debajo del mínimo (50)"
+      "reason": "Votos 14 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1285366,
@@ -136,11 +136,6 @@
       "tmdbId": 1469930,
       "title": "Tumbal Proyek",
       "reason": "Rating 3.9 por debajo del mínimo (5.5)"
-    },
-    {
-      "tmdbId": 82976,
-      "title": "La profesional y la debutante",
-      "reason": "Rating 4.8 por debajo del mínimo (5.5)"
     }
   ]
 }
