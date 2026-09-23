@@ -1,39 +1,39 @@
 {
-  "lastRunAt": "2026-09-22T01:10:01.861Z",
+  "lastRunAt": "2026-09-23T05:01:00.985Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
-    1101383,
     1423191,
+    1101383,
     1204680,
-    1108427,
     1288445,
+    1108427,
     1084244,
+    1240889,
     1315772,
     1137844,
     1185806,
-    1127384,
     1275779,
+    1127384,
     1083381,
-    1240889,
-    860508,
     1081003,
-    1273221,
+    860508,
     1212763,
-    671,
+    1273221,
     1302904,
+    671,
     1368337,
     1375646,
     1294189,
     1482547,
     1285366,
     1440098,
-    1386315,
     1339713,
     1232569,
-    44980,
+    1386315,
     1323244,
     1469930,
+    82976,
     1335666
   ],
   "tmdbIdsPublished": [],
@@ -46,13 +46,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1101383,
-      "title": "El final de Oak Street",
+      "tmdbId": 1423191,
+      "title": "Resident Evil",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1423191,
-      "title": "Resident Evil",
+      "tmdbId": 1101383,
+      "title": "El final de Oak Street",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -71,6 +71,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1240889,
+      "title": "Adolescencia, sexo y muerte en campamento Miasma",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1137844,
       "title": "Mayday",
       "reason": "Sin fuente autorizada configurada"
@@ -81,18 +86,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1127384,
-      "title": "En mar abierto",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1275779,
       "title": "El día de la revelación",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1240889,
-      "title": "Adolescencia, sexo y muerte en campamento Miasma",
+      "tmdbId": 1127384,
+      "title": "En mar abierto",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -106,13 +106,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 671,
-      "title": "Harry Potter y la piedra filosofal",
+      "tmdbId": 1302904,
+      "title": "Prácticamente magia 2",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1302904,
-      "title": "Prácticamente magia 2",
+      "tmdbId": 671,
+      "title": "Harry Potter y la piedra filosofal",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -133,7 +133,7 @@
     {
       "tmdbId": 1482547,
       "title": "Zip Wire",
-      "reason": "Votos 12 por debajo del mínimo (50)"
+      "reason": "Votos 13 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1285366,
@@ -146,19 +146,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1386315,
-      "title": "A la carrera",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1232569,
       "title": "Pinocho: Desatado",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 44980,
-      "title": "Zero WOMAN ＩＩ　警視庁０課の女",
-      "reason": "Sin sinopsis"
+      "tmdbId": 1386315,
+      "title": "A la carrera",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1323244,
@@ -169,6 +164,11 @@
       "tmdbId": 1469930,
       "title": "Tumbal Proyek",
       "reason": "Rating 3.9 por debajo del mínimo (5.5)"
+    },
+    {
+      "tmdbId": 82976,
+      "title": "La profesional y la debutante",
+      "reason": "Rating 4.8 por debajo del mínimo (5.5)"
     }
   ]
 }
