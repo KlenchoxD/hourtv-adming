@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-09-23T09:56:47.833Z",
+  "lastRunAt": "2026-09-23T14:38:26.088Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -11,17 +11,17 @@
     1084244,
     1240889,
     1315772,
-    1137844,
     1185806,
+    1137844,
+    1083381,
     1275779,
     1127384,
-    1083381,
     1081003,
+    1477712,
     860508,
-    1212763,
     1273221,
+    1212763,
     1302904,
-    671,
     1368337,
     1375646,
     1294189,
@@ -75,13 +75,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1137844,
-      "title": "Mayday",
+      "tmdbId": 1185806,
+      "title": "La Patrulla Canina: La dino película",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1185806,
-      "title": "La Patrulla Canina: La dino película",
+      "tmdbId": 1137844,
+      "title": "Mayday",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -100,6 +100,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1477712,
+      "title": "Dulce sabor a muerte",
+      "reason": "Rating 4.6 por debajo del mínimo (5.5)"
+    },
+    {
       "tmdbId": 1212763,
       "title": "Posesión infernal: En llamas",
       "reason": "Sin fuente autorizada configurada"
@@ -107,11 +112,6 @@
     {
       "tmdbId": 1302904,
       "title": "Prácticamente magia 2",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 671,
-      "title": "Harry Potter y la piedra filosofal",
       "reason": "Sin fuente autorizada configurada"
     },
     {
