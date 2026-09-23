@@ -287,9 +287,16 @@
     try {
       await loadReplacementData();
       const search = (document.getElementById('search').value || '').toLowerCase().trim();
-      const visible = healthRows.filter(row => (healthState === 'all' || row.health_status === healthState) && (!search || `${row.source_name} ${row.title_name}`.toLowerCase().includes(search)));
+      const visible = healthRows.filter(row => {
+        const matchesSearch = !search || `${row.source_name} ${row.title_name}`.toLowerCase().includes(search);
+        // Cuando el administrador busca un título concreto desde "down",
+        // también mostramos pending/active para poder comprobar una fuente
+        // que todavía no ha sido revisada por el sincronizador.
+        const matchesState = healthState === 'all' || row.health_status === healthState || (Boolean(search) && healthState === 'down');
+        return matchesState && matchesSearch;
+      });
       root._downServersCount = healthRows.filter(row => row.health_status === 'down').length; root.renderTabs();
-      list.innerHTML = `<div class="admin-toolbar"><select onchange="setHealthState(this.value)">${['all','down','suspected_down','blocked_or_unknown','recovered'].map(state => `<option value="${state}" ${healthState===state?'selected':''}>${state === 'all' ? 'Todos los estados' : state}</option>`).join('')}</select></div>` +
+      list.innerHTML = `<div class="admin-toolbar"><select onchange="setHealthState(this.value)">${['all','down','suspected_down','blocked_or_unknown','recovered','pending','active'].map(state => `<option value="${state}" ${healthState===state?'selected':''}>${state === 'all' ? 'Todos los estados' : state}</option>`).join('')}</select>${search && healthState === 'down' ? '<span class="hint">La búsqueda incluye fuentes aún no revisadas para poder comprobarlas.</span>' : ''}</div>` +
         (visible.length ? `<div class="admin-stack">${visible.map(row => `<article class="admin-card"><div class="admin-card-head"><div><b>${e(row.source_name)}</b><div class="hint">${e(row.title_name)}${row.episode_id ? ` · T${e(row.season_number)} E${e(row.episode_number)}` : ''}</div></div><span class="status-badge status-${row.health_status === 'down' ? 'down' : 'active'}">${e(row.health_status)}</span></div>
           <div class="admin-meta"><span>HTTP ${e(row.health_http_code || '—')}</span><span>${e(row.health_consecutive_failures)} fallos consecutivos</span><span>Última comprobación: ${iso(row.health_last_check)}</span></div><div class="hint">${e(row.health_last_error || 'Sin error registrado')}</div>
           <div class="admin-actions"><button class="btn-ghost btn-sm" onclick="requestSourceRecheck('${row.source_id}')">Comprobar otra vez</button>${row.health_status==='down'?`<button class="btn-ghost btn-sm" onclick="searchSourceReplacement('${row.source_id}')">Buscar reemplazo</button><button class="btn-primary btn-sm" onclick="openSourceReplacement('${row.source_id}')">Reemplazar servidor</button>`:''}${notifications.some(n => n.source_id === row.source_id) ? `<button class="btn-ghost btn-sm" onclick="openSourceNotification('${row.source_id}')">Ver notificación</button>` : ''}</div></article>`).join('')}</div>` : '<div class="empty">No hay servidores en este estado.</div>');
