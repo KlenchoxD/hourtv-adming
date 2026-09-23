@@ -2282,6 +2282,10 @@ function initSupabase() {
   const callbackToken = hash.get('access_token');
   if (callbackToken) {
     localStorage.setItem('hourtv_sb_access_token', callbackToken);
+    const callbackRefresh = hash.get('refresh_token');
+    const callbackExpires = hash.get('expires_in');
+    if (callbackRefresh) localStorage.setItem('hourtv_sb_refresh_token', callbackRefresh);
+    if (callbackExpires) localStorage.setItem('hourtv_sb_expires_at', String(Math.floor(Date.now() / 1000) + Number(callbackExpires)));
     history.replaceState({}, document.title, location.pathname + location.search);
   }
   const storedToken = localStorage.getItem('hourtv_sb_access_token');

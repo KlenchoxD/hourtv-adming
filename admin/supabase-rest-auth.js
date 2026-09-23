@@ -7,6 +7,7 @@
   var key = options.key || '';
   var storage = options.storage || (typeof localStorage !== 'undefined' ? localStorage : null);
   var fetchImpl = options.fetch || (typeof fetch !== 'undefined' ? fetch : null);
+  var locationImpl = options.location || (typeof location !== 'undefined' ? location : null);
   var onSessionExpired = options.onSessionExpired || function () {};
   var accessKey = options.accessKey || 'hourtv_sb_access_token';
   var refreshKey = options.refreshKey || 'hourtv_sb_refresh_token';
@@ -112,7 +113,20 @@
           return { data: { session: Object.assign(session(), { user: { email: credentials.email } }) }, error: null };
         });
       },
-      signInWithOAuth: function () { return Promise.resolve({ error: new Error('Usa el botón Continuar con Google') }); },
+      signInWithOAuth: function (oauthOptions) {
+        oauthOptions = oauthOptions || {};
+        var provider = oauthOptions.provider || 'google';
+        var redirectTo = oauthOptions.options && oauthOptions.options.redirectTo;
+        if (!redirectTo || !/^https:\/\//i.test(redirectTo)) {
+          return Promise.resolve({ error: new Error('La URL de retorno OAuth no es válida') });
+        }
+        var authorize = url + '/auth/v1/authorize?provider=' + encodeURIComponent(provider) + '&redirect_to=' + encodeURIComponent(redirectTo);
+        if (!locationImpl || typeof locationImpl.assign !== 'function') {
+          return Promise.resolve({ error: new Error('El navegador no permite iniciar OAuth') });
+        }
+        locationImpl.assign(authorize);
+        return Promise.resolve({ data: { url: authorize }, error: null });
+      },
       signOut: function () { clearSession(); return Promise.resolve({ error: null }); },
       refreshSession: refreshSession
     },

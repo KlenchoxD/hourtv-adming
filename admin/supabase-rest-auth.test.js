@@ -100,6 +100,19 @@ test('public session snapshot never exposes refresh or expiry metadata', () => {
   assert.equal(Object.prototype.hasOwnProperty.call(snapshot, 'expires_at'), false);
 });
 
+test('Google OAuth redirects through Supabase authorize endpoint', async () => {
+  const store = storage();
+  const location = { assigned: '', assign(value) { this.assigned = value; } };
+  const client = createClient({ url: 'https://project.supabase.co', key: 'public-key', storage: store, location });
+  const result = await client.auth.signInWithOAuth({
+    provider: 'google',
+    options: { redirectTo: 'https://hourtv-adming.vercel.app/?auth=callback' }
+  });
+  assert.equal(result.error, null);
+  assert.match(location.assigned, /^https:\/\/project\.supabase\.co\/auth\/v1\/authorize\?provider=google&redirect_to=/);
+  assert.match(decodeURIComponent(location.assigned), /redirect_to=https:\/\/hourtv-adming\.vercel\.app\/\?auth=callback/);
+});
+
 test('getSession remains usable while returning only the public snapshot', async () => {
   const client = createClient({
     url: 'https://example.supabase.co',
