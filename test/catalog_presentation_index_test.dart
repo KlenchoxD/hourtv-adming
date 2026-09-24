@@ -84,7 +84,7 @@ void main() {
     expect(result.any((item) => item.name == 'Destacado Sin URL'), isFalse);
   });
 
-  test('featured fallback uses complete content when none qualify as featured', () {
+  test('featured returns empty when nothing is marked Destacado (no silent fallback)', () {
     final catalogWithoutFeatured = [
       Channel(
         name: 'Incompleto 1',
@@ -108,8 +108,7 @@ void main() {
       ),
     ];
     final result = CatalogPresentationIndex.build(catalogWithoutFeatured).featured(limit: 2);
-    expect(result.length, 2);
-    expect(result.map((c) => c.name), orderedEquals(['Completo A', 'Completo B']));
+    expect(result, isEmpty);
   });
 
   test('genresFor returns sorted genres with defaultGenre first', () {

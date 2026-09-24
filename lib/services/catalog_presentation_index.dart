@@ -236,8 +236,12 @@ class CatalogPresentationIndex {
   /// Retorna los títulos destacados que cumplen con los requisitos editoriales
   /// (isFeatured == true, imagen horizontal de fondo y fuente reproducible).
   ///
-  /// Si no hay suficientes títulos destacados calificados, usa un fallback
-  /// determinista con contenido completo (backdrop y fuente válida), nunca el orden de entrada.
+  /// Sin fallback: si nada está marcado "Destacado" en el panel (o lo
+  /// marcado no tiene backdrop/servidor válido), esto devuelve vacío a
+  /// propósito. Antes rellenaba en silencio con "lo más reciente", así que
+  /// el banner nunca coincidía de forma confiable con lo que se marcaba
+  /// en el panel — quien lo mire no puede saber si ve su curación real o
+  /// un relleno automático.
   List<Channel> featured({int limit = 5}) {
     if (limit <= 0) return const [];
 
@@ -250,40 +254,15 @@ class CatalogPresentationIndex {
         )
         .toList();
 
-    if (qualifiedFeatured.isNotEmpty) {
-      qualifiedFeatured.sort((a, b) {
-        final cmp = b.parsedYear.compareTo(a.parsedYear);
-        if (cmp != 0) return cmp;
-        return a.normalizedTitle.compareTo(b.normalizedTitle);
-      });
-      return qualifiedFeatured
-          .take(limit)
-          .map((r) => r.channel)
-          .toList(growable: false);
-    }
-
-    // Fallback determinista: contenido completo con artwork y fuente reproducible
-    final fallback = _records
-        .where((r) => r.isValidArtwork && r.isPlayableSource)
-        .toList();
-
-    if (fallback.isNotEmpty) {
-      fallback.sort((a, b) {
-        final cmp = b.parsedYear.compareTo(a.parsedYear);
-        if (cmp != 0) return cmp;
-        return a.normalizedTitle.compareTo(b.normalizedTitle);
-      });
-      return fallback.take(limit).map((r) => r.channel).toList(growable: false);
-    }
-
-    // Último recurso determinista si ningún elemento tiene artwork (p. ej. en pruebas unitarias)
-    final lastResort = _records.where((r) => r.isPlayableSource).toList();
-    lastResort.sort((a, b) {
+    qualifiedFeatured.sort((a, b) {
       final cmp = b.parsedYear.compareTo(a.parsedYear);
       if (cmp != 0) return cmp;
       return a.normalizedTitle.compareTo(b.normalizedTitle);
     });
-    return lastResort.take(limit).map((r) => r.channel).toList(growable: false);
+    return qualifiedFeatured
+        .take(limit)
+        .map((r) => r.channel)
+        .toList(growable: false);
   }
 
   /// Retorna la lista de géneros disponibles para un tipo de contenido dado,
