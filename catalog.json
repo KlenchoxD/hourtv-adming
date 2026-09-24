@@ -11429,6 +11429,30 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "cf8f0e3a5479482f80dc67a51d5f56ac",
+      "title": "La ambición de los Savage",
+      "year": "2026",
+      "tmdb_id": 1245859,
+      "imdb_id": "tt31349852",
+      "rating": "6.9",
+      "genre": "Comedia, Drama",
+      "cast": "Richard E. Grant, Claire Foy, Jack Farthing, Bel Powley, Kíla Lord Cassidy, Richard McCabe, Vicki Pepperdine, Pip Torrens, Robert Bathurst, Tony Way, Tom Godwin, Roger Ashton-Griffiths",
+      "director": "Peter Glanz",
+      "writer": "Peter Glanz",
+      "backdrop": "https://image.tmdb.org/t/p/original/9ZzJxEg9zyyGIZx3eplHojYsZ5k.jpg",
+      "duration": "114 min",
+      "releaseDate": "2026-06-05",
+      "plot": "La ambición de los Savage: En la Inglaterra del siglo XVIII, Sir Chauncey Savage y su esposa están decididos a mejorar su posición social y acercarse a…",
+      "poster": "https://image.tmdb.org/t/p/w1280/9ZzJxEg9zyyGIZx3eplHojYsZ5k.jpg",
+      "servers": [
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/DfIwY25EfmN2KlK/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
