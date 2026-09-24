@@ -11357,6 +11357,30 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "5d7e1ef3cd204518af9605454fb24c84",
+      "title": "Los Goonies",
+      "year": "1985",
+      "tmdb_id": 9340,
+      "imdb_id": "tt0089218",
+      "rating": "7.5",
+      "genre": "Aventura, Comedia, Familia",
+      "cast": "Sean Astin, Josh Brolin, Jeff Cohen, Corey Feldman, Kerri Green, Martha Plimpton, Ke Huy Quan, John Matuszak, Robert Davi, Joe Pantoliano, Anne Ramsey, Lupe Ontiveros",
+      "director": "Richard Donner",
+      "writer": "Chris Columbus, Steven Spielberg",
+      "backdrop": "https://image.tmdb.org/t/p/original/5qsyqA7FeYRymBmNbPBqBgqWPO4.jpg",
+      "duration": "114 min",
+      "releaseDate": "1985-06-07",
+      "plot": "Los Goonies: Mikey y sus amigos están a punto de perder sus hogares cuando una empresa inmobiliaria amenaza con transformar el barrio donde han crecido.…",
+      "poster": "https://image.tmdb.org/t/p/w1280/5qsyqA7FeYRymBmNbPBqBgqWPO4.jpg",
+      "servers": [
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/kIVGkZjd0UuQ1bk/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
