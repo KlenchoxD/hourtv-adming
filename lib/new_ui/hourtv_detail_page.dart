@@ -153,11 +153,18 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
     _opening = true;
     try {
       if (!await ensureParentalAccess(context, channel) || !mounted) return;
+      final allChannels = store.visibleAll;
+      // Sin esto, PlayerScreen ubica la pelicula buscando por URL entre
+      // allChannels: si dos titulos comparten servidor (cada vez mas comun
+      // con los reemplazos manuales a mirrors genericos), reproduce el
+      // primero que encuentra con esa URL en vez del que se toco.
+      final index = allChannels.indexOf(channel);
       await Navigator.of(context).push(
         MaterialPageRoute(
           builder: (_) => PlayerScreen(
             channel: channel,
-            allChannels: store.visibleAll,
+            allChannels: allChannels,
+            initialIndex: index >= 0 ? index : null,
             // Solo la entrada desde la fila "Continuar viendo" reanuda
             // directo; el resto de entradas muestra la decision.
             resumePlayback: widget.fromContinueWatching,
