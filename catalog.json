@@ -11620,6 +11620,30 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "462191000a5d44cd82acdd8a81853170",
+      "title": "La máquina del tiempo",
+      "year": "2002",
+      "tmdb_id": 2135,
+      "imdb_id": "tt0268695",
+      "rating": "6.4",
+      "genre": "Ciencia ficción, Aventura, Acción",
+      "cast": "Guy Pearce, Samantha Mumba, Jeremy Irons, Omero Mumba, Sienna Guillory, Orlando Jones, Mark Addy, Phyllida Law, Laura Kirk, John W. Momrow, Josh Stamberg, Jeffrey M. Meyer",
+      "director": "Simon Wells",
+      "writer": "John Logan, David Duncan",
+      "backdrop": "https://image.tmdb.org/t/p/original/i0eOILDW8HipIkOUSKhB1dvZzNJ.jpg",
+      "duration": "92 min",
+      "releaseDate": "2002-03-04",
+      "plot": "La máquina del tiempo: Con la esperanza de alterar los acontecimientos del pasado, un inventor del siglo XIX viaja 800 000 años al futuro, donde…",
+      "poster": "https://image.tmdb.org/t/p/w1280/i0eOILDW8HipIkOUSKhB1dvZzNJ.jpg",
+      "servers": [
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/QmfLaadyGtjfxaG/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
