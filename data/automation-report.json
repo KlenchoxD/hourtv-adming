@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-09-23T05:00:58.138Z",
-  "durationMs": 2852,
+  "generatedAt": "2026-09-24T00:08:45.553Z",
+  "durationMs": 2114,
   "dryRun": false,
-  "moviesFound": 33,
-  "moviesDiscarded": 26,
+  "moviesFound": 32,
+  "moviesDiscarded": 25,
   "moviesAdded": 0,
   "moviesEnriched": 0,
   "duplicates": 7,
@@ -48,13 +48,18 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1137844,
-      "title": "Mayday",
+      "tmdbId": 299534,
+      "title": "Vengadores: Endgame",
       "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1185806,
       "title": "La Patrulla Canina: La dino película",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1137844,
+      "title": "Mayday",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -68,24 +73,19 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1263337,
+      "title": "En el corazón de la bestia",
+      "reason": "Votos 23 por debajo del mínimo (50)"
+    },
+    {
       "tmdbId": 1081003,
       "title": "Supergirl",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1212763,
-      "title": "Posesión infernal: En llamas",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1302904,
-      "title": "Prácticamente magia 2",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 671,
-      "title": "Harry Potter y la piedra filosofal",
-      "reason": "Sin fuente autorizada configurada"
+      "tmdbId": 1477712,
+      "title": "Dulce sabor a muerte",
+      "reason": "Rating 4.6 por debajo del mínimo (5.5)"
     },
     {
       "tmdbId": 1368337,
@@ -105,17 +105,17 @@
     {
       "tmdbId": 1482547,
       "title": "Zip Wire",
-      "reason": "Votos 13 por debajo del mínimo (50)"
-    },
-    {
-      "tmdbId": 1285366,
-      "title": "愛のぬくもり",
-      "reason": "Votos 8 por debajo del mínimo (50)"
+      "reason": "Votos 14 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1440098,
       "title": "Enfrentados: Marfil",
       "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1285366,
+      "title": "愛のぬくもり",
+      "reason": "Votos 8 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1232569,
@@ -133,14 +133,9 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1469930,
-      "title": "Tumbal Proyek",
-      "reason": "Rating 3.9 por debajo del mínimo (5.5)"
-    },
-    {
-      "tmdbId": 82976,
-      "title": "La profesional y la debutante",
-      "reason": "Rating 4.8 por debajo del mínimo (5.5)"
+      "tmdbId": 1751701,
+      "title": "After Impact",
+      "reason": "Rating 5.1 por debajo del mínimo (5.5)"
     }
   ]
 }
