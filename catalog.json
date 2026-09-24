@@ -11319,27 +11319,22 @@
     {
       "id": "a104d25e342043a2bb760bf04a198f74",
       "title": "72 horas",
-      "year": "2026",
-      "tmdb_id": 949838,
-      "imdb_id": "tt36304003",
-      "rating": "6.7",
-      "genre": "Comedia, Crimen",
+      "plot": "Para salvar su carrera, un ejecutivo publicitario de 40 años se une a unos veinteañeros en una alocada despedida de soltero en Miami cuando lo añaden por error a un chat grupal.",
       "cast": "Kevin Hart, Marcello Hernández, Mason Gooding, Kam Patterson, Ben Marshall, Teyana Taylor, Zach Cherry, Michael Mando, Kevin Dunn, Anna Garcia, Elysée Sanvillé, Geena Quintos",
       "director": "Tim Story",
       "writer": "Jon Hurwitz, Hayden Schlossberg, Kevin Burrows, Matt Mider",
-      "backdrop": "https://image.tmdb.org/t/p/original/hL5EIk48251OXlbIbRJq3yaBHk8.jpg",
-      "duration": "105 min",
       "releaseDate": "2026-07-20",
-      "plot": "Para salvar su carrera, un ejecutivo publicitario de 40 años se une a unos veinteañeros en una alocada despedida de soltero en Miami cuando lo añaden por error a un chat grupal.",
+      "year": "2026",
+      "genre": "Comedia, Crimen",
+      "rating": 6.7,
+      "duration": "105 min",
       "poster": "https://image.tmdb.org/t/p/original/enkyq1gVdQqWaCyAFjFIxjlKvNW.jpg",
-      "categories": [
-        "Películas"
-      ],
+      "backdrop": "https://image.tmdb.org/t/p/original/hL5EIk48251OXlbIbRJq3yaBHk8.jpg",
       "servers": [
         {
-          "name": "A7XTV",
-          "url": "https://api.a7xtv.com/stream/movie/517616/mkv?expires=1790244893&purpose=web_mobile&client=a7x-web-mobile-v1&account=506ef3176f8d749b10f69b77&nonce=14578538-a647-423a-b749-bc7e53f02fab&sig=cebd823a759a866dbbd9296b365de9bdc03c35197fbd0a1b1bb1ade8854f2233",
-          "language": "Idioma sin identificar"
+          "name": "Servidor 1",
+          "url": "https://paulinito.com/player/YhdFzJ6eDykvxoB/",
+          "language": "Español"
         }
       ]
     }
