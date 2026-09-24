@@ -11381,6 +11381,30 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "d0e6c3f0b4684825a4a010821724d13c",
+      "title": "Tú+Yo - Los dos contra todos",
+      "year": "2026",
+      "tmdb_id": 1641629,
+      "imdb_id": "tt43617372",
+      "rating": "5.7",
+      "genre": "Romance, Drama",
+      "cast": "Vittoria Di Savoia, Lucas Barski, Zoé Garcia, Léo Legrand, Jean-Yves Berteloot, Suliane Brahim, Aymeric Fougeron, Gabrielle Taittinger, Bryan Trésor, Aboubacar Bidanessy, Sami Nasri, Adam Abdo",
+      "director": "Manon Gaurin",
+      "writer": "Éliane Vigneron, Manon Gaurin, Alix Letribot",
+      "backdrop": "https://image.tmdb.org/t/p/original/nkEhDomjmPHJSA4Tx8pxv0NlKEy.jpg",
+      "duration": "94 min",
+      "releaseDate": "2026-09-18",
+      "plot": "Tú+Yo – Los dos contra todos: Alma Lancaster está decidida a cumplir su sueño de dedicarse al cine, aunque para conseguirlo tenga que ocultarles a…",
+      "poster": "https://image.tmdb.org/t/p/w1280/nkEhDomjmPHJSA4Tx8pxv0NlKEy.jpg",
+      "servers": [
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/kapfGxh1T3QKGxE/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
