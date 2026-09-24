@@ -11304,6 +11304,30 @@
           "language": "Español"
         }
       ]
+    },
+    {
+      "id": "d4c2ce2fbb3240ba83c96cb4cbb65c60",
+      "title": "Hechizo de amor",
+      "year": "1998",
+      "tmdb_id": 366017,
+      "imdb_id": "tt4789290",
+      "rating": "6.9",
+      "genre": "Comedia, Fantasía, Romance, Película de TV",
+      "cast": "Nikki DeLoach, Ryan McPartlin, Carolyn Hennesy, Briana Lane, Jonathan Patrick Moore, Harley Jane Kozak, Azie Tesfai, Jenny O'Hara, Jeff Doucette, Amanda Carlin, Alex Hyde-White, Damien Bodie",
+      "director": "Tosca Musk",
+      "writer": "Rachel Stuhler",
+      "backdrop": "https://image.tmdb.org/t/p/original/sze6x7l3zfoK3Ji80HGFOzlvCs.jpg",
+      "duration": "85 min",
+      "releaseDate": "2015-10-25",
+      "plot": "Hechizo de amor: Las hermanas Sally y Gillian Owens crecieron bajo el cuidado de sus tías, quienes les enseñaron los secretos de la magia que ha…",
+      "poster": "https://image.tmdb.org/t/p/w1280/4kbkq887XNT85d6nJonCnmXDWor.jpg",
+      "servers": [
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/PPh0Dujnwo5FjEy/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
