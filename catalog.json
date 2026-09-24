@@ -6560,15 +6560,29 @@
     {
       "id": "cbdb6d3856854762a1dd96ada62d5f95",
       "title": "Mickey 17",
+      "plot": "Mickey 17, un miembro de la tripulación 'expendable' (prescindible) enviado a un planeta helado para colonizarlo, se niega a dejar que su clon de reemplazo, Mickey 18, tome su lugar... Adaptación del libro original de Edward Ashton.",
+      "cast": "Robert Pattinson, Naomi Ackie, Steven Yeun, Mark Ruffalo, Toni Collette, Anamaria Vartolomei, Daniel Henshall, Patsy Ferran, Steve Park, Tim Key, Holliday Grainger, Michael Monroe, Cameron Britton, Edward Davis, Ian Hanmore, Lloyd Hutchinson, Christian Patterson, Samuel Blenkin, Sabet Choudhury, Rose Shalloo, Bronwyn James, Milo James, Jude Mack, Thomas Turgoose, Adam Colborne, Tom Cawte, Ellen Robertson, Sam Woodhams, Kayla Meikle, Haydn Gwynne",
+      "director": "Bong Joon-ho",
+      "writer": "Bong Joon-ho",
+      "releaseDate": "2025-02-28",
       "year": "2025",
-      "plot": "Vive la historia de Mickey 17 (2025) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/9PRKAdrDvAdCfg3EcApLTfzGsEt.jpg",
+      "genre": "Ciencia ficción, Comedia, Aventura",
+      "rating": 6.8,
+      "duration": "137 min",
+      "poster": "https://image.tmdb.org/t/p/w500/iOKu6Hf5atv3DuXBS0jBF3OYYdu.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/9PRKAdrDvAdCfg3EcApLTfzGsEt.jpg",
+      "categories": [
+        "populares",
+        "comedia",
+        "aventura"
+      ],
+      "tmdbId": 696506,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "BlogdePelis",
           "url": "https://paulinito.com/player/5vaaU842PtJ6EmC/",
-          "language": "Idioma sin identificar",
-          "id": "f184a4df-9fbc-464f-84e7-486571d5030f"
+          "language": "Idioma sin identificar"
         }
       ]
     },
@@ -10096,28 +10110,6 @@
           "url": "https://paulinito.com/player/kPTQCLRgT231uLP/",
           "language": "Idioma sin identificar",
           "id": "976c4050-6f83-4d11-8335-37594ee32545"
-        }
-      ]
-    },
-    {
-      "id": "88b10f4d885642169f8038418f2adf6a",
-      "title": "Moana",
-      "year": "2016",
-      "tmdb_id": 1241982,
-      "imdb_id": "tt13622970",
-      "genre": "cine musical, cine de fantasía, cine de aventuras, cine familiar",
-      "director": "David G. Derrick Jr., Dana Ledoux Miller",
-      "writer": "Bryson Chun, Jared Bush, Dana Ledoux Miller, Bek Smith",
-      "duration": "100 min",
-      "releaseDate": "2024-11-27",
-      "plot": "Vive la historia de Moana (2016) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes del cine.",
-      "poster": "https://image.tmdb.org/t/p/w1280/qLVNZFHYUR6Li64He67SWl6BHQe.jpg",
-      "servers": [
-        {
-          "name": "BlogdePelis",
-          "url": "https://paulinito.com/player/LKHXmyWu6SU4pmL/",
-          "language": "Idioma sin identificar",
-          "id": "38930b4c-7cc3-4c34-a371-d7a805ef0a07"
         }
       ]
     },
