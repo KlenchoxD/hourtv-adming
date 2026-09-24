@@ -11477,6 +11477,30 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "179fce07c9584c74974ec074ab444668",
+      "title": "El final de la Calle Oak",
+      "year": "2026",
+      "tmdb_id": 1101383,
+      "imdb_id": "tt27165187",
+      "rating": "7.0",
+      "genre": "Ciencia ficción, Misterio, Suspense",
+      "cast": "Anne Hathaway, Ewan McGregor, Maisy Stella, Christian Convery, Jordan Alexa Davis, P.J. Byrne, Hudson Meek, Anne Gee Byrd, Emily Kuroda, Simms May, Grayson Thorne Kilpatrick, Pilot Bunch",
+      "director": "David Robert Mitchell",
+      "writer": "David Robert Mitchell",
+      "backdrop": "https://image.tmdb.org/t/p/original/b9q9VmbXDvJmTziRqkwdEmFdwhr.jpg",
+      "duration": "100 min",
+      "releaseDate": "2026-08-12",
+      "plot": "El final de la Calle Oak: La vida de una familia cambia por completo cuando un extraño fenómeno altera el lugar donde viven y los deja atrapados en un…",
+      "poster": "https://image.tmdb.org/t/p/w1280/b9q9VmbXDvJmTziRqkwdEmFdwhr.jpg",
+      "servers": [
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/yKtzPFO0YzXcUiZ/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
