@@ -11549,6 +11549,30 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "61a49a8048d04b048d5f680cf7adf53a",
+      "title": "Enfrentados: Marfil",
+      "year": "2026",
+      "tmdb_id": 1440098,
+      "imdb_id": "tt36073210",
+      "rating": "6.7",
+      "genre": "Romance, Suspense",
+      "cast": "Ester Expósito, Hugo Diego Garcia, Pablo Molinero, Lluís Homar, Joaquín Ferreira, Zoe Bonafonte, Majo Gámez, João Bettencourt, Leander Vyvey, Eric Masip, Luka Peroš, Inge Ladd",
+      "director": "Óscar Pedraza",
+      "writer": "Sofía Cuenca",
+      "backdrop": "https://image.tmdb.org/t/p/original/i65y7cMae36K0giN0GRaMjAHUru.jpg",
+      "duration": "104 min",
+      "releaseDate": "2026-09-09",
+      "plot": "Enfrentados: Marfil: Marfil lleva una vida privilegiada en Nueva York hasta que un secuestro inesperado rompe por completo su sensación de seguridad.…",
+      "poster": "https://image.tmdb.org/t/p/w1280/i65y7cMae36K0giN0GRaMjAHUru.jpg",
+      "servers": [
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/b3ah9x9axx2eNG5/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
