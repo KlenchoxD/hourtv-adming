@@ -2009,13 +2009,30 @@ function importJson(ev){
 }
 function normalize(c){
   c=c||{};
-  return {
+  const normalized={
     version:2,
     movies:Array.isArray(c.movies)?c.movies:[],
     series:Array.isArray(c.series)?c.series:[],
     sources:Array.isArray(c.sources)?c.sources:[],
     liveChannels:Array.isArray(c.liveChannels)?c.liveChannels:[]
   };
+  migrateDeprecatedServers(normalized);
+  return normalized;
+}
+function migrateDeprecatedServers(c){
+  let changed=false;
+  const fixServer=s=>{
+    if(!s||typeof s.url!=='string')return;
+    if(s.url.includes('://barmonrey.com/')){
+      s.url=s.url.replace('://barmonrey.com/','://paulinito.com/');
+      if(s.name==='Barmonrey'||s.name==='Servidor 1')s.name='BlogdePelis';
+      changed=true;
+    }
+  };
+  (c.movies||[]).forEach(item=>(item.servers||[]).forEach(fixServer));
+  (c.series||[]).forEach(show=>(show.seasons||[]).forEach(season=>(season.episodes||[]).forEach(ep=>(ep.servers||[]).forEach(fixServer))));
+  (c.sources||[]).forEach(fixServer);
+  if(changed)try{localStorage.setItem('hourtv_admin_catalog',JSON.stringify(c))}catch(e){}
 }
 
 // ---------- GitHub ----------
