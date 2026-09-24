@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 const { nextHealth, probeUrl } = require('./source-health-check');
 const { refreshSourceFromOrigin } = require('./source-origin-refresh');
-const EMBED_HOSTS = new Set(['barmonrey.com', 'voe.sx', 'streamwish.to', 'vimeus.com', 'primesrc.me']);
+const EMBED_HOSTS = new Set(['barmonrey.com', 'paulinito.com', 'voe.sx', 'streamwish.to', 'vimeus.com', 'primesrc.me']);
 function isKnownEmbed(url) {
   try {
     const host = new URL(url).hostname.toLowerCase();
