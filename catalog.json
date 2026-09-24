@@ -6473,16 +6473,31 @@
     },
     {
       "id": "ccefc4dfd8e04cc3b7748c81cbcdabf6",
-      "title": "Boonie Bears: Código guardián",
+      "title": "Boonie Bears. Codigo Guardian",
+      "plot": "Briar y Bramble pierden a su madre a una edad muy temprana debido a misteriosas circunstancias. Muchos años después, cuando una mujer osa de edad avanzada aparece en escena, los hermanos oso están decididos a averiguar la verdad de una vez por todas.",
+      "cast": "Zhang Bingjun, Zhang Wei, Yingying Miu, Tan Xiao, 贾晨露, Ming Zhang, 王思雨, 聂吉轩, 王天昊, 周子瑜, Wanyao Li",
+      "director": "Yongchang Lin",
+      "writer": "崔铁志",
+      "releaseDate": "2023-01-22",
       "year": "2023",
-      "plot": "Vive la historia de Boonie Bears: Código guardián (2023) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes",
-      "poster": "https://image.tmdb.org/t/p/w1280/arT10FrsPdxJOFBrHMrVvoDJCqR.jpg",
+      "genre": "Animación, Comedia, Ciencia ficción, Familia, Aventura",
+      "rating": 7,
+      "duration": "94 min",
+      "poster": "https://image.tmdb.org/t/p/w500/fB8ZCeRedPC1zBlQBWhWCx8hd2o.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/arT10FrsPdxJOFBrHMrVvoDJCqR.jpg",
+      "categories": [
+        "comedia",
+        "aventura",
+        "infantil",
+        "familia"
+      ],
+      "tmdbId": 1078012,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "BlogdePelis",
           "url": "https://paulinito.com/player/BQqEYTawZ4ZtG9M/",
-          "language": "Idioma sin identificar",
-          "id": "68887161-f1a9-4d02-b5b2-ff514f3703a4"
+          "language": "Idioma sin identificar"
         }
       ]
     },
