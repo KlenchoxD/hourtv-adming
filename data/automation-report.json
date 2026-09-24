@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-09-24T00:08:45.553Z",
-  "durationMs": 2114,
+  "generatedAt": "2026-09-24T04:44:20.797Z",
+  "durationMs": 2989,
   "dryRun": false,
   "moviesFound": 32,
   "moviesDiscarded": 25,
@@ -75,7 +75,7 @@
     {
       "tmdbId": 1263337,
       "title": "En el corazón de la bestia",
-      "reason": "Votos 23 por debajo del mínimo (50)"
+      "reason": "Votos 25 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1081003,

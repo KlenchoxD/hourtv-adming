@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-09-24T00:08:47.662Z",
+  "lastRunAt": "2026-09-24T04:44:23.782Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -36,7 +36,7 @@
     1335666
   ],
   "tmdbIdsPublished": [],
-  "totalMoviesInCatalog": 353,
+  "totalMoviesInCatalog": 354,
   "errorsSummary": [],
   "skipped": [
     {
@@ -102,7 +102,7 @@
     {
       "tmdbId": 1263337,
       "title": "En el corazón de la bestia",
-      "reason": "Votos 23 por debajo del mínimo (50)"
+      "reason": "Votos 25 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1081003,
