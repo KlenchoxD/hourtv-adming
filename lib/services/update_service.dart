@@ -77,6 +77,14 @@ class UpdateService {
         'Todavía no hay ninguna versión publicada en GitHub Releases.',
       );
     }
+    // La API pública de GitHub limita a 60 peticiones/hora por IP. En datos
+    // móviles muchos usuarios comparten la misma IP del operador (CGNAT), así
+    // que este límite se agota sin que la persona haya hecho nada raro. Se
+    // reintenta con la página normal de releases (sin límite de API) antes
+    // de reportar el fallo.
+    if (response.statusCode == 403) {
+      return _checkForUpdateViaReleasesPage();
+    }
     if (response.statusCode != 200) {
       return UpdateCheckFailed(
         'GitHub respondió con un error (${response.statusCode}).',
@@ -127,6 +135,66 @@ class UpdateService {
     } catch (error) {
       return UpdateCheckFailed(
         'No se pudo leer la información del release: $error',
+      );
+    }
+  }
+
+  /// Reintento sin usar la API: la página normal de releases redirige a
+  /// `releases/tag/<version>`, lo que revela la versión sin gastar cuota de
+  /// la API. El nombre del asset se asume igual al patrón que usa siempre
+  /// el publicador (`HourTV-<version>.apk`); si no existe, se reporta el
+  /// fallo real en vez de inventar una descarga que no funciona.
+  Future<UpdateCheckResult> _checkForUpdateViaReleasesPage() async {
+    try {
+      final client = http.Client();
+      final http.StreamedResponse redirect;
+      try {
+        final request = http.Request(
+          'GET',
+          Uri.parse('https://github.com/$_owner/$_repo/releases/latest'),
+        )..followRedirects = false;
+        redirect = await client.send(request).timeout(
+          const Duration(seconds: 15),
+        );
+      } finally {
+        client.close();
+      }
+      final location = redirect.headers['location'] ?? '';
+      final match = RegExp(r'/releases/tag/(v?[\w.+-]+)$').firstMatch(location);
+      final tag = match?.group(1) ?? '';
+      final remoteVersion = tag.startsWith('v') ? tag.substring(1) : tag;
+      if (remoteVersion.isEmpty) {
+        return const UpdateCheckFailed(
+          'GitHub limitó las peticiones y no se pudo confirmar la versión. Intenta de nuevo en unos minutos.',
+        );
+      }
+      final packageInfo = await PackageInfo.fromPlatform();
+      if (!_isNewer(remoteVersion, packageInfo.version)) {
+        return const UpToDate();
+      }
+      final apkName = 'HourTV-$remoteVersion.apk';
+      final downloadUrl =
+          'https://github.com/$_owner/$_repo/releases/download/$tag/$apkName';
+      final head = await http
+          .head(Uri.parse(downloadUrl))
+          .timeout(const Duration(seconds: 15));
+      if (head.statusCode != 200 && head.statusCode != 302) {
+        return const UpdateCheckFailed(
+          'GitHub limitó las peticiones y no se pudo confirmar la descarga. Intenta de nuevo en unos minutos.',
+        );
+      }
+      final sizeHeader = head.headers['content-length'];
+      return UpdateAvailable(
+        UpdateInfo(
+          version: remoteVersion,
+          downloadUrl: downloadUrl,
+          notes: 'Ver notas en GitHub Releases.',
+          sizeBytes: int.tryParse(sizeHeader ?? '') ?? 0,
+        ),
+      );
+    } catch (error) {
+      return UpdateCheckFailed(
+        'GitHub limitó las peticiones y no se pudo completar la comprobación: $error',
       );
     }
   }
