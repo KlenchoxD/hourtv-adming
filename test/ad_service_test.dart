@@ -38,6 +38,46 @@ void main() {
     });
   });
 
+  group('AdService preroll load failures', () {
+    test('a main-frame error releases the playback gate', () {
+      expect(
+        AdService.shouldReleasePrerollAfterLoadError(isForMainFrame: true),
+        isTrue,
+      );
+    });
+
+    test('a subresource error does not prematurely release the ad page', () {
+      expect(
+        AdService.shouldReleasePrerollAfterLoadError(isForMainFrame: false),
+        isFalse,
+      );
+    });
+
+    test('a timeout releases a preroll whose countdown never started', () {
+      expect(
+        AdService.shouldReleasePrerollAtTimeout(
+          mounted: true,
+          countdownStarted: false,
+        ),
+        isTrue,
+      );
+      expect(
+        AdService.shouldReleasePrerollAtTimeout(
+          mounted: true,
+          countdownStarted: true,
+        ),
+        isFalse,
+      );
+      expect(
+        AdService.shouldReleasePrerollAtTimeout(
+          mounted: false,
+          countdownStarted: false,
+        ),
+        isFalse,
+      );
+    });
+  });
+
   group('PrerollSession', () {
     test('muestra un solo anuncio durante una sesión de reproducción', () {
       final session = PrerollSession();
@@ -106,29 +146,31 @@ void main() {
       );
     });
 
-    test('permite redirección desde el intermediario de Smartlink hacia el anunciante', () {
-      // Si el proveedor intermediario de Smartlink está como lockedHost provisional,
-      // no debe impedir la navegación a la oferta legítima del anunciante.
-      expect(
-        AdService.allowsContainedNavigation(
-          'https://anunciante.com/landing',
-          lockedHost: 'www.profitableratecpmnetwork.com',
-        ),
-        isTrue,
-      );
-      expect(
-        AdService.isSmartlinkProvider('www.profitableratecpmnetwork.com'),
-        isTrue,
-      );
-      expect(
-        AdService.isSmartlinkProvider('subdomain.profitableratecpmnetwork.com'),
-        isTrue,
-      );
-      expect(
-        AdService.isSmartlinkProvider('anunciante.com'),
-        isFalse,
-      );
-    });
+    test(
+      'permite redirección desde el intermediario de Smartlink hacia el anunciante',
+      () {
+        // Si el proveedor intermediario de Smartlink está como lockedHost provisional,
+        // no debe impedir la navegación a la oferta legítima del anunciante.
+        expect(
+          AdService.allowsContainedNavigation(
+            'https://anunciante.com/landing',
+            lockedHost: 'www.profitableratecpmnetwork.com',
+          ),
+          isTrue,
+        );
+        expect(
+          AdService.isSmartlinkProvider('www.profitableratecpmnetwork.com'),
+          isTrue,
+        );
+        expect(
+          AdService.isSmartlinkProvider(
+            'subdomain.profitableratecpmnetwork.com',
+          ),
+          isTrue,
+        );
+        expect(AdService.isSmartlinkProvider('anunciante.com'), isFalse);
+      },
+    );
 
     test('sanitiza hosts sin exponer parámetros de URL ni claves', () {
       final sanitized = AdService.sanitizeHost(AdService.smartlink);

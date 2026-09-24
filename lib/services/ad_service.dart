@@ -20,6 +20,17 @@ class AdService {
     return channel.type != MediaType.live;
   }
 
+  @visibleForTesting
+  static bool shouldReleasePrerollAfterLoadError({
+    required bool isForMainFrame,
+  }) => isForMainFrame;
+
+  @visibleForTesting
+  static bool shouldReleasePrerollAtTimeout({
+    required bool mounted,
+    required bool countdownStarted,
+  }) => mounted && !countdownStarted;
+
   static bool get supportsWebView =>
       !kIsWeb &&
       (defaultTargetPlatform == TargetPlatform.android ||
@@ -113,9 +124,12 @@ class _PrerollScreenState extends State<_PrerollScreen> {
       // Timeout tolerante de 10s: permite la cadena de redirecciones del
       // Smartlink en conexiones móviles sin desmontar prematuramente el WebView.
       _loadTimeout = Timer(const Duration(seconds: 10), () {
-        if (mounted && _progress < 100 && _loadError == null) {
+        if (AdService.shouldReleasePrerollAtTimeout(
+          mounted: mounted,
+          countdownStarted: _adReady,
+        )) {
           debugPrint('[ADS] timeout');
-          setState(() => _loadError = 'Espacio publicitario');
+          setState(() => _loadError ??= 'Espacio publicitario');
           _beginSkipCountdown();
         }
       });
@@ -214,8 +228,17 @@ class _PrerollScreenState extends State<_PrerollScreen> {
             },
             onWebResourceError: (error) {
               debugPrint('[ADS] webview_error code=${error.errorCode}');
-              if (error.isForMainFrame == false || !mounted) return;
+              if (!AdService.shouldReleasePrerollAfterLoadError(
+                    isForMainFrame: error.isForMainFrame ?? false,
+                  ) ||
+                  !mounted) {
+                return;
+              }
               setState(() => _loadError = 'No se pudo cargar la publicidad.');
+              // El preroll es un gate: si la navegación principal falla y no
+              // arranca el contador, _playChannel queda esperando para siempre
+              // y ninguna película llega a inicializarse.
+              _beginSkipCountdown();
             },
           ),
         )
