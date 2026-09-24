@@ -11328,6 +11328,35 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "c56dc6d01fd942f0b906d032068835b4",
+      "title": "Devorador de pecados",
+      "year": "2003",
+      "tmdb_id": 9616,
+      "imdb_id": "tt0304711",
+      "rating": "5.7",
+      "genre": "Fantasía, Misterio, Suspense, Romance, Drama, Terror",
+      "cast": "Heath Ledger, Shannyn Sossamon, Benno Fürmann, Mark Addy, Peter Weller, Francesco Carnelutti, Mattia Sbragia, Richard Bremmer, Maria Cristina Maccà, Rosalinda Celentano, Alessandra Costanzo, Paolo Lorimer",
+      "director": "Brian Helgeland",
+      "writer": "Brian Helgeland",
+      "backdrop": "https://image.tmdb.org/t/p/original/7KBJf963tZBijpP6bKOJrxkowGp.jpg",
+      "duration": "102 min",
+      "releaseDate": "2003-09-05",
+      "plot": "Devorador de pecados: Alex Bernier es un joven sacerdote que viaja a Roma para investigar la misteriosa muerte de su mentor, un religioso perteneciente…",
+      "poster": "https://image.tmdb.org/t/p/w1280/7KBJf963tZBijpP6bKOJrxkowGp.jpg",
+      "servers": [
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/aFT8gQmVOa634tG/",
+          "language": "Idioma sin identificar"
+        },
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/Izdzu5BaJXSZpPL/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
