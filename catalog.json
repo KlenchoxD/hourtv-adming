@@ -3291,8 +3291,15 @@
           "url": "https://barmonrey.com/player/YVaO0AZ22qUQJx3/",
           "language": "Idioma sin identificar",
           "id": "e0d6e51c-9a5f-4639-b26d-3fc77b074ede"
+        },
+        {
+          "name": "A7XTV",
+          "url": "https://api.a7xtv.com/stream/movie/517616/mkv?expires=1790244893&purpose=web_mobile&client=a7x-web-mobile-v1&account=506ef3176f8d749b10f69b77&nonce=14578538-a647-423a-b749-bc7e53f02fab&sig=cebd823a759a866dbbd9296b365de9bdc03c35197fbd0a1b1bb1ade8854f2233",
+          "language": "Idioma sin identificar"
         }
-      ]
+      ],
+      "tmdb_id": 949838,
+      "imdb_id": "tt36304003"
     },
     {
       "id": "1b6cb725009345f0a119a1ea301f5c88",
