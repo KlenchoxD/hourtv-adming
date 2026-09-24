@@ -11692,6 +11692,30 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "32c65d71dd2a429fb9df19a8609ad1e9",
+      "title": "Talentos ocultos",
+      "year": "2016",
+      "tmdb_id": 381284,
+      "imdb_id": "tt4846340",
+      "rating": "8.0",
+      "genre": "Drama, Historia",
+      "cast": "Taraji P. Henson, Octavia Spencer, Janelle Monáe, Kevin Costner, Kirsten Dunst, Jim Parsons, Mahershala Ali, Glen Powell, Ariana Neal, Saniyya Sidney, Zani Jones Mbayise, Donna Biscoe",
+      "director": "Theodore Melfi",
+      "writer": "Allison Schroeder, Theodore Melfi",
+      "backdrop": "https://image.tmdb.org/t/p/original/rfkIeCaIHhN3K5wjJJqKmfUjYp8.jpg",
+      "duration": "127 min",
+      "releaseDate": "2016-12-10",
+      "plot": "Talentos ocultos: Narra la historia nunca contada de tres brillantes mujeres científicas afroamericanas que trabajaron en la NASA a comienzos de los…",
+      "poster": "https://image.tmdb.org/t/p/w1280/rfkIeCaIHhN3K5wjJJqKmfUjYp8.jpg",
+      "servers": [
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/ZkkZmdyl59Q3RIj/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
