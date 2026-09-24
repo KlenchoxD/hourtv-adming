@@ -11857,9 +11857,27 @@
     },
     {
       "id": "3ac4228de0714c9697aadeddfd2a50a0",
-      "title": "Así aprenderás - Temporada 1 (2026)",
-      "plot": "Vive la historia de Así aprenderás - Temporada 1 (2026) y disfruta este título en Blog de Pelis con una experiencia de cine online pensada para los amantes",
-      "poster": "https://image.tmdb.org/t/p/w1280/vyG93jhmPL7tBIhRtCLa5mdBKob.jpg",
+      "title": "Así aprenderás",
+      "plot": "Unos inspectores insólitos entran en escena en los colegios, con lecciones duras de las que no aparecen en los libros de texto, para acabar con las reiteradas faltas de respeto.",
+      "cast": "김무열, 이성민, 진기주, 피오, 김종수, 하영, 이봉준",
+      "director": "홍종찬",
+      "writer": "이남규",
+      "releaseDate": "2026-06-05",
+      "year": "2026",
+      "genre": "Action & Adventure, Drama, Comedia",
+      "rating": 9.4,
+      "duration": "70 min",
+      "poster": "https://image.tmdb.org/t/p/w500/lG83nWVT7cHl3nSxonaYhOjqyWH.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/vyG93jhmPL7tBIhRtCLa5mdBKob.jpg",
+      "categories": [
+        "recomendado",
+        "estrenos",
+        "accion",
+        "comedia",
+        "drama"
+      ],
+      "tmdbId": 276161,
+      "tmdbType": "tv",
       "seasons": [
         {
           "number": 1,
@@ -11871,8 +11889,7 @@
                 {
                   "name": "Voe",
                   "url": "https://voe.sx/e/rpgh4s4zz5gv",
-                  "language": "Idioma sin identificar",
-                  "id": "f94fcd58-376c-4415-9391-e52f30024aee"
+                  "language": "Idioma sin identificar"
                 }
               ]
             },
@@ -11883,8 +11900,7 @@
                 {
                   "name": "Voe",
                   "url": "https://voe.sx/e/2smnnd1rd50m",
-                  "language": "Idioma sin identificar",
-                  "id": "3b34a6eb-702e-4676-a7a4-446ab83a41eb"
+                  "language": "Idioma sin identificar"
                 }
               ]
             },
@@ -11895,8 +11911,7 @@
                 {
                   "name": "Voe",
                   "url": "https://voe.sx/e/hm5sucuqg7jv",
-                  "language": "Idioma sin identificar",
-                  "id": "c3f95e2c-d0fe-4ade-9bba-398e29c59b78"
+                  "language": "Idioma sin identificar"
                 }
               ]
             },
@@ -11907,8 +11922,7 @@
                 {
                   "name": "Voe",
                   "url": "https://voe.sx/e/h35nunjxew6g",
-                  "language": "Idioma sin identificar",
-                  "id": "f3070acd-9094-41e0-90c5-67e7c8c28bef"
+                  "language": "Idioma sin identificar"
                 }
               ]
             },
@@ -11919,8 +11933,7 @@
                 {
                   "name": "Voe",
                   "url": "https://voe.sx/e/qx8czanqpcuz",
-                  "language": "Idioma sin identificar",
-                  "id": "b8fbee11-fad6-4815-9a1c-d2ca159e75cc"
+                  "language": "Idioma sin identificar"
                 }
               ]
             },
@@ -11931,8 +11944,7 @@
                 {
                   "name": "Voe",
                   "url": "https://voe.sx/e/xfi9faxhaiiu",
-                  "language": "Idioma sin identificar",
-                  "id": "8d9e9a2f-d4ed-4a19-aec1-a13f19af872f"
+                  "language": "Idioma sin identificar"
                 }
               ]
             },
@@ -11943,8 +11955,7 @@
                 {
                   "name": "Voe",
                   "url": "https://voe.sx/e/dizb8h6rupm7",
-                  "language": "Idioma sin identificar",
-                  "id": "79d500f7-595d-4d30-9811-be3fce6f3dff"
+                  "language": "Idioma sin identificar"
                 }
               ]
             },
@@ -11955,8 +11966,7 @@
                 {
                   "name": "Voe",
                   "url": "https://voe.sx/e/ilfqinfvwtra",
-                  "language": "Idioma sin identificar",
-                  "id": "ccbac761-429f-4702-9abd-0eff366872f1"
+                  "language": "Idioma sin identificar"
                 }
               ]
             },
@@ -11967,8 +11977,7 @@
                 {
                   "name": "Voe",
                   "url": "https://voe.sx/e/ezzonska4t4x",
-                  "language": "Idioma sin identificar",
-                  "id": "99a7d2e0-b792-4acd-925f-59cb87786850"
+                  "language": "Idioma sin identificar"
                 }
               ]
             },
@@ -11979,8 +11988,7 @@
                 {
                   "name": "Voe",
                   "url": "https://voe.sx/e/1efxpk3oc6p6",
-                  "language": "Idioma sin identificar",
-                  "id": "f66a494d-f096-417f-9555-b37933b53e50"
+                  "language": "Idioma sin identificar"
                 }
               ]
             }
