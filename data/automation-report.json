@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-09-24T09:33:42.363Z",
-  "durationMs": 869,
+  "generatedAt": "2026-09-24T14:26:27.990Z",
+  "durationMs": 2408,
   "dryRun": false,
   "moviesFound": 33,
-  "moviesDiscarded": 26,
+  "moviesDiscarded": 27,
   "moviesAdded": 0,
   "moviesEnriched": 0,
-  "duplicates": 7,
+  "duplicates": 6,
   "tmdbErrors": 0,
   "providerErrors": 0,
   "invalidSources": 0,
@@ -58,19 +58,19 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1137844,
-      "title": "Mayday",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1185806,
       "title": "La Patrulla Canina: La dino película",
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1137844,
+      "title": "Mayday",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1263337,
       "title": "En el corazón de la bestia",
-      "reason": "Votos 26 por debajo del mínimo (50)"
+      "reason": "Votos 27 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1275779,
@@ -85,6 +85,11 @@
     {
       "tmdbId": 1081003,
       "title": "Supergirl",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1212763,
+      "title": "Posesión infernal: En llamas",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -105,7 +110,7 @@
     {
       "tmdbId": 1032863,
       "title": "La hipótesis del amor",
-      "reason": "Votos 40 por debajo del mínimo (50)"
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1482547,
@@ -125,7 +130,7 @@
     {
       "tmdbId": 1607127,
       "title": "Un último disparo",
-      "reason": "Votos 33 por debajo del mínimo (50)"
+      "reason": "Votos 35 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1228834,
