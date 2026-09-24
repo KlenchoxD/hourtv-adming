@@ -3259,49 +3259,6 @@
       ]
     },
     {
-      "id": "954a061f577a4b9285ae2e8c8dd6d0be",
-      "title": "72 horas",
-      "plot": "Para salvar su carrera, un ejecutivo publicitario de 40 años se une a unos veinteañeros en una alocada despedida de soltero en Miami cuando lo añaden por error a un chat grupal.",
-      "cast": "Kevin Hart, Marcello Hernández, Mason Gooding, Kam Patterson, Ben Marshall, Zach Cherry, Michael Mando, Teyana Taylor",
-      "director": "Tim Story",
-      "writer": "Jon Hurwitz",
-      "releaseDate": "2026-07-20",
-      "year": "2026",
-      "genre": "Comedia, Crimen",
-      "rating": 6.8,
-      "duration": "105 min",
-      "poster": "https://image.tmdb.org/t/p/w500/enkyq1gVdQqWaCyAFjFIxjlKvNW.jpg",
-      "backdrop": "https://image.tmdb.org/t/p/w1280/hL5EIk48251OXlbIbRJq3yaBHk8.jpg",
-      "categories": [
-        "estrenos",
-        "comedia",
-        "drama"
-      ],
-      "tmdbId": 949838,
-      "tmdbType": "movie",
-      "servers": [
-        {
-          "name": "Barmonrey",
-          "url": "https://barmonrey.com/player/YhdFzJ6eDykvxoB/",
-          "language": "Idioma sin identificar",
-          "id": "3014732f-3c81-4767-95cd-5094bd6a6de5"
-        },
-        {
-          "name": "Barmonrey",
-          "url": "https://barmonrey.com/player/YVaO0AZ22qUQJx3/",
-          "language": "Idioma sin identificar",
-          "id": "e0d6e51c-9a5f-4639-b26d-3fc77b074ede"
-        },
-        {
-          "name": "A7XTV",
-          "url": "https://api.a7xtv.com/stream/movie/517616/mkv?expires=1790244893&purpose=web_mobile&client=a7x-web-mobile-v1&account=506ef3176f8d749b10f69b77&nonce=14578538-a647-423a-b749-bc7e53f02fab&sig=cebd823a759a866dbbd9296b365de9bdc03c35197fbd0a1b1bb1ade8854f2233",
-          "language": "Idioma sin identificar"
-        }
-      ],
-      "tmdb_id": 949838,
-      "imdb_id": "tt36304003"
-    },
-    {
       "id": "1b6cb725009345f0a119a1ea301f5c88",
       "title": "Aniversario",
       "plot": "Cuando Josh, el hijo de Ellen y Paul, presenta a su nueva novia en la fiesta de su vigesimoquinto aniversario, nadie sospecha que es el principio del fin para esta familia feliz. La nueva novia es Liz, una antigua alumna de Ellen que dejó la universidad unos años antes, después de que Ellen la confrontara en clase por su ideología radical.",
