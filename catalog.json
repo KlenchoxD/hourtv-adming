@@ -11596,6 +11596,30 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "5058fa76eac34c76984f0da9287acb07",
+      "title": "El ilusionista",
+      "year": "2006",
+      "tmdb_id": 1491,
+      "imdb_id": "tt0443543",
+      "rating": "7.3",
+      "genre": "Fantasía, Drama, Suspense, Romance",
+      "cast": "Edward Norton, Paul Giamatti, Jessica Biel, Rufus Sewell, Eddie Marsan, Aaron Taylor-Johnson, Eleanor Tomlinson, Jake Wood, Tom Fisher, Karl Johnson, Vincent Franklin, Nicholas Blane",
+      "director": "Neil Burger",
+      "writer": "Neil Burger",
+      "backdrop": "https://image.tmdb.org/t/p/original/8ScGUtKTupr5rVLiXRmffjKMRhH.jpg",
+      "duration": "110 min",
+      "releaseDate": "2006-08-18",
+      "plot": "El ilusionista: En la Viena de 1900, el misterioso Eisenheim cautiva al público con sus espectáculos de magia e ilusionismo. Sus poderes sobrenaturales…",
+      "poster": "https://image.tmdb.org/t/p/w1280/8ScGUtKTupr5rVLiXRmffjKMRhH.jpg",
+      "servers": [
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/dKXWqC8euuryW3D/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
