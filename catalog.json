@@ -11668,6 +11668,30 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "7c51ae294a3f4924aea061dee9c2b4d5",
+      "title": "PAW Patrol: La dino película",
+      "year": "2026",
+      "tmdb_id": 1185806,
+      "imdb_id": "tt29356163",
+      "rating": "8.0",
+      "genre": "Animación, Aventura, Familia, Fantasía, Comedia",
+      "cast": "Carter Young, Mckenna Grace, Terry Crews, Meredith MacNeill, Ron Pardo, Jennifer Hudson, Hayden Chemberlen, Fortune Feimster, Jameela Jamil, Rain Janjua, Bill Nye, Paris Hilton",
+      "director": "Cal Brunker",
+      "writer": "Cal Brunker, Bob Barlen",
+      "backdrop": "https://image.tmdb.org/t/p/original/6TSxLmwT7j1ugtKi8NyMmdzWAGj.jpg",
+      "duration": "88 min",
+      "releaseDate": "2026-07-23",
+      "plot": "PAW Patrol: La dino película: Cuando una fuerte tormenta deja a la patrulla canina varada en una isla inexplorada llena de dinosaurios vivos, los…",
+      "poster": "https://image.tmdb.org/t/p/w1280/6TSxLmwT7j1ugtKi8NyMmdzWAGj.jpg",
+      "servers": [
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/gw52Zpzw2DUfhbp/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
