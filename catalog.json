@@ -11453,6 +11453,30 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "13efa42dd7de4c34b2e8c3b385f142b5",
+      "title": "Sultana",
+      "year": "2026",
+      "tmdb_id": 1656489,
+      "imdb_id": "tt41228546",
+      "rating": "6.0",
+      "genre": "Drama, Música",
+      "cast": "Tuba Büyüküstün, Derya Pınar Ak, Seray Kaya, Begüm Akkaya, Rojbin Erden, Şirin Sultan Saldamlı, Itır Esen, Taro Emir Tekin, Hakan Kurtaş, Nur Sürer, Çağlar Çorumlu, Melike Güner",
+      "director": "Ali Kemal Güven",
+      "writer": "Erdi Işık",
+      "backdrop": "https://image.tmdb.org/t/p/original/lDHfyYkTIWCWWdbHkLZwRXQx3Ul.jpg",
+      "duration": "120 min",
+      "releaseDate": "2026-04-17",
+      "plot": "Meral ha sido durante años la figura dominante del club Sultana de Estambul, un mundo nocturno donde ha aprendido a defender su lugar y mantenerse por…",
+      "poster": "https://image.tmdb.org/t/p/w1280/29XMlo2zt5LTA0YMjA3hubbM942.jpg",
+      "servers": [
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/Wwq01TtfPocvqMp/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
