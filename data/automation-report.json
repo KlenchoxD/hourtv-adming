@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-09-24T04:44:20.797Z",
-  "durationMs": 2989,
+  "generatedAt": "2026-09-24T09:33:42.363Z",
+  "durationMs": 869,
   "dryRun": false,
-  "moviesFound": 32,
-  "moviesDiscarded": 25,
+  "moviesFound": 33,
+  "moviesDiscarded": 26,
   "moviesAdded": 0,
   "moviesEnriched": 0,
   "duplicates": 7,
@@ -48,8 +48,18 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1477712,
+      "title": "Dulce sabor a muerte",
+      "reason": "Rating 4.6 por debajo del mínimo (5.5)"
+    },
+    {
       "tmdbId": 299534,
       "title": "Vengadores: Endgame",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1137844,
+      "title": "Mayday",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -58,9 +68,9 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1137844,
-      "title": "Mayday",
-      "reason": "Sin fuente autorizada configurada"
+      "tmdbId": 1263337,
+      "title": "En el corazón de la bestia",
+      "reason": "Votos 26 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1275779,
@@ -73,19 +83,9 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1263337,
-      "title": "En el corazón de la bestia",
-      "reason": "Votos 25 por debajo del mínimo (50)"
-    },
-    {
       "tmdbId": 1081003,
       "title": "Supergirl",
       "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1477712,
-      "title": "Dulce sabor a muerte",
-      "reason": "Rating 4.6 por debajo del mínimo (5.5)"
     },
     {
       "tmdbId": 1368337,
@@ -103,9 +103,19 @@
       "reason": "Rating 0 por debajo del mínimo (5.5)"
     },
     {
+      "tmdbId": 1032863,
+      "title": "La hipótesis del amor",
+      "reason": "Votos 40 por debajo del mínimo (50)"
+    },
+    {
       "tmdbId": 1482547,
       "title": "Zip Wire",
       "reason": "Votos 14 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 1285366,
+      "title": "愛のぬくもり",
+      "reason": "Votos 8 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1440098,
@@ -113,9 +123,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1285366,
-      "title": "愛のぬくもり",
-      "reason": "Votos 8 por debajo del mínimo (50)"
+      "tmdbId": 1607127,
+      "title": "Un último disparo",
+      "reason": "Votos 33 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 1228834,
+      "title": "Operación Teherán",
+      "reason": "Votos 26 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1232569,
@@ -126,16 +141,6 @@
       "tmdbId": 1386315,
       "title": "A la carrera",
       "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1323244,
-      "title": "La señal del apocalipsis",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1751701,
-      "title": "After Impact",
-      "reason": "Rating 5.1 por debajo del mínimo (5.5)"
     }
   ]
 }
