@@ -153,18 +153,38 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
     _opening = true;
     try {
       if (!await ensureParentalAccess(context, channel) || !mounted) return;
-      final allChannels = store.visibleAll;
-      // Sin esto, PlayerScreen ubica la pelicula buscando por URL entre
-      // allChannels: si dos titulos comparten servidor (cada vez mas comun
-      // con los reemplazos manuales a mirrors genericos), reproduce el
-      // primero que encuentra con esa URL en vez del que se toco.
-      final index = allChannels.indexOf(channel);
+      // Las tarjetas paginadas de Drift llegan aquí con una URL `catalog://…`;
+      // CatalogDetailNavigator las hidrata y esta ficha ya tiene la fuente
+      // real. Reconciliar la cola por URL solamente no encuentra esa entidad,
+      // por lo que PlayerScreen caía silenciosamente en el índice 0 (Viuda
+      // Negra). El ID estable identifica la película aunque su URL haya sido
+      // hidratada o coincida con la de otro título.
+      final allChannels = List<Channel>.of(store.visibleAll);
+      final titleId = channel.stableTitleId;
+      var index = allChannels.indexOf(channel);
+      if (index < 0 && titleId != null && titleId.isNotEmpty) {
+        index = allChannels.indexWhere(
+          (item) => item.stableTitleId == titleId,
+        );
+      }
+      if (index < 0 && channel.url.isNotEmpty) {
+        index = allChannels.indexWhere((item) => item.url == channel.url);
+      }
+      if (index >= 0) {
+        // Usa la versión hidratada, no el placeholder catalog:// del listado.
+        allChannels[index] = channel;
+      } else {
+        // No permitas que una selección ausente en la cola termine abriendo
+        // otro título por el fallback del reproductor al primer elemento.
+        allChannels.insert(0, channel);
+        index = 0;
+      }
       await Navigator.of(context).push(
         MaterialPageRoute(
           builder: (_) => PlayerScreen(
             channel: channel,
             allChannels: allChannels,
-            initialIndex: index >= 0 ? index : null,
+            initialIndex: index,
             // Solo la entrada desde la fila "Continuar viendo" reanuda
             // directo; el resto de entradas muestra la decision.
             resumePlayback: widget.fromContinueWatching,

@@ -100,7 +100,8 @@ class HourTvMobileShell extends StatefulWidget {
   State<HourTvMobileShell> createState() => _HourTvMobileShellState();
 }
 
-class _HourTvMobileShellState extends State<HourTvMobileShell> {
+class _HourTvMobileShellState extends State<HourTvMobileShell>
+    with WidgetsBindingObserver {
   late final store = widget.store ?? ContentStore.instance;
   var destination = HourTvMobileDestination.home;
   final Map<HourTvMobileDestination, Widget> _cachedPages = {};
@@ -109,12 +110,24 @@ class _HourTvMobileShellState extends State<HourTvMobileShell> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     _isLiveActive.value = (destination == HourTvMobileDestination.live);
     unawaited(store.ensureLoaded());
   }
 
   @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.resumed) {
+      // Una publicación remota hecha mientras la app estaba en segundo plano
+      // debe llegar al catálogo sin obligar a borrar datos o reinstalar.
+      unawaited(store.maybeRefresh());
+    }
+  }
+
+  @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     _isLiveActive.dispose();
     super.dispose();
   }
@@ -254,12 +267,15 @@ class _HourTvMobileShellState extends State<HourTvMobileShell> {
           active: active,
         ),
       ),
-      HourTvMobileDestination.search => HourTvMobileSearch(
-        content: _allContent,
-        presentationIndex: _memoizedIndex,
-        onOpen: _openDetails,
-        catalogRepository: widget.catalogRepository,
-        catalogPageSource: widget.catalogPageSource,
+      HourTvMobileDestination.search => ListenableBuilder(
+        listenable: store,
+        builder: (context, _) => HourTvMobileSearch(
+          content: _allContent,
+          presentationIndex: _memoizedIndex,
+          onOpen: _openDetails,
+          catalogRepository: widget.catalogRepository,
+          catalogPageSource: widget.catalogPageSource,
+        ),
       ),
       HourTvMobileDestination.library => ListenableBuilder(
         listenable: store,
@@ -502,14 +518,20 @@ class _HourTvMobileHomeState extends State<HourTvMobileHome> {
     final driftMovies = _cachedDriftMovies;
     final driftSeries = _cachedDriftSeries;
 
-    final effectiveMovies = driftMovies.isNotEmpty
-        ? driftMovies
-        : widget.store.movies;
-    final effectiveSeries = driftSeries.isNotEmpty
-        ? driftSeries
-        : widget.allContent
-              .where((item) => item.type == MediaType.series)
-              .toList();
+    // Las tablas Drift se sincronizan desde Supabase; el panel publica en el
+    // catálogo JSON. Prioriza el catálogo publicado cuando ya está cargado y
+    // conserva Drift como fallback de arranque/offline para no ocultar títulos
+    // nuevos que todavía no existan en las tablas relacionales.
+    final publishedMovies = widget.store.movies;
+    final effectiveMovies = publishedMovies.isNotEmpty
+        ? publishedMovies
+        : driftMovies;
+    final publishedSeries = widget.allContent
+        .where((item) => item.type == MediaType.series)
+        .toList(growable: false);
+    final effectiveSeries = publishedSeries.isNotEmpty
+        ? publishedSeries
+        : driftSeries;
 
     final featuredChannels =
         widget.featured ?? _getFallbackFeatured(widget.allContent);
@@ -1457,6 +1479,7 @@ class _HourTvMobileSearchState extends State<HourTvMobileSearch> {
     if (_scrollController.position.extentAfter >= 600) return;
     final bool useDrift =
         _driftPageSource != null &&
+        _query.isEmpty &&
         (_hasActiveFilters || _cachedDriftResults.isNotEmpty);
     if (useDrift) {
       if (_driftPageSource!.hasMore && !_driftPageSource!.isLoading) {
@@ -1509,8 +1532,16 @@ class _HourTvMobileSearchState extends State<HourTvMobileSearch> {
 
   @override
   Widget build(BuildContext context) {
+    // La búsqueda por texto nunca debe usar Drift: esa base local solo se
+    // sincroniza desde las tablas relacionales de Supabase (titles/sources),
+    // que el panel no llena al publicar (solo actualiza catalog.json). Un
+    // título nuevo puede tardar indefinidamente en llegar ahí, o no llegar
+    // nunca. El índice en memoria (_currentResults) sí se arma desde el
+    // catálogo real que el panel publica, así que es la única fuente
+    // confiable en cuanto hay texto escrito.
     final bool useDrift =
         _driftPageSource != null &&
+        _query.isEmpty &&
         (_hasActiveFilters || _cachedDriftResults.isNotEmpty);
     final List<Channel> resultsList = useDrift
         ? _cachedDriftResults

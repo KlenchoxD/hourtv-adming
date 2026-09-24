@@ -697,14 +697,10 @@ class ContentStore extends ChangeNotifier {
         (StorageService.getSetting('remoteSourcesUrl', defaultValue: '') ?? '')
             .toString()
             .trim();
-    // Solo se usa el snapshot de Supabase para el catálogo por defecto del
-    // panel: si la persona configuró su propia URL remota, se respeta esa
-    // fuente sin sustituirla.
-    if (configured.isEmpty) {
-      final fromSupabase = await _fetchCatalogSnapshotFromSupabase();
-      if (fromSupabase != null) return fromSupabase;
-    }
-
+    // El JSON de GitHub es la publicación canónica del panel. El snapshot de
+    // Supabase puede quedarse atrás si una publicación no pudo sincronizarse
+    // (por ejemplo, porque el panel no tenía sesión); por eso solo se usa como
+    // respaldo, después de intentar las URLs canónicas.
     final urls = configured.isNotEmpty ? [configured] : _defaultCatalogUrls;
     for (final url in urls) {
       try {
@@ -739,6 +735,12 @@ class ContentStore extends ChangeNotifier {
       } catch (e) {
         debugPrint('[CatalogFetch] Falló $url: $e');
       }
+    }
+    // Si el usuario configuró una URL propia, no sustituirla por otra fuente.
+    // Para la URL predeterminada del panel, Supabase es un fallback offline
+    // adicional cuando GitHub no responde.
+    if (configured.isEmpty) {
+      return _fetchCatalogSnapshotFromSupabase();
     }
     return null;
   }
