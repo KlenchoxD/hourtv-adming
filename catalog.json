@@ -11405,6 +11405,30 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "2b44dc4fb2d1419ab306521f18ac6e1d",
+      "title": "Lector omnisciente: La profecía",
+      "year": "2025",
+      "tmdb_id": 1131759,
+      "imdb_id": "tt30254719",
+      "rating": "7.1",
+      "genre": "Acción, Aventura, Fantasía",
+      "cast": "Ahn Hyo Seop, Lee Min-ho, 채수빈, 신승호, 나나, 권은성, 지수, Park Ho-san, 최영준, 정성일, 이석, 이유진",
+      "director": "김병우",
+      "writer": "김병우, 이정민",
+      "backdrop": "https://image.tmdb.org/t/p/original/mZGsJUzQ4dONUBccxhImBqxaSQt.jpg",
+      "duration": "120 min",
+      "releaseDate": "2025-07-23",
+      "plot": "Lector omnisciente: La profecía: Kim Dokja es un oficinista que ha pasado años siguiendo una novela sobre el fin del mundo, sin imaginar que algún día…",
+      "poster": "https://image.tmdb.org/t/p/w1280/mZGsJUzQ4dONUBccxhImBqxaSQt.jpg",
+      "servers": [
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/19e58P8RyXnI44k/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
