@@ -11573,6 +11573,29 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "fd75550b123c4ff3b21b2836ad04d4f6",
+      "title": "Impacto mortal",
+      "year": "2026",
+      "tmdb_id": 402051,
+      "imdb_id": "tt0219091",
+      "rating": "7.0",
+      "genre": "Drama, Acción",
+      "cast": "Ricardo Vázquez, Rolando D'Lugo, Coraly Santaliz, Laura Hernández, Cristóbal Sánchez, Franchie Guadalupe, Edward Allende, Miguel Pabón, Miriam Ramírez",
+      "director": "Raúl García",
+      "writer": "Raúl García",
+      "duration": "103 min",
+      "releaseDate": "1998-08-17",
+      "plot": "Impacto mortal: Un grupo de pasajeros internacionales en ruta de Los Ángeles a Shanghai se ven obligados a realizar un aterrizaje de emergencia en aguas…",
+      "poster": "https://image.tmdb.org/t/p/w1280/szKv713FcUXx6hcfdY369vtkmzr.jpg",
+      "servers": [
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/qqEuRi1HPY7U65O/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
