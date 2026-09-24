@@ -11606,19 +11606,24 @@
     {
       "id": "61a49a8048d04b048d5f680cf7adf53a",
       "title": "Enfrentados: Marfil",
-      "year": "2026",
-      "tmdb_id": 1440098,
-      "imdb_id": "tt36073210",
-      "rating": "6.7",
-      "genre": "Romance, Suspense",
+      "plot": "Parte 1 de la saga Enfrentados. Marfil, hija de un poderoso empresario español, ve cómo su vida en Nueva York da un vuelco al ser secuestrada y liberada sin explicación. Su padre contrata a Sebastian Moore como guardaespaldas y, forzados a pasar cada minuto juntos, surgirá una irremediable atracción en un mundo donde nada es lo que parece. Basada en la novela de Mercedes Ron, saga Culpables",
       "cast": "Ester Expósito, Hugo Diego Garcia, Pablo Molinero, Lluís Homar, Joaquín Ferreira, Zoe Bonafonte, Majo Gámez, João Bettencourt, Leander Vyvey, Eric Masip, Luka Peroš, Inge Ladd",
       "director": "Óscar Pedraza",
       "writer": "Sofía Cuenca",
-      "backdrop": "https://image.tmdb.org/t/p/original/i65y7cMae36K0giN0GRaMjAHUru.jpg",
-      "duration": "104 min",
       "releaseDate": "2026-09-09",
-      "plot": "Enfrentados: Marfil: Marfil lleva una vida privilegiada en Nueva York hasta que un secuestro inesperado rompe por completo su sensación de seguridad.…",
-      "poster": "https://image.tmdb.org/t/p/w1280/i65y7cMae36K0giN0GRaMjAHUru.jpg",
+      "year": "2026",
+      "genre": "Romance, Suspense",
+      "rating": 6.7,
+      "duration": "104 min",
+      "poster": "https://image.tmdb.org/t/p/w500/umlft1ztFbUcnHf960pXJocjpdv.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/original/i65y7cMae36K0giN0GRaMjAHUru.jpg",
+      "categories": [
+        "estrenos",
+        "terror",
+        "romance"
+      ],
+      "tmdbId": 1440098,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Paulinito",
