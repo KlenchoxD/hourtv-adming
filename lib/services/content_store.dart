@@ -15,6 +15,7 @@ import 'stalker_service.dart';
 import 'catalog_parser.dart';
 import 'epg_service.dart';
 import 'tmdb_service.dart';
+import 'supabase_bootstrap.dart';
 
 /// Agrupacion de canales por país (para el selector EN VIVO).
 class CountryBucket {
@@ -310,6 +311,7 @@ class ContentStore extends ChangeNotifier {
       if (result.contains(ConnectivityResult.mobile) &&
           !result.contains(ConnectivityResult.wifi) &&
           !result.contains(ConnectivityResult.ethernet)) {
+        debugPrint('[CatalogFetch] Bloqueado por wifiOnly: conectividad=$result');
         return false;
       }
     } catch (_) {
@@ -453,6 +455,7 @@ class ContentStore extends ChangeNotifier {
       unawaited(_loadVod(lists, assetSources.series, failed));
       unawaited(_enrichMovies(all));
     } catch (exception) {
+      debugPrint('[CatalogFetch] _refreshContent falló: $exception');
       if (all.isEmpty && series.isEmpty) {
         error = exception.toString();
         _setReadiness(CatalogReadiness(
@@ -658,12 +661,50 @@ class ContentStore extends ChangeNotifier {
     'https://raw.githubusercontent.com/KlenchoxD/hourtv-adming/main/catalog.json',
   ];
 
+  /// raw.githubusercontent.com se sirve por una CDN que puede tardar minutos
+  /// en propagar un cambio, y de forma desigual por región: dos personas
+  /// pueden pedir la misma URL a la vez y recibir contenido distinto. El
+  /// panel guarda una copia del catálogo publicado en esta tabla de Supabase
+  /// (lectura directa a Postgres, sin caché de CDN) para que lo publicado se
+  /// vea al instante. Si no hay Supabase configurado o falla, se sigue con
+  /// las URLs de GitHub como hasta ahora.
+  Future<String?> _fetchCatalogSnapshotFromSupabase() async {
+    if (!SupabaseBootstrap.instance.isAvailable) return null;
+    final client = SupabaseBootstrap.instance.client;
+    if (client == null) return null;
+    try {
+      final row = await client
+          .from('catalog_snapshot')
+          .select('content')
+          .eq('id', 1)
+          .maybeSingle()
+          .timeout(const Duration(seconds: 10));
+      final content = row?['content'];
+      if (content is String && content.trim().isNotEmpty) {
+        debugPrint('[CatalogFetch] OK Supabase catalog_snapshot bytes=${content.length}');
+        await StorageService.saveSetting('remoteSourcesCache', content);
+        return content;
+      }
+    } catch (e) {
+      debugPrint('[CatalogFetch] Falló Supabase catalog_snapshot: $e');
+    }
+    return null;
+  }
+
   /// Descarga una nueva versión sin bloquear el primer render.
   Future<String?> _fetchRemoteSourcesFromNetwork() async {
     final configured =
         (StorageService.getSetting('remoteSourcesUrl', defaultValue: '') ?? '')
             .toString()
             .trim();
+    // Solo se usa el snapshot de Supabase para el catálogo por defecto del
+    // panel: si la persona configuró su propia URL remota, se respeta esa
+    // fuente sin sustituirla.
+    if (configured.isEmpty) {
+      final fromSupabase = await _fetchCatalogSnapshotFromSupabase();
+      if (fromSupabase != null) return fromSupabase;
+    }
+
     final urls = configured.isNotEmpty ? [configured] : _defaultCatalogUrls;
     for (final url in urls) {
       try {
@@ -686,10 +727,18 @@ class ContentStore extends ChangeNotifier {
             )
             .timeout(const Duration(seconds: 12));
         if (response.statusCode == 200 && response.body.trim().isNotEmpty) {
+          debugPrint(
+            '[CatalogFetch] OK $url status=${response.statusCode} bytes=${response.body.length}',
+          );
           await StorageService.saveSetting('remoteSourcesCache', response.body);
           return response.body;
         }
-      } catch (_) {}
+        debugPrint(
+          '[CatalogFetch] Respuesta no válida $url status=${response.statusCode} bodyLen=${response.body.length}',
+        );
+      } catch (e) {
+        debugPrint('[CatalogFetch] Falló $url: $e');
+      }
     }
     return null;
   }

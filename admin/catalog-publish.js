@@ -2,6 +2,26 @@ let catalogBase;
 try{catalogBase=JSON.parse(localStorage.getItem('hourtv_admin_base')||'null')||undefined}catch(e){}
 const publishCatalogSafely=CatalogSync.createPublisher();
 let publishing=false;
+
+// catalog.json se sirve por raw.githubusercontent.com, cuya CDN puede
+// tardar minutos en propagar un cambio y de forma desigual por región.
+// Esta copia en Supabase (lectura directa a Postgres, sin CDN) es lo que
+// la app consulta primero para que lo publicado se vea al instante.
+// Best-effort: si falla (sin sesión Supabase, sin red), no debe romper
+// la publicación real en GitHub, que es la que ya funcionaba antes.
+async function syncCatalogSnapshotToSupabase(jsonString){
+  if(!supabase||!sbSession){toast('Catálogo publicado en GitHub, pero no en Supabase: sin sesión iniciada.','warn');return}
+  try{
+    const updated=new Date().toISOString();
+    const upd=await supabase.from('catalog_snapshot').update({content:jsonString,updated_at:updated}).eq('id',1);
+    if(upd.error){toast('No se sincronizó a Supabase (update): '+upd.error.message,'warn');return}
+    if(!upd.data||upd.data.length===0){
+      const ins=await supabase.from('catalog_snapshot').insert({id:1,content:jsonString,updated_at:updated});
+      if(ins.error){toast('No se sincronizó a Supabase (insert): '+ins.error.message,'warn');return}
+    }
+    toast('Catálogo sincronizado a Supabase: se verá al instante en la app.','ok');
+  }catch(e){toast('No se sincronizó a Supabase: '+e.message,'warn');console.error('syncCatalogSnapshotToSupabase',e)}
+}
 async function publish(options){
   options=options||{};
   if(!cfg.token){const e=new Error('Configura GitHub primero');toast(e.message,'err');openConfig();if(options.throwOnError)throw e;return false}
@@ -39,6 +59,7 @@ async function publish(options){
     for(const id of deleting)deletedIds.delete(id);
     saveDeletedIds();save();render();
     toast('¡Publicado! Se conservaron los cambios remotos y tus servidores.','ok');
+    await syncCatalogSnapshotToSupabase(JSON.stringify(catalogBase));
     if(!options.skipReplacementFinalize&&typeof finalizePendingReplacementPublish==='function')await finalizePendingReplacementPublish(true);
     return true;
   }catch(e){toast('Error: '+e.message,'err');if(!options.skipReplacementFinalize&&typeof finalizePendingReplacementPublish==='function')await finalizePendingReplacementPublish(false,e.message);if(options.throwOnError)throw e;return false}
