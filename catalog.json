@@ -11804,19 +11804,24 @@
     {
       "id": "61c2dca6a1a940729898f44d3bf2b1cc",
       "title": "Dos hermanos",
-      "year": "2004",
-      "tmdb_id": 1997,
-      "imdb_id": "tt0338512",
-      "rating": "7.2",
-      "genre": "Aventura, Drama, Familia",
+      "plot": "Nacidos en el corazón de la selva del sureste asiático, en las ruinas de un templo olvidado siglos atrás, dos tigres crecen jugando y aprendiendo bajo la mirada benevolente de los Buda llenos de musgo y vigilados por sus progenitores. Uno era tímido y dulce y el otro valiente y atrevido. Cuando un ex cazador llega para saquear el templo sagrado, el destino de los dos hermanos cambiará para siempre, pues son separados al nacer y criados en cautividad. Uno se convierte en estrella de circo con el nombre de Kumal, donde la añoranza de la selva y vivir en una jaula le hacen perder su espíritu. El otro se convierte en el querido compañero del hijo del administrador colonial, que le da el nombre de Sangha antes de entregárselo a un príncipe que le enseñará a pelear. Pero pasado el tiempo, algunos años más tarde, los dos animales volverán a reunirse como enemigos cuando un explorador les obliga a luchar el uno contra el otro.",
       "cast": "Guy Pearce, Jean-Claude Dreyfus, Freddie Highmore, Philippine Leroy-Beaulieu, Moussa Maaskri, Vincent Scarito, Maï Anh Le, จรัล เพ็ชรเจริญ, Oanh Nguyen, Stéphanie Lagarde, Bernard Flavien, Annop Varapanya",
       "director": "Jean Jacques Annaud",
       "writer": "Alain Godard, Jean Jacques Annaud",
-      "backdrop": "https://image.tmdb.org/t/p/original/3pZP6t6DV3bsE9AtACZNMnullB2.jpg",
-      "duration": "109 min",
       "releaseDate": "2004-04-07",
-      "plot": "Dos hermanos: Nacidos en el corazón de la selva del sureste asiático, en las ruinas de un templo olvidado siglos atrás, dos tigres crecen jugando y…",
-      "poster": "https://image.tmdb.org/t/p/w1280/aB5123I8MNi3NIg0t9RrP6A7Yla.jpg",
+      "year": "2004",
+      "genre": "Aventura, Drama, Familia",
+      "rating": 7.2,
+      "duration": "109 min",
+      "poster": "https://image.tmdb.org/t/p/w500/re9fSYWtJwV7hG8NIwznt2IFnQZ.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/original/3pZP6t6DV3bsE9AtACZNMnullB2.jpg",
+      "categories": [
+        "aventura",
+        "drama",
+        "familia"
+      ],
+      "tmdbId": 1997,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Paulinito",
