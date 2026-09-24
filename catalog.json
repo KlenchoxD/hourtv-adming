@@ -11689,19 +11689,24 @@
     {
       "id": "462191000a5d44cd82acdd8a81853170",
       "title": "La máquina del tiempo",
-      "year": "2002",
-      "tmdb_id": 2135,
-      "imdb_id": "tt0268695",
-      "rating": "6.4",
-      "genre": "Ciencia ficción, Aventura, Acción",
+      "plot": "El científico e inventor Alexander Hartdegen ha tomado la decisión de probar que los viajes a través del tiempo son posibles. Una tragedia personal que lo ha sumido en la desesperación es la razón de su deseo de volver al pasado. Pero la máquina de su invención, en contra de sus deseos, lo lleva al futuro (800.000 después), donde descubre que la humanidad se ha dividido en dos bandos: perseguidores y perseguidos.",
       "cast": "Guy Pearce, Samantha Mumba, Jeremy Irons, Omero Mumba, Sienna Guillory, Orlando Jones, Mark Addy, Phyllida Law, Laura Kirk, John W. Momrow, Josh Stamberg, Jeffrey M. Meyer",
       "director": "Simon Wells",
       "writer": "John Logan, David Duncan",
-      "backdrop": "https://image.tmdb.org/t/p/original/i0eOILDW8HipIkOUSKhB1dvZzNJ.jpg",
-      "duration": "92 min",
       "releaseDate": "2002-03-04",
-      "plot": "La máquina del tiempo: Con la esperanza de alterar los acontecimientos del pasado, un inventor del siglo XIX viaja 800 000 años al futuro, donde…",
-      "poster": "https://image.tmdb.org/t/p/w1280/i0eOILDW8HipIkOUSKhB1dvZzNJ.jpg",
+      "year": "2002",
+      "genre": "Ciencia ficción, Aventura, Acción",
+      "rating": 6.4,
+      "duration": "92 min",
+      "poster": "https://image.tmdb.org/t/p/w500/etqDF1zxjegHcVei2T9sKLaZ5s2.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/original/i0eOILDW8HipIkOUSKhB1dvZzNJ.jpg",
+      "categories": [
+        "populares",
+        "accion",
+        "aventura"
+      ],
+      "tmdbId": 2135,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Paulinito",
