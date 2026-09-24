@@ -11716,6 +11716,30 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "61c2dca6a1a940729898f44d3bf2b1cc",
+      "title": "Dos hermanos",
+      "year": "2004",
+      "tmdb_id": 1997,
+      "imdb_id": "tt0338512",
+      "rating": "7.2",
+      "genre": "Aventura, Drama, Familia",
+      "cast": "Guy Pearce, Jean-Claude Dreyfus, Freddie Highmore, Philippine Leroy-Beaulieu, Moussa Maaskri, Vincent Scarito, Maï Anh Le, จรัล เพ็ชรเจริญ, Oanh Nguyen, Stéphanie Lagarde, Bernard Flavien, Annop Varapanya",
+      "director": "Jean Jacques Annaud",
+      "writer": "Alain Godard, Jean Jacques Annaud",
+      "backdrop": "https://image.tmdb.org/t/p/original/3pZP6t6DV3bsE9AtACZNMnullB2.jpg",
+      "duration": "109 min",
+      "releaseDate": "2004-04-07",
+      "plot": "Dos hermanos: Nacidos en el corazón de la selva del sureste asiático, en las ruinas de un templo olvidado siglos atrás, dos tigres crecen jugando y…",
+      "poster": "https://image.tmdb.org/t/p/w1280/aB5123I8MNi3NIg0t9RrP6A7Yla.jpg",
+      "servers": [
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/Vr7eN6aWSkQhEku/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
