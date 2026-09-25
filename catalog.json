@@ -12448,6 +12448,30 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "fad22fec1deb4af084e6320cd9cb1a8c",
+      "title": "El único",
+      "year": "2001",
+      "tmdb_id": 10796,
+      "imdb_id": "tt0267804",
+      "rating": "6.1",
+      "genre": "Acción, Ciencia ficción, Suspense",
+      "cast": "李连杰, Carla Gugino, Delroy Lindo, Jason Statham, James Morrison, Dylan Bruno, Richard Steinmetz, Steve Rankin, Tucker Smallwood, Harriet Sansom Harris, David Keats, Dean Norris",
+      "director": "James Wong",
+      "writer": "James Wong, Glen Morgan",
+      "backdrop": "https://image.tmdb.org/t/p/original/yZzPTih3HQZUBghrWirt0Rk17uE.jpg",
+      "duration": "87 min",
+      "releaseDate": "2001-11-02",
+      "plot": "El único: En un mundo futuro se ha descubierto que existen vidas alternas en universos alternos, un hecho que los agentes del Departamento Multiverse…",
+      "poster": "https://image.tmdb.org/t/p/w1280/yZzPTih3HQZUBghrWirt0Rk17uE.jpg",
+      "servers": [
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/T5a5D7iEv36ibFi/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
