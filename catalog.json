@@ -11917,6 +11917,35 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "7f421ce482894f3bba5dfee2b9259ae8",
+      "title": "El día de la revelación",
+      "year": "2026",
+      "tmdb_id": 1275779,
+      "imdb_id": "tt15047880",
+      "rating": "7.5",
+      "genre": "Ciencia ficción, Suspense",
+      "cast": "Emily Blunt, Josh O'Connor, Colin Firth, Eve Hewson, Colman Domingo, Wyatt Russell, Henry Lloyd-Hughes, Elizabeth Marvel, Hettienne Park, Tommy Martinez, Gabby Beans, Jeremy Shamos",
+      "director": "Steven Spielberg",
+      "writer": "Steven Spielberg, David Koepp",
+      "backdrop": "https://image.tmdb.org/t/p/original/flxau5Iu7bChQHsESqvGZ3FQRaI.jpg",
+      "duration": "146 min",
+      "releaseDate": "2026-06-10",
+      "plot": "El día de la revelación: Si descubrieras que no estamos solos, si alguien te abriera los ojos y te lo demostrase, ¿te asustarías?",
+      "poster": "https://image.tmdb.org/t/p/w1280/flxau5Iu7bChQHsESqvGZ3FQRaI.jpg",
+      "servers": [
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/L357r7VUkWz6LaC/",
+          "language": "Idioma sin identificar"
+        },
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/KpjcFrq5TfXONiF/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
