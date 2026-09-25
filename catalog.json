@@ -13032,6 +13032,20 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "3f51cfe36c284211a2a63eee5151f120",
+      "title": "Espantoso",
+      "year": "2026",
+      "plot": "Espantoso: Una mujer vive en la sociedad medieval inglesa hasta que un hombre de su pasado regresa de la guerra con una maldición.",
+      "poster": "https://image.tmdb.org/t/p/w1280/fAF3VGFBpItWNROmiGob60n0y5.jpg",
+      "servers": [
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/R6V76q3WHNtvmXt/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
