@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math' as math;
 
+import 'package:flutter/foundation.dart' show compute;
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -142,6 +143,7 @@ class _HourTvMobileShellState extends State<HourTvMobileShell>
   List<Channel>? _memoizedFeatured;
   Object? _lastVisibleAllRef;
   int _lastFavoritesCount = -1;
+  Object? _indexBuildTicket;
 
   List<Channel> get _allContent {
     final currentVisibleAll = store.visibleAll;
@@ -166,10 +168,30 @@ class _HourTvMobileShellState extends State<HourTvMobileShell>
     _lastVisibleAllRef = currentVisibleAll;
     _lastFavoritesCount = currentFavCount;
 
-    _memoizedIndex = CatalogPresentationIndex.build(_memoizedAllContent!);
-    _memoizedFeatured = _memoizedIndex!.featured(limit: 5);
+    _scheduleIndexRebuild(_memoizedAllContent!);
 
     return _memoizedAllContent!;
+  }
+
+  // El catálogo puede superar los miles de títulos (bulk publish), y
+  // CatalogPresentationIndex.build() normaliza texto de cada uno. Hecho en
+  // el hilo principal eso traba la navegación (Inicio/Buscar); se calcula
+  // en un isolate y se aplica cuando esté listo, sin bloquear el frame.
+  void _scheduleIndexRebuild(List<Channel> content) {
+    final ticket = Object();
+    _indexBuildTicket = ticket;
+    compute(CatalogPresentationIndex.build, content).then((index) {
+      if (!mounted || !identical(_indexBuildTicket, ticket)) return;
+      setState(() {
+        _memoizedIndex = index;
+        _memoizedFeatured = index.featured(limit: 5);
+        // Home/Search quedan cacheados en _cachedPages con el índice viejo
+        // capturado en sus props; hay que invalidarlos para que se
+        // reconstruyan con el índice recién calculado.
+        _cachedPages.remove(HourTvMobileDestination.home);
+        _cachedPages.remove(HourTvMobileDestination.search);
+      });
+    });
   }
 
   List<Channel> get _liveChannels =>
@@ -179,11 +201,10 @@ class _HourTvMobileShellState extends State<HourTvMobileShell>
       _liveChannels.isNotEmpty ? _liveChannels : PreviewCatalog.live;
 
   List<Channel> get _featured {
-    final list = _allContent;
-    if (list.isEmpty) return const [];
-    return _memoizedFeatured ??
-        _memoizedIndex?.featured(limit: 5) ??
-        CatalogPresentationIndex.build(list).featured(limit: 5);
+    if (_allContent.isEmpty) return const [];
+    // El índice puede seguir construyéndose en el isolate; se actualiza
+    // solo cuando esté listo (ver _scheduleIndexRebuild).
+    return _memoizedFeatured ?? const [];
   }
 
   void _openDetails(Channel channel, {bool fromContinueWatching = false}) {
