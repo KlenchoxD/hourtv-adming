@@ -12180,6 +12180,30 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "c3f132658d1d471885c25b269b8e5364",
+      "title": "23.000 vidas",
+      "year": "2026",
+      "tmdb_id": 1656220,
+      "imdb_id": "tt41983440",
+      "rating": "6.1",
+      "genre": "Drama",
+      "cast": "Louis Hofmann, Mala Emde, Katharina Stark, Frederick Lau, Maria Dragus, Trevor Magaya, Kathy Etoa, Saibon Wang, Joone Dankou, Merlin Von Garnier, Luisa-Céline Gaffron, Omid Memar",
+      "director": "Markus Goller",
+      "writer": "Oliver Ziegenbalg, Michele Cinque",
+      "backdrop": "https://image.tmdb.org/t/p/original/q5L3aXchoCgwbZbwWl5FjhGmuYs.jpg",
+      "duration": "112 min",
+      "releaseDate": "2026-07-02",
+      "plot": "23.000 vidas: Un grupo de jóvenes zarpa hacia el Mediterráneo para salvar las vidas de los refugiados, una misión que pondrá a prueba sus nociones sobre…",
+      "poster": "https://image.tmdb.org/t/p/w1280/q5L3aXchoCgwbZbwWl5FjhGmuYs.jpg",
+      "servers": [
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/PEnSmOtU4gwrWZT/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
