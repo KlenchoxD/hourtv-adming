@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-09-24T18:31:22.734Z",
+  "lastRunAt": "2026-09-25T04:54:43.848Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -37,7 +37,7 @@
     1335666
   ],
   "tmdbIdsPublished": [],
-  "totalMoviesInCatalog": 354,
+  "totalMoviesInCatalog": 409,
   "errorsSummary": [],
   "skipped": [
     {
@@ -48,11 +48,6 @@
     {
       "tmdbId": 1423191,
       "title": "Resident Evil",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1101383,
-      "title": "El final de Oak Street",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -86,11 +81,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1185806,
-      "title": "La Patrulla Canina: La dino película",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1137844,
       "title": "Mayday",
       "reason": "Sin fuente autorizada configurada"
@@ -98,12 +88,7 @@
     {
       "tmdbId": 1263337,
       "title": "En el corazón de la bestia",
-      "reason": "Votos 27 por debajo del mínimo (50)"
-    },
-    {
-      "tmdbId": 1275779,
-      "title": "El día de la revelación",
-      "reason": "Sin fuente autorizada configurada"
+      "reason": "Votos 33 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1127384,
@@ -146,14 +131,9 @@
       "reason": "Votos 14 por debajo del mínimo (50)"
     },
     {
-      "tmdbId": 1440098,
-      "title": "Enfrentados: Marfil",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1607127,
       "title": "Un último disparo",
-      "reason": "Votos 35 por debajo del mínimo (50)"
+      "reason": "Votos 39 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1228834,

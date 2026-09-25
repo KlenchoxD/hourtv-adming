@@ -26,20 +26,19 @@
     async function request(method,value){
       const db=await open();
       return new Promise((resolve,reject)=>{
+        let settled=false;
+        const fail=error=>{if(settled)return;settled=true;db.close();reject(error)};
         try{
           const tx=db.transaction(STORE_NAME,method==='put'?'readwrite':'readonly');
           const store=tx.objectStore(STORE_NAME);
           const operation=method==='put'?store.put(value,BASELINE_KEY):store.get(BASELINE_KEY);
           let result;
           operation.onsuccess=()=>{result=operation.result};
-          operation.onerror=()=>reject(operation.error||new Error('Falló la operación de caché.'));
-          tx.oncomplete=()=>{db.close();resolve(result)};
-          tx.onerror=()=>{db.close();reject(tx.error||new Error('Falló la transacción de caché.'))};
-          tx.onabort=()=>{db.close();reject(tx.error||new Error('Se canceló la transacción de caché.'))};
-        }catch(error){
-          db.close();
-          reject(error);
-        }
+          operation.onerror=()=>fail(operation.error||new Error('Falló la operación de caché.'));
+          tx.oncomplete=()=>{if(settled)return;settled=true;db.close();resolve(result)};
+          tx.onerror=()=>fail(tx.error||new Error('Falló la transacción de caché.'));
+          tx.onabort=()=>fail(tx.error||new Error('Se canceló la transacción de caché.'));
+        }catch(error){fail(error)}
       });
     }
 
