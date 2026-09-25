@@ -13103,6 +13103,30 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "6bea95c4d66042ab8c980fbec0e305ab",
+      "title": "Muerte en invierno",
+      "year": "2025",
+      "tmdb_id": 1235746,
+      "imdb_id": "tt7574556",
+      "rating": "6.5",
+      "genre": "Suspense, Acción",
+      "cast": "Emma Thompson, Judy Greer, Marc Menchaca, Laurel Marsden, Gaia Wise, Cúán Hosty-Blaney, Dalton Leeb, Lloyd Hutchinson, Brían F. O'Byrne, Paul Hamilton",
+      "director": "Brian Kirk",
+      "writer": "Nicholas Jacobson-Larson, Dalton Leeb",
+      "backdrop": "https://image.tmdb.org/t/p/original/g6ORsCcd1na5kOcJEZYjVa2JMP.jpg",
+      "duration": "97 min",
+      "releaseDate": "2025-09-23",
+      "plot": "Muerte en invierno: Una mujer, que viaja sola por el norte nevado de Minnesota, interrumpe el secuestro de una adolescente. A horas del pueblo más…",
+      "poster": "https://image.tmdb.org/t/p/w1280/g6ORsCcd1na5kOcJEZYjVa2JMP.jpg",
+      "servers": [
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/g67k4z2aHuOrNU6/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
