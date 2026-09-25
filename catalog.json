@@ -11946,6 +11946,30 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "02e100c6649242f6b933ea8e47913472",
+      "title": "Galveston",
+      "year": "2018",
+      "tmdb_id": 283601,
+      "imdb_id": "tt2315596",
+      "rating": "6.1",
+      "genre": "Suspense",
+      "cast": "Ben Foster, Elle Fanning, Beau Bridges, Lili Reinhart, Adepero Oduye, Robert Aramayo, María Valverde, C.K. McFarland, Michael Ray Escamilla, Jeffrey Grover, Rob Steinberg, Jimmie Lee Sessoms",
+      "director": "Mélanie Laurent",
+      "writer": "Nic Pizzolatto",
+      "backdrop": "https://image.tmdb.org/t/p/original/3liOPiruqLCqH8Ucsj3ImIeGaMj.jpg",
+      "duration": "94 min",
+      "releaseDate": "2018-10-10",
+      "plot": "Después de escapar de una emboscada, un sicario enfermo vuelve a su ciudad natal de Galveston donde planea su venganza. Roy Cady es un asesino a sueldo…",
+      "poster": "https://image.tmdb.org/t/p/w1280/3liOPiruqLCqH8Ucsj3ImIeGaMj.jpg",
+      "servers": [
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/KrND361hSZINvQO/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
