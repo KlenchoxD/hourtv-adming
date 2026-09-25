@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:drift/native.dart';
 import 'package:streamtv/database/catalog_database.dart';
 import 'package:streamtv/models/channel.dart';
+import 'package:streamtv/services/catalog_presentation_index.dart';
 import 'package:streamtv/services/catalog/catalog_page_source.dart';
 import 'package:streamtv/services/catalog/catalog_repository.dart';
 import 'package:streamtv/mobile_ui/hourtv_mobile_shell.dart';
@@ -43,6 +44,7 @@ void main() {
           home: Scaffold(
             body: HourTvMobileSearch(
               content: jsonItems,
+              presentationIndex: CatalogPresentationIndex.build(jsonItems),
               catalogRepository: repo,
               catalogPageSource: pageSource,
               onOpen: (_) {},

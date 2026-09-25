@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:streamtv/mobile_ui/hourtv_mobile_shell.dart';
 import 'package:streamtv/models/channel.dart';
+import 'package:streamtv/services/catalog_presentation_index.dart';
 
 class FakeSearchHistoryStore implements HourTvSearchHistoryStore {
   FakeSearchHistoryStore([List<String>? initial])
@@ -40,6 +41,7 @@ void main() {
           home: Scaffold(
             body: HourTvMobileSearch(
               content: dummyContent,
+              presentationIndex: CatalogPresentationIndex.build(dummyContent),
               onOpen: (_) {},
               historyStore: historyStore,
             ),
@@ -74,6 +76,7 @@ void main() {
           home: Scaffold(
             body: HourTvMobileSearch(
               content: dummyContent,
+              presentationIndex: CatalogPresentationIndex.build(dummyContent),
               onOpen: (_) {},
               historyStore: historyStore,
             ),
@@ -108,6 +111,7 @@ void main() {
           home: Scaffold(
             body: HourTvMobileSearch(
               content: dummyContent,
+              presentationIndex: CatalogPresentationIndex.build(dummyContent),
               onOpen: (_) {},
               historyStore: historyStore,
             ),
@@ -145,6 +149,7 @@ void main() {
           home: Scaffold(
             body: HourTvMobileSearch(
               content: dummyContent,
+              presentationIndex: CatalogPresentationIndex.build(dummyContent),
               onOpen: (_) {},
               historyStore: historyStore,
             ),
@@ -171,6 +176,7 @@ void main() {
           home: Scaffold(
             body: HourTvMobileSearch(
               content: dummyContent,
+              presentationIndex: CatalogPresentationIndex.build(dummyContent),
               onOpen: (_) {},
               historyStore: historyStore,
             ),

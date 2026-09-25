@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:streamtv/mobile_ui/hourtv_mobile_components.dart';
 import 'package:streamtv/mobile_ui/hourtv_mobile_shell.dart';
 import 'package:streamtv/models/channel.dart';
+import 'package:streamtv/services/catalog_presentation_index.dart';
 
 class _MemorySearchHistoryStore implements HourTvSearchHistoryStore {
   List<String> values = [];
@@ -84,6 +85,7 @@ void main() {
       home: Scaffold(
         body: HourTvMobileSearch(
           content: content ?? sampleContent,
+          presentationIndex: CatalogPresentationIndex.build(content ?? sampleContent),
           historyStore: historyStore ?? _MemorySearchHistoryStore(),
           onOpen: (_) {},
         ),

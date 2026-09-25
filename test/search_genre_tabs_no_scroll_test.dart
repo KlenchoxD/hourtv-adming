@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:streamtv/mobile_ui/hourtv_mobile_shell.dart';
 import 'package:streamtv/models/channel.dart';
+import 'package:streamtv/services/catalog_presentation_index.dart';
 
 void main() {
   testWidgets(
@@ -20,7 +21,8 @@ void main() {
         MaterialApp(
           theme: ThemeData.dark(),
           home: Scaffold(
-            body: HourTvMobileSearch(content: content, onOpen: (_) {}),
+            body: HourTvMobileSearch(content: content,
+              presentationIndex: CatalogPresentationIndex.build(content), onOpen: (_) {}),
           ),
         ),
       );

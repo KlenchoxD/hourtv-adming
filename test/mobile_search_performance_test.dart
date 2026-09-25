@@ -38,6 +38,7 @@ void main() {
           home: Scaffold(
             body: HourTvMobileSearch(
               content: catalog,
+              presentationIndex: CatalogPresentationIndex.build(catalog),
               onOpen: (_) {},
             ),
           ),
@@ -96,6 +97,7 @@ void main() {
           home: Scaffold(
             body: HourTvMobileSearch(
               content: catalog,
+              presentationIndex: CatalogPresentationIndex.build(catalog),
               onOpen: (_) {},
             ),
           ),
@@ -143,6 +145,7 @@ void main() {
           home: Scaffold(
             body: HourTvMobileSearch(
               content: catalog1,
+              presentationIndex: CatalogPresentationIndex.build(catalog1),
               onOpen: (_) {},
             ),
           ),
@@ -158,6 +161,7 @@ void main() {
           home: Scaffold(
             body: HourTvMobileSearch(
               content: catalog2,
+              presentationIndex: CatalogPresentationIndex.build(catalog2),
               onOpen: (_) {},
             ),
           ),

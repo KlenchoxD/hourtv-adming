@@ -6,6 +6,7 @@ import 'package:streamtv/mobile_ui/hourtv_mobile_shell.dart';
 import 'package:streamtv/mobile_ui/hourtv_mobile_theme.dart';
 import 'package:streamtv/models/channel.dart';
 import 'package:streamtv/services/storage_service.dart';
+import 'package:streamtv/services/catalog_presentation_index.dart';
 import 'package:streamtv/theme/app_theme.dart';
 
 void main() {
@@ -76,25 +77,17 @@ void main() {
   ) async {
     final history = _MemorySearchHistoryStore();
     Channel? opened;
+    final content = <Channel>[
+      Channel(name: 'Álma de cristal', url: 'movie://alma', forcedType: 'movie', year: '2023'),
+      Channel(name: 'Frontera Roja', url: 'series://frontera', forcedType: 'series', year: '2026'),
+    ];
     await tester.pumpWidget(
       MaterialApp(
         theme: HourTvMobileTheme.build(),
         home: Scaffold(
           body: HourTvMobileSearch(
-            content: <Channel>[
-              Channel(
-                name: 'Álma de cristal',
-                url: 'movie://alma',
-                forcedType: 'movie',
-                year: '2023',
-              ),
-              Channel(
-                name: 'Frontera Roja',
-                url: 'series://frontera',
-                forcedType: 'series',
-                year: '2026',
-              ),
-            ],
+            content: content,
+            presentationIndex: CatalogPresentationIndex.build(content),
             historyStore: history,
             onOpen: (channel) => opened = channel,
           ),
@@ -143,6 +136,7 @@ void main() {
           body: HourTvMobileSearch(
             content: content,
             historyStore: _MemorySearchHistoryStore(),
+            presentationIndex: CatalogPresentationIndex.build(content),
             onOpen: (_) {},
           ),
         ),

@@ -15,6 +15,7 @@ import 'package:streamtv/new_ui/hourtv_series_detail_page.dart';
 import 'package:streamtv/new_ui/hourtv_player_screen.dart';
 import 'package:streamtv/services/content_store.dart';
 import 'package:streamtv/services/storage_service.dart';
+import 'package:streamtv/services/catalog_presentation_index.dart';
 
 class TestFailingCatalogDao extends CatalogDao {
   TestFailingCatalogDao(super.attachedDatabase);
@@ -226,6 +227,7 @@ void main() {
           home: Scaffold(
             body: HourTvMobileSearch(
               content: const [],
+              presentationIndex: CatalogPresentationIndex.build(const []),
               onOpen: (_) {},
               catalogRepository: repository,
               catalogPageSource: searchPageSource,

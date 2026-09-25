@@ -107,6 +107,7 @@ class _HourTvMobileShellState extends State<HourTvMobileShell>
   var destination = HourTvMobileDestination.home;
   final Map<HourTvMobileDestination, Widget> _cachedPages = {};
   final ValueNotifier<bool> _isLiveActive = ValueNotifier<bool>(false);
+  final ValueNotifier<int> _indexRevision = ValueNotifier<int>(0);
 
   @override
   void initState() {
@@ -130,6 +131,7 @@ class _HourTvMobileShellState extends State<HourTvMobileShell>
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     _isLiveActive.dispose();
+    _indexRevision.dispose();
     super.dispose();
   }
 
@@ -142,20 +144,22 @@ class _HourTvMobileShellState extends State<HourTvMobileShell>
   CatalogPresentationIndex? _memoizedIndex;
   List<Channel>? _memoizedFeatured;
   Object? _lastVisibleAllRef;
+  Object? _lastVisibleSeriesRef;
   int _lastFavoritesCount = -1;
   Object? _indexBuildTicket;
 
   List<Channel> get _allContent {
     final currentVisibleAll = store.visibleAll;
     final currentFavCount = store.favorites.length;
+    final currentVisibleSeries = store.visibleSeries;
 
     if (_memoizedAllContent != null &&
         identical(_lastVisibleAllRef, currentVisibleAll) &&
+        identical(_lastVisibleSeriesRef, currentVisibleSeries) &&
         _lastFavoritesCount == currentFavCount) {
       return _memoizedAllContent!;
     }
 
-    final currentVisibleSeries = store.visibleSeries;
     final content = hourTvMobileCatalogContent(
       currentVisibleAll,
       currentVisibleSeries,
@@ -166,6 +170,7 @@ class _HourTvMobileShellState extends State<HourTvMobileShell>
         : (store.loading ? const <Channel>[] : PreviewCatalog.movies);
     _memoizedAllContent = List<Channel>.unmodifiable(resolved);
     _lastVisibleAllRef = currentVisibleAll;
+    _lastVisibleSeriesRef = currentVisibleSeries;
     _lastFavoritesCount = currentFavCount;
 
     _scheduleIndexRebuild(_memoizedAllContent!);
@@ -180,18 +185,26 @@ class _HourTvMobileShellState extends State<HourTvMobileShell>
   void _scheduleIndexRebuild(List<Channel> content) {
     final ticket = Object();
     _indexBuildTicket = ticket;
-    compute(CatalogPresentationIndex.build, content).then((index) {
-      if (!mounted || !identical(_indexBuildTicket, ticket)) return;
-      setState(() {
-        _memoizedIndex = index;
-        _memoizedFeatured = index.featured(limit: 5);
-        // Home/Search quedan cacheados en _cachedPages con el índice viejo
-        // capturado en sus props; hay que invalidarlos para que se
-        // reconstruyan con el índice recién calculado.
-        _cachedPages.remove(HourTvMobileDestination.home);
-        _cachedPages.remove(HourTvMobileDestination.search);
-      });
-    });
+    _memoizedIndex = null;
+    _memoizedFeatured = null;
+    compute(
+          CatalogPresentationIndex.build,
+          content,
+          debugLabel: 'catalog-index',
+        )
+        .then((index) {
+          if (!mounted || !identical(_indexBuildTicket, ticket)) return;
+          _memoizedIndex = index;
+          _memoizedFeatured = index.featured(limit: 5);
+          _indexRevision.value++;
+        })
+        .catchError((Object error, StackTrace stack) {
+          if (!mounted || !identical(_indexBuildTicket, ticket)) return;
+          // Search can retry asynchronously if the shared build fails.
+          _indexBuildTicket = null;
+          debugPrint('Catalog index failed: ${error.runtimeType}');
+          _indexRevision.value++;
+        });
   }
 
   List<Channel> get _liveChannels =>
@@ -260,7 +273,7 @@ class _HourTvMobileShellState extends State<HourTvMobileShell>
     }
     return switch (target) {
       HourTvMobileDestination.home => ListenableBuilder(
-        listenable: store,
+        listenable: Listenable.merge([store, _indexRevision]),
         builder: (context, _) => HourTvMobileHome(
           movies: _movies,
           allContent: _allContent,
@@ -289,10 +302,11 @@ class _HourTvMobileShellState extends State<HourTvMobileShell>
         ),
       ),
       HourTvMobileDestination.search => ListenableBuilder(
-        listenable: store,
+        listenable: Listenable.merge([store, _indexRevision]),
         builder: (context, _) => HourTvMobileSearch(
           content: _allContent,
           presentationIndex: _memoizedIndex,
+          indexPending: _memoizedIndex == null && _indexBuildTicket != null,
           onOpen: _openDetails,
           catalogRepository: widget.catalogRepository,
           catalogPageSource: widget.catalogPageSource,
@@ -403,10 +417,16 @@ class _HourTvMobileHomeState extends State<HourTvMobileHome> {
       return _memoizedFallbackFeatured!;
     }
     _lastAllContentRef = allContent;
-    _memoizedFallbackFeatured = CatalogPresentationIndex.build(
-      allContent,
-    ).featured(limit: 5);
-    return _memoizedFallbackFeatured!;
+    _memoizedFallbackFeatured = const [];
+    compute(CatalogPresentationIndex.build, allContent)
+        .then((index) {
+          if (!mounted || !identical(_lastAllContentRef, allContent)) return;
+          setState(() => _memoizedFallbackFeatured = index.featured(limit: 5));
+        })
+        .catchError((Object error) {
+          debugPrint('Featured index failed: ${error.runtimeType}');
+        });
+    return const [];
   }
 
   @override
@@ -1241,6 +1261,7 @@ class HourTvMobileSearch extends StatefulWidget {
     required this.content,
     required this.onOpen,
     this.presentationIndex,
+    this.indexPending = false,
     this.historyStore,
     this.catalogRepository,
     this.catalogPageSource,
@@ -1248,6 +1269,7 @@ class HourTvMobileSearch extends StatefulWidget {
   final List<Channel> content;
   final ValueChanged<Channel> onOpen;
   final CatalogPresentationIndex? presentationIndex;
+  final bool indexPending;
   final HourTvSearchHistoryStore? historyStore;
   final CatalogRepository? catalogRepository;
   final CatalogPageSource? catalogPageSource;
@@ -1263,7 +1285,9 @@ class _HourTvMobileSearchState extends State<HourTvMobileSearch> {
   final controller = TextEditingController();
   final _scrollController = ScrollController();
   late final HourTvSearchHistoryStore _historyStore;
-  late CatalogPresentationIndex _index;
+  CatalogPresentationIndex? _index;
+  Object? _localIndexTicket;
+  bool _indexFailed = false;
   List<Channel> _currentResults = const [];
   int _queryGeneration = 0;
   Timer? _debounce;
@@ -1297,9 +1321,7 @@ class _HourTvMobileSearchState extends State<HourTvMobileSearch> {
       unawaited(_driftPageSource!.loadInitialPage());
     }
 
-    _index =
-        widget.presentationIndex ??
-        CatalogPresentationIndex.build(widget.content);
+    _refreshIndex();
     _cachedGenres = _availableGenresForType(_type);
     _executeSearchSync();
     _updateDriftResults();
@@ -1357,29 +1379,46 @@ class _HourTvMobileSearchState extends State<HourTvMobileSearch> {
   @override
   void didUpdateWidget(covariant HourTvMobileSearch oldWidget) {
     super.didUpdateWidget(oldWidget);
-    var indexChanged = false;
-    if (widget.presentationIndex != null &&
-        widget.presentationIndex != oldWidget.presentationIndex) {
-      _index = widget.presentationIndex!;
-      indexChanged = true;
-    } else if (!identical(widget.content, oldWidget.content)) {
-      _index = CatalogPresentationIndex.build(widget.content);
-      indexChanged = true;
-    }
-
-    if (indexChanged) {
+    if (widget.presentationIndex != oldWidget.presentationIndex ||
+        widget.indexPending != oldWidget.indexPending ||
+        !identical(widget.content, oldWidget.content)) {
+      _refreshIndex();
       _cachedGenres = _availableGenresForType(_type);
-      if (_genre != HourTvGenreService.defaultGenre &&
+      if (_index != null &&
+          _genre != HourTvGenreService.defaultGenre &&
           !_cachedGenres.contains(_genre)) {
         _genre = HourTvGenreService.defaultGenre;
         _visibleCount = _initialVisible;
       }
-      if (_driftPageSource != null) {
-        _executeDriftSearch();
-      } else {
-        _executeSearchSync();
-      }
+      _query = controller.text.trim();
+      _executeSearchSync();
     }
+  }
+
+  void _refreshIndex() {
+    final ticket = Object();
+    _localIndexTicket = ticket;
+    _index = widget.presentationIndex;
+    _indexFailed = false;
+    if (_index != null || widget.indexPending) return;
+    compute(
+          CatalogPresentationIndex.build,
+          widget.content,
+          debugLabel: 'search-index',
+        )
+        .then((index) {
+          if (!mounted || !identical(_localIndexTicket, ticket)) return;
+          setState(() {
+            _index = index;
+            _cachedGenres = _availableGenresForType(_type);
+            _query = controller.text.trim();
+            _executeSearchSync();
+          });
+        })
+        .catchError((Object error) {
+          if (!mounted || !identical(_localIndexTicket, ticket)) return;
+          setState(() => _indexFailed = true);
+        });
   }
 
   @override
@@ -1424,7 +1463,7 @@ class _HourTvMobileSearchState extends State<HourTvMobileSearch> {
       genre: _genre,
       sort: _toCatalogSort(_sort),
     );
-    final results = _index.search(query);
+    final results = _index?.search(query) ?? const <Channel>[];
     if (currentGen == _queryGeneration) {
       _currentResults = results;
     }
@@ -1516,7 +1555,8 @@ class _HourTvMobileSearchState extends State<HourTvMobileSearch> {
   }
 
   List<String> _availableGenresForType(String type) {
-    return _index.genresFor(_toContentTypeFilter(type));
+    return _index?.genresFor(_toContentTypeFilter(type)) ??
+        const [HourTvGenreService.defaultGenre];
   }
 
   void _onTypeChanged(String newType) {
@@ -1771,7 +1811,22 @@ class _HourTvMobileSearchState extends State<HourTvMobileSearch> {
             ),
           ),
         ),
-        if (useDrift && _driftPageSource!.hasError)
+        if (_index == null && !useDrift)
+          SliverFillRemaining(
+            hasScrollBody: false,
+            child: Center(
+              child: _indexFailed
+                  ? TextButton(
+                      onPressed: () => setState(_refreshIndex),
+                      child: const Text('Reintentar cargar catálogo'),
+                    )
+                  : const CircularProgressIndicator(
+                      key: ValueKey('catalog-index-loading'),
+                      color: HourTvMobileTokens.emerald,
+                    ),
+            ),
+          )
+        else if (useDrift && _driftPageSource!.hasError)
           SliverPadding(
             padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
             sliver: SliverToBoxAdapter(

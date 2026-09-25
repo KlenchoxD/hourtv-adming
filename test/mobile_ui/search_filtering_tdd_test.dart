@@ -145,6 +145,7 @@ void main() {
         home: Scaffold(
           body: HourTvMobileSearch(
             content: sampleChannels,
+            presentationIndex: CatalogPresentationIndex.build(sampleChannels),
             catalogPageSource: pageSource,
             onOpen: (_) {},
           ),
