@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-09-25T00:11:13.184Z",
-  "durationMs": 1016,
+  "generatedAt": "2026-09-25T04:54:41.535Z",
+  "durationMs": 2317,
   "dryRun": false,
   "moviesFound": 33,
-  "moviesDiscarded": 24,
+  "moviesDiscarded": 23,
   "moviesAdded": 0,
   "moviesEnriched": 0,
-  "duplicates": 9,
+  "duplicates": 10,
   "tmdbErrors": 0,
   "providerErrors": 0,
   "invalidSources": 0,
@@ -60,12 +60,7 @@
     {
       "tmdbId": 1263337,
       "title": "En el corazón de la bestia",
-      "reason": "Votos 28 por debajo del mínimo (50)"
-    },
-    {
-      "tmdbId": 1275779,
-      "title": "El día de la revelación",
-      "reason": "Sin fuente autorizada configurada"
+      "reason": "Votos 33 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1127384,
@@ -110,7 +105,7 @@
     {
       "tmdbId": 1607127,
       "title": "Un último disparo",
-      "reason": "Votos 37 por debajo del mínimo (50)"
+      "reason": "Votos 39 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1228834,
