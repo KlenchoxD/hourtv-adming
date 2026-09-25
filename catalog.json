@@ -12204,6 +12204,35 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "9b305d2eb90048558813d0f72bb28d0b",
+      "title": "Deseo",
+      "year": "2026",
+      "tmdb_id": 1668364,
+      "imdb_id": "tt41617470",
+      "rating": "6.7",
+      "genre": "Misterio, Drama",
+      "cast": "Ludwika Paleta, José María Yázpik, Óscar Casas, Leonardo Ortizgris, Matías Coronado, Pilar Pascual, Ivana Salomón, Gabriela Zamora, Jaydy Michel, Giovani Florido, Cedma Morales, Ángel López-Silva",
+      "director": "Teresa Simone",
+      "writer": "Giulia Cardamone, Vanessa Miklos",
+      "backdrop": "https://image.tmdb.org/t/p/original/oBter8Y5p2ZFUwWgQ1T9pulGFTJ.jpg",
+      "duration": "97 min",
+      "releaseDate": "2026-05-07",
+      "plot": "Deseo: Sigue a Lucero, una exitosa abogada con una vida aparentemente perfecta que oculta un profundo vacío. Su mundo se desmorona cuando se involucra…",
+      "poster": "https://image.tmdb.org/t/p/w1280/oBter8Y5p2ZFUwWgQ1T9pulGFTJ.jpg",
+      "servers": [
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/AfOxyRA4LTtf6gE/",
+          "language": "Idioma sin identificar"
+        },
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/qQiCbCXdj5RfanK/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
