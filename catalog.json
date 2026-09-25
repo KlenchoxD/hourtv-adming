@@ -13344,6 +13344,30 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "1184a06b3bf4455cb6f33c38f79d0766",
+      "title": "Valor sentimental",
+      "year": "2025",
+      "tmdb_id": 1124566,
+      "imdb_id": "tt27714581",
+      "rating": "7.5",
+      "genre": "Drama, Comedia",
+      "cast": "Renate Reinsve, Stellan Skarsgård, Inga Ibsdotter Lilleaas, Elle Fanning, Anders Danielsen Lie, Jesper Christensen, Lena Endre, Cory Michael Smith, Catherine Cohen, Andreas Stoltenberg Granerud, Øyvind Hesjedal Loven, Lars Väringer",
+      "director": "Joachim Trier",
+      "writer": "Joachim Trier, Eskil Vogt",
+      "backdrop": "https://image.tmdb.org/t/p/original/oLgtpxK4aGZ7S8aiE3rDwahqkL2.jpg",
+      "duration": "133 min",
+      "releaseDate": "2025-08-20",
+      "plot": "Valor sentimental: Tras la muerte de su madre, las hermanas Nora y Agnes se reencuentran con su distanciado padre, Gustav Borg, un veterano director de…",
+      "poster": "https://image.tmdb.org/t/p/w1280/oLgtpxK4aGZ7S8aiE3rDwahqkL2.jpg",
+      "servers": [
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/VQKPhBWTkX2vPZF/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
