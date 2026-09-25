@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-09-25T04:54:43.848Z",
+  "lastRunAt": "2026-09-25T09:56:21.907Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -10,25 +10,25 @@
     1108427,
     1084244,
     1240889,
-    1315772,
     1477712,
+    1263337,
     299534,
     1083381,
+    1315772,
     1185806,
     1137844,
-    1263337,
     1275779,
     1127384,
     1081003,
     1273221,
-    1212763,
+    1465063,
     1368337,
+    1032863,
     1375646,
     1294189,
-    1032863,
     1482547,
-    1440098,
     1607127,
+    1440098,
     1228834,
     1339713,
     1232569,
@@ -37,123 +37,103 @@
     1335666
   ],
   "tmdbIdsPublished": [],
-  "totalMoviesInCatalog": 409,
+  "totalMoviesInCatalog": 3379,
   "errorsSummary": [],
   "skipped": [
     {
       "tmdbId": 969681,
       "title": "Spider-Man: Brand New Day",
-      "reason": "Sin fuente autorizada configurada"
+      "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
       "tmdbId": 1423191,
       "title": "Resident Evil",
-      "reason": "Sin fuente autorizada configurada"
+      "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
       "tmdbId": 1204680,
       "title": "Coyote vs. Acme",
-      "reason": "Sin fuente autorizada configurada"
+      "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
       "tmdbId": 1288445,
       "title": "El motín",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1084244,
-      "title": "Toy Story 5",
-      "reason": "Sin fuente autorizada configurada"
+      "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
       "tmdbId": 1240889,
       "title": "Adolescencia, sexo y muerte en campamento Miasma",
-      "reason": "Sin fuente autorizada configurada"
+      "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
       "tmdbId": 1477712,
       "title": "Dulce sabor a muerte",
-      "reason": "Rating 4.6 por debajo del mínimo (5.5)"
-    },
-    {
-      "tmdbId": 299534,
-      "title": "Vengadores: Endgame",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1137844,
-      "title": "Mayday",
-      "reason": "Sin fuente autorizada configurada"
+      "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
       "tmdbId": 1263337,
       "title": "En el corazón de la bestia",
-      "reason": "Votos 33 por debajo del mínimo (50)"
+      "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
       "tmdbId": 1127384,
       "title": "En mar abierto",
-      "reason": "Sin fuente autorizada configurada"
+      "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1081003,
-      "title": "Supergirl",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1212763,
-      "title": "Posesión infernal: En llamas",
-      "reason": "Sin fuente autorizada configurada"
+      "tmdbId": 1465063,
+      "title": "La isla olvidada",
+      "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
       "tmdbId": 1368337,
       "title": "La Odisea",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1375646,
-      "title": "Colony",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1294189,
-      "title": "The Mongoose",
-      "reason": "Rating 0 por debajo del mínimo (5.5)"
+      "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
       "tmdbId": 1032863,
       "title": "La hipótesis del amor",
-      "reason": "Sin fuente autorizada configurada"
+      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+    },
+    {
+      "tmdbId": 1375646,
+      "title": "Colony",
+      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+    },
+    {
+      "tmdbId": 1294189,
+      "title": "The Mongoose",
+      "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
       "tmdbId": 1482547,
       "title": "Zip Wire",
-      "reason": "Votos 14 por debajo del mínimo (50)"
+      "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
       "tmdbId": 1607127,
       "title": "Un último disparo",
-      "reason": "Votos 39 por debajo del mínimo (50)"
+      "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
       "tmdbId": 1228834,
       "title": "Operación Teherán",
-      "reason": "Votos 27 por debajo del mínimo (50)"
+      "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
       "tmdbId": 1232569,
       "title": "Pinocho: Desatado",
-      "reason": "Sin fuente autorizada configurada"
+      "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
       "tmdbId": 1285366,
       "title": "愛のぬくもり",
-      "reason": "Votos 8 por debajo del mínimo (50)"
+      "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
       "tmdbId": 1751701,
       "title": "After Impact",
-      "reason": "Votos 6 por debajo del mínimo (50)"
+      "reason": "Catálogo alcanzó el tamaño máximo configurado"
     }
   ]
 }
