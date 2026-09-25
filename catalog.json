@@ -13476,6 +13476,30 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "45094c6ef0cd41cca58a222cabf47f0f",
+      "title": "Zeta",
+      "year": "2026",
+      "tmdb_id": 1314786,
+      "imdb_id": "tt32880540",
+      "rating": "6.7",
+      "genre": "Drama, Suspense",
+      "cast": "Mario Casas, Mariela Garriga, Luis Zahera, Nora Navas, Christian Tappan, Cristina Umaña, Ricardo de Barreiro, Luisa Vides Galiano, David Villamil, Amanda Goldsmith, Juan Sánchez McDonell, Ander Jiménez",
+      "director": "Dani de la Torre",
+      "writer": "Dani de la Torre, Jordi Vallejo, Oriol Paulo",
+      "backdrop": "https://image.tmdb.org/t/p/original/ptcyGmBonW6mDQmrPhXbt6Rjrlp.jpg",
+      "duration": "133 min",
+      "releaseDate": "2026-03-20",
+      "plot": "Zeta: Cuatro exoficiales de inteligencia españoles son asesinados a la vez en todo el mundo. El CNI descubre que todos participaron en la encubierta…",
+      "poster": "https://image.tmdb.org/t/p/w1280/ptcyGmBonW6mDQmrPhXbt6Rjrlp.jpg",
+      "servers": [
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/0TN7Xy0JAKJDGLe/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
