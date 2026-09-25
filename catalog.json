@@ -13581,6 +13581,30 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "2850d82e284440d7a3f6faaa6d187005",
+      "title": "Línea de fuego",
+      "year": "2013",
+      "tmdb_id": 281180,
+      "imdb_id": "tt0061667",
+      "rating": "7.9",
+      "genre": "Bélica",
+      "cast": "Chad Everett, Gene Hackman, Marilyn Devin, Dean Jagger, Bobby Troup, Claude Akins, James Best, Norman Alden, Bobs Watson, Ken Swofford, Ray Reese, Garry Goodgion",
+      "director": "Christian Nyby",
+      "writer": "Gene L. Coon",
+      "backdrop": "https://image.tmdb.org/t/p/original/y7lYsASn6G3ABWmxdKEejbGejSo.jpg",
+      "duration": "92 min",
+      "releaseDate": "1967-01-25",
+      "plot": "Línea de fuego: Un ex-agente de la DEA que está viudo se retira a un pequeño pueblo para empezar una nueva vida con su hija de diez años. El único…",
+      "poster": "https://image.tmdb.org/t/p/w1280/kT8orKwz2bmRdHBLnG44yucYtFy.jpg",
+      "servers": [
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/L9MJ8zUcybjF2qR/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
