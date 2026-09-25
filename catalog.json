@@ -13151,6 +13151,40 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "276bca96028d42a0a1f70c6204122c95",
+      "title": "Embestida",
+      "year": "2026",
+      "tmdb_id": 1290417,
+      "imdb_id": "tt32362890",
+      "rating": "6.2",
+      "genre": "Terror, Suspense",
+      "cast": "Phoebe Dynevor, Whitney Peak, Djimon Hounsou, Alyla Browne, Stacy Clausen, Dante Ubaldi, Matt Nable, Andrew Lees, Sami Afuni, Tyler Coppin, Adam Dunn, Chai Hansen",
+      "director": "Tommy Wirkola",
+      "writer": "Tommy Wirkola",
+      "backdrop": "https://image.tmdb.org/t/p/original/jlkvoHXKQHsgf15wp1AV1CTk4e7.jpg",
+      "duration": "84 min",
+      "releaseDate": "2026-04-09",
+      "plot": "Embestida: Tras la inundación causada por un fuerte huracán, los residentes de un pueblo deben luchar por sobrevivir a las aguas llenas de tiburones…",
+      "poster": "https://image.tmdb.org/t/p/w1280/hniERZojXCEc7Fp3yljZUigOAhm.jpg",
+      "servers": [
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/UwtkEwtbuaAHhfQ/",
+          "language": "Idioma sin identificar"
+        },
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/YTngF7Uah8QLrBV/",
+          "language": "Idioma sin identificar"
+        },
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/evDml22NB5ApaaF/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
