@@ -13414,6 +13414,30 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "937f311c401c4d78a1df35a7517f126e",
+      "title": "Lindas y letales",
+      "year": "2026",
+      "tmdb_id": 1084187,
+      "imdb_id": "tt26678938",
+      "rating": "6.8",
+      "genre": "Acción, Suspense, Terror",
+      "cast": "Maddie Ziegler, Lana Condor, Iris Apatow, Millicent Simmonds, Avantika, Michael Culkin, Lydia Leonard, Uma Thurman, Tamás Hagyó, Julian Krenn, Miklós Béres, Péter Végh",
+      "director": "Vicky Jewson",
+      "writer": "Kate Freund",
+      "backdrop": "https://image.tmdb.org/t/p/original/z3bzhmC0CPikWeerUkLO73YvGrC.jpg",
+      "duration": "89 min",
+      "releaseDate": "2026-03-13",
+      "plot": "Lindas y letales: Un thriller lleno de acción en el que cinco bailarinas varadas en un bosque remoto de camino a una competencia de baile se refugian en…",
+      "poster": "https://image.tmdb.org/t/p/w1280/z3bzhmC0CPikWeerUkLO73YvGrC.jpg",
+      "servers": [
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/QageDxypBLBz4RX/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
