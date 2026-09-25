@@ -12033,6 +12033,30 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "93d2e75b730b4008952e2711c15130f6",
+      "title": "Una pasión oculta",
+      "year": "2014",
+      "tmdb_id": 172226,
+      "imdb_id": "tt0409379",
+      "rating": "6.1",
+      "genre": "Drama, Suspense, Crimen, Romance",
+      "cast": "Elizabeth Olsen, Tom Felton, Jessica Lange, Matt Lucas, Oscar Isaac, Shirley Henderson, Mackenzie Crook, John Kavanagh, Lily Laight, Dimitrije Bogdanov, Matt Devere, Aleksandr Ivanovic",
+      "director": "Charlie Stratton",
+      "writer": "Charlie Stratton",
+      "backdrop": "https://image.tmdb.org/t/p/original/AdRO1ZGa8Or4inBr8Bb557NV0Ba.jpg",
+      "duration": "107 min",
+      "releaseDate": "2014-02-21",
+      "plot": "Una pasión oculta: Un suspenso romántico ubicado en los bajos de París de la década de 1860. Es un cuento de amor obsesivo, adulterio y venganza que se…",
+      "poster": "https://image.tmdb.org/t/p/w1280/AdRO1ZGa8Or4inBr8Bb557NV0Ba.jpg",
+      "servers": [
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/Izdzu5BaJXSZpPL/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
