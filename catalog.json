@@ -12354,6 +12354,20 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "babb9abf6775427f808b6f8bd2f82957",
+      "title": "Dolly: Juega conmigo",
+      "year": "2026",
+      "plot": "Dolly: Juega conmigo: Una joven llamada Macy es secuestrada por una criatura monstruosa que busca criarla como si fuera su propia hija.",
+      "poster": "https://image.tmdb.org/t/p/w1280/9MeHubuKm7XJLx68LDEkE8yVnWZ.jpg",
+      "servers": [
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/6CRcRQRQG1e0lkL/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
