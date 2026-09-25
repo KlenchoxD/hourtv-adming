@@ -13127,6 +13127,30 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "d85dbccbb6da496192b135c0efe9e270",
+      "title": "Los extraños: Capítulo 3",
+      "year": "2026",
+      "tmdb_id": 1010755,
+      "imdb_id": "tt28682323",
+      "rating": "5.9",
+      "genre": "Terror, Suspense",
+      "cast": "Madelaine Petsch, Richard Brake, Ema Horvath, Gabriel Basso, Pedro Leandro, Rachel Shenton, George Young, Kyle Breitkopf, Finn Cofell, Stevee Davies, Hannah Galway, Sara Freedland",
+      "director": "Renny Harlin",
+      "writer": "Alan R. Cohen, Alan Freedland",
+      "backdrop": "https://image.tmdb.org/t/p/original/fPfDB0IHOqvmKIzFP9CA51OOS1N.jpg",
+      "duration": "92 min",
+      "releaseDate": "2026-02-05",
+      "plot": "Los extraños: Capítulo 3: Maya se enfrenta a los asesinos enmascarados y descubre que la única salida de la pesadilla es hacia adentro.",
+      "poster": "https://image.tmdb.org/t/p/w1280/fPfDB0IHOqvmKIzFP9CA51OOS1N.jpg",
+      "servers": [
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/g3Cg0bXbXSb1Kp9/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
