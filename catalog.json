@@ -12200,10 +12200,25 @@
     },
     {
       "id": "57a0a2d686f745249788ee0feacf72fd",
-      "title": "Zona de riesgo",
+      "title": "Cuenta atrás",
+      "plot": "Unos obreros de la construcción encuentran una bomba de la Segunda Guerra Mundial sin explotar en pleno centro de Londres, lo que les obliga a evacuar la ciudad para salvar a la multitud de transeúntes inocentes que se encuentran en las inmediaciones. Unos ladrones oportunistas aprovecharán el caos para llevar a cabo un elaborado atraco.",
+      "cast": "Aaron Taylor-Johnson, Theo James, Gugu Mbatha-Raw, Elham Ehsas, Sam Worthington, Shaun Mason, Nabil Elouahabi, Honor Swinton Byrne, Saffron Hocking, Laurie Duncan, Luke Mably, Iain Fletcher, Naveed Khan, Gilly Gilchrist, Alexander Arnold, Samuel Oatley, Matthew Earley, Atul Sharma, Dragoș Bucur, Tim Delap",
+      "director": "David Mackenzie",
+      "writer": "Ben Hopkins",
+      "releaseDate": "2025-09-05",
       "year": "2026",
-      "plot": "Zona de riesgo: Los obreros de una construcción en Londres desentierran una bomba de la Segunda Guerra Mundial sin explotar, lo que obliga a la…",
-      "poster": "https://image.tmdb.org/t/p/w1280/8wIaBCeGv3UhIn5CJOWQGHT1Cif.jpg",
+      "genre": "Acción, Crimen, Suspense",
+      "rating": 7.1,
+      "duration": "96 min",
+      "poster": "https://image.tmdb.org/t/p/w500/wwDdSHmQgfseHRblYtSczzoBa6I.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/8wIaBCeGv3UhIn5CJOWQGHT1Cif.jpg",
+      "categories": [
+        "terror",
+        "accion",
+        "drama"
+      ],
+      "tmdbId": 1242265,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Paulinito",
