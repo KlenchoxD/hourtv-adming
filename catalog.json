@@ -12821,6 +12821,30 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "d88b57f001394422927427c5fb3b7100",
+      "title": "The Punisher: La última muerte",
+      "year": "2026",
+      "tmdb_id": 1439930,
+      "imdb_id": "tt36042156",
+      "rating": "8.3",
+      "genre": "Acción, Drama, Crimen",
+      "cast": "Jon Bernthal, Deborah Ann Woll, Jason R. Moore, Judith Light, Kelli Barrett, Andre Royo, John Douglas Thompson, Colton Hill, Nick Koumalatsos, Addie Bernthal, Mila Jaymes, Eduardo Campirano III",
+      "director": "Reinaldo Marcus Green",
+      "writer": "Reinaldo Marcus Green, Jon Bernthal",
+      "backdrop": "https://image.tmdb.org/t/p/original/qO55CD8tgVL1T4WKn6zYFFiD6lL.jpg",
+      "duration": "51 min",
+      "releaseDate": "2026-05-12",
+      "plot": "The Punisher: La última muerte: Mientras Frank Castle busca propósito más allá de la venganza, una fuerza inesperada lo arrastra de nuevo a la lucha.",
+      "poster": "https://image.tmdb.org/t/p/w1280/qO55CD8tgVL1T4WKn6zYFFiD6lL.jpg",
+      "servers": [
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/a3S2pHIXu6dSwXa/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
