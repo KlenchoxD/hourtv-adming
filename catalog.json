@@ -12319,10 +12319,25 @@
     },
     {
       "id": "af17a97c284c4775bd67870a4ce705bc",
-      "title": "Xeno: Amistad desde el más allá",
+      "title": "Xeno",
+      "plot": "Una adolescente convierte a un terrorífico extraterrestre en su amigo después de que éste se estrelle cerca de ella en el desierto. La joven se las arregla para lidiar con su triste madre y el violento novio de ésta, al tiempo que protege a su peligroso nuevo amigo.",
+      "cast": "Lulu Wilson, Wrenn Schmidt, Trae Romano, Omari Hardwick, Paul Schneider, Josh Cooke, Ron Roggé, Garrett Vander Leun, Mike Wolfe, Cassandra Ballard, Rupert Reyes, Sasha Wexler, Joseph Ortega, Jon Snow, Anthony Hord, Jeff Gonzalez, Zacciah Hanson, Levi Cumiford, Justin Peach",
+      "director": "Matthew Loren Oates",
+      "writer": "Matthew Loren Oates",
+      "releaseDate": "2025-09-19",
       "year": "2025",
-      "plot": "Xeno: Amistad desde el más allá: Una adolescente convierte en su amiga a un aterrador extraterrestre después de que se estrella cerca del desierto. La…",
-      "poster": "https://image.tmdb.org/t/p/w1280/xZjnJupgEYI5fDVY9siyiiGKtK6.jpg",
+      "genre": "Aventura, Drama, Misterio, Ciencia ficción",
+      "rating": 6.8,
+      "duration": "103 min",
+      "poster": "https://image.tmdb.org/t/p/w500/rC7hhCxObir6KvH1nLIt06z2CzT.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/xZjnJupgEYI5fDVY9siyiiGKtK6.jpg",
+      "categories": [
+        "terror",
+        "aventura",
+        "drama"
+      ],
+      "tmdbId": 1119377,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Paulinito",
