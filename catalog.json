@@ -13251,6 +13251,27 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "4bb09dd888f943fabb1ffd8ac7d55623",
+      "title": "Inthum",
+      "year": "2026",
+      "tmdb_id": 1268127,
+      "imdb_id": "tt32606470",
+      "genre": "cine de espionaje, cine de acción",
+      "cast": "Jo In-sung, Park Jung-min, Park Hae-joon, Shin Se-kyung",
+      "director": "Ryu Seung-wan",
+      "writer": "Ryu Seung-wan",
+      "releaseDate": "2026-02-11",
+      "plot": "Inthum: Al investigar una red de narcotráfico en Rusia, un agente surcoreano se topa con un agente norcoreano y ambos quedan expuestos a peligros y…",
+      "poster": "https://image.tmdb.org/t/p/w1280/5KFThZkdBEQkp9gPWWWNb5CI5yD.jpg",
+      "servers": [
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/enLG6w0irDRZhTP/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
