@@ -13452,6 +13452,30 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "6178b233cecf4badbb0afdc12b309048",
+      "title": "Peaky Blinders: El hombre inmortal",
+      "year": "2026",
+      "tmdb_id": 875828,
+      "imdb_id": "tt15574124",
+      "rating": "7.2",
+      "genre": "Crimen, Drama",
+      "cast": "Cillian Murphy, Barry Keoghan, Rebecca Ferguson, Tim Roth, Stephen Graham, Sophie Rundle, Ned Dennehy, Packy Lee, Ian Peck, Jay Lycurgo, Kasper Hilton-Hille, Ruby Ashbourne Serkis",
+      "director": "Tom Harper",
+      "writer": "Steven Knight",
+      "backdrop": "https://image.tmdb.org/t/p/original/1fkuBPid72KGS6WmtkEXMftZtkE.jpg",
+      "duration": "112 min",
+      "releaseDate": "2026-03-05",
+      "plot": "Peaky Blinders: El hombre inmortal: Cuando su hijo se ve envuelto en una conspiración nazi, Tommy Shelby debe salir de su autoexilio y regresar a…",
+      "poster": "https://image.tmdb.org/t/p/w1280/1fkuBPid72KGS6WmtkEXMftZtkE.jpg",
+      "servers": [
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/CRSvSdUy6t3FVq2/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
