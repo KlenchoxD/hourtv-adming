@@ -2144,8 +2144,8 @@ async function loadFromGitHub(){
     }else{
       throw new Error('Respuesta sin contenido');
     }
-    catalog=normalize(JSON.parse(content));window._sha=data.sha;catalogBase=JSON.parse(JSON.stringify(catalog));
-    try{localStorage.setItem("hourtv_admin_base",JSON.stringify(catalogBase))}catch(e){}
+    catalog=normalize(JSON.parse(content));window._sha=data.sha;
+    await persistCatalogBase(JSON.parse(JSON.stringify(catalog)));
     save();render();
     toast('Catálogo cargado desde GitHub','ok');
   }catch(e){toast('No se pudo cargar: '+(e.message||''),'err')}
@@ -2158,6 +2158,7 @@ async function loadFromGitHub(){
   refreshStatus();render();
 })();
 </script>
+<script src="catalog-baseline-store.js"></script>
 <script src="catalog-publish.js"></script>
 <script src="supabase-rest-auth.js"></script>
 
