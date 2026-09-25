@@ -13039,10 +13039,23 @@
     },
     {
       "id": "3f51cfe36c284211a2a63eee5151f120",
-      "title": "Espantoso",
+      "title": "The Dreadful",
+      "plot": "Una mujer vive en la sociedad medieval inglesa hasta que un hombre de su pasado regresa de la guerra con una maldición.",
+      "cast": "Sophie Turner, Kit Harington, Marcia Gay Harden, Laurence O'Fuarain, Jonathan Howard, Catherine McDonough, Zachary Cohen, Isidro-Lucking Dylan, Nik Harber, Jürgen Koenen, Tigerlily Langford, Huxley Sheppard",
+      "director": "Natasha Kermani",
+      "writer": "Natasha Kermani",
+      "releaseDate": "2026-02-20",
       "year": "2026",
-      "plot": "Espantoso: Una mujer vive en la sociedad medieval inglesa hasta que un hombre de su pasado regresa de la guerra con una maldición.",
-      "poster": "https://image.tmdb.org/t/p/w1280/fAF3VGFBpItWNROmiGob60n0y5.jpg",
+      "genre": "Terror",
+      "rating": 6,
+      "duration": "94 min",
+      "poster": "https://image.tmdb.org/t/p/w500/ycYv5bhMLJG3wt0I5xFY13Z7PsU.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/fAF3VGFBpItWNROmiGob60n0y5.jpg",
+      "categories": [
+        "terror"
+      ],
+      "tmdbId": 1242937,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Paulinito",
@@ -13053,20 +13066,23 @@
     },
     {
       "id": "899a7177111140ab8cf2d259e22b8d93",
-      "title": "El sonido de la muerte",
-      "year": "2026",
-      "tmdb_id": 1193501,
-      "imdb_id": "tt29550683",
-      "rating": "6.3",
-      "genre": "Terror, Misterio",
+      "title": "Whistle: El silbido del mal",
+      "plot": "Un grupo de estudiantes inadaptados encuentra por accidente un objeto maldito: un antiguo silbato de la muerte azteca. Al soplarlo, descubren que el terrorífico sonido que produce invoca a sus propias muertes futuras para perseguirlos. Mientras las víctimas aumentan, los amigos intentan descubrir el origen del artefacto y detener la terrible cadena de sucesos que han provocado.",
       "cast": "Dafne Keen, Sophie Nélisse, Sky Yang, Jhaleil Swaby, Alissa Skovbye, Percy Hynes White, Michelle Fairley, Nick Frost, Mika Amonsen, Stephen Kalyn, Conrad Coates, Lanette Ware",
       "director": "Corin Hardy",
       "writer": "Owen Egerton",
-      "backdrop": "https://image.tmdb.org/t/p/original/finq0JnC6tIMkKczzyxLJjgWFfT.jpg",
-      "duration": "100 min",
       "releaseDate": "2026-01-20",
-      "plot": "El sonido de la muerte: Un grupo de estudiantes inadaptados encuentra por accidente un objeto maldito: un antiguo silbato de la muerte azteca. Al…",
-      "poster": "https://image.tmdb.org/t/p/w1280/rfawRNnOrpqlvTi3Xn4XRjkxx66.jpg",
+      "year": "2026",
+      "genre": "Terror, Misterio",
+      "rating": 6.3,
+      "duration": "100 min",
+      "poster": "https://image.tmdb.org/t/p/w500/1gafvXyeC3vB7CatUo1IIx8a421.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/original/finq0JnC6tIMkKczzyxLJjgWFfT.jpg",
+      "categories": [
+        "terror"
+      ],
+      "tmdbId": 1193501,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Paulinito",
@@ -13077,10 +13093,23 @@
     },
     {
       "id": "f12cc252e29a4e42a9cbc4fb024769e3",
-      "title": "Terror en Silent Hill: Regreso al infierno",
+      "title": "Return to Silent Hill",
+      "plot": "Impulsado por las sombras de su pasado, James Sunderland regresa a Silent Hill para encontrar a su amor perdido, Mary Crane. Pero el pequeño pueblo oscuro y deprimente ya no es el lugar de sus recuerdos. James se encuentra con personajes que le parecen demasiado familiares y que intentan distraerlo de su búsqueda de Mary. Cuanto más busca a Mary, más comienza a preguntarse si esto sigue siendo la realidad, o si ha caído en el oscuro inframundo de Jacob Crane.",
+      "cast": "Jeremy Irvine, Hannah Emily Anderson, Ljiljana Velimirov, Giulia Pelagatti, Evie Templeton, Robert Strange, Pearse Egan, Nicola Alexis, Eve Macklin, Emily Carding, Lara Duru, Karya Duru, Alana Maria, Howard Saddler, Martine Richards, Matteo Pasquini, Melissa Graham, Rhiannon Moushall, Slaviša Ivanović, Adam Basil, Asia Cicmil, Maša Anić, Ljudmila Korobova, Ana Obradović, Janja Franeta, Anastasija Kanazarević, Marija Milićević",
+      "director": "Christophe Gans",
+      "writer": "Christophe Gans",
+      "releaseDate": "2026-01-21",
       "year": "2026",
-      "plot": "Terror en Silent Hill: Regreso al infierno: Cuando James recibe una misteriosa carta de Mary, su amor perdido, se siente atraído por Silent Hill, un…",
-      "poster": "https://image.tmdb.org/t/p/w1280/v0NEB75SZjxY8GS3ho8WeEvjIT3.jpg",
+      "genre": "Terror, Misterio",
+      "rating": 5.4,
+      "duration": "106 min",
+      "poster": "https://image.tmdb.org/t/p/w500/5d55Yl0JL1zlOHX021VL36unOlY.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/v0NEB75SZjxY8GS3ho8WeEvjIT3.jpg",
+      "categories": [
+        "terror"
+      ],
+      "tmdbId": 680493,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Paulinito",
@@ -13110,20 +13139,24 @@
     },
     {
       "id": "6bea95c4d66042ab8c980fbec0e305ab",
-      "title": "Muerte en invierno",
-      "year": "2025",
-      "tmdb_id": 1235746,
-      "imdb_id": "tt7574556",
-      "rating": "6.5",
-      "genre": "Suspense, Acción",
+      "title": "Muerte en la nieve",
+      "plot": "Una mujer, que viaja sola por el norte nevado de Minnesota, interrumpe el secuestro de una adolescente. A horas del pueblo más cercano y sin cobertura telefónica, se da cuenta de que es la única esperanza de la joven.",
       "cast": "Emma Thompson, Judy Greer, Marc Menchaca, Laurel Marsden, Gaia Wise, Cúán Hosty-Blaney, Dalton Leeb, Lloyd Hutchinson, Brían F. O'Byrne, Paul Hamilton",
       "director": "Brian Kirk",
       "writer": "Nicholas Jacobson-Larson, Dalton Leeb",
-      "backdrop": "https://image.tmdb.org/t/p/original/g6ORsCcd1na5kOcJEZYjVa2JMP.jpg",
-      "duration": "97 min",
       "releaseDate": "2025-09-23",
-      "plot": "Muerte en invierno: Una mujer, que viaja sola por el norte nevado de Minnesota, interrumpe el secuestro de una adolescente. A horas del pueblo más…",
-      "poster": "https://image.tmdb.org/t/p/w1280/g6ORsCcd1na5kOcJEZYjVa2JMP.jpg",
+      "year": "2025",
+      "genre": "Suspense, Acción",
+      "rating": 6.5,
+      "duration": "97 min",
+      "poster": "https://image.tmdb.org/t/p/w500/Ac0Lm6Pj5LT2joGfMWmmLf5hRi9.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/original/g6ORsCcd1na5kOcJEZYjVa2JMP.jpg",
+      "categories": [
+        "terror",
+        "accion"
+      ],
+      "tmdbId": 1235746,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Paulinito",
