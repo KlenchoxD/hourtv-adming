@@ -12639,6 +12639,29 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "d23d7157129f45079a6e9874a5693488",
+      "title": "Psicópata: El asesino del conejo blanco",
+      "year": "2026",
+      "tmdb_id": 1639398,
+      "imdb_id": "tt32205214",
+      "rating": "7.2",
+      "genre": "Suspense, Terror",
+      "cast": "Adriana Llabrés, Hoze Meléndez, Andrés Almeida, Horacio García Rojas, Ruth Jazmín Ramos, Nailea Norvind, Gerardo Trejoluna, Myriam Bravo, Ana Rivero, Andrés Delgado, Sara Juárez, Aaron Aguilar",
+      "director": "J. Xavier Velasco",
+      "writer": "Fernando Barreda Luna",
+      "backdrop": "https://image.tmdb.org/t/p/original/82hjEm0x5Val6nCwExwlawdfwLJ.jpg",
+      "duration": "99 min",
+      "releaseDate": "2026-03-19",
+      "poster": "https://image.tmdb.org/t/p/w1280/82hjEm0x5Val6nCwExwlawdfwLJ.jpg",
+      "servers": [
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/Ko9EWqxbCKvYnxV/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
