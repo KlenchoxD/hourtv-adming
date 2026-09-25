@@ -12349,19 +12349,24 @@
     {
       "id": "cfc711916c77415c8cf7295d380ec16a",
       "title": "En la zona gris",
-      "year": "2026",
-      "tmdb_id": 1122573,
-      "imdb_id": "tt27681354",
-      "rating": "7.6",
-      "genre": "Acción, Suspense",
+      "plot": "Un equipo encubierto de agentes de élite viven en la sombra, tan cómodos manejando el poder y la influencia como armas automáticas y explosivos de gran potencia. Cuando un déspota roba una fortuna de mil millones de dólares, son enviados a recuperarla en lo que para cualquier otro sería una misión suicida. Lo que comienza como un atraco imposible empeora aún más y se convierte en una guerra total de estrategia, engaño y supervivencia.",
       "cast": "Henry Cavill, Jake Gyllenhaal, Eiza González, Carlos Bardem, Michael Vu, Fisher Stevens, Rosamund Pike, Mohammed Al Turki, Kojo Attah, Jason Wong, Emmett J. Scanlan, Christian Ochoa Lavernia",
       "director": "Guy Ritchie",
       "writer": "Guy Ritchie",
-      "backdrop": "https://image.tmdb.org/t/p/original/qcIKxhqGMIj8uujsSoSMZWr8QqU.jpg",
-      "duration": "97 min",
       "releaseDate": "2026-05-13",
-      "plot": "En la zona gris: Gira en torno a dos especialistas en extracción que tienen que designar una ruta de escape para una negociadora de alto rango.",
-      "poster": "https://image.tmdb.org/t/p/w1280/qcIKxhqGMIj8uujsSoSMZWr8QqU.jpg",
+      "year": "2026",
+      "genre": "Acción, Suspense",
+      "rating": 7.6,
+      "duration": "97 min",
+      "poster": "https://image.tmdb.org/t/p/w500/kQik7Yfcs3O8dCBpIUGSdXOMOnQ.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/original/qcIKxhqGMIj8uujsSoSMZWr8QqU.jpg",
+      "categories": [
+        "recomendado",
+        "terror",
+        "accion"
+      ],
+      "tmdbId": 1122573,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Paulinito",
@@ -12372,10 +12377,23 @@
     },
     {
       "id": "babb9abf6775427f808b6f8bd2f82957",
-      "title": "Dolly: Juega conmigo",
+      "title": "Dolly",
+      "plot": "Macy, una joven mujer, es secuestrada por una figura monstruosa que pretende criarla como si fuera su propia hija.",
+      "cast": "Max Lindsey, Fabianne Therese, Seann William Scott, Ethan Suplee, Russ Tiller, Michalina Scorzelli, Kate Cobb",
+      "director": "Rod Blackhurst",
+      "writer": "Rod Blackhurst",
+      "releaseDate": "2026-03-06",
       "year": "2026",
-      "plot": "Dolly: Juega conmigo: Una joven llamada Macy es secuestrada por una criatura monstruosa que busca criarla como si fuera su propia hija.",
-      "poster": "https://image.tmdb.org/t/p/w1280/9MeHubuKm7XJLx68LDEkE8yVnWZ.jpg",
+      "genre": "Terror",
+      "rating": 5.7,
+      "duration": "83 min",
+      "poster": "https://image.tmdb.org/t/p/w500/umDXoAiEMb7RxB4gaPAlT02XLAS.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/9MeHubuKm7XJLx68LDEkE8yVnWZ.jpg",
+      "categories": [
+        "terror"
+      ],
+      "tmdbId": 1309083,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Paulinito",
