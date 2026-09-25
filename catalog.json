@@ -12662,6 +12662,30 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "2d3f819a90e44687b533493e6b3d0e8d",
+      "title": "Monjas oscuras",
+      "year": "2025",
+      "tmdb_id": 1224993,
+      "imdb_id": "tt32491690",
+      "rating": "6.2",
+      "genre": "Terror, Misterio, Suspense, Drama",
+      "cast": "송혜교, 전여빈, 이진욱, 문우진, 허준호, 김국희, 신재휘, 강동원, 한동희, 박정학, 전수지, 박지일",
+      "director": "권혁재",
+      "writer": "Kim Woo-jin",
+      "backdrop": "https://image.tmdb.org/t/p/original/bQdYYutvomoxfLQK8gTV8Z3qsmv.jpg",
+      "duration": "115 min",
+      "releaseDate": "2025-01-24",
+      "plot": "Monjas oscuras: Dos monjas, la Hermana Junia y la Hermana Michaela, se enfrentan a un joven llamado Hee-joon, que ha sido poseído por un espíritu…",
+      "poster": "https://image.tmdb.org/t/p/w1280/bQdYYutvomoxfLQK8gTV8Z3qsmv.jpg",
+      "servers": [
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/6RSfI4uaGpZjAFb/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
