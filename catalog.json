@@ -12907,6 +12907,30 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "4438867d2f7b43f9a5157f327d25577e",
+      "title": "Pinocho",
+      "year": "2026",
+      "tmdb_id": 1248723,
+      "imdb_id": "tt32118517",
+      "rating": "6.9",
+      "genre": "Familia, Drama, Aventura, Fantasía",
+      "cast": "Виталия Корниенко, Александр Яценко, Фёдор Бондарчук, Александр Петров, Виктория Исакова, Светлана Немоляева, Лев Зулькарнаев, Марк Эйдельштейн, Рузиль Минекаев, Степан Белозёров, Анастасия Талызина, Николай Дроздов",
+      "director": "Игорь Волошин",
+      "writer": "Андрей Золотарев, Аксинья Борисова, Алина Тяжлова",
+      "backdrop": "https://image.tmdb.org/t/p/original/r3oPwy5HILetFqKlTI6BElFoAWf.jpg",
+      "duration": "102 min",
+      "releaseDate": "2026-01-01",
+      "plot": "Un viejo cuento de hadas de una nueva manera. La historia del héroe favorito de todos, Pinocho, su papá Carlo y sus amigos, contada con la ayuda de la…",
+      "poster": "https://image.tmdb.org/t/p/w1280/r3oPwy5HILetFqKlTI6BElFoAWf.jpg",
+      "servers": [
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/dDkmAia7rLbktWM/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
