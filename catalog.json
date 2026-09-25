@@ -12129,6 +12129,20 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "57a0a2d686f745249788ee0feacf72fd",
+      "title": "Zona de riesgo",
+      "year": "2026",
+      "plot": "Zona de riesgo: Los obreros de una construcción en Londres desentierran una bomba de la Segunda Guerra Mundial sin explotar, lo que obliga a la…",
+      "poster": "https://image.tmdb.org/t/p/w1280/8wIaBCeGv3UhIn5CJOWQGHT1Cif.jpg",
+      "servers": [
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/jjjMSVfvK5ElV18/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
