@@ -12615,6 +12615,30 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "9717c158377340cdb6cf5a22a1b60c51",
+      "title": "Instinto implacable",
+      "year": "2026",
+      "tmdb_id": 1383731,
+      "imdb_id": "tt34471850",
+      "rating": "8.4",
+      "genre": "Acción, Suspense",
+      "cast": "Milla Jovovich, Matthew Modine, Isabel Myers, D. B. Sweeney, Don Harvey, Michael Stahl-David, Lydia Hull, Chase Kim, Brooklyn Sudano, Gabriel Sloyer, Manny Montana, Texas Battle",
+      "director": "Adrian Grünberg",
+      "writer": "Mun-Bong Seub",
+      "backdrop": "https://image.tmdb.org/t/p/original/vpuPY4UziUCxv7gYYoaZQ3LX7to.jpg",
+      "duration": "90 min",
+      "releaseDate": "2026-02-20",
+      "plot": "Instinto implacable: La vida pacífica de Nikki, ex heroína de guerra, se ve destrozada cuando su hija es secuestrada por una red siniestra de tráfico…",
+      "poster": "https://image.tmdb.org/t/p/w1280/vpuPY4UziUCxv7gYYoaZQ3LX7to.jpg",
+      "servers": [
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/6XmC5dQkHU3Dikz/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
