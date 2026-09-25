@@ -11853,6 +11853,35 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "c2c55ea4f69444c0be1686fa42d1f0d4",
+      "title": "Amos del universo",
+      "year": "2026",
+      "tmdb_id": 454639,
+      "imdb_id": "tt0427340",
+      "rating": "7.1",
+      "genre": "Acción, Fantasía, Ciencia ficción",
+      "cast": "Nicholas Galitzine, Camila Mendes, Idris Elba, Jared Leto, Alison Brie, Jóhannes Haukur Jóhannesson, Jon Xue Zhang, Sam C. Wilson, James Purefoy, Charlotte Riley, Morena Baccarin, Kristen Wiig",
+      "director": "Travis Knight",
+      "writer": "Chris Butler, Aaron Nee, Adam Nee, David Callaham, Alex Litvak, Michael Finch",
+      "backdrop": "https://image.tmdb.org/t/p/original/5MUMB3aPEPEQPCIAaygXFUTWE9Y.jpg",
+      "duration": "140 min",
+      "releaseDate": "2026-06-03",
+      "plot": "Amos del universo: En las regiones más lejanas del espacio, el Reino de Eternia está amenazado por el villano Skeletor y sus traviesos ejércitos de…",
+      "poster": "https://image.tmdb.org/t/p/w1280/yQIdU11DYQQp0neGtGtGxbGfRer.jpg",
+      "servers": [
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/6j7kytfMDWZLPxA/",
+          "language": "Idioma sin identificar"
+        },
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/MEnzRa0VCHmTgcu/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
