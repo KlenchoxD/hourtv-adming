@@ -13272,6 +13272,30 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "6b86e10e76944937b7c8d121a02d4d03",
+      "title": "Clika",
+      "year": "2026",
+      "tmdb_id": 1450257,
+      "imdb_id": "tt28334938",
+      "rating": "8.2",
+      "genre": "Música, Drama",
+      "cast": "Jay Dee, Cristian E. Gutierrez, Daniel 'DoKnows' Lopez, Laura Lopez, Nana Ponceleon, OhGeesy, Eric Roberts, Uziel Pantoja, Josh Benitez, Francine Sena, Master P, Peter Greene",
+      "director": "Michael Greene",
+      "writer": "Sean Sullivan McBride, Michael Greene, Jimmy Humilde, Ski-ter Jones",
+      "backdrop": "https://image.tmdb.org/t/p/original/juj498fB0FRZHRKrirHL61gMqUs.jpg",
+      "duration": "79 min",
+      "releaseDate": "2026-01-22",
+      "plot": "Chito, un aspirante a músico de un pequeño pueblo, está decidido a triunfar. Cuando un video suyo interpretando una de sus canciones se vuelve viral, aprovecha la oportunidad y se esfuerza por hacerse un hueco en la nueva ola de la música mexicoamericana... y, finalmente, se ve envuelto en un juego más peligroso de lo previsto.",
+      "poster": "https://image.tmdb.org/t/p/w1280/juj498fB0FRZHRKrirHL61gMqUs.jpg",
+      "servers": [
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/eMmwqQkpihL8cFV/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
