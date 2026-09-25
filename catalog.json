@@ -13320,6 +13320,30 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "b81343bec76e460298677849ba8f9f42",
+      "title": "Scream 7",
+      "year": "2026",
+      "tmdb_id": 1159559,
+      "imdb_id": "tt27047903",
+      "rating": "6.2",
+      "genre": "Terror, Misterio, Crimen",
+      "cast": "Neve Campbell, Courteney Cox, Isabel May, Jasmin Savoy Brown, Mason Gooding, Roger L. Jackson, Anna Camp, Joel McHale, Celeste O'Connor, Sam Rechner, Asa Germann, Mckenna Grace",
+      "director": "Kevin Williamson",
+      "writer": "Guy Busick, James Vanderbilt, Kevin Williamson",
+      "backdrop": "https://image.tmdb.org/t/p/original/3eUyLEF5M0ky3h6KJsWiWzaakB8.jpg",
+      "duration": "114 min",
+      "releaseDate": "2026-02-25",
+      "plot": "Scream 7: La tranquila y rehecha vida Sidney Prescott se cae a pedazos cuando Ghostface llega al pueblo. Sin embargo, sus peores temores se hacen…",
+      "poster": "https://image.tmdb.org/t/p/w1280/3eUyLEF5M0ky3h6KJsWiWzaakB8.jpg",
+      "servers": [
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/GeBPIlijZoBSb6f/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
