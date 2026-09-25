@@ -1,5 +1,56 @@
+const catalogBaselineKey='hourtv_admin_base';
+const catalogBaselineStore=window.HourTvCatalogBaselineStore||null;
 let catalogBase;
-try{catalogBase=JSON.parse(localStorage.getItem('hourtv_admin_base')||'null')||undefined}catch(e){}
+let catalogBaseGeneration=0;
+
+async function restoreCatalogBase(){
+  const generation=catalogBaseGeneration;
+  try{
+    const stored=catalogBaselineStore&&await catalogBaselineStore.get();
+    if(catalogBaseGeneration!==generation)return;
+    if(stored&&typeof stored==='object'){
+      catalogBase=stored;
+      catalogBaseGeneration++;
+      try{localStorage.removeItem(catalogBaselineKey)}catch(e){}
+      if(typeof save==='function')save();
+      return;
+    }
+  }catch(e){console.warn('No se pudo leer la base de comparación desde IndexedDB.',e)}
+
+  if(catalogBaseGeneration!==generation)return;
+  try{
+    const raw=localStorage.getItem(catalogBaselineKey);
+    if(!raw)return;
+    const legacy=JSON.parse(raw);
+    if(!legacy||typeof legacy!=='object')return;
+    catalogBase=legacy;
+    catalogBaseGeneration++;
+    if(catalogBaselineStore){
+      try{
+        await catalogBaselineStore.set(legacy);
+        localStorage.removeItem(catalogBaselineKey);
+        if(typeof save==='function')save();
+      }catch(e){console.warn('La base se mantiene en memoria; no se pudo migrar a IndexedDB.',e)}
+    }
+  }catch(e){console.warn('No se pudo migrar la base de comparación anterior.',e)}
+}
+
+const catalogBaseReady=restoreCatalogBase();
+
+async function persistCatalogBase(value){
+  catalogBase=value;
+  catalogBaseGeneration++;
+  if(!catalogBaselineStore)return false;
+  try{
+    await catalogBaselineStore.set(value);
+    try{localStorage.removeItem(catalogBaselineKey)}catch(e){}
+    return true;
+  }catch(e){
+    console.warn('La base queda disponible en esta sesión, pero no se pudo guardar en IndexedDB.',e);
+    return false;
+  }
+}
+
 const publishCatalogSafely=CatalogSync.createPublisher();
 let publishing=false;
 
@@ -27,9 +78,10 @@ async function publish(options){
   if(!cfg.token){const e=new Error('Configura GitHub primero');toast(e.message,'err');openConfig();if(options.throwOnError)throw e;return false}
   if(publishing){const e=new Error('Ya hay una publicación en curso.');toast(e.message,'warn');if(options.throwOnError)throw e;return false}
   publishing=true;
-  const pending=JSON.parse(JSON.stringify(catalog));
-  const deleting=new Set(deletedIds);
   try{
+    await catalogBaseReady;
+    const pending=JSON.parse(JSON.stringify(catalog));
+    const deleting=new Set(deletedIds);
     const outcome=await publishCatalogSafely({base:catalogBase,local:pending,deleted:deleting,
       read:async()=>{
         const res=await ghApi('GET');
@@ -53,9 +105,8 @@ async function publish(options){
       write:(merged,sha)=>ghApi('PUT',{body:JSON.stringify({message:'Actualizar catálogo desde el panel HourTV',
         branch:cfg.branch,content:btoa(unescape(encodeURIComponent(JSON.stringify(merged,null,2)))),...(sha?{sha}:{})})})
     });
-    catalogBase=outcome.catalog;
+    await persistCatalogBase(outcome.catalog);
     catalog=CatalogSync.merge(pending,catalog,outcome.catalog);
-    localStorage.setItem('hourtv_admin_base',JSON.stringify(catalogBase));
     for(const id of deleting)deletedIds.delete(id);
     saveDeletedIds();save();render();
     toast('¡Publicado! Se conservaron los cambios remotos y tus servidores.','ok');
