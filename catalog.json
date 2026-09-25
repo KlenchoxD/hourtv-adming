@@ -13223,6 +13223,20 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "9117269a06d243f1b8752e609e337f0b",
+      "title": "Caminos del crimen",
+      "year": "2026",
+      "plot": "Caminos del crimen: Un escurridizo ladrón ve la oportunidad de hacer el golpe de su vida con la esperanza de que sea su último trabajo. En su camino se…",
+      "poster": "https://image.tmdb.org/t/p/w1280/kKF4gEiBDArhONlCcunHVgBp3bA.jpg",
+      "servers": [
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/QOIxEo0vvQxyvaJ/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
