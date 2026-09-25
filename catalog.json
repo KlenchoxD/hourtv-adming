@@ -13296,6 +13296,30 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "707da7f17407478b839773db290c7787",
+      "title": "Hannah Montana: Especial 20° aniversario",
+      "year": "2026",
+      "tmdb_id": 1637319,
+      "imdb_id": "tt39389429",
+      "rating": "7.2",
+      "genre": "Documental, Música",
+      "cast": "Miley Cyrus, Alex Cooper, Tish Cyruss, Noah Cyrus, Billy Ray Cyrus, Gary Marsh, Jamal Sims, Chappell Roan, Selena Gómez, Emily Osment, Mitchel Musso, Jason Earles",
+      "director": "Sam Wrench",
+      "writer": "Kristen Bartlett",
+      "backdrop": "https://image.tmdb.org/t/p/original/w9NnNrq1aOu9hXhhUyMhQMts1oM.jpg",
+      "duration": "59 min",
+      "releaseDate": "2026-03-23",
+      "plot": "Hannah Montana: Especial 20° aniversario: Miley Cyrus regresa a casa para celebrar el aniversario 20 de Hannah Montana, la icónica serie que definió a…",
+      "poster": "https://image.tmdb.org/t/p/w1280/w9NnNrq1aOu9hXhhUyMhQMts1oM.jpg",
+      "servers": [
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/7iaor8aLvkbPnL0/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
