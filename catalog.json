@@ -12412,6 +12412,28 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "f68012f508d3437da59f03e146e555b4",
+      "title": "Per Aspera Ad Astra",
+      "year": "2026",
+      "tmdb_id": 104865,
+      "imdb_id": "tt2049619",
+      "rating": "5.0",
+      "genre": "Comedia, Animación",
+      "director": "Nedeljko Dragić",
+      "writer": "Nedeljko Dragić",
+      "duration": "1 min",
+      "releaseDate": "1969-01-01",
+      "plot": "Per Aspera Ad Astra: Ambientada en un futuro cercano, la historia gira en torno al surgimiento de la tecnología de realidad onírica “Good Dreams”, que…",
+      "poster": "https://image.tmdb.org/t/p/w1280/AdsSM2GIlub3dB74ibSnWLJYsT0.jpg",
+      "servers": [
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/byND0YH1qOu9alN/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
