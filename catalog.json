@@ -12490,6 +12490,30 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "14263c17b6754a27932aba26a97a5e71",
+      "title": "Psycho Killer: Asesino serial",
+      "year": "2026",
+      "tmdb_id": 1107166,
+      "imdb_id": "tt1764551",
+      "rating": "6.6",
+      "genre": "Crimen, Terror, Misterio",
+      "cast": "Georgina Campbell, James Preston Rogers, Malcolm McDowell, Logan Miller, Grace Dove, Aaron Merke, Joshua Banman, Cassandra Ebner, Darren Martens, Sydney Sabiston, Nigel Shawn Williams, Terry Ray",
+      "director": "Gavin Polone",
+      "writer": "Andrew Kevin Walker",
+      "backdrop": "https://image.tmdb.org/t/p/original/gOcgmSwbCFW7h1rmEqMvYPzvjh7.jpg",
+      "duration": "91 min",
+      "releaseDate": "2026-02-20",
+      "plot": "Psycho Killer: Asesino serial: Una agente de policía sigue la pista de un asesino después de que su marido, un patrullero de carretera, se convierta en…",
+      "poster": "https://image.tmdb.org/t/p/w1280/gMC4KIdHsj37w3kPI7mRUJLC57Q.jpg",
+      "servers": [
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/EfDU0vnJZu0x6DT/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
