@@ -12776,10 +12776,25 @@
     },
     {
       "id": "d3d8e5d8777f46f788143824edde38cd",
-      "title": "La posesión de la momia",
+      "title": "La momia de Lee Cronin",
+      "plot": "Nueva versión del clásico 'La momia'. La joven hija de un periodista desaparece en el desierto sin dejar rastro. Ocho años más tarde, la familia rota se conmociona cuando ella es devuelta a ellos, y lo que debiera haber sido una reunión jubilosa se convierte en una auténtica pesadilla.",
+      "cast": "Jack Reynor, Laia Costa, May Calamawy, Natalie Grace, Shylo Molina, Billie Roy, Veronica Falcón, Hayat Kamille, مي الغيطي, Emily Mitchell, Husam Chadat, Tim Seyfi, Mark Mitchinson, Gideon Emery, Dean Allen Williams, Gerald Papasian, Hanna Khogali, Jamie Doyle, Amr Atia, Jonny Everett, Lily Sullivan, Montserrat Alcoverro, Catalina Botello, Juan Carlos Montes-Roldán, Kian Nagel, Robin Windvogel, Jonathan Gunning, Omar El-Saeidi, Aisha Laouini, Arkin Cureklibatir",
+      "director": "Lee Cronin",
+      "writer": "Lee Cronin",
+      "releaseDate": "2026-04-15",
       "year": "2026",
-      "plot": "La posesión de la momia: La joven hija de un periodista desaparece en el desierto sin dejar rastro. Ocho años después, la familia rota se sorprende…",
-      "poster": "https://image.tmdb.org/t/p/w1280/xugEpZk9YQ0DIz1aFvH5HGkqpZK.jpg",
+      "genre": "Terror, Misterio",
+      "rating": 7.9,
+      "duration": "133 min",
+      "poster": "https://image.tmdb.org/t/p/w500/btXGqRlctQdbML6ifPmacZuykcC.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/xugEpZk9YQ0DIz1aFvH5HGkqpZK.jpg",
+      "categories": [
+        "recomendado",
+        "populares",
+        "terror"
+      ],
+      "tmdbId": 1304313,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Paulinito",
