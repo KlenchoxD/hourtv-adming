@@ -13543,6 +13543,30 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "1160b3efeb07447bb8981e14df6c68f2",
+      "title": "Death Note",
+      "year": "2017",
+      "tmdb_id": 351460,
+      "imdb_id": "tt1241317",
+      "rating": "4.3",
+      "genre": "Crimen, Fantasía, Terror, Suspense",
+      "cast": "Nat Wolff, LaKeith Stanfield, Margaret Qualley, Shea Whigham, Willem Dafoe, Jason Liles, Paul Nakauchi, Jack Ettlinger, Matthew Kevin Anderson, Chris Britton, Timothy Lambert, Kwesi Ameyaw",
+      "director": "Adam Wingard",
+      "writer": "Jeremy Slater, Vlas Parlapanides, Charley Parlapanides",
+      "backdrop": "https://image.tmdb.org/t/p/original/nDAbr3NSkkOMIkFrQ3ycVxzgaMc.jpg",
+      "duration": "101 min",
+      "releaseDate": "2017-08-25",
+      "plot": "Death Note: Un adolescente encuentra un cuaderno con poderes y lo usa para matar. Ahora tiene a un detective, un demonio y una chica tras él.",
+      "poster": "https://image.tmdb.org/t/p/w1280/nDAbr3NSkkOMIkFrQ3ycVxzgaMc.jpg",
+      "servers": [
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/tGpRobqcZqzTDlG/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
