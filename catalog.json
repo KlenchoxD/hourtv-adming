@@ -12754,6 +12754,25 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "d3d8e5d8777f46f788143824edde38cd",
+      "title": "La posesión de la momia",
+      "year": "2026",
+      "plot": "La posesión de la momia: La joven hija de un periodista desaparece en el desierto sin dejar rastro. Ocho años después, la familia rota se sorprende…",
+      "poster": "https://image.tmdb.org/t/p/w1280/xugEpZk9YQ0DIz1aFvH5HGkqpZK.jpg",
+      "servers": [
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/HXFO8NMaTGmMqqc/",
+          "language": "Idioma sin identificar"
+        },
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/394hmPkRFDLJDIW/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
