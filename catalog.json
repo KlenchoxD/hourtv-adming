@@ -12330,6 +12330,30 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "cfc711916c77415c8cf7295d380ec16a",
+      "title": "En la zona gris",
+      "year": "2026",
+      "tmdb_id": 1122573,
+      "imdb_id": "tt27681354",
+      "rating": "7.6",
+      "genre": "Acción, Suspense",
+      "cast": "Henry Cavill, Jake Gyllenhaal, Eiza González, Carlos Bardem, Michael Vu, Fisher Stevens, Rosamund Pike, Mohammed Al Turki, Kojo Attah, Jason Wong, Emmett J. Scanlan, Christian Ochoa Lavernia",
+      "director": "Guy Ritchie",
+      "writer": "Guy Ritchie",
+      "backdrop": "https://image.tmdb.org/t/p/original/qcIKxhqGMIj8uujsSoSMZWr8QqU.jpg",
+      "duration": "97 min",
+      "releaseDate": "2026-05-13",
+      "plot": "En la zona gris: Gira en torno a dos especialistas en extracción que tienen que designar una ruta de escape para una negociadora de alto rango.",
+      "poster": "https://image.tmdb.org/t/p/w1280/qcIKxhqGMIj8uujsSoSMZWr8QqU.jpg",
+      "servers": [
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/7kAo0RtKceBl3H1/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
