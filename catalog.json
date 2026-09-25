@@ -12859,6 +12859,30 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "813b3c844b5b4a6092411a7d8e188db8",
+      "title": "Si solo pudiera imaginar 2",
+      "year": "2026",
+      "tmdb_id": 1405769,
+      "imdb_id": "tt34888646",
+      "rating": "8.3",
+      "genre": "Música, Drama",
+      "cast": "J. Michael Finley, Milo Ventimiglia, Sophie Skelton, Arielle Kebbel, Sammy Dell, Mark Furze, Ezra Proch, Jason Burkey, Aaron Benward, Anjelah Johnson-Reyes, Trace Adkins, Dennis Quaid",
+      "director": "Brent McCorkle, Andrew Erwin",
+      "writer": "Brent McCorkle",
+      "backdrop": "https://image.tmdb.org/t/p/original/qHBnPZA3J6hSl9a3Q1JAQzDeo2L.jpg",
+      "duration": "110 min",
+      "releaseDate": "2026-02-19",
+      "plot": "Si solo pudiera imaginar 2: Bart Millard, vocalista de MercyMe, se enfrenta a una crisis personal en la cima de su éxito. A medida que su mundo se…",
+      "poster": "https://image.tmdb.org/t/p/w1280/qHBnPZA3J6hSl9a3Q1JAQzDeo2L.jpg",
+      "servers": [
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/yz3z3kto4UqbIOl/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
