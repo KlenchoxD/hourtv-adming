@@ -12773,6 +12773,30 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "685c22129b1a49afb2383b941dbd001d",
+      "title": "Mujer prohibida",
+      "year": "2024",
+      "tmdb_id": 748387,
+      "imdb_id": "tt0070418",
+      "rating": "9.0",
+      "genre": "Drama",
+      "cast": "Esperanza Roy, Ramiro Oliveros, José Bódalo, Fernando Guillén, Josep Maria Pou, José Nieto, Frank Latimore, Fedra Lorente, Antonio Pica, Manuel Guitián, Moncho Ferrer, José María Resel",
+      "director": "José Luis Ruiz Marcos",
+      "writer": "Lázaro Irazábal, Carlos Pumares",
+      "backdrop": "https://image.tmdb.org/t/p/original/fgpGmYG1Oy37sBh1VmmLaoEVgL3.jpg",
+      "duration": "87 min",
+      "releaseDate": "1974-05-13",
+      "plot": "Mujer prohibida: Un pintor atormentado por la soledad encuentra en una enigmática modelo llamada Paraluman la inspiración para sus desnudos, pero su…",
+      "poster": "https://image.tmdb.org/t/p/w1280/uEiynDncWW3wA1fFDmT60hz3hP1.jpg",
+      "servers": [
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/HlwRY4tP01KJk9T/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
