@@ -13199,6 +13199,30 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "d27c680fa1394f56b1951746def4a91c",
+      "title": "El muñeco de arcilla",
+      "year": "2025",
+      "tmdb_id": 1526650,
+      "imdb_id": "tt38365045",
+      "rating": "7.2",
+      "genre": "Terror, Suspense",
+      "cast": "楊祐寧, Cecilia Choi, 張軒睿, 周采詩, 郭雪芙, Chen Wei-Min, 李冠毅, 高山峰, 黃建群, 柏妍樺, 張哲龍, Chao Chung-jung",
+      "director": "解孟儒",
+      "writer": "黃彥樵",
+      "backdrop": "https://image.tmdb.org/t/p/original/2pHCO95Lgp0FTN0P4ZxJHDOzukV.jpg",
+      "duration": "111 min",
+      "releaseDate": "2025-10-09",
+      "plot": "El muñeco de arcilla: Mientras diseña un videojuego de terror, Hsu-Chuan se lleva por error a casa un muñeco de arcilla de la empresa, sin sospechar que…",
+      "poster": "https://image.tmdb.org/t/p/w1280/2pHCO95Lgp0FTN0P4ZxJHDOzukV.jpg",
+      "servers": [
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/mYuCN1iFRZSDEyS/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
