@@ -12883,6 +12883,30 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "42a7422ffc924f63921f5d869d4659ed",
+      "title": "Cleaner: Rescate vertical",
+      "year": "2025",
+      "tmdb_id": 1125899,
+      "imdb_id": "tt27812086",
+      "rating": "6.6",
+      "genre": "Acción, Suspense",
+      "cast": "Daisy Ridley, Taz Skylar, Clive Owen, Flavia Watson, Ray Fearon, Rufus Jones, Lee Boardman, Matthew Tuck, Ruth Gemmell, Richard Hope, Stella Stocker, Akie Kotabe",
+      "director": "Martin Campbell",
+      "writer": "Matthew Orton, Simon Uttley, Paul Andrew Williams",
+      "backdrop": "https://image.tmdb.org/t/p/original/gsQJOfeW45KLiQeEIsom94QPQwb.jpg",
+      "duration": "97 min",
+      "releaseDate": "2025-02-19",
+      "plot": "Cleaner: Rescate vertical: Después de que un grupo de activistas se apodere de la gala anual de una compañía energética para denunciar su corrupción, su…",
+      "poster": "https://image.tmdb.org/t/p/w1280/gsQJOfeW45KLiQeEIsom94QPQwb.jpg",
+      "servers": [
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/hrWUDdImlZacqp7/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
