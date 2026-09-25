@@ -13070,6 +13070,25 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "f12cc252e29a4e42a9cbc4fb024769e3",
+      "title": "Terror en Silent Hill: Regreso al infierno",
+      "year": "2026",
+      "plot": "Terror en Silent Hill: Regreso al infierno: Cuando James recibe una misteriosa carta de Mary, su amor perdido, se siente atraído por Silent Hill, un…",
+      "poster": "https://image.tmdb.org/t/p/w1280/v0NEB75SZjxY8GS3ho8WeEvjIT3.jpg",
+      "servers": [
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/3xKHpOvhY1fW2jy/",
+          "language": "Idioma sin identificar"
+        },
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/394hmPkRFDLJDIW/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
