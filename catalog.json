@@ -12383,6 +12383,35 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "149d3ed2248841d8adc5640f11a00992",
+      "title": "El manuscrito de Dante",
+      "year": "2026",
+      "tmdb_id": 1020047,
+      "imdb_id": "tt1333644",
+      "rating": "5.4",
+      "genre": "Drama, Crimen, Suspense",
+      "cast": "Oscar Isaac, Gal Gadot, Gerard Butler, John Malkovich, Louis Cancelmi, Sabrina Impacciatore, Franco Nero, Benjamin Clementine, Paolo Bonacelli, Martin Scorsese, Al Pacino, Jason Momoa",
+      "director": "Julian Schnabel",
+      "writer": "Julian Schnabel, Louise Kugelberg",
+      "backdrop": "https://image.tmdb.org/t/p/original/tJJ737CJujLXw1GlUYd7K4AH3eB.jpg",
+      "duration": "153 min",
+      "releaseDate": "2026-06-12",
+      "plot": "El manuscrito de Dante: Sigue la historia del manuscrito original de La Divina Comedia que emerge en manos de una red de contrabando del mercado negro…",
+      "poster": "https://image.tmdb.org/t/p/w1280/tJJ737CJujLXw1GlUYd7K4AH3eB.jpg",
+      "servers": [
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/aBQeok74tuhL7bo/",
+          "language": "Idioma sin identificar"
+        },
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/Izdzu5BaJXSZpPL/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
