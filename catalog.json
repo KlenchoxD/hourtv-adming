@@ -12014,6 +12014,25 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "0e2bfedb352945de9ae08885b7d10559",
+      "title": "Ginger y Rosa",
+      "year": "2012",
+      "plot": "Una mirada a las vidas de dos adolescentes, amigas inseparables Ginger y Rosa, que crecieron en el Londres de los años sesenta mientras se avecina la…",
+      "poster": "https://image.tmdb.org/t/p/w1280/c53IsqiV0cFPSvnDWjrTPqBA2Nj.jpg",
+      "servers": [
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/i3igHNCZt1Lfpaz/",
+          "language": "Idioma sin identificar"
+        },
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/1Bg6Ma16EimDvHQ/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
