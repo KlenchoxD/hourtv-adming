@@ -33,13 +33,12 @@
           let result;
           operation.onsuccess=()=>{result=operation.result};
           operation.onerror=()=>reject(operation.error||new Error('Falló la operación de caché.'));
-          tx.oncomplete=()=>resolve(result);
-          tx.onerror=()=>reject(tx.error||new Error('Falló la transacción de caché.'));
-          tx.onabort=()=>reject(tx.error||new Error('Se canceló la transacción de caché.'));
+          tx.oncomplete=()=>{db.close();resolve(result)};
+          tx.onerror=()=>{db.close();reject(tx.error||new Error('Falló la transacción de caché.'))};
+          tx.onabort=()=>{db.close();reject(tx.error||new Error('Se canceló la transacción de caché.'))};
         }catch(error){
-          reject(error);
-        }finally{
           db.close();
+          reject(error);
         }
       });
     }
