@@ -12710,6 +12710,30 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "3a71bafa026a4ae993daa77aee721a3f",
+      "title": "Jack Ryan: Guerra fantasma",
+      "year": "2026",
+      "tmdb_id": 1380291,
+      "imdb_id": "tt34378301",
+      "rating": "6.9",
+      "genre": "Acción, Suspense",
+      "cast": "John Krasinski, Wendell Pierce, Sienna Miller, Michael Kelly, Max Beesley, Betty Gabriel, JJ Feild, Douglas Hodge, Dominic Mafham, Alex Brockdorff, Nick Adamson, James Allen",
+      "director": "Andrew Bernstein",
+      "writer": "Aaron Rabin, John Krasinski, Noah Oppenheim",
+      "backdrop": "https://image.tmdb.org/t/p/original/dd31qJxOarrHyGZwYsCzOjobQzP.jpg",
+      "duration": "107 min",
+      "releaseDate": "2026-05-20",
+      "plot": "Jack Ryan: Guerra fantasma: En esta nueva película, Jack Ryan vuelve a regañadientes al espionaje cuando una misión encubierta internacional destapa una…",
+      "poster": "https://image.tmdb.org/t/p/w1280/dd31qJxOarrHyGZwYsCzOjobQzP.jpg",
+      "servers": [
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/3H66d0BYOuotV2S/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
