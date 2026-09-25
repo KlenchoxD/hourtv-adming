@@ -12686,6 +12686,30 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "30f8e2c7e46d412883efb7962f7de799",
+      "title": "Enterramos a los muertos",
+      "year": "2026",
+      "tmdb_id": 1198984,
+      "imdb_id": "tt29713093",
+      "rating": "6.2",
+      "genre": "Terror, Suspense",
+      "cast": "Daisy Ridley, Brenton Thwaites, Mark Coles Smith, Matt Whelan, Chloe Hurst, Kym Jackson, Holly Hargreaves, Deanna Cooney, Elijah Williams, Salme Geransar, Luke Jai  McIntosh, Joel Jackson",
+      "director": "Zak Hilditch",
+      "writer": "Zak Hilditch",
+      "backdrop": "https://image.tmdb.org/t/p/original/vbkW4KerpshPZnP84w9qwSfYrhu.jpg",
+      "duration": "95 min",
+      "releaseDate": "2026-01-01",
+      "plot": "Enterramos a los muertos: Ava, una mujer desesperada cuyo marido ha desaparecido tras un catastrófico experimento militar, se une a una \"unidad de…",
+      "poster": "https://image.tmdb.org/t/p/w1280/vbkW4KerpshPZnP84w9qwSfYrhu.jpg",
+      "servers": [
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/xd2uzWjzF710nxj/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
