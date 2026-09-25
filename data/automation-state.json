@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-09-25T09:56:21.907Z",
+  "lastRunAt": "2026-09-25T14:55:56.254Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -24,16 +24,17 @@
     1465063,
     1368337,
     1032863,
-    1375646,
     1294189,
+    1375646,
     1482547,
-    1607127,
-    1440098,
     1228834,
-    1339713,
-    1232569,
-    1285366,
     1751701,
+    1607127,
+    1339713,
+    1440098,
+    1580190,
+    1232569,
+    82976,
     1335666
   ],
   "tmdbIdsPublished": [],
@@ -96,13 +97,13 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1375646,
-      "title": "Colony",
+      "tmdbId": 1294189,
+      "title": "The Mongoose",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1294189,
-      "title": "The Mongoose",
+      "tmdbId": 1375646,
+      "title": "Colony",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
@@ -111,13 +112,23 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
+      "tmdbId": 1228834,
+      "title": "Operación Teherán",
+      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+    },
+    {
+      "tmdbId": 1751701,
+      "title": "After Impact",
+      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+    },
+    {
       "tmdbId": 1607127,
       "title": "Un último disparo",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1228834,
-      "title": "Operación Teherán",
+      "tmdbId": 1580190,
+      "title": "除暴之路",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
@@ -126,13 +137,8 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1285366,
-      "title": "愛のぬくもり",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
-    },
-    {
-      "tmdbId": 1751701,
-      "title": "After Impact",
+      "tmdbId": 82976,
+      "title": "La profesional y la debutante",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     }
   ]

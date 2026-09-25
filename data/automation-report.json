@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-09-25T09:56:19.330Z",
-  "durationMs": 2582,
+  "generatedAt": "2026-09-25T14:55:55.721Z",
+  "durationMs": 538,
   "dryRun": false,
-  "moviesFound": 33,
-  "moviesDiscarded": 19,
+  "moviesFound": 34,
+  "moviesDiscarded": 20,
   "moviesAdded": 0,
   "moviesEnriched": 0,
   "duplicates": 14,
@@ -68,13 +68,13 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1375646,
-      "title": "Colony",
+      "tmdbId": 1294189,
+      "title": "The Mongoose",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1294189,
-      "title": "The Mongoose",
+      "tmdbId": 1375646,
+      "title": "Colony",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
@@ -83,13 +83,23 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
+      "tmdbId": 1228834,
+      "title": "Operación Teherán",
+      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+    },
+    {
+      "tmdbId": 1751701,
+      "title": "After Impact",
+      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+    },
+    {
       "tmdbId": 1607127,
       "title": "Un último disparo",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1228834,
-      "title": "Operación Teherán",
+      "tmdbId": 1580190,
+      "title": "除暴之路",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
@@ -98,13 +108,8 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1285366,
-      "title": "愛のぬくもり",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
-    },
-    {
-      "tmdbId": 1751701,
-      "title": "After Impact",
+      "tmdbId": 82976,
+      "title": "La profesional y la debutante",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     }
   ]
