@@ -20463,6 +20463,114 @@
           ]
         }
       ]
+    },
+    {
+      "id": "fe965f343dab4f7b94ea0fcab0801daa",
+      "title": "One Piece - Temporada 2",
+      "year": "2026",
+      "tmdb_id": 318918,
+      "imdb_id": "tt41538904",
+      "genre": "Animación, Action & Adventure, Sci-Fi & Fantasy, Comedia, Familia",
+      "cast": "Iñaki Godoy, Emily Rudd, Mackenyu, Jacob Gibson, Taz Skylar, Charithra Chandran, Mikaela Hoover",
+      "backdrop": "https://image.tmdb.org/t/p/original/1ftqNLph1CxcXxSXJsijjlw7ZkX.jpg",
+      "releaseDate": "2026-09-29",
+      "plot": "One Piece – Temporada 2: La segunda temporada de ONE PIECE, \"Into the Grand Line\", encuentra a nuestros intrépidos amigos navegando por nuevos…",
+      "poster": "https://image.tmdb.org/t/p/w1280/qD211Hb5XwFxrszzBBe5EUYJerh.jpg",
+      "seasons": [
+        {
+          "number": 2,
+          "episodes": [
+            {
+              "number": 1,
+              "title": "Capítulo 1",
+              "servers": [
+                {
+                  "name": "Paulinito",
+                  "url": "https://paulinito.com/player/2METHCQ7tp5Ha96/",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 2,
+              "title": "Capítulo 2",
+              "servers": [
+                {
+                  "name": "Paulinito",
+                  "url": "https://paulinito.com/player/nFzmO77bar0KGQD/",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 3,
+              "title": "Capítulo 3",
+              "servers": [
+                {
+                  "name": "Paulinito",
+                  "url": "https://paulinito.com/player/YJ2IMygWaKNwM0I/",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 4,
+              "title": "Capítulo 4",
+              "servers": [
+                {
+                  "name": "Paulinito",
+                  "url": "https://paulinito.com/player/cZP5n6LQpHKhIBj/",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 5,
+              "title": "Capítulo 5",
+              "servers": [
+                {
+                  "name": "Paulinito",
+                  "url": "https://paulinito.com/player/8VODbCewtDnlKLK/",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 6,
+              "title": "Capítulo 6",
+              "servers": [
+                {
+                  "name": "Paulinito",
+                  "url": "https://paulinito.com/player/XG0rBElgV3KvJz9/",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 7,
+              "title": "Capítulo 7",
+              "servers": [
+                {
+                  "name": "Paulinito",
+                  "url": "https://paulinito.com/player/v6ldYTzarDtUaGY/",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 8,
+              "title": "Capítulo 8",
+              "servers": [
+                {
+                  "name": "Paulinito",
+                  "url": "https://paulinito.com/player/iV3N2YBmiKdXJpR/",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ],
   "sources": [],
