@@ -12562,6 +12562,30 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "9d2e9dcf0cc64c62a4c72bdcfdabe402",
+      "title": "Michael",
+      "year": "2026",
+      "tmdb_id": 936075,
+      "imdb_id": "tt11378946",
+      "rating": "8.6",
+      "genre": "Música, Drama",
+      "cast": "Jaafar Jackson, Colman Domingo, Nia Long, Juliano Krue Valdi, KeiLyn Durrel Jones, Miles Teller, Larenz Tate, Laura Harrier, Mike Myers, Kendrick Sampson, Trey Horton, Rhyan Hill",
+      "director": "Antoine Fuqua",
+      "writer": "John Logan",
+      "backdrop": "https://image.tmdb.org/t/p/original/ufSwlnECLoUbBjPrFqEQcWBzHwc.jpg",
+      "duration": "128 min",
+      "releaseDate": "2026-04-22",
+      "plot": "Narra la vida de Michael Jackson más allá de la música, recorriendo su trayectoria desde el descubrimiento de su extraordinario talento como líder de…",
+      "poster": "https://image.tmdb.org/t/p/w1280/ufSwlnECLoUbBjPrFqEQcWBzHwc.jpg",
+      "servers": [
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/qPZzJHtV8zn8JtJ/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
