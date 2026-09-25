@@ -11888,6 +11888,35 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "94e2ccc45c124992930ce7b088ee1325",
+      "title": "Elize: Sombras de una mujer",
+      "year": "2026",
+      "tmdb_id": 1487861,
+      "imdb_id": "tt37042085",
+      "rating": "7.5",
+      "genre": "Suspense, Crimen, Drama",
+      "cast": "Lorena Comparato, Henrique Kimura, Denise Weinberg, Gustavo Falcão, Julia Shimura, Flora Sandyá, Edson Kameda, Miwa Yanagizawa, Arthur Toyoshima, Julia Konrad, Erica Montanheiro, Marat Descartes",
+      "director": "Vellas",
+      "writer": "Raphael Montes, Mariana Torres",
+      "backdrop": "https://image.tmdb.org/t/p/original/z8mTDyKdAWjKsD0vwa7e9LTSY1j.jpg",
+      "duration": "93 min",
+      "releaseDate": "2026-07-22",
+      "plot": "Elize: Sombras de una mujer: En esta versión de un caso real, una exescort descubre la infidelidad de su esposo rico y lucha por sobrellevarlo mientras…",
+      "poster": "https://image.tmdb.org/t/p/w1280/z8mTDyKdAWjKsD0vwa7e9LTSY1j.jpg",
+      "servers": [
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/otihFlUN8FET4FF/",
+          "language": "Idioma sin identificar"
+        },
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/Izdzu5BaJXSZpPL/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
