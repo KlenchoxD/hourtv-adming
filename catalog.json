@@ -12055,9 +12055,22 @@
     {
       "id": "0e2bfedb352945de9ae08885b7d10559",
       "title": "Ginger y Rosa",
+      "plot": "En el Londres de 1962, Ginger y Rosa son dos adolescentes inseparables que han crecido juntas. Mientras la Guerra Fría y la amenaza de una guerra nuclear sacuden al mundo, ambas comienzan a cuestionar a sus familias, el amor, la política y su futuro. Sin embargo, una traición profundamente personal pondrá su amistad a prueba y cambiará sus vidas.",
+      "cast": "Elle Fanning, Alice Englert, Alessandro Nivola, Christina Hendricks, Timothy Spall, Oliver Platt, Jodhi May, Annette Bening.",
+      "director": "Sally Potter",
+      "writer": "Sally Potter",
+      "releaseDate": "2012-10-19",
       "year": "2012",
-      "plot": "Una mirada a las vidas de dos adolescentes, amigas inseparables Ginger y Rosa, que crecieron en el Londres de los años sesenta mientras se avecina la…",
+      "genre": "Drama, Coming-of-age",
+      "rating": 6.2,
+      "duration": "90 min",
       "poster": "https://image.tmdb.org/t/p/w1280/c53IsqiV0cFPSvnDWjrTPqBA2Nj.jpg",
+      "backdrop": "https://i.pinimg.com/736x/9c/f8/93/9cf893c5ca63f4f1f11f80761eef4b9e.jpg",
+      "categories": [
+        "antiguas",
+        "romance",
+        "drama"
+      ],
       "servers": [
         {
           "name": "Paulinito",
@@ -12073,20 +12086,25 @@
     },
     {
       "id": "93d2e75b730b4008952e2711c15130f6",
-      "title": "Una pasión oculta",
-      "year": "2014",
-      "tmdb_id": 172226,
-      "imdb_id": "tt0409379",
-      "rating": "6.1",
-      "genre": "Drama, Suspense, Crimen, Romance",
+      "title": "Una pasión oculta (Thérèse Raquin)",
+      "plot": "Teresa y su amante Camille matan a Laurent, el marido de Teresa. Después de casarse, la pareja es visitada por el fantasma de Camille, girando lentamente su amor el uno al otro en un odio que todo lo consume.",
       "cast": "Elizabeth Olsen, Tom Felton, Jessica Lange, Matt Lucas, Oscar Isaac, Shirley Henderson, Mackenzie Crook, John Kavanagh, Lily Laight, Dimitrije Bogdanov, Matt Devere, Aleksandr Ivanovic",
       "director": "Charlie Stratton",
       "writer": "Charlie Stratton",
-      "backdrop": "https://image.tmdb.org/t/p/original/AdRO1ZGa8Or4inBr8Bb557NV0Ba.jpg",
-      "duration": "107 min",
       "releaseDate": "2014-02-21",
-      "plot": "Una pasión oculta: Un suspenso romántico ubicado en los bajos de París de la década de 1860. Es un cuento de amor obsesivo, adulterio y venganza que se…",
-      "poster": "https://image.tmdb.org/t/p/w1280/AdRO1ZGa8Or4inBr8Bb557NV0Ba.jpg",
+      "year": "2014",
+      "genre": "Drama, Suspense, Crimen, Romance",
+      "rating": 6.1,
+      "duration": "107 min",
+      "poster": "https://image.tmdb.org/t/p/w500/5cfTXtNT8nLa3NARN1u7tkLTpFg.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/original/AdRO1ZGa8Or4inBr8Bb557NV0Ba.jpg",
+      "categories": [
+        "terror",
+        "romance",
+        "drama"
+      ],
+      "tmdbId": 172226,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Paulinito",
@@ -12098,19 +12116,24 @@
     {
       "id": "af7b7a9c676c4bf0a3c87e2008f7f32e",
       "title": "Monstruos de California",
-      "year": "2023",
-      "tmdb_id": 752354,
-      "imdb_id": "tt13298500",
-      "rating": "5.4",
-      "genre": "Ciencia ficción, Aventura, Terror, Comedia",
+      "plot": "El adolescente Dallas Edwards y sus amigos ociosos emprenden una búsqueda para descifrar los misterios detrás de una serie de extraños eventos paranormales, en el sur de California.",
       "cast": "Jack Samson, Jack Lancaster, Jared Scott, Gabrielle Haugh, Arianne Zucker, Camille Kostek, Casper Van Dien, Richard Kind, Roman Sayer Cote, Jay Bringham, Avery Clyde, Eric Scott Woods",
       "director": "Tom DeLonge",
       "writer": "Tom DeLonge, Ian Miller",
-      "backdrop": "https://image.tmdb.org/t/p/original/irqVrpzakVUInJlxS4YkChSz5bh.jpg",
-      "duration": "110 min",
       "releaseDate": "2023-10-06",
-      "plot": "El adolescente Dallas Edwards y sus amigos ociosos emprenden una búsqueda para descifrar los misterios detrás de una serie de extraños eventos paranormales, en el sur de California.",
-      "poster": "https://image.tmdb.org/t/p/w1280/irqVrpzakVUInJlxS4YkChSz5bh.jpg",
+      "year": "2023",
+      "genre": "Ciencia ficción, Aventura, Terror, Comedia",
+      "rating": 5.4,
+      "duration": "110 min",
+      "poster": "https://image.tmdb.org/t/p/w500/h1vAbGhliNusXJ0CRuj1vZMiO5c.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/original/irqVrpzakVUInJlxS4YkChSz5bh.jpg",
+      "categories": [
+        "terror",
+        "comedia",
+        "aventura"
+      ],
+      "tmdbId": 752354,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "Paulinito",
