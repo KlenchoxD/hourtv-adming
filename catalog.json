@@ -12538,6 +12538,30 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "d745f0788a514ab19c7b31d78b6f39ae",
+      "title": "Mortal Kombat 2",
+      "year": "2026",
+      "tmdb_id": 931285,
+      "imdb_id": "tt17490712",
+      "rating": "7.8",
+      "genre": "Acción, Fantasía, Aventura",
+      "cast": "Karl Urban, Adeline Rudolph, Ludi Lin, Jessica McNamee, Martyn Ford, Josh Lawson, Tati Gabrielle, Mehcad Brooks, Tadanobu Asano, Chin Han, Damon Herriman, Joe Taslim",
+      "director": "Simon McQuoid",
+      "writer": "Jeremy Slater",
+      "backdrop": "https://image.tmdb.org/t/p/original/4EAAwpylq313qrDqpCxulUrXBNF.jpg",
+      "duration": "116 min",
+      "releaseDate": "2026-05-06",
+      "plot": "Mortal Kombat 2: Los campeones favoritos de los fans —ahora acompañados por el mismísimo Johnny Cage— se enfrentan entre sí en la batalla definitiva…",
+      "poster": "https://image.tmdb.org/t/p/w1280/4EAAwpylq313qrDqpCxulUrXBNF.jpg",
+      "servers": [
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/UVKXv5b1rwTftGf/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
