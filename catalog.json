@@ -12081,6 +12081,30 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "268750918fd94aa082f9cfed7c9e0274",
+      "title": "El seductor",
+      "year": "2017",
+      "tmdb_id": 399019,
+      "imdb_id": "tt5592248",
+      "rating": "5.9",
+      "genre": "Drama",
+      "cast": "Colin Farrell, Nicole Kidman, Kirsten Dunst, Elle Fanning, Oona Laurence, Angourie Rice, Addison Riecke, Emma Howard, Wayne Péré, Matt Story, Joel Albin, Eric Ian",
+      "director": "Sofia Coppola",
+      "writer": "Sofia Coppola",
+      "backdrop": "https://image.tmdb.org/t/p/original/hYmLuWTvNf6RypCYgz1qOvLLAGg.jpg",
+      "duration": "93 min",
+      "releaseDate": "2017-06-23",
+      "plot": "El seductor: Durante la guerra civil norteamericana, la tranquilidad de una escuela femenina de Virginia se ve alterada con la llegada de un apuesto…",
+      "poster": "https://image.tmdb.org/t/p/w1280/5jq7TjRzmvkJsa8bF3zWqxbPtmw.jpg",
+      "servers": [
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/avdEKAPCwGzNYuJ/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
