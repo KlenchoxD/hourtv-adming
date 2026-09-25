@@ -12057,6 +12057,30 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "af7b7a9c676c4bf0a3c87e2008f7f32e",
+      "title": "Monstruos de California",
+      "year": "2023",
+      "tmdb_id": 752354,
+      "imdb_id": "tt13298500",
+      "rating": "5.4",
+      "genre": "Ciencia ficción, Aventura, Terror, Comedia",
+      "cast": "Jack Samson, Jack Lancaster, Jared Scott, Gabrielle Haugh, Arianne Zucker, Camille Kostek, Casper Van Dien, Richard Kind, Roman Sayer Cote, Jay Bringham, Avery Clyde, Eric Scott Woods",
+      "director": "Tom DeLonge",
+      "writer": "Tom DeLonge, Ian Miller",
+      "backdrop": "https://image.tmdb.org/t/p/original/irqVrpzakVUInJlxS4YkChSz5bh.jpg",
+      "duration": "110 min",
+      "releaseDate": "2023-10-06",
+      "plot": "El adolescente Dallas Edwards y sus amigos ociosos emprenden una búsqueda para descifrar los misterios detrás de una serie de extraños eventos paranormales, en el sur de California.",
+      "poster": "https://image.tmdb.org/t/p/w1280/irqVrpzakVUInJlxS4YkChSz5bh.jpg",
+      "servers": [
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/5HUIWSLgqS0S056/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
