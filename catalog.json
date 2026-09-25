@@ -12514,6 +12514,30 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "30967b436d91495ca719fdee6e346445",
+      "title": "Vidas entrelazadas",
+      "year": "2026",
+      "tmdb_id": 1390382,
+      "imdb_id": "tt34688195",
+      "rating": "6.3",
+      "genre": "Drama",
+      "cast": "Angelina Jolie, Anyier Anei, Ella Rumpf, Louis Garrel, Vincent Lindon, Garance Marillier, Grégoire Colin, Aurore Clément, Yuliia Ratner, Mona Tougaard, Hunter David, Joana Preiss",
+      "director": "Alice Winocour",
+      "writer": "Alice Winocour",
+      "backdrop": "https://image.tmdb.org/t/p/original/9GBiwvuJahvlfEQtuGhpS384Ei5.jpg",
+      "duration": "106 min",
+      "releaseDate": "2026-02-18",
+      "plot": "Vidas entrelazadas: En plena vorágine de la Semana de la Moda de París, se entrecruzan los caminos de tres mujeres, que lidian con las tragedias del…",
+      "poster": "https://image.tmdb.org/t/p/w1280/9GBiwvuJahvlfEQtuGhpS384Ei5.jpg",
+      "servers": [
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/0BmBRXSU0opXQk8/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
