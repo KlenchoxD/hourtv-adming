@@ -13368,6 +13368,28 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "12f18bc7bb5e4d33aad4c205995e2b69",
+      "title": "BTS: El regreso",
+      "year": "2026",
+      "tmdb_id": 1628116,
+      "imdb_id": "tt39578551",
+      "genre": "Documental, Música",
+      "cast": "알엠, 진, 슈가, 제이홉, 지민, 뷔, 정국",
+      "director": "Bao Nguyen",
+      "backdrop": "https://image.tmdb.org/t/p/original/w4jOh7ok6JvsYu6WbuSDW97D7D6.jpg",
+      "duration": "93 min",
+      "releaseDate": "2026-10-25",
+      "plot": "BTS: El regreso: Muestra a BTS mientras se reúnen en Los Ángeles después de completar el servicio militar, confrontando cómo comenzar de nuevo, honrar…",
+      "poster": "https://image.tmdb.org/t/p/w1280/w4jOh7ok6JvsYu6WbuSDW97D7D6.jpg",
+      "servers": [
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/xJhCMEJhoTkzD3Z/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
