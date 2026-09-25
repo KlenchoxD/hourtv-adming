@@ -42,27 +42,29 @@ void main() {
     final tInitStart = DateTime.now().millisecondsSinceEpoch;
     final docsDirFuture =
         getApplicationDocumentsDirectory().catchError((_) => Directory.systemTemp);
-    final storageFuture = StorageService.init().catchError((_) {});
-    final deviceProfileFuture = DeviceProfile.warmUp().catchError((_) {});
-    final supabaseFuture = SupabaseBootstrap.instance
+    Future<T> timed<T>(String label, Future<T> f) => f.whenComplete(() => debugPrint(
+        '[PERF_TTI] $label: elapsedMs=${DateTime.now().millisecondsSinceEpoch - tInitStart}'));
+    final storageFuture = timed('STORAGE_INIT', StorageService.init().catchError((_) {}));
+    final deviceProfileFuture = timed('DEVICE_PROFILE', DeviceProfile.warmUp().catchError((_) {}));
+    final supabaseFuture = timed('SUPABASE_INIT', SupabaseBootstrap.instance
         .initialize(SupabaseConfig.fromEnvironment())
         .catchError((e, st) {
       debugPrint('Error al inicializar Supabase: ${e.runtimeType}');
       if (kDebugMode) debugPrintStack(stackTrace: st);
-    });
+    }));
 
     // Iniciar apertura de Drift tan pronto como la ruta de documentos esté disponible,
     // solapando la apertura de SQLite en segundo plano con la inicialización de Supabase y SharedPreferences.
     final docsDir = await docsDirFuture;
     final tDriftStart = DateTime.now().millisecondsSinceEpoch;
-    final Future<CatalogInfrastructure?> driftFuture =
+    final Future<CatalogInfrastructure?> driftFuture = timed('DRIFT_INIT',
         initializeCatalogInfrastructure(
       databaseFile: File('${docsDir.path}/hourtv_catalog.db'),
     ).then<CatalogInfrastructure?>((infra) => infra).catchError((e, st) {
       debugPrint('Error al inicializar infraestructura de catálogo: ${e.runtimeType}');
       if (kDebugMode) debugPrintStack(stackTrace: st);
       return null;
-    });
+    }));
 
     // Esperar almacenamiento y sesión
     await Future.wait([storageFuture, supabaseFuture, deviceProfileFuture]);

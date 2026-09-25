@@ -646,8 +646,8 @@ class ContentStore extends ChangeNotifier {
       channels.where((c) => !c.url.startsWith('archive:')).toList();
 
   /// Última versión buena del catálogo remoto, disponible sin red.
-  String? _cachedRemoteSources() {
-    final cached = StorageService.loadRemoteSourcesCache();
+  Future<String?> _cachedRemoteSources() async {
+    final cached = await StorageService.loadRemoteSourcesCache();
     return cached is String && cached.trim().isNotEmpty ? cached : null;
   }
 
@@ -753,7 +753,7 @@ class ContentStore extends ChangeNotifier {
       if (refreshRemote) {
         raw = await _fetchRemoteSourcesFromNetwork();
       }
-      raw ??= _cachedRemoteSources();
+      raw ??= await _cachedRemoteSources();
       final isTestEnv = !kIsWeb && Platform.environment.containsKey('FLUTTER_TEST');
       if (raw == null && !kIsWeb) {
         try {

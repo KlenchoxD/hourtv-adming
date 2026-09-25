@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:streamtv/models/channel.dart';
@@ -73,5 +75,25 @@ void main() {
 
     expect(await StorageService.toggleLiked(url), isFalse);
     expect(StorageService.loadLikedUrls(), isNot(contains(url)));
+  });
+
+  test('mueve catálogo/canales/series fuera de SharedPreferences sin perderlos', () async {
+    final legacyChannels = jsonEncode([
+      Channel(name: 'Viejo', url: 'https://old.test/a.m3u8').toJson(),
+    ]);
+    SharedPreferences.setMockInitialValues({
+      'channels': legacyChannels,
+      'settings': jsonEncode({'remoteSourcesCache': '{"catalog":1}', 'x': 1}),
+    });
+    await StorageService.init(
+      blobDir: Directory.systemTemp.createTempSync('hourtv_blobs_test'),
+    );
+
+    final prefs = await SharedPreferences.getInstance();
+    expect(prefs.containsKey('channels'), isFalse);
+    expect(prefs.getString('settings'), isNot(contains('remoteSourcesCache')));
+    expect((await StorageService.loadChannels()).single.name, 'Viejo');
+    expect(await StorageService.loadRemoteSourcesCache(), '{"catalog":1}');
+    expect(StorageService.getSetting('x'), 1);
   });
 }

@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/foundation.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import '../models/channel.dart';
@@ -44,18 +46,73 @@ class StorageService {
     false,
   );
 
-  static Future<void> init() async {
+  static Future<void> init({Directory? blobDir}) async {
     _prefs = await SharedPreferences.getInstance();
     // Un (re)init cuenta como estado nuevo: sin esto, un segundo init() con
     // otras SharedPreferences (tests, o un futuro "restablecer app") podia
     // seguir sirviendo el cache de "recientes" de la instancia anterior.
     _recentCache = null;
     _recentCacheProfileId = null;
+    // Los widget tests corren con reloj falso donde el I/O real de archivos
+    // nunca completa: ahí se sigue usando prefs salvo que pasen blobDir.
+    _blobDir = blobDir;
+    if (_blobDir == null &&
+        !kIsWeb &&
+        !Platform.environment.containsKey('FLUTTER_TEST')) {
+      try {
+        _blobDir = await getApplicationSupportDirectory();
+      } catch (_) {}
+    }
+    if (_blobDir != null) await _moveBlobsOutOfPrefs();
     await _migrateLegacyProfileData();
     hasChosenProfile.value = getSetting(
       _hasChosenProfileKey,
       defaultValue: false,
     ) as bool;
+  }
+
+  // Catálogo, canales y series pesan varios MB. En SharedPreferences,
+  // getInstance() los cargaba todos por el canal nativo antes del primer
+  // frame (~5 s en un Moto G24). Viven en archivos; en web, en prefs.
+  static Directory? _blobDir;
+
+  static File _blobFile(String key) => File('${_blobDir!.path}/$key.json');
+
+  static Future<String?> _readBlob(String key) async {
+    if (_blobDir == null) return _prefs?.getString(key);
+    try {
+      final file = _blobFile(key);
+      return await file.exists() ? await file.readAsString() : null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  static Future<void> _writeBlob(String key, String content) async {
+    if (_blobDir == null) {
+      await _prefs?.setString(key, content);
+      return;
+    }
+    final tmp = File('${_blobFile(key).path}.tmp');
+    await tmp.writeAsString(content, flush: true);
+    await tmp.rename(_blobFile(key).path);
+  }
+
+  static Future<void> _moveBlobsOutOfPrefs() async {
+    for (final key in [_channelsKey, _seriesKey, _remoteSourcesKey]) {
+      final legacy = _prefs?.getString(key);
+      if (legacy == null) continue;
+      if (!_blobFile(key).existsSync()) await _writeBlob(key, legacy);
+      await _prefs?.remove(key);
+    }
+    final inSettings = _decodedSettings()[_remoteSourcesKey];
+    if (inSettings is String) {
+      if (!_blobFile(_remoteSourcesKey).existsSync()) {
+        await _writeBlob(_remoteSourcesKey, inSettings);
+      }
+      final settings = loadSettings()..remove(_remoteSourcesKey);
+      await _prefs?.setString(_settingsKey, jsonEncode(settings));
+    }
   }
 
   static Future<void> markProfileChosen() async {
@@ -272,11 +329,11 @@ class StorageService {
   // ============ CHANNELS ============
   static Future<void> saveChannels(List<Channel> channels) async {
     final encoded = await compute(_encodeChannels, channels);
-    await _prefs?.setString(_channelsKey, encoded);
+    await _writeBlob(_channelsKey, encoded);
   }
 
   static Future<List<Channel>> loadChannels() async {
-    final String? data = _prefs?.getString(_channelsKey);
+    final data = await _readBlob(_channelsKey);
     if (data == null) return [];
     try {
       return await compute(_decodeChannels, data);
@@ -288,11 +345,11 @@ class StorageService {
   // ============ SERIES ============
   static Future<void> saveSeries(List<XtreamSeries> series) async {
     final encoded = await compute(_encodeSeries, series);
-    await _prefs?.setString(_seriesKey, encoded);
+    await _writeBlob(_seriesKey, encoded);
   }
 
   static Future<List<XtreamSeries>> loadSeries() async {
-    final String? data = _prefs?.getString(_seriesKey);
+    final data = await _readBlob(_seriesKey);
     if (data == null) return [];
     try {
       return await compute(_decodeSeries, data);
@@ -507,23 +564,20 @@ class StorageService {
   // 'settings' se re-codificaba entero en cada saveSetting.
   static const String _remoteSourcesKey = 'remoteSourcesCache';
 
-  static String? loadRemoteSourcesCache() {
-    final own = _prefs?.getString(_remoteSourcesKey);
-    if (own != null) return own;
-    final legacy = getSetting(_remoteSourcesKey);
-    return legacy is String ? legacy : null;
-  }
+  static Future<String?> loadRemoteSourcesCache() =>
+      _readBlob(_remoteSourcesKey);
 
-  static Future<void> saveRemoteSourcesCache(String content) async {
-    await _prefs?.setString(_remoteSourcesKey, content);
-    if (_decodedSettings().containsKey(_remoteSourcesKey)) {
-      final settings = loadSettings()..remove(_remoteSourcesKey);
-      await _prefs?.setString(_settingsKey, jsonEncode(settings));
-    }
-  }
+  static Future<void> saveRemoteSourcesCache(String content) =>
+      _writeBlob(_remoteSourcesKey, content);
 
   static Future<void> clearAll() async {
     await _prefs?.clear();
+    if (_blobDir != null) {
+      for (final key in [_channelsKey, _seriesKey, _remoteSourcesKey]) {
+        final file = _blobFile(key);
+        if (await file.exists()) await file.delete();
+      }
+    }
   }
 
   /// Limpia el cache de imagenes de logos y el historial de canales recientes.
