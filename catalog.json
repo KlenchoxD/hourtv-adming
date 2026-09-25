@@ -13046,6 +13046,30 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "899a7177111140ab8cf2d259e22b8d93",
+      "title": "El sonido de la muerte",
+      "year": "2026",
+      "tmdb_id": 1193501,
+      "imdb_id": "tt29550683",
+      "rating": "6.3",
+      "genre": "Terror, Misterio",
+      "cast": "Dafne Keen, Sophie Nélisse, Sky Yang, Jhaleil Swaby, Alissa Skovbye, Percy Hynes White, Michelle Fairley, Nick Frost, Mika Amonsen, Stephen Kalyn, Conrad Coates, Lanette Ware",
+      "director": "Corin Hardy",
+      "writer": "Owen Egerton",
+      "backdrop": "https://image.tmdb.org/t/p/original/finq0JnC6tIMkKczzyxLJjgWFfT.jpg",
+      "duration": "100 min",
+      "releaseDate": "2026-01-20",
+      "plot": "El sonido de la muerte: Un grupo de estudiantes inadaptados encuentra por accidente un objeto maldito: un antiguo silbato de la muerte azteca. Al…",
+      "poster": "https://image.tmdb.org/t/p/w1280/rfawRNnOrpqlvTi3Xn4XRjkxx66.jpg",
+      "servers": [
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/aNNkF86K3wUjP6a/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
