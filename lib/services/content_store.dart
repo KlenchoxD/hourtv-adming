@@ -647,7 +647,7 @@ class ContentStore extends ChangeNotifier {
 
   /// Última versión buena del catálogo remoto, disponible sin red.
   String? _cachedRemoteSources() {
-    final cached = StorageService.getSetting('remoteSourcesCache');
+    final cached = StorageService.loadRemoteSourcesCache();
     return cached is String && cached.trim().isNotEmpty ? cached : null;
   }
 
@@ -682,7 +682,7 @@ class ContentStore extends ChangeNotifier {
       final content = row?['content'];
       if (content is String && content.trim().isNotEmpty) {
         debugPrint('[CatalogFetch] OK Supabase catalog_snapshot bytes=${content.length}');
-        await StorageService.saveSetting('remoteSourcesCache', content);
+        await StorageService.saveRemoteSourcesCache(content);
         return content;
       }
     } catch (e) {
@@ -726,7 +726,7 @@ class ContentStore extends ChangeNotifier {
           debugPrint(
             '[CatalogFetch] OK $url status=${response.statusCode} bytes=${response.body.length}',
           );
-          await StorageService.saveSetting('remoteSourcesCache', response.body);
+          await StorageService.saveRemoteSourcesCache(response.body);
           return response.body;
         }
         debugPrint(

@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'dart:io' show gzip;
+import 'dart:isolate';
+import 'dart:typed_data';
 
 import 'package:http/http.dart' as http;
 
@@ -27,8 +29,13 @@ class EpgService {
 
     for (final url in selectedUrls) {
       try {
-        final xml = await _fetchXml(url);
-        final programs = _parsePrograms(xml, wanted, now);
+        final bytes = await _fetchBytes(url);
+        final gz = url.toLowerCase().endsWith('.gz');
+        // Guías de varios MB: gunzip + regex en el hilo principal trababan la
+        // app cientos de frames al arrancar.
+        final programs = await Isolate.run(
+          () => _parsePrograms(_decodeBody(bytes, gz), wanted, now),
+        );
         if (programs.isEmpty) continue;
         _mergeGuide(programs);
         _attach(channels, programs, now);
@@ -129,20 +136,18 @@ class EpgService {
     return matched >= (live.length * 0.65);
   }
 
-  static Future<String> _fetchXml(String url) async {
+  static Future<Uint8List> _fetchBytes(String url) async {
     final response = await http
         .get(Uri.parse(url), headers: {'User-Agent': 'Mozilla/5.0'})
         .timeout(const Duration(seconds: 25));
     if (response.statusCode != 200) {
       throw Exception('HTTP ${response.statusCode}');
     }
-
-    List<int> bytes = response.bodyBytes;
-    if (url.toLowerCase().endsWith('.gz')) {
-      bytes = gzip.decode(bytes);
-    }
-    return utf8.decode(bytes, allowMalformed: true);
+    return response.bodyBytes;
   }
+
+  static String _decodeBody(List<int> bytes, bool gz) =>
+      utf8.decode(gz ? gzip.decode(bytes) : bytes, allowMalformed: true);
 
   static Map<String, List<EpgProgram>> _parsePrograms(
     String xml,

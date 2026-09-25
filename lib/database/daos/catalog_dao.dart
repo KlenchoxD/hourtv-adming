@@ -598,6 +598,14 @@ class CatalogDao extends DatabaseAccessor<CatalogDatabase> with _$CatalogDaoMixi
         .get();
   }
 
+  Future<List<LocalSource>> getSourcesForEpisodes(List<String> episodeIds) {
+    if (episodeIds.isEmpty) return Future.value(const []);
+    return (select(localSources)
+          ..where((s) => s.episodeId.isIn(episodeIds) & s.isDeleted.equals(false))
+          ..orderBy([(s) => OrderingTerm.asc(s.orderIndex)]))
+        .get();
+  }
+
   Future<void> linkTitleGenres(List<LocalTitleGenresCompanion> links) async {
     await transaction(() async {
       for (final link in links) {

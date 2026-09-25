@@ -271,8 +271,7 @@ class StorageService {
 
   // ============ CHANNELS ============
   static Future<void> saveChannels(List<Channel> channels) async {
-    final jsonList = channels.map((channel) => channel.toJson()).toList();
-    final encoded = await compute(_encodeJsonList, jsonList);
+    final encoded = await compute(_encodeChannels, channels);
     await _prefs?.setString(_channelsKey, encoded);
   }
 
@@ -280,10 +279,7 @@ class StorageService {
     final String? data = _prefs?.getString(_channelsKey);
     if (data == null) return [];
     try {
-      final jsonList = await compute(_decodeJsonList, data);
-      return jsonList
-          .map((json) => Channel.fromJson(Map<String, dynamic>.from(json)))
-          .toList();
+      return await compute(_decodeChannels, data);
     } catch (_) {
       return [];
     }
@@ -291,8 +287,7 @@ class StorageService {
 
   // ============ SERIES ============
   static Future<void> saveSeries(List<XtreamSeries> series) async {
-    final jsonList = series.map((item) => item.toJson()).toList();
-    final encoded = await compute(_encodeJsonList, jsonList);
+    final encoded = await compute(_encodeSeries, series);
     await _prefs?.setString(_seriesKey, encoded);
   }
 
@@ -300,10 +295,7 @@ class StorageService {
     final String? data = _prefs?.getString(_seriesKey);
     if (data == null) return [];
     try {
-      final jsonList = await compute(_decodeJsonList, data);
-      return jsonList
-          .map((json) => XtreamSeries.fromJson(Map<String, dynamic>.from(json)))
-          .toList();
+      return await compute(_decodeSeries, data);
     } catch (_) {
       return [];
     }
@@ -484,18 +476,50 @@ class StorageService {
     await _prefs?.setString(_settingsKey, jsonEncode(settings));
   }
 
-  static Map<String, dynamic> loadSettings() {
+  static String? _settingsRaw;
+  static Map<String, dynamic> _settingsCache = const {};
+
+  // getSetting se llama cientos de veces por frame (control parental, perfil
+  // activo...). Decodificar el JSON en cada llamada se llevaba ~99% del CPU
+  // del arranque. Se decodifica solo cuando cambia el string guardado.
+  static Map<String, dynamic> _decodedSettings() {
     final String? data = _prefs?.getString(_settingsKey);
-    if (data == null) return {};
+    if (identical(data, _settingsRaw)) return _settingsCache;
+    _settingsRaw = data;
     try {
-      return Map<String, dynamic>.from(jsonDecode(data));
+      _settingsCache = data == null
+          ? const {}
+          : Map<String, dynamic>.from(jsonDecode(data));
     } catch (e) {
-      return {};
+      _settingsCache = const {};
     }
+    return _settingsCache;
   }
 
+  static Map<String, dynamic> loadSettings() =>
+      Map<String, dynamic>.of(_decodedSettings());
+
   static dynamic getSetting(String key, {dynamic defaultValue}) {
-    return loadSettings()[key] ?? defaultValue;
+    return _decodedSettings()[key] ?? defaultValue;
+  }
+
+  // El catálogo remoto (varios MB) vive en su propia clave: dentro de
+  // 'settings' se re-codificaba entero en cada saveSetting.
+  static const String _remoteSourcesKey = 'remoteSourcesCache';
+
+  static String? loadRemoteSourcesCache() {
+    final own = _prefs?.getString(_remoteSourcesKey);
+    if (own != null) return own;
+    final legacy = getSetting(_remoteSourcesKey);
+    return legacy is String ? legacy : null;
+  }
+
+  static Future<void> saveRemoteSourcesCache(String content) async {
+    await _prefs?.setString(_remoteSourcesKey, content);
+    if (_decodedSettings().containsKey(_remoteSourcesKey)) {
+      final settings = loadSettings()..remove(_remoteSourcesKey);
+      await _prefs?.setString(_settingsKey, jsonEncode(settings));
+    }
   }
 
   static Future<void> clearAll() async {
@@ -512,9 +536,21 @@ class StorageService {
   }
 }
 
-String _encodeJsonList(List<Map<String, dynamic>> values) => jsonEncode(values);
-
+// Todo (JSON + conversión a objetos) corre en el isolate: con miles de títulos
+// el map a Channel/XtreamSeries en el hilo principal trababa el arranque.
 List<Map<String, dynamic>> _decodeJsonList(String value) {
   final decoded = jsonDecode(value) as List<dynamic>;
   return decoded.whereType<Map>().map(Map<String, dynamic>.from).toList();
 }
+
+String _encodeChannels(List<Channel> values) =>
+    jsonEncode(values.map((c) => c.toJson()).toList());
+
+List<Channel> _decodeChannels(String value) =>
+    _decodeJsonList(value).map(Channel.fromJson).toList();
+
+String _encodeSeries(List<XtreamSeries> values) =>
+    jsonEncode(values.map((s) => s.toJson()).toList());
+
+List<XtreamSeries> _decodeSeries(String value) =>
+    _decodeJsonList(value).map(XtreamSeries.fromJson).toList();

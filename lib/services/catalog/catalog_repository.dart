@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math' as math;
 import 'package:drift/drift.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart' show rootBundle;
@@ -475,13 +476,30 @@ class CatalogRepository extends ChangeNotifier {
     if (title == null) return null;
 
     final seasons = await dao.getSeasonsForTitle(titleId);
-    final episodeChannels = <Channel>[];
+    final episodesBySeason = await Future.wait(
+      seasons.map((s) => dao.getEpisodesForSeason(s.id)),
+    );
 
-    for (final s in seasons) {
-      final episodes = await dao.getEpisodesForSeason(s.id);
-      for (final ep in episodes) {
-        final epSources = await dao.getSourcesForEpisode(ep.id);
-        final servers = epSources
+    // Una consulta por lote en vez de una por episodio (series largas tenían
+    // cientos de consultas secuenciales). Trozos de 500 por el límite de
+    // variables de SQLite.
+    final episodeIds = [
+      for (final eps in episodesBySeason)
+        for (final ep in eps) ep.id,
+    ];
+    final sourcesByEpisode = <String, List<LocalSource>>{};
+    for (var i = 0; i < episodeIds.length; i += 500) {
+      final chunk = episodeIds.sublist(i, math.min(i + 500, episodeIds.length));
+      for (final src in await dao.getSourcesForEpisodes(chunk)) {
+        (sourcesByEpisode[src.episodeId!] ??= []).add(src);
+      }
+    }
+
+    final episodeChannels = <Channel>[];
+    for (var si = 0; si < seasons.length; si++) {
+      final s = seasons[si];
+      for (final ep in episodesBySeason[si]) {
+        final servers = (sourcesByEpisode[ep.id] ?? const <LocalSource>[])
             .map(_serverFromLocalSource)
             .toList();
 

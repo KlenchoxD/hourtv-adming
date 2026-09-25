@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:isolate';
 import 'package:http/http.dart' as http;
 import '../models/channel.dart';
 import '../models/m3u_list.dart';
@@ -119,12 +120,17 @@ class M3UParserService {
             onTimeout: () => throw Exception('Tiempo de espera agotado'),
           );
       if (response.statusCode == 200) {
-        return parseM3U(
-          _decode(response),
-          listName: listName,
-          genre: genre,
-          mediaType: mediaType,
-          userAgent: userAgent,
+        // Las listas de IPTV-org traen miles de líneas; parsearlas en el
+        // hilo principal trababa el arranque.
+        final bytes = response.bodyBytes;
+        return Isolate.run(
+          () => parseM3U(
+            _decodeBytes(bytes),
+            listName: listName,
+            genre: genre,
+            mediaType: mediaType,
+            userAgent: userAgent,
+          ),
         );
       }
       throw Exception('HTTP ${response.statusCode}');
@@ -133,11 +139,11 @@ class M3UParserService {
     }
   }
 
-  static String _decode(http.Response r) {
+  static String _decodeBytes(List<int> bytes) {
     try {
-      return utf8.decode(r.bodyBytes, allowMalformed: true);
+      return utf8.decode(bytes, allowMalformed: true);
     } catch (_) {
-      return latin1.decode(r.bodyBytes);
+      return latin1.decode(bytes);
     }
   }
 

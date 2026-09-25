@@ -44,112 +44,154 @@ class CatalogDetailNavigator {
       return;
     }
 
-    // 2. Si es del catálogo Drift, hidratar asíncronamente con indicador no bloqueante
-    final titleId = channel.stableTitleId;
-    if (titleId == null || titleId.isEmpty) {
-      _showError(context, channel, repository: effectiveRepo, store: effectiveStore, fromContinueWatching: fromContinueWatching, preview: preview);
-      return;
-    }
-
-    // Mostrar indicador de carga no bloqueante
-    final messenger = ScaffoldMessenger.maybeOf(context);
-    messenger?.showSnackBar(
-      const SnackBar(
-        content: Row(
-          children: [
-            SizedBox(
-              width: 16,
-              height: 16,
-              child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
-            ),
-            SizedBox(width: 12),
-            Text('Cargando detalles...'),
-          ],
+    // 2. Catálogo Drift: la pantalla se abre en el mismo toque con lo que ya
+    // trae la tarjeta, y la ficha completa aparece al terminar la hidratación.
+    // Antes se esperaba la hidratación ANTES del push y el toque se sentía
+    // trabado varios segundos.
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (_) => _HydratingDetailPage(
+          card: channel,
+          repository: effectiveRepo,
+          fromContinueWatching: fromContinueWatching,
+          preview: preview,
         ),
-        duration: Duration(seconds: 4),
       ),
     );
+  }
+}
 
-    try {
-      // Determinar si es serie o película
-      var isSeries = channel.forcedType == 'series' ||
-          channel.forcedType == 'anime' ||
-          channel.forcedType == 'novela';
+class _HydratingDetailPage extends StatefulWidget {
+  const _HydratingDetailPage({
+    required this.card,
+    required this.repository,
+    required this.fromContinueWatching,
+    required this.preview,
+  });
 
-      if (!isSeries && channel.forcedType == null) {
-        final localTitle = await effectiveRepo.dao.getTitleById(titleId);
-        if (localTitle != null && localTitle.mediaType == 'series') {
-          isSeries = true;
-        }
-      }
+  final Channel card;
+  final CatalogRepository repository;
+  final bool fromContinueWatching;
+  final bool preview;
 
-      if (isSeries) {
-        final series = await effectiveRepo.hydrateSeries(titleId);
-        if (!context.mounted) return;
-        messenger?.hideCurrentSnackBar();
+  @override
+  State<_HydratingDetailPage> createState() => _HydratingDetailPageState();
+}
 
-        if (series == null) {
-          _showError(context, channel, repository: effectiveRepo, store: effectiveStore, fromContinueWatching: fromContinueWatching, preview: preview);
-          return;
-        }
+class _HydratingDetailPageState extends State<_HydratingDetailPage> {
+  late Future<Widget?> _page = _hydrate();
 
-        Navigator.of(context).push(
-          MaterialPageRoute<void>(
-            builder: (_) => HourTvSeriesDetailPage(series: series),
-          ),
-        );
-      } else {
-        final hydratedChannel = await effectiveRepo.hydrateChannel(titleId);
-        if (!context.mounted) return;
-        messenger?.hideCurrentSnackBar();
+  Future<Widget?> _hydrate() async {
+    final card = widget.card;
+    final repo = widget.repository;
+    final titleId = card.stableTitleId;
+    if (titleId == null || titleId.isEmpty) return null;
 
-        if (hydratedChannel == null) {
-          _showError(context, channel, repository: effectiveRepo, store: effectiveStore, fromContinueWatching: fromContinueWatching, preview: preview);
-          return;
-        }
-
-        Navigator.of(context).push(
-          MaterialPageRoute<void>(
-            builder: (_) => HourTvDetailPage(
-              channel: hydratedChannel,
-              preview: preview,
-              fromContinueWatching: fromContinueWatching,
-            ),
-          ),
-        );
-      }
-    } catch (_) {
-      if (!context.mounted) return;
-      messenger?.hideCurrentSnackBar();
-      _showError(context, channel, repository: effectiveRepo, store: effectiveStore, fromContinueWatching: fromContinueWatching, preview: preview);
+    var isSeries = card.forcedType == 'series' ||
+        card.forcedType == 'anime' ||
+        card.forcedType == 'novela';
+    if (!isSeries && card.forcedType == null) {
+      final localTitle = await repo.dao.getTitleById(titleId);
+      isSeries = localTitle?.mediaType == 'series';
     }
+
+    if (isSeries) {
+      final series = await repo.hydrateSeries(titleId);
+      return series == null ? null : HourTvSeriesDetailPage(series: series);
+    }
+    final hydrated = await repo.hydrateChannel(titleId);
+    return hydrated == null
+        ? null
+        : HourTvDetailPage(
+            channel: hydrated,
+            preview: widget.preview,
+            fromContinueWatching: widget.fromContinueWatching,
+          );
   }
 
-  static void _showError(
-    BuildContext context,
-    Channel channel, {
-    CatalogRepository? repository,
-    ContentStore? store,
-    bool fromContinueWatching = false,
-    bool preview = false,
-  }) {
-    final messenger = ScaffoldMessenger.maybeOf(context);
-    messenger?.showSnackBar(
-      SnackBar(
-        content: const Text('No se pudieron cargar los detalles del título.'),
-        action: SnackBarAction(
-          label: 'Reintentar',
-          onPressed: () {
-            openDetails(
-              context,
-              channel,
-              repository: repository,
-              store: store,
-              fromContinueWatching: fromContinueWatching,
-              preview: preview,
-            );
-          },
-        ),
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<Widget?>(
+      future: _page,
+      builder: (context, snapshot) {
+        final page = snapshot.data;
+        if (page != null) return page;
+        final failed = snapshot.connectionState == ConnectionState.done;
+        return _DetailPlaceholder(
+          card: widget.card,
+          failed: failed,
+          onRetry: () => setState(() => _page = _hydrate()),
+        );
+      },
+    );
+  }
+}
+
+class _DetailPlaceholder extends StatelessWidget {
+  const _DetailPlaceholder({
+    required this.card,
+    required this.failed,
+    required this.onRetry,
+  });
+
+  final Channel card;
+  final bool failed;
+  final VoidCallback onRetry;
+
+  @override
+  Widget build(BuildContext context) {
+    final image = card.backdrop ?? card.logo;
+    return Scaffold(
+      backgroundColor: Colors.black,
+      appBar: AppBar(backgroundColor: Colors.transparent, elevation: 0),
+      extendBodyBehindAppBar: true,
+      body: ListView(
+        padding: EdgeInsets.zero,
+        children: [
+          AspectRatio(
+            aspectRatio: 16 / 9,
+            child: image == null || image.isEmpty
+                ? const ColoredBox(color: Color(0xFF111111))
+                : Image.network(
+                    image,
+                    fit: BoxFit.cover,
+                    errorBuilder: (_, _, _) =>
+                        const ColoredBox(color: Color(0xFF111111)),
+                  ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  card.displayName,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 22,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+                const SizedBox(height: 24),
+                if (!failed)
+                  const Center(
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  )
+                else ...[
+                  const Text(
+                    'No se pudieron cargar los detalles del título.',
+                    style: TextStyle(color: Colors.white70),
+                  ),
+                  const SizedBox(height: 12),
+                  FilledButton(
+                    onPressed: onRetry,
+                    child: const Text('Reintentar'),
+                  ),
+                ],
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
