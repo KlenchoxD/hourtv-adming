@@ -85,6 +85,8 @@ class RelatedContentEngine {
     final targetDirector = _extractTokens(target.director);
     final targetYear = int.tryParse(target.year?.trim() ?? '');
     final targetRating = double.tryParse(target.rating?.trim() ?? '');
+    final targetType = target.type;
+    final targetForcedType = target.forcedType?.toLowerCase();
 
     final isRestricted = isKidsProfile || ParentalControlService.isEnabled;
 
@@ -98,10 +100,11 @@ class RelatedContentEngine {
 
     for (final candidate in candidates) {
       // 1. Excluir target por cualquier identidad
-      final candTitleId = candidate.catalogTitleId?.trim().toLowerCase();
-      final candUrl = candidate.url.trim().toLowerCase();
-      final candStableId = candidate.stableTitleId?.trim().toLowerCase();
-      final candName = candidate.displayName.trim().toLowerCase();
+      final feat = _featuresOf(candidate);
+      final candTitleId = feat.titleId;
+      final candUrl = feat.url;
+      final candStableId = feat.stableId;
+      final candName = feat.name;
 
       if ((candTitleId != null && seenIds.contains(candTitleId)) ||
           (candUrl.isNotEmpty && seenIds.contains(candUrl)) ||
@@ -122,15 +125,15 @@ class RelatedContentEngine {
       double totalScore = 0.0;
 
       // A. Mismo tipo de medio (película vs serie) - Base 10.0
-      final isSameType = (candidate.type == target.type) ||
-          (candidate.forcedType?.toLowerCase() == target.forcedType?.toLowerCase());
+      final isSameType = (feat.type == targetType) ||
+          (feat.forcedType == targetForcedType);
       if (isSameType) {
         breakdown['media_type'] = 10.0;
         totalScore += 10.0;
       }
 
       // B. Géneros en común (coeficiente Jaccard normalizado hasta 40.0 pts)
-      final candGenres = _extractTokens(candidate.genre);
+      final candGenres = feat.genres;
       if (targetGenres.isNotEmpty && candGenres.isNotEmpty) {
         final intersection = targetGenres.intersection(candGenres).length;
         final union = targetGenres.union(candGenres).length;
@@ -142,7 +145,7 @@ class RelatedContentEngine {
       }
 
       // C. Director en común (hasta 20.0 pts)
-      final candDirector = _extractTokens(candidate.director);
+      final candDirector = feat.director;
       if (targetDirector.isNotEmpty && candDirector.isNotEmpty) {
         final commonDirectors = targetDirector.intersection(candDirector).length;
         if (commonDirectors > 0) {
@@ -153,7 +156,7 @@ class RelatedContentEngine {
       }
 
       // D. Reparto (Cast) en común (hasta 15.0 pts)
-      final candCast = _extractTokens(candidate.cast);
+      final candCast = feat.cast;
       if (targetCast.isNotEmpty && candCast.isNotEmpty) {
         final commonCast = targetCast.intersection(candCast).length;
         if (commonCast > 0) {
@@ -165,7 +168,7 @@ class RelatedContentEngine {
 
       // E. Franquicia / Secuela conservadora por prefijo limpio (hasta 25.0 pts)
       if (targetCleanPrefix.length >= 6) {
-        final candCleanPrefix = _extractCleanPrefix(candidate.displayName);
+        final candCleanPrefix = feat.cleanPrefix;
         if (candCleanPrefix.length >= 6 && candCleanPrefix == targetCleanPrefix) {
           breakdown['clean_franchise_prefix'] = 25.0;
           totalScore += 25.0;
@@ -173,7 +176,7 @@ class RelatedContentEngine {
       }
 
       // F. Misma década (hasta 5.0 pts)
-      final candYear = int.tryParse(candidate.year?.trim() ?? '');
+      final candYear = feat.year;
       if (targetYear != null && candYear != null && targetYear > 1900 && candYear > 1900) {
         final targetDecade = targetYear ~/ 10;
         final candDecade = candYear ~/ 10;
@@ -184,7 +187,7 @@ class RelatedContentEngine {
       }
 
       // G. Puntuación / Rating cercano (hasta 5.0 pts)
-      final candRating = double.tryParse(candidate.rating?.trim() ?? '');
+      final candRating = feat.rating;
       if (targetRating != null && candRating != null) {
         final diff = (targetRating - candRating).abs();
         if (diff <= 1.0) {
@@ -195,7 +198,9 @@ class RelatedContentEngine {
       }
 
       // Base mínima de ordenación
-      totalScore = double.parse(totalScore.toStringAsFixed(2));
+      // Redondeo numérico: toStringAsFixed+parse por cada candidato era el
+      // mayor costo de abrir una ficha (formateo de texto en C).
+      totalScore = (totalScore * 100).roundToDouble() / 100;
 
       scoredCandidates.add(
         ScoredRelatedItem(
@@ -217,17 +222,15 @@ class RelatedContentEngine {
       final cmpScore = b.score.compareTo(a.score);
       if (cmpScore != 0) return cmpScore;
 
-      final ratingA = double.tryParse(a.channel.rating ?? '') ?? 0.0;
-      final ratingB = double.tryParse(b.channel.rating ?? '') ?? 0.0;
-      final cmpRating = ratingB.compareTo(ratingA);
+      final fa = _featuresOf(a.channel);
+      final fb = _featuresOf(b.channel);
+      final cmpRating = (fb.rating ?? 0.0).compareTo(fa.rating ?? 0.0);
       if (cmpRating != 0) return cmpRating;
 
-      final yearA = int.tryParse(a.channel.year ?? '') ?? 0;
-      final yearB = int.tryParse(b.channel.year ?? '') ?? 0;
-      final cmpYear = yearB.compareTo(yearA);
+      final cmpYear = (fb.year ?? 0).compareTo(fa.year ?? 0);
       if (cmpYear != 0) return cmpYear;
 
-      return a.channel.displayName.compareTo(b.channel.displayName);
+      return fa.displayName.compareTo(fb.displayName);
     });
 
     final result = scoredCandidates.take(limit).toList();
@@ -244,12 +247,51 @@ class RelatedContentEngine {
   /// Extrae un prefijo de franquicia conservador:
   /// Elimina temporadas, números arábigos/romanos, subtítulos tras dos puntos o guión,
   /// y normaliza a minúsculas alfanuméricas.
+  static final _yearRe = RegExp(r'\(\d{4}\)');
+  static final _seasonRe = RegExp(
+    r'(?:temporada|season|temp\.?|t|s)\s*\d+',
+    caseSensitive: false,
+  );
+  static final _numeralRe = RegExp(
+    r'\b(?:[0-9]+|[ivxcdm]+)\b',
+    caseSensitive: false,
+  );
+  static final _nonAlnumRe = RegExp(r'[^a-z0-9áéíóúüñ]+');
+  static final _tokenSepRe = RegExp(r'[,/|;]+');
+
+  // Cada ficha puntúa todo el catálogo: tokens y prefijo de cada candidato
+  // se calculan una vez por Channel (Expando = sin fugas de memoria).
+  // ponytail: si _enrichMovies completa año/rating de un Channel ya visto, su
+  // puntaje usa el valor viejo hasta reiniciar; invalidar aquí si importa.
+  static final _features = Expando<_CandidateFeatures>();
+
+  static _CandidateFeatures _featuresOf(Channel c) {
+    final cached = _features[c];
+    if (cached != null) return cached;
+    final displayName = c.displayName;
+    return _features[c] = _CandidateFeatures(
+      titleId: c.catalogTitleId?.trim().toLowerCase(),
+      url: c.url.trim().toLowerCase(),
+      stableId: c.stableTitleId?.trim().toLowerCase(),
+      displayName: displayName,
+      name: displayName.trim().toLowerCase(),
+      type: c.type,
+      forcedType: c.forcedType?.toLowerCase(),
+      year: int.tryParse(c.year?.trim() ?? ''),
+      rating: double.tryParse(c.rating?.trim() ?? ''),
+      genres: _extractTokens(c.genre),
+      director: _extractTokens(c.director),
+      cast: _extractTokens(c.cast),
+      cleanPrefix: _extractCleanPrefix(displayName),
+    );
+  }
+
   static String _extractCleanPrefix(String title) {
     var clean = title.trim();
     // Remover año entre paréntesis "(1999)"
-    clean = clean.replaceAll(RegExp(r'\(\d{4}\)'), '');
+    clean = clean.replaceAll(_yearRe, '');
     // Remover temporadas "Temporada 1", "Season 2", "T1", "S02"
-    clean = clean.replaceAll(RegExp(r'(?:temporada|season|temp\.?|t|s)\s*\d+', caseSensitive: false), '');
+    clean = clean.replaceAll(_seasonRe, '');
     // Cortar en subtítulo principal (":", "-", "—")
     if (clean.contains(':')) {
       clean = clean.split(':').first;
@@ -257,9 +299,9 @@ class RelatedContentEngine {
       clean = clean.split(' - ').first;
     }
     // Remover números arábigos o romanos al final (ej. "Matrix 2", "Toy Story II")
-    clean = clean.replaceAll(RegExp(r'\b(?:[0-9]+|[ivxcdm]+)\b', caseSensitive: false), '');
+    clean = clean.replaceAll(_numeralRe, '');
     // Normalizar a caracteres alfanuméricos
-    clean = clean.toLowerCase().replaceAll(RegExp(r'[^a-z0-9áéíóúüñ]+'), ' ').trim();
+    clean = clean.toLowerCase().replaceAll(_nonAlnumRe, ' ').trim();
     // Si quedan palabras vacías o palabras comunes como "the", "el", "la", removerlas
     final words = clean.split(' ').where((w) => w.length > 2 && !{'the', 'las', 'los', 'les'}.contains(w)).toList();
     return words.join(' ').trim();
@@ -269,9 +311,41 @@ class RelatedContentEngine {
     if (input == null || input.trim().isEmpty) return const {};
     return input
         .toLowerCase()
-        .split(RegExp(r'[,/|;]+'))
+        .split(_tokenSepRe)
         .map((s) => s.trim())
         .where((s) => s.isNotEmpty && s.length >= 2)
         .toSet();
   }
+}
+
+// Datos derivados de un Channel que no cambian entre fichas.
+class _CandidateFeatures {
+  _CandidateFeatures({
+    required this.titleId,
+    required this.url,
+    required this.stableId,
+    required this.displayName,
+    required this.name,
+    required this.type,
+    required this.forcedType,
+    required this.year,
+    required this.rating,
+    required this.genres,
+    required this.director,
+    required this.cast,
+    required this.cleanPrefix,
+  });
+  final String? titleId;
+  final String url;
+  final String? stableId;
+  final String displayName;
+  final String name;
+  final MediaType type;
+  final String? forcedType;
+  final int? year;
+  final double? rating;
+  final Set<String> genres;
+  final Set<String> director;
+  final Set<String> cast;
+  final String cleanPrefix;
 }

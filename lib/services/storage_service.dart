@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'dart:isolate';
 import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -93,9 +94,12 @@ class StorageService {
       await _prefs?.setString(key, content);
       return;
     }
-    final tmp = File('${_blobFile(key).path}.tmp');
-    await tmp.writeAsString(content, flush: true);
-    await tmp.rename(_blobFile(key).path);
+    // Codificar varios MB a UTF-8 en el hilo principal trababa el arranque.
+    final path = _blobFile(key).path;
+    await Isolate.run(() {
+      final tmp = File('$path.tmp')..writeAsStringSync(content, flush: true);
+      tmp.renameSync(path);
+    });
   }
 
   static Future<void> _moveBlobsOutOfPrefs() async {

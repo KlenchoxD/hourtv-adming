@@ -79,14 +79,14 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
   Channel get channel => widget.channel;
   ContentStore get store => ContentStore.instance;
 
-  List<Channel> get related {
-    return RelatedContentEngine.instance.getRelated(
-      target: channel,
-      candidates: store.movies,
-      isKidsProfile: StorageService.activeProfileIsKids,
-      limit: 6,
-    );
-  }
+  // Recorre todo el catálogo: una sola vez por ficha, no en cada acceso
+  // (build() lo leía ~8 veces y congelaba la apertura).
+  late final List<Channel> related = RelatedContentEngine.instance.getRelated(
+    target: channel,
+    candidates: store.movies,
+    isKidsProfile: StorageService.activeProfileIsKids,
+    limit: 6,
+  );
 
   @override
   void initState() {

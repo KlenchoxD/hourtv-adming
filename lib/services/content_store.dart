@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io' show File, Platform;
+import 'dart:isolate';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart' show rootBundle;
@@ -722,15 +723,21 @@ class ContentStore extends ChangeNotifier {
               },
             )
             .timeout(const Duration(seconds: 12));
-        if (response.statusCode == 200 && response.body.trim().isNotEmpty) {
+        // response.body re-decodifica los MB en cada acceso y en el hilo
+        // principal: se decodifica una vez en un isolate.
+        final bytes = response.bodyBytes;
+        final body = await Isolate.run(
+          () => utf8.decode(bytes, allowMalformed: true),
+        );
+        if (response.statusCode == 200 && body.trim().isNotEmpty) {
           debugPrint(
-            '[CatalogFetch] OK $url status=${response.statusCode} bytes=${response.body.length}',
+            '[CatalogFetch] OK $url status=${response.statusCode} bytes=${bytes.length}',
           );
-          await StorageService.saveRemoteSourcesCache(response.body);
-          return response.body;
+          await StorageService.saveRemoteSourcesCache(body);
+          return body;
         }
         debugPrint(
-          '[CatalogFetch] Respuesta no válida $url status=${response.statusCode} bodyLen=${response.body.length}',
+          '[CatalogFetch] Respuesta no válida $url status=${response.statusCode} bodyLen=${bytes.length}',
         );
       } catch (e) {
         debugPrint('[CatalogFetch] Falló $url: $e');
@@ -937,8 +944,21 @@ class ContentStore extends ChangeNotifier {
     notifyListeners();
   }
 
-  List<Channel> get movies =>
-      visibleAll.where((c) => c.type == MediaType.movie).toList();
+  Object? _moviesSource;
+  List<Channel> _moviesCache = const [];
+
+  // Se lee en cada build de Inicio y de la ficha; filtrar todo visibleAll
+  // (miles de canales en vivo) cada vez trababa la UI.
+  List<Channel> get movies {
+    final all = visibleAll;
+    if (!identical(all, _moviesSource)) {
+      _moviesSource = all;
+      _moviesCache = List.unmodifiable(
+        all.where((c) => c.type == MediaType.movie),
+      );
+    }
+    return _moviesCache;
+  }
 
   /// Géneros canónicos de películas. Los nombres de fuentes y filas editoriales
   /// se agrupan como "Películas" para no contaminar los chips de Inicio.
@@ -1025,14 +1045,24 @@ class ContentStore extends ChangeNotifier {
     return null;
   }
 
-  Set<String> _genresForMovie(Channel movie) {
+  static final _genreSepRe = RegExp(r'[,/|]');
+  // Las filas de Inicio clasifican todo el catálogo en cada rebuild y cada
+  // vez que cambia `all` durante el arranque: se calcula una vez por Channel.
+  // ponytail: si algo reasigna `genre`/`categories` de un Channel ya visto,
+  // su género queda viejo hasta reiniciar; invalidar aquí si importa.
+  static final _genresExpando = Expando<Set<String>>();
+
+  Set<String> _genresForMovie(Channel movie) =>
+      _genresExpando[movie] ??= _computeGenresForMovie(movie);
+
+  Set<String> _computeGenresForMovie(Channel movie) {
     final genres = <String>{};
     final values = <String>[
       if (movie.genre != null) movie.genre!,
       ...movie.categories,
     ];
     for (final value in values) {
-      for (final part in value.split(RegExp(r'[,/|]'))) {
+      for (final part in value.split(_genreSepRe)) {
         final genre = _canonicalMovieGenre(part);
         if (genre != null) genres.add(genre);
       }

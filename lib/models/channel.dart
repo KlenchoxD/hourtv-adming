@@ -571,14 +571,19 @@ class Channel {
   /// Detecta si es TV en vivo, pelicula o serie SOLO por la ruta del stream.
   MediaType get type {
     if (forcedType == 'movie') return MediaType.movie;
-    if (forcedType == 'series' || url.startsWith('hourtv-series:')) {
-      return MediaType.series;
-    }
+    if (forcedType == 'series') return MediaType.series;
+    return _urlType;
+  }
+
+  // `type` se consulta miles de veces por frame; url es final, así que su
+  // clasificación (toLowerCase + contains) se hace una sola vez.
+  late final MediaType _urlType = () {
+    if (url.startsWith('hourtv-series:')) return MediaType.series;
     final u = url.toLowerCase();
     if (u.contains('/movie/') || u.contains('/movies/')) return MediaType.movie;
     if (u.contains('/series/')) return MediaType.series;
     return MediaType.live;
-  }
+  }();
 
   /// Nombre base de la serie sin el sufijo de temporada/episodio.
   String get seriesTitle {
