@@ -12797,6 +12797,30 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "4d0eae708ed14dd186269650d4f1e332",
+      "title": "El testimonio de Anne Lee",
+      "year": "2025",
+      "tmdb_id": 1401281,
+      "imdb_id": "tt34819091",
+      "rating": "6.3",
+      "genre": "Historia, Drama, Música",
+      "cast": "Amanda Seyfried, Lewis Pullman, Thomasin McKenzie, Matthew Beard, Christopher Abbott, Viola Prettejohn, David Cale, Stacy Martin, Scott Handy, Jeremy Wheeler, Tim Blake Nelson, Daniel Blumberg",
+      "director": "Mona Fastvold",
+      "writer": "Mona Fastvold, Brady Corbet",
+      "backdrop": "https://image.tmdb.org/t/p/original/jZNR5onRZijwyGr5iWbs3J9QcYr.jpg",
+      "duration": "137 min",
+      "releaseDate": "2025-12-25",
+      "plot": "El testimonio de Anne Lee: Ann Lee, líderfundadora del movimiento Shaker, es proclamada como Cristo femenino. Establece una sociedad utópica donde los…",
+      "poster": "https://image.tmdb.org/t/p/w1280/jZNR5onRZijwyGr5iWbs3J9QcYr.jpg",
+      "servers": [
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/Ev8PkIEHrfa1o1W/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
