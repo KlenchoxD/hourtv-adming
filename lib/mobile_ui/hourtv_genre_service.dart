@@ -133,6 +133,16 @@ class HourTvGenreService {
     normalizationCountForTest = 0;
   }
 
+  // Compiladas una sola vez: con miles de títulos, normalize() se llama
+  // decenas de miles de veces por reconstrucción del índice de búsqueda, y
+  // compilar 6 RegExp nuevas en cada llamada era un costo real y evitable.
+  static final RegExp _aVariants = RegExp('[áàäâã]');
+  static final RegExp _eVariants = RegExp('[éèëê]');
+  static final RegExp _iVariants = RegExp('[íìïî]');
+  static final RegExp _oVariants = RegExp('[óòöôõ]');
+  static final RegExp _uVariants = RegExp('[úùüû]');
+  static final RegExp _nonAlphaNumeric = RegExp(r'[^a-z0-9]+');
+
   /// Normaliza una cadena para comparaciones sin mayúsculas, acentos ni
   /// caracteres especiales.
   static String normalize(String value) {
@@ -140,13 +150,13 @@ class HourTvGenreService {
     return value
         .trim()
         .toLowerCase()
-        .replaceAll(RegExp('[áàäâã]'), 'a')
-        .replaceAll(RegExp('[éèëê]'), 'e')
-        .replaceAll(RegExp('[íìïî]'), 'i')
-        .replaceAll(RegExp('[óòöôõ]'), 'o')
-        .replaceAll(RegExp('[úùüû]'), 'u')
+        .replaceAll(_aVariants, 'a')
+        .replaceAll(_eVariants, 'e')
+        .replaceAll(_iVariants, 'i')
+        .replaceAll(_oVariants, 'o')
+        .replaceAll(_uVariants, 'u')
         .replaceAll('ñ', 'n')
-        .replaceAll(RegExp(r'[^a-z0-9]+'), ' ')
+        .replaceAll(_nonAlphaNumeric, ' ')
         .trim();
   }
 
