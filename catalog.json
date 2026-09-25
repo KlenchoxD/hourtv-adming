@@ -12233,6 +12233,30 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "8a9dd5a44e4747ccb8a57677770e113e",
+      "title": "Star Wars: The Mandalorian and Grogu",
+      "year": "2026",
+      "tmdb_id": 1228710,
+      "imdb_id": "tt30825738",
+      "rating": "7.5",
+      "genre": "Acción, Aventura, Ciencia ficción",
+      "cast": "Pedro Pascal, Jeremy Allen White, Sigourney Weaver, Brendan Wayne, Lateef Crowder, Steve Blum, Jonny Coyne, Matthew Willig, Martin Scorsese, Hemky Madera, Stephen McKinley Henderson, Shirley Henderson",
+      "director": "Jon Favreau",
+      "writer": "Jon Favreau, Dave Filoni, Noah Kloor",
+      "backdrop": "https://image.tmdb.org/t/p/original/ysLlsAxwgNSxBWHCgTKJrmjxpRQ.jpg",
+      "duration": "132 min",
+      "releaseDate": "2026-05-20",
+      "plot": "Star Wars: The Mandalorian and Grogu: Continuación de la serie \"The Mandalorian\" en forma de película. El malvado Imperio ha caído y los señores de la…",
+      "poster": "https://image.tmdb.org/t/p/w1280/wFKDH8nAz7l9iyVobjcNAPTrkNz.jpg",
+      "servers": [
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/Q8K6eGqy1Vlntco/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
