@@ -13390,6 +13390,30 @@
           "language": "Idioma sin identificar"
         }
       ]
+    },
+    {
+      "id": "14bb26f95fe840598ac21b13d98cf63a",
+      "title": "Avatar: Fuego y cenizas",
+      "year": "2025",
+      "tmdb_id": 83533,
+      "imdb_id": "tt1757678",
+      "rating": "7.6",
+      "genre": "Ciencia ficción, Aventura, Fantasía",
+      "cast": "Sam Worthington, Zoe Saldaña, Sigourney Weaver, Stephen Lang, Oona Chaplin, Jack Champion, Kate Winslet, Cliff Curtis, Joel David Moore, CCH Pounder, Edie Falco, Brendan Cowell",
+      "director": "James Cameron",
+      "writer": "James Cameron, Shane Salerno, Rick Jaffa, Josh Friedman, Amanda Silver",
+      "backdrop": "https://image.tmdb.org/t/p/original/iN41Ccw4DctL8npfmYg1j5Tr1eb.jpg",
+      "duration": "197 min",
+      "releaseDate": "2025-12-17",
+      "plot": "Avatar: Fuego y cenizas: Devastados por la guerra contra la RDA y la perdida de su hijo mayor, Jake Sully y Neytiri se enfrentan a una nueva amenaza en…",
+      "poster": "https://image.tmdb.org/t/p/w1280/sdZSjtGUTSN8B3al5o0f2WoQfQQ.jpg",
+      "servers": [
+        {
+          "name": "Paulinito",
+          "url": "https://paulinito.com/player/pPYrU34Bjbfc71J/",
+          "language": "Idioma sin identificar"
+        }
+      ]
     }
   ],
   "series": [
