@@ -1,4 +1,7 @@
 import 'dart:async';
+import 'dart:io' show Platform;
+
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -29,8 +32,20 @@ class HourTvStartupCover extends StatefulWidget {
 class _HourTvStartupCoverState extends State<HourTvStartupCover> {
   late final ContentStore _store;
   CatalogRepository? _catalogRepo;
-  Timer? _legacyLoadTimer;
+  Timer? _fallbackTimer;
+  Timer? _revealTimer;
+  // En pruebas (reloj falso, sin GPU) se conserva la regla anterior: se
+  // entra apenas hay datos, sin esperar filas ni frames tapados.
+  static final _isTest =
+      !kIsWeb && Platform.environment.containsKey('FLUTTER_TEST');
+  // Inicio se construye y dibuja DEBAJO de esta pantalla antes de quitarla:
+  // su primer frame (el más pesado) y la subida de las primeras imágenes
+  // ocurren tapados. Antes se mostraba a los ~0.4 s y en los 2 s siguientes
+  // se rehacía tres veces (llegaba el catálogo, luego las filas de género)
+  // mientras el usuario ya deslizaba. Así se ve como Xuper: aparece completo.
+  bool _childMounted = false;
   bool _revealed = false;
+  bool _warmingRows = false;
 
   @override
   void initState() {
@@ -42,20 +57,16 @@ class _HourTvStartupCoverState extends State<HourTvStartupCover> {
         (CatalogRepository.hasInstance ? CatalogRepository.instance : null);
     _catalogRepo?.addListener(_onCatalogChanged);
 
-    // Drift is now the primary catalog. Defer the legacy cache parser until
-    // after the first frame so it cannot block Home's initial layout/scroll.
-    final repoHasUsableCache =
-        _catalogRepo != null &&
-        (_catalogRepo!.status == CatalogRepositoryStatus.ready ||
-            _catalogRepo!.status == CatalogRepositoryStatus.offlineReady);
-    if (repoHasUsableCache) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        _legacyLoadTimer = Timer(const Duration(milliseconds: 1200), () {
-          if (mounted) _store.ensureLoaded();
-        });
+    // La lectura del catálogo ya corre en isolates: se empieza enseguida
+    // (antes se retrasaba 1.2 s y el contenido cambiaba ya visible).
+    _store.ensureLoaded();
+
+    // Red de seguridad: si el catálogo tarda, se entra igual con lo que haya
+    // en la base local, como antes.
+    if (!_isTest) {
+      _fallbackTimer = Timer(const Duration(seconds: 3), () {
+        if (mounted && _repoUsable) _mountAndReveal();
       });
-    } else {
-      _store.ensureLoaded();
     }
 
     _checkReadiness();
@@ -65,7 +76,8 @@ class _HourTvStartupCoverState extends State<HourTvStartupCover> {
   void dispose() {
     _store.removeListener(_onStoreChanged);
     _catalogRepo?.removeListener(_onCatalogChanged);
-    _legacyLoadTimer?.cancel();
+    _fallbackTimer?.cancel();
+    _revealTimer?.cancel();
     super.dispose();
   }
 
@@ -77,53 +89,80 @@ class _HourTvStartupCoverState extends State<HourTvStartupCover> {
     _checkReadiness();
   }
 
-  void _checkReadiness() {
-    if (_revealed) return;
-
-    final storeReady = _store.readiness.canEnterApp;
+  bool get _repoUsable {
     final repo = _catalogRepo;
-    final repoReady =
-        repo == null ||
+    return repo == null ||
         repo.status == CatalogRepositoryStatus.ready ||
         repo.status == CatalogRepositoryStatus.readyEmpty ||
         repo.status == CatalogRepositoryStatus.offlineReady;
+  }
 
-    final repoHasUsableCache =
-        repo != null &&
+  bool get _repoHasUsableCache {
+    final repo = _catalogRepo;
+    return repo != null &&
         (repo.status == CatalogRepositoryStatus.ready ||
             repo.status == CatalogRepositoryStatus.offlineReady);
+  }
 
-    // Drift already contains renderable catalog data. Do not keep the whole
-    // app behind the legacy ContentStore cache parser; it can continue in the
-    // background while Inicio renders the same lazy pages used by Buscar.
-    if ((storeReady || repoHasUsableCache) && repoReady) {
+  void _checkReadiness() {
+    if (_childMounted) return;
+    if (_isTest) {
+      if ((_store.readiness.canEnterApp || _repoHasUsableCache) &&
+          _repoUsable) {
+        _childMounted = true;
+        _revealed = true;
+      }
+      if (mounted) setState(() {});
+      return;
+    }
+    if (_store.readiness.canEnterApp && _repoUsable) {
+      // Las filas Anime/K-Drama/Tendencia se calculan aquí, tapadas, para
+      // que Inicio no las inserte después mientras se desliza.
+      if (!_store.homeGenreRowsReady) {
+        if (!_warmingRows) {
+          _warmingRows = true;
+          _store.warmHomeGenreRows().whenComplete(() {
+            _warmingRows = false;
+            if (mounted) _checkReadiness();
+          });
+        }
+        return;
+      }
       debugPrint(
         '[PERF_TTI] CatalogReadiness.canEnterApp: phase=${_store.readiness.phase} time=${DateTime.now().millisecondsSinceEpoch}',
       );
-      if (mounted) {
-        if (WidgetsBinding.instance.schedulerPhase ==
-            SchedulerPhase.persistentCallbacks) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            if (mounted) {
-              setState(() => _revealed = true);
-              debugPrint(
-                '[PERF_TTI] FIRST_INTERACTIVE_FRAME: time=${DateTime.now().millisecondsSinceEpoch}',
-              );
-            }
-          });
-        } else {
-          setState(() {
-            _revealed = true;
-          });
+      _mountAndReveal();
+    } else {
+      if (mounted) setState(() {});
+    }
+  }
+
+  void _mountAndReveal() {
+    if (_childMounted || !mounted) return;
+    _fallbackTimer?.cancel();
+    void mountNow() {
+      if (!mounted) return;
+      setState(() => _childMounted = true);
+      // Deja que Inicio dibuje un par de frames tapado (primer frame pesado
+      // + primeras imágenes) y recién entonces se quita esta pantalla.
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _revealTimer = Timer(const Duration(milliseconds: 350), () {
+          if (!mounted) return;
+          setState(() => _revealed = true);
           WidgetsBinding.instance.addPostFrameCallback((_) {
             debugPrint(
               '[PERF_TTI] FIRST_INTERACTIVE_FRAME: time=${DateTime.now().millisecondsSinceEpoch}',
             );
           });
-        }
-      }
+        });
+      });
+    }
+
+    if (WidgetsBinding.instance.schedulerPhase ==
+        SchedulerPhase.persistentCallbacks) {
+      WidgetsBinding.instance.addPostFrameCallback((_) => mountNow());
     } else {
-      if (mounted) setState(() {});
+      mountNow();
     }
   }
 
@@ -141,23 +180,18 @@ class _HourTvStartupCoverState extends State<HourTvStartupCover> {
 
   @override
   Widget build(BuildContext context) {
+    // Mismo Stack siempre: al quitar la cubierta Inicio no se reconstruye.
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        if (_childMounted) widget.child,
+        if (!_revealed) _cover(context),
+      ],
+    );
+  }
+
+  Widget _cover(BuildContext context) {
     final repo = _catalogRepo;
-    final repoReady =
-        repo == null ||
-        repo.status == CatalogRepositoryStatus.ready ||
-        repo.status == CatalogRepositoryStatus.readyEmpty ||
-        repo.status == CatalogRepositoryStatus.offlineReady;
-
-    final repoHasUsableCache =
-        repo != null &&
-        (repo.status == CatalogRepositoryStatus.ready ||
-            repo.status == CatalogRepositoryStatus.offlineReady);
-
-    if (_revealed ||
-        ((_store.readiness.canEnterApp || repoHasUsableCache) && repoReady)) {
-      return widget.child;
-    }
-
     final readiness = _store.readiness;
     final repoFailed =
         repo != null && repo.status == CatalogRepositoryStatus.failed;

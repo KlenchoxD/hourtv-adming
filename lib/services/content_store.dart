@@ -266,7 +266,19 @@ class ContentStore extends ChangeNotifier {
       _setReadiness(const CatalogReadiness(CatalogLoadPhase.ready));
       _legacyLoading = false;
       notifyListeners();
-      unawaited(_refreshContent(localSources));
+      // Con caché visible, la revisión en red (descargas, isolates, huella,
+      // EPG/VOD/TMDB) espera a que pasen los primeros segundos: competía en
+      // el mismo hilo con el scroll recién abierta la app.
+      final isTestEnv =
+          !kIsWeb && Platform.environment.containsKey('FLUTTER_TEST');
+      if (isTestEnv) {
+        unawaited(_refreshContent(localSources));
+      } else {
+        Timer(
+          const Duration(seconds: 5),
+          () => unawaited(_refreshContent(localSources)),
+        );
+      }
     } else {
       // Primera instalación sin fuentes previas: espera la sincronización inicial
       try {
