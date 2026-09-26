@@ -1464,15 +1464,16 @@ class _HourTvMobileSearchState extends State<HourTvMobileSearch> {
     HourTvSearchSort.titleAscending => CatalogSort.titleAscending,
   };
 
+  CatalogQuery _currentQuery() => CatalogQuery(
+    text: _query,
+    type: _toContentTypeFilter(_type),
+    genre: _genre,
+    sort: _toCatalogSort(_sort),
+  );
+
   void _executeSearchSync() {
     final currentGen = ++_queryGeneration;
-    final query = CatalogQuery(
-      text: _query,
-      type: _toContentTypeFilter(_type),
-      genre: _genre,
-      sort: _toCatalogSort(_sort),
-    );
-    final results = _index?.search(query) ?? const <Channel>[];
+    final results = _index?.search(_currentQuery()) ?? const <Channel>[];
     if (currentGen == _queryGeneration) {
       _currentResults = results;
     }
@@ -1484,16 +1485,25 @@ class _HourTvMobileSearchState extends State<HourTvMobileSearch> {
       setState(() {});
     }
     final currentGen = ++_queryGeneration;
-    _debounce = Timer(const Duration(milliseconds: 250), () {
+    _debounce = Timer(const Duration(milliseconds: 250), () async {
       if (!mounted || currentGen != _queryGeneration) return;
-      setState(() {
-        _query = value.trim();
-        _visibleCount = _initialVisible;
-        _executeSearchSync();
-        if (_driftPageSource != null) {
-          _executeDriftSearch();
-        }
-      });
+      _query = value.trim();
+      _visibleCount = _initialVisible;
+      if (_driftPageSource != null) _executeDriftSearch();
+      final index = _index;
+      if (index == null) {
+        setState(_executeSearchSync);
+        return;
+      }
+      // Por tandas: la búsqueda completa (~30 ms) trababa el teclado en
+      // cada letra. Si llega otra letra mientras tanto, esta se descarta.
+      final gen = ++_queryGeneration;
+      final results = await index.searchInSlices(
+        _currentQuery(),
+        isStale: () => !mounted || gen != _queryGeneration,
+      );
+      if (results == null || !mounted) return;
+      setState(() => _currentResults = results);
     });
   }
 

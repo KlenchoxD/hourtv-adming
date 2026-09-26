@@ -1,3 +1,4 @@
+import 'package:flutter/scheduler.dart';
 import '../mobile_ui/hourtv_genre_service.dart';
 import '../models/channel.dart';
 export 'catalog/catalog_page_source.dart';
@@ -170,6 +171,38 @@ class CatalogPresentationIndex {
 
   /// Ejecuta una búsqueda filtrando por texto, tipo, género y ordenamiento.
   List<Channel> search(CatalogQuery query) {
+    final (terms, targetGenre) = _prepare(query);
+    final matched = <_IndexedChannel>[
+      for (final record in _records)
+        if (_matches(record, query, terms, targetGenre)) record,
+    ];
+    return _sorted(matched, query.sort);
+  }
+
+  /// Igual que [search], pero recorre el catálogo en tandas de ~6 ms cediendo
+  /// el frame entre ellas: comparar contra ~3.400 títulos tomaba 30-35 ms por
+  /// letra en el mismo hilo que dibuja y recibe el teclado. Devuelve null si
+  /// [isStale] indica que ya hay una búsqueda más nueva.
+  Future<List<Channel>?> searchInSlices(
+    CatalogQuery query, {
+    required bool Function() isStale,
+  }) async {
+    final (terms, targetGenre) = _prepare(query);
+    final matched = <_IndexedChannel>[];
+    final budget = Stopwatch()..start();
+    for (final record in _records) {
+      if (_matches(record, query, terms, targetGenre)) matched.add(record);
+      if (budget.elapsedMilliseconds >= 6) {
+        await SchedulerBinding.instance.endOfFrame;
+        if (isStale()) return null;
+        budget.reset();
+      }
+    }
+    if (isStale()) return null;
+    return _sorted(matched, query.sort);
+  }
+
+  (List<String>, String?) _prepare(CatalogQuery query) {
     List<String> terms = const [];
     if (query.text.trim().isNotEmpty) {
       terms = _queryTermsCache.putIfAbsent(query.text, () {
@@ -191,25 +224,31 @@ class CatalogPresentationIndex {
         () => HourTvGenreService.normalize(query.genre!),
       );
     }
+    return (terms, targetGenre);
+  }
 
-    final matched = <_IndexedChannel>[];
-
-    for (final record in _records) {
-      if (!record.matchesType(query.type)) continue;
-
-      if (targetGenre != null && !record.normalizedGenres.contains(targetGenre)) {
-        continue;
-      }
-
-      if (terms.isNotEmpty && !terms.every(record.searchableText.contains)) {
-        continue;
-      }
-
-      matched.add(record);
+  static bool _matches(
+    _IndexedChannel record,
+    CatalogQuery query,
+    List<String> terms,
+    String? targetGenre,
+  ) {
+    if (!record.matchesType(query.type)) return false;
+    if (targetGenre != null && !record.normalizedGenres.contains(targetGenre)) {
+      return false;
     }
+    if (terms.isNotEmpty && !terms.every(record.searchableText.contains)) {
+      return false;
+    }
+    return true;
+  }
 
+  static List<Channel> _sorted(
+    List<_IndexedChannel> matched,
+    CatalogSort sort,
+  ) {
     // Ordenar resultados según sort especificado
-    switch (query.sort) {
+    switch (sort) {
       case CatalogSort.newest:
         matched.sort((a, b) {
           final cmp = b.parsedYear.compareTo(a.parsedYear);
