@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_chrome_cast/flutter_chrome_cast.dart';
 
 import '../models/channel.dart';
+import '../services/catalog/catalog_detail_navigator.dart';
 import '../services/cast_service.dart';
 import '../services/catalog/hero_tag_helper.dart';
 import '../services/content_store.dart';
@@ -280,8 +281,8 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
 
   void openRelated(Channel item) {
     Navigator.of(context).pushReplacement(
-      MaterialPageRoute(
-        builder: (_) => HourTvDetailPage(channel: item, preview: false),
+      CatalogDetailNavigator.instantRoute(
+        (_) => HourTvDetailPage(channel: item, preview: false),
       ),
     );
   }

@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../models/channel.dart';
+import '../services/catalog/catalog_detail_navigator.dart';
 import '../services/content_store.dart';
 import '../services/device_type.dart';
 import '../services/parental_control_service.dart';
@@ -1314,8 +1315,8 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
                     if (s != null) {
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(
-                          builder: (_) => HourTvSeriesDetailPage(series: s),
+                        CatalogDetailNavigator.instantRoute(
+                          (_) => HourTvSeriesDetailPage(series: s),
                         ),
                       );
                     }

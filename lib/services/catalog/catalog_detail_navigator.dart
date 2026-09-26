@@ -8,6 +8,16 @@ import 'catalog_repository.dart';
 /// Navegador unificado de detalles que realiza hidratación asíncrona determinista
 /// de tarjetas provenientes de Drift antes de abrir las pantallas de detalle.
 class CatalogDetailNavigator {
+  /// Ruta a una ficha sin animación de entrada/salida. La animación estándar
+  /// dibuja dos pantallas completas durante 300 ms y el primer frame de la
+  /// ficha (el más caro: texto e imágenes nuevas) caía justo al empezarla,
+  /// viéndose como un salto. Sin animación ese costo es solo una espera.
+  static Route<T> instantRoute<T>(WidgetBuilder builder) => PageRouteBuilder<T>(
+    pageBuilder: (context, _, _) => builder(context),
+    transitionDuration: Duration.zero,
+    reverseTransitionDuration: Duration.zero,
+  );
+
   /// Abre la vista de detalle correspondiente hidratando previamente la entidad
   /// desde la base de datos local SQLite (Drift) si proviene del catálogo indexado.
   static Future<void> openDetails(
@@ -26,15 +36,15 @@ class CatalogDetailNavigator {
       final legacySeries = hourTvResolveSeries(channel, effectiveStore.visibleSeries);
       if (legacySeries != null) {
         Navigator.of(context).push(
-          MaterialPageRoute<void>(
-            builder: (_) => HourTvSeriesDetailPage(series: legacySeries),
+          instantRoute<void>(
+            (_) => HourTvSeriesDetailPage(series: legacySeries),
           ),
         );
         return;
       }
       Navigator.of(context).push(
-        MaterialPageRoute<void>(
-          builder: (_) => HourTvDetailPage(
+        instantRoute<void>(
+          (_) => HourTvDetailPage(
             channel: channel,
             preview: preview,
             fromContinueWatching: fromContinueWatching,
@@ -49,8 +59,8 @@ class CatalogDetailNavigator {
     // Antes se esperaba la hidratación ANTES del push y el toque se sentía
     // trabado varios segundos.
     Navigator.of(context).push(
-      MaterialPageRoute<void>(
-        builder: (_) => _HydratingDetailPage(
+      instantRoute<void>(
+        (_) => _HydratingDetailPage(
           card: channel,
           repository: effectiveRepo,
           fromContinueWatching: fromContinueWatching,
