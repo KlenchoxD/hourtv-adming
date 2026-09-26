@@ -1125,6 +1125,15 @@ class ContentStore extends ChangeNotifier {
     }
   }
 
+  /// Si anime/kDramas/trending ya están calculados para el catálogo actual
+  /// (leerlos no recorre el catálogo).
+  bool get homeGenreRowsReady {
+    _checkAndInvalidateGenreCache();
+    return _genreCategoryCache.containsKey('Anime') &&
+        _genreCategoryCache.containsKey('K-Drama') &&
+        _trendingCache != null;
+  }
+
   List<Channel> _nonLiveByCanonicalGenre(String genre) {
     _checkAndInvalidateGenreCache();
     final cached = _genreCategoryCache[genre];

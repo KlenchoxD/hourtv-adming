@@ -407,6 +407,19 @@ class _HourTvMobileHomeState extends State<HourTvMobileHome> {
   List<Channel> _cachedDriftMovies = const [];
   List<Channel> _cachedDriftSeries = const [];
   Timer? _genreWarmupTimer;
+
+  // Recorrer el catálogo para Anime/K-Drama/Tendencia costaba ~50 ms más la
+  // basura generada, justo en el primer frame con contenido real.
+  void _scheduleGenreWarmup() {
+    if (_genreWarmupTimer?.isActive ?? false) return;
+    _genreWarmupTimer = Timer(const Duration(milliseconds: 250), () {
+      if (!mounted) return;
+      widget.store.anime;
+      widget.store.kDramas;
+      widget.store.trending;
+      setState(() {});
+    });
+  }
   List<Channel>? _memoizedFallbackFeatured;
   Object? _lastAllContentRef;
 
@@ -439,14 +452,8 @@ class _HourTvMobileHomeState extends State<HourTvMobileHome> {
     // Las filas de Anime/K-Drama/Tendencia consultan todo el catálogo la
     // primera vez que se acceden. Prepararlas después del primer frame evita
     // que ese recorrido ocurra justo durante el gesto de scroll del usuario.
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _genreWarmupTimer = Timer(const Duration(milliseconds: 250), () {
-        if (!mounted) return;
-        widget.store.anime;
-        widget.store.kDramas;
-        widget.store.trending;
-      });
-    });
+    // build() nunca las calcula: si no están listas para el catálogo actual
+    // se omiten y se calculan fuera del frame (ver _scheduleGenreWarmup).
     if (widget.initialRecommendations != null) {
       _recommendations = widget.initialRecommendations!;
     } else {
@@ -806,12 +813,16 @@ class _HourTvMobileHomeState extends State<HourTvMobileHome> {
     required List<Channel> effectiveMovies,
     required List<Channel> effectiveSeries,
   }) {
+    final genreRowsReady = widget.store.homeGenreRowsReady;
+    if (!genreRowsReady) _scheduleGenreWarmup();
     final rows = <(String, List<Channel>)>[
       ('Películas', effectiveMovies),
       ('Series', effectiveSeries),
-      ('Animes', widget.store.anime),
-      ('K-Drama', widget.store.kDramas),
-      ('Tendencia', widget.store.trending),
+      if (genreRowsReady) ...[
+        ('Animes', widget.store.anime),
+        ('K-Drama', widget.store.kDramas),
+        ('Tendencia', widget.store.trending),
+      ],
     ].where((row) => row.$2.isNotEmpty).toList();
     return [
       for (final row in rows) ...[
