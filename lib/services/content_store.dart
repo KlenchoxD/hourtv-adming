@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io' show File, Platform;
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart' show GestureBinding;
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:http/http.dart' as http;
@@ -274,10 +275,11 @@ class ContentStore extends ChangeNotifier {
       if (isTestEnv) {
         unawaited(_refreshContent(localSources));
       } else {
-        Timer(
-          const Duration(seconds: 5),
-          () => unawaited(_refreshContent(localSources)),
-        );
+        unawaited(() async {
+          await Future<void>.delayed(const Duration(seconds: 5));
+          await _waitForTouchIdle();
+          await _refreshContent(localSources);
+        }());
       }
     } else {
       // Primera instalación sin fuentes previas: espera la sincronización inicial
@@ -308,7 +310,36 @@ class ContentStore extends ChangeNotifier {
         }
       }
     }
-    unawaited(_refreshTrending());
+    // Cambiar la fila Tendencia mientras se desliza se nota: con la app
+    // recién abierta espera a que el usuario suelte la pantalla.
+    final isTestEnv =
+        !kIsWeb && Platform.environment.containsKey('FLUTTER_TEST');
+    unawaited(() async {
+      if (!isTestEnv) {
+        await Future<void>.delayed(const Duration(seconds: 5));
+        await _waitForTouchIdle();
+      }
+      await _refreshTrending();
+    }());
+  }
+
+  static DateTime _lastPointer = DateTime.fromMillisecondsSinceEpoch(0);
+  static bool _pointerRouteInstalled = false;
+
+  /// Espera a que el usuario lleve 1.5 s sin tocar la pantalla, para que el
+  /// trabajo de fondo no caiga en medio de un scroll.
+  static Future<void> _waitForTouchIdle() async {
+    if (!_pointerRouteInstalled) {
+      _pointerRouteInstalled = true;
+      GestureBinding.instance.pointerRouter.addGlobalRoute(
+        (_) => _lastPointer = DateTime.now(),
+      );
+    }
+    for (var i = 0; i < 20; i++) {
+      final idle = DateTime.now().difference(_lastPointer);
+      if (idle >= const Duration(milliseconds: 1500)) return;
+      await Future<void>.delayed(const Duration(milliseconds: 1500) - idle);
+    }
   }
 
   Future<void> _refreshTrending() async {
