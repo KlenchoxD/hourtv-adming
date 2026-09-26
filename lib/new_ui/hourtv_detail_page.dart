@@ -448,6 +448,8 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
     final imageWidget = ClipRRect(
       borderRadius: BorderRadius.circular(8),
       child: CachedNetworkImage(
+        fadeInDuration: Duration.zero,
+        fadeOutDuration: Duration.zero,
         imageUrl: url,
         width: 72,
         height: 108,
@@ -1443,6 +1445,8 @@ class _CinematicBackdrop extends StatelessWidget {
           // topCenter porque el poster (vertical) recortado al centro corta
           // justo la cara del protagonista.
           CachedNetworkImage(
+            fadeInDuration: Duration.zero,
+            fadeOutDuration: Duration.zero,
             imageUrl: url,
             memCacheWidth: 900,
             fit: BoxFit.cover,
@@ -1499,6 +1503,8 @@ class _Backdrop extends StatelessWidget {
           hasBackdrop
               // Banner horizontal real: cover, hecho para este ancho.
               ? CachedNetworkImage(
+                  fadeInDuration: Duration.zero,
+                  fadeOutDuration: Duration.zero,
                   imageUrl: url,
                   memCacheWidth: 720,
                   fit: BoxFit.cover,
@@ -1518,6 +1524,8 @@ class _Backdrop extends StatelessWidget {
                       top: MediaQuery.paddingOf(context).top,
                     ),
                     child: CachedNetworkImage(
+                      fadeInDuration: Duration.zero,
+                      fadeOutDuration: Duration.zero,
                       imageUrl: url,
                       memCacheWidth: 620,
                       fit: BoxFit.contain,
@@ -1628,6 +1636,8 @@ class _TvRelatedCard extends StatelessWidget {
             children: [
               if (channel.backdrop != null || channel.logo != null)
                 CachedNetworkImage(
+                  fadeInDuration: Duration.zero,
+                  fadeOutDuration: Duration.zero,
                   imageUrl: channel.backdrop ?? channel.logo!,
                   memCacheWidth: 720,
                   fit: BoxFit.cover,

@@ -1294,6 +1294,8 @@ class _NetworkArtwork extends StatelessWidget {
   Widget build(BuildContext context) {
     if (url == null || url!.trim().isEmpty) return const _Fallback();
     return CachedNetworkImage(
+      fadeInDuration: Duration.zero,
+      fadeOutDuration: Duration.zero,
       imageUrl: url!,
       memCacheWidth: 720,
       fit: BoxFit.cover,

@@ -878,6 +878,8 @@ class _PlayerScreenState extends State<PlayerScreen>
 
   Widget _lg(Channel ch) => ch.logo != null
       ? CachedNetworkImage(
+          fadeInDuration: Duration.zero,
+          fadeOutDuration: Duration.zero,
           imageUrl: ch.logo!,
           memCacheWidth: 720,
           width: 80,
@@ -2442,6 +2444,8 @@ class _PlayerScreenState extends State<PlayerScreen>
                                 ),
                               )
                             : CachedNetworkImage(
+                                fadeInDuration: Duration.zero,
+                                fadeOutDuration: Duration.zero,
                                 imageUrl: artwork,
                                 memCacheWidth: 320,
                                 fit: BoxFit.cover,
@@ -3186,6 +3190,8 @@ class _PlayerScreenState extends State<PlayerScreen>
                         },
                         leading: ch.logo != null
                             ? CachedNetworkImage(
+                                fadeInDuration: Duration.zero,
+                                fadeOutDuration: Duration.zero,
                                 imageUrl: ch.logo!,
                                 memCacheWidth: 720,
                                 width: 40,

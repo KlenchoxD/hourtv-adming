@@ -1067,6 +1067,8 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
                       children: [
                         if (hasThumb)
                           CachedNetworkImage(
+                            fadeInDuration: Duration.zero,
+                            fadeOutDuration: Duration.zero,
                             imageUrl: thumbUrl,
                             fit: BoxFit.cover,
                             memCacheWidth: 320,
@@ -1320,6 +1322,8 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
                   },
                   child: posterUrl != null && posterUrl.isNotEmpty
                       ? CachedNetworkImage(
+                          fadeInDuration: Duration.zero,
+                          fadeOutDuration: Duration.zero,
                           imageUrl: posterUrl,
                           fit: BoxFit.cover,
                           errorWidget: (_, _, _) => Container(
@@ -1354,6 +1358,8 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
     }
 
     return CachedNetworkImage(
+      fadeInDuration: Duration.zero,
+      fadeOutDuration: Duration.zero,
       imageUrl: url,
       memCacheWidth: 900,
       fit: BoxFit.cover,

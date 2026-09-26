@@ -106,12 +106,13 @@ class _AdaptiveArtworkState extends State<AdaptiveArtwork> {
     final url = _normalizedUrl;
     if (url.isEmpty) return widget.fallback;
     return CachedNetworkImage(
+      fadeOutDuration: Duration.zero,
       imageUrl: url,
       fit: _wide ? BoxFit.cover : widget.fit,
       alignment: widget.alignment,
       memCacheWidth: widget.cacheWidth,
       width: double.infinity,
-      fadeInDuration: const Duration(milliseconds: 200),
+      fadeInDuration: Duration.zero,
       placeholder: (_, _) => widget.fallback,
       errorWidget: (_, _, _) => widget.fallback,
     );

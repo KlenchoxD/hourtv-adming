@@ -32,6 +32,8 @@ class HourTvProfileAvatar extends StatelessWidget {
     final size = radius * 2;
     return ClipOval(
       child: CachedNetworkImage(
+        fadeInDuration: Duration.zero,
+        fadeOutDuration: Duration.zero,
         imageUrl: profileAvatarUrl(avatarSeed ?? profileName),
         width: size,
         height: size,

@@ -579,7 +579,8 @@ class HourTvArtwork extends StatelessWidget {
             alignment: alignment,
             memCacheWidth: memCacheWidth,
             memCacheHeight: memCacheHeight,
-            fadeInDuration: const Duration(milliseconds: 120),
+            fadeInDuration: Duration.zero,
+            fadeOutDuration: Duration.zero,
             placeholder: (_, _) =>
                 const ColoredBox(color: HourTvMobileTokens.surfacePrimary),
             errorWidget: (_, _, _) => _fallback(),
