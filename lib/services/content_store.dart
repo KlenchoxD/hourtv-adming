@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io' show File, Platform;
-import 'dart:isolate';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart' show rootBundle;
@@ -15,6 +14,7 @@ import 'xtream_service.dart';
 import 'stalker_service.dart';
 import 'catalog_parser.dart';
 import 'epg_service.dart';
+import 'content_fingerprint.dart';
 import 'tmdb_service.dart';
 import 'supabase_bootstrap.dart';
 
@@ -114,6 +114,8 @@ class ContentStore extends ChangeNotifier {
     _visibleSeriesCache = null;
     _genreCategoryCache.clear();
     _trendingCache = null;
+    _catalogFromSnapshot = false;
+    _snapshotFingerprint = null;
   }
 
   bool _started = false;
@@ -203,6 +205,10 @@ class ContentStore extends ChangeNotifier {
         }
         all = _withoutArchiveMovies(cachedChannels);
         series = cachedSeries;
+        _catalogFromSnapshot = cacheLoader == null && seriesCacheLoader == null;
+        _snapshotFingerprint = int.tryParse(
+          '${StorageService.getSetting(_snapshotFingerprintKey) ?? ''}',
+        );
         _recomputeCountries();
       }
     }
@@ -213,6 +219,7 @@ class ContentStore extends ChangeNotifier {
         : await _loadAssetSources();
     if (all.isEmpty && localSources.channels.isNotEmpty) {
       all = _withoutArchiveMovies(localSources.channels);
+      _catalogFromSnapshot = false;
     }
     if (series.isEmpty && localSources.series.isNotEmpty) {
       series = localSources.series;
@@ -227,6 +234,7 @@ class ContentStore extends ChangeNotifier {
       try {
         final remoteChannels = await remoteLoader().timeout(remoteTimeout);
         all = _withoutArchiveMovies(remoteChannels);
+        _catalogFromSnapshot = false;
         _recomputeCountries();
         _setReadiness(const CatalogReadiness(CatalogLoadPhase.buildingHome));
         _setReadiness(const CatalogReadiness(CatalogLoadPhase.ready));
@@ -321,6 +329,50 @@ class ContentStore extends ChangeNotifier {
     return true;
   }
 
+  static const _snapshotFingerprintKey = 'catalogSnapshotFingerprint';
+
+  /// Subir al cambiar cómo se interpreta el catálogo (parser, dedupe,
+  /// filtros de `all`): fuerza reconstruir aunque las fuentes no cambien.
+  static const _catalogPipelineVersion = 1;
+
+  /// `all`/`series` son exactamente la caché cuyo origen tiene esta huella.
+  bool _catalogFromSnapshot = false;
+  int? _snapshotFingerprint;
+
+  /// Huella de todo lo que determina el catálogo final. null = no se puede
+  /// asegurar que nada cambió (web, una fuente falló, sin huella del panel):
+  /// en ese caso siempre se reconstruye.
+  int? _catalogInputFingerprint(
+    _AssetSources assetSources,
+    List<M3UList> lists,
+    List<
+      ({
+        M3UList list,
+        List<Channel> channels,
+        bool success,
+        int fingerprint,
+      })
+    >
+    results,
+  ) {
+    if (kIsWeb || assetSources.fingerprint == null) return null;
+    if (results.any((r) => !r.success)) return null;
+    return combineFingerprints([
+      _catalogPipelineVersion,
+      assetSources.fingerprint,
+      for (final list in lists) ...[
+        list.url,
+        list.name,
+        list.category,
+        list.mediaType,
+        list.userAgent,
+        list.isStalker,
+        list.username,
+      ],
+      for (final r in results) ...[r.list.url, r.fingerprint],
+    ]);
+  }
+
   Future<void> _refreshContent(_AssetSources fallbackSources) async {
     if (_networkLoadRunning) {
       _refreshAgain = true;
@@ -360,7 +412,7 @@ class ContentStore extends ChangeNotifier {
       final results = await Future.wait(
         lists.where((list) => !list.isStalker).map((list) async {
           try {
-            final channels = await M3UParserService.fetchAndParse(
+            final fetched = await M3UParserService.fetchAndParseSigned(
               list.url,
               listName: list.name,
               genre: (list.mediaType == 'movie' || list.mediaType == 'series')
@@ -369,12 +421,43 @@ class ContentStore extends ChangeNotifier {
               mediaType: list.mediaType,
               userAgent: list.userAgent,
             );
-            return (list: list, channels: channels, success: true);
+            return (
+              list: list,
+              channels: fetched.channels,
+              success: true,
+              fingerprint: fetched.fingerprint,
+            );
           } catch (_) {
-            return (list: list, channels: const <Channel>[], success: false);
+            return (
+              list: list,
+              channels: const <Channel>[],
+              success: false,
+              fingerprint: 0,
+            );
           }
         }),
       );
+
+      // Si todo lo que produce el catálogo es idéntico a lo que generó la
+      // caché ya visible, no se reconstruye nada: reasignar `all` invalidaba
+      // todas las cachés y reconstruía Inicio entero (~100-150 ms congelado
+      // unos segundos después de abrir), para mostrar exactamente lo mismo.
+      final inputFingerprint = _catalogInputFingerprint(
+        assetSources,
+        lists,
+        results,
+      );
+      if (inputFingerprint != null &&
+          _catalogFromSnapshot &&
+          inputFingerprint == _snapshotFingerprint) {
+        debugPrint('[CatalogFetch] Catálogo sin cambios: se conserva el visible');
+        _setReadiness(const CatalogReadiness(CatalogLoadPhase.ready));
+        _legacyLoading = false;
+        unawaited(_loadEpg(assetSources.epgUrls));
+        unawaited(_loadVod(lists, assetSources.series, failed));
+        unawaited(_enrichMovies(all));
+        return;
+      }
 
       final seen = <String>{};
       // El catalogo del panel (assetSources.channels, se agrega primero) ya
@@ -445,12 +528,25 @@ class ContentStore extends ChangeNotifier {
       }
       all = _withoutArchiveMovies(refreshedChannels);
       series = assetSources.series;
+      _catalogFromSnapshot = false;
       _recomputeCountries();
       _setReadiness(const CatalogReadiness(CatalogLoadPhase.buildingHome));
       _setReadiness(const CatalogReadiness(CatalogLoadPhase.ready));
       _legacyLoading = false;
       notifyListeners();
+      // La huella vieja se borra antes de escribir la caché nueva y se guarda
+      // después: si la app muere a mitad, la próxima vez no coincide y se
+      // reconstruye (nunca se conserva una caché que no corresponde).
+      await StorageService.saveSetting(_snapshotFingerprintKey, null);
       await _persistSnapshot();
+      if (inputFingerprint != null) {
+        await StorageService.saveSetting(
+          _snapshotFingerprintKey,
+          inputFingerprint.toString(),
+        );
+        _snapshotFingerprint = inputFingerprint;
+        _catalogFromSnapshot = true;
+      }
 
       unawaited(_loadEpg(assetSources.epgUrls));
       unawaited(_loadVod(lists, assetSources.series, failed));
@@ -726,8 +822,9 @@ class ContentStore extends ChangeNotifier {
         // response.body re-decodifica los MB en cada acceso y en el hilo
         // principal: se decodifica una vez en un isolate.
         final bytes = response.bodyBytes;
-        final body = await Isolate.run(
-          () => utf8.decode(bytes, allowMalformed: true),
+        final body = await compute(
+          (_) => utf8.decode(bytes, allowMalformed: true),
+          null,
         );
         if (response.statusCode == 200 && body.trim().isNotEmpty) {
           debugPrint(
@@ -782,6 +879,10 @@ class ContentStore extends ChangeNotifier {
         } catch (_) {}
       }
       if (raw == null) return const _AssetSources([], [], [], []);
+      final rawForHash = raw;
+      var fingerprint = isTestEnv
+          ? fingerprintString(rawForHash)
+          : await compute(fingerprintString, rawForHash);
       var parsed = isTestEnv
           ? _parseSourcesInIsolate(raw)
           : await compute(_parseSourcesInIsolate, raw);
@@ -805,6 +906,10 @@ class ContentStore extends ChangeNotifier {
               ? _parseSourcesInIsolate(assetRaw)
               : await compute(_parseSourcesInIsolate, assetRaw);
           if (assetParsed.series.isNotEmpty) {
+            fingerprint = combineFingerprints([
+              fingerprint,
+              fingerprintString(assetRaw),
+            ]);
             parsed = CatalogPayload(
               lists: [...parsed.lists, ...assetParsed.lists],
               epgUrls: [...parsed.epgUrls, ...assetParsed.epgUrls],
@@ -821,6 +926,7 @@ class ContentStore extends ChangeNotifier {
         parsed.epgUrls,
         parsed.channels,
         parsed.series,
+        fingerprint: fingerprint,
       );
     } catch (_) {
       return const _AssetSources([], [], [], []);
@@ -1283,7 +1389,16 @@ class _AssetSources {
   final List<String> epgUrls;
   final List<Channel> channels;
   final List<XtreamSeries> series;
-  const _AssetSources(this.lists, this.epgUrls, this.channels, this.series);
+
+  /// Huella del/los JSON crudos de los que salió (null si no se conoce).
+  final int? fingerprint;
+  const _AssetSources(
+    this.lists,
+    this.epgUrls,
+    this.channels,
+    this.series, {
+    this.fingerprint,
+  });
 
   bool get isEmpty =>
       lists.isEmpty && epgUrls.isEmpty && channels.isEmpty && series.isEmpty;

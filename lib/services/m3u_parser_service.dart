@@ -1,5 +1,6 @@
 import 'dart:convert';
-import 'dart:isolate';
+import 'package:flutter/foundation.dart' show compute;
+import 'content_fingerprint.dart';
 import 'package:http/http.dart' as http;
 import '../models/channel.dart';
 import '../models/m3u_list.dart';
@@ -108,6 +109,21 @@ class M3UParserService {
     String? genre,
     String? mediaType,
     String? userAgent,
+  }) async => (await fetchAndParseSigned(
+    url,
+    listName: listName,
+    genre: genre,
+    mediaType: mediaType,
+    userAgent: userAgent,
+  )).channels;
+
+  /// Igual que [fetchAndParse], más la huella del contenido descargado.
+  static Future<({List<Channel> channels, int fingerprint})> fetchAndParseSigned(
+    String url, {
+    String? listName,
+    String? genre,
+    String? mediaType,
+    String? userAgent,
   }) async {
     try {
       final ua = (userAgent != null && userAgent.isNotEmpty)
@@ -123,14 +139,18 @@ class M3UParserService {
         // Las listas de IPTV-org traen miles de líneas; parsearlas en el
         // hilo principal trababa el arranque.
         final bytes = response.bodyBytes;
-        return Isolate.run(
-          () => parseM3U(
-            _decodeBytes(bytes),
-            listName: listName,
-            genre: genre,
-            mediaType: mediaType,
-            userAgent: userAgent,
+        return compute(
+          (_) => (
+            channels: parseM3U(
+              _decodeBytes(bytes),
+              listName: listName,
+              genre: genre,
+              mediaType: mediaType,
+              userAgent: userAgent,
+            ),
+            fingerprint: fingerprintBytes(bytes),
           ),
+          null,
         );
       }
       throw Exception('HTTP ${response.statusCode}');

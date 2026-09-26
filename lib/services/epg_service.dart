@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:io' show gzip;
-import 'dart:isolate';
+import 'package:flutter/foundation.dart' show compute;
 import 'dart:typed_data';
 
 import 'package:http/http.dart' as http;
@@ -33,8 +33,9 @@ class EpgService {
         final gz = url.toLowerCase().endsWith('.gz');
         // Guías de varios MB: gunzip + regex en el hilo principal trababan la
         // app cientos de frames al arrancar.
-        final programs = await Isolate.run(
-          () => _parsePrograms(_decodeBody(bytes, gz), wanted, now),
+        final programs = await compute(
+          (_) => _parsePrograms(_decodeBody(bytes, gz), wanted, now),
+          null,
         );
         if (programs.isEmpty) continue;
         _mergeGuide(programs);
