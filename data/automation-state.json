@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-09-26T18:01:11.742Z",
+  "lastRunAt": "2026-09-26T21:06:10.028Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -26,13 +26,12 @@
     1032863,
     1294189,
     1375646,
-    1482547,
-    1228834,
-    1607127,
     1751701,
+    1228834,
+    1482547,
+    1607127,
     1339713,
     1440098,
-    1580190,
     1232569,
     1335666,
     1083381
@@ -107,8 +106,8 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1482547,
-      "title": "Zip Wire",
+      "tmdbId": 1751701,
+      "title": "After Impact",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
@@ -117,18 +116,13 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
+      "tmdbId": 1482547,
+      "title": "Zip Wire",
+      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+    },
+    {
       "tmdbId": 1607127,
       "title": "Un último disparo",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
-    },
-    {
-      "tmdbId": 1751701,
-      "title": "After Impact",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
-    },
-    {
-      "tmdbId": 1580190,
-      "title": "除暴之路",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
