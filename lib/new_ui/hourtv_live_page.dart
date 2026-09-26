@@ -102,6 +102,7 @@ class _HourTvLivePageState extends State<HourTvLivePage> {
   // Mientras se elige el canal inicial más rápido, la vista previa no
   // empieza a descargar ninguno.
   bool _racing = false;
+  String? _country;
 
   Channel? _savedGood() {
     final last = StorageService.getSetting(_lastLiveUrlKey);
@@ -160,6 +161,7 @@ class _HourTvLivePageState extends State<HourTvLivePage> {
     for (final candidate in candidates) {
       unawaited(
         compute(_probeStream, (candidate.url, candidate.userAgent)).then((ok) {
+          if (!ok) _deadUrls.add(candidate.url);
           if (ok && !winner.isCompleted) winner.complete(candidate);
           if (--pending == 0 && !winner.isCompleted) winner.complete(null);
         }),
@@ -219,6 +221,9 @@ class _HourTvLivePageState extends State<HourTvLivePage> {
   void initState() {
     super.initState();
     ContentStore.instance.ensureEpgLoaded();
+    unawaited(DeviceProfile.countryIso().then((iso) {
+      if (mounted && iso != null) setState(() => _country = iso);
+    }));
     current = _firstAlive();
     if (_savedGood() == null &&
         !widget.preview &&
@@ -344,6 +349,21 @@ class _HourTvLivePageState extends State<HourTvLivePage> {
         .toList();
   }
 
+  /// Orden para la lista táctil: primero los del país (servidores cercanos,
+  /// arrancan en < 1 s), al final los que ya fallaron en esta sesión. Antes
+  /// la lista empezaba con canales lejanos que responden 403.
+  List<Channel> _touchOrdered(List<Channel> channels) {
+    int rank(Channel c) => !_usable(c)
+        ? 2
+        : (_country != null && c.countryCode == _country ? 0 : 1);
+    final indexed = [for (var i = 0; i < channels.length; i++) (i, channels[i])];
+    indexed.sort((a, b) {
+      final r = rank(a.$2).compareTo(rank(b.$2));
+      return r != 0 ? r : a.$1.compareTo(b.$1);
+    });
+    return [for (final e in indexed) e.$2];
+  }
+
   /// Buscador de canales para telefono/tablet/desktop: propio de esta
   /// pantalla, no comparte estado con el buscador general (Buscar).
   Widget _channelSearchField() {
@@ -383,6 +403,22 @@ class _HourTvLivePageState extends State<HourTvLivePage> {
       channelQuery = value;
       guideIndex = 0;
     });
+  }
+
+  void _selectNextAvailable() {
+    // Primero dentro de lo filtrado; si no queda otro (p. ej. una búsqueda
+    // con un solo resultado), en todos los canales.
+    for (final pool in [filtered, widget.channels]) {
+      final ordered = _touchOrdered(pool);
+      final start = ordered.indexWhere((c) => c.url == current.url);
+      for (var i = 1; i < ordered.length; i++) {
+        final next = ordered[(start + i) % ordered.length];
+        if (_usable(next)) {
+          select(next);
+          return;
+        }
+      }
+    }
   }
 
   void select(Channel channel) {
@@ -517,9 +553,13 @@ class _HourTvLivePageState extends State<HourTvLivePage> {
   // lista el reproductor se iba de la pantalla con el resto. Ahora solo la
   // cuadricula de canales se desplaza; lo de arriba queda siempre visible.
   Widget _touchLayout({required int columns}) {
+    final phone = widget.phone;
+    final channels = _touchOrdered(filtered);
     return Column(
       children: [
-        Padding(
+        // En teléfono, como Xuper: el video arriba de borde a borde, sin
+        // título que le quite espacio.
+        if (!phone) Padding(
           padding: EdgeInsets.fromLTRB(
             widget.phone ? 14 : 28,
             22,
@@ -553,12 +593,14 @@ class _HourTvLivePageState extends State<HourTvLivePage> {
           ),
         ),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: widget.phone ? 14 : 28),
+          padding: EdgeInsets.symmetric(horizontal: phone ? 0 : 28),
           child: _PlayerSurface(
             channel: current,
             onFailed: _onChannelFailed,
             onPlaying: _onChannelPlaying,
             onPlay: play,
+            onNext: _selectNextAvailable,
+            edgeToEdge: phone,
             large: true,
             active: widget.active && !_racing,
           ),
@@ -589,18 +631,20 @@ class _HourTvLivePageState extends State<HourTvLivePage> {
               widget.phone ? 14 : 28,
               40,
             ),
-            itemCount: filtered.length,
+            itemCount: channels.length,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: columns,
-              mainAxisSpacing: 9,
+              mainAxisSpacing: phone ? 6 : 9,
               crossAxisSpacing: 9,
-              childAspectRatio: widget.phone ? 3.15 : 3.0,
+              // Filas compactas en teléfono (~8 canales a la vista, como
+              // Xuper) en vez de ~3 con miniaturas grandes.
+              childAspectRatio: phone ? 5.6 : 3.0,
             ),
             itemBuilder: (context, index) {
-              final channel = filtered[index];
+              final channel = channels[index];
               return _GuideRow(
                 channel: channel,
-                number: widget.channels.indexOf(channel) + 1,
+                number: index + 1,
                 active: channel.url == current.url,
                 focused: false,
                 onTap: () => select(channel),
@@ -1052,6 +1096,8 @@ class _PlayerSurface extends StatefulWidget {
     required this.onFailed,
     required this.onPlaying,
     required this.onPlay,
+    this.onNext,
+    this.edgeToEdge = false,
     required this.large,
     this.tv = false,
     this.active = true,
@@ -1060,6 +1106,8 @@ class _PlayerSurface extends StatefulWidget {
   final ValueChanged<Channel> onFailed;
   final void Function(Channel channel, int startupMs) onPlaying;
   final VoidCallback onPlay;
+  final VoidCallback? onNext;
+  final bool edgeToEdge;
   final bool large;
   final bool tv;
   final bool active;
@@ -1071,6 +1119,13 @@ class _PlayerSurface extends StatefulWidget {
 class _PlayerSurfaceState extends State<_PlayerSurface> {
   VideoPlayerController? _controller;
   bool _failed = false;
+  // Se mantiene al cambiar de canal, como en Xuper.
+  static bool _muted = false;
+
+  void _toggleMute() {
+    setState(() => _muted = !_muted);
+    unawaited(_controller?.setVolume(_muted ? 0 : 1));
+  }
 
   @override
   void initState() {
@@ -1157,6 +1212,7 @@ class _PlayerSurfaceState extends State<_PlayerSurface> {
         return;
       }
       await controller.setLooping(false);
+      await controller.setVolume(_muted ? 0 : 1);
       await controller.play();
       setState(() => _controller = controller);
       widget.onPlaying(widget.channel, startup.elapsedMilliseconds);
@@ -1177,7 +1233,9 @@ class _PlayerSurfaceState extends State<_PlayerSurface> {
     return AspectRatio(
       aspectRatio: 16 / 9,
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(tv ? 0 : 18),
+        borderRadius: BorderRadius.circular(
+          tv || widget.edgeToEdge ? 0 : 18,
+        ),
         child: Stack(
           fit: StackFit.expand,
           children: [
@@ -1247,18 +1305,62 @@ class _PlayerSurfaceState extends State<_PlayerSurface> {
                   ),
                 ),
               ),
-            // Si el stream no se puede abrir aqui, se dice de frente y se
-            // ofrece el reproductor completo (sabe resolver embed/stalker).
-            if (!tv && _failed)
-              Center(
-                child: TextButton.icon(
-                  onPressed: onPlay,
-                  style: TextButton.styleFrom(
-                    backgroundColor: const Color(0xCC0B0B0D),
+            if (!tv && playing)
+              Positioned(
+                left: 12,
+                top: 10,
+                child: IconButton(
+                  tooltip: _muted ? 'Activar sonido' : 'Silenciar',
+                  onPressed: _toggleMute,
+                  style: IconButton.styleFrom(
+                    backgroundColor: const Color(0xB30B0B0D),
                     foregroundColor: Colors.white,
                   ),
-                  icon: const Icon(Icons.open_in_full_rounded),
-                  label: const Text('Abrir en el reproductor'),
+                  icon: Icon(
+                    _muted ? Icons.volume_off_rounded : Icons.volume_up_rounded,
+                  ),
+                ),
+              ),
+            // Si no abre, se dice de frente. Antes decía "Abrir en el
+            // reproductor", que hacía pensar que había que expandir para ver
+            // cualquier canal; el reproductor completo sigue en el botón de
+            // pantalla completa (sabe resolver embed/stalker).
+            if (!tv && _failed)
+              Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Text(
+                      'Este canal no está disponible',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    if (widget.onNext != null) ...[
+                      const SizedBox(height: 10),
+                      TextButton.icon(
+                        onPressed: widget.onNext,
+                        style: TextButton.styleFrom(
+                          backgroundColor: const Color(0xCC0B0B0D),
+                          foregroundColor: Colors.white,
+                        ),
+                        icon: const Icon(Icons.skip_next_rounded),
+                        label: const Text('Siguiente canal'),
+                      ),
+                    ] else ...[
+                      const SizedBox(height: 10),
+                      TextButton.icon(
+                        onPressed: onPlay,
+                        style: TextButton.styleFrom(
+                          backgroundColor: const Color(0xCC0B0B0D),
+                          foregroundColor: Colors.white,
+                        ),
+                        icon: const Icon(Icons.open_in_full_rounded),
+                        label: const Text('Abrir en el reproductor'),
+                      ),
+                    ],
+                  ],
                 ),
               ),
             if (!tv)

@@ -36,7 +36,8 @@ void main() {
       // Entra a la pestaña TV: primera visita, construye la guia en vivo.
       await tester.tap(navTv(tester));
       await tester.pump(const Duration(milliseconds: 50));
-      expect(find.text('TV EN VIVO'), findsOneWidget);
+      // En teléfono la guía ya no lleva título (video de borde a borde).
+      expect(find.byType(HourTvLivePage), findsOneWidget);
       expect(
         activeOf(tester),
         isTrue,
