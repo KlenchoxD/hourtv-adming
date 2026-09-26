@@ -52,7 +52,7 @@ List<Channel> hourTvMobileCatalogContent(
   return [
     for (final item in output)
       if (seen.add(
-        '${item.type.name}:${item.displayName.trim().toLowerCase()}',
+        '${item.type.index}:${item.displayName.trim().toLowerCase()}',
       ))
         item,
   ];

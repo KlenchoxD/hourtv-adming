@@ -544,6 +544,14 @@ class Channel {
   // finales, así que las 6 regex se ejecutan una sola vez por Channel.
   late final String displayName = _computeDisplayName();
 
+  /// Calcula ya los campos derivados. Llamarlo en el isolate que crea los
+  /// Channel: los `late final` viajan calculados al hilo principal y el
+  /// primer frame con catálogo no los recalcula para miles de títulos.
+  void warmDerivedFields() {
+    displayName;
+    _urlType;
+  }
+
   static final _bracketsRe = RegExp(r'\s*\[[^\]]*\]');
   static final _parensRe = RegExp(r'\s*\([^)]*\)');
   static final _qualityRe = RegExp(

@@ -604,8 +604,10 @@ List<Map<String, dynamic>> _decodeJsonList(String value) {
 String _encodeChannels(List<Channel> values) =>
     jsonEncode(values.map((c) => c.toJson()).toList());
 
-List<Channel> _decodeChannels(String value) =>
-    _decodeJsonList(value).map(Channel.fromJson).toList();
+List<Channel> _decodeChannels(String value) => [
+  for (final json in _decodeJsonList(value))
+    Channel.fromJson(json)..warmDerivedFields(),
+];
 
 String _encodeSeries(List<XtreamSeries> values) =>
     jsonEncode(values.map((s) => s.toJson()).toList());

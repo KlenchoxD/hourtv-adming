@@ -934,7 +934,11 @@ class ContentStore extends ChangeNotifier {
   }
 
   static CatalogPayload _parseSourcesInIsolate(String raw) {
-    return CatalogParser.parse(jsonDecode(raw));
+    final payload = CatalogParser.parse(jsonDecode(raw));
+    for (final channel in payload.channels) {
+      channel.warmDerivedFields();
+    }
+    return payload;
   }
 
   Future<void> _loadEpg(List<String> urls) async {

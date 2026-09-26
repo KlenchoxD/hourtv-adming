@@ -141,13 +141,16 @@ class M3UParserService {
         final bytes = response.bodyBytes;
         return compute(
           (_) => (
-            channels: parseM3U(
-              _decodeBytes(bytes),
-              listName: listName,
-              genre: genre,
-              mediaType: mediaType,
-              userAgent: userAgent,
-            ),
+            channels: [
+              for (final channel in parseM3U(
+                _decodeBytes(bytes),
+                listName: listName,
+                genre: genre,
+                mediaType: mediaType,
+                userAgent: userAgent,
+              ))
+                channel..warmDerivedFields(),
+            ],
             fingerprint: fingerprintBytes(bytes),
           ),
           null,
