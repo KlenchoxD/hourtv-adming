@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-09-26T00:43:59.069Z",
+  "lastRunAt": "2026-09-26T05:32:03.525Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -9,10 +9,10 @@
     1288445,
     1084244,
     1108427,
-    1240889,
-    1477712,
     1263337,
+    1240889,
     299534,
+    1477712,
     1315772,
     1185806,
     1275779,
@@ -63,6 +63,11 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
+      "tmdbId": 1263337,
+      "title": "En el corazón de la bestia",
+      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+    },
+    {
       "tmdbId": 1240889,
       "title": "Adolescencia, sexo y muerte en campamento Miasma",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
@@ -70,11 +75,6 @@
     {
       "tmdbId": 1477712,
       "title": "Dulce sabor a muerte",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
-    },
-    {
-      "tmdbId": 1263337,
-      "title": "En el corazón de la bestia",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
