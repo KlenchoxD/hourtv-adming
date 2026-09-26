@@ -79,14 +79,39 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
   Channel get channel => widget.channel;
   ContentStore get store => ContentStore.instance;
 
-  // Recorre todo el catálogo: una sola vez por ficha, no en cada acceso
-  // (build() lo leía ~8 veces y congelaba la apertura).
-  late final List<Channel> related = RelatedContentEngine.instance.getRelated(
-    target: channel,
-    candidates: store.movies,
-    isKidsProfile: StorageService.activeProfileIsKids,
-    limit: 6,
-  );
+  // Recorre todo el catálogo (~130 ms en un Moto G24): se calcula una vez y
+  // al terminar la animación de entrada, no en el primer frame de la ficha.
+  List<Channel> related = const [];
+
+  void _loadRelatedAfterTransition() {
+    Future<void> load() async {
+      final engine = RelatedContentEngine.instance;
+      final candidates = store.movies;
+      await engine.warmUp(candidates);
+      if (!mounted) return;
+      setState(() {
+        related = engine.getRelated(
+          target: channel,
+          candidates: candidates,
+          isKidsProfile: StorageService.activeProfileIsKids,
+          limit: 6,
+        );
+      });
+    }
+
+    final animation = ModalRoute.of(context)?.animation;
+    if (animation == null || animation.isCompleted) {
+      load();
+      return;
+    }
+    void onStatus(AnimationStatus status) {
+      if (status != AnimationStatus.completed) return;
+      animation.removeStatusListener(onStatus);
+      load();
+    }
+
+    animation.addStatusListener(onStatus);
+  }
 
   @override
   void initState() {
@@ -94,6 +119,7 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
     liked = StorageService.loadLikedUrls().contains(channel.url);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
+      _loadRelatedAfterTransition();
       if (DeviceProfile.isTv(context)) tvFocus.requestFocus();
       // Ficha a pantalla completa: sin barra de estado ni de navegacion. Se
       // usa `immersiveSticky` para que reaparezcan con un gesto y se vuelvan

@@ -1,4 +1,5 @@
 import 'dart:collection';
+import 'package:flutter/scheduler.dart';
 import '../../models/channel.dart';
 import '../parental_control_service.dart';
 
@@ -40,6 +41,15 @@ class RelatedContentEngine {
   /// Limpia la caché LRU (ej. al cambiar perfil o recargar catálogo)
   void clearCache() {
     _lruCache.clear();
+  }
+
+  /// Precalcula los datos por candidato en tandas, cediendo el hilo entre
+  /// tandas para que la UI siga dibujando. Después, getRelated es barato.
+  Future<void> warmUp(List<Channel> candidates) async {
+    for (var i = 0; i < candidates.length; i++) {
+      _featuresOf(candidates[i]);
+      if (i % 150 == 149) await SchedulerBinding.instance.endOfFrame;
+    }
   }
 
   /// Retorna los elementos relacionados como lista de Channels.

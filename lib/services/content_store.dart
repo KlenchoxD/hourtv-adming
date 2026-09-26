@@ -1047,13 +1047,19 @@ class ContentStore extends ChangeNotifier {
 
   static final _genreSepRe = RegExp(r'[,/|]');
   // Las filas de Inicio clasifican todo el catálogo en cada rebuild y cada
-  // vez que cambia `all` durante el arranque: se calcula una vez por Channel.
-  // ponytail: si algo reasigna `genre`/`categories` de un Channel ya visto,
-  // su género queda viejo hasta reiniciar; invalidar aquí si importa.
-  static final _genresExpando = Expando<Set<String>>();
+  // vez que llega un catálogo nuevo (objetos Channel nuevos). El resultado
+  // depende solo del texto de género/categorías, que se repite muchísimo:
+  // se cachea por ese texto y sobrevive a las recargas.
+  // ponytail: mapa sin límite, acotado por la cantidad de combinaciones de
+  // género distintas del catálogo (cientos).
+  static final _genresByText = <String, Set<String>>{};
 
-  Set<String> _genresForMovie(Channel movie) =>
-      _genresExpando[movie] ??= _computeGenresForMovie(movie);
+  Set<String> _genresForMovie(Channel movie) {
+    final key = movie.categories.isEmpty
+        ? (movie.genre ?? '')
+        : '${movie.genre ?? ''}\u0000${movie.categories.join('\u0000')}';
+    return _genresByText[key] ??= _computeGenresForMovie(movie);
+  }
 
   Set<String> _computeGenresForMovie(Channel movie) {
     final genres = <String>{};
@@ -1143,6 +1149,11 @@ class ContentStore extends ChangeNotifier {
   /// semana (popularidad real, no solo de este dispositivo). Sin conexión o
   /// sin coincidencias, cae a lo mas reproducido localmente (tambien real,
   /// via `StorageService.loadWatchCounts`) para que la fila no desaparezca.
+  // normalizeTitle usa varias regex; los títulos se repiten entre recargas.
+  static final _normalizedTitles = <String, String>{};
+  static String _normalizedTitle(String name) =>
+      _normalizedTitles[name] ??= TmdbService.normalizeTitle(name);
+
   List<Channel> get trending {
     _checkAndInvalidateGenreCache();
     if (_trendingCache != null) return _trendingCache!;
@@ -1151,9 +1162,7 @@ class ContentStore extends ChangeNotifier {
       final byTmdb = visibleAll
           .where((c) => c.type != MediaType.live)
           .where(
-            (c) => _trendingTitles.contains(
-              TmdbService.normalizeTitle(c.displayName),
-            ),
+            (c) => _trendingTitles.contains(_normalizedTitle(c.displayName)),
           )
           .toList(growable: false);
       if (byTmdb.isNotEmpty) {

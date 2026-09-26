@@ -540,25 +540,33 @@ class Channel {
   /// Nombre limpio para mostrar: sin URLs, sin etiquetas de calidad/estado
   /// entre corchetes [..] ni paréntesis (..). Asi EN VIVO muestra solo el
   /// nombre del canal, como MagisTV/Netflix.
-  String get displayName {
+  // Se lee en cada tarjeta, dedupe, orden y recomendación; name/tvgName son
+  // finales, así que las 6 regex se ejecutan una sola vez por Channel.
+  late final String displayName = _computeDisplayName();
+
+  static final _bracketsRe = RegExp(r'\s*\[[^\]]*\]');
+  static final _parensRe = RegExp(r'\s*\([^)]*\)');
+  static final _qualityRe = RegExp(
+    r'\b(FHD|UHD|HD|SD|4K|H\.?265|H\.?264|1080p?|720p?|480p?)\b',
+    caseSensitive: false,
+  );
+  static final _separatorsRe = RegExp(r'[•|]+');
+  static final _spacesRe = RegExp(r'\s+');
+  static final _edgeDashesRe = RegExp(r'^[-–·\s]+|[-–·\s]+$');
+
+  String _computeDisplayName() {
     var n = (tvgName != null && tvgName!.trim().isNotEmpty)
         ? tvgName!.trim()
         : name.trim();
     if (n.startsWith('http://') || n.startsWith('https://')) n = '';
     // Quitar [corchetes] y (paréntesis) completos (calidad, estado, idioma...)
-    n = n.replaceAll(RegExp(r'\s*\[[^\]]*\]'), '');
-    n = n.replaceAll(RegExp(r'\s*\([^)]*\)'), '');
+    n = n.replaceAll(_bracketsRe, '');
+    n = n.replaceAll(_parensRe, '');
     // Marcadores sueltos de calidad
-    n = n.replaceAll(
-      RegExp(
-        r'\b(FHD|UHD|HD|SD|4K|H\.?265|H\.?264|1080p?|720p?|480p?)\b',
-        caseSensitive: false,
-      ),
-      '',
-    );
-    n = n.replaceAll(RegExp(r'[•|]+'), ' ');
-    n = n.replaceAll(RegExp(r'\s+'), ' ').trim();
-    n = n.replaceAll(RegExp(r'^[-–·\s]+|[-–·\s]+$'), '').trim();
+    n = n.replaceAll(_qualityRe, '');
+    n = n.replaceAll(_separatorsRe, ' ');
+    n = n.replaceAll(_spacesRe, ' ').trim();
+    n = n.replaceAll(_edgeDashesRe, '').trim();
     if (n.isEmpty) {
       final base = name.trim();
       return (base.isEmpty || base.startsWith('http')) ? 'Canal' : base;
