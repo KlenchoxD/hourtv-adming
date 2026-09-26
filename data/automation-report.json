@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-09-26T05:32:01.273Z",
-  "durationMs": 2256,
+  "generatedAt": "2026-09-26T10:15:16.268Z",
+  "durationMs": 1864,
   "dryRun": false,
-  "moviesFound": 35,
-  "moviesDiscarded": 20,
+  "moviesFound": 34,
+  "moviesDiscarded": 19,
   "moviesAdded": 0,
   "moviesEnriched": 0,
   "duplicates": 15,
@@ -105,11 +105,6 @@
     {
       "tmdbId": 1232569,
       "title": "Pinocho: Desatado",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
-    },
-    {
-      "tmdbId": 82976,
-      "title": "La profesional y la debutante",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     }
   ]
