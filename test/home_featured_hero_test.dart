@@ -1,4 +1,7 @@
+import 'dart:io' show Directory;
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:streamtv/mobile_ui/hourtv_mobile_shell.dart';
@@ -10,6 +13,11 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   setUp(() async {
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(
+          const MethodChannel('plugins.flutter.io/path_provider'),
+          (_) async => Directory.systemTemp.path,
+        );
     SharedPreferences.setMockInitialValues({});
     await StorageService.init();
     ContentStore.instance.resetForTesting();
@@ -71,7 +79,13 @@ void main() {
           ),
         ),
       );
-      await tester.pump();
+      // The fallback featured list is derived by CatalogPresentationIndex in
+      // an isolate. Give that work a real event-loop turn before asserting the
+      // eventual hero contents; the first frame is intentionally non-blocking.
+      await tester.runAsync(
+        () => Future<void>.delayed(const Duration(milliseconds: 50)),
+      );
+      await tester.pumpAndSettle();
 
       // El hero debe contener los destacados reales y NO los primeros regulares
       final heroCarousel = find.byKey(const ValueKey('hourtv-hero-carousel'));
@@ -83,10 +97,7 @@ void main() {
         findsOneWidget,
       );
       expect(
-        find.descendant(
-          of: heroCarousel,
-          matching: find.text('Regular 0'),
-        ),
+        find.descendant(of: heroCarousel, matching: find.text('Regular 0')),
         findsNothing,
       );
     },
@@ -135,7 +146,10 @@ void main() {
           ),
         ),
       );
-      await tester.pump();
+      await tester.runAsync(
+        () => Future<void>.delayed(const Duration(milliseconds: 50)),
+      );
+      await tester.pumpAndSettle();
 
       final heroCarousel = find.byKey(const ValueKey('hourtv-hero-carousel'));
       expect(

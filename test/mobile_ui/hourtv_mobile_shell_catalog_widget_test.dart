@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:streamtv/database/catalog_database.dart';
 import 'package:streamtv/database/daos/catalog_dao.dart';
 import 'package:streamtv/mobile_ui/hourtv_mobile_shell.dart';
+import 'package:streamtv/models/channel.dart';
 import 'package:streamtv/services/catalog/catalog_dtos.dart';
 import 'package:streamtv/services/catalog/catalog_page_source.dart';
 import 'package:streamtv/services/catalog/catalog_repository.dart';
@@ -75,10 +76,20 @@ void main() {
     await db.close();
   });
 
+  Future<void> prepareEmptyPublishedCatalog() async {
+    final store = ContentStore.instance;
+    store.resetForTesting();
+    // Prevent the app-bundled catalog asset from making these Drift fallback
+    // integration tests depend on the production catalog contents.
+    await store.load(
+      cacheLoader: () async => [],
+      seriesCacheLoader: () async => [],
+      remoteLoader: () async => [],
+    );
+  }
+
   group('HourTvMobileShell Catalog Widget Tests', () {
-    testWidgets('Inicio no pagina previews durante el scroll', (
-      tester,
-    ) async {
+    testWidgets('Inicio no pagina previews durante el scroll', (tester) async {
       final now = DateTime.utc(2026, 9, 10, 12);
       for (var i = 1; i <= 45; i++) {
         await dao.upsertTitle(
@@ -129,128 +140,139 @@ void main() {
       );
     });
 
-    testWidgets(
-      '1. Inicio conserva su página de preview durante el scroll',
-      (tester) async {
-        final now = DateTime.utc(2026, 9, 10, 12, 0, 0);
-
-        // Insertar 25 títulos de películas
-        for (var i = 1; i <= 25; i++) {
-          await dao.upsertTitle(
-            LocalTitlesCompanion.insert(
-              id: 'movie-$i',
-              mediaType: 'movie',
-              title: 'Drift Movie $i',
-              normalizedTitle: 'drift movie $i',
-              createdAt: now.add(Duration(minutes: i)),
-              updatedAt: now.add(Duration(minutes: i)),
-            ),
-          );
-        }
-
-        final pageSource = CatalogPageSource(
-          dao: dao,
-          mediaType: 'movie',
-          pageSize: 10,
-        );
-        await pageSource.loadInitialPage();
-        expect(pageSource.items.length, equals(10));
-
-        await tester.pumpWidget(
-          MaterialApp(
-            home: Scaffold(
-              body: HourTvMobileHome(
-                movies: const [],
-                allContent: const [],
-                store: ContentStore.instance,
-                onOpen: (_) {},
-                onSearch: () {},
-                onProfile: () {},
-                catalogRepository: repository,
-                moviesPageSource: pageSource,
-              ),
-            ),
-          ),
-        );
-        await tester.pump();
-        await tester.pump(const Duration(milliseconds: 100));
-
-        // Verificar que los primeros items están presentes en la UI
-        expect(find.text('Drift Movie 25'), findsOneWidget);
-
-        // Deslizar para activar la paginación perezosa
-        final scrollFinder = find.byKey(
-          const PageStorageKey('hourtv-mobile-home'),
-        );
-        expect(scrollFinder, findsOneWidget);
-
-        await tester.drag(scrollFinder, const Offset(0, -5000));
-        await tester.pump();
-        await tester.pump(const Duration(milliseconds: 100));
-
-        // Ver más tiene paginación propia; Inicio no carga páginas invisibles.
-        expect(pageSource.items.length, equals(10));
-      },
-    );
-
-    testWidgets('2. Búsqueda en Drift con filtro y FTS5', (tester) async {
+    testWidgets('1. Inicio conserva su página de preview durante el scroll', (
+      tester,
+    ) async {
       final now = DateTime.utc(2026, 9, 10, 12, 0, 0);
 
-      await dao.upsertTitle(
-        LocalTitlesCompanion.insert(
-          id: 'movie-matrix',
-          mediaType: 'movie',
-          title: 'Matrix Revolution',
-          normalizedTitle: 'matrix revolution',
-          plot: const Value('Zion battle'),
-          createdAt: now,
-          updatedAt: now,
-        ),
-      );
+      // Insertar 25 títulos de películas
+      for (var i = 1; i <= 25; i++) {
+        await dao.upsertTitle(
+          LocalTitlesCompanion.insert(
+            id: 'movie-$i',
+            mediaType: 'movie',
+            title: 'Drift Movie $i',
+            normalizedTitle: 'drift movie $i',
+            createdAt: now.add(Duration(minutes: i)),
+            updatedAt: now.add(Duration(minutes: i)),
+          ),
+        );
+      }
 
-      await dao.upsertTitle(
-        LocalTitlesCompanion.insert(
-          id: 'movie-batman',
-          mediaType: 'movie',
-          title: 'Batman Begins',
-          normalizedTitle: 'batman begins',
-          plot: const Value('Gotham knight'),
-          createdAt: now.add(const Duration(minutes: 1)),
-          updatedAt: now.add(const Duration(minutes: 1)),
-        ),
+      final pageSource = CatalogPageSource(
+        dao: dao,
+        mediaType: 'movie',
+        pageSize: 10,
       );
-
-      final searchPageSource = CatalogPageSource(dao: dao, pageSize: 20);
+      await pageSource.loadInitialPage();
+      expect(pageSource.items.length, equals(10));
 
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: HourTvMobileSearch(
-              content: const [],
-              presentationIndex: CatalogPresentationIndex.build(const []),
+            body: HourTvMobileHome(
+              movies: const [],
+              allContent: const [],
+              store: ContentStore.instance,
               onOpen: (_) {},
+              onSearch: () {},
+              onProfile: () {},
               catalogRepository: repository,
-              catalogPageSource: searchPageSource,
+              moviesPageSource: pageSource,
             ),
           ),
         ),
       );
-      await tester.pumpAndSettle();
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 100));
 
-      // Escribir en el buscador
-      final searchField = find.byKey(
-        const ValueKey('hourtv-mobile-search-field'),
+      // Verificar que los primeros items están presentes en la UI
+      expect(find.text('Drift Movie 25'), findsOneWidget);
+
+      // Deslizar para activar la paginación perezosa
+      final scrollFinder = find.byKey(
+        const PageStorageKey('hourtv-mobile-home'),
       );
-      expect(searchField, findsOneWidget);
+      expect(scrollFinder, findsOneWidget);
 
-      await tester.enterText(searchField, 'matrix');
-      await tester.pump(const Duration(milliseconds: 300));
-      await tester.pumpAndSettle();
+      await tester.drag(scrollFinder, const Offset(0, -5000));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 100));
 
-      // Verificar que FTS5 encontró 'Matrix Revolution'
-      expect(find.text('Matrix Revolution'), findsOneWidget);
-      expect(find.text('Batman Begins'), findsNothing);
+      // Ver más tiene paginación propia; Inicio no carga páginas invisibles.
+      expect(pageSource.items.length, equals(10));
     });
+
+    testWidgets(
+      '2. La búsqueda usa el catálogo publicado aunque Drift tenga otros títulos',
+      (tester) async {
+        final now = DateTime.utc(2026, 9, 10, 12, 0, 0);
+
+        await dao.upsertTitle(
+          LocalTitlesCompanion.insert(
+            id: 'movie-matrix',
+            mediaType: 'movie',
+            title: 'Matrix Revolution',
+            normalizedTitle: 'matrix revolution',
+            plot: const Value('Zion battle'),
+            createdAt: now,
+            updatedAt: now,
+          ),
+        );
+
+        await dao.upsertTitle(
+          LocalTitlesCompanion.insert(
+            id: 'movie-batman',
+            mediaType: 'movie',
+            title: 'Batman Begins',
+            normalizedTitle: 'batman begins',
+            plot: const Value('Gotham knight'),
+            createdAt: now.add(const Duration(minutes: 1)),
+            updatedAt: now.add(const Duration(minutes: 1)),
+          ),
+        );
+
+        final searchPageSource = CatalogPageSource(dao: dao, pageSize: 20);
+        final publishedChannels = [
+          Channel(
+            name: 'Matrix Revolution',
+            url: 'https://published.example.com/matrix.mp4',
+          ),
+        ];
+
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: HourTvMobileSearch(
+                content: publishedChannels,
+                presentationIndex: CatalogPresentationIndex.build(
+                  publishedChannels,
+                ),
+                onOpen: (_) {},
+                catalogRepository: repository,
+                catalogPageSource: searchPageSource,
+              ),
+            ),
+          ),
+        );
+        await tester.pumpAndSettle();
+
+        // Escribir en el buscador
+        final searchField = find.byKey(
+          const ValueKey('hourtv-mobile-search-field'),
+        );
+        expect(searchField, findsOneWidget);
+
+        await tester.enterText(searchField, 'matrix');
+        await tester.pump(const Duration(milliseconds: 300));
+        await tester.pumpAndSettle();
+
+        // La publicación del panel es la fuente de búsqueda textual. El título
+        // que solo existe en Drift (Batman) no se mezcla en los resultados.
+        expect(find.text('Matrix Revolution'), findsOneWidget);
+        expect(find.text('Batman Begins'), findsNothing);
+      },
+    );
 
     testWidgets('3. Visualización de estado de error y acción de reintento', (
       tester,
@@ -298,6 +320,7 @@ void main() {
     testWidgets(
       '4. Película Drift: tarjeta -> hidratación asíncrona -> HourTvDetailPage -> Reproducir -> PlayerScreen con URL y servidores reales',
       (tester) async {
+        await prepareEmptyPublishedCatalog();
         await dao.upsertTitle(
           LocalTitlesCompanion.insert(
             id: 'movie-real-1',
@@ -337,6 +360,7 @@ void main() {
         await tester.pumpWidget(
           MaterialApp(
             home: HourTvMobileShell(
+              store: ContentStore.instance,
               catalogRepository: repository,
               catalogPageSource: pageSource,
             ),
@@ -399,6 +423,7 @@ void main() {
     testWidgets(
       '5. Serie Drift: 2 temporadas -> abrir desde Inicio -> comprobar selector de temporadas -> tocar episodio -> PlayerScreen con URL y servidores reales',
       (tester) async {
+        await prepareEmptyPublishedCatalog();
         await dao.upsertTitle(
           LocalTitlesCompanion.insert(
             id: 'series-real-1',
@@ -477,6 +502,7 @@ void main() {
         await tester.pumpWidget(
           MaterialApp(
             home: HourTvMobileShell(
+              store: ContentStore.instance,
               catalogRepository: repository,
               catalogPageSource: moviesPageSource,
               seriesPageSource: seriesPageSource,
