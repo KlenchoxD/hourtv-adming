@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-09-26T10:15:18.127Z",
+  "lastRunAt": "2026-09-26T14:31:23.345Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -12,24 +12,24 @@
     1263337,
     1240889,
     299534,
-    1477712,
     1315772,
+    1477712,
     1185806,
     1275779,
+    1465063,
     1137844,
     1127384,
     1081003,
-    1465063,
     1212763,
-    860508,
+    671,
     1368337,
     1032863,
     1294189,
     1375646,
     1482547,
     1228834,
-    1751701,
     1607127,
+    1751701,
     1339713,
     1440098,
     1580190,
@@ -77,13 +77,13 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1127384,
-      "title": "En mar abierto",
+      "tmdbId": 1465063,
+      "title": "La isla olvidada",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1465063,
-      "title": "La isla olvidada",
+      "tmdbId": 1127384,
+      "title": "En mar abierto",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
@@ -117,13 +117,13 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1751701,
-      "title": "After Impact",
+      "tmdbId": 1607127,
+      "title": "Un último disparo",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1607127,
-      "title": "Un último disparo",
+      "tmdbId": 1751701,
+      "title": "After Impact",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
