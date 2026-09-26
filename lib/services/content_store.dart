@@ -1230,7 +1230,15 @@ class ContentStore extends ChangeNotifier {
   /// Todo lo reproducido recientemente, mas nuevo primero (para "Historial").
   List<Channel> get history {
     final saved = StorageService.loadRecent();
-    final activeByUrl = {for (final channel in all) channel.url: channel};
+    // Solo hacen falta los pocos títulos vistos: antes se armaba un mapa con
+    // todo `all` (miles de canales en vivo) en cada build de Inicio.
+    final wanted = {for (final item in saved) item.url};
+    final activeByUrl = <String, Channel>{};
+    if (wanted.isNotEmpty) {
+      for (final channel in all) {
+        if (wanted.contains(channel.url)) activeByUrl[channel.url] = channel;
+      }
+    }
     final seen = <String>{};
     final result = <Channel>[];
     for (final item in saved) {

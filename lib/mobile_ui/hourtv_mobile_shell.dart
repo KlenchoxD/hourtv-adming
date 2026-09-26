@@ -3,6 +3,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/foundation.dart' show compute;
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/channel.dart';
@@ -412,10 +413,16 @@ class _HourTvMobileHomeState extends State<HourTvMobileHome> {
   // basura generada, justo en el primer frame con contenido real.
   void _scheduleGenreWarmup() {
     if (_genreWarmupTimer?.isActive ?? false) return;
-    _genreWarmupTimer = Timer(const Duration(milliseconds: 250), () {
+    // Una fila por frame: cada recorrido en su propio frame en vez de uno
+    // solo más largo.
+    _genreWarmupTimer = Timer(const Duration(milliseconds: 250), () async {
       if (!mounted) return;
       widget.store.anime;
+      await SchedulerBinding.instance.endOfFrame;
+      if (!mounted) return;
       widget.store.kDramas;
+      await SchedulerBinding.instance.endOfFrame;
+      if (!mounted) return;
       widget.store.trending;
       setState(() {});
     });
