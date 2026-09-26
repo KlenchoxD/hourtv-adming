@@ -129,34 +129,34 @@ class M3UParserService {
       final ua = (userAgent != null && userAgent.isNotEmpty)
           ? userAgent
           : 'Mozilla/5.0';
-      final response = await http
-          .get(Uri.parse(url), headers: {'User-Agent': ua})
-          .timeout(
-            const Duration(seconds: 30),
-            onTimeout: () => throw Exception('Tiempo de espera agotado'),
-          );
-      if (response.statusCode == 200) {
-        // Las listas de IPTV-org traen miles de líneas; parsearlas en el
-        // hilo principal trababa el arranque.
+      // Descarga + parseo en un isolate: el TLS y los MB de listas de
+      // IPTV-org corrían en el mismo hilo que dibuja y recibe el scroll
+      // (Flutter 3.29+ fusiona el hilo de UI con el de Android).
+      return await compute((_) async {
+        final response = await http
+            .get(Uri.parse(url), headers: {'User-Agent': ua})
+            .timeout(
+              const Duration(seconds: 30),
+              onTimeout: () => throw Exception('Tiempo de espera agotado'),
+            );
+        if (response.statusCode != 200) {
+          throw Exception('HTTP ${response.statusCode}');
+        }
         final bytes = response.bodyBytes;
-        return compute(
-          (_) => (
-            channels: [
-              for (final channel in parseM3U(
-                _decodeBytes(bytes),
-                listName: listName,
-                genre: genre,
-                mediaType: mediaType,
-                userAgent: userAgent,
-              ))
-                channel..warmDerivedFields(),
-            ],
-            fingerprint: fingerprintBytes(bytes),
-          ),
-          null,
+        return (
+          channels: [
+            for (final channel in parseM3U(
+              _decodeBytes(bytes),
+              listName: listName,
+              genre: genre,
+              mediaType: mediaType,
+              userAgent: userAgent,
+            ))
+              channel..warmDerivedFields(),
+          ],
+          fingerprint: fingerprintBytes(bytes),
         );
-      }
-      throw Exception('HTTP ${response.statusCode}');
+      }, null);
     } catch (e) {
       throw Exception('Error cargando M3U: $e');
     }

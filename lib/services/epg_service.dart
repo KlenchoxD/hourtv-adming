@@ -29,14 +29,13 @@ class EpgService {
 
     for (final url in selectedUrls) {
       try {
-        final bytes = await _fetchBytes(url);
         final gz = url.toLowerCase().endsWith('.gz');
-        // Guías de varios MB: gunzip + regex en el hilo principal trababan la
-        // app cientos de frames al arrancar.
-        final programs = await compute(
-          (_) => _parsePrograms(_decodeBody(bytes, gz), wanted, now),
-          null,
-        );
+        // Guías de varios MB: descarga (TLS), gunzip y regex en un isolate;
+        // en el hilo principal trababan la app al arrancar.
+        final programs = await compute((_) async {
+          final bytes = await _fetchBytes(url);
+          return _parsePrograms(_decodeBody(bytes, gz), wanted, now);
+        }, null);
         if (programs.isEmpty) continue;
         _mergeGuide(programs);
         _attach(channels, programs, now);

@@ -46,9 +46,13 @@ class RelatedContentEngine {
   /// Precalcula los datos por candidato en tandas, cediendo el hilo entre
   /// tandas para que la UI siga dibujando. Después, getRelated es barato.
   Future<void> warmUp(List<Channel> candidates) async {
+    final budget = Stopwatch()..start();
     for (var i = 0; i < candidates.length; i++) {
       _featuresOf(candidates[i]);
-      if (i % 150 == 149) await SchedulerBinding.instance.endOfFrame;
+      if (budget.elapsedMilliseconds >= 6) {
+        await SchedulerBinding.instance.endOfFrame;
+        budget.reset();
+      }
     }
   }
 

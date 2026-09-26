@@ -695,7 +695,20 @@ class _HourTvPosterCardState extends State<HourTvPosterCard> {
   bool _pressed = false;
 
   @override
-  Widget build(BuildContext context) => RepaintBoundary(
+  Widget build(BuildContext context) {
+    // Decodificar al tamaño en pantalla, no a 342x513 fijo: en un teléfono
+    // de densidad 2 eran el doble de píxeles que subir a la GPU por póster,
+    // justo mientras se hace scroll y aparecen pósters nuevos.
+    final dpr = MediaQuery.devicePixelRatioOf(context);
+    final cacheWidth = (widget.width * dpr).round();
+    final cacheHeight = (widget.width * 178 / 120 * dpr).round();
+    Widget artwork() => HourTvArtwork(
+      url: widget.channel.logo,
+      asset: widget.assetFallback,
+      memCacheWidth: cacheWidth,
+      memCacheHeight: cacheHeight,
+    );
+    return RepaintBoundary(
     child: AnimatedScale(
       scale: _pressed ? 0.97 : 1.0,
       duration: const Duration(milliseconds: 150),
@@ -728,16 +741,10 @@ class _HourTvPosterCardState extends State<HourTvPosterCard> {
                               contextScope: widget.heroScope!,
                               id: widget.channel.stableTitleId ?? widget.channel.url,
                             ),
-                            child: HourTvArtwork(
-                              url: widget.channel.logo,
-                              asset: widget.assetFallback,
-                            ),
+                            child: artwork(),
                           )
                         else
-                          HourTvArtwork(
-                            url: widget.channel.logo,
-                            asset: widget.assetFallback,
-                          ),
+                          artwork(),
                         if (widget.progress != null && widget.progress! > 0)
                           Align(
                             alignment: Alignment.bottomCenter,
@@ -785,4 +792,5 @@ class _HourTvPosterCardState extends State<HourTvPosterCard> {
       ),
     ),
   );
+  }
 }

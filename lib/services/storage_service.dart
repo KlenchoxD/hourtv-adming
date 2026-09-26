@@ -82,8 +82,13 @@ class StorageService {
   static Future<String?> _readBlob(String key) async {
     if (_blobDir == null) return _prefs?.getString(key);
     try {
-      final file = _blobFile(key);
-      return await file.exists() ? await file.readAsString() : null;
+      // readAsString decodifica UTF-8 de varios MB en el hilo principal
+      // (~76 ms al arrancar): se lee y decodifica en un isolate.
+      final path = _blobFile(key).path;
+      return await compute((_) {
+        final file = File(path);
+        return file.existsSync() ? file.readAsStringSync() : null;
+      }, null);
     } catch (_) {
       return null;
     }

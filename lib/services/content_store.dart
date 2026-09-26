@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io' show File, Platform;
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:http/http.dart' as http;
 import '../models/channel.dart';
@@ -699,16 +700,39 @@ class ContentStore extends ChangeNotifier {
   /// (gratis, sin API key) y si no aplica cae a TMDB por titulo. Corre en
   /// segundo plano tras la carga inicial, en tandas acotadas para no
   /// saturar la red ni pegarle de una a cientos de titulos.
+  static const _enrichAttemptsKey = 'enrichAttemptDay';
+
   Future<void> _enrichMovies(List<Channel> movies) async {
+    // Las que TMDB/Xtream no encontraron se volvían a pedir en CADA arranque
+    // (hasta 80 peticiones con TLS en el hilo principal mientras se hace
+    // scroll). Se reintentan como mucho una vez por semana.
+    final today = DateTime.now().millisecondsSinceEpoch ~/ 86400000;
+    final rawAttempts = StorageService.getSetting(_enrichAttemptsKey);
+    final attempts = <String, int>{
+      if (rawAttempts is Map)
+        for (final e in rawAttempts.entries)
+          if (e.value is int) '${e.key}': e.value as int,
+    };
     final needing = movies
         .where(
           (c) =>
               c.type == MediaType.movie &&
+              (attempts[c.url] ?? -1000) < today - 7 &&
               [c.plot, c.year, c.rating].any((v) => (v ?? '').trim().isEmpty),
         )
         .take(80)
         .toList();
     if (needing.isEmpty) return;
+    for (final movie in needing) {
+      attempts[movie.url] = today;
+    }
+    final pruned = attempts.entries.toList()
+      ..sort((a, b) => b.value.compareTo(a.value));
+    unawaited(
+      StorageService.saveSetting(_enrichAttemptsKey, {
+        for (final e in pruned.take(500)) e.key: e.value,
+      }),
+    );
 
     var changedAny = false;
     const batchSize = 6;
@@ -810,31 +834,34 @@ class ContentStore extends ChangeNotifier {
             '_': DateTime.now().millisecondsSinceEpoch.toString(),
           },
         );
-        final response = await http
-            .get(
-              fresh,
-              headers: {
-                'User-Agent': 'Mozilla/5.0',
-                'Cache-Control': 'no-cache',
-              },
-            )
-            .timeout(const Duration(seconds: 12));
-        // response.body re-decodifica los MB en cada acceso y en el hilo
-        // principal: se decodifica una vez en un isolate.
-        final bytes = response.bodyBytes;
-        final body = await compute(
-          (_) => utf8.decode(bytes, allowMalformed: true),
-          null,
-        );
-        if (response.statusCode == 200 && body.trim().isNotEmpty) {
+        // Descarga (TLS de ~6 MB) y decodificación en un isolate: en el
+        // isolate principal comparten hilo con el dibujo y el scroll.
+        final result = await compute((_) async {
+          final response = await http
+              .get(
+                fresh,
+                headers: {
+                  'User-Agent': 'Mozilla/5.0',
+                  'Cache-Control': 'no-cache',
+                },
+              )
+              .timeout(const Duration(seconds: 12));
+          return (
+            status: response.statusCode,
+            length: response.bodyBytes.length,
+            body: utf8.decode(response.bodyBytes, allowMalformed: true),
+          );
+        }, null);
+        final body = result.body;
+        if (result.status == 200 && body.trim().isNotEmpty) {
           debugPrint(
-            '[CatalogFetch] OK $url status=${response.statusCode} bytes=${bytes.length}',
+            '[CatalogFetch] OK $url status=${result.status} bytes=${result.length}',
           );
           await StorageService.saveRemoteSourcesCache(body);
           return body;
         }
         debugPrint(
-          '[CatalogFetch] Respuesta no válida $url status=${response.statusCode} bodyLen=${bytes.length}',
+          '[CatalogFetch] Respuesta no válida $url status=${result.status} bodyLen=${result.length}',
         );
       } catch (e) {
         debugPrint('[CatalogFetch] Falló $url: $e');
@@ -1232,6 +1259,58 @@ class ContentStore extends ChangeNotifier {
       _genreCategoryLength = all.length;
       _genreCategoryRestricted = restricted;
       _trendingTitlesCount = _trendingTitles.length;
+    }
+  }
+
+  /// Calcula anime, kDramas y trending en UNA pasada por el catálogo, en
+  /// tandas con un frame entre ellas. Antes eran tres recorridos completos de
+  /// un tirón (~50 ms cada uno) sobre el mismo hilo que dibuja y recibe el
+  /// scroll (Flutter 3.29+ fusiona el hilo de UI con el de Android).
+  Future<void> warmHomeGenreRows() async {
+    if (homeGenreRowsReady) return;
+    final source = visibleAll;
+    final sourceAll = all;
+    final anime = <Channel>[];
+    final kDramas = <Channel>[];
+    final byTmdb = <Channel>[];
+    final counts = StorageService.loadWatchCounts();
+    final watched = <Channel>[];
+    final trendingTitlesCount = _trendingTitles.length;
+    // Presupuesto por tiempo, no por cantidad: la primera vez cada título
+    // pasa por varias regex y 250 por tanda eran 30-48 ms seguidos.
+    final budget = Stopwatch()..start();
+    for (var i = 0; i < source.length; i++) {
+      final c = source[i];
+      if (c.type != MediaType.live) {
+        final genres = _genresForMovie(c);
+        if (genres.contains('Anime')) anime.add(c);
+        if (genres.contains('K-Drama')) kDramas.add(c);
+        if (_trendingTitles.isNotEmpty &&
+            _trendingTitles.contains(_normalizedTitle(c.displayName))) {
+          byTmdb.add(c);
+        }
+        if ((counts[c.url] ?? 0) > 0) watched.add(c);
+      }
+      if (budget.elapsedMilliseconds >= 6) {
+        await SchedulerBinding.instance.endOfFrame;
+        if (!identical(all, sourceAll)) return;
+        budget.reset();
+      }
+    }
+    _checkAndInvalidateGenreCache();
+    if (!identical(_genreCategorySource, sourceAll)) return;
+    _genreCategoryCache['Anime'] ??= List.of(anime, growable: false);
+    _genreCategoryCache['K-Drama'] ??= List.of(kDramas, growable: false);
+    if (_trendingCache == null &&
+        _trendingTitles.length == trendingTitlesCount) {
+      if (byTmdb.isNotEmpty) {
+        _trendingCache = List.of(byTmdb, growable: false);
+      } else {
+        watched.sort(
+          (a, b) => (counts[b.url] ?? 0).compareTo(counts[a.url] ?? 0),
+        );
+        _trendingCache = List.unmodifiable(watched);
+      }
     }
   }
 
