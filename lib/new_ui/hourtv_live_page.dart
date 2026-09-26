@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:video_player/video_player.dart';
 
 import '../models/channel.dart';
+import '../services/storage_service.dart';
 import 'hourtv_player_screen.dart';
 import 'hourtv_search_keyboard.dart';
 
@@ -69,10 +70,71 @@ class _HourTvLivePageState extends State<HourTvLivePage> {
   final ScrollController guideScroll = ScrollController();
   static const double _guideRowExtent = 88;
 
+  // Canales que fallaron en esta sesión (403, caídos, sin conectar): no se
+  // vuelven a elegir solos al entrar a En Vivo.
+  static final Set<String> _deadUrls = {};
+  // Un 403/caída suele afectar a todos los canales del mismo servidor
+  // (5Gold, 5Live, 5Plus... del mismo proveedor): para la elección
+  // automática se descarta el servidor entero.
+  static final Set<String> _deadHosts = {};
+  static const _lastLiveUrlKey = 'lastWorkingLiveUrl';
+
+  static String _host(Channel c) => Uri.tryParse(c.url)?.host ?? '';
+
+  static bool _usable(Channel c) =>
+      !_deadUrls.contains(c.url) && !_deadHosts.contains(_host(c));
+  // true mientras el canal visible lo eligió la app (no el usuario): solo
+  // entonces se salta solo al siguiente si falla. Tope para no recorrer
+  // miles de canales cuando no hay conexión.
+  bool _autoPicked = true;
+  int _autoSkipsLeft = 8;
+
+  /// Empieza por el último canal que sí se reprodujo (como Xuper, que abre
+  /// directo un canal que funciona); si no, el primero no descartado.
+  Channel _firstAlive() {
+    final last = StorageService.getSetting(_lastLiveUrlKey);
+    if (last is String) {
+      for (final channel in widget.channels) {
+        if (channel.url == last && _usable(channel)) return channel;
+      }
+    }
+    return widget.channels.firstWhere(
+      _usable,
+      orElse: () => widget.channels.first,
+    );
+  }
+
+  void _onChannelPlaying(Channel channel) {
+    if (StorageService.getSetting(_lastLiveUrlKey) != channel.url) {
+      unawaited(StorageService.saveSetting(_lastLiveUrlKey, channel.url));
+    }
+  }
+
+  /// Antes el primer canal (p. ej. un 403) se quedaba para siempre en la
+  /// miniatura sin video ni aviso: En Vivo nunca mostraba nada al entrar.
+  void _onChannelFailed(Channel failed) {
+    _deadUrls.add(failed.url);
+    final host = _host(failed);
+    if (host.isNotEmpty) _deadHosts.add(host);
+    if (!mounted || failed.url != current.url) return;
+    if (!_autoPicked || _autoSkipsLeft <= 0) return;
+    final start = widget.channels.indexWhere((c) => c.url == failed.url);
+    for (var i = 1; i < widget.channels.length; i++) {
+      final next = widget.channels[(start + i) % widget.channels.length];
+      if (!_usable(next)) continue;
+      _autoSkipsLeft--;
+      setState(() {
+        current = next;
+        guideIndex = widget.channels.indexOf(next);
+      });
+      return;
+    }
+  }
+
   @override
   void initState() {
     super.initState();
-    current = widget.channels.first;
+    current = _firstAlive();
     guideIndex = widget.channels.indexOf(current);
     widget.backController?.handler = _handleBack;
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -103,8 +165,9 @@ class _HourTvLivePageState extends State<HourTvLivePage> {
       current = widget.channels[sameUrl];
       guideIndex = sameUrl;
     } else if (widget.channels.isNotEmpty) {
-      current = widget.channels.first;
-      guideIndex = 0;
+      current = _firstAlive();
+      guideIndex = widget.channels.indexOf(current);
+      _autoPicked = true;
     }
   }
 
@@ -232,6 +295,7 @@ class _HourTvLivePageState extends State<HourTvLivePage> {
   }
 
   void select(Channel channel) {
+    _autoPicked = false;
     setState(() {
       current = channel;
       guideIndex = widget.channels.indexOf(channel);
@@ -401,6 +465,8 @@ class _HourTvLivePageState extends State<HourTvLivePage> {
           padding: EdgeInsets.symmetric(horizontal: widget.phone ? 14 : 28),
           child: _PlayerSurface(
             channel: current,
+            onFailed: _onChannelFailed,
+            onPlaying: _onChannelPlaying,
             onPlay: play,
             large: true,
             active: widget.active,
@@ -478,6 +544,8 @@ class _HourTvLivePageState extends State<HourTvLivePage> {
                 flex: 2,
                 child: _PlayerSurface(
                   channel: current,
+                  onFailed: _onChannelFailed,
+                  onPlaying: _onChannelPlaying,
                   onPlay: play,
                   large: true,
                 ),
@@ -527,7 +595,14 @@ class _HourTvLivePageState extends State<HourTvLivePage> {
       child: Stack(
         fit: StackFit.expand,
         children: [
-          _PlayerSurface(channel: current, onPlay: play, large: true, tv: true),
+          _PlayerSurface(
+            channel: current,
+            onFailed: _onChannelFailed,
+            onPlaying: _onChannelPlaying,
+            onPlay: play,
+            large: true,
+            tv: true,
+          ),
           Positioned(
             left: 32,
             top: 28,
@@ -881,12 +956,16 @@ class _HourTvLivePageState extends State<HourTvLivePage> {
 class _PlayerSurface extends StatefulWidget {
   const _PlayerSurface({
     required this.channel,
+    required this.onFailed,
+    required this.onPlaying,
     required this.onPlay,
     required this.large,
     this.tv = false,
     this.active = true,
   });
   final Channel channel;
+  final ValueChanged<Channel> onFailed;
+  final ValueChanged<Channel> onPlaying;
   final VoidCallback onPlay;
   final bool large;
   final bool tv;
@@ -971,7 +1050,8 @@ class _PlayerSurfaceState extends State<_PlayerSurface> {
           : const {},
     );
     try {
-      await controller.initialize();
+      // Un stream caído puede quedarse conectando indefinidamente.
+      await controller.initialize().timeout(const Duration(seconds: 8));
       // Si mientras esto cargaba (un stream en vivo puede tardar varios
       // segundos en conectar) el usuario ya salio de la pestaña En Vivo,
       // asignar igual `_controller` dejaba un reproductor sonando de fondo
@@ -985,9 +1065,12 @@ class _PlayerSurfaceState extends State<_PlayerSurface> {
       await controller.setLooping(false);
       await controller.play();
       setState(() => _controller = controller);
+      widget.onPlaying(widget.channel);
     } catch (_) {
       await controller.dispose();
-      if (mounted) setState(() => _failed = true);
+      if (!mounted) return;
+      setState(() => _failed = true);
+      if (widget.active) widget.onFailed(widget.channel);
     }
   }
 
