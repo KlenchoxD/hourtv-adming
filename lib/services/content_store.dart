@@ -968,7 +968,22 @@ class ContentStore extends ChangeNotifier {
     return payload;
   }
 
+  // La guía EPG (hasta 24 XML de varios MB y asociarla a todos los canales)
+  // solo sirve en En Vivo: se descarga la primera vez que se abre esa
+  // pestaña, no en cada arranque compitiendo con el scroll de Inicio.
+  List<String> _pendingEpgUrls = const [];
+  bool _epgRequested = false;
+
+  /// Lo llama la página de En Vivo al abrirse.
+  void ensureEpgLoaded() {
+    if (_epgRequested) return;
+    _epgRequested = true;
+    unawaited(_loadEpg(_pendingEpgUrls));
+  }
+
   Future<void> _loadEpg(List<String> urls) async {
+    _pendingEpgUrls = urls;
+    if (!_epgRequested) return;
     if (urls.isEmpty || all.isEmpty) return;
     epgLoading = true;
     notifyListeners();

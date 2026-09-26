@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:video_player/video_player.dart';
 
 import '../models/channel.dart';
+import '../services/content_store.dart';
 import '../services/storage_service.dart';
 import 'hourtv_player_screen.dart';
 import 'hourtv_search_keyboard.dart';
@@ -134,6 +135,7 @@ class _HourTvLivePageState extends State<HourTvLivePage> {
   @override
   void initState() {
     super.initState();
+    ContentStore.instance.ensureEpgLoaded();
     current = _firstAlive();
     guideIndex = widget.channels.indexOf(current);
     widget.backController?.handler = _handleBack;
