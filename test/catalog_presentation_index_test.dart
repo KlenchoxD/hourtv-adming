@@ -143,4 +143,24 @@ void main() {
 
     expect(HourTvGenreService.normalizationCountForTest, equals(countAfterBuild));
   });
+
+  test('buscar por tandas al seguir escribiendo da lo mismo que buscar desde cero', () async {
+    TestWidgetsFlutterBinding.ensureInitialized();
+    final channels = [
+      for (final n in ['Batman', 'Batman Begins', 'Batalla final', 'Robin', 'La Liga Batman'])
+        Channel(name: n, url: 'https://x.test/$n', forcedType: 'movie'),
+    ];
+    final index = CatalogPresentationIndex.build(channels);
+    List<String> names(List<Channel>? l) => l!.map((c) => c.name).toList();
+    Future<List<String>> sliced(String text) async => names(
+      await index.searchInSlices(CatalogQuery(text: text), isStale: () => false),
+    );
+
+    await sliced('bat');
+    await sliced('batm');
+    expect(await sliced('batman'), names(index.search(const CatalogQuery(text: 'batman'))));
+    // Borrar letras vuelve a buscar en todo el catálogo.
+    expect(await sliced('bat'), names(index.search(const CatalogQuery(text: 'bat'))));
+    expect(await sliced('bat'), contains('Batalla final'));
+  });
 }

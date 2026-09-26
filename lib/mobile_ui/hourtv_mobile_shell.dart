@@ -1485,7 +1485,7 @@ class _HourTvMobileSearchState extends State<HourTvMobileSearch> {
       setState(() {});
     }
     final currentGen = ++_queryGeneration;
-    _debounce = Timer(const Duration(milliseconds: 250), () async {
+    _debounce = Timer(const Duration(milliseconds: 120), () async {
       if (!mounted || currentGen != _queryGeneration) return;
       _query = value.trim();
       _visibleCount = _initialVisible;

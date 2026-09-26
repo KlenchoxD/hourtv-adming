@@ -188,9 +188,19 @@ class CatalogPresentationIndex {
     required bool Function() isStale,
   }) async {
     final (terms, targetGenre) = _prepare(query);
+    // Al seguir escribiendo ("bat" -> "batm") los resultados nuevos están
+    // dentro de los anteriores: se filtran esos pocos en vez de recorrer
+    // todo el catálogo, y aparecen en el acto.
+    final previous = _lastSliceSearch;
+    final narrowing = previous != null &&
+        previous.type == query.type &&
+        previous.genre == query.genre &&
+        query.text.startsWith(previous.text) &&
+        previous.text.trim().isNotEmpty;
+    final source = narrowing ? _lastSliceMatches : _records;
     final matched = <_IndexedChannel>[];
     final budget = Stopwatch()..start();
-    for (final record in _records) {
+    for (final record in source) {
       if (_matches(record, query, terms, targetGenre)) matched.add(record);
       if (budget.elapsedMilliseconds >= 6) {
         await SchedulerBinding.instance.endOfFrame;
@@ -199,8 +209,13 @@ class CatalogPresentationIndex {
       }
     }
     if (isStale()) return null;
-    return _sorted(matched, query.sort);
+    _lastSliceSearch = query;
+    _lastSliceMatches = matched;
+    return _sorted(List.of(matched), query.sort);
   }
+
+  CatalogQuery? _lastSliceSearch;
+  List<_IndexedChannel> _lastSliceMatches = const [];
 
   (List<String>, String?) _prepare(CatalogQuery query) {
     List<String> terms = const [];
