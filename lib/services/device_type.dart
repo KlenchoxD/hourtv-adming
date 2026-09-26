@@ -26,6 +26,20 @@ class DeviceProfile {
 
   static Future<void> warmUp() => _isAndroidTv();
 
+  static Future<String?>? _countryIso;
+
+  /// País (ISO, minúsculas) de la red móvil o la SIM; null si no hay. El
+  /// idioma del teléfono no sirve: en Latinoamérica suele ser "es-US".
+  static Future<String?> countryIso() => _countryIso ??= () async {
+    if (kIsWeb || defaultTargetPlatform != TargetPlatform.android) return null;
+    try {
+      final iso = await _channel.invokeMethod<String>('countryIso');
+      return (iso == null || iso.isEmpty) ? null : iso;
+    } catch (_) {
+      return null;
+    }
+  }();
+
   static DeviceType of(BuildContext context) {
     if (overrideType.value != null) return overrideType.value!;
     if (_isTvCache == true) return DeviceType.tv;

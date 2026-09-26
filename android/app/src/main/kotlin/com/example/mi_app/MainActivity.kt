@@ -27,6 +27,15 @@ class MainActivity : FlutterActivity() {
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, channel).setMethodCallHandler { call, result ->
             when (call.method) {
                 "isTv" -> result.success(isTelevision())
+                // País de la red móvil (o de la SIM): el idioma suele ser
+                // "es-US" en Latinoamérica y no sirve para saber el país.
+                "countryIso" -> {
+                    val tm = getSystemService(Context.TELEPHONY_SERVICE)
+                        as? android.telephony.TelephonyManager
+                    val iso = tm?.networkCountryIso?.takeIf { it.isNotBlank() }
+                        ?: tm?.simCountryIso?.takeIf { it.isNotBlank() }
+                    result.success(iso?.lowercase())
+                }
                 "enterPictureInPicture" -> {
                     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N ||
                         !packageManager.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE)

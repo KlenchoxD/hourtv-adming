@@ -2,11 +2,15 @@ import 'dart:async';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter/foundation.dart' show compute;
 import 'package:flutter/services.dart';
+import 'package:http/http.dart' as http;
 import 'package:video_player/video_player.dart';
 
 import '../models/channel.dart';
 import '../services/content_store.dart';
+import '../services/device_type.dart';
 import '../services/storage_service.dart';
 import 'hourtv_player_screen.dart';
 import 'hourtv_search_keyboard.dart';
@@ -78,9 +82,15 @@ class _HourTvLivePageState extends State<HourTvLivePage> {
   // (5Gold, 5Live, 5Plus... del mismo proveedor): para la elección
   // automática se descarta el servidor entero.
   static final Set<String> _deadHosts = {};
-  static const _lastLiveUrlKey = 'lastWorkingLiveUrl';
+  // v2: antes se guardaba cualquier canal que funcionara, aunque fuera lento
+  // (A Spor, Turquía: ~6.7 s hasta el primer frame).
+  static const _lastLiveUrlKey = 'lastGoodLiveUrlV2';
+  static const _fastStartMs = 3000;
 
   static String _host(Channel c) => Uri.tryParse(c.url)?.host ?? '';
+
+  static bool _isProbeable(Channel c) =>
+      c.url.startsWith('http://') || c.url.startsWith('https://');
 
   static bool _usable(Channel c) =>
       !_deadUrls.contains(c.url) && !_deadHosts.contains(_host(c));
@@ -89,14 +99,32 @@ class _HourTvLivePageState extends State<HourTvLivePage> {
   // miles de canales cuando no hay conexión.
   bool _autoPicked = true;
   int _autoSkipsLeft = 8;
+  // Mientras se elige el canal inicial más rápido, la vista previa no
+  // empieza a descargar ninguno.
+  bool _racing = false;
 
-  /// Empieza por el último canal que sí se reprodujo (como Xuper, que abre
-  /// directo un canal que funciona); si no, el primero no descartado.
-  Channel _firstAlive() {
+  Channel? _savedGood() {
     final last = StorageService.getSetting(_lastLiveUrlKey);
-    if (last is String) {
+    if (last is! String) return null;
+    for (final channel in widget.channels) {
+      if (channel.url == last && _usable(channel)) return channel;
+    }
+    return null;
+  }
+
+  /// Empieza por el último canal bueno (elegido por el usuario, o elegido
+  /// solo y que arrancó rápido); si no hay, por un canal del país del
+  /// teléfono: sus servidores entregan el primer segmento en 0.3-0.9 s
+  /// frente a varios segundos de canales lejanos del principio de la lista.
+  Channel _firstAlive() {
+    final saved = _savedGood();
+    if (saved != null) return saved;
+    final country = WidgetsBinding.instance.platformDispatcher.locale
+        .countryCode
+        ?.toLowerCase();
+    if (country != null) {
       for (final channel in widget.channels) {
-        if (channel.url == last && _usable(channel)) return channel;
+        if (channel.countryCode == country && _usable(channel)) return channel;
       }
     }
     return widget.channels.firstWhere(
@@ -105,15 +133,70 @@ class _HourTvLivePageState extends State<HourTvLivePage> {
     );
   }
 
-  void _onChannelPlaying(Channel channel) {
-    if (StorageService.getSetting(_lastLiveUrlKey) != channel.url) {
+  /// Sin canal bueno guardado: consulta a la vez la lista de reproducción de
+  /// hasta 8 canales del país (red móvil/SIM) y arranca con el primero que
+  /// responde. Elige un servidor cercano y descarta caídos (403) en
+  /// fracciones de segundo, en vez de los 4-8 s que tarda el reproductor.
+  Future<void> _raceForFastChannel() async {
+    final country = await DeviceProfile.countryIso() ??
+        WidgetsBinding.instance.platformDispatcher.locale.countryCode
+            ?.toLowerCase();
+    var candidates = [
+      for (final c in widget.channels)
+        if (_usable(c) &&
+            _isProbeable(c) &&
+            c.countryCode != null &&
+            c.countryCode == country)
+          c,
+    ].take(8).toList();
+    if (candidates.isEmpty) {
+      candidates = widget.channels
+          .where((c) => _usable(c) && _isProbeable(c))
+          .take(8)
+          .toList();
+    }
+    final winner = Completer<Channel?>();
+    var pending = candidates.length;
+    for (final candidate in candidates) {
+      unawaited(
+        compute(_probeStream, (candidate.url, candidate.userAgent)).then((ok) {
+          if (ok && !winner.isCompleted) winner.complete(candidate);
+          if (--pending == 0 && !winner.isCompleted) winner.complete(null);
+        }),
+      );
+    }
+    if (candidates.isEmpty) winner.complete(null);
+    final chosen = await winner.future.timeout(
+      const Duration(milliseconds: 3500),
+      onTimeout: () => null,
+    );
+    if (!mounted) return;
+    setState(() {
+      if (chosen != null && _autoPicked) {
+        current = chosen;
+        guideIndex = widget.channels.indexOf(chosen);
+      }
+      _racing = false;
+    });
+  }
+
+  void _onChannelPlaying(Channel channel, int startupMs) {
+    debugPrint('[LIVE] ${channel.name} primer frame en ${startupMs}ms');
+    final keep = !_autoPicked || startupMs < _fastStartMs;
+    if (keep && StorageService.getSetting(_lastLiveUrlKey) != channel.url) {
       unawaited(StorageService.saveSetting(_lastLiveUrlKey, channel.url));
     }
   }
 
   /// Antes el primer canal (p. ej. un 403) se quedaba para siempre en la
   /// miniatura sin video ni aviso: En Vivo nunca mostraba nada al entrar.
-  void _onChannelFailed(Channel failed) {
+  Future<void> _onChannelFailed(Channel failed) async {
+    // Sin internet todos los canales fallan: marcarlos como caídos los
+    // dejaba descartados (con sus servidores) aunque volviera la conexión.
+    try {
+      final result = await Connectivity().checkConnectivity();
+      if (result.every((r) => r == ConnectivityResult.none)) return;
+    } catch (_) {}
     _deadUrls.add(failed.url);
     final host = _host(failed);
     if (host.isNotEmpty) _deadHosts.add(host);
@@ -137,6 +220,12 @@ class _HourTvLivePageState extends State<HourTvLivePage> {
     super.initState();
     ContentStore.instance.ensureEpgLoaded();
     current = _firstAlive();
+    if (_savedGood() == null &&
+        !widget.preview &&
+        widget.channels.where(_isProbeable).length > 1) {
+      _racing = true;
+      unawaited(_raceForFastChannel());
+    }
     guideIndex = widget.channels.indexOf(current);
     widget.backController?.handler = _handleBack;
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -471,7 +560,7 @@ class _HourTvLivePageState extends State<HourTvLivePage> {
             onPlaying: _onChannelPlaying,
             onPlay: play,
             large: true,
-            active: widget.active,
+            active: widget.active && !_racing,
           ),
         ),
         Padding(
@@ -550,6 +639,7 @@ class _HourTvLivePageState extends State<HourTvLivePage> {
                   onPlaying: _onChannelPlaying,
                   onPlay: play,
                   large: true,
+                  active: !_racing,
                 ),
               ),
               const SizedBox(width: 22),
@@ -604,6 +694,7 @@ class _HourTvLivePageState extends State<HourTvLivePage> {
             onPlay: play,
             large: true,
             tv: true,
+            active: !_racing,
           ),
           Positioned(
             left: 32,
@@ -967,7 +1058,7 @@ class _PlayerSurface extends StatefulWidget {
   });
   final Channel channel;
   final ValueChanged<Channel> onFailed;
-  final ValueChanged<Channel> onPlaying;
+  final void Function(Channel channel, int startupMs) onPlaying;
   final VoidCallback onPlay;
   final bool large;
   final bool tv;
@@ -984,7 +1075,7 @@ class _PlayerSurfaceState extends State<_PlayerSurface> {
   @override
   void initState() {
     super.initState();
-    _load();
+    if (widget.active) _load();
   }
 
   @override
@@ -1036,6 +1127,7 @@ class _PlayerSurfaceState extends State<_PlayerSurface> {
   /// se degrada honestamente a la miniatura + boton para abrir el
   /// reproductor completo, que si sabe resolver esos casos.
   Future<void> _load() async {
+    final startup = Stopwatch()..start();
     final old = _controller;
     _controller = null;
     setState(() => _failed = false);
@@ -1067,7 +1159,7 @@ class _PlayerSurfaceState extends State<_PlayerSurface> {
       await controller.setLooping(false);
       await controller.play();
       setState(() => _controller = controller);
-      widget.onPlaying(widget.channel);
+      widget.onPlaying(widget.channel, startup.elapsedMilliseconds);
     } catch (_) {
       await controller.dispose();
       if (!mounted) return;
@@ -1408,3 +1500,25 @@ String _currentTitle(Channel channel) =>
 
 String _nextTitle(Channel channel) =>
     channel.nextProgram?.title ?? 'Más programación';
+
+/// Pide el stream y lee el primer bloque (lista .m3u8 de pocos KB, o el
+/// inicio de un .ts). true si responde bien en menos de 3 s.
+Future<bool> _probeStream((String, String?) args) async {
+  final (url, userAgent) = args;
+  final client = http.Client();
+  try {
+    final request = http.Request('GET', Uri.parse(url))
+      ..headers['User-Agent'] =
+          (userAgent?.isNotEmpty ?? false) ? userAgent! : 'Mozilla/5.0';
+    final response = await client
+        .send(request)
+        .timeout(const Duration(seconds: 3));
+    if (response.statusCode < 200 || response.statusCode >= 300) return false;
+    await response.stream.first.timeout(const Duration(seconds: 3));
+    return true;
+  } catch (_) {
+    return false;
+  } finally {
+    client.close();
+  }
+}
