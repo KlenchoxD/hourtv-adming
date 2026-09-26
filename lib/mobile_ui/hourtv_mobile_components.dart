@@ -699,15 +699,18 @@ class _HourTvPosterCardState extends State<HourTvPosterCard> {
     // Decodificar al tamaño en pantalla, no a 342x513 fijo: en un teléfono
     // de densidad 2 eran el doble de píxeles que subir a la GPU por póster,
     // justo mientras se hace scroll y aparecen pósters nuevos.
+    // Con ancho infinito (grillas que estiran la tarjeta) se usa el tamaño
+    // por defecto de HourTvArtwork.
     final dpr = MediaQuery.devicePixelRatioOf(context);
-    final cacheWidth = (widget.width * dpr).round();
-    final cacheHeight = (widget.width * 178 / 120 * dpr).round();
-    Widget artwork() => HourTvArtwork(
-      url: widget.channel.logo,
-      asset: widget.assetFallback,
-      memCacheWidth: cacheWidth,
-      memCacheHeight: cacheHeight,
-    );
+    final sized = widget.width.isFinite;
+    Widget artwork() => sized
+        ? HourTvArtwork(
+            url: widget.channel.logo,
+            asset: widget.assetFallback,
+            memCacheWidth: (widget.width * dpr).round(),
+            memCacheHeight: (widget.width * 178 / 120 * dpr).round(),
+          )
+        : HourTvArtwork(url: widget.channel.logo, asset: widget.assetFallback);
     return RepaintBoundary(
     child: AnimatedScale(
       scale: _pressed ? 0.97 : 1.0,
