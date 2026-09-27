@@ -19,6 +19,7 @@ import '../services/catalog/catalog_detail_navigator.dart';
 import '../services/catalog/catalog_page_source.dart';
 import '../services/catalog/catalog_repository.dart';
 import '../services/recommendations/recommendation_engine.dart';
+import '../services/parental_control_service.dart';
 import '../services/storage_service.dart';
 
 const _red = Color(0xFF00C781);
@@ -176,7 +177,10 @@ class _HourTvNewShellState extends State<HourTvNewShell> {
   }
 
   List<Channel> get movies {
-    final drift = _moviesPageSource != null && _moviesPageSource!.items.isNotEmpty
+    // Drift no trae géneros: con perfil infantil/parental no se puede filtrar.
+    final drift = _moviesPageSource != null &&
+            _moviesPageSource!.items.isNotEmpty &&
+            ParentalControlService.filterMode == 0
         ? _moviesPageSource!.items.map(CatalogRepository.titleToChannel).toList()
         : const <Channel>[];
     if (drift.isNotEmpty) return drift;
@@ -184,7 +188,9 @@ class _HourTvNewShellState extends State<HourTvNewShell> {
   }
 
   List<Channel> get series {
-    final drift = _seriesPageSource != null && _seriesPageSource!.items.isNotEmpty
+    final drift = _seriesPageSource != null &&
+            _seriesPageSource!.items.isNotEmpty &&
+            ParentalControlService.filterMode == 0
         ? _seriesPageSource!.items.map(CatalogRepository.titleToChannel).toList()
         : const <Channel>[];
     if (drift.isNotEmpty) return drift;

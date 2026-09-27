@@ -80,9 +80,10 @@ abstract final class ParentalControlService {
         ...channel.categories,
       ]);
     }
+    // group/category son la primera categoría del panel (no un género).
     return _isKidsTagged(
-      genres: [channel.genre, channel.group, channel.category],
-      categories: channel.categories,
+      genres: [channel.genre],
+      categories: [channel.group, channel.category, ...channel.categories],
     );
   }
 
@@ -91,9 +92,11 @@ abstract final class ParentalControlService {
     return _isKidsTagged(genres: [series.genre], categories: series.categories);
   }
 
-  // "Animación" sola no basta (Hazbin Hotel, Invencible...): TMDB marca con
-  // "Familia" casi toda la animación para niños.
-  static const _kidsMarkers = [
+  // Solo cuentan los géneros (vienen de TMDB) y la categoría "familia". La
+  // categoría "infantil" NO: el panel automático se la pone a casi toda la
+  // animación (378 de 481), incluidas GTA VI e Injustice. "Animación" sola
+  // tampoco basta (Hazbin Hotel): TMDB marca con "Familia" la de niños.
+  static const _kidsGenres = [
     'infantil',
     'familia',
     'familiar',
@@ -139,21 +142,26 @@ abstract final class ParentalControlService {
   }) {
     final genreTags = _normalizedTags(genres);
     final categoryTags = _normalizedTags(categories);
-    final tags = [...genreTags, ...categoryTags];
-    bool hasIn(List<String> list, String marker) =>
-        list.any((tag) => tag.contains(marker));
-    bool has(String marker) => hasIn(tags, marker);
-    if (!_kidsMarkers.any(has)) return false;
-    // El panel etiqueta "terror" a títulos infantiles de Halloween/Scooby-Doo:
-    // esa categoría no bloquea si el título también está en "infantil". Si
-    // el género dice terror, bloquea siempre.
-    final kidsCategory = hasIn(categoryTags, 'infantil');
-    for (final marker in _hardBlocked) {
-      if (hasIn(genreTags, marker)) return false;
-      if (!kidsCategory && hasIn(categoryTags, marker)) return false;
+    bool inGenre(String marker) => genreTags.any((t) => t.contains(marker));
+    bool inCategory(String marker) =>
+        categoryTags.any((t) => t.contains(marker));
+
+    final familyGenre =
+        inGenre('familia') ||
+        inGenre('familiar') ||
+        inGenre('infantil') ||
+        inGenre('kids');
+    final forKids = _kidsGenres.any(inGenre) || inCategory('familia');
+    if (!forKids) return false;
+    // Género no apto: bloquea siempre. En categorías (el panel etiqueta
+    // "terror" a títulos de Halloween/Scooby-Doo) solo si el género no dice
+    // que es de familia.
+    if (_hardBlocked.any(inGenre)) return false;
+    if (!familyGenre && _hardBlocked.any(inCategory)) return false;
+    final family = familyGenre || inCategory('familia');
+    if (!family && (_softBlocked.any(inGenre) || inCategory('anime'))) {
+      return false;
     }
-    final forFamily = has('infantil') || has('familia') || has('familiar');
-    if (!forFamily && _softBlocked.any(has)) return false;
     return true;
   }
 

@@ -555,18 +555,25 @@ class _HourTvMobileHomeState extends State<HourTvMobileHome> {
   }
 
   void _updateCachedChannels() {
-    if (_moviesPageSource != null && _moviesPageSource!.items.isNotEmpty) {
-      _cachedDriftMovies = ParentalControlService.filterChannels(
-        _moviesPageSource!.items.map(CatalogRepository.titleToChannel),
-      );
+    // Drift no trae géneros: con perfil infantil/parental no se puede
+    // filtrar, así que ahí no se usa como respaldo.
+    final driftUsable = ParentalControlService.filterMode == 0;
+    if (driftUsable &&
+        _moviesPageSource != null &&
+        _moviesPageSource!.items.isNotEmpty) {
+      _cachedDriftMovies = _moviesPageSource!.items
+          .map(CatalogRepository.titleToChannel)
+          .toList(growable: false);
     } else {
       _cachedDriftMovies = const [];
     }
 
-    if (_seriesPageSource != null && _seriesPageSource!.items.isNotEmpty) {
-      _cachedDriftSeries = ParentalControlService.filterChannels(
-        _seriesPageSource!.items.map(CatalogRepository.titleToChannel),
-      );
+    if (driftUsable &&
+        _seriesPageSource != null &&
+        _seriesPageSource!.items.isNotEmpty) {
+      _cachedDriftSeries = _seriesPageSource!.items
+          .map(CatalogRepository.titleToChannel)
+          .toList(growable: false);
     } else {
       _cachedDriftSeries = const [];
     }
@@ -1508,7 +1515,7 @@ class _HourTvMobileSearchState extends State<HourTvMobileSearch> {
     if (!_scrollController.hasClients) return;
     if (_scrollController.position.extentAfter >= 600) return;
     final bool useDrift =
-        _driftPageSource != null &&
+        _driftUsable &&
         _query.isEmpty &&
         (_hasActiveFilters || _cachedDriftResults.isNotEmpty);
     if (useDrift) {
@@ -1556,6 +1563,11 @@ class _HourTvMobileSearchState extends State<HourTvMobileSearch> {
     });
   }
 
+  // La base local (Drift) no trae géneros: con perfil infantil o control
+  // parental no se puede filtrar, así que ahí todo sale del índice filtrado.
+  bool get _driftUsable =>
+      _driftPageSource != null && ParentalControlService.filterMode == 0;
+
   bool get _hasActiveFilters =>
       _query.isNotEmpty ||
       _type != 'Todo' ||
@@ -1571,7 +1583,7 @@ class _HourTvMobileSearchState extends State<HourTvMobileSearch> {
     // catálogo real que el panel publica, así que es la única fuente
     // confiable en cuanto hay texto escrito.
     final bool useDrift =
-        _driftPageSource != null &&
+        _driftUsable &&
         _query.isEmpty &&
         (_hasActiveFilters || _cachedDriftResults.isNotEmpty);
     final List<Channel> resultsList = useDrift

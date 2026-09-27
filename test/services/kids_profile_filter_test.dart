@@ -4,6 +4,7 @@ import 'package:streamtv/models/channel.dart';
 import 'package:streamtv/services/parental_control_service.dart';
 import 'package:streamtv/services/storage_service.dart';
 
+// Como catalog_parser: group/category = primera categoría del panel.
 Channel _movie(
   String name,
   String genre, [
@@ -12,6 +13,8 @@ Channel _movie(
   name: name,
   url: 'https://cdn.example/movie/$name.mp4',
   genre: genre,
+  group: categories.isEmpty ? null : categories.first,
+  category: categories.isEmpty ? 'peliculas' : categories.first,
   categories: categories,
 );
 
@@ -72,6 +75,32 @@ void main() {
     expect(
       kids(_movie('Dragon Ball Super', 'Animación, Anime, Acción')),
       isFalse,
+    );
+
+    // El panel pone la categoría "infantil" a casi toda la animación: no
+    // basta para entrar.
+    expect(
+      kids(
+        _movie('Grand Theft Auto VI', 'Animación, Acción, Aventura, Crimen', [
+          'infantil',
+          'accion',
+        ]),
+      ),
+      isFalse,
+    );
+    expect(
+      kids(
+        _movie('Injustice', 'Animación, Ciencia ficción, Acción', [
+          'infantil',
+          'accion',
+        ]),
+      ),
+      isFalse,
+    );
+    // Géneros pobres pero categoría "familia" (dato confiable): entra.
+    expect(
+      kids(_movie('Toy Story 3', 'buddy film, cine de comedia', ['familia'])),
+      isTrue,
     );
 
     // En vivo: solo canales infantiles.
