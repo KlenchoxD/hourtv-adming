@@ -80,6 +80,7 @@ class _PlayerScreenState extends State<PlayerScreen>
     with WidgetsBindingObserver {
   VideoPlayerController? _vc;
   ChewieController? _cc;
+  double _videoAr = 0;
   bool _loading = true;
   String? _err;
   // Texto crudo del error, para quien administra sus propias fuentes IPTV y
@@ -354,6 +355,18 @@ class _PlayerScreenState extends State<PlayerScreen>
   void _onVideoProgress() {
     final controller = _vc;
     if (controller == null) return;
+    // HLS adaptativo arranca en la calidad baja (p. ej. 480x360, 4:3) y
+    // luego sube (1280x720, 16:9): la caja del video debe seguir la
+    // proporción real o la imagen queda estirada.
+    final ar = controller.value.aspectRatio;
+    if (ar > 0 && (ar - _videoAr).abs() > .01) {
+      _videoAr = ar;
+      debugPrint(
+        '[PLAYER] video_size ${controller.value.size.width.round()}x'
+        '${controller.value.size.height.round()} ar=${ar.toStringAsFixed(2)}',
+      );
+      if (mounted) setState(() {});
+    }
     if (controller.value.hasError) {
       debugPrint('[PLAYER] playback_error');
       _handlePlaybackError(controller);
@@ -631,7 +644,6 @@ class _PlayerScreenState extends State<PlayerScreen>
         videoPlayerController: _vc!,
         autoPlay: false,
         looping: false,
-        aspectRatio: _vc!.value.aspectRatio,
         allowFullScreen: true,
         allowMuting: true,
         // Controles propios (chrome custom) hacen todo: play/pausa, seek,
@@ -1557,11 +1569,14 @@ class _PlayerScreenState extends State<PlayerScreen>
               setState(() => _videoFitMode = _VideoFitMode.automatic);
               Navigator.pop(dialogContext);
             },
-            child: const ListTile(
+            child: ListTile(
               contentPadding: EdgeInsets.zero,
-              leading: Icon(Icons.fit_screen_rounded),
-              title: Text('Autom\u00e1tico'),
-              subtitle: Text('Elige el mejor encuadre para la pantalla'),
+              leading: const Icon(Icons.fit_screen_rounded),
+              title: const Text('Autom\u00e1tico'),
+              subtitle: const Text('Elige el mejor encuadre para la pantalla'),
+              trailing: _videoFitMode == _VideoFitMode.automatic
+                  ? const Icon(Icons.check_rounded, color: _hourRed)
+                  : null,
             ),
           ),
           SimpleDialogOption(
@@ -1569,11 +1584,14 @@ class _PlayerScreenState extends State<PlayerScreen>
               setState(() => _videoFitMode = _VideoFitMode.contain);
               Navigator.pop(dialogContext);
             },
-            child: const ListTile(
+            child: ListTile(
               contentPadding: EdgeInsets.zero,
-              leading: Icon(Icons.fit_screen_rounded),
-              title: Text('Ajustar'),
-              subtitle: Text('Muestra la imagen completa'),
+              leading: const Icon(Icons.fit_screen_rounded),
+              title: const Text('Ajustar'),
+              subtitle: const Text('Muestra la imagen completa'),
+              trailing: _videoFitMode == _VideoFitMode.contain
+                  ? const Icon(Icons.check_rounded, color: _hourRed)
+                  : null,
             ),
           ),
           SimpleDialogOption(
@@ -1581,11 +1599,16 @@ class _PlayerScreenState extends State<PlayerScreen>
               setState(() => _videoFitMode = _VideoFitMode.cover);
               Navigator.pop(dialogContext);
             },
-            child: const ListTile(
+            child: ListTile(
               contentPadding: EdgeInsets.zero,
-              leading: Icon(Icons.zoom_out_map_rounded),
-              title: Text('Llenar (sin deformar)'),
-              subtitle: Text('Recorta los bordes para ocupar la pantalla'),
+              leading: const Icon(Icons.zoom_out_map_rounded),
+              title: const Text('Llenar (sin deformar)'),
+              subtitle: const Text(
+                'Recorta los bordes para ocupar la pantalla',
+              ),
+              trailing: _videoFitMode == _VideoFitMode.cover
+                  ? const Icon(Icons.check_rounded, color: _hourRed)
+                  : null,
             ),
           ),
         ],
@@ -2177,35 +2200,41 @@ class _PlayerScreenState extends State<PlayerScreen>
     final videoAr = controller.value.aspectRatio > 0
         ? controller.value.aspectRatio
         : 16 / 9;
+    // Se dibuja VideoPlayer directo, en una caja con la proporción actual del
+    // video y restricciones sueltas desde arriba. Chewie congelaba la
+    // proporción del arranque y metía una caja extra con la proporción de la
+    // pantalla: "Llenar" no llenaba y, al cambiar de calidad, estiraba.
+    //
     // Se mide la caja real que ocupa el video, no la pantalla entera: en modo
-    // creditos `_videoStage` reduce esa caja, y con MediaQuery el recorte se
-    // calculaba sobre un tamano que ya no era el del video.
+    // creditos `_androidVideoStage` reduce esa caja.
     return LayoutBuilder(
       builder: (context, constraints) {
         final width = constraints.maxWidth;
         final height = constraints.maxHeight;
-        final surface = Chewie(controller: chewie);
         if (!width.isFinite || !height.isFinite || width <= 0 || height <= 0) {
-          return surface;
+          return AspectRatio(
+            aspectRatio: videoAr,
+            child: VideoPlayer(controller),
+          );
         }
-        final screenAr = width / height;
+        final boxAr = width / height;
         final cover = switch (_videoFitMode) {
           _VideoFitMode.contain => false,
           _VideoFitMode.cover => true,
-          _VideoFitMode.automatic => _shouldFill(videoAr, screenAr),
+          _VideoFitMode.automatic => _shouldFill(videoAr, boxAr),
         };
-        if (!cover) return surface;
-        // OJO: aqui NO se puede usar Transform.scale. Impeller esta
-        // desactivado (Skia) y video_player pinta una textura externa: al
-        // aplicarle una matriz de escala el decodificador sigue entregando
-        // fotogramas (logcat: queueBuffer fps=30) pero la superficie no se
-        // compone y la pantalla queda en negro. Se comprobo en el Infinix.
+        // Siempre el mismo árbol (ClipRect > OverflowBox > SizedBox >
+        // VideoPlayer) y solo cambia el tamaño: si cambiara la estructura al
+        // pasar de Llenar a Ajustar, la vista nativa del video se recrea y la
+        // pantalla queda en negro.
         //
-        // En su lugar se agranda la CAJA por layout y se recorta con un
-        // ClipRect normal (sin saveLayer): la textura se dibuja a su tamano
-        // real, sin transformaciones.
-        final boxAr = width / height;
-        final target = videoAr > boxAr
+        // OJO: aqui NO se puede usar Transform.scale. Impeller esta
+        // desactivado (Skia) y video_player pinta una textura externa: con una
+        // matriz de escala la superficie no se compone y queda en negro. Se
+        // agranda la CAJA por layout, con la proporcion exacta del video (sin
+        // deformar), y se recorta lo que sobra.
+        final wider = videoAr > boxAr;
+        final target = (cover ? wider : !wider)
             ? Size(height * videoAr, height)
             : Size(width, width / videoAr);
         return ClipRect(
@@ -2215,7 +2244,7 @@ class _PlayerScreenState extends State<PlayerScreen>
             child: SizedBox(
               width: target.width,
               height: target.height,
-              child: surface,
+              child: VideoPlayer(controller),
             ),
           ),
         );
@@ -3460,11 +3489,28 @@ class _PlayerScreenState extends State<PlayerScreen>
     _playbackEnded.dispose();
     _screenFocus.dispose();
     if (_forcedLandscape || _forcedPortrait) {
-      SystemChrome.setPreferredOrientations([
+      const appOrientations = [
         DeviceOrientation.portraitUp,
         DeviceOrientation.landscapeLeft,
         DeviceOrientation.landscapeRight,
-      ]);
+      ];
+      if (_landscape) {
+        // Con la rotación bloqueada, Android se queda en la orientación
+        // actual si sigue permitida: toda la app quedaba en horizontal al
+        // salir del reproductor. Se vuelve a vertical y luego se libera.
+        unawaited(
+          SystemChrome.setPreferredOrientations(const [
+            DeviceOrientation.portraitUp,
+          ]).then(
+            (_) => Future<void>.delayed(
+              const Duration(milliseconds: 400),
+              () => SystemChrome.setPreferredOrientations(appOrientations),
+            ),
+          ),
+        );
+      } else {
+        SystemChrome.setPreferredOrientations(appOrientations);
+      }
     }
     if (defaultTargetPlatform == TargetPlatform.android) {
       unawaited(SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge));
