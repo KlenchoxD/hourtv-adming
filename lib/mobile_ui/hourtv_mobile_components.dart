@@ -557,7 +557,11 @@ class HourTvArtwork extends StatelessWidget {
     this.memCacheWidth = 342,
     this.memCacheHeight = 513,
     this.variant = ImageResolutionVariant.poster,
+    this.onShown,
   });
+
+  /// Se llama (durante build) cuando la imagen de red ya está lista.
+  final VoidCallback? onShown;
 
   final String? url;
   final String? asset;
@@ -581,6 +585,16 @@ class HourTvArtwork extends StatelessWidget {
             memCacheHeight: memCacheHeight,
             fadeInDuration: Duration.zero,
             fadeOutDuration: Duration.zero,
+            imageBuilder: onShown == null
+                ? null
+                : (_, provider) {
+                    onShown!();
+                    return Image(
+                      image: provider,
+                      fit: fit,
+                      alignment: alignment,
+                    );
+                  },
             placeholder: (_, _) =>
                 const ColoredBox(color: HourTvMobileTokens.surfacePrimary),
             errorWidget: (_, _, _) => _fallback(),

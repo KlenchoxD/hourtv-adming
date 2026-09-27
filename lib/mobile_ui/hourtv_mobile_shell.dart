@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/channel.dart';
+import '../new_ui/hourtv_startup_cover.dart';
 import '../new_ui/hourtv_live_page.dart';
 import '../new_ui/hourtv_new_shell.dart' show PreviewCatalog;
 import '../new_ui/hourtv_series_detail_page.dart';
@@ -1033,6 +1034,8 @@ class _HeroCarouselState extends State<_HeroCarousel> {
   @override
   void initState() {
     super.initState();
+    // La pantalla de carga espera a que el banner se vea (como Xuper).
+    HourTvStartupCover.markHeroPending();
     _scheduleAutoAdvance();
   }
 
@@ -1180,6 +1183,7 @@ class _HourTvHero extends StatelessWidget {
           variant: ImageResolutionVariant.heroBackdrop,
           memCacheWidth: 780,
           memCacheHeight: 439,
+          onShown: HourTvStartupCover.markHeroShown,
         ),
         const DecoratedBox(
           decoration: BoxDecoration(

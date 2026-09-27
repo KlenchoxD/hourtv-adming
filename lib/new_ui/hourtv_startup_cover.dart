@@ -14,6 +14,27 @@ import '../services/content_store.dart';
 /// (restauración de sesión, caché, sincronización remota y construcción de Inicio)
 /// sin recurrir a temporizadores arbitrarios.
 class HourTvStartupCover extends StatefulWidget {
+  /// Como Xuper: la pantalla de carga se quita con el banner ya dibujado.
+  /// El hero de Inicio avisa `pending` al empezar a cargar su imagen y
+  /// `shown` cuando ya está en pantalla; si nadie avisa (TV, sin
+  /// destacados) no se espera nada.
+  static final ValueNotifier<HeroImageState> heroImage =
+      ValueNotifier(HeroImageState.none);
+
+  static void markHeroPending() {
+    if (heroImage.value == HeroImageState.none) {
+      heroImage.value = HeroImageState.pending;
+    }
+  }
+
+  /// Se llama desde build: se aplica después del frame.
+  static void markHeroShown() {
+    if (heroImage.value == HeroImageState.shown) return;
+    SchedulerBinding.instance.addPostFrameCallback(
+      (_) => heroImage.value = HeroImageState.shown,
+    );
+  }
+
   const HourTvStartupCover({
     super.key,
     required this.child,
@@ -78,6 +99,7 @@ class _HourTvStartupCoverState extends State<HourTvStartupCover> {
     _catalogRepo?.removeListener(_onCatalogChanged);
     _fallbackTimer?.cancel();
     _revealTimer?.cancel();
+    HourTvStartupCover.heroImage.removeListener(_onHeroImage);
     super.dispose();
   }
 
@@ -137,6 +159,22 @@ class _HourTvStartupCoverState extends State<HourTvStartupCover> {
     }
   }
 
+  void _reveal() {
+    if (!mounted || _revealed) return;
+    _revealTimer?.cancel();
+    HourTvStartupCover.heroImage.removeListener(_onHeroImage);
+    setState(() => _revealed = true);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      debugPrint(
+        '[PERF_TTI] FIRST_INTERACTIVE_FRAME: time=${DateTime.now().millisecondsSinceEpoch}',
+      );
+    });
+  }
+
+  void _onHeroImage() {
+    if (HourTvStartupCover.heroImage.value == HeroImageState.shown) _reveal();
+  }
+
   void _mountAndReveal() {
     if (_childMounted || !mounted) return;
     _fallbackTimer?.cancel();
@@ -144,16 +182,17 @@ class _HourTvStartupCoverState extends State<HourTvStartupCover> {
       if (!mounted) return;
       setState(() => _childMounted = true);
       // Deja que Inicio dibuje un par de frames tapado (primer frame pesado
-      // + primeras imágenes) y recién entonces se quita esta pantalla.
+      // + primeras imágenes) y recién entonces se quita esta pantalla. Si el
+      // hero está cargando su imagen, se espera a que aparezca (máx. 2 s).
       WidgetsBinding.instance.addPostFrameCallback((_) {
         _revealTimer = Timer(const Duration(milliseconds: 350), () {
           if (!mounted) return;
-          setState(() => _revealed = true);
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            debugPrint(
-              '[PERF_TTI] FIRST_INTERACTIVE_FRAME: time=${DateTime.now().millisecondsSinceEpoch}',
-            );
-          });
+          if (HourTvStartupCover.heroImage.value != HeroImageState.pending) {
+            _reveal();
+            return;
+          }
+          HourTvStartupCover.heroImage.addListener(_onHeroImage);
+          _revealTimer = Timer(const Duration(milliseconds: 1650), _reveal);
         });
       });
     }
@@ -278,3 +317,5 @@ class _HourTvStartupCoverState extends State<HourTvStartupCover> {
     );
   }
 }
+
+enum HeroImageState { none, pending, shown }
