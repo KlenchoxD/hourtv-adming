@@ -133,8 +133,8 @@ void main() {
       )));
       await tester.pumpAndSettle();
 
-      expect(find.text('PERFIL 1'), findsOneWidget);
-      await tester.tap(find.text('PERFIL 1'));
+      expect(find.text('Perfil 1'), findsOneWidget);
+      await tester.tap(find.text('Perfil 1'));
       await tester.pumpAndSettle();
 
       expect(selected, isNotNull);

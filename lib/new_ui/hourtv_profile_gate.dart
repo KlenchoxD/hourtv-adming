@@ -6,6 +6,7 @@ import '../services/content_store.dart';
 import '../services/storage_service.dart';
 import 'hourtv_profile_avatar.dart';
 import 'hourtv_profile_avatars.dart';
+import 'hourtv_profile_picker.dart';
 
 const _bg = Color(0xFF050505);
 const _surface = Color(0xFF111113);
@@ -89,6 +90,12 @@ class _HourTvProfileGateState extends State<HourTvProfileGate> {
 
   @override
   Widget build(BuildContext context) {
+    if (_step == _GateStep.list) {
+      return Scaffold(
+        backgroundColor: _bg,
+        body: SafeArea(child: _listStep()),
+      );
+    }
     return Scaffold(
       backgroundColor: _bg,
       // Antes envolvia todo en Center(): con pocas tarjetas (el paso "tipo
@@ -148,76 +155,21 @@ class _HourTvProfileGateState extends State<HourTvProfileGate> {
     );
   }
 
-  Widget _listStep() {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        _header('¿QUIÉN VE HOURTV?', 'Elige tu perfil para continuar'),
-        Wrap(
-          spacing: 16,
-          runSpacing: 16,
-          alignment: WrapAlignment.center,
-          children: [
-            for (final profile in _profiles)
-              SizedBox(
-                width: 130,
-                child: _avatarCard(
-                  seed: HourTvAvatarCatalog.seedFor(
-                    profile['avatarId'].toString(),
-                  ),
-                  label: profile['name'].toString(),
-                  onTap: () => unawaited(_enterExisting(profile)),
-                ),
-              ),
-            SizedBox(
-              width: 130,
-              child: _addProfileCard(),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-
-  Widget _addProfileCard() {
-    return Opacity(
-      opacity: _busy ? .5 : 1,
-      child: InkWell(
-        onTap: _busy ? null : _goToType,
-        borderRadius: BorderRadius.circular(16),
-        child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 8),
-          decoration: BoxDecoration(
-            color: _surface,
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: _line, style: BorderStyle.solid),
+  Widget _listStep() => HourTvProfilePicker(
+    busy: _busy,
+    onAdd: _goToType,
+    profiles: [
+      for (final profile in _profiles)
+        HourTvProfilePickerItem(
+          name: profile['name'].toString(),
+          avatarSeed: HourTvAvatarCatalog.seedFor(
+            profile['avatarId'].toString(),
           ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const CircleAvatar(
-                radius: 36,
-                backgroundColor: Colors.transparent,
-                child: Icon(Icons.add_rounded, color: _muted, size: 36),
-              ),
-              const SizedBox(height: 10),
-              const Text(
-                'AGREGAR PERFIL',
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  color: _muted,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w800,
-                  letterSpacing: .2,
-                ),
-              ),
-            ],
-          ),
+          isKids: profile['isKids'] == true,
+          onTap: () => unawaited(_enterExisting(profile)),
         ),
-      ),
-    );
-  }
+    ],
+  );
 
   Widget _typeStep() {
     final canGoBack = _profiles.isNotEmpty;

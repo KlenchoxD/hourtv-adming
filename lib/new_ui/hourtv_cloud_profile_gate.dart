@@ -9,6 +9,7 @@ import '../services/sync/profile_sync_engine.dart';
 import 'hourtv_guest_import_prompt.dart';
 import 'hourtv_profile_avatar.dart';
 import 'hourtv_profile_avatars.dart';
+import 'hourtv_profile_picker.dart';
 
 const _bg = Color(0xFF050505);
 const _surface = Color(0xFF111113);
@@ -218,6 +219,12 @@ class _HourTvCloudProfileGateState extends State<HourTvCloudProfileGate> {
       );
     }
 
+    if (_step == _CloudGateStep.list) {
+      return Scaffold(
+        backgroundColor: _bg,
+        body: SafeArea(child: _listStep()),
+      );
+    }
     return Scaffold(
       backgroundColor: _bg,
       body: SafeArea(
@@ -275,62 +282,56 @@ class _HourTvCloudProfileGateState extends State<HourTvCloudProfileGate> {
 
   Widget _listStep() {
     final canAdd = _profiles.length < 5;
-
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        _header('¿QUIÉN VE HOURTV?', 'Elige tu perfil para continuar'),
-        if (_showMigrationPrompt && _guestSummary != null) ...[
-          HourTvGuestImportPrompt(
-            summary: _guestSummary!,
-            onDecision: (decision) async {
-              final migration =
-                  widget.migrationService ?? GuestMigrationService();
-              final ownerId = widget.accountId ??
-                  (_profiles.isNotEmpty ? _profiles.first.ownerId : null);
-              if (ownerId != null) {
-                await migration.rememberDecision(ownerId, decision);
-              }
-              if (mounted) {
-                setState(() => _showMigrationPrompt = false);
-              }
-            },
+    return HourTvProfilePicker(
+      busy: _busy,
+      onAdd: canAdd ? _goToType : null,
+      header: _showMigrationPrompt && _guestSummary != null
+          ? HourTvGuestImportPrompt(
+              summary: _guestSummary!,
+              onDecision: (decision) async {
+                final migration =
+                    widget.migrationService ?? GuestMigrationService();
+                final ownerId = widget.accountId ??
+                    (_profiles.isNotEmpty ? _profiles.first.ownerId : null);
+                if (ownerId != null) {
+                  await migration.rememberDecision(ownerId, decision);
+                }
+                if (mounted) {
+                  setState(() => _showMigrationPrompt = false);
+                }
+              },
+            )
+          : null,
+      profiles: [
+        for (final profile in _profiles)
+          HourTvProfilePickerItem(
+            name: profile.name,
+            avatarSeed: HourTvAvatarCatalog.seedFor(profile.avatarId),
+            isKids: profile.isKids,
+            onTap: () => unawaited(_selectProfile(profile)),
           ),
-          const SizedBox(height: 24),
-        ],
-        Wrap(
-          spacing: 16,
-          runSpacing: 16,
-          alignment: WrapAlignment.center,
-          children: [
-            for (final profile in _profiles)
-              SizedBox(
-                width: 130,
-                child: _avatarCard(
-                  seed: HourTvAvatarCatalog.seedFor(profile.avatarId),
-                  label: profile.name,
-                  onTap: () => unawaited(_selectProfile(profile)),
-                ),
-              ),
-            if (canAdd)
-              SizedBox(
-                width: 130,
-                child: _addProfileCard(),
-              ),
-          ],
-        ),
+      ],
+      footer: [
         if (!canAdd) ...[
           const SizedBox(height: 24),
           const Text(
             'Máximo de 5 perfiles',
-            style: TextStyle(color: _muted, fontSize: 13, fontWeight: FontWeight.w600),
+            style: TextStyle(
+              color: _muted,
+              fontSize: 13,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ],
         if (widget.onSignOut != null) ...[
           const SizedBox(height: 32),
           TextButton.icon(
             onPressed: widget.onSignOut,
-            icon: const Icon(Icons.logout_rounded, size: 16, color: Colors.white54),
+            icon: const Icon(
+              Icons.logout_rounded,
+              size: 16,
+              color: Colors.white54,
+            ),
             label: const Text(
               'Cerrar sesión',
               style: TextStyle(color: Colors.white54, fontSize: 12),
@@ -338,46 +339,6 @@ class _HourTvCloudProfileGateState extends State<HourTvCloudProfileGate> {
           ),
         ],
       ],
-    );
-  }
-
-  Widget _addProfileCard() {
-    return Opacity(
-      opacity: _busy ? .5 : 1,
-      child: InkWell(
-        onTap: _busy ? null : _goToType,
-        borderRadius: BorderRadius.circular(16),
-        child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 8),
-          decoration: BoxDecoration(
-            color: _surface,
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: _line),
-          ),
-          child: const Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              CircleAvatar(
-                radius: 36,
-                backgroundColor: Colors.transparent,
-                child: Icon(Icons.add_rounded, color: _muted, size: 36),
-              ),
-              SizedBox(height: 10),
-              Text(
-                'AGREGAR PERFIL',
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  color: _muted,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w800,
-                  letterSpacing: .2,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
     );
   }
 
