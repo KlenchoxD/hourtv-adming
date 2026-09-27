@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-09-27T07:24:03.630Z",
-  "durationMs": 599,
+  "generatedAt": "2026-09-27T13:11:01.555Z",
+  "durationMs": 2518,
   "dryRun": false,
   "moviesFound": 34,
   "moviesDiscarded": 19,
@@ -88,18 +88,18 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
+      "tmdbId": 1607127,
+      "title": "Un último disparo",
+      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+    },
+    {
       "tmdbId": 1482547,
       "title": "Zip Wire",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
       "tmdbId": 1492640,
-      "title": "UNABOMBER",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
-    },
-    {
-      "tmdbId": 1607127,
-      "title": "Un último disparo",
+      "title": "Unabomber",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
