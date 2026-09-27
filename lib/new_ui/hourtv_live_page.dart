@@ -1403,8 +1403,6 @@ class _PlayerSurfaceState extends State<_PlayerSurface> {
                         fontWeight: FontWeight.w800,
                       ),
                     ),
-                    const SizedBox(height: 8),
-                    _ProgramProgress(channel: channel),
                     const SizedBox(height: 6),
                     Row(
                       children: [

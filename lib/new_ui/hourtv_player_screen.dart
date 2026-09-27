@@ -1076,6 +1076,8 @@ class _PlayerScreenState extends State<PlayerScreen>
   }
 
   Future<void> _seekBy(Duration amount) async {
+    // En vivo no hay a dónde adelantar ni retroceder (doble toque, deslizar).
+    if (_isLive) return;
     final vc = _vc;
     if (vc == null || !vc.value.isInitialized) return;
     final durationMs = vc.value.duration.inMilliseconds;
@@ -3004,12 +3006,15 @@ class _PlayerScreenState extends State<PlayerScreen>
             const SizedBox(height: 16),
             Row(
               children: [
-                _tvControl(
-                  icon: Icons.replay_10_rounded,
-                  label: 'Atrás',
-                  onTap: () => unawaited(_seekBy(const Duration(seconds: -10))),
-                ),
-                const SizedBox(width: 12),
+                if (!_isLive) ...[
+                  _tvControl(
+                    icon: Icons.replay_10_rounded,
+                    label: 'Atrás',
+                    onTap: () =>
+                        unawaited(_seekBy(const Duration(seconds: -10))),
+                  ),
+                  const SizedBox(width: 12),
+                ],
                 _tvControl(
                   icon: value?.isPlaying == true
                       ? Icons.pause_rounded
@@ -3018,12 +3023,15 @@ class _PlayerScreenState extends State<PlayerScreen>
                   primary: true,
                   onTap: _togglePlayPause,
                 ),
-                const SizedBox(width: 12),
-                _tvControl(
-                  icon: Icons.forward_10_rounded,
-                  label: 'Adelante',
-                  onTap: () => unawaited(_seekBy(const Duration(seconds: 10))),
-                ),
+                if (!_isLive) ...[
+                  const SizedBox(width: 12),
+                  _tvControl(
+                    icon: Icons.forward_10_rounded,
+                    label: 'Adelante',
+                    onTap: () =>
+                        unawaited(_seekBy(const Duration(seconds: 10))),
+                  ),
+                ],
                 const SizedBox(width: 12),
                 _tvControl(
                   icon: _volume == 0
@@ -3036,46 +3044,49 @@ class _PlayerScreenState extends State<PlayerScreen>
                     setState(() {});
                   },
                 ),
-                const SizedBox(width: 20),
-                Text(
-                  format(position),
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontFeatures: [FontFeature.tabularFigures()],
+                // En vivo no hay línea de tiempo: nada que recorrer.
+                if (!_isLive) ...[
+                  const SizedBox(width: 20),
+                  Text(
+                    format(position),
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontFeatures: [FontFeature.tabularFigures()],
+                    ),
                   ),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
-                    child: initialized
-                        ? VideoProgressIndicator(
-                            controller!,
-                            allowScrubbing: true,
-                            padding: EdgeInsets.zero,
-                            colors: const VideoProgressColors(
-                              playedColor: _hourRed,
-                              bufferedColor: Color(0x99FFFFFF),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: initialized
+                          ? VideoProgressIndicator(
+                              controller!,
+                              allowScrubbing: true,
+                              padding: EdgeInsets.zero,
+                              colors: const VideoProgressColors(
+                                playedColor: _hourRed,
+                                bufferedColor: Color(0x99FFFFFF),
+                                backgroundColor: Color(0x44FFFFFF),
+                              ),
+                            )
+                          : const LinearProgressIndicator(
+                              minHeight: 6,
+                              color: _hourRed,
                               backgroundColor: Color(0x44FFFFFF),
                             ),
-                          )
-                        : const LinearProgressIndicator(
-                            minHeight: 6,
-                            color: _hourRed,
-                            backgroundColor: Color(0x44FFFFFF),
-                          ),
+                    ),
                   ),
-                ),
-                const SizedBox(width: 12),
-                Text(
-                  format(duration),
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontFeatures: [FontFeature.tabularFigures()],
+                  const SizedBox(width: 12),
+                  Text(
+                    format(duration),
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontFeatures: [FontFeature.tabularFigures()],
+                    ),
                   ),
-                ),
+                ],
               ],
             ),
           ],
