@@ -3,6 +3,7 @@ import 'dart:io' show Platform;
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart' show ScrollCacheExtent;
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/foundation.dart' show compute, kIsWeb;
 import 'package:flutter/services.dart';
@@ -12,6 +13,7 @@ import 'package:video_player/video_player.dart';
 import '../models/channel.dart';
 import '../services/content_store.dart';
 import '../services/device_type.dart';
+import '../services/logo_image_provider.dart';
 import '../services/storage_service.dart';
 import 'hourtv_player_screen.dart';
 import 'hourtv_search_keyboard.dart';
@@ -74,6 +76,7 @@ class _HourTvLivePageState extends State<HourTvLivePage> {
   // quedaba quieta, asi que el resaltado se salia de pantalla (y con miles de
   // canales, abrir la guia en un canal alto mostraba la lista sin seleccion).
   final ScrollController guideScroll = ScrollController();
+  final ScrollController _phoneListScroll = ScrollController();
   static const double _guideRowExtent = 88;
 
   // Canales que fallaron en esta sesión (403, caídos, sin conectar): no se
@@ -272,7 +275,7 @@ class _HourTvLivePageState extends State<HourTvLivePage> {
   // memoria antes de que el usuario llegue a ellos. Sin esto, cada fila nueva
   // iba a la caché en disco (SQLite + archivo) y decodificaba justo mientras
   // pasaba por la pantalla, y el scroll rápido se trababa.
-  // ponytail: tope de 400 logos (~20 MB a 96 px de alto); subir si hay más.
+  // ponytail: tope de 400 logos (~10 MB a 50 px de alto); subir si hay más.
   static final _isTest =
       !kIsWeb && Platform.environment.containsKey('FLUTTER_TEST');
   Object? _warmedFor;
@@ -287,6 +290,13 @@ class _HourTvLivePageState extends State<HourTvLivePage> {
       // Tras el primer frame: el canal arranca primero.
       await Future<void>.delayed(const Duration(milliseconds: 800));
       for (final url in urls) {
+        // Nunca compite con el scroll: cada logo sin caché en memoria pasa
+        // por la caché en disco en este mismo hilo. Se sigue al soltar.
+        while (mounted &&
+            _phoneListScroll.hasClients &&
+            _phoneListScroll.position.isScrollingNotifier.value) {
+          await Future<void>.delayed(const Duration(milliseconds: 250));
+        }
         if (!mounted || !identical(_warmedFor, channels)) return;
         await precacheImage(
           _channelLogoProvider(url),
@@ -304,6 +314,7 @@ class _HourTvLivePageState extends State<HourTvLivePage> {
     }
     remoteFocus.dispose();
     guideScroll.dispose();
+    _phoneListScroll.dispose();
     _searchKeyFocus.dispose();
     super.dispose();
   }
@@ -660,8 +671,11 @@ class _HourTvLivePageState extends State<HourTvLivePage> {
           // barato aunque haya cientos de canales.
           Expanded(
             child: ListView.builder(
+              controller: _phoneListScroll,
               padding: const EdgeInsets.only(bottom: 24),
               itemExtent: 68,
+              // Filas (y sus logos) listas unas pantallas antes de entrar.
+              scrollCacheExtent: const ScrollCacheExtent.pixels(700),
               itemCount: channels.length,
               itemBuilder: (context, index) {
                 final channel = channels[index];
@@ -1500,73 +1514,86 @@ class _PhoneChannelRow extends StatelessWidget {
   final bool active;
   final VoidCallback onTap;
 
+  // Estilos y decoraciones constantes: cada fila nueva que entra durante un
+  // deslizamiento rápido se monta con el mínimo de widgets y sin crear
+  // objetos. Antes Material + InkWell armaban por fila foco, acciones,
+  // semántica y detector de gestos, y eso era casi todo el costo del scroll.
+  static const _numStyle = TextStyle(
+    fontFeatures: [FontFeature.tabularFigures()],
+  );
+  static const _nameStyle = TextStyle(
+    color: Colors.white,
+    fontSize: 16,
+    fontWeight: FontWeight.w500,
+  );
+  static const _activeNameStyle = TextStyle(
+    color: _red,
+    fontSize: 16,
+    fontWeight: FontWeight.w500,
+  );
+  static const _programStyle = TextStyle(color: _muted, fontSize: 12.5);
+  static const _deco = BoxDecoration(
+    border: Border(bottom: BorderSide(color: _line, width: .6)),
+  );
+  static const _activeDeco = BoxDecoration(
+    color: Color(0xFF16181C),
+    border: Border(bottom: BorderSide(color: _line, width: .6)),
+  );
+  static const _playIcon = Icon(
+    Icons.play_arrow_rounded,
+    color: Color(0x66FFFFFF),
+    size: 24,
+  );
+  static const _nowIcon = Icon(Icons.graphic_eq_rounded, color: _red, size: 24);
+
   @override
   Widget build(BuildContext context) {
-    final program = channel.currentProgram?.title;
-    final nameColor = active ? _red : Colors.white;
-    return Material(
-      color: active ? const Color(0xFF16181C) : Colors.transparent,
-      child: InkWell(
-        onTap: onTap,
-        child: DecoratedBox(
-          decoration: const BoxDecoration(
-            border: Border(bottom: BorderSide(color: _line, width: .6)),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 14),
-            child: Row(
-              children: [
-                SizedBox(
-                  width: 56,
-                  height: 34,
-                  child: _ChannelLogo(url: channel.logo),
-                ),
-                const SizedBox(width: 12),
-                Text(
-                  number.toString().padLeft(3, '0'),
-                  style: TextStyle(
-                    color: nameColor,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                    fontFeatures: const [FontFeature.tabularFigures()],
-                  ),
-                ),
-                const SizedBox(width: 14),
-                Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        channel.displayName,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          color: nameColor,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      if (program != null && program.trim().isNotEmpty)
-                        Text(
-                          program,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                            color: _muted,
-                            fontSize: 12.5,
+    final program = channel.currentProgram?.title.trim() ?? '';
+    final title = Text.rich(
+      TextSpan(
+        children: [
+          TextSpan(text: number.toString().padLeft(3, '0'), style: _numStyle),
+          TextSpan(text: '   ${channel.displayName}'),
+        ],
+      ),
+      maxLines: 1,
+      overflow: TextOverflow.ellipsis,
+      style: active ? _activeNameStyle : _nameStyle,
+    );
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: onTap,
+      child: DecoratedBox(
+        decoration: active ? _activeDeco : _deco,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 14),
+          child: Row(
+            children: [
+              SizedBox(
+                width: 56,
+                height: 34,
+                child: _ChannelLogo(url: channel.logo),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: program.isEmpty
+                    ? title
+                    : Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          title,
+                          Text(
+                            program,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: _programStyle,
                           ),
-                        ),
-                    ],
-                  ),
-                ),
-                Icon(
-                  active ? Icons.graphic_eq_rounded : Icons.play_arrow_rounded,
-                  color: active ? _red : const Color(0x66FFFFFF),
-                  size: 24,
-                ),
-              ],
-            ),
+                        ],
+                      ),
+              ),
+              active ? _nowIcon : _playIcon,
+            ],
           ),
         ),
       ),
@@ -1575,8 +1602,13 @@ class _PhoneChannelRow extends StatelessWidget {
 }
 
 /// Mismo proveedor (y misma clave de caché) para la precarga y la fila.
-ImageProvider _channelLogoProvider(String url) =>
-    ResizeImage(CachedNetworkImageProvider(url), height: 96, allowUpscaling: false);
+/// Decodificado a ~50 px de alto: el recuadro mide 34 dp (≈49 px en el
+/// Moto G24), así la GPU lo dibuja casi 1:1 sin reducirlo en cada frame.
+ImageProvider _channelLogoProvider(String url) => ResizeImage(
+  kIsWeb ? NetworkImage(url) : LogoImageProvider(url),
+  height: 50,
+  allowUpscaling: false,
+);
 
 /// Logo del canal completo (contain), sin recortar. Un `Image` simple: más
 /// liviano que CachedNetworkImage por fila y, en un deslizamiento muy rápido,
@@ -1598,6 +1630,7 @@ class _ChannelLogo extends StatelessWidget {
     return Image(
       image: _channelLogoProvider(u),
       fit: BoxFit.contain,
+      filterQuality: FilterQuality.low,
       gaplessPlayback: true,
       errorBuilder: (_, _, _) => _fallback,
     );

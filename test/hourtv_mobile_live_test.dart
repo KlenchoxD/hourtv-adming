@@ -55,9 +55,9 @@ void main() {
 
       // Categoria inicial: todos los canales, sin filtrar.
       expect(find.text('Todos los canales'), findsOneWidget);
-      expect(find.text('ESPN'), findsOneWidget);
-      expect(find.text('Fox Sports'), findsOneWidget);
-      expect(find.text('CNN'), findsOneWidget);
+      expect(_channelRow('ESPN'), findsOneWidget);
+      expect(_channelRow('Fox Sports'), findsOneWidget);
+      expect(_channelRow('CNN'), findsOneWidget);
 
       // Abre el selector de categorias (hoja inferior).
       await tester.tap(find.text('CATEGORÍA'));
@@ -72,10 +72,17 @@ void main() {
       await tester.tap(find.text('Deportes'));
       await tester.pumpAndSettle();
 
-      expect(find.text('ESPN'), findsOneWidget);
-      expect(find.text('Fox Sports'), findsOneWidget);
-      expect(find.text('CNN'), findsNothing);
+      expect(_channelRow('ESPN'), findsOneWidget);
+      expect(_channelRow('Fox Sports'), findsOneWidget);
+      expect(_channelRow('CNN'), findsNothing);
       expect(tester.takeException(), isNull);
     },
   );
 }
+
+/// Fila de canal en teléfono: número y nombre van en un solo texto
+/// ("001   ESPN").
+Finder _channelRow(String name) => find.textContaining(
+  RegExp(r'^\d{3}\s+' + RegExp.escape(name) + r'$'),
+  findRichText: true,
+);

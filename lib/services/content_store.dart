@@ -276,7 +276,7 @@ class ContentStore extends ChangeNotifier {
         unawaited(_refreshContent(localSources));
       } else {
         unawaited(() async {
-          await Future<void>.delayed(const Duration(seconds: 5));
+          await Future<void>.delayed(const Duration(seconds: 20));
           await _waitForTouchIdle();
           await _refreshContent(localSources);
         }());
@@ -316,7 +316,7 @@ class ContentStore extends ChangeNotifier {
         !kIsWeb && Platform.environment.containsKey('FLUTTER_TEST');
     unawaited(() async {
       if (!isTestEnv) {
-        await Future<void>.delayed(const Duration(seconds: 5));
+        await Future<void>.delayed(const Duration(seconds: 20));
         await _waitForTouchIdle();
       }
       await _refreshTrending();
