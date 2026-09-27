@@ -1278,8 +1278,8 @@ class _PlayerSurfaceState extends State<_PlayerSurface> {
               ),
             if (!tv)
               Positioned(
-                right: 12,
-                top: 10,
+                right: 8,
+                bottom: 6,
                 child: IconButton(
                   tooltip: 'Pantalla completa',
                   onPressed: onPlay,
@@ -1366,7 +1366,8 @@ class _PlayerSurfaceState extends State<_PlayerSurface> {
             if (!tv)
               Positioned(
                 left: 16,
-                right: 16,
+                // Deja sitio al botón de pantalla completa (abajo a la derecha).
+                right: 64,
                 bottom: 14,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

@@ -90,6 +90,10 @@ class _PlayerScreenState extends State<PlayerScreen>
   final _screenFocus = FocusNode();
   bool _forcedLandscape = false;
   bool _forcedPortrait = false;
+  bool _landscape = false;
+  // Posición mientras se arrastra la barra: se busca al soltar, no en cada
+  // píxel (cada seekTo reinicia el buffer del stream).
+  final _scrubMs = ValueNotifier<double?>(null);
   static const _platform = MethodChannel('hourtv/device');
   Timer? _chromeTimer;
   Timer? _gestureTimer;
@@ -209,6 +213,7 @@ class _PlayerScreenState extends State<PlayerScreen>
         widget.forceLandscape ||
         StorageService.getSetting('forceLandscape', defaultValue: false) ==
             true;
+    _landscape = landscape;
     if (landscape) {
       _forcedLandscape = true;
       unawaited(
@@ -496,6 +501,7 @@ class _PlayerScreenState extends State<PlayerScreen>
     bool isFallbackAttempt = false,
   }) async {
     final targetUrl = streamUrl ?? ch.url;
+    debugPrint('[PLAYER] init host=${Uri.tryParse(targetUrl)?.host}');
     if (targetUrl.startsWith('catalog://') || ch.url.startsWith('catalog://')) {
       setState(() {
         _loading = false;
@@ -542,7 +548,13 @@ class _PlayerScreenState extends State<PlayerScreen>
       // como Xuper, se intenta extraer el .m3u8/.mp4 directo y reproducirlo
       // nativo en ExoPlayer con su Referer. En Vivo nunca entra aqui.
       if (ch.type != MediaType.live && isEmbedStreamUrl(targetUrl)) {
-        final resolution = await EmbedResolver.resolveForPlayback(targetUrl);
+        var resolution = await EmbedResolver.resolveForPlayback(targetUrl);
+        // Un fallo de red puntual mandaba directo a la página web del
+        // servidor (video diminuto, sin controles): se reintenta una vez.
+        if (resolution.stream == null && resolution.safeWebUrl == null) {
+          if (!mounted) return;
+          resolution = await EmbedResolver.resolveForPlayback(targetUrl);
+        }
         final resolved = resolution.stream;
         if (!mounted) return;
         if (resolved != null) {
@@ -1017,6 +1029,21 @@ class _PlayerScreenState extends State<PlayerScreen>
     // va a cambiar hasta que el usuario retome.
     if (!v.value.isPlaying) _persistFinalProgress();
     setState(() {});
+  }
+
+  void _toggleOrientation() {
+    setState(() => _landscape = !_landscape);
+    if (_landscape) {
+      _forcedLandscape = true;
+    } else {
+      _forcedPortrait = true;
+    }
+    unawaited(
+      SystemChrome.setPreferredOrientations(
+        hourTvPlayerOrientations(forceLandscape: _landscape),
+      ),
+    );
+    _showChromeControls();
   }
 
   void _showChromeControls() {
@@ -1933,6 +1960,28 @@ class _PlayerScreenState extends State<PlayerScreen>
                                   ),
                                 ),
                               if (_vc != null) _subtitleOverlay(_vc!),
+                              if (_chromeVisible &&
+                                  !DeviceProfile.isTv(context) &&
+                                  !DeviceProfile.isDesktop(context))
+                                const Positioned.fill(
+                                  child: IgnorePointer(
+                                    child: DecoratedBox(
+                                      decoration: BoxDecoration(
+                                        gradient: LinearGradient(
+                                          begin: Alignment.topCenter,
+                                          end: Alignment.bottomCenter,
+                                          colors: [
+                                            Color(0xB3000000),
+                                            Color(0x33000000),
+                                            Color(0x33000000),
+                                            Color(0xCC000000),
+                                          ],
+                                          stops: [0, .22, .7, 1],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
                               if (_chromeVisible)
                                 Positioned(
                                   top: 0,
@@ -1952,13 +2001,15 @@ class _PlayerScreenState extends State<PlayerScreen>
                               if (_chromeVisible &&
                                   !DeviceProfile.isDesktop(context) &&
                                   !DeviceProfile.isTv(context) &&
-                                  !_showList)
+                                  !_showList) ...[
+                                Positioned.fill(child: _touchCenterControls()),
                                 Positioned(
                                   left: 16,
                                   right: 16,
-                                  bottom: 12,
+                                  bottom: 8,
                                   child: _touchTransport(),
                                 ),
+                              ],
                               if (_chromeVisible &&
                                   DeviceProfile.isDesktop(context) &&
                                   !_showList)
@@ -2274,89 +2325,207 @@ class _PlayerScreenState extends State<PlayerScreen>
     return 1 - (smaller / larger) <= .25;
   }
 
+  /// Controles centrales como Netflix: -10 s, play/pausa grande y +10 s.
+  /// En vivo no hay saltos, solo play/pausa.
+  Widget _touchCenterControls() {
+    final controller = _vc;
+    if (controller == null || _loading || _err != null) {
+      return const SizedBox.shrink();
+    }
+    return Center(
+      child: ValueListenableBuilder<VideoPlayerValue>(
+        valueListenable: controller,
+        builder: (context, value, _) => Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (!_isLive) ...[
+              _roundControl(
+                icon: Icons.replay_10_rounded,
+                tooltip: 'Retroceder 10 segundos',
+                size: 52,
+                onTap: () => unawaited(_seekBy(const Duration(seconds: -10))),
+              ),
+              const SizedBox(width: 36),
+            ],
+            _roundControl(
+              icon: value.isPlaying
+                  ? Icons.pause_rounded
+                  : Icons.play_arrow_rounded,
+              tooltip: value.isPlaying ? 'Pausar' : 'Reproducir',
+              size: 76,
+              filled: true,
+              onTap: () {
+                _togglePlayPause();
+                _showChromeControls();
+              },
+            ),
+            if (!_isLive) ...[
+              const SizedBox(width: 36),
+              _roundControl(
+                icon: Icons.forward_10_rounded,
+                tooltip: 'Adelantar 10 segundos',
+                size: 52,
+                onTap: () => unawaited(_seekBy(const Duration(seconds: 10))),
+              ),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _roundControl({
+    required IconData icon,
+    required String tooltip,
+    required double size,
+    required VoidCallback onTap,
+    bool filled = false,
+  }) {
+    return Tooltip(
+      message: tooltip,
+      child: Material(
+        color: filled ? const Color(0x33FFFFFF) : Colors.transparent,
+        shape: CircleBorder(
+          side: filled
+              ? const BorderSide(color: Color(0x55FFFFFF))
+              : BorderSide.none,
+        ),
+        child: InkWell(
+          customBorder: const CircleBorder(),
+          onTap: onTap,
+          child: SizedBox(
+            width: size,
+            height: size,
+            child: Icon(icon, color: Colors.white, size: size * .56),
+          ),
+        ),
+      ),
+    );
+  }
+
+  /// Barra inferior: línea de tiempo gruesa y fácil de arrastrar, tiempos y
+  /// el botón para girar a horizontal (el reproductor abre en vertical).
   Widget _touchTransport() {
     final controller = _vc;
     if (controller == null) return const SizedBox.shrink();
+    final rotate = IconButton(
+      tooltip: _landscape ? 'Vertical' : 'Horizontal',
+      onPressed: _toggleOrientation,
+      icon: Icon(
+        _landscape ? Icons.fullscreen_exit_rounded : Icons.fullscreen_rounded,
+        color: Colors.white,
+        size: 28,
+      ),
+    );
     return ValueListenableBuilder<VideoPlayerValue>(
       valueListenable: controller,
       builder: (context, value, _) {
-        final ready = value.isInitialized && value.duration > Duration.zero;
-        return DecoratedBox(
-          decoration: BoxDecoration(
-            color: Colors.black.withValues(alpha: .82),
-            borderRadius: BorderRadius.circular(14),
-            border: Border.all(color: Colors.white12),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(10, 8, 12, 10),
-            child: Row(
-              children: [
-                IconButton(
-                  tooltip: 'Retroceder 5 segundos',
-                  onPressed: () =>
-                      unawaited(_seekBy(const Duration(seconds: -5))),
-                  icon: const Icon(Icons.replay_5_rounded, color: Colors.white),
+        final durationMs = value.duration.inMilliseconds.toDouble();
+        if (value.isInitialized && durationMs > 0 && !_isLive) {
+          return ValueListenableBuilder<double?>(
+            valueListenable: _scrubMs,
+            builder: (context, scrub, _) =>
+                _timeline(controller, value, durationMs, scrub, rotate),
+          );
+        }
+        return Row(
+          children: [
+            if (_isLive)
+              DecoratedBox(
+                decoration: BoxDecoration(
+                  color: const Color(0xFFE53935),
+                  borderRadius: BorderRadius.circular(4),
                 ),
-                IconButton(
-                  tooltip: value.isPlaying ? 'Pausar' : 'Reproducir',
-                  onPressed: _togglePlayPause,
-                  icon: Icon(
-                    value.isPlaying
-                        ? Icons.pause_rounded
-                        : Icons.play_arrow_rounded,
-                    color: Colors.white,
+                child: const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                  child: Text(
+                    'EN VIVO',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 11,
+                      fontWeight: FontWeight.w800,
+                      letterSpacing: .8,
+                    ),
                   ),
                 ),
-                IconButton(
-                  tooltip: 'Adelantar 5 segundos',
-                  onPressed: () =>
-                      unawaited(_seekBy(const Duration(seconds: 5))),
-                  icon: const Icon(
-                    Icons.forward_5_rounded,
-                    color: Colors.white,
-                  ),
+              )
+            else
+              const Expanded(
+                child: LinearProgressIndicator(
+                  minHeight: 3,
+                  color: _hourRed,
+                  backgroundColor: Colors.white24,
                 ),
-                Text(
-                  _formatPlaybackTime(value.position),
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 12,
-                    fontFeatures: [FontFeature.tabularFigures()],
-                  ),
-                ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: ready
-                      ? VideoProgressIndicator(
-                          controller,
-                          allowScrubbing: true,
-                          padding: const EdgeInsets.symmetric(vertical: 10),
-                          colors: const VideoProgressColors(
-                            playedColor: _hourRed,
-                            bufferedColor: Color(0x99FFFFFF),
-                            backgroundColor: Color(0x44FFFFFF),
-                          ),
-                        )
-                      : const LinearProgressIndicator(
-                          minHeight: 4,
-                          color: _hourRed,
-                          backgroundColor: Color(0x44FFFFFF),
-                        ),
-                ),
-                const SizedBox(width: 10),
-                Text(
-                  _formatPlaybackTime(value.duration),
-                  style: const TextStyle(
-                    color: Colors.white70,
-                    fontSize: 12,
-                    fontFeatures: [FontFeature.tabularFigures()],
-                  ),
-                ),
-              ],
-            ),
-          ),
+              ),
+            if (_isLive) const Spacer(),
+            rotate,
+          ],
         );
       },
+    );
+  }
+
+  /// Una sola fila como Netflix: tiempo, barra, restante y girar.
+  Widget _timeline(
+    VideoPlayerController controller,
+    VideoPlayerValue value,
+    double durationMs,
+    double? scrub,
+    Widget trailing,
+  ) {
+    final buffered = value.buffered.isEmpty
+        ? 0.0
+        : value.buffered.last.end.inMilliseconds.toDouble();
+    final shown = (scrub ?? value.position.inMilliseconds.toDouble()).clamp(
+      0.0,
+      durationMs,
+    );
+    const timeStyle = TextStyle(
+      color: Colors.white,
+      fontSize: 12.5,
+      fontWeight: FontWeight.w600,
+      fontFeatures: [FontFeature.tabularFigures()],
+    );
+    return Row(
+      children: [
+        Text(
+          _formatPlaybackTime(Duration(milliseconds: shown.round())),
+          style: timeStyle,
+        ),
+        Expanded(
+          child: SliderTheme(
+            data: SliderTheme.of(context).copyWith(
+              trackHeight: 4,
+              activeTrackColor: _hourRed,
+              inactiveTrackColor: Colors.white24,
+              secondaryActiveTrackColor: Colors.white54,
+              thumbColor: _hourRed,
+              overlayColor: _hourRed.withValues(alpha: .2),
+              thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 7),
+            ),
+            child: Slider(
+              value: shown,
+              max: durationMs,
+              secondaryTrackValue: buffered.clamp(0.0, durationMs),
+              onChangeStart: (_) => _chromeTimer?.cancel(),
+              onChanged: (v) => _scrubMs.value = v,
+              onChangeEnd: (v) async {
+                await controller.seekTo(Duration(milliseconds: v.round()));
+                _scrubMs.value = null;
+                _showChromeControls();
+              },
+            ),
+          ),
+        ),
+        Text(
+          '-${_formatPlaybackTime(value.duration - Duration(milliseconds: shown.round()))}',
+          style: timeStyle.copyWith(
+            color: Colors.white70,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        trailing,
+      ],
     );
   }
 
@@ -3279,6 +3448,7 @@ class _PlayerScreenState extends State<PlayerScreen>
     _persistFinalProgress();
     _chromeTimer?.cancel();
     _gestureTimer?.cancel();
+    _scrubMs.dispose();
     _castDevicesSubscription?.cancel();
     _castSessionSubscription?.cancel();
     unawaited(CastService.instance.stopDiscovery());

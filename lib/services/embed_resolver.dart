@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
 /// Stream directo extraído de una página embed, con las cabeceras que su CDN
@@ -54,6 +55,7 @@ class EmbedResolver {
           )
           .timeout(const Duration(seconds: 15));
       if (res.statusCode != 200 || res.body.isEmpty) {
+        debugPrint('[PLAYER] embed_http ${res.statusCode} host=${Uri.parse(embedUrl).host}');
         return const EmbedResolution();
       }
       final html = res.body;
@@ -76,7 +78,10 @@ class EmbedResolver {
 
       // Demas hosts: packer p,a,c,k,e,d / jwplayer / file:"...".
       final source = _extractSource(html);
-      if (source == null) return const EmbedResolution();
+      if (source == null) {
+        debugPrint('[PLAYER] embed_no_source host=${Uri.parse(embedUrl).host}');
+        return const EmbedResolution();
+      }
       final absolute = _absolute(source, embedUrl);
       // El CDN de estos hosts suele exigir Referer del propio sitio.
       return EmbedResolution(
@@ -85,7 +90,8 @@ class EmbedResolver {
           'Referer': '$origin/',
         }),
       );
-    } catch (_) {
+    } catch (e) {
+      debugPrint('[PLAYER] embed_error ${e.runtimeType}');
       return const EmbedResolution();
     }
   }
