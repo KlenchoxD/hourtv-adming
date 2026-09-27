@@ -1077,48 +1077,48 @@ class ContentStore extends ChangeNotifier {
   List<Channel>? _visibleAllCache;
   List<Channel>? _visibleAllSource;
   int _visibleAllLength = -1;
-  bool _visibleAllRestricted = false;
+  int _visibleAllMode = -1;
 
   /// Se memoriza porque la UI lee este getter varias veces por build y filtrar
   /// el catalogo completo en cada lectura era lo que trababa el modo
   /// restringido. El cache se invalida si `all` se reemplaza, si le crecen
   /// elementos, o si cambia el estado del control parental.
   List<Channel> get visibleAll {
-    final restricted = ParentalControlService.isEnabled;
+    final mode = ParentalControlService.filterMode;
     final cached = _visibleAllCache;
     if (cached != null &&
         identical(_visibleAllSource, all) &&
         _visibleAllLength == all.length &&
-        _visibleAllRestricted == restricted) {
+        _visibleAllMode == mode) {
       return cached;
     }
     final filtered = ParentalControlService.filterChannels(all);
     _visibleAllCache = filtered;
     _visibleAllSource = all;
     _visibleAllLength = all.length;
-    _visibleAllRestricted = restricted;
+    _visibleAllMode = mode;
     return filtered;
   }
 
   List<XtreamSeries>? _visibleSeriesCache;
   List<XtreamSeries>? _visibleSeriesSource;
   int _visibleSeriesLength = -1;
-  bool _visibleSeriesRestricted = false;
+  int _visibleSeriesMode = -1;
 
   List<XtreamSeries> get visibleSeries {
-    final restricted = ParentalControlService.isEnabled;
+    final mode = ParentalControlService.filterMode;
     final cached = _visibleSeriesCache;
     if (cached != null &&
         identical(_visibleSeriesSource, series) &&
         _visibleSeriesLength == series.length &&
-        _visibleSeriesRestricted == restricted) {
+        _visibleSeriesMode == mode) {
       return cached;
     }
     final filtered = ParentalControlService.filterSeries(series);
     _visibleSeriesCache = filtered;
     _visibleSeriesSource = series;
     _visibleSeriesLength = series.length;
-    _visibleSeriesRestricted = restricted;
+    _visibleSeriesMode = mode;
     return filtered;
   }
 

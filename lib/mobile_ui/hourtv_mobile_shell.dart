@@ -19,6 +19,7 @@ import '../new_ui/hourtv_settings_playback_page.dart';
 import '../services/catalog_presentation_index.dart';
 import '../services/content_store.dart';
 import '../services/device_type.dart';
+import '../services/parental_control_service.dart';
 import '../services/storage_service.dart';
 import '../services/xtream_service.dart';
 import 'hourtv_compact_filter_selector.dart';
@@ -555,17 +556,17 @@ class _HourTvMobileHomeState extends State<HourTvMobileHome> {
 
   void _updateCachedChannels() {
     if (_moviesPageSource != null && _moviesPageSource!.items.isNotEmpty) {
-      _cachedDriftMovies = _moviesPageSource!.items
-          .map(CatalogRepository.titleToChannel)
-          .toList(growable: false);
+      _cachedDriftMovies = ParentalControlService.filterChannels(
+        _moviesPageSource!.items.map(CatalogRepository.titleToChannel),
+      );
     } else {
       _cachedDriftMovies = const [];
     }
 
     if (_seriesPageSource != null && _seriesPageSource!.items.isNotEmpty) {
-      _cachedDriftSeries = _seriesPageSource!.items
-          .map(CatalogRepository.titleToChannel)
-          .toList(growable: false);
+      _cachedDriftSeries = ParentalControlService.filterChannels(
+        _seriesPageSource!.items.map(CatalogRepository.titleToChannel),
+      );
     } else {
       _cachedDriftSeries = const [];
     }
