@@ -45,71 +45,64 @@ class HourTvProfilePicker extends StatelessWidget {
   final Widget? header;
   final List<Widget> footer;
 
-  static const _tileWidth = 116.0;
-  static const _avatarRadius = 50.0;
+  static const _tileWidth = 132.0;
+  static const _avatarRadius = 58.0;
 
   @override
   Widget build(BuildContext context) {
+    // Todo en un solo bloque centrado: con el logo anclado arriba y la
+    // grilla centrada aparte quedaban dos huecos grandes en la pantalla.
     return LayoutBuilder(
       builder: (context, box) => SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
         child: ConstrainedBox(
           constraints: BoxConstraints(minHeight: box.maxHeight - 48),
-          child: Column(
-            children: [
-              const HourTvLogo(fontSize: 30),
-              const SizedBox(height: 12),
-              // El bloque central queda centrado en el alto disponible:
-              // antes todo iba pegado arriba y la mitad de abajo quedaba vacía.
-              ConstrainedBox(
-                constraints: BoxConstraints(minHeight: box.maxHeight * .7),
-                child: Center(
-                  child: ConstrainedBox(
-                    constraints: const BoxConstraints(maxWidth: 440),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Text(
-                          '¿Quién está viendo?',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 24,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                        const SizedBox(height: 28),
-                        if (header != null) ...[
-                          header!,
-                          const SizedBox(height: 24),
-                        ],
-                        Wrap(
-                          spacing: 20,
-                          runSpacing: 24,
-                          alignment: WrapAlignment.center,
-                          children: [
-                            for (final profile in profiles)
-                              _ProfileTile(
-                                width: _tileWidth,
-                                radius: _avatarRadius,
-                                profile: profile,
-                                enabled: !busy,
-                              ),
-                            if (onAdd != null)
-                              _AddTile(
-                                width: _tileWidth,
-                                radius: _avatarRadius,
-                                onTap: busy ? null : onAdd,
-                              ),
-                          ],
-                        ),
-                        ...footer,
-                      ],
+          child: Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 460),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const HourTvLogo(fontSize: 22),
+                  const SizedBox(height: 28),
+                  const Text(
+                    '¿Quién está viendo?',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 24,
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
-                ),
+                  const SizedBox(height: 32),
+                  if (header != null) ...[
+                    header!,
+                    const SizedBox(height: 24),
+                  ],
+                  Wrap(
+                    spacing: 16,
+                    runSpacing: 24,
+                    alignment: WrapAlignment.center,
+                    children: [
+                      for (final profile in profiles)
+                        _ProfileTile(
+                          width: _tileWidth,
+                          radius: _avatarRadius,
+                          profile: profile,
+                          enabled: !busy,
+                        ),
+                      if (onAdd != null)
+                        _AddTile(
+                          width: _tileWidth,
+                          radius: _avatarRadius,
+                          onTap: busy ? null : onAdd,
+                        ),
+                    ],
+                  ),
+                  ...footer,
+                ],
               ),
-            ],
+            ),
           ),
         ),
       ),
