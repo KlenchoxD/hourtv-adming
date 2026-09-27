@@ -1,9 +1,10 @@
 import 'dart:async';
+import 'dart:io' show Platform;
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:flutter/foundation.dart' show compute;
+import 'package:flutter/foundation.dart' show compute, kIsWeb;
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:video_player/video_player.dart';
@@ -265,6 +266,35 @@ class _HourTvLivePageState extends State<HourTvLivePage> {
       guideIndex = widget.channels.indexOf(current);
       _autoPicked = true;
     }
+  }
+
+  // Como Xuper (Glide): los logos de la lista quedan decodificados en
+  // memoria antes de que el usuario llegue a ellos. Sin esto, cada fila nueva
+  // iba a la caché en disco (SQLite + archivo) y decodificaba justo mientras
+  // pasaba por la pantalla, y el scroll rápido se trababa.
+  // ponytail: tope de 400 logos (~20 MB a 96 px de alto); subir si hay más.
+  static final _isTest =
+      !kIsWeb && Platform.environment.containsKey('FLUTTER_TEST');
+  Object? _warmedFor;
+  void _warmLogos(List<Channel> channels) {
+    if (identical(_warmedFor, channels) || _isTest) return;
+    _warmedFor = channels;
+    final urls = <String>{
+      for (final c in channels.take(400))
+        if ((c.logo ?? '').trim().isNotEmpty) c.logo!.trim(),
+    };
+    unawaited(() async {
+      // Tras el primer frame: el canal arranca primero.
+      await Future<void>.delayed(const Duration(milliseconds: 800));
+      for (final url in urls) {
+        if (!mounted || !identical(_warmedFor, channels)) return;
+        await precacheImage(
+          _channelLogoProvider(url),
+          context,
+          onError: (_, _) {},
+        );
+      }
+    }());
   }
 
   @override
@@ -555,6 +585,7 @@ class _HourTvLivePageState extends State<HourTvLivePage> {
   Widget _touchLayout({required int columns}) {
     final phone = widget.phone;
     final channels = _touchOrdered(filtered);
+    if (phone) _warmLogos(channels);
     return Column(
       children: [
         // En teléfono, como Xuper: el video arriba de borde a borde, sin
@@ -1218,6 +1249,10 @@ class _PlayerSurfaceState extends State<_PlayerSurface> {
       httpHeaders: widget.channel.userAgent?.isNotEmpty == true
           ? {'User-Agent': widget.channel.userAgent!}
           : const {},
+      // ponytail: textura a propósito. Con platformView (SurfaceView, como
+      // Xuper) el video no fuerza frames, pero la composición híbrida hacía
+      // el scroll de la lista mucho peor (309/693 frames lentos vs ~30) y
+      // duplicaba el logo del canal. Medido en el Moto G24.
     );
     try {
       // Un stream caído puede quedarse conectando indefinidamente.
@@ -1261,13 +1296,27 @@ class _PlayerSurfaceState extends State<_PlayerSurface> {
           fit: StackFit.expand,
           children: [
             if (playing)
-              FittedBox(
-                fit: BoxFit.cover,
-                child: SizedBox(
-                  width: _controller!.value.size.width,
-                  height: _controller!.value.size.height,
-                  child: VideoPlayer(_controller!),
-                ),
+              // Llenar sin deformar agrandando la caja por layout y
+              // recortando: la vista nativa no admite escalas (FittedBox).
+              LayoutBuilder(
+                builder: (context, box) {
+                  final value = _controller!.value;
+                  final ar = value.aspectRatio > 0 ? value.aspectRatio : 16 / 9;
+                  final boxAr = box.maxWidth / box.maxHeight;
+                  final target = ar > boxAr
+                      ? Size(box.maxHeight * ar, box.maxHeight)
+                      : Size(box.maxWidth, box.maxWidth / ar);
+                  return ClipRect(
+                    child: OverflowBox(
+                      maxWidth: target.width,
+                      maxHeight: target.height,
+                      child: SizedBox.fromSize(
+                        size: target,
+                        child: VideoPlayer(_controller!),
+                      ),
+                    ),
+                  );
+                },
               )
             else
               _NetworkArtwork(url: channel.backdrop ?? channel.logo),
@@ -1525,28 +1574,32 @@ class _PhoneChannelRow extends StatelessWidget {
   }
 }
 
-/// Logo del canal completo (contain), sin recortar, como en Xuper.
+/// Mismo proveedor (y misma clave de caché) para la precarga y la fila.
+ImageProvider _channelLogoProvider(String url) =>
+    ResizeImage(CachedNetworkImageProvider(url), height: 96, allowUpscaling: false);
+
+/// Logo del canal completo (contain), sin recortar. Un `Image` simple: más
+/// liviano que CachedNetworkImage por fila y, en un deslizamiento muy rápido,
+/// aplaza solo la carga de lo que pasa de largo.
 class _ChannelLogo extends StatelessWidget {
   const _ChannelLogo({this.url});
   final String? url;
 
+  static const _fallback = Icon(
+    Icons.live_tv_rounded,
+    color: Color(0x55FFFFFF),
+    size: 24,
+  );
+
   @override
   Widget build(BuildContext context) {
     final u = url?.trim() ?? '';
-    const fallback = Icon(
-      Icons.live_tv_rounded,
-      color: Color(0x55FFFFFF),
-      size: 24,
-    );
-    if (u.isEmpty) return fallback;
-    return CachedNetworkImage(
-      imageUrl: u,
+    if (u.isEmpty) return _fallback;
+    return Image(
+      image: _channelLogoProvider(u),
       fit: BoxFit.contain,
-      memCacheHeight: 96,
-      fadeInDuration: Duration.zero,
-      fadeOutDuration: Duration.zero,
-      placeholder: (_, _) => const SizedBox.shrink(),
-      errorWidget: (_, _, _) => fallback,
+      gaplessPlayback: true,
+      errorBuilder: (_, _, _) => _fallback,
     );
   }
 }
