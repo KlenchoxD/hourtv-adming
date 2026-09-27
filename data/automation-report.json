@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-09-25T19:04:24.118Z",
-  "durationMs": 1870,
+  "generatedAt": "2026-09-27T01:47:11.919Z",
+  "durationMs": 1327,
   "dryRun": false,
-  "moviesFound": 34,
-  "moviesDiscarded": 20,
+  "moviesFound": 33,
+  "moviesDiscarded": 18,
   "moviesAdded": 0,
   "moviesEnriched": 0,
-  "duplicates": 14,
+  "duplicates": 15,
   "tmdbErrors": 0,
   "providerErrors": 0,
   "invalidSources": 0,
@@ -33,6 +33,11 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
+      "tmdbId": 1263337,
+      "title": "En el corazón de la bestia",
+      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+    },
+    {
       "tmdbId": 1240889,
       "title": "Adolescencia, sexo y muerte en campamento Miasma",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
@@ -43,18 +48,13 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1263337,
-      "title": "En el corazón de la bestia",
+      "tmdbId": 1465063,
+      "title": "La isla olvidada",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
       "tmdbId": 1127384,
       "title": "En mar abierto",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
-    },
-    {
-      "tmdbId": 1465063,
-      "title": "La isla olvidada",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
@@ -78,8 +78,8 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1482547,
-      "title": "Zip Wire",
+      "tmdbId": 1751701,
+      "title": "After Impact",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
@@ -88,8 +88,8 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1751701,
-      "title": "After Impact",
+      "tmdbId": 1482547,
+      "title": "Zip Wire",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
@@ -98,18 +98,8 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1580190,
-      "title": "除暴之路",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
-    },
-    {
       "tmdbId": 1232569,
       "title": "Pinocho: Desatado",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
-    },
-    {
-      "tmdbId": 82976,
-      "title": "La profesional y la debutante",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     }
   ]

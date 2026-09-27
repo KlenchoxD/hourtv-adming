@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-09-25T19:04:25.983Z",
+  "lastRunAt": "2026-09-27T01:47:13.243Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -9,33 +9,32 @@
     1288445,
     1084244,
     1108427,
-    1240889,
-    1477712,
     1263337,
+    1240889,
     299534,
     1315772,
-    1083381,
+    1477712,
     1185806,
     1275779,
+    1465063,
     1137844,
     1127384,
     1081003,
-    1465063,
     1212763,
+    671,
     1368337,
     1032863,
     1294189,
     1375646,
-    1482547,
-    1228834,
     1751701,
+    1228834,
+    1482547,
     1607127,
     1339713,
     1440098,
-    1580190,
     1232569,
-    82976,
-    1335666
+    1335666,
+    1083381
   ],
   "tmdbIdsPublished": [],
   "totalMoviesInCatalog": 3379,
@@ -62,6 +61,11 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
+      "tmdbId": 1263337,
+      "title": "En el corazón de la bestia",
+      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+    },
+    {
       "tmdbId": 1240889,
       "title": "Adolescencia, sexo y muerte en campamento Miasma",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
@@ -72,18 +76,13 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1263337,
-      "title": "En el corazón de la bestia",
+      "tmdbId": 1465063,
+      "title": "La isla olvidada",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
       "tmdbId": 1127384,
       "title": "En mar abierto",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
-    },
-    {
-      "tmdbId": 1465063,
-      "title": "La isla olvidada",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
@@ -107,8 +106,8 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1482547,
-      "title": "Zip Wire",
+      "tmdbId": 1751701,
+      "title": "After Impact",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
@@ -117,8 +116,8 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1751701,
-      "title": "After Impact",
+      "tmdbId": 1482547,
+      "title": "Zip Wire",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
@@ -127,18 +126,8 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1580190,
-      "title": "除暴之路",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
-    },
-    {
       "tmdbId": 1232569,
       "title": "Pinocho: Desatado",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
-    },
-    {
-      "tmdbId": 82976,
-      "title": "La profesional y la debutante",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     }
   ]
