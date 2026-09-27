@@ -3,9 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import '../services/content_store.dart';
-import '../services/parental_control_service.dart';
 import '../services/storage_service.dart';
-import 'hourtv_parental_gate.dart';
 import 'hourtv_profile_avatar.dart';
 import 'hourtv_profile_avatars.dart';
 
@@ -63,7 +61,6 @@ class _HourTvProfileGateState extends State<HourTvProfileGate> {
     if (_busy) return;
     setState(() => _busy = true);
     try {
-      if (profile['isKids'] == true && !await _ensureKidsRestricted()) return;
       await StorageService.setActiveProfileById(profile['id'].toString());
       await StorageService.markProfileChosen();
       ContentStore.instance.refreshProfileData();
@@ -78,7 +75,6 @@ class _HourTvProfileGateState extends State<HourTvProfileGate> {
     if (name.isEmpty || avatarId == null || _busy) return;
     setState(() => _busy = true);
     try {
-      if (_isKids && !await _ensureKidsRestricted()) return;
       await StorageService.createProfile(
         name: name,
         avatarId: avatarId,
@@ -89,41 +85,6 @@ class _HourTvProfileGateState extends State<HourTvProfileGate> {
     } finally {
       if (mounted) setState(() => _busy = false);
     }
-  }
-
-  /// Mismo flujo que en el hub de Perfil: un perfil Kids exige PIN
-  /// (creandolo la primera vez) para que el filtro realmente se aplique.
-  Future<bool> _ensureKidsRestricted() async {
-    if (ParentalControlService.isEnabled) return true;
-    if (!ParentalControlService.hasPin) {
-      final pins = await requestNewParentalPin(
-        context,
-        title: 'Crear PIN para el perfil infantil',
-      );
-      if (pins == null || !mounted) return false;
-      if (pins.$1 != pins.$2) {
-        _message('Los PIN no coinciden.');
-        return false;
-      }
-      try {
-        await ParentalControlService.enable(pins.$1);
-      } on ArgumentError {
-        _message('El PIN debe contener entre 4 y 6 dígitos.');
-        return false;
-      }
-    } else {
-      await StorageService.saveSetting(ParentalControlService.enabledKey, true);
-    }
-    await StorageService.saveSetting('kidsAutoRestricted', true);
-    ContentStore.instance.refreshParentalFilter();
-    return true;
-  }
-
-  void _message(String message) {
-    if (!mounted) return;
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text(message)));
   }
 
   @override
@@ -285,7 +246,7 @@ class _HourTvProfileGateState extends State<HourTvProfileGate> {
               child: _choiceCard(
                 icon: Icons.child_care_rounded,
                 label: 'Perfil infantil',
-                description: 'Contenido filtrado con PIN',
+                description: 'Solo contenido para niños',
                 onTap: () => _pickType(true),
               ),
             ),

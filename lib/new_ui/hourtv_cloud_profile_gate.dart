@@ -3,12 +3,10 @@ import 'package:flutter/material.dart';
 import '../models/hourtv_account_profile.dart';
 import '../services/content_store.dart';
 import '../services/migration/guest_migration_service.dart';
-import '../services/parental_control_service.dart';
 import '../services/profiles/profile_repository.dart';
 import '../services/storage_service.dart';
 import '../services/sync/profile_sync_engine.dart';
 import 'hourtv_guest_import_prompt.dart';
-import 'hourtv_parental_gate.dart';
 import 'hourtv_profile_avatar.dart';
 import 'hourtv_profile_avatars.dart';
 
@@ -140,7 +138,6 @@ class _HourTvCloudProfileGateState extends State<HourTvCloudProfileGate> {
     if (_busy) return;
     setState(() => _busy = true);
     try {
-      if (profile.isKids && !await _ensureKidsRestricted()) return;
       await _activateProfile(profile);
     } finally {
       if (mounted) setState(() => _busy = false);
@@ -153,7 +150,6 @@ class _HourTvCloudProfileGateState extends State<HourTvCloudProfileGate> {
     if (name.isEmpty || avatarId == null || _busy) return;
     setState(() => _busy = true);
     try {
-      if (_isKids && !await _ensureKidsRestricted()) return;
       final created = await widget.repository.create(ProfileDraft(
         name: name,
         avatarId: avatarId,
@@ -168,37 +164,6 @@ class _HourTvCloudProfileGateState extends State<HourTvCloudProfileGate> {
     } finally {
       if (mounted) setState(() => _busy = false);
     }
-  }
-
-  Future<bool> _ensureKidsRestricted() async {
-    if (ParentalControlService.isEnabled) return true;
-    if (!ParentalControlService.hasPin) {
-      final pins = await requestNewParentalPin(
-        context,
-        title: 'Crear PIN para el perfil infantil',
-      );
-      if (pins == null || !mounted) return false;
-      if (pins.$1 != pins.$2) {
-        _message('Los PIN no coinciden.');
-        return false;
-      }
-      try {
-        await ParentalControlService.enable(pins.$1);
-      } on ArgumentError {
-        _message('El PIN debe contener entre 4 y 6 dígitos.');
-        return false;
-      }
-    } else {
-      await StorageService.saveSetting(ParentalControlService.enabledKey, true);
-    }
-    await StorageService.saveSetting('kidsAutoRestricted', true);
-    ContentStore.instance.refreshParentalFilter();
-    return true;
-  }
-
-  void _message(String message) {
-    if (!mounted) return;
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
   }
 
   @override
@@ -441,7 +406,7 @@ class _HourTvCloudProfileGateState extends State<HourTvCloudProfileGate> {
               child: _choiceCard(
                 icon: Icons.child_care_rounded,
                 label: 'Perfil infantil',
-                description: 'Contenido filtrado con PIN',
+                description: 'Solo contenido para niños',
                 onTap: () => _pickType(true),
               ),
             ),
