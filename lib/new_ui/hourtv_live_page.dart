@@ -1298,18 +1298,19 @@ class _PlayerSurfaceState extends State<_PlayerSurface> {
                 ),
               ),
             if (!tv)
+              // Mismo estilo que el botón de sonido (arriba a la izquierda),
+              // a la altura del nombre del canal para no tapar la guía.
               Positioned(
                 right: 8,
-                bottom: 6,
+                bottom: 40,
                 child: IconButton(
                   tooltip: 'Pantalla completa',
                   onPressed: onPlay,
                   style: IconButton.styleFrom(
                     backgroundColor: const Color(0xB30B0B0D),
                     foregroundColor: Colors.white,
-                    side: const BorderSide(color: _red, width: 1.2),
                   ),
-                  icon: const Icon(Icons.fullscreen_rounded),
+                  icon: const Icon(Icons.fullscreen_rounded, size: 26),
                 ),
               ),
             // Sin boton de play: el canal arranca solo. Mientras el stream
@@ -1513,11 +1514,9 @@ class _PhoneChannelRow extends StatelessWidget {
                   ),
                 ),
                 Icon(
-                  active
-                      ? Icons.graphic_eq_rounded
-                      : Icons.arrow_circle_right_outlined,
-                  color: active ? _red : const Color(0x99FFFFFF),
-                  size: 26,
+                  active ? Icons.graphic_eq_rounded : Icons.play_arrow_rounded,
+                  color: active ? _red : const Color(0x66FFFFFF),
+                  size: 24,
                 ),
               ],
             ),
