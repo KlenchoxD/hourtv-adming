@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-09-27T01:47:13.243Z",
+  "lastRunAt": "2026-09-27T07:24:04.224Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -8,8 +8,8 @@
     1204680,
     1288445,
     1084244,
-    1108427,
     1263337,
+    1108427,
     1240889,
     299534,
     1315772,
@@ -29,6 +29,7 @@
     1751701,
     1228834,
     1482547,
+    1492640,
     1607127,
     1339713,
     1440098,
@@ -118,6 +119,11 @@
     {
       "tmdbId": 1482547,
       "title": "Zip Wire",
+      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+    },
+    {
+      "tmdbId": 1492640,
+      "title": "UNABOMBER",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {

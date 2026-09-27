@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-09-27T01:47:11.919Z",
-  "durationMs": 1327,
+  "generatedAt": "2026-09-27T07:24:03.630Z",
+  "durationMs": 599,
   "dryRun": false,
-  "moviesFound": 33,
-  "moviesDiscarded": 18,
+  "moviesFound": 34,
+  "moviesDiscarded": 19,
   "moviesAdded": 0,
   "moviesEnriched": 0,
   "duplicates": 15,
@@ -90,6 +90,11 @@
     {
       "tmdbId": 1482547,
       "title": "Zip Wire",
+      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+    },
+    {
+      "tmdbId": 1492640,
+      "title": "UNABOMBER",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
