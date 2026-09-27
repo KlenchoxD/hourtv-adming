@@ -199,7 +199,9 @@ class _HourTvMobileShellState extends State<HourTvMobileShell>
         .then((index) {
           if (!mounted || !identical(_indexBuildTicket, ticket)) return;
           _memoizedIndex = index;
-          final featured = index.featured(limit: 5);
+          // Misma regla que al abrir (destacados + relleno), para que el
+          // carrusel no cambie de orden cuando llega el índice.
+          final featured = _quickFeatured(content);
           // Mismos títulos: se conserva la lista para no reiniciar el carrusel.
           if (!_sameUrls(featured, _memoizedFeatured)) {
             _memoizedFeatured = featured;
@@ -238,24 +240,47 @@ class _HourTvMobileShellState extends State<HourTvMobileShell>
     return _memoizedFeatured ??= _quickFeatured(_allContent);
   }
 
+  static const _heroSlots = 5;
+
+  /// Como Xuper, siempre 5 en el banner: primero lo marcado "Destacado" en
+  /// el panel; si hay menos, se completa con los estrenos más recientes que
+  /// tengan imagen horizontal. Nunca entra algo sin imagen o sin fuente.
   static List<Channel> _quickFeatured(List<Channel> content) {
-    final picked = [
+    bool heroReady(Channel c) =>
+        c.type != MediaType.live &&
+        (c.backdrop ?? '').trim().isNotEmpty &&
+        (c.url.trim().isNotEmpty ||
+            c.servers.any((s) => s.url.trim().isNotEmpty));
+    int year(Channel c) => int.tryParse(c.year ?? '') ?? 0;
+    int newestFirst(Channel a, Channel b) {
+      final cmp = year(b).compareTo(year(a));
+      return cmp != 0
+          ? cmp
+          : a.name.toLowerCase().compareTo(b.name.toLowerCase());
+    }
+
+    final curated = [
       for (final c in content)
-        if (c.isFeatured &&
-            (c.backdrop ?? '').trim().isNotEmpty &&
-            (c.url.trim().isNotEmpty ||
-                c.servers.any((s) => s.url.trim().isNotEmpty)))
-          c,
+        if (c.isFeatured && heroReady(c)) c,
+    ]..sort(newestFirst);
+    if (curated.length >= _heroSlots) {
+      return curated.take(_heroSlots).toList(growable: false);
+    }
+    // Relleno: los que el panel marcó "estrenos" primero, luego por año.
+    bool isPremiere(Channel c) =>
+        c.categories.any((cat) => cat.toLowerCase() == 'estrenos');
+    final fill = [
+      for (final c in content)
+        if (!c.isFeatured && heroReady(c)) c,
+    ]..sort((a, b) {
+        final premiere =
+            (isPremiere(a) ? 0 : 1).compareTo(isPremiere(b) ? 0 : 1);
+        return premiere != 0 ? premiere : newestFirst(a, b);
+      });
+    return [
+      ...curated,
+      ...fill.take(_heroSlots - curated.length),
     ];
-    if (picked.isEmpty) return const [];
-    // Mismo orden que CatalogPresentationIndex.featured: año desc, título.
-    picked.sort((a, b) {
-      final cmp = (int.tryParse(b.year ?? '') ?? 0).compareTo(
-        int.tryParse(a.year ?? '') ?? 0,
-      );
-      return cmp != 0 ? cmp : a.name.toLowerCase().compareTo(b.name.toLowerCase());
-    });
-    return picked.take(5).toList(growable: false);
   }
 
   void _openDetails(Channel channel, {bool fromContinueWatching = false}) {

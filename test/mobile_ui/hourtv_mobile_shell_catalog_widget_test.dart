@@ -369,8 +369,14 @@ void main() {
         await tester.pump();
         await tester.pump(const Duration(milliseconds: 100));
 
-        // Tocar la tarjeta de la película asegurando visibilidad
+        // Tocar la tarjeta de la película asegurando visibilidad (el banner
+        // de 5 puede dejarla debajo del borde de la pantalla).
         final cardFinder = find.text('Interstellar Real');
+        await tester.dragUntilVisible(
+          cardFinder,
+          find.byType(CustomScrollView).first,
+          const Offset(0, -250),
+        );
         expect(cardFinder, findsOneWidget);
         await tester.ensureVisible(cardFinder);
         await tester.pump();
