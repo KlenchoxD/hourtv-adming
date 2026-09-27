@@ -623,6 +623,27 @@ class _HourTvLivePageState extends State<HourTvLivePage> {
           ),
           child: _categoryPills(),
         ),
+        if (phone)
+          // Como Xuper: filas planas de alto fijo, de borde a borde, con logo
+          // chico, número y nombre en una línea. itemExtent fijo = scroll
+          // barato aunque haya cientos de canales.
+          Expanded(
+            child: ListView.builder(
+              padding: const EdgeInsets.only(bottom: 24),
+              itemExtent: 68,
+              itemCount: channels.length,
+              itemBuilder: (context, index) {
+                final channel = channels[index];
+                return _PhoneChannelRow(
+                  channel: channel,
+                  number: index + 1,
+                  active: channel.url == current.url,
+                  onTap: () => select(channel),
+                );
+              },
+            ),
+          )
+        else
         Expanded(
           child: GridView.builder(
             padding: EdgeInsets.fromLTRB(
@@ -1415,6 +1436,120 @@ class _PlayerSurfaceState extends State<_PlayerSurface> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class _PhoneChannelRow extends StatelessWidget {
+  const _PhoneChannelRow({
+    required this.channel,
+    required this.number,
+    required this.active,
+    required this.onTap,
+  });
+  final Channel channel;
+  final int number;
+  final bool active;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final program = channel.currentProgram?.title;
+    final nameColor = active ? _red : Colors.white;
+    return Material(
+      color: active ? const Color(0xFF16181C) : Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        child: DecoratedBox(
+          decoration: const BoxDecoration(
+            border: Border(bottom: BorderSide(color: _line, width: .6)),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 14),
+            child: Row(
+              children: [
+                SizedBox(
+                  width: 56,
+                  height: 34,
+                  child: _ChannelLogo(url: channel.logo),
+                ),
+                const SizedBox(width: 12),
+                Text(
+                  number.toString().padLeft(3, '0'),
+                  style: TextStyle(
+                    color: nameColor,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    fontFeatures: const [FontFeature.tabularFigures()],
+                  ),
+                ),
+                const SizedBox(width: 14),
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        channel.displayName,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          color: nameColor,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      if (program != null && program.trim().isNotEmpty)
+                        Text(
+                          program,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            color: _muted,
+                            fontSize: 12.5,
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+                Icon(
+                  active
+                      ? Icons.graphic_eq_rounded
+                      : Icons.arrow_circle_right_outlined,
+                  color: active ? _red : const Color(0x99FFFFFF),
+                  size: 26,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Logo del canal completo (contain), sin recortar, como en Xuper.
+class _ChannelLogo extends StatelessWidget {
+  const _ChannelLogo({this.url});
+  final String? url;
+
+  @override
+  Widget build(BuildContext context) {
+    final u = url?.trim() ?? '';
+    const fallback = Icon(
+      Icons.live_tv_rounded,
+      color: Color(0x55FFFFFF),
+      size: 24,
+    );
+    if (u.isEmpty) return fallback;
+    return CachedNetworkImage(
+      imageUrl: u,
+      fit: BoxFit.contain,
+      memCacheHeight: 96,
+      fadeInDuration: Duration.zero,
+      fadeOutDuration: Duration.zero,
+      placeholder: (_, _) => const SizedBox.shrink(),
+      errorWidget: (_, _, _) => fallback,
     );
   }
 }
