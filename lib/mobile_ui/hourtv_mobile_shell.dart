@@ -231,7 +231,29 @@ class _HourTvMobileShellState extends State<HourTvMobileShell>
     if (_allContent.isEmpty) return const [];
     // El índice puede seguir construyéndose en el isolate; se actualiza
     // solo cuando esté listo (ver _scheduleIndexRebuild).
-    return _memoizedFeatured ?? const [];
+    // Sin esperar al índice: el hero llegaba tarde y empujaba todo el
+    // Inicio hacia abajo justo al abrir. Filtrar es barato (sin normalizar).
+    return _memoizedFeatured ??= _quickFeatured(_allContent);
+  }
+
+  static List<Channel> _quickFeatured(List<Channel> content) {
+    final picked = [
+      for (final c in content)
+        if (c.isFeatured &&
+            (c.backdrop ?? '').trim().isNotEmpty &&
+            (c.url.trim().isNotEmpty ||
+                c.servers.any((s) => s.url.trim().isNotEmpty)))
+          c,
+    ];
+    if (picked.isEmpty) return const [];
+    // Mismo orden que CatalogPresentationIndex.featured: año desc, título.
+    picked.sort((a, b) {
+      final cmp = (int.tryParse(b.year ?? '') ?? 0).compareTo(
+        int.tryParse(a.year ?? '') ?? 0,
+      );
+      return cmp != 0 ? cmp : a.name.toLowerCase().compareTo(b.name.toLowerCase());
+    });
+    return picked.take(5).toList(growable: false);
   }
 
   void _openDetails(Channel channel, {bool fromContinueWatching = false}) {
@@ -732,7 +754,6 @@ class _HourTvMobileHomeState extends State<HourTvMobileHome> {
                   child: _HeroCarousel(
                     channels: featuredChannels,
                     onPlay: widget.onOpen,
-                    onFavorite: widget.store.toggleFavorite,
                   ),
                 ),
               ),
@@ -995,12 +1016,10 @@ class _HeroCarousel extends StatefulWidget {
   const _HeroCarousel({
     required this.channels,
     required this.onPlay,
-    required this.onFavorite,
   });
 
   final List<Channel> channels;
   final ValueChanged<Channel> onPlay;
-  final ValueChanged<Channel> onFavorite;
 
   @override
   State<_HeroCarousel> createState() => _HeroCarouselState();
@@ -1084,196 +1103,109 @@ class _HeroCarouselState extends State<_HeroCarousel> {
     // botones de abajo quedaban apenas fuera de vista hasta hacer scroll.
     // Proporcional al alto real, con un techo para no crecer de mas en
     // pantallas grandes.
-    final height = (MediaQuery.sizeOf(context).height * 0.48).clamp(
-      300.0,
-      430.0,
-    );
-    return SizedBox(
+    // Como Xuper: tarjeta 16:9 con márgenes y bordes redondeados, sin
+    // botones encima; tocarla abre la ficha. Ocupa ~1/4 del alto en vez de
+    // casi la mitad.
+    return Padding(
       key: const ValueKey('hourtv-hero-carousel'),
-      height: height,
-      child: Stack(
-        children: [
-          PageView.builder(
-            controller: _controller,
-            itemCount: widget.channels.length,
-            onPageChanged: (index) => setState(() => _page = index),
-            itemBuilder: (_, index) {
-              final channel = widget.channels[index];
-              return _HourTvHero(
-                channel: channel,
-                onPlay: () => widget.onPlay(channel),
-                onFavorite: () => widget.onFavorite(channel),
-              );
-            },
-          ),
-          if (widget.channels.length > 1)
-            Positioned(
-              bottom: 12,
-              left: 0,
-              right: 0,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  for (var i = 0; i < widget.channels.length; i++)
-                    AnimatedContainer(
-                      duration: const Duration(milliseconds: 200),
-                      margin: const EdgeInsets.symmetric(horizontal: 3),
-                      width: i == _page ? 18 : 6,
-                      height: 6,
-                      decoration: BoxDecoration(
-                        color: i == _page
-                            ? HourTvMobileTokens.emerald
-                            : Colors.white38,
-                        borderRadius: BorderRadius.circular(3),
-                      ),
-                    ),
-                ],
+      padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+      child: AspectRatio(
+        aspectRatio: 16 / 9,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(12),
+          child: Stack(
+            children: [
+              PageView.builder(
+                controller: _controller,
+                itemCount: widget.channels.length,
+                onPageChanged: (index) => setState(() => _page = index),
+                itemBuilder: (_, index) {
+                  final channel = widget.channels[index];
+                  return _HourTvHero(
+                    channel: channel,
+                    onPlay: () => widget.onPlay(channel),
+                  );
+                },
               ),
-            ),
-        ],
+              if (widget.channels.length > 1)
+                Positioned(
+                  bottom: 8,
+                  left: 0,
+                  right: 0,
+                  child: IgnorePointer(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        for (var i = 0; i < widget.channels.length; i++)
+                          AnimatedContainer(
+                            duration: const Duration(milliseconds: 200),
+                            margin: const EdgeInsets.symmetric(horizontal: 2),
+                            width: i == _page ? 12 : 5,
+                            height: 5,
+                            decoration: BoxDecoration(
+                              color: i == _page
+                                  ? Colors.white
+                                  : Colors.white38,
+                              borderRadius: BorderRadius.circular(3),
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
+                ),
+            ],
+          ),
+        ),
       ),
     );
   }
 }
 
 class _HourTvHero extends StatelessWidget {
-  const _HourTvHero({
-    required this.channel,
-    required this.onPlay,
-    required this.onFavorite,
-  });
+  const _HourTvHero({required this.channel, required this.onPlay});
 
   final Channel channel;
   final VoidCallback onPlay;
-  final VoidCallback onFavorite;
 
   @override
-  Widget build(BuildContext context) => Stack(
-    fit: StackFit.expand,
-    children: [
-      HourTvArtwork(
-        url: channel.backdrop ?? channel.logo,
-        asset: 'assets/figma/phase-3-1/hero-el-ultimo-amanecer.png',
-        alignment: Alignment.topCenter,
-        variant: ImageResolutionVariant.heroBackdrop,
-        memCacheWidth: 780,
-        memCacheHeight: 439,
-      ),
-      const DecoratedBox(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Color(0x0D050505),
-              Color(0x40050505),
-              HourTvMobileTokens.deepBlack,
-            ],
-            stops: [0, 0.52, 1],
-          ),
+  Widget build(BuildContext context) => GestureDetector(
+    onTap: onPlay,
+    child: Stack(
+      fit: StackFit.expand,
+      children: [
+        HourTvArtwork(
+          url: channel.backdrop ?? channel.logo,
+          asset: 'assets/figma/phase-3-1/hero-el-ultimo-amanecer.png',
+          alignment: Alignment.topCenter,
+          variant: ImageResolutionVariant.heroBackdrop,
+          memCacheWidth: 780,
+          memCacheHeight: 439,
         ),
-      ),
-      Positioned(
-        left: 16,
-        right: 16,
-        bottom: 28,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              channel.name,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: Theme.of(context).textTheme.headlineLarge,
-            ),
-            if ((channel.genre ?? '').trim().isNotEmpty) ...[
-              const SizedBox(height: 8),
-              Text(
-                channel.genre!.trim(),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: Theme.of(context).textTheme.bodyMedium,
-              ),
-            ],
-            const SizedBox(height: 12),
-            // Antes eran dos rectangulos identicos lado a lado, iguales en
-            // cada slide del carrusel: parecia la misma plantilla repetida.
-            // Ahora "Reproducir" domina como pildora y Favorito es un
-            // circulo compacto, mismo lenguaje que ya usan las fichas de
-            // detalle para esta accion.
-            Row(
-              children: [
-                Expanded(
-                  child: HourTvButton(
-                    label: 'Reproducir',
-                    icon: Icons.play_arrow_rounded,
-                    onPressed: onPlay,
-                  ),
-                ),
-                const SizedBox(width: 12),
-                _HeroFavoriteButton(
-                  active: channel.isFavorite,
-                  onTap: onFavorite,
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    ],
-  );
-}
-
-/// Icono circular compacto para "Favorito" en el hero: relleno y sombra
-/// cuando esta activo, contorno sutil cuando no. Mismo lenguaje visual que
-/// el boton de favorito en la ficha de detalle.
-class _HeroFavoriteButton extends StatelessWidget {
-  const _HeroFavoriteButton({required this.active, required this.onTap});
-
-  final bool active;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) => Tooltip(
-    message: active ? 'Quitar de favoritos' : 'Favorito',
-    child: Material(
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: onTap,
-        customBorder: const CircleBorder(),
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 200),
-          curve: Curves.easeOut,
-          width: HourTvMobileTokens.minimumTouchTarget,
-          height: HourTvMobileTokens.minimumTouchTarget,
+        const DecoratedBox(
           decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: active
-                ? HourTvMobileTokens.emerald
-                : HourTvMobileTokens.surfaceControl,
-            border: Border.all(
-              color: active
-                  ? HourTvMobileTokens.emerald
-                  : HourTvMobileTokens.borderSubtle,
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [Color(0x00000000), Color(0xB3000000)],
+              stops: [0.55, 1],
             ),
-            boxShadow: active
-                ? [
-                    BoxShadow(
-                      color: HourTvMobileTokens.emerald.withValues(alpha: .45),
-                      blurRadius: 14,
-                      spreadRadius: 1,
-                    ),
-                  ]
-                : null,
-          ),
-          child: Icon(
-            active ? Icons.favorite_rounded : Icons.favorite_border_rounded,
-            color: active
-                ? HourTvMobileTokens.deepBlack
-                : HourTvMobileTokens.textPrimary,
           ),
         ),
-      ),
+        Positioned(
+          left: 12,
+          right: 12,
+          bottom: 20,
+          child: Text(
+            channel.name,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+              color: Colors.white,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ),
+      ],
     ),
   );
 }
