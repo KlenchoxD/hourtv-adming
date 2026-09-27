@@ -186,7 +186,9 @@ class _HourTvMobileShellState extends State<HourTvMobileShell>
     final ticket = Object();
     _indexBuildTicket = ticket;
     _memoizedIndex = null;
-    _memoizedFeatured = null;
+    // Los destacados anteriores siguen hasta que llegue el índice nuevo:
+    // vaciarlos hacía desaparecer el hero en cada actualización del catálogo
+    // o al marcar un favorito.
     compute(
           CatalogPresentationIndex.build,
           content,
@@ -195,7 +197,11 @@ class _HourTvMobileShellState extends State<HourTvMobileShell>
         .then((index) {
           if (!mounted || !identical(_indexBuildTicket, ticket)) return;
           _memoizedIndex = index;
-          _memoizedFeatured = index.featured(limit: 5);
+          final featured = index.featured(limit: 5);
+          // Mismos títulos: se conserva la lista para no reiniciar el carrusel.
+          if (!_sameUrls(featured, _memoizedFeatured)) {
+            _memoizedFeatured = featured;
+          }
           _indexRevision.value++;
         })
         .catchError((Object error, StackTrace stack) {
@@ -212,6 +218,14 @@ class _HourTvMobileShellState extends State<HourTvMobileShell>
 
   List<Channel> get _liveChannelsOrPreview =>
       _liveChannels.isNotEmpty ? _liveChannels : PreviewCatalog.live;
+
+  static bool _sameUrls(List<Channel> a, List<Channel>? b) {
+    if (b == null || a.length != b.length) return false;
+    for (var i = 0; i < a.length; i++) {
+      if (a[i].url != b[i].url) return false;
+    }
+    return true;
+  }
 
   List<Channel> get _featured {
     if (_allContent.isEmpty) return const [];
