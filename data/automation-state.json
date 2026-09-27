@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-09-27T13:11:04.068Z",
+  "lastRunAt": "2026-09-27T17:43:33.289Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -28,12 +28,12 @@
     1375646,
     1751701,
     1228834,
-    1607127,
     1482547,
+    1607127,
     1339713,
     1492640,
-    1440098,
     1232569,
+    1440098,
     1335666,
     1083381
   ],
@@ -117,13 +117,13 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1607127,
-      "title": "Un último disparo",
+      "tmdbId": 1482547,
+      "title": "Zip Wire",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1482547,
-      "title": "Zip Wire",
+      "tmdbId": 1607127,
+      "title": "Un último disparo",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
