@@ -522,8 +522,47 @@ class StorageService {
       nowLiked = true;
     }
     await _prefs?.setStringList(_profileKey(_likedKey), liked.toList());
+    final stamps = loadLikeStampsFor(activeProfileId);
+    stamps[channelUrl] = DateTime.now().toUtc();
+    await saveLikeStampsFor(activeProfileId, stamps);
     return nowLiked;
   }
+
+  // "Me gusta" de un perfil cualquiera y cuándo cambió cada uno (para
+  // sincronizarlos con la cuenta).
+  static Set<String> loadLikedUrlsFor(String profileId) =>
+      _prefs?.getStringList('$_likedKey.profile.$profileId')?.toSet() ??
+      <String>{};
+
+  static Future<void> saveLikedUrlsFor(String profileId, Set<String> urls) =>
+      _prefs?.setStringList('$_likedKey.profile.$profileId', urls.toList()) ??
+      Future.value();
+
+  static Map<String, DateTime> loadLikeStampsFor(String profileId) {
+    final raw = _prefs?.getString('likeStamps.profile.$profileId');
+    if (raw == null) return {};
+    try {
+      return {
+        for (final e in (jsonDecode(raw) as Map).entries)
+          if (DateTime.tryParse(e.value.toString()) case final stamp?)
+            e.key.toString(): stamp,
+      };
+    } catch (_) {
+      return {};
+    }
+  }
+
+  static Future<void> saveLikeStampsFor(
+    String profileId,
+    Map<String, DateTime> stamps,
+  ) =>
+      _prefs?.setString(
+        'likeStamps.profile.$profileId',
+        jsonEncode({
+          for (final e in stamps.entries) e.key: e.value.toIso8601String(),
+        }),
+      ) ??
+      Future.value();
 
   // ============ M3U LISTS ============
   static Future<void> saveLists(List<M3UList> lists) async {
@@ -586,6 +625,26 @@ class StorageService {
     );
   }
 
+  static Map<String, int> loadWatchCountsFor(String profileId) {
+    final raw = _prefs?.getString('$_watchCountsKey.profile.$profileId');
+    if (raw == null) return {};
+    try {
+      return Map<String, int>.from(jsonDecode(raw) as Map);
+    } catch (_) {
+      return {};
+    }
+  }
+
+  static Future<void> saveWatchCountsFor(
+    String profileId,
+    Map<String, int> counts,
+  ) =>
+      _prefs?.setString(
+        '$_watchCountsKey.profile.$profileId',
+        jsonEncode(counts),
+      ) ??
+      Future.value();
+
   static Map<String, int> loadWatchCounts() {
     final raw = _prefs?.getString(_profileKey(_watchCountsKey));
     if (raw == null) return {};
@@ -632,6 +691,41 @@ class StorageService {
   static Future<void> saveSetting(String key, dynamic value) async {
     final settings = loadSettings();
     settings[key] = value;
+    // Cuándo se cambió un ajuste que se sincroniza con la cuenta: gana el
+    // cambio más reciente entre equipos.
+    if (syncedSettingKeys.contains(key)) {
+      settings['$_settingStampPrefix$key'] =
+          DateTime.now().toUtc().toIso8601String();
+    }
+    await _prefs?.setString(_settingsKey, jsonEncode(settings));
+  }
+
+  /// Ajustes de reproducción que viajan con el perfil de la cuenta. Los que
+  /// son del teléfono (solo Wi‑Fi, PIN parental, servidor IPTV) no.
+  static const syncedSettingKeys = {
+    'preferredAudioLanguage',
+    'preferredSubtitleLanguage',
+    'preferredSubtitleMode',
+    'subtitleFontScale',
+    'subtitleBold',
+    'autoPlay',
+    'forceLandscape',
+  };
+  static const _settingStampPrefix = 'syncStamp.';
+
+  static DateTime? settingChangedAt(String key) => DateTime.tryParse(
+    getSetting('$_settingStampPrefix$key')?.toString() ?? '',
+  );
+
+  /// Aplica un ajuste que llegó de otro equipo, con su fecha original.
+  static Future<void> applySyncedSetting(
+    String key,
+    dynamic value,
+    DateTime changedAt,
+  ) async {
+    final settings = loadSettings();
+    settings[key] = value;
+    settings['$_settingStampPrefix$key'] = changedAt.toUtc().toIso8601String();
     await _prefs?.setString(_settingsKey, jsonEncode(settings));
   }
 

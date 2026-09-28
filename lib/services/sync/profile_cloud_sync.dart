@@ -10,6 +10,7 @@ import '../playback_progress.dart';
 import '../profiles/supabase_profile_repository.dart';
 import '../storage_service.dart';
 import '../supabase_bootstrap.dart';
+import 'profile_extras_sync.dart';
 import 'profile_sync_engine.dart';
 import 'uuid_utils.dart';
 
@@ -172,7 +173,13 @@ class ProfileCloudSync {
       await _importLocalDataOnce(engine, profileId);
       await backfill(engine, profileId);
       final result = await engine.syncProfile(profileId);
-      final changed = await apply(dao, profileId);
+      var changed = await apply(dao, profileId);
+      // Me gusta, conteos y ajustes (los ajustes son del teléfono: solo
+      // se aplican los del perfil que se está usando).
+      changed |= await ProfileExtrasSync.sync(
+        profileId,
+        includeSettings: profileId == StorageService.activeProfileId,
+      );
       debugPrint(
         '[SYNC] ${profileId.substring(0, 8)}: '
         '${result.isOffline ? 'sin conexión con el servidor' : result.success ? 'ok' : result.errorMessage}'
