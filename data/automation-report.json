@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-09-27T23:11:40.500Z",
-  "durationMs": 1090,
+  "generatedAt": "2026-09-28T01:38:31.595Z",
+  "durationMs": 2469,
   "dryRun": false,
   "moviesFound": 34,
-  "moviesDiscarded": 19,
+  "moviesDiscarded": 20,
   "moviesAdded": 0,
   "moviesEnriched": 0,
-  "duplicates": 15,
+  "duplicates": 14,
   "tmdbErrors": 0,
   "providerErrors": 0,
   "invalidSources": 0,
@@ -55,6 +55,11 @@
     {
       "tmdbId": 1127384,
       "title": "En mar abierto",
+      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+    },
+    {
+      "tmdbId": 1341138,
+      "title": "Spa Weekend",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
