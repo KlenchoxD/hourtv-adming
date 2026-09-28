@@ -2226,9 +2226,10 @@ class _PlayerScreenState extends State<PlayerScreen>
       right: 24,
       bottom: DeviceProfile.isTv(context) ? 120 : 88,
       child: IgnorePointer(
-        child: ValueListenableBuilder<VideoPlayerValue>(
-          valueListenable: controller,
-          builder: (context, value, _) {
+        child: _VideoSelector(
+          controller: controller,
+          select: (v) => v.caption.text,
+          builder: (context, value) {
             final text = value.caption.text.trim();
             if (text.isEmpty) return const SizedBox.shrink();
             return Center(
@@ -2464,9 +2465,10 @@ class _PlayerScreenState extends State<PlayerScreen>
       return const SizedBox.shrink();
     }
     return Center(
-      child: ValueListenableBuilder<VideoPlayerValue>(
-        valueListenable: controller,
-        builder: (context, value, _) => Row(
+      child: _VideoSelector(
+        controller: controller,
+        select: (v) => v.isPlaying,
+        builder: (context, value) => Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             if (!_isLive) ...[
@@ -2548,9 +2550,16 @@ class _PlayerScreenState extends State<PlayerScreen>
         size: 28,
       ),
     );
-    return ValueListenableBuilder<VideoPlayerValue>(
-      valueListenable: controller,
-      builder: (context, value, _) {
+    // La barra muestra segundos: redibujar una vez por segundo basta.
+    return _VideoSelector(
+      controller: controller,
+      select: (v) => (
+        v.isInitialized,
+        v.duration,
+        v.position.inSeconds,
+        v.buffered.isEmpty ? 0 : v.buffered.last.end.inSeconds,
+      ),
+      builder: (context, value) {
         final durationMs = value.duration.inMilliseconds.toDouble();
         if (value.isInitialized && durationMs > 0 && !_isLive) {
           return ValueListenableBuilder<double?>(
@@ -2668,9 +2677,13 @@ class _PlayerScreenState extends State<PlayerScreen>
     return Positioned(
       right: 24,
       bottom: DeviceProfile.isTv(context) ? 138 : 90,
-      child: ValueListenableBuilder<VideoPlayerValue>(
-        valueListenable: controller,
-        builder: (context, value, _) {
+      child: _VideoSelector(
+        controller: controller,
+        select: (v) =>
+            v.isInitialized &&
+            v.position.inSeconds >= 5 &&
+            v.position.inSeconds <= 70,
+        builder: (context, value) {
           final seconds = value.position.inSeconds;
           if (!value.isInitialized ||
               seconds < 5 ||
@@ -3807,4 +3820,58 @@ class _HourPlayerBadge extends StatelessWidget {
       ),
     );
   }
+}
+
+/// Reconstruye [builder] solo cuando cambia [select] del estado del video. El
+/// plugin avisa la posición cada 100 ms; reconstruir por cada aviso (aunque
+/// no cambie nada visible) redibujaba la pantalla 10 veces por segundo
+/// encima del video y le quitaba fluidez.
+class _VideoSelector<T> extends StatefulWidget {
+  const _VideoSelector({
+    required this.controller,
+    required this.select,
+    required this.builder,
+  });
+
+  final VideoPlayerController controller;
+  final T Function(VideoPlayerValue value) select;
+  final Widget Function(BuildContext context, VideoPlayerValue value) builder;
+
+  @override
+  State<_VideoSelector<T>> createState() => _VideoSelectorState<T>();
+}
+
+class _VideoSelectorState<T> extends State<_VideoSelector<T>> {
+  late T _selected = widget.select(widget.controller.value);
+
+  @override
+  void initState() {
+    super.initState();
+    widget.controller.addListener(_changed);
+  }
+
+  @override
+  void didUpdateWidget(_VideoSelector<T> old) {
+    super.didUpdateWidget(old);
+    if (!identical(old.controller, widget.controller)) {
+      old.controller.removeListener(_changed);
+      widget.controller.addListener(_changed);
+      _selected = widget.select(widget.controller.value);
+    }
+  }
+
+  @override
+  void dispose() {
+    widget.controller.removeListener(_changed);
+    super.dispose();
+  }
+
+  void _changed() {
+    final next = widget.select(widget.controller.value);
+    if (next != _selected) setState(() => _selected = next);
+  }
+
+  @override
+  Widget build(BuildContext context) =>
+      widget.builder(context, widget.controller.value);
 }
