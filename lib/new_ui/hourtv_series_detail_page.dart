@@ -14,6 +14,8 @@ import '../services/recommendations/related_content_engine.dart';
 import '../services/share_service.dart';
 import '../services/tmdb_service.dart';
 import '../services/xtream_service.dart';
+import 'hourtv_detail_parts.dart';
+import 'hourtv_play_button.dart';
 import 'hourtv_focusable.dart';
 import 'hourtv_parental_gate.dart';
 import 'hourtv_player_screen.dart';
@@ -242,17 +244,22 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
     return 1;
   }
 
+  /// El episodio ya se empezó (más de 10 s vistos y sin terminar).
+  bool _hasProgress(Channel episode) {
+    final saved = PlaybackProgress.load(episode);
+    return saved != null && !saved.isCompleted && saved.positionMs >= 10000;
+  }
+
   String get _primaryPlayLabel {
     final current = currentSeasonEpisodes;
     if (current.isEmpty) return 'Reproducir';
     final sNum = _seasonNumber(currentSeasonKey);
     final next = _nextUnfinishedEpisode;
     if (next != null && next.tvgId != null) {
-      final marker = RegExp(r'S\d+:\s*E?(\d+)|:(\d+)$')
-          .firstMatch(next.tvgId!);
+      final marker = RegExp(r'S\d+:\s*E?(\d+)|:(\d+)$').firstMatch(next.tvgId!);
       final episodeNumber = marker?.group(1) ?? marker?.group(2);
       if (episodeNumber != null) {
-        return 'Reproducir T$sNum:E$episodeNumber';
+        return '${_hasProgress(next) ? 'Continuar' : 'Reproducir'} T$sNum:E$episodeNumber';
       }
     }
     return 'Reproducir T$sNum:E1';
@@ -424,183 +431,125 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
   // ─────────────────────────────────────────────────────────────────────────
   Widget _phone() {
     final epList = currentSeasonEpisodes;
+    final seasonCount = seasons.length;
     return Scaffold(
       backgroundColor: _bgPrimary,
-      body: Stack(
-        children: [
-          CustomScrollView(
-            key: const PageStorageKey('hourtv-series-detail-scroll'),
-            slivers: [
-              // Hero Backdrop (Aspect Ratio 16/10)
-              SliverToBoxAdapter(
-                child: AspectRatio(
-                  aspectRatio: 16 / 10,
-                  child: Stack(
-                    fit: StackFit.expand,
-                    children: [
-                      _heroBackdrop(),
-                      // Soft Multi-Stop Dark Vignette: vertical
-                      const DecoratedBox(
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: [
-                              Color(0x33000000),
-                              Color(0x80080A09),
-                              _bgPrimary,
-                            ],
-                            stops: [0.0, 0.6, 1.0],
-                          ),
-                        ),
-                      ),
-                      // Soft Multi-Stop Dark Vignette: horizontal
-                      const DecoratedBox(
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.centerLeft,
-                            end: Alignment.centerRight,
-                            colors: [Color(0x99080A09), Color(0x00080A09)],
-                            stops: [0.0, 0.4],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+      body: CustomScrollView(
+        key: const PageStorageKey('hourtv-series-detail-scroll'),
+        slivers: [
+          SliverToBoxAdapter(
+            child: HourTvDetailPhoneHeader(
+              title: SeriesTitleSanitizer.sanitize(widget.series.name),
+              meta: HourTvDetailMeta(
+                rating: widget.series.rating,
+                year: widget.series.year,
+                extra: seasonCount == 0
+                    ? null
+                    : '$seasonCount temporada${seasonCount == 1 ? '' : 's'}',
               ),
-              // Main Content Section
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Title
-                      Text(
-                        SeriesTitleSanitizer.sanitize(widget.series.name),
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 26,
-                          fontWeight: FontWeight.w900,
-                          letterSpacing: -0.5,
-                          height: 1.2,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      // Quality Badges
-                      Wrap(
-                        spacing: 6,
-                        runSpacing: 6,
-                        children: [
-                          for (final badge in ['4K UHD', 'HDR10+', '5.1'])
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 8,
-                                vertical: 2,
-                              ),
-                              decoration: BoxDecoration(
-                                color: _surface,
-                                borderRadius: BorderRadius.circular(4),
-                                border: Border.all(color: _line),
-                              ),
-                              child: Text(
-                                badge,
-                                style: const TextStyle(
-                                  color: _red,
-                                  fontSize: 10,
-                                  fontFamily: 'monospace',
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                        ],
-                      ),
-                      const SizedBox(height: 16),
-                      // Primary & Secondary Action Buttons
-                      _actionsPhone(),
-                      const SizedBox(height: 20),
-                      // Synopsis & Technical Specs
-                      _synopsisSection(),
-                      const SizedBox(height: 16),
-                      // Episodes Header
-                      _episodesHeader(),
-                    ],
-                  ),
-                ),
-              ),
-              // Virtualized Episodes Slivers
-              if (loading)
-                const SliverToBoxAdapter(
-                  child: Center(
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 32),
-                      child: CircularProgressIndicator(color: _red),
-                    ),
-                  ),
-                )
-              else if (error != null)
-                SliverToBoxAdapter(
-                  child: Center(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 32),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Icon(Icons.cloud_off_rounded, color: _muted, size: 40),
-                          const SizedBox(height: 10),
-                          Text(error!, style: const TextStyle(color: _muted)),
-                          TextButton(
-                            onPressed: _load,
-                            child: const Text('Reintentar', style: TextStyle(color: _red)),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                )
-              else if (epList.isEmpty)
-                const SliverToBoxAdapter(
-                  child: Center(
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 32),
-                      child: Text(
-                        'No hay episodios disponibles para esta temporada.',
-                        style: TextStyle(color: _muted, fontSize: 13),
-                      ),
-                    ),
-                  ),
-                )
-              else
-                SliverPadding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  sliver: SliverList.builder(
-                    key: const ValueKey('hourtv-series-episodes-sliver-list'),
-                    itemCount: epList.length,
-                    itemBuilder: (context, index) => _episodeCard(epList[index], index),
-                  ),
-                ),
-              // Reparto Principal & Recomendados
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _castSection(),
-                      _relatedSection(),
-                      const SizedBox(height: 48),
-                    ],
-                  ),
-                ),
-              ),
-            ],
+              backdropUrl: widget.series.backdrop,
+              posterUrl: widget.series.cover,
+            ),
           ),
-          // Floating Top Nav Back Button
-          Positioned(
-            left: 16,
-            top: MediaQuery.paddingOf(context).top + 12,
-            child: _floatingBackButton(),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 14, 16, 0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _playPhone(),
+                  const SizedBox(height: 18),
+                  HourTvDetailActionBoxes(
+                    inList: channel.isFavorite,
+                    onList: () => unawaited(_favorite()),
+                    liked: _liked,
+                    likeLabel: _likeLabel,
+                    onLike: () => unawaited(_toggleLiked()),
+                    onCast: () => unawaited(_castNext()),
+                  ),
+                  const SizedBox(height: 20),
+                  HourTvDetailInfo(
+                    plot: widget.series.plot,
+                    director: widget.series.director,
+                    writer: widget.series.writer,
+                    genre: widget.series.genre,
+                    releaseDate: widget.series.releaseDate,
+                    year: widget.series.year,
+                    rating: widget.series.rating,
+                    duration: seasonCount == 0 ? null : '$seasonCount',
+                    durationLabel: 'Temporadas',
+                  ),
+                  _episodesHeader(),
+                ],
+              ),
+            ),
+          ),
+          if (loading)
+            const SliverToBoxAdapter(
+              child: Center(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(vertical: 32),
+                  child: CircularProgressIndicator(color: _red),
+                ),
+              ),
+            )
+          else if (error != null)
+            SliverToBoxAdapter(
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 32),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(
+                        Icons.cloud_off_rounded,
+                        color: _muted,
+                        size: 40,
+                      ),
+                      const SizedBox(height: 10),
+                      Text(error!, style: const TextStyle(color: _muted)),
+                      TextButton(
+                        onPressed: _load,
+                        child: const Text(
+                          'Reintentar',
+                          style: TextStyle(color: _red),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            )
+          else if (epList.isEmpty)
+            const SliverToBoxAdapter(
+              child: Center(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(vertical: 32),
+                  child: Text(
+                    'No hay episodios disponibles para esta temporada.',
+                    style: TextStyle(color: _muted, fontSize: 13),
+                  ),
+                ),
+              ),
+            )
+          else
+            SliverPadding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              sliver: SliverList.builder(
+                key: const ValueKey('hourtv-series-episodes-sliver-list'),
+                itemCount: epList.length,
+                itemBuilder: (context, index) =>
+                    _episodeCard(epList[index], index),
+              ),
+            ),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [_relatedSection(), const SizedBox(height: 48)],
+              ),
+            ),
           ),
         ],
       ),
@@ -643,558 +592,169 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
     );
   }
 
-  // Primary & Secondary Action Buttons (Buttons.tsx)
-  Widget _actionsPhone() {
-    final hasEps = currentSeasonEpisodes.isNotEmpty;
+  /// Reproducir o Continuar el episodio donde quedó la serie, con su avance.
+  Widget _playPhone() {
     final next = _nextUnfinishedEpisode;
     final nextIndex = next == null
-        ? null
+        ? -1
         : currentSeasonEpisodes.indexWhere((c) => c.url == next.url);
-    final targetIndex = (nextIndex != null && nextIndex >= 0) ? nextIndex : 0;
+    final saved = next == null ? null : PlaybackProgress.load(next);
+    final resuming = next != null && _hasProgress(next);
+    final left = saved == null || saved.durationMs <= 0
+        ? 0
+        : ((saved.durationMs - saved.positionMs) / 60000).ceil();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        // Primary Button: la serie sigue donde quedo, no siempre en T1:E1.
-        FilledButton.icon(
-          onPressed: hasEps && next != null
-              ? () => unawaited(
-                  _play(next, index: targetIndex),
-                )
-              : null,
-          style: FilledButton.styleFrom(
-            backgroundColor: _red,
-            foregroundColor: const Color(0xFF050505),
-            minimumSize: const Size(double.infinity, 48),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-            elevation: 0,
-          ),
-          icon: const Icon(
-            Icons.play_arrow_rounded,
-            color: Color(0xFF050505),
-            size: 20,
-          ),
-          label: FittedBox(
-            fit: BoxFit.scaleDown,
-            child: Text(
-              _primaryPlayLabel,
-              maxLines: 1,
-              style: const TextStyle(
-                color: Color(0xFF050505),
-                fontWeight: FontWeight.bold,
-                fontSize: 15,
-              ),
-            ),
-          ),
+        HourTvPlayButton(
+          label: _primaryPlayLabel,
+          onPressed: next == null
+              ? null
+              : () => unawaited(
+                  _play(next, index: nextIndex >= 0 ? nextIndex : 0),
+                ),
         ),
-        const SizedBox(height: 10),
-        // Secondary Buttons (Mi Lista / Compartir)
-        Row(
-          children: [
-            Expanded(
-              child: Material(
-                color: Colors.transparent,
-                child: InkWell(
-                  onTap: () => unawaited(_favorite()),
-                  borderRadius: BorderRadius.circular(12),
-                  child: Container(
-                    height: 64,
-                    decoration: BoxDecoration(
-                      color: _surfaceControl,
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: _line),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          channel.isFavorite
-                              ? Icons.check_rounded
-                              : Icons.add_rounded,
-                          color: channel.isFavorite
-                              ? _red
-                              : const Color(0xFFF5F5F5),
-                          size: 18,
-                        ),
-                        const SizedBox(height: 6),
-                        const Text(
-                          'Mi Lista',
-                          style: TextStyle(
-                            color: Color(0xFFF5F5F5),
-                            fontSize: 13,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(width: 10),
-            Expanded(
-              child: Material(
-                color: Colors.transparent,
-                child: InkWell(
-                  onTap: () => unawaited(_toggleLiked()),
-                  borderRadius: BorderRadius.circular(12),
-                  child: Container(
-                    height: 64,
-                    decoration: BoxDecoration(
-                      color: _surfaceControl,
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: _line),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.thumb_up_alt_rounded,
-                          color: _liked ? _red : const Color(0xFFF5F5F5),
-                          size: 18,
-                        ),
-                        const SizedBox(height: 6),
-                        Text(
-                          _likeLabel,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                            color: Color(0xFFF5F5F5),
-                            fontSize: 13,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(width: 10),
-            Expanded(
-              child: Material(
-                color: Colors.transparent,
-                child: InkWell(
-                  onTap: () => unawaited(_share()),
-                  borderRadius: BorderRadius.circular(12),
-                  child: Container(
-                    height: 64,
-                    decoration: BoxDecoration(
-                      color: _surfaceControl,
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: _line),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Icon(
-                          Icons.share_outlined,
-                          color: Color(0xFFF5F5F5),
-                          size: 18,
-                        ),
-                        SizedBox(height: 6),
-                        Text(
-                          'Compartir',
-                          style: TextStyle(
-                            color: Color(0xFFF5F5F5),
-                            fontSize: 13,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
+        if (resuming && saved != null) ...[
+          const SizedBox(height: 10),
+          HourTvResumeProgress(
+            fraction: saved.fraction,
+            label: left > 0 ? 'Quedan $left min' : 'Casi terminado',
+          ),
+        ],
       ],
     );
   }
 
-  // Synopsis & Technical Specs DL Grid (DetailsView.tsx L147-185)
-  Widget _synopsisSection() {
-    final plot = widget.series.plot?.trim();
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text(
-          'SINOPSIS',
-          style: TextStyle(
-            fontSize: 12,
-            fontWeight: FontWeight.bold,
-            color: _muted,
-            letterSpacing: 1.2,
-          ),
-        ),
-        const SizedBox(height: 6),
-        Text(
-          (plot != null && plot.isNotEmpty)
-              ? plot
-              : 'Sin descripción disponible para esta serie.',
-          style: const TextStyle(
-            color: _textSecondary,
-            fontSize: 14,
-            height: 1.55,
-            fontWeight: FontWeight.normal,
-          ),
-        ),
-        _technicalSpecs(),
-      ],
+  /// Transmite a la TV el episodio donde quedó la serie.
+  Future<void> _castNext() async {
+    final next =
+        _nextUnfinishedEpisode ??
+        (currentSeasonEpisodes.isEmpty ? null : currentSeasonEpisodes.first);
+    if (next == null) return;
+    await hourTvCastChannel(
+      context,
+      next,
+      title:
+          '${SeriesTitleSanitizer.sanitize(widget.series.name)} · '
+          'T${_seasonNumber(currentSeasonKey)}:E${_episodeNumber(next, 0)}',
     );
+    if (mounted) setState(() {});
   }
 
-  Widget _technicalSpecs() {
-    final director = widget.series.director?.trim();
-    final writer = widget.series.writer?.trim();
-    final genre = widget.series.genre?.trim();
-    final releaseDate = widget.series.releaseDate?.trim();
-    final year = widget.series.year?.trim();
-    final rating = widget.series.rating?.trim();
-    final seasonsCount = seasons.length;
-    final duration =
-        '${seasonsCount > 0 ? seasonsCount : 1} Temporada${seasonsCount == 1 ? '' : 's'}';
-
-    Widget specCell(String label, String value) {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            label.toUpperCase(),
-            style: const TextStyle(
-              fontSize: 10,
-              fontWeight: FontWeight.bold,
-              color: Color(0xFF7D8581),
-              letterSpacing: 0.8,
-            ),
-          ),
-          const SizedBox(height: 2),
-          Text(
-            value.isNotEmpty ? value : 'No disponible',
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(
-              fontSize: 12,
-              color: Color(0xFFF5F5F5),
-              height: 1.25,
-            ),
-          ),
-        ],
-      );
-    }
-
-    return Container(
-      margin: const EdgeInsets.only(top: 16),
-      padding: const EdgeInsets.only(top: 16),
-      decoration: const BoxDecoration(
-        border: Border(top: BorderSide(color: Color(0xB327302C))),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: specCell('Dirección', director ?? 'No disponible'),
-              ),
-              const SizedBox(width: 16),
-              Expanded(child: specCell('Guion', writer ?? 'No disponible')),
-            ],
-          ),
-          const SizedBox(height: 12),
-          specCell('Género', genre ?? 'No disponible'),
-          const SizedBox(height: 12),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: specCell(
-                  'Fecha de estreno',
-                  releaseDate ?? 'No disponible',
-                ),
-              ),
-              const SizedBox(width: 16),
-              Expanded(child: specCell('Año', year ?? 'No disponible')),
-            ],
-          ),
-          const SizedBox(height: 12),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: specCell(
-                  'Rating IMDb',
-                  rating != null && rating.isNotEmpty
-                      ? '$rating / 10'
-                      : 'No disponible',
-                ),
-              ),
-              const SizedBox(width: 16),
-              Expanded(child: specCell('Duración', duration)),
-            ],
-          ),
-        ],
-      ),
-    );
+  /// Número del episodio ("S1:E4" o "serie:1:4" en tvgId); si no, su orden.
+  static int _episodeNumber(Channel episode, int index) {
+    final id = episode.tvgId ?? '';
+    final match = RegExp(r'E(\d+)$|:(\d+)$').firstMatch(id);
+    return int.tryParse(match?.group(1) ?? match?.group(2) ?? '') ??
+        index + 1;
   }
 
-  // Episodes Header & Dropdown Season Selector (DetailsView.tsx L188-257)
+  // "Episodios" y el selector de temporada estilo Netflix: botón gris
+  // compacto; con una sola temporada, solo el texto (no hay qué elegir).
   Widget _episodesHeader() {
-    final current = currentSeasonKey;
-    final label = _seasonLabel(current);
-
-    return Container(
-      margin: const EdgeInsets.only(top: 24, bottom: 12),
-      padding: const EdgeInsets.only(bottom: 10),
-      decoration: const BoxDecoration(
-        border: Border(bottom: BorderSide(color: Color(0x9927302C))),
-      ),
+    final label = _seasonLabel(currentSeasonKey);
+    final several = seasons.length > 1;
+    return Padding(
+      padding: const EdgeInsets.only(top: 28, bottom: 6),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: const [
-              Icon(Icons.tv_rounded, size: 16, color: _red),
-              SizedBox(width: 8),
-              Text(
-                'Episodios',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                ),
+          const Expanded(
+            child: Text(
+              'Episodios',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 18,
+                fontWeight: FontWeight.w900,
               ),
-            ],
+            ),
           ),
-          const SizedBox(width: 8),
-          Flexible(
-            child: Material(
-              color: Colors.transparent,
+          if (!several)
+            Text(
+              label,
+              style: const TextStyle(
+                color: _muted,
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+              ),
+            )
+          else
+            Material(
+              color: const Color(0xFF2A2A2A),
+              borderRadius: BorderRadius.circular(4),
               child: InkWell(
                 onTap: () => unawaited(_openSeasonSelector(context)),
-                borderRadius: BorderRadius.circular(8),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 6,
-                  ),
-                  decoration: BoxDecoration(
-                    color: _surfaceControl,
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: _line),
-                  ),
+                borderRadius: BorderRadius.circular(4),
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(14, 9, 10, 9),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Flexible(
-                        child: Text(
-                          label,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                          ),
+                      Text(
+                        label,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w700,
                         ),
                       ),
                       const SizedBox(width: 6),
                       const Icon(
                         Icons.keyboard_arrow_down_rounded,
-                        size: 16,
-                        color: _muted,
+                        size: 20,
+                        color: Colors.white,
                       ),
                     ],
                   ),
                 ),
               ),
             ),
-          ),
         ],
       ),
     );
   }
 
+  // Lista de temporadas a pantalla completa sobre fondo oscuro, la elegida
+  // resaltada y una X redonda abajo para cerrar (como Netflix).
   Future<void> _openSeasonSelector(BuildContext context) async {
     final keys = seasons.keys.toList();
-    if (keys.isEmpty) return;
-    await showModalBottomSheet<void>(
+    if (keys.length < 2) return;
+    final picked = await showGeneralDialog<String>(
       context: context,
-      backgroundColor: _surface,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-        side: BorderSide(color: _line),
-      ),
-      builder: (sheetContext) {
-        return SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 8, bottom: 12),
-                  child: Text(
-                    'Temporadas',
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                ...keys.map((key) {
-                  final isSelected = key == currentSeasonKey;
-                  final label = _seasonLabel(key);
-                  return InkWell(
-                    onTap: () {
-                      setState(() => season = key);
-                      Navigator.pop(sheetContext);
-                    },
-                    borderRadius: BorderRadius.circular(12),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 14,
-                        vertical: 14,
-                      ),
-                      margin: const EdgeInsets.only(bottom: 6),
-                      decoration: BoxDecoration(
-                        color: isSelected
-                            ? _surfaceControl
-                            : Colors.transparent,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            label,
-                            style: TextStyle(
-                              color: isSelected
-                                  ? const Color(0xFFF5F5F5)
-                                  : _textSecondary,
-                              fontSize: 14,
-                              fontWeight: isSelected
-                                  ? FontWeight.w600
-                                  : FontWeight.normal,
-                            ),
-                          ),
-                          if (isSelected)
-                            const Icon(
-                              Icons.check_rounded,
-                              color: _red,
-                              size: 18,
-                            ),
-                        ],
-                      ),
-                    ),
-                  );
-                }),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  // Episode Card (Cards.tsx L211-278)
-  Widget _episodeCard(Channel episode, int index) {
-    final thumbUrl =
-        episode.backdrop ??
-        episode.logo ??
-        widget.series.backdrop ??
-        widget.series.cover;
-    final hasThumb = thumbUrl != null && thumbUrl.trim().isNotEmpty;
-    final duration = (episode.duration ?? '').trim();
-    final saved = PlaybackProgress.load(episode);
-    final fraction = saved?.fraction ?? episode.progressFraction;
-
-    return Container(
-      margin: const EdgeInsets.only(bottom: 10),
-      decoration: BoxDecoration(
-        color: _surface.withValues(alpha: 0.6),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: _line.withValues(alpha: 0.8)),
-      ),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: () => unawaited(_play(episode, index: index)),
-          borderRadius: BorderRadius.circular(12),
-          child: Padding(
-            padding: const EdgeInsets.all(10),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                // 16:9 Thumbnail
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
-                  child: SizedBox(
-                    width: 112,
-                    height: 63,
-                    child: Stack(
-                      fit: StackFit.expand,
+      barrierDismissible: true,
+      barrierLabel: 'Cerrar',
+      barrierColor: const Color(0xF2000000),
+      transitionDuration: const Duration(milliseconds: 160),
+      pageBuilder: (dialogContext, _, _) => SafeArea(
+        child: Material(
+          type: MaterialType.transparency,
+          child: Column(
+            children: [
+              Expanded(
+                child: Center(
+                  child: SingleChildScrollView(
+                    padding: const EdgeInsets.symmetric(vertical: 24),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
-                        if (hasThumb)
-                          CachedNetworkImage(
-                            fadeInDuration: Duration.zero,
-                            fadeOutDuration: Duration.zero,
-                            imageUrl: thumbUrl,
-                            fit: BoxFit.cover,
-                            memCacheWidth: 320,
-                            errorWidget: (_, _, _) => Container(
-                              color: _surfaceControl,
-                              child: const Icon(
-                                Icons.movie_creation_outlined,
-                                color: _line,
-                                size: 24,
+                        for (final key in keys)
+                          InkWell(
+                            onTap: () => Navigator.pop(dialogContext, key),
+                            borderRadius: BorderRadius.circular(8),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 32,
+                                vertical: 14,
                               ),
-                            ),
-                          )
-                        else
-                          Container(
-                            color: _surfaceControl,
-                            child: const Icon(
-                              Icons.movie_creation_outlined,
-                              color: _line,
-                              size: 24,
-                            ),
-                          ),
-                        const ColoredBox(color: Color(0x4D000000)),
-                        Center(
-                          child: Container(
-                            width: 32,
-                            height: 32,
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Color(0xE600C781),
-                            ),
-                            child: const Icon(
-                              Icons.play_arrow_rounded,
-                              color: Color(0xFF050505),
-                              size: 18,
-                            ),
-                          ),
-                        ),
-                        if (fraction != null && fraction > 0)
-                          Positioned(
-                            left: 0,
-                            right: 0,
-                            bottom: 0,
-                            child: SizedBox(
-                              height: 4,
-                              child: LinearProgressIndicator(
-                                value: fraction.clamp(0.0, 1.0),
-                                backgroundColor: const Color(0x99000000),
-                                valueColor: const AlwaysStoppedAnimation<Color>(
-                                  _red,
+                              child: Text(
+                                _seasonLabel(key),
+                                style: TextStyle(
+                                  color: key == currentSeasonKey
+                                      ? Colors.white
+                                      : _muted,
+                                  fontSize: key == currentSeasonKey ? 22 : 18,
+                                  fontWeight: key == currentSeasonKey
+                                      ? FontWeight.w800
+                                      : FontWeight.w500,
                                 ),
                               ),
                             ),
@@ -1203,62 +763,148 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
                     ),
                   ),
                 ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 28),
+                child: Material(
+                  color: Colors.white,
+                  shape: const CircleBorder(),
+                  child: InkWell(
+                    customBorder: const CircleBorder(),
+                    onTap: () => Navigator.pop(dialogContext),
+                    child: const SizedBox(
+                      width: 56,
+                      height: 56,
+                      child: Icon(
+                        Icons.close_rounded,
+                        color: Colors.black,
+                        size: 28,
+                        semanticLabel: 'Cerrar',
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+    if (picked != null && mounted) setState(() => season = picked);
+  }
+
+  // Episodio estilo Netflix: miniatura y título en una fila, el resumen
+  // debajo, sin bordes de tarjeta. Si el episodio no trae imagen propia se
+  // muestra su número (antes se repetía la misma foto de la serie en todos).
+  Widget _episodeCard(Channel episode, int index) {
+    final number = _episodeNumber(episode, index);
+    final name = episode.displayName.trim();
+    final generic = RegExp(
+      r'^(episodio|cap[ií]tulo)\s*\d+$',
+      caseSensitive: false,
+    ).hasMatch(name);
+    final title = generic || name.isEmpty
+        ? 'Episodio $number'
+        : '$number. $name';
+    final image = (episode.backdrop ?? episode.logo)?.trim();
+    final still =
+        image != null &&
+            image.isNotEmpty &&
+            image != widget.series.cover &&
+            image != widget.series.backdrop
+        ? image
+        : null;
+    final duration = hourTvPrettyDuration(episode.duration);
+    final saved = PlaybackProgress.load(episode);
+    final fraction = saved?.fraction ?? episode.progressFraction;
+    final plot = episode.plot?.trim();
+
+    return InkWell(
+      onTap: () => unawaited(_play(episode, index: index)),
+      borderRadius: BorderRadius.circular(8),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(6),
+                  child: SizedBox(
+                    width: 128,
+                    height: 72,
+                    child: Stack(
+                      fit: StackFit.expand,
+                      children: [
+                        if (still != null)
+                          CachedNetworkImage(
+                            fadeInDuration: Duration.zero,
+                            fadeOutDuration: Duration.zero,
+                            imageUrl: still,
+                            fit: BoxFit.cover,
+                            memCacheWidth: 320,
+                            errorWidget: (_, _, _) =>
+                                _episodeNumberTile(number),
+                          )
+                        else
+                          _episodeNumberTile(number),
+                        Center(
+                          child: Container(
+                            width: 32,
+                            height: 32,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: const Color(0x8C000000),
+                              border: Border.all(
+                                color: Colors.white,
+                                width: 1.5,
+                              ),
+                            ),
+                            child: const Icon(
+                              Icons.play_arrow_rounded,
+                              color: Colors.white,
+                              size: 20,
+                            ),
+                          ),
+                        ),
+                        if (fraction != null && fraction > 0)
+                          Positioned(
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            child: LinearProgressIndicator(
+                              value: fraction.clamp(0.0, 1.0),
+                              minHeight: 3,
+                              backgroundColor: const Color(0x99000000),
+                              color: _red,
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
+                ),
                 const SizedBox(width: 12),
-                // Episode Details
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      Wrap(
-                        crossAxisAlignment: WrapCrossAlignment.center,
-                        children: [
-                          Text(
-                            'Episodio ${index + 1}',
-                            style: const TextStyle(
-                              color: _red,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          if (duration.isNotEmpty) ...[
-                            const Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 5),
-                              child: Text('•', style: TextStyle(color: _line)),
-                            ),
-                            Text(
-                              duration,
-                              style: const TextStyle(
-                                color: _muted,
-                                fontSize: 12,
-                              ),
-                            ),
-                          ],
-                        ],
-                      ),
-                      const SizedBox(height: 3),
                       Text(
-                        episode.displayName,
-                        maxLines: 1,
+                        title,
+                        maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
                           color: Color(0xFFF5F5F5),
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
+                          fontSize: 14.5,
+                          fontWeight: FontWeight.w700,
                           height: 1.25,
                         ),
                       ),
-                      if ((episode.plot ?? '').trim().isNotEmpty) ...[
-                        const SizedBox(height: 3),
+                      if (duration != null) ...[
+                        const SizedBox(height: 4),
                         Text(
-                          episode.plot!.trim(),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                            color: _muted,
-                            fontSize: 12,
-                            height: 1.4,
-                          ),
+                          duration,
+                          style: const TextStyle(color: _muted, fontSize: 12),
                         ),
                       ],
                     ],
@@ -1266,89 +912,40 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
                 ),
               ],
             ),
-          ),
+            if (plot != null && plot.isNotEmpty) ...[
+              const SizedBox(height: 8),
+              Text(
+                plot,
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  color: _muted,
+                  fontSize: 12.5,
+                  height: 1.45,
+                ),
+              ),
+            ],
+          ],
         ),
       ),
     );
   }
 
-
-  // Reparto Principal (DetailsView.tsx L271-294)
-  Widget _castSection() {
-    final castRaw = widget.series.cast?.trim();
-    if (castRaw == null || castRaw.isEmpty) return const SizedBox.shrink();
-    final actors = castRaw
-        .split(',')
-        .map((a) => a.trim())
-        .where((a) => a.isNotEmpty)
-        .toList();
-    if (actors.isEmpty) return const SizedBox.shrink();
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const SizedBox(height: 24),
-        const Text(
-          'Reparto Principal',
-          style: TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
+  Widget _episodeNumberTile(int number) => ColoredBox(
+    color: _surfaceControl,
+    child: Align(
+      alignment: const Alignment(-.8, .75),
+      child: Text(
+        '$number',
+        style: const TextStyle(
+          color: Color(0x40FFFFFF),
+          fontSize: 30,
+          fontWeight: FontWeight.w900,
+          height: 1,
         ),
-        const SizedBox(height: 12),
-        SizedBox(
-          height: 98,
-          child: ListView.separated(
-            scrollDirection: Axis.horizontal,
-            itemCount: actors.length,
-            separatorBuilder: (_, _) => const SizedBox(width: 14),
-            itemBuilder: (context, index) {
-              final actor = actors[index];
-              return SizedBox(
-                width: 80,
-                child: Column(
-                  children: [
-                    Container(
-                      width: 60,
-                      height: 60,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: _surfaceControl,
-                        border: Border.all(color: _line),
-                      ),
-                      child: Center(
-                        child: Text(
-                          actor.isNotEmpty ? actor[0].toUpperCase() : '?',
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 6),
-                    Text(
-                      actor,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 11,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            },
-          ),
-        ),
-      ],
-    );
-  }
+      ),
+    ),
+  );
 
   // También te puede gustar (DetailsView.tsx L298-318)
   Widget _relatedSection() {
@@ -1522,7 +1119,6 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _castSection(),
                     _episodesBody(compact: tablet),
                   ],
                 ),
@@ -1545,28 +1141,12 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
         Flexible(
           child: ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 280),
-            child: FilledButton.icon(
+            child: HourTvPlayButton(
+              label: _primaryPlayLabel,
+              large: true,
               onPressed: next == null
                   ? null
                   : () => _play(next, index: targetIndex),
-              style: FilledButton.styleFrom(
-                backgroundColor: _red,
-                foregroundColor: Colors.black,
-                minimumSize: const Size(140, 52),
-                shape: const StadiumBorder(),
-              ),
-              icon: const Icon(Icons.play_arrow_rounded),
-              label: FittedBox(
-                fit: BoxFit.scaleDown,
-                child: Text(
-                  _primaryPlayLabel,
-                  maxLines: 1,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w900,
-                    letterSpacing: .3,
-                  ),
-                ),
-              ),
             ),
           ),
         ),
@@ -1683,35 +1263,14 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
             Flexible(
               child: ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: 320),
-                child: FilledButton.icon(
+                child: HourTvPlayButton(
+                  label: _primaryPlayLabel,
+                  large: true,
                   onPressed: targetEp == null
                       ? null
                       : () => unawaited(() async {
-                            await _play(
-                              targetEp,
-                              index: targetIndex,
-                            );
-                          }()),
-                  style: FilledButton.styleFrom(
-                    backgroundColor: _red,
-                    foregroundColor: Colors.black,
-                    minimumSize: const Size(160, 56),
-                    elevation: 4,
-                    shadowColor: _red.withValues(alpha: .5),
-                    shape: const StadiumBorder(),
-                  ),
-                  icon: const Icon(Icons.play_arrow_rounded),
-                  label: FittedBox(
-                    fit: BoxFit.scaleDown,
-                    child: Text(
-                      _primaryPlayLabel,
-                      maxLines: 1,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w900,
-                        letterSpacing: .3,
-                      ),
-                    ),
-                  ),
+                          await _play(targetEp, index: targetIndex);
+                        }()),
                 ),
               ),
             ),

@@ -7,9 +7,8 @@ import 'package:flutter/services.dart';
 
 import '../models/channel.dart';
 import '../services/catalog/catalog_detail_navigator.dart';
-import '../services/cast_service.dart';
+import '../services/playback_progress.dart';
 import '../services/remote_playback.dart';
-import '../services/subtitles/github_subtitle_repository.dart';
 import '../services/catalog/hero_tag_helper.dart';
 import '../services/content_store.dart';
 import '../services/device_type.dart';
@@ -17,9 +16,9 @@ import '../services/likes_service.dart';
 import '../services/recommendations/related_content_engine.dart';
 import '../services/storage_service.dart';
 import 'hourtv_artwork.dart';
-import 'hourtv_cast_controls_screen.dart';
-import 'hourtv_cast_sheet.dart';
+import 'hourtv_detail_parts.dart';
 import 'hourtv_focusable.dart';
+import 'hourtv_play_button.dart';
 import 'hourtv_player_screen.dart';
 import 'hourtv_parental_gate.dart';
 
@@ -192,9 +191,7 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
       final titleId = channel.stableTitleId;
       var index = allChannels.indexOf(channel);
       if (index < 0 && titleId != null && titleId.isNotEmpty) {
-        index = allChannels.indexWhere(
-          (item) => item.stableTitleId == titleId,
-        );
+        index = allChannels.indexWhere((item) => item.stableTitleId == titleId);
       }
       if (index < 0 && channel.url.isNotEmpty) {
         index = allChannels.indexWhere((item) => item.url == channel.url);
@@ -274,29 +271,7 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
       );
       return;
     }
-    // Mismo panel propio que el reproductor: busca Chromecast y Smart TV
-    // DLNA, resuelve el servidor al elegir el TV y explica los errores.
-    final playback = await showCastSheet(
-      context,
-      title: channel.displayName,
-      media: () => CastService.resolveMedia(channel),
-      posterUrl: channel.backdrop ?? channel.logo,
-      mediaType: channel.type,
-      subtitle: () async =>
-          (await GithubSubtitleRepository().findFor(channel)).firstOrNull,
-      // Como en el reproductor: visibles de entrada solo si se eligió
-      // "Siempre en español" (el idioma del audio aún no se conoce).
-      subtitleOn: const {'always', 'manual'}.contains(
-        StorageService.getSetting('preferredSubtitleMode', defaultValue: 'auto'),
-      ),
-    );
-    if (!mounted || playback == null) return;
-    await Navigator.of(context).push<bool>(
-      MaterialPageRoute(
-        builder: (_) =>
-            CastControlsScreen(title: channel.displayName, playback: playback),
-      ),
-    );
+    await hourTvCastChannel(context, channel);
     if (mounted) setState(() {});
   }
 
@@ -383,51 +358,17 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
     // Antes ocupaba .58 de la pantalla (hasta 560px), casi identico al hero
     // del Inicio: la pantalla de detalles parecia una copia de esa misma
     // franja en vez de una vista propia. Se reduce para que se distinga.
-    final screen = MediaQuery.sizeOf(context).height;
-    final headerHeight = (screen * .42).clamp(280.0, 380.0);
     return Scaffold(
       backgroundColor: _black,
       body: CustomScrollView(
         slivers: [
           SliverToBoxAdapter(
-            child: SizedBox(
-              height: headerHeight,
-              child: Stack(
-                fit: StackFit.expand,
-                children: [
-                  _CinematicBackdrop(channel: channel),
-                  // El boton atras va superpuesto DENTRO de la imagen. No se
-                  // reserva franja negra para el.
-                  _backButton(left: 12, top: 8),
-                  // Poster + titulo/metadatos pegados al borde inferior de la
-                  // imagen, donde el degradado ya es negro solido. En una
-                  // sola Row para que el poster y el bloque de texto queden
-                  // alineados por abajo sin calcular alturas a mano.
-                  Positioned(
-                    left: 16,
-                    right: 16,
-                    bottom: 14,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        _heroPoster(),
-                        if (_heroPosterUrl != null) const SizedBox(width: 12),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              _title(28),
-                              const SizedBox(height: 8),
-                              _meta(),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+            child: HourTvDetailPhoneHeader(
+              title: channel.displayName,
+              meta: _meta(),
+              backdropUrl: channel.backdrop,
+              posterUrl: _heroPosterUrl,
+              poster: _heroPosterUrl == null ? null : _heroPoster(),
             ),
           ),
           SliverToBoxAdapter(
@@ -438,10 +379,16 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
                 children: [
                   _actions(phone: true),
                   const SizedBox(height: 20),
-                  _description(),
-                  _genres(),
-                  _castSection(),
-                  _creditsSection(),
+                  HourTvDetailInfo(
+                    plot: channel.plot,
+                    director: channel.director,
+                    writer: channel.writer,
+                    genre: channel.genre,
+                    releaseDate: channel.releaseDate,
+                    year: channel.year,
+                    rating: channel.rating,
+                    duration: hourTvPrettyDuration(channel.duration),
+                  ),
                   if (related.isNotEmpty) ...[
                     const SizedBox(height: 26),
                     _relatedRow(portrait: true, cardWidth: 112),
@@ -869,29 +816,6 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
     return '$hours h $minutes min';
   }
 
-  /// Fecha de estreno solo si aporta algo mas que el año que ya se muestra.
-  String? get _releaseBeyondYear {
-    final raw = channel.releaseDate?.trim();
-    if (raw == null || raw.length < 10) return null;
-    final date = DateTime.tryParse(raw);
-    if (date == null) return null;
-    const months = [
-      'enero',
-      'febrero',
-      'marzo',
-      'abril',
-      'mayo',
-      'junio',
-      'julio',
-      'agosto',
-      'septiembre',
-      'octubre',
-      'noviembre',
-      'diciembre',
-    ];
-    return '${date.day} de ${months[date.month - 1]} de ${date.year}';
-  }
-
   // Solo datos que existen de verdad. Se quito el "98% Coincidencia", que
   // estaba escrito a mano en el codigo: la app no calcula ninguna afinidad.
   // Y `rating` se pinta como puntuacion (es la nota 0-10 de TMDB), no dentro
@@ -942,40 +866,50 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
   ResumeOffer? get _resume =>
       widget.preview ? null : resumeOfferFor(channel, autoResume: true);
 
-  String get _playLabel {
-    final resume = _resume;
-    return resume == null
-        ? 'REPRODUCIR'
-        : 'CONTINUAR DESDE ${formatResumeClock(resume.positionMs)}';
+  String get _playLabel => _resume == null ? 'Reproducir' : 'Continuar';
+
+  /// Barra "Vas en X · quedan Y min" bajo Continuar; null sin avance.
+  Widget? get _resumeProgress {
+    if (_resume == null) return null;
+    final saved = PlaybackProgress.load(channel);
+    if (saved == null || saved.durationMs <= 0) return null;
+    final left = ((saved.durationMs - saved.positionMs) / 60000).ceil();
+    return HourTvResumeProgress(
+      fraction: saved.fraction,
+      label: left > 0 ? 'Quedan $left min' : 'Casi terminada',
+    );
+  }
+
+  /// "Desde el inicio": borra el avance (como elegir "Desde el inicio" en
+  /// el aviso del reproductor) y reproduce desde 0.
+  Future<void> startOver() async {
+    final saved = PlaybackProgress.load(channel);
+    if (saved != null && saved.durationMs > 0) {
+      await PlaybackProgress.save(
+        channel,
+        positionMs: 0,
+        durationMs: saved.durationMs,
+      );
+    }
+    if (!mounted) return;
+    setState(() {});
+    await play();
   }
 
   Widget _actions({bool phone = false, bool desktop = false}) {
-    final playButton = FilledButton.icon(
+    final resuming = _resume != null;
+    final progress = _resumeProgress;
+    final playButton = HourTvPlayButton(
+      label: _playLabel,
       onPressed: play,
-      style: FilledButton.styleFrom(
-        backgroundColor: desktop ? Colors.white : _red,
-        // Texto blanco sobre el verde de marca casi no hacia contraste
-        // (se perdia contra el fondo); negro es lo que ya se usa en el
-        // resto de la app para texto sobre superficies emerald (el logo,
-        // los botones de HourTvButton).
-        foregroundColor: Colors.black,
-        minimumSize: const Size(140, 52),
-        elevation: desktop ? 0 : 4,
-        shadowColor: _red.withValues(alpha: .5),
-        shape: const StadiumBorder(),
-      ),
-      icon: const Icon(Icons.play_arrow_rounded),
-      label: FittedBox(
-        fit: BoxFit.scaleDown,
-        child: Text(
-          _playLabel,
-          maxLines: 1,
-          style: const TextStyle(
-            fontWeight: FontWeight.w900,
-            letterSpacing: .3,
-          ),
-        ),
-      ),
+      large: !phone,
+    );
+    final startOverButton = HourTvPlayButton(
+      label: 'Desde el inicio',
+      icon: Icons.replay_rounded,
+      secondary: true,
+      large: !phone,
+      onPressed: () => unawaited(startOver()),
     );
 
     // En movil "Reproducir" manda: ancho completo. Las demas acciones bajan de
@@ -985,51 +919,23 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          SizedBox(height: 50, child: playButton),
-          const SizedBox(height: 16),
-          // Cada accion en su propio Expanded: en pantallas angostas (~360dp)
-          // las tres etiquetas ("Favorito"/"Me gusta"/"Transmitir") con
-          // spaceEvenly desbordaban el Row por su ancho intrinseco.
-          Row(
-            children: [
-              Expanded(
-                child: _labelledAction(
-                  channel.isFavorite
-                      ? Icons.favorite_rounded
-                      : Icons.favorite_border_rounded,
-                  'Favorito',
-                  favorite,
-                  active: channel.isFavorite,
-                ),
-              ),
-              Expanded(
-                child: _labelledAction(
-                  Icons.thumb_up_alt_rounded,
-                  _likeLabel,
-                  () => unawaited(toggleLiked()),
-                  active: liked,
-                ),
-              ),
-              Expanded(
-                child: _labelledAction(
-                  (RemotePlayback.active.value != null)
-                      ? Icons.cast_connected_rounded
-                      : Icons.cast_rounded,
-                  (RemotePlayback.active.value != null)
-                      ? 'Conectado'
-                      : 'Transmitir',
-                  () => unawaited(castToDevice()),
-                  active: (RemotePlayback.active.value != null),
-                  enabled: true,
-                ),
-              ),
-            ],
+          playButton,
+          if (progress != null) ...[const SizedBox(height: 10), progress],
+          if (resuming) ...[const SizedBox(height: 10), startOverButton],
+          const SizedBox(height: 18),
+          HourTvDetailActionBoxes(
+            inList: channel.isFavorite,
+            onList: favorite,
+            liked: liked,
+            likeLabel: _likeLabel,
+            onLike: () => unawaited(toggleLiked()),
+            onCast: () => unawaited(castToDevice()),
           ),
         ],
       );
     }
 
-    return Row(
+    final buttons = Row(
       mainAxisSize: MainAxisSize.min,
       children: [
         Flexible(
@@ -1038,6 +944,15 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
             child: playButton,
           ),
         ),
+        if (resuming) ...[
+          const SizedBox(width: 10),
+          Flexible(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 240),
+              child: startOverButton,
+            ),
+          ),
+        ],
         const SizedBox(width: 10),
         _roundAction(
           channel.isFavorite
@@ -1060,78 +975,22 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
               ? Icons.cast_connected_rounded
               : Icons.cast_rounded,
           () => unawaited(castToDevice()),
-          label: (RemotePlayback.active.value != null) ? 'Conectado' : 'Transmitir',
+          label: (RemotePlayback.active.value != null)
+              ? 'Conectado'
+              : 'Transmitir',
           active: (RemotePlayback.active.value != null),
         ),
       ],
     );
-  }
-
-  // Antes solo cambiaba el color del icono en seco (sin ninguna transicion):
-  // se sentia tieso al tocar. Ahora el circulo de fondo anima igual que
-  // `_roundAction` (version escritorio), con sombra cuando queda activo.
-  Widget _labelledAction(
-    IconData icon,
-    String label,
-    VoidCallback onTap, {
-    bool active = false,
-    bool enabled = true,
-  }) {
-    return Semantics(
-      button: true,
-      enabled: enabled,
-      label: label,
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: enabled ? onTap : null,
-          customBorder: const CircleBorder(),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                AnimatedContainer(
-                  duration: const Duration(milliseconds: 200),
-                  curve: Curves.easeOut,
-                  width: 48,
-                  height: 48,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: active ? _red : _surface,
-                    border: Border.all(color: active ? _red : _line),
-                    boxShadow: active
-                        ? [
-                            BoxShadow(
-                              color: _red.withValues(alpha: .45),
-                              blurRadius: 14,
-                              spreadRadius: 1,
-                            ),
-                          ]
-                        : null,
-                  ),
-                  child: Icon(
-                    icon,
-                    color: enabled ? Colors.white : Colors.white24,
-                    size: 22,
-                  ),
-                ),
-                const SizedBox(height: 6),
-                Text(
-                  label,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    color: enabled ? _muted : Colors.white24,
-                    fontSize: 11.5,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
+    if (progress == null) return buttons;
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        buttons,
+        const SizedBox(height: 12),
+        SizedBox(width: 380, child: progress),
+      ],
     );
   }
 
@@ -1285,46 +1144,6 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
     );
   }
 
-  // Director, guion y estreno. Las filas sin dato no se pintan.
-  Widget _creditsSection() {
-    final rows = <(String, String)>[
-      if (channel.director?.trim().isNotEmpty ?? false)
-        ('Dirección', channel.director!.trim()),
-      if (channel.writer?.trim().isNotEmpty ?? false)
-        ('Guion', channel.writer!.trim()),
-      if (_releaseBeyondYear != null) ('Estreno', _releaseBeyondYear!),
-    ];
-    if (rows.isEmpty) return const SizedBox.shrink();
-    return Padding(
-      padding: const EdgeInsets.only(top: 22),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _sectionTitle('Información'),
-          for (final (label, value) in rows)
-            Padding(
-              padding: const EdgeInsets.only(bottom: 6),
-              child: RichText(
-                text: TextSpan(
-                  style: const TextStyle(fontSize: 13, height: 1.4),
-                  children: [
-                    TextSpan(
-                      text: '$label: ',
-                      style: const TextStyle(color: _muted),
-                    ),
-                    TextSpan(
-                      text: value,
-                      style: const TextStyle(color: Colors.white70),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-        ],
-      ),
-    );
-  }
-
   /// Categorias internas del panel: sirven para armar las filas del Inicio,
   /// no son generos y no pintan nada en la ficha.
   static const _internalCategories = {
@@ -1450,74 +1269,6 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
       ),
     ],
   );
-}
-
-/// Cabecera de la ficha en movil.
-///
-/// Con `backdrop` (imagen horizontal real) se pinta a todo el ancho con
-/// `cover`, que es lo que se busca. Pero hoy casi ningun titulo del catalogo
-/// lo trae, asi que el camino de respaldo es el habitual: se usa el propio
-/// poster vertical ampliado, desenfocado y oscurecido como fondo, con el
-/// poster nitido y completo delante. Asi la cabecera llena el ancho en vez de
-/// dejar dos franjas negras a los lados.
-class _CinematicBackdrop extends StatelessWidget {
-  const _CinematicBackdrop({required this.channel});
-  final Channel channel;
-
-  @override
-  Widget build(BuildContext context) {
-    final backdrop = channel.backdrop;
-    final hasBackdrop = backdrop != null && backdrop.trim().isNotEmpty;
-    final poster = channel.logo;
-    final url = hasBackdrop ? backdrop : poster;
-
-    return Stack(
-      fit: StackFit.expand,
-      children: [
-        if (url == null || url.trim().isEmpty)
-          const ColoredBox(color: _surface)
-        else
-          // Mismo tratamiento que el hero del Inicio: cover a toda la caja.
-          // Antes, sin backdrop horizontal, el poster se mostraba chico y
-          // nitido sobre un fondo desenfocado con marco alrededor — parecia
-          // la foto de una pagina, no una imagen a pantalla completa.
-          // topCenter porque el poster (vertical) recortado al centro corta
-          // justo la cara del protagonista.
-          CachedNetworkImage(
-            fadeInDuration: Duration.zero,
-            fadeOutDuration: Duration.zero,
-            imageUrl: url,
-            memCacheWidth: 900,
-            fit: BoxFit.cover,
-            alignment: hasBackdrop ? Alignment.center : Alignment.topCenter,
-            errorWidget: (_, _, _) => const ColoredBox(color: _surface),
-          ),
-        // Degradado inferior: funde la imagen con el negro de la pagina y da
-        // fondo legible al titulo.
-        const DecoratedBox(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [Color(0x00000000), Color(0x66000000), _black],
-              stops: [.42, .74, 1],
-            ),
-          ),
-        ),
-        // Oscurecimiento lateral, para que el texto no compita con la imagen.
-        const DecoratedBox(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight,
-              colors: [Color(0x73000000), Color(0x00000000), Color(0x73000000)],
-              stops: [0, .32, 1],
-            ),
-          ),
-        ),
-      ],
-    );
-  }
 }
 
 class _Backdrop extends StatelessWidget {

@@ -397,7 +397,7 @@ void main() {
         expect(detailPage.channel.servers.length, 2);
 
         // Tocar reproducir asegurando visibilidad
-        final playBtn = find.text('REPRODUCIR');
+        final playBtn = find.text('Reproducir');
         expect(playBtn, findsOneWidget);
         await tester.ensureVisible(playBtn);
         await tester.pump();

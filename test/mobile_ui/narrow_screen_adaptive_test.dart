@@ -68,7 +68,7 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(tester.takeException(), isNull);
-      expect(find.text('REPRODUCIR'), findsOneWidget);
+      expect(find.text('Reproducir'), findsOneWidget);
       expect(find.text('Favorito'), findsOneWidget);
       expect(find.text('Me gusta'), findsOneWidget);
     });

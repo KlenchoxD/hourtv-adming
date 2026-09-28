@@ -106,16 +106,15 @@ void main() {
     );
   });
 
-  testWidgets('2. Muestra título, badges de calidad 4K UHD, HDR10+, 5.1', (
+  testWidgets('2. Muestra título y no inventa badges de calidad', (
     tester,
   ) async {
     await tester.pumpWidget(buildTestWidget(tester: tester));
     await tester.pumpAndSettle();
 
     expect(find.text('Frontera Roja'), findsWidgets);
-    expect(find.text('4K UHD'), findsOneWidget);
-    expect(find.text('HDR10+'), findsOneWidget);
-    expect(find.text('5.1'), findsOneWidget);
+    expect(find.text('4K UHD'), findsNothing);
+    expect(find.text('HDR10+'), findsNothing);
   });
 
   testWidgets(
@@ -128,14 +127,15 @@ void main() {
     },
   );
 
-  testWidgets('4. Muestra botones secundarios "Mi Lista" y "Compartir"', (
+  testWidgets('4. Muestra cajas "Favorito", "Me gusta" y "Transmitir"', (
     tester,
   ) async {
     await tester.pumpWidget(buildTestWidget(tester: tester));
     await tester.pumpAndSettle();
 
-    expect(find.text('Mi Lista'), findsOneWidget);
-    expect(find.text('Compartir'), findsOneWidget);
+    expect(find.text('Favorito'), findsOneWidget);
+    expect(find.text('Me gusta'), findsOneWidget);
+    expect(find.text('Transmitir'), findsOneWidget);
   });
 
   testWidgets(
@@ -161,13 +161,12 @@ void main() {
   );
 
   testWidgets(
-    '6. Encabezado de episodios tiene icono Tv y selector de temporada con ChevronDown',
+    '6. Encabezado de episodios tiene selector de temporada con ChevronDown',
     (tester) async {
       await tester.pumpWidget(buildTestWidget(tester: tester));
       await tester.pumpAndSettle();
 
       expect(find.text('Episodios'), findsOneWidget);
-      expect(find.byIcon(Icons.tv_rounded), findsOneWidget);
       expect(find.text('Temporada 1'), findsOneWidget);
       expect(find.byIcon(Icons.keyboard_arrow_down_rounded), findsOneWidget);
     },
@@ -185,10 +184,9 @@ void main() {
       await tester.tap(seasonButton);
       await tester.pumpAndSettle();
 
-      // Deben verse las opciones Temporada 1 y Temporada 2 en el menú
+      // Lista de temporadas a pantalla completa con X para cerrar
       expect(find.text('Temporada 2'), findsWidgets);
-      // Temporada 1 activa debe tener check
-      expect(find.byIcon(Icons.check_rounded), findsWidgets);
+      expect(find.byIcon(Icons.close_rounded), findsOneWidget);
     },
   );
 
@@ -199,9 +197,9 @@ void main() {
       await tester.pumpAndSettle();
 
       // Inicialmente en T1 se ven ep1 y ep2
-      expect(find.text('Sombras en el límite', skipOffstage: false), findsOneWidget);
-      expect(find.text('Vuelo ciego', skipOffstage: false), findsOneWidget);
-      expect(find.text('Regreso al origen', skipOffstage: false), findsNothing);
+      expect(find.textContaining('Sombras en el límite', skipOffstage: false), findsOneWidget);
+      expect(find.textContaining('Vuelo ciego', skipOffstage: false), findsOneWidget);
+      expect(find.textContaining('Regreso al origen', skipOffstage: false), findsNothing);
 
       // Abrir dropdown y seleccionar T2
       final seasonButton = find.text('Temporada 1').first;
@@ -214,8 +212,8 @@ void main() {
       await tester.pumpAndSettle();
 
       // Ahora se debe ver el episodio de T2
-      expect(find.text('Regreso al origen', skipOffstage: false), findsOneWidget);
-      expect(find.text('Sombras en el límite', skipOffstage: false), findsNothing);
+      expect(find.textContaining('Regreso al origen', skipOffstage: false), findsOneWidget);
+      expect(find.textContaining('Sombras en el límite', skipOffstage: false), findsNothing);
       expect(find.text('Reproducir T2:E1'), findsOneWidget);
     },
   );
@@ -226,8 +224,7 @@ void main() {
       await tester.pumpWidget(buildTestWidget(tester: tester));
       await tester.pumpAndSettle();
 
-      expect(find.text('Sombras en el límite', skipOffstage: false), findsOneWidget);
-      expect(find.textContaining('Episodio 1', skipOffstage: false), findsWidgets);
+      expect(find.textContaining('Sombras en el límite', skipOffstage: false), findsOneWidget);
       expect(find.textContaining('52 min', skipOffstage: false), findsOneWidget);
       expect(
         find.text('Lucía llega al puesto fronterizo bajo una identidad civil.', skipOffstage: false),
@@ -247,7 +244,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // Pulsar ep2 (Vuelo ciego - index 1)
-      final ep2Finder = find.text('Vuelo ciego', skipOffstage: false);
+      final ep2Finder = find.textContaining('Vuelo ciego', skipOffstage: false);
       await tester.ensureVisible(ep2Finder);
       await tester.pumpAndSettle();
       await tester.tap(ep2Finder);
@@ -270,7 +267,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // Pulsar ep1
-      final ep1Finder = find.text('Sombras en el límite', skipOffstage: false);
+      final ep1Finder = find.textContaining('Sombras en el límite', skipOffstage: false);
       await tester.ensureVisible(ep1Finder);
       await tester.pumpAndSettle();
       await tester.tap(ep1Finder);
@@ -310,15 +307,13 @@ void main() {
   });
 
   testWidgets(
-    '13. Reparto principal muestra lista horizontal de actores con avatares',
+    '13. Las series ya no muestran Reparto principal',
     (tester) async {
       await tester.pumpWidget(buildTestWidget(tester: tester));
       await tester.pumpAndSettle();
 
-      expect(find.text('Reparto Principal', skipOffstage: false), findsOneWidget);
-      expect(find.text('Valeria Solís', skipOffstage: false), findsOneWidget);
-      expect(find.text('Rodrigo Santoro', skipOffstage: false), findsOneWidget);
-      expect(find.text('Alba Flores', skipOffstage: false), findsOneWidget);
+      expect(find.text('Reparto Principal', skipOffstage: false), findsNothing);
+      expect(find.text('Valeria Solís', skipOffstage: false), findsNothing);
     },
   );
 }

@@ -45,12 +45,12 @@ void main() {
 
       await tester.pumpAndSettle();
 
+      // Title should be sanitized on screen preserving Temporada 1
+      expect(find.text('Serie Test - Temporada 1'), findsOneWidget);
+
       // Scroll down to bring episodes into viewport
       await tester.drag(find.byType(CustomScrollView), const Offset(0, -300));
       await tester.pumpAndSettle();
-
-      // Title should be sanitized on screen preserving Temporada 1
-      expect(find.text('Serie Test - Temporada 1'), findsOneWidget);
 
       // Episode 1 should be visible near the top after scrolling to episodes
       // Find SliverList in tree via unique key

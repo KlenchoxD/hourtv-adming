@@ -282,7 +282,7 @@ void main() {
       expect(seriesDetail.series.episodes?.length, equals(2));
 
       // Verificar que el episodio 1 está visible
-      final epFinder = find.text('Piloto Químico');
+      final epFinder = find.textContaining('Piloto Químico');
       expect(epFinder, findsOneWidget);
       await tester.ensureVisible(epFinder);
       await tester.pump();
