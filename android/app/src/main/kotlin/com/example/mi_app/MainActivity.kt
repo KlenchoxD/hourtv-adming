@@ -16,6 +16,24 @@ import io.flutter.plugin.common.MethodChannel
 class MainActivity : FlutterActivity() {
     private val channel = "hourtv/device"
     private var multicastLock: android.net.wifi.WifiManager.MulticastLock? = null
+    private var deviceChannel: MethodChannel? = null
+    // Mientras se transmite a un TV, los botones de volumen lo controlan.
+    private var remoteVolumeKeys = false
+
+    override fun dispatchKeyEvent(event: android.view.KeyEvent): Boolean {
+        val code = event.keyCode
+        if (remoteVolumeKeys &&
+            (code == android.view.KeyEvent.KEYCODE_VOLUME_UP ||
+                code == android.view.KeyEvent.KEYCODE_VOLUME_DOWN)
+        ) {
+            if (event.action == android.view.KeyEvent.ACTION_DOWN) {
+                val step = if (code == android.view.KeyEvent.KEYCODE_VOLUME_UP) 1 else -1
+                deviceChannel?.invokeMethod("volumeKey", step)
+            }
+            return true
+        }
+        return super.dispatchKeyEvent(event)
+    }
 
     override fun onCreate(savedInstanceState: android.os.Bundle?) {
         val nativeStart = System.currentTimeMillis()
@@ -25,8 +43,14 @@ class MainActivity : FlutterActivity() {
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
-        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, channel).setMethodCallHandler { call, result ->
+        val methods = MethodChannel(flutterEngine.dartExecutor.binaryMessenger, channel)
+        deviceChannel = methods
+        methods.setMethodCallHandler { call, result ->
             when (call.method) {
+                "remoteVolumeKeys" -> {
+                    remoteVolumeKeys = call.argument<Boolean>("enabled") == true
+                    result.success(null)
+                }
                 "isTv" -> result.success(isTelevision())
                 // País de la red móvil (o de la SIM): el idioma suele ser
                 // "es-US" en Latinoamérica y no sirve para saber el país.

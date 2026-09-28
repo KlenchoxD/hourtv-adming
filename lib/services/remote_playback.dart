@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_chrome_cast/flutter_chrome_cast.dart';
 
 import 'cast_service.dart';
@@ -10,7 +11,35 @@ import 'dlna_service.dart';
 /// controles remotos solo hablan con esta interfaz.
 abstract class RemotePlayback extends ChangeNotifier {
   /// Transmisión en curso (una a la vez); null = nada en el TV.
-  static final active = ValueNotifier<RemotePlayback?>(null);
+  static final active = ValueNotifier<RemotePlayback?>(null)
+    ..addListener(_routeVolumeKeys);
+
+  static const _device = MethodChannel('hourtv/device');
+
+  /// Mientras se transmite, los botones de volumen del teléfono controlan
+  /// el TV (como en YouTube) en vez del volumen del teléfono.
+  static void _routeVolumeKeys() {
+    final on = active.value != null;
+    _device.setMethodCallHandler(
+      on
+          ? (call) async {
+              if (call.method == 'volumeKey') {
+                await active.value?.stepVolume(call.arguments as int);
+              }
+            }
+          : null,
+    );
+    _device
+        .invokeMethod<void>('remoteVolumeKeys', {'enabled': on})
+        .catchError((_) {});
+  }
+
+  /// Sube (+1) o baja (-1) el volumen del TV un 5 %.
+  Future<void> stepVolume(int direction) async {
+    final current = volume;
+    if (current == null) return;
+    await setVolume((current + direction * .05).clamp(0.0, 1.0));
+  }
 
   String get deviceName;
   String get stateLabel;
@@ -56,6 +85,11 @@ class GoogleCastPlayback extends RemotePlayback {
           ended();
           return;
         }
+        // Cambios hechos desde el control del TV, salvo justo después de
+        // moverlo aquí (la sesión aún trae el valor viejo).
+        if (DateTime.now().difference(_volumeSetAt).inSeconds >= 3) {
+          _volume = session.currentDeviceVolume.clamp(0, 1);
+        }
         notifyListeners();
       }),
       media.mediaStatusStream.listen((status) {
@@ -73,6 +107,11 @@ class GoogleCastPlayback extends RemotePlayback {
   @override
   final bool hasSubtitles;
   GoogleCastSession? _session;
+  // Volumen propio: el de la sesión tarda en actualizarse y hacía que la
+  // barra volviera sola a su lugar.
+  late double _volume = (_session?.currentDeviceVolume ?? .5).clamp(0, 1);
+  DateTime _volumeSetAt = DateTime(0);
+  Timer? _volumeSend;
   GoggleCastMediaStatus? _status;
   Duration _position = Duration.zero;
 
@@ -104,7 +143,7 @@ class GoogleCastPlayback extends RemotePlayback {
   Duration get duration => _status?.mediaInformation?.duration ?? Duration.zero;
 
   @override
-  double? get volume => (_session?.currentDeviceVolume ?? .5).clamp(0, 1);
+  double? get volume => _volume;
 
   @override
   Future<void> togglePlay() async {
@@ -117,8 +156,19 @@ class GoogleCastPlayback extends RemotePlayback {
       .seek(GoogleCastMediaSeekOption(position: position));
 
   @override
-  Future<void> setVolume(double value) async =>
-      GoogleCastSessionManager.instance.setDeviceVolume(value);
+  Future<void> setVolume(double value) async {
+    if (_disposed) return;
+    _volume = value.clamp(0, 1);
+    _volumeSetAt = DateTime.now();
+    notifyListeners();
+    // Al arrastrar llegan decenas de valores: se envía el último cada 150 ms.
+    _volumeSend ??= Timer(const Duration(milliseconds: 150), () {
+      _volumeSend = null;
+      if (!_disposed) {
+        GoogleCastSessionManager.instance.setDeviceVolume(_volume);
+      }
+    });
+  }
 
   // Con HLS el TV numera él mismo la pista (la lee de la lista); con MP4
   // es la que se envió.
@@ -170,6 +220,7 @@ class GoogleCastPlayback extends RemotePlayback {
   void dispose() {
     if (_disposed) return;
     _disposed = true;
+    _volumeSend?.cancel();
     for (final sub in _subs) {
       unawaited(sub.cancel());
     }
