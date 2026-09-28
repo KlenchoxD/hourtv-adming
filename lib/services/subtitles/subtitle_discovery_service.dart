@@ -20,6 +20,7 @@ class SubtitleDiscoveryService {
     String? selectedServerUrl,
     Map<String, String> activeHeaders = const {},
     http.Client? httpClient,
+    void Function(String manifest)? onManifest,
   }) async {
     final found = <HourTvSubtitleTrack>[
       ...channel.subtitleTracks,
@@ -33,6 +34,7 @@ class SubtitleDiscoveryService {
       try {
         final manifest = await _loadManifest(client, activeUrl, activeHeaders);
         if (manifest != null) {
+          onManifest?.call(manifest);
           found.addAll(
             parseMasterManifest(
               manifest,
@@ -123,7 +125,7 @@ class SubtitleDiscoveryService {
     for (final rawLine in const LineSplitter().convert(manifest)) {
       final line = rawLine.trim();
       if (!line.startsWith('#EXT-X-MEDIA:')) continue;
-      final attributes = _parseAttributes(
+      final attributes = parseAttributes(
         line.substring('#EXT-X-MEDIA:'.length),
       );
       if (attributes['TYPE']?.toUpperCase() != 'SUBTITLES') continue;
@@ -157,7 +159,7 @@ class SubtitleDiscoveryService {
     return result;
   }
 
-  static Map<String, String> _parseAttributes(String input) {
+  static Map<String, String> parseAttributes(String input) {
     final result = <String, String>{};
     final matcher = RegExp(r'''([A-Z0-9-]+)=("(?:[^"\\]|\\.)*"|[^,]*)''');
     for (final match in matcher.allMatches(input)) {

@@ -64,9 +64,9 @@ class _HourTvPlaybackSettingsPageState
           icon: Icons.high_quality_rounded,
           title: 'Calidad',
           subtitle:
-              'Automática: HourTV ajusta la resolución según tu conexión y '
-              'lo que ofrezca la fuente. No hay selector manual porque la '
-              'mayoría de fuentes IPTV solo entregan una calidad.',
+              'Automática: se ajusta a tu conexión. Si la fuente ofrece '
+              'varias calidades, elige una desde el reproductor (ajustes → '
+              'Calidad).',
         ),
       ],
     );

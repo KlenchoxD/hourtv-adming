@@ -16,6 +16,7 @@ import '../services/device_type.dart';
 import '../services/cast_service.dart';
 import '../services/content_store.dart';
 import '../services/embed_resolver.dart';
+import '../services/hls_variants.dart';
 import '../services/playback_progress.dart';
 import '../services/playback_source_fallback.dart';
 import '../services/sync/profile_sync_engine.dart';
@@ -106,6 +107,12 @@ class _PlayerScreenState extends State<PlayerScreen>
   String? _gestureLabel;
   String? _activeServerUrl;
   String? _resolvedPlaybackUrl;
+  // Calidades del HLS maestro de la fuente actual; al elegir una se reproduce
+  // esa variante (null = automática, el maestro).
+  String? _hlsMasterUrl;
+  Map<String, String> _hlsHeaders = const {};
+  List<HlsVariant> _hlsVariants = const [];
+  int? _qualityHeight;
   // El receptor Chromecast por defecto no puede enviar cabeceras HTTP
   // personalizadas (Referer/User-Agent) al pedir el video: si la
   // reproduccion actual depende de eso (paginas embed resueltas), transmitir
@@ -512,6 +519,8 @@ class _PlayerScreenState extends State<PlayerScreen>
     Channel ch, {
     String? streamUrl,
     bool isFallbackAttempt = false,
+    // Cambio de calidad: URL ya resuelta, sin volver a extraer el embed.
+    ({String url, Map<String, String> headers})? direct,
   }) async {
     final targetUrl = streamUrl ?? ch.url;
     debugPrint('[PLAYER] init host=${Uri.tryParse(targetUrl)?.host}');
@@ -552,15 +561,24 @@ class _PlayerScreenState extends State<PlayerScreen>
     final subtitleGeneration = ++_subtitleDiscoveryGeneration;
     _availableSubtitles = const [];
     _selectedSubtitle = HourTvSubtitleTrack.off;
+    if (direct == null) {
+      _hlsMasterUrl = null;
+      _hlsVariants = const [];
+      _qualityHeight = null;
+    }
     try {
-      var playUrl = targetUrl;
-      Map<String, String> playHeaders = ch.userAgent?.isNotEmpty == true
-          ? {'User-Agent': ch.userAgent!}
-          : const {};
+      var playUrl = direct?.url ?? targetUrl;
+      Map<String, String> playHeaders =
+          direct?.headers ??
+          (ch.userAgent?.isNotEmpty == true
+              ? {'User-Agent': ch.userAgent!}
+              : const {});
       // VOD cuyo servidor es una pagina embed (streamwish, vidhide, dood...):
       // como Xuper, se intenta extraer el .m3u8/.mp4 directo y reproducirlo
       // nativo en ExoPlayer con su Referer. En Vivo nunca entra aqui.
-      if (ch.type != MediaType.live && isEmbedStreamUrl(targetUrl)) {
+      if (direct == null &&
+          ch.type != MediaType.live &&
+          isEmbedStreamUrl(targetUrl)) {
         var resolution = await EmbedResolver.resolveForPlayback(targetUrl);
         // Un fallo de red puntual mandaba directo a la página web del
         // servidor (video diminuto, sin controles): se reintenta una vez.
@@ -629,10 +647,15 @@ class _PlayerScreenState extends State<PlayerScreen>
       );
       await _vc!.initialize();
       debugPrint('[PLAYER] initialize_done');
+      if (direct == null) {
+        _hlsMasterUrl = playUrl;
+        _hlsHeaders = playHeaders;
+      }
       unawaited(
         _discoverSubtitles(
           ch,
-          activeUrl: Uri.parse(playUrl),
+          // Sobre una variante no hay pistas: se buscan en el maestro.
+          activeUrl: Uri.parse(_hlsMasterUrl ?? playUrl),
           selectedServerUrl: targetUrl,
           headers: playHeaders,
           generation: subtitleGeneration,
@@ -713,6 +736,10 @@ class _PlayerScreenState extends State<PlayerScreen>
       activeUrl: activeUrl,
       selectedServerUrl: selectedServerUrl,
       activeHeaders: headers,
+      onManifest: (manifest) {
+        if (!mounted || generation != _subtitleDiscoveryGeneration) return;
+        _hlsVariants = parseHlsVariants(manifest, activeUrl);
+      },
     );
     if (!mounted ||
         generation != _subtitleDiscoveryGeneration ||
@@ -1548,16 +1575,60 @@ class _PlayerScreenState extends State<PlayerScreen>
   }
 
   Future<void> _showQualitySelector() async {
-    final value = _vc?.value;
-    final size = value?.size;
-    final resolution = size == null || size.isEmpty
-        ? 'Resolución desconocida'
-        : '${size.width.round()} × ${size.height.round()}';
-    await _showMessage(
-      'Calidad',
-      'Automática · $resolution\n'
-          'El reproductor adapta la calidad a la fuente y a la conexión.',
+    final variants = _hlsVariants;
+    final master = _hlsMasterUrl;
+    if (variants.length < 2 || master == null) {
+      final size = _vc?.value.size;
+      final resolution = size == null || size.isEmpty
+          ? ''
+          : ' (${size.height.round()}p)';
+      await _showMessage(
+        'Calidad',
+        'Esta fuente ofrece una sola calidad$resolution.',
+      );
+      return;
+    }
+    // -1 = automática.
+    final picked = await showDialog<int>(
+      context: context,
+      builder: (dialogContext) {
+        Widget option(int height, String label, String? subtitle) =>
+            SimpleDialogOption(
+              onPressed: () => Navigator.pop(dialogContext, height),
+              child: ListTile(
+                contentPadding: EdgeInsets.zero,
+                title: Text(label),
+                subtitle: subtitle == null ? null : Text(subtitle),
+                trailing: (_qualityHeight ?? -1) == height
+                    ? const Icon(Icons.check_rounded, color: _hourRed)
+                    : null,
+              ),
+            );
+        return SimpleDialog(
+          title: const Text('Calidad'),
+          children: [
+            option(-1, 'Automática', 'Se ajusta a tu conexión'),
+            for (final v in variants) option(v.height, v.label, null),
+          ],
+        );
+      },
     );
+    if (!mounted || picked == null || picked == (_qualityHeight ?? -1)) {
+      if (mounted) _screenFocus.requestFocus();
+      return;
+    }
+    final variant = picked == -1
+        ? null
+        : variants.firstWhere((v) => v.height == picked);
+    _persistFinalProgress();
+    _qualityHeight = variant?.height;
+    await _init(
+      widget.allChannels[_idx],
+      streamUrl: _activeServerUrl,
+      isFallbackAttempt: true,
+      direct: (url: variant?.url ?? master, headers: _hlsHeaders),
+    );
+    if (mounted) _screenFocus.requestFocus();
   }
 
   Future<void> _showAspectSelector() async {
