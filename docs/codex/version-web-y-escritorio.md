@@ -186,17 +186,82 @@ cualquier tamaño.
   - Escribe en tu reporte las opciones reales (dónde alojarlo, costo estimado,
     riesgos) para que Kleiner decida.
 
-### 5.4 Interfaz para computador
-- En web, decide el layout por **ancho de ventana**: ancho de computador → el
-  layout de escritorio (`new_shell`); ancho de celular → el móvil. No uses solo
-  `kIsWeb → phone`.
-- Mouse:
-  - hover en tarjetas (resaltar y mostrar título);
-  - scroll horizontal de filas con rueda y con flechas laterales;
-  - cursor de mano en lo clicable.
-- Ventana (Windows): tamaño mínimo razonable, título "HourTV", ícono de la app,
-  recordar tamaño si es simple.
-- No hay orientación ni `SystemChrome` en escritorio/web: protégelo.
+### 5.4 Interfaz para computador: estilo Netflix (decidido por Kleiner)
+
+Kleiner vio el diseño actual de escritorio (el de TV, con menú lateral y
+tarjetas horizontales) y **no le convence**. Eligió **estilo Netflix web**.
+Esto aplica a **Windows y web con ancho de computador**. **La TV (Android TV)
+se queda con su diseño actual**, pensado para control remoto; no lo toques.
+
+**Qué no le gustó del diseño actual, para no repetirlo:**
+- tarjetas horizontales con escenas en vez de los pósters verticales del
+  celular;
+- el destacado corta las caras y no tiene degradado;
+- el logo queda reducido a "TV" en el menú colapsado;
+- el reparto sale con círculos de iniciales, sin fotos;
+- las filas no coinciden con las del celular ("HourTV Originals", "Series
+  para ti");
+- la ventana se titula "mi_app";
+- Esc no cierra la ficha.
+
+**Especificación:**
+1. **Barra superior fija** (reemplaza el menú lateral en escritorio):
+   - a la izquierda, el logo completo "Hour TV";
+   - luego Inicio · Películas · Series · TV en vivo · Mi lista;
+   - a la derecha, 🔍 buscar (se expande a un campo) y el avatar del perfil,
+     con menú para cambiar perfil, Historial, Ajustes y Cuenta;
+   - es transparente sobre el destacado y se vuelve negra al hacer scroll.
+2. **Destacado (hero)** a todo el ancho, ~70 % del alto de la ventana:
+   - imagen de fondo (`backdrop`) alineada para no cortar caras
+     (`Alignment.topCenter`/`center` según proporción);
+   - **degradado** negro desde la izquierda y desde abajo;
+   - título grande, año · duración · ★, sinopsis de 2–3 líneas, botones
+     **▶ Reproducir** (o "Continuar desde X" si hay avance, usando
+     `resumeOfferFor`) y **Mi lista**;
+   - usa los mismos 5 destacados del celular (`_quickFeatured`) y rota solo
+     cada ~8 s, con puntos indicadores.
+3. **Filas** con los **mismos datos y nombres que el celular**:
+   - orden: Continuar viendo (con barra de progreso y "Quedan X min"),
+     Recomendado para ti, Lo que más gusta, Películas, Series, Animes,
+     K-Drama, Tendencia;
+   - reutiliza las fuentes de datos de `hourtv_mobile_shell.dart`
+     (`ContentStore`, `LikesService.rank`, recomendaciones); no inventes
+     filas nuevas.
+4. **Tarjetas = pósters verticales 2:3** (`logo`/poster, como en el celular):
+   - cantidad por fila según el ancho (≈ 6–8 en 1366 px, más en pantallas
+     grandes);
+   - **hover:** agrandar un poco (escala ~1.08) con sombra y mostrar título,
+     año y botón ▶;
+   - cursor de mano;
+   - **flechas ‹ ›** a los lados de cada fila al pasar el mouse, que avanzan
+     una "página".
+5. **Ficha** en escritorio:
+   - fondo grande con degradado, póster a la izquierda y datos a la derecha
+     (título, meta, sinopsis completa, género, reparto como texto o con fotos
+     reales si TMDB las da; **nunca círculos con iniciales**);
+   - botones Reproducir / Continuar, Mi lista, Me gusta y Transmitir (DLNA
+     solo donde funcione);
+   - en series, selector de temporada y episodios en lista con miniaturas;
+   - Relacionados abajo, en fila de pósters;
+   - **Esc o botón atrás del mouse** cierran la ficha.
+6. **Buscar:** resultados en cuadrícula de pósters mientras se escribe.
+7. **Mi lista / Historial / TV en vivo:** mismas pantallas de datos del
+   celular, en cuadrícula de pósters (en vivo, en su lista actual con logos).
+8. **Ventana (Windows):**
+   - título **"HourTV"** e ícono de la app (hoy dice "mi_app");
+   - tamaño mínimo ~1024×640;
+   - recordar tamaño si es simple.
+9. **Estilo visual:** mismos colores y tipografías que el celular
+   (`HourTvMobileTokens`, verde `#00C781`, fondo negro), para que se sienta la
+   misma marca.
+10. **Web:** decide el layout por **ancho de ventana**: ≥ ~900 px → este diseño
+    de escritorio; menos → el diseño del celular. No uses solo
+    `kIsWeb → phone`.
+11. No hay orientación ni `SystemChrome` en escritorio/web: protégelo.
+
+Antes de programar, en la **Fase 0** entrega un boceto (captura o descripción
+por pantalla) del Inicio, la ficha y el reproductor en 1366×768 y en 1920×1080,
+para que Kleiner lo apruebe.
 
 ### 5.5 Anuncios en web y escritorio
 - Kleiner exige anuncio obligatorio antes de películas y episodios (nunca en
@@ -250,8 +315,11 @@ cualquier tamaño.
 - Cliente de proxy configurable, sin proxy activo.
 - Prueba en Chrome y Edge.
 
-**Fase 4: experiencia de computador.**
-- Layout por ancho, hover, rueda, flechas y ventana.
+**Fase 4: experiencia de computador (estilo Netflix, §5.4).**
+- Barra superior, destacado con degradado, filas de pósters con hover y
+  flechas, ficha nueva, Esc para volver, ventana "HourTV".
+- Layout por ancho en web.
+- Capturas en 1366×768 y 1920×1080 para Kleiner.
 - Login y sincronización verificados entre Windows, web y el teléfono: marca
   favorito en uno y verifica que aparezca en otro.
 
