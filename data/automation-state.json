@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-09-27T01:47:13.243Z",
+  "lastRunAt": "2026-09-28T15:57:14.168Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -8,30 +8,31 @@
     1204680,
     1288445,
     1084244,
-    1108427,
     1263337,
-    1240889,
-    299534,
-    1315772,
+    1108427,
     1477712,
-    1185806,
-    1275779,
+    299534,
+    1240889,
+    1315772,
     1465063,
-    1137844,
+    1275779,
+    1185806,
     1127384,
     1081003,
-    1212763,
-    671,
+    1137844,
+    1341138,
+    1291595,
     1368337,
     1032863,
     1294189,
-    1375646,
     1751701,
     1228834,
-    1482547,
+    1375646,
     1607127,
+    1492640,
+    1482547,
     1339713,
-    1440098,
+    460458,
     1232569,
     1335666,
     1083381
@@ -66,13 +67,13 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1240889,
-      "title": "Adolescencia, sexo y muerte en campamento Miasma",
+      "tmdbId": 1477712,
+      "title": "Dulce sabor a muerte",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1477712,
-      "title": "Dulce sabor a muerte",
+      "tmdbId": 1240889,
+      "title": "Adolescencia, sexo y muerte en campamento Miasma",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
@@ -83,6 +84,16 @@
     {
       "tmdbId": 1127384,
       "title": "En mar abierto",
+      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+    },
+    {
+      "tmdbId": 1341138,
+      "title": "Spa Weekend",
+      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+    },
+    {
+      "tmdbId": 1291595,
+      "title": "Insidious: Fuera del más allá",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
@@ -101,11 +112,6 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1375646,
-      "title": "Colony",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
-    },
-    {
       "tmdbId": 1751701,
       "title": "After Impact",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
@@ -116,13 +122,23 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1482547,
-      "title": "Zip Wire",
+      "tmdbId": 1375646,
+      "title": "Colony",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
       "tmdbId": 1607127,
       "title": "Un último disparo",
+      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+    },
+    {
+      "tmdbId": 1492640,
+      "title": "UNABOMBER",
+      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+    },
+    {
+      "tmdbId": 1482547,
+      "title": "Zip Wire",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
