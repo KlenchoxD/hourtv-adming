@@ -1,9 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 
 import '../models/channel.dart';
 import '../new_ui/hourtv_profile_avatar.dart';
 import '../services/catalog/hero_tag_helper.dart';
+import '../services/device_type.dart';
 import '../services/image_resolution_service.dart';
 import '../services/update_service.dart';
 import 'hourtv_mobile_theme.dart';
@@ -265,8 +267,9 @@ class HourTvBottomNavigation extends StatelessWidget {
                                   top: -2,
                                   right: -3,
                                   child: ValueListenableBuilder<bool>(
-                                    valueListenable:
-                                        UpdateService.instance.hasUpdateAvailable,
+                                    valueListenable: UpdateService
+                                        .instance
+                                        .hasUpdateAvailable,
                                     builder: (context, hasUpdate, _) =>
                                         hasUpdate
                                         ? Container(
@@ -276,8 +279,8 @@ class HourTvBottomNavigation extends StatelessWidget {
                                               shape: BoxShape.circle,
                                               color: HourTvMobileTokens.emerald,
                                               border: Border.all(
-                                                color:
-                                                    HourTvMobileTokens.background,
+                                                color: HourTvMobileTokens
+                                                    .background,
                                                 width: 2,
                                               ),
                                             ),
@@ -291,7 +294,9 @@ class HourTvBottomNavigation extends StatelessWidget {
                           FittedBox(
                             fit: BoxFit.scaleDown,
                             child: Text(
-                              (isNarrow && destinations[i].label == 'Mi Biblioteca'
+                              (isNarrow &&
+                                          destinations[i].label ==
+                                              'Mi Biblioteca'
                                       ? 'Biblioteca'
                                       : destinations[i].label)
                                   .toUpperCase(),
@@ -317,6 +322,117 @@ class HourTvBottomNavigation extends StatelessWidget {
     );
   }
 }
+
+/// Barra de arriba en computador (estilo Netflix): logo, secciones en texto
+/// y a la derecha buscar y el perfil. Mismas secciones que la barra de abajo
+/// del celular, para que la app sea la misma.
+class HourTvDesktopTopBar extends StatelessWidget {
+  const HourTvDesktopTopBar({
+    super.key,
+    required this.index,
+    required this.onChanged,
+    required this.profileName,
+    this.avatarSeed,
+  });
+
+  final int index;
+  final ValueChanged<int> onChanged;
+  final String profileName;
+  final String? avatarSeed;
+
+  static const _search = 2;
+  static const _profile = 4;
+
+  @override
+  Widget build(BuildContext context) {
+    final destinations = HourTvBottomNavigation.destinations;
+    return Container(
+      height: 68,
+      padding: EdgeInsets.symmetric(horizontal: hourTvDesktopPadding(context)),
+      color: HourTvMobileTokens.deepBlack,
+      child: Row(
+        children: [
+          const HourTvLogo(fontSize: 28),
+          const SizedBox(width: 36),
+          for (var i = 0; i < destinations.length; i++)
+            if (i != _search && i != _profile)
+              _DesktopNavLink(
+                label: destinations[i].label,
+                selected: index == i,
+                onTap: () => onChanged(i),
+              ),
+          const Spacer(),
+          IconButton(
+            tooltip: 'Buscar',
+            onPressed: () => onChanged(_search),
+            icon: Icon(
+              Icons.search_rounded,
+              size: 26,
+              color: index == _search
+                  ? HourTvMobileTokens.emerald
+                  : HourTvMobileTokens.textPrimary,
+            ),
+          ),
+          const SizedBox(width: 12),
+          Tooltip(
+            message: 'Perfil',
+            child: InkWell(
+              borderRadius: BorderRadius.circular(20),
+              onTap: () => onChanged(_profile),
+              child: HourTvProfileAvatar(
+                profileName: profileName,
+                avatarSeed: avatarSeed,
+                radius: 18,
+                backgroundColor: HourTvMobileTokens.emerald,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _DesktopNavLink extends StatelessWidget {
+  const _DesktopNavLink({
+    required this.label,
+    required this.selected,
+    required this.onTap,
+  });
+
+  final String label;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) => TextButton(
+    onPressed: onTap,
+    style: TextButton.styleFrom(
+      foregroundColor: selected
+          ? HourTvMobileTokens.textPrimary
+          : HourTvMobileTokens.textMuted,
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+      textStyle: TextStyle(
+        fontSize: 15,
+        fontWeight: selected ? FontWeight.w800 : FontWeight.w500,
+      ),
+    ),
+    child: Text(label == 'TV' ? 'TV en vivo' : label),
+  );
+}
+
+/// Diseño ancho estilo Netflix (barra arriba, destacado con info, pósters
+/// grandes): computador, o tablet ancha como un iPad en horizontal, donde el
+/// destacado 16:9 del celular llenaría casi toda la pantalla.
+bool hourTvWideLayout(BuildContext context) =>
+    DeviceProfile.isDesktop(context) ||
+    (DeviceProfile.isTablet(context) &&
+        MediaQuery.sizeOf(context).width >= 1000);
+
+/// Margen lateral del contenido en computador: crece con la ventana como en
+/// Netflix (≈4 % del ancho), sin bajar de 24 ni pasar de 60.
+double hourTvDesktopPadding(BuildContext context) =>
+    (MediaQuery.sizeOf(context).width * 0.04).clamp(24.0, 60.0);
 
 /// Boton principal (CTA) del hero: pildora solida con sombra, para que
 /// destaque en vez de verse como un rectangulo plano mas.
@@ -531,10 +647,7 @@ class HourTvSectionHeader extends StatelessWidget {
             ),
             child: Text(
               '${actionLabel!.toUpperCase()}  ›',
-              style: const TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w600,
-              ),
+              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
             ),
           ),
       ],
@@ -574,9 +687,14 @@ class HourTvArtwork extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final normalizedUrl = ImageResolutionService.normalize(url, variant: variant);
+    final normalizedUrl = ImageResolutionService.normalize(
+      url,
+      variant: variant,
+    );
     final cleanUrl = normalizedUrl.isNotEmpty ? normalizedUrl : null;
-    final image = cleanUrl != null && cleanUrl.isNotEmpty
+    final image = cleanUrl != null && cleanUrl.isNotEmpty && kIsWeb
+        ? _webImage(cleanUrl)
+        : cleanUrl != null && cleanUrl.isNotEmpty
         ? CachedNetworkImage(
             imageUrl: cleanUrl,
             fit: fit,
@@ -618,6 +736,23 @@ class HourTvArtwork extends StatelessWidget {
     return SizedBox.expand(child: image);
   }
 
+  // En navegador varios sitios (blogdepelis, pinimg) no mandan CORS y Flutter
+  // no puede leer sus imágenes: fallback las muestra como <img> normal.
+  Widget _webImage(String url) => Image.network(
+    url,
+    fit: fit,
+    alignment: alignment,
+    webHtmlElementStrategy: WebHtmlElementStrategy.fallback,
+    frameBuilder: (_, child, frame, _) {
+      if (frame == null) {
+        return const ColoredBox(color: HourTvMobileTokens.surfacePrimary);
+      }
+      onShown?.call();
+      return child;
+    },
+    errorBuilder: (_, _, _) => _fallback(),
+  );
+
   Widget _fallback() => const DecoratedBox(
     decoration: BoxDecoration(
       gradient: LinearGradient(
@@ -633,10 +768,7 @@ class HourTvArtwork extends StatelessWidget {
 }
 
 class HourTvPosterCardSkeleton extends StatelessWidget {
-  const HourTvPosterCardSkeleton({
-    super.key,
-    this.width = 120,
-  });
+  const HourTvPosterCardSkeleton({super.key, this.width = 120});
 
   final double width;
 
@@ -725,89 +857,100 @@ class _HourTvPosterCardState extends State<HourTvPosterCard> {
             memCacheHeight: (widget.width * 178 / 120 * dpr).round(),
           )
         : HourTvArtwork(url: widget.channel.logo, asset: widget.assetFallback);
-    return RepaintBoundary(
-    child: AnimatedScale(
-      scale: _pressed ? 0.97 : 1.0,
-      duration: const Duration(milliseconds: 150),
-      curve: Curves.easeOut,
-      child: SizedBox(
-        width: widget.width,
-        child: GestureDetector(
-          onTap: widget.onTap,
-          onTapDown: (_) => setState(() => _pressed = true),
-          onTapUp: (_) => setState(() => _pressed = false),
-          onTapCancel: () => setState(() => _pressed = false),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              AspectRatio(
-                aspectRatio: 120 / 178,
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    border: Border.all(color: HourTvMobileTokens.borderSubtle),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(11),
-                    child: Stack(
-                      fit: StackFit.expand,
-                      children: [
-                        if (widget.heroScope != null)
-                          Hero(
-                            tag: makeHeroTag(
-                              contextScope: widget.heroScope!,
-                              id: widget.channel.stableTitleId ?? widget.channel.url,
-                            ),
-                            child: artwork(),
-                          )
-                        else
-                          artwork(),
-                        if (widget.progress != null && widget.progress! > 0)
-                          Align(
-                            alignment: Alignment.bottomCenter,
-                            child: LinearProgressIndicator(
-                              minHeight: 3,
-                              value: widget.progress!.clamp(0.0, 1.0),
-                              backgroundColor: HourTvMobileTokens.borderSubtle,
-                              color: HourTvMobileTokens.emerald,
-                            ),
-                          ),
-                      ],
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      child: RepaintBoundary(
+        child: AnimatedScale(
+          scale: _pressed ? 0.97 : 1.0,
+          duration: const Duration(milliseconds: 150),
+          curve: Curves.easeOut,
+          child: SizedBox(
+            width: widget.width,
+            child: GestureDetector(
+              onTap: widget.onTap,
+              onTapDown: (_) => setState(() => _pressed = true),
+              onTapUp: (_) => setState(() => _pressed = false),
+              onTapCancel: () => setState(() => _pressed = false),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  AspectRatio(
+                    aspectRatio: 120 / 178,
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: HourTvMobileTokens.borderSubtle,
+                        ),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(11),
+                        child: Stack(
+                          fit: StackFit.expand,
+                          children: [
+                            if (widget.heroScope != null)
+                              Hero(
+                                tag: makeHeroTag(
+                                  contextScope: widget.heroScope!,
+                                  id:
+                                      widget.channel.stableTitleId ??
+                                      widget.channel.url,
+                                ),
+                                child: artwork(),
+                              )
+                            else
+                              artwork(),
+                            if (widget.progress != null && widget.progress! > 0)
+                              Align(
+                                alignment: Alignment.bottomCenter,
+                                child: LinearProgressIndicator(
+                                  minHeight: 3,
+                                  value: widget.progress!.clamp(0.0, 1.0),
+                                  backgroundColor:
+                                      HourTvMobileTokens.borderSubtle,
+                                  color: HourTvMobileTokens.emerald,
+                                ),
+                              ),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
-                ),
+                  const SizedBox(height: 6),
+                  Text(
+                    widget.channel.name,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      height: 15 / 12,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    widget.secondaryProgressLabel ??
+                        [
+                              widget.channel.year,
+                              widget.channel.genre ?? widget.channel.group,
+                            ]
+                            .whereType<String>()
+                            .where((value) => value.trim().isNotEmpty)
+                            .join(' · '),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      color: HourTvMobileTokens.textMuted,
+                      fontSize: 11,
+                      height: 14 / 11,
+                    ),
+                  ),
+                ],
               ),
-              const SizedBox(height: 6),
-              Text(
-                widget.channel.name,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
-                  height: 15 / 12,
-                ),
-              ),
-              const SizedBox(height: 2),
-              Text(
-                widget.secondaryProgressLabel ??
-                    [widget.channel.year, widget.channel.genre ?? widget.channel.group]
-                        .whereType<String>()
-                        .where((value) => value.trim().isNotEmpty)
-                        .join(' · '),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  color: HourTvMobileTokens.textMuted,
-                  fontSize: 11,
-                  height: 14 / 11,
-                ),
-              ),
-            ],
+            ),
           ),
         ),
       ),
-    ),
-  );
+    );
   }
 }

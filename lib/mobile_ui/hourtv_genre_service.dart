@@ -187,21 +187,25 @@ class HourTvGenreService {
     if (_countryBlacklist.contains(normalized)) return true;
 
     final words = normalized.split(' ').where((w) => w.isNotEmpty).toList();
-    if (words.any((w) =>
-        w == 'canal' ||
-        w == 'canales' ||
-        w == 'channel' ||
-        w == 'channels' ||
-        w == 'vip' ||
-        w == 'premium' ||
-        w == 'pack')) {
+    if (words.any(
+      (w) =>
+          w == 'canal' ||
+          w == 'canales' ||
+          w == 'channel' ||
+          w == 'channels' ||
+          w == 'vip' ||
+          w == 'premium' ||
+          w == 'pack',
+    )) {
       return true;
     }
 
-    if (words.every((w) =>
-        RegExp(r'^\d+$').hasMatch(w) ||
-        _blacklist.contains(w) ||
-        _countryBlacklist.contains(w))) {
+    if (words.every(
+      (w) =>
+          RegExp(r'^\d+$').hasMatch(w) ||
+          _blacklist.contains(w) ||
+          _countryBlacklist.contains(w),
+    )) {
       return true;
     }
 
@@ -451,8 +455,9 @@ class HourTvGenreService {
 
   /// Determina si una versión de género es más legible (más acentos o mejor capitalizada).
   static bool _isMoreReadable(String candidate, String current) {
-    final candidateAccents =
-        RegExp(r'[áéíóúÁÉÍÓÚñÑ]').allMatches(candidate).length;
+    final candidateAccents = RegExp(
+      r'[áéíóúÁÉÍÓÚñÑ]',
+    ).allMatches(candidate).length;
     final currentAccents = RegExp(r'[áéíóúÁÉÍÓÚñÑ]').allMatches(current).length;
 
     if (candidateAccents > currentAccents) return true;

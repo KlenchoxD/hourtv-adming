@@ -7,6 +7,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/channel.dart';
 import '../new_ui/hourtv_account_page.dart';
+import '../new_ui/hourtv_detail_parts.dart';
+import '../new_ui/hourtv_play_button.dart';
 import '../new_ui/hourtv_startup_cover.dart';
 import '../new_ui/hourtv_live_page.dart';
 import '../new_ui/hourtv_empty_state.dart';
@@ -170,9 +172,7 @@ class _HourTvMobileShellState extends State<HourTvMobileShell>
       currentVisibleSeries,
       favoriteUrls: store.favorites.map((item) => item.url).toSet(),
     );
-    final resolved = content.isNotEmpty
-        ? content
-        : const <Channel>[];
+    final resolved = content.isNotEmpty ? content : const <Channel>[];
     _memoizedAllContent = List<Channel>.unmodifiable(resolved);
     _lastVisibleAllRef = currentVisibleAll;
     _lastVisibleSeriesRef = currentVisibleSeries;
@@ -223,7 +223,6 @@ class _HourTvMobileShellState extends State<HourTvMobileShell>
   List<Channel> get _liveChannels =>
       store.visibleAll.where((item) => item.type == MediaType.live).toList();
 
-
   static bool _sameUrls(List<Channel> a, List<Channel>? b) {
     if (b == null || a.length != b.length) return false;
     for (var i = 0; i < a.length; i++) {
@@ -270,18 +269,17 @@ class _HourTvMobileShellState extends State<HourTvMobileShell>
     // Relleno: los que el panel marcó "estrenos" primero, luego por año.
     bool isPremiere(Channel c) =>
         c.categories.any((cat) => cat.toLowerCase() == 'estrenos');
-    final fill = [
-      for (final c in content)
-        if (!c.isFeatured && heroReady(c)) c,
-    ]..sort((a, b) {
-        final premiere =
-            (isPremiere(a) ? 0 : 1).compareTo(isPremiere(b) ? 0 : 1);
-        return premiere != 0 ? premiere : newestFirst(a, b);
-      });
-    return [
-      ...curated,
-      ...fill.take(_heroSlots - curated.length),
-    ];
+    final fill =
+        [
+          for (final c in content)
+            if (!c.isFeatured && heroReady(c)) c,
+        ]..sort((a, b) {
+          final premiere = (isPremiere(a) ? 0 : 1).compareTo(
+            isPremiere(b) ? 0 : 1,
+          );
+          return premiere != 0 ? premiere : newestFirst(a, b);
+        });
+    return [...curated, ...fill.take(_heroSlots - curated.length)];
   }
 
   void _openDetails(Channel channel, {bool fromContinueWatching = false}) {
@@ -416,30 +414,50 @@ class _HourTvMobileShellState extends State<HourTvMobileShell>
   @override
   Widget build(BuildContext context) {
     _cachedPages.putIfAbsent(destination, () => _buildDestination(destination));
+    // Computador (web o escritorio): barra arriba estilo Netflix en vez de
+    // la barra de abajo del celular; las pantallas son las mismas.
+    final desktop = hourTvWideLayout(context);
+    void go(int index) =>
+        _setDestination(HourTvMobileDestination.values[index]);
+
+    final pages = Stack(
+      fit: StackFit.expand,
+      children: [
+        for (final entry in _cachedPages.entries)
+          Offstage(
+            offstage: destination != entry.key,
+            child: TickerMode(
+              enabled: destination == entry.key,
+              child: entry.value,
+            ),
+          ),
+      ],
+    );
 
     return Scaffold(
       backgroundColor: HourTvMobileTokens.deepBlack,
       body: SafeArea(
         bottom: false,
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
-            for (final entry in _cachedPages.entries)
-              Offstage(
-                offstage: destination != entry.key,
-                child: TickerMode(
-                  enabled: destination == entry.key,
-                  child: entry.value,
-                ),
-              ),
-          ],
-        ),
+        child: desktop
+            ? Column(
+                children: [
+                  HourTvDesktopTopBar(
+                    index: destination.index,
+                    onChanged: go,
+                    profileName: StorageService.getSetting(
+                      'activeProfile',
+                      defaultValue: 'Invitado',
+                    ).toString(),
+                    avatarSeed: StorageService.activeProfileAvatarId,
+                  ),
+                  Expanded(child: pages),
+                ],
+              )
+            : pages,
       ),
-      bottomNavigationBar: HourTvBottomNavigation(
-        index: destination.index,
-        onChanged: (index) =>
-            _setDestination(HourTvMobileDestination.values[index]),
-      ),
+      bottomNavigationBar: desktop
+          ? null
+          : HourTvBottomNavigation(index: destination.index, onChanged: go),
     );
   }
 }
@@ -515,6 +533,7 @@ class _HourTvMobileHomeState extends State<HourTvMobileHome> {
       ...series,
     ]);
   }
+
   List<Channel> _cachedDriftMovies = const [];
   List<Channel> _cachedDriftSeries = const [];
   Timer? _genreWarmupTimer;
@@ -529,6 +548,7 @@ class _HourTvMobileHomeState extends State<HourTvMobileHome> {
       if (mounted) setState(() {});
     });
   }
+
   List<Channel>? _memoizedFallbackFeatured;
   Object? _lastAllContentRef;
 
@@ -733,21 +753,22 @@ class _HourTvMobileHomeState extends State<HourTvMobileHome> {
         controller: _scrollController,
         physics: const AlwaysScrollableScrollPhysics(),
         slivers: [
-          SliverToBoxAdapter(
-            child: HourTvMobileHeader(
-              onAvatarTap: widget.onProfile,
-              profileName: activeProfile,
-              avatarSeed: StorageService.activeProfileAvatarId,
-              trailing: IconButton(
-                tooltip: 'Buscar',
-                onPressed: widget.onSearch,
-                icon: const Icon(
-                  Icons.search_rounded,
-                  color: HourTvMobileTokens.textSecondary,
+          if (!hourTvWideLayout(context))
+            SliverToBoxAdapter(
+              child: HourTvMobileHeader(
+                onAvatarTap: widget.onProfile,
+                profileName: activeProfile,
+                avatarSeed: StorageService.activeProfileAvatarId,
+                trailing: IconButton(
+                  tooltip: 'Buscar',
+                  onPressed: widget.onSearch,
+                  icon: const Icon(
+                    Icons.search_rounded,
+                    color: HourTvMobileTokens.textSecondary,
+                  ),
                 ),
               ),
             ),
-          ),
           if (hasError)
             SliverPadding(
               padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
@@ -842,43 +863,34 @@ class _HourTvMobileHomeState extends State<HourTvMobileHome> {
               ),
             if (continueWatching.isNotEmpty) ...[
               SliverPadding(
-                padding: const EdgeInsets.fromLTRB(16, 24, 16, 12),
+                padding: _sectionPadding(context),
                 sliver: SliverToBoxAdapter(
                   child: HourTvSectionHeader(title: 'Continuar viendo'),
                 ),
               ),
               SliverToBoxAdapter(
-                child: RepaintBoundary(
-                  child: SizedBox(
-                    height: 220,
-                    child: ListView.separated(
-                      key: const PageStorageKey(
-                        'hourtv-home-continue-watching',
-                      ),
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      scrollDirection: Axis.horizontal,
-                      itemCount: continueWatching.length,
-                      separatorBuilder: (_, _) => const SizedBox(width: 12),
-                      itemBuilder: (_, index) {
-                        final item = continueWatching[index];
-                        return HourTvPosterCard(
-                          key: ValueKey('continue-${item.url}'),
-                          channel: item,
-                          progress: item.progressFraction,
-                          secondaryProgressLabel: remainingLabel(item),
-                          onTap: () =>
-                              (widget.onOpenContinue ?? widget.onOpen)(item),
-                          assetFallback: _fallbackArtwork(index),
-                        );
-                      },
-                    ),
-                  ),
+                child: _PosterRow(
+                  storageKey: 'hourtv-home-continue-watching',
+                  itemCount: continueWatching.length,
+                  itemBuilder: (_, index, width) {
+                    final item = continueWatching[index];
+                    return HourTvPosterCard(
+                      key: ValueKey('continue-${item.url}'),
+                      channel: item,
+                      width: width,
+                      progress: item.progressFraction,
+                      secondaryProgressLabel: remainingLabel(item),
+                      onTap: () =>
+                          (widget.onOpenContinue ?? widget.onOpen)(item),
+                      assetFallback: _fallbackArtwork(index),
+                    );
+                  },
                 ),
               ),
             ],
             if (_recommendations.isNotEmpty) ...[
               SliverPadding(
-                padding: const EdgeInsets.fromLTRB(16, 24, 16, 12),
+                padding: _sectionPadding(context),
                 sliver: SliverToBoxAdapter(
                   child: HourTvSectionHeader(
                     title: 'Recomendado para ti',
@@ -887,26 +899,19 @@ class _HourTvMobileHomeState extends State<HourTvMobileHome> {
                 ),
               ),
               SliverToBoxAdapter(
-                child: RepaintBoundary(
-                  child: SizedBox(
-                    height: 220,
-                    child: ListView.separated(
-                      key: const PageStorageKey('hourtv-home-recommendations'),
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      scrollDirection: Axis.horizontal,
-                      itemCount: _recommendations.length,
-                      separatorBuilder: (_, _) => const SizedBox(width: 12),
-                      itemBuilder: (_, index) {
-                        final item = _recommendations[index].channel;
-                        return HourTvPosterCard(
-                          key: ValueKey('rec-${item.url}'),
-                          channel: item,
-                          onTap: () => widget.onOpen(item),
-                          assetFallback: _fallbackArtwork(index),
-                        );
-                      },
-                    ),
-                  ),
+                child: _PosterRow(
+                  storageKey: 'hourtv-home-recommendations',
+                  itemCount: _recommendations.length,
+                  itemBuilder: (_, index, width) {
+                    final item = _recommendations[index].channel;
+                    return HourTvPosterCard(
+                      key: ValueKey('rec-${item.url}'),
+                      channel: item,
+                      width: width,
+                      onTap: () => widget.onOpen(item),
+                      assetFallback: _fallbackArtwork(index),
+                    );
+                  },
                 ),
               ),
             ],
@@ -922,7 +927,16 @@ class _HourTvMobileHomeState extends State<HourTvMobileHome> {
     );
   }
 
-  static const _rowPreview = 8;
+  // En computador caben ~7 pósters a la vista: 3 páginas con las flechas.
+  static int _rowPreview(BuildContext context) =>
+      hourTvWideLayout(context) ? 21 : 8;
+
+  static EdgeInsets _sectionPadding(BuildContext context) {
+    final pad = hourTvWideLayout(context)
+        ? hourTvDesktopPadding(context)
+        : 16.0;
+    return EdgeInsets.fromLTRB(pad, 24, pad, 12);
+  }
 
   List<Widget> _homeRows(
     BuildContext context, {
@@ -944,38 +958,33 @@ class _HourTvMobileHomeState extends State<HourTvMobileHome> {
     return [
       for (final row in rows) ...[
         SliverPadding(
-          padding: const EdgeInsets.fromLTRB(16, 24, 16, 12),
+          padding: _sectionPadding(context),
           sliver: SliverToBoxAdapter(
             child: HourTvSectionHeader(
               title: row.$1,
-              actionLabel: row.$2.length > _rowPreview ? 'Ver más' : null,
-              onAction: row.$2.length > _rowPreview
+              actionLabel: row.$2.length > _rowPreview(context)
+                  ? 'Ver más'
+                  : null,
+              onAction: row.$2.length > _rowPreview(context)
                   ? () => _openRow(context, row.$1, row.$2)
                   : null,
             ),
           ),
         ),
         SliverToBoxAdapter(
-          child: RepaintBoundary(
-            child: SizedBox(
-              height: 220,
-              child: ListView.separated(
-                key: PageStorageKey('hourtv-home-row-${row.$1}'),
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                scrollDirection: Axis.horizontal,
-                itemCount: math.min(row.$2.length, _rowPreview),
-                separatorBuilder: (_, _) => const SizedBox(width: 12),
-                itemBuilder: (_, index) {
-                  final channel = row.$2[index];
-                  return HourTvPosterCard(
-                    key: ValueKey('row-${row.$1}-${channel.url}'),
-                    channel: channel,
-                    onTap: () => widget.onOpen(channel),
-                    assetFallback: _fallbackArtwork(index + 1),
-                  );
-                },
-              ),
-            ),
+          child: _PosterRow(
+            storageKey: 'hourtv-home-row-${row.$1}',
+            itemCount: math.min(row.$2.length, _rowPreview(context)),
+            itemBuilder: (_, index, width) {
+              final channel = row.$2[index];
+              return HourTvPosterCard(
+                key: ValueKey('row-${row.$1}-${channel.url}'),
+                channel: channel,
+                width: width,
+                onTap: () => widget.onOpen(channel),
+                assetFallback: _fallbackArtwork(index + 1),
+              );
+            },
           ),
         ),
       ],
@@ -1097,10 +1106,7 @@ class _LoadErrorBanner extends StatelessWidget {
 /// Rota entre varias destacadas cada pocos segundos (como en Netflix/Xuper).
 /// Antes el hero mostraba siempre `movies.first`, fijo, sin moverse nunca.
 class _HeroCarousel extends StatefulWidget {
-  const _HeroCarousel({
-    required this.channels,
-    required this.onPlay,
-  });
+  const _HeroCarousel({required this.channels, required this.onPlay});
 
   final List<Channel> channels;
   final ValueChanged<Channel> onPlay;
@@ -1184,6 +1190,7 @@ class _HeroCarouselState extends State<_HeroCarousel> {
   @override
   Widget build(BuildContext context) {
     if (widget.channels.isEmpty) return const SizedBox.shrink();
+    if (hourTvWideLayout(context)) return _desktop(context);
     // Antes 430px fijos en _HourTvHero: en pantallas cortas (celulares de
     // gama media/baja) ocupaba demasiado del alto visible y el titulo/
     // botones de abajo quedaban apenas fuera de vista hasta hacer scroll.
@@ -1229,9 +1236,7 @@ class _HeroCarouselState extends State<_HeroCarousel> {
                             width: i == _page ? 12 : 5,
                             height: 5,
                             decoration: BoxDecoration(
-                              color: i == _page
-                                  ? Colors.white
-                                  : Colors.white38,
+                              color: i == _page ? Colors.white : Colors.white38,
                               borderRadius: BorderRadius.circular(3),
                             ),
                           ),
@@ -1245,6 +1250,301 @@ class _HeroCarouselState extends State<_HeroCarousel> {
       ),
     );
   }
+
+  /// Destacado de computador estilo Netflix: a todo el ancho, ~60 % del alto
+  /// de la ventana, con la info a la izquierda sobre un degradado.
+  Widget _desktop(BuildContext context) {
+    final size = MediaQuery.sizeOf(context);
+    final height = (size.height * 0.62).clamp(340.0, 680.0);
+    return SizedBox(
+      key: const ValueKey('hourtv-hero-carousel'),
+      height: height,
+      child: Stack(
+        children: [
+          PageView.builder(
+            controller: _controller,
+            itemCount: widget.channels.length,
+            onPageChanged: (index) => setState(() => _page = index),
+            itemBuilder: (_, index) {
+              final channel = widget.channels[index];
+              return _DesktopHero(
+                channel: channel,
+                onOpen: () => widget.onPlay(channel),
+              );
+            },
+          ),
+          if (widget.channels.length > 1)
+            Positioned(
+              right: hourTvDesktopPadding(context),
+              bottom: 28,
+              child: Row(
+                children: [
+                  for (var i = 0; i < widget.channels.length; i++)
+                    GestureDetector(
+                      onTap: () => _controller.animateToPage(
+                        i,
+                        duration: const Duration(milliseconds: 450),
+                        curve: Curves.easeOutCubic,
+                      ),
+                      child: MouseRegion(
+                        cursor: SystemMouseCursors.click,
+                        child: AnimatedContainer(
+                          duration: const Duration(milliseconds: 200),
+                          margin: const EdgeInsets.symmetric(horizontal: 3),
+                          width: i == _page ? 22 : 8,
+                          height: 8,
+                          decoration: BoxDecoration(
+                            color: i == _page ? Colors.white : Colors.white38,
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+class _DesktopHero extends StatelessWidget {
+  const _DesktopHero({required this.channel, required this.onOpen});
+
+  final Channel channel;
+  final VoidCallback onOpen;
+
+  @override
+  Widget build(BuildContext context) {
+    final pad = hourTvDesktopPadding(context);
+    final plot = channel.plot?.trim();
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        HourTvArtwork(
+          url: channel.backdrop ?? channel.logo,
+          alignment: Alignment.topCenter,
+          variant: ImageResolutionVariant.heroBackdrop,
+          memCacheWidth: 1920,
+          memCacheHeight: 1080,
+          onShown: HourTvStartupCover.markHeroShown,
+        ),
+        // Degradado desde la izquierda (para leer el texto) y desde abajo
+        // (para fundirse con las filas).
+        const DecoratedBox(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Color(0xE6050505), Color(0x80050505), Color(0x00050505)],
+              stops: [0, 0.38, 0.7],
+            ),
+          ),
+        ),
+        const DecoratedBox(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [Color(0x00050505), Color(0xFF050505)],
+              stops: [0.6, 1],
+            ),
+          ),
+        ),
+        Positioned(
+          left: pad,
+          bottom: 64,
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 560),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  channel.name,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 46,
+                    fontWeight: FontWeight.w900,
+                    height: 1.05,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                HourTvDetailMeta(
+                  rating: channel.rating,
+                  year: channel.year,
+                  extra: hourTvPrettyDuration(channel.duration),
+                ),
+                if (plot != null && plot.isNotEmpty) ...[
+                  const SizedBox(height: 12),
+                  Text(
+                    plot,
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      color: Color(0xFFE5E5E5),
+                      fontSize: 16,
+                      height: 1.45,
+                    ),
+                  ),
+                ],
+                const SizedBox(height: 20),
+                // Abre la ficha, donde están Reproducir, servidores y
+                // subtítulos (no se inventa un "Reproducir" que haga otra
+                // cosa).
+                IntrinsicWidth(
+                  child: HourTvPlayButton(
+                    label: 'Más información',
+                    icon: Icons.info_outline_rounded,
+                    large: true,
+                    onPressed: onOpen,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+/// Fila horizontal de pósters. En celular/tablet: 120 px como siempre. En
+/// computador el póster se agranda para que quepan ~7 por fila y aparecen
+/// flechas ‹ › al pasar el mouse (con mouse no se puede arrastrar).
+class _PosterRow extends StatefulWidget {
+  const _PosterRow({
+    required this.storageKey,
+    required this.itemCount,
+    required this.itemBuilder,
+  });
+
+  final String storageKey;
+  final int itemCount;
+  final Widget Function(BuildContext context, int index, double width)
+  itemBuilder;
+
+  @override
+  State<_PosterRow> createState() => _PosterRowState();
+}
+
+class _PosterRowState extends State<_PosterRow> {
+  final _controller = ScrollController();
+  var _hover = false;
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  static const _gap = 10.0;
+
+  static int _perPage(double width) => width >= 1700
+      ? 8
+      : width >= 1300
+      ? 7
+      : width >= 1000
+      ? 6
+      : 5;
+
+  void _page(int direction) {
+    if (!_controller.hasClients) return;
+    final position = _controller.position;
+    final target = (position.pixels + direction * _step).clamp(
+      0.0,
+      position.maxScrollExtent,
+    );
+    _controller.animateTo(
+      target,
+      duration: const Duration(milliseconds: 500),
+      curve: Curves.easeOutCubic,
+    );
+  }
+
+  double _padding = 16;
+  // Una "página" exacta de pósters, para que ninguno quede cortado.
+  double _step = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    final desktop = hourTvWideLayout(context);
+    final screen = MediaQuery.sizeOf(context).width;
+    _padding = desktop ? hourTvDesktopPadding(context) : 16;
+    final perPage = _perPage(screen);
+    final cardWidth = desktop
+        ? (screen - 2 * _padding - (perPage - 1) * _gap) / perPage
+        : 120.0;
+    _step = perPage * (cardWidth + _gap);
+    // Póster 120:178 + título y línea de datos debajo (~42 px).
+    final height = cardWidth * 178 / 120 + 42;
+    final list = ListView.separated(
+      key: PageStorageKey(widget.storageKey),
+      controller: _controller,
+      padding: EdgeInsets.symmetric(horizontal: _padding),
+      scrollDirection: Axis.horizontal,
+      itemCount: widget.itemCount,
+      separatorBuilder: (_, _) => SizedBox(width: desktop ? _gap : 12),
+      itemBuilder: (context, index) =>
+          widget.itemBuilder(context, index, cardWidth),
+    );
+    if (!desktop) {
+      return RepaintBoundary(
+        child: SizedBox(height: height, child: list),
+      );
+    }
+    return RepaintBoundary(
+      child: MouseRegion(
+        onEnter: (_) => setState(() => _hover = true),
+        onExit: (_) => setState(() => _hover = false),
+        child: SizedBox(
+          height: height,
+          child: Stack(
+            children: [
+              list,
+              if (_hover)
+                ListenableBuilder(
+                  listenable: _controller,
+                  builder: (context, _) {
+                    if (!_controller.hasClients) return const SizedBox();
+                    final position = _controller.position;
+                    return Stack(
+                      children: [
+                        if (position.pixels > 1)
+                          _arrow(left: true, height: height - 42),
+                        if (position.pixels < position.maxScrollExtent - 1)
+                          _arrow(left: false, height: height - 42),
+                      ],
+                    );
+                  },
+                ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _arrow({required bool left, required double height}) => Positioned(
+    left: left ? 0 : null,
+    right: left ? null : 0,
+    top: 0,
+    height: height,
+    width: _padding,
+    child: Material(
+      color: const Color(0x99000000),
+      child: InkWell(
+        onTap: () => _page(left ? -1 : 1),
+        child: Icon(
+          left ? Icons.chevron_left_rounded : Icons.chevron_right_rounded,
+          color: Colors.white,
+          size: 36,
+          semanticLabel: left ? 'Anteriores' : 'Siguientes',
+        ),
+      ),
+    ),
+  );
 }
 
 class _HourTvHero extends StatelessWidget {
@@ -2508,11 +2808,7 @@ class HourTvMobileProfile extends StatelessWidget {
           'Cuenta',
           email ?? 'Iniciar sesión o crear cuenta',
         ),
-      (
-        Icons.history_rounded,
-        'Historial',
-        'Películas y episodios que viste',
-      ),
+      (Icons.history_rounded, 'Historial', 'Películas y episodios que viste'),
       (
         Icons.high_quality_outlined,
         'Reproducción y calidad',

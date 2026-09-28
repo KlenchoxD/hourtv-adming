@@ -45,19 +45,24 @@ class DeviceProfile {
     if (_isTvCache == true) return DeviceType.tv;
     final size = MediaQuery.sizeOf(context);
 
-    // En navegador, por defecto mostramos el diseño móvil de Android para pruebas
-    // del app móvil, con soporte para alternar a TV mediante query o toggle.
+    // En navegador el diseño sale del equipo real: ?mode=tv|tablet|phone fuerza
+    // uno (pruebas); celulares y tablets (Android/iOS, iPad) por su lado
+    // corto, como en la app; lo demás es computador.
     if (kIsWeb) {
-      final uri = Uri.base;
-      if (uri.queryParameters['mode'] == 'tv' ||
-          uri.queryParameters['view'] == 'tv') {
-        return DeviceType.tv;
+      final mode =
+          Uri.base.queryParameters['mode'] ?? Uri.base.queryParameters['view'];
+      if (mode == 'tv') return DeviceType.tv;
+      if (mode == 'phone') return DeviceType.phone;
+      if (mode == 'tablet') return DeviceType.tablet;
+      final touchOs =
+          defaultTargetPlatform == TargetPlatform.android ||
+          defaultTargetPlatform == TargetPlatform.iOS;
+      if (touchOs) {
+        return size.shortestSide < 600 ? DeviceType.phone : DeviceType.tablet;
       }
-      if (uri.queryParameters['mode'] == 'tablet' ||
-          uri.queryParameters['view'] == 'tablet') {
-        return DeviceType.tablet;
-      }
-      return DeviceType.phone;
+      // En computador cuenta el ancho: una ventana angosta es como un celular
+      // (una ventana baja pero ancha sigue siendo computador).
+      return size.width < 600 ? DeviceType.phone : DeviceType.desktop;
     }
 
     if (defaultTargetPlatform == TargetPlatform.windows ||

@@ -42,8 +42,10 @@ void main() {
 
     // Inicializaciones concurrentes tempranas (almacenamiento, Supabase, dispositivo y ruta de BD)
     final tInitStart = DateTime.now().millisecondsSinceEpoch;
-    final docsDirFuture =
-        getApplicationDocumentsDirectory().catchError((_) => Directory.systemTemp);
+    // En web no hay carpetas: la base vive en el navegador (ver CatalogDatabase.web).
+    final Future<Directory?> docsDirFuture = kIsWeb
+        ? Future.value(null)
+        : getApplicationDocumentsDirectory().catchError((_) => Directory.systemTemp);
     Future<T> timed<T>(String label, Future<T> f) => f.whenComplete(() => debugPrint(
         '[PERF_TTI] $label: elapsedMs=${DateTime.now().millisecondsSinceEpoch - tInitStart}'));
     final storageFuture = timed('STORAGE_INIT', StorageService.init().catchError((_) {}));
@@ -61,7 +63,7 @@ void main() {
     final tDriftStart = DateTime.now().millisecondsSinceEpoch;
     final Future<CatalogInfrastructure?> driftFuture = timed('DRIFT_INIT',
         initializeCatalogInfrastructure(
-      databaseFile: File('${docsDir.path}/hourtv_catalog.db'),
+      databaseFile: docsDir == null ? null : File('${docsDir.path}/hourtv_catalog.db'),
     ).then<CatalogInfrastructure?>((infra) => infra).catchError((e, st) {
       debugPrint('Error al inicializar infraestructura de catálogo: ${e.runtimeType}');
       if (kDebugMode) debugPrintStack(stackTrace: st);
@@ -296,8 +298,6 @@ class _AppShellState extends State<_AppShell> with WidgetsBindingObserver {
       valueListenable: DeviceProfile.overrideType,
       builder: (context, _, _) {
         final isPhone = DeviceProfile.isPhone(context);
-        final size = MediaQuery.sizeOf(context);
-
         final recEngine = widget.catalogInfrastructure?.recommendationEngine ??
             CatalogInfrastructure.current?.recommendationEngine ??
             (ProfileSyncEngine.instance != null
@@ -306,79 +306,9 @@ class _AppShellState extends State<_AppShell> with WidgetsBindingObserver {
                   )
                 : null);
 
-        if (kIsWeb && isPhone && size.width > 600) {
-          return Scaffold(
-            backgroundColor: const Color(0xFF070709),
-            body: Stack(
-              children: [
-                Center(
-                  child: Container(
-                    width: 440,
-                    height: size.height,
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF050505),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withValues(alpha: 0.85),
-                          blurRadius: 32,
-                          spreadRadius: 6,
-                        ),
-                      ],
-                    ),
-                    child: ClipRect(
-                      child: HourTvMobileShell(
-                        recommendationEngine: recEngine,
-                      ),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  top: 14,
-                  right: 16,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF151917),
-                      borderRadius: BorderRadius.circular(24),
-                      border: Border.all(color: const Color(0xFF27302C)),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        TextButton.icon(
-                          onPressed: () => DeviceProfile.overrideType.value =
-                              DeviceType.phone,
-                          icon: const Icon(
-                            Icons.phone_android_rounded,
-                            size: 16,
-                          ),
-                          label: const Text('Móvil Android'),
-                          style: TextButton.styleFrom(
-                            foregroundColor: isPhone
-                                ? const Color(0xFF00C781)
-                                : const Color(0xFFA8ADAB),
-                          ),
-                        ),
-                        TextButton.icon(
-                          onPressed: () =>
-                              DeviceProfile.overrideType.value = DeviceType.tv,
-                          icon: const Icon(Icons.tv_rounded, size: 16),
-                          label: const Text('Android TV'),
-                          style: TextButton.styleFrom(
-                            foregroundColor: !isPhone
-                                ? const Color(0xFF00C781)
-                                : const Color(0xFFA8ADAB),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          );
-        }
-
-        if (isPhone) {
+        // En el navegador todo (celular, iPad, computador) usa la app del
+        // celular, que se acomoda al ancho; la de TV queda para Android TV.
+        if (isPhone || (kIsWeb && !DeviceProfile.isTv(context))) {
           return HourTvMobileShell(recommendationEngine: recEngine);
         }
         return HourTvNewShell(recommendationEngine: recEngine);

@@ -69,6 +69,8 @@ Future<CatalogInfrastructure> initializeCatalogInfrastructure({
   CatalogDatabase db;
   if (catalogDatabase != null) {
     db = catalogDatabase;
+  } else if (kIsWeb) {
+    db = CatalogDatabase.web();
   } else {
     try {
       final File file;

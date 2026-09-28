@@ -151,15 +151,21 @@ class _FilterSheetBodyState extends State<_FilterSheetBody> {
   static const _muted = Color(0xFFA6A6B0);
 
   static final _chipRadius = BorderRadius.circular(12);
-  static const _activeBorder = Border.fromBorderSide(BorderSide(color: _emerald));
-  static const _inactiveBorder = Border.fromBorderSide(BorderSide(color: _border));
+  static const _activeBorder = Border.fromBorderSide(
+    BorderSide(color: _emerald),
+  );
+  static const _inactiveBorder = Border.fromBorderSide(
+    BorderSide(color: _border),
+  );
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final end = DateTime.now().millisecondsSinceEpoch;
-      debugPrint('[PERF_MODAL] SHEET_RENDERED: ${widget.label} elapsedMs=${end - widget.startMs}');
+      debugPrint(
+        '[PERF_MODAL] SHEET_RENDERED: ${widget.label} elapsedMs=${end - widget.startMs}',
+      );
       if (mounted && !_showAll && widget.options.length > 3) {
         setState(() => _showAll = true);
       }
@@ -170,7 +176,9 @@ class _FilterSheetBodyState extends State<_FilterSheetBody> {
   Widget build(BuildContext context) {
     final displayedOptions = _showAll
         ? widget.options
-        : widget.options.take(math.min(widget.options.length, 3)).toList(growable: false);
+        : widget.options
+              .take(math.min(widget.options.length, 3))
+              .toList(growable: false);
 
     return SafeArea(
       top: false,

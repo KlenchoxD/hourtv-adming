@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:drift/drift.dart';
-import 'package:drift/native.dart';
+import 'connection/connection.dart';
 import 'tables/catalog_tables.dart';
 import 'tables/user_data_tables.dart';
 import 'daos/catalog_dao.dart';
@@ -31,10 +31,12 @@ part 'catalog_database.g.dart';
 class CatalogDatabase extends _$CatalogDatabase {
   CatalogDatabase(super.e);
 
-  CatalogDatabase.inMemory() : super(NativeDatabase.memory());
+  CatalogDatabase.inMemory() : super(openMemoryExecutor());
+
+  CatalogDatabase.web() : super(openWebExecutor());
 
   factory CatalogDatabase.inBackground(File file) {
-    return CatalogDatabase(NativeDatabase.createInBackground(file));
+    return CatalogDatabase(openFileExecutor(file));
   }
 
   @override
