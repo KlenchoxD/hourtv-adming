@@ -55,15 +55,19 @@ class ProfileExtrasSync {
     final effective = store ?? _defaultStore();
     if (effective == null || _tableMissing) return false;
     try {
-      await effective.upsert(
-        _localRows(profileId, includeSettings: includeSettings),
-      );
+      final rows = _localRows(profileId, includeSettings: includeSettings);
+      await effective.upsert(rows);
       final remote = await effective.fetch(profileId);
-      return await _applyRemote(
+      final changed = await _applyRemote(
         profileId,
         remote,
         includeSettings: includeSettings,
       );
+      debugPrint(
+        '[SYNC] extras ${profileId.substring(0, 8)}: subidos ${rows.length}, '
+        'en la nube ${remote.length}${changed ? ', cambios aplicados' : ''}',
+      );
+      return changed;
     } on PostgrestException catch (e) {
       if (e.code == 'PGRST205' || e.code == '42P01') {
         _tableMissing = true;
