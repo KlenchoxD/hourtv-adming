@@ -45,11 +45,5 @@ void main() {
         isNull,
       );
     });
-
-    test('detecta User-Agent que el receptor por defecto no puede enviar', () {
-      expect(CastService.needsUnsupportedHeaders('HourTV/1.0'), isTrue);
-      expect(CastService.needsUnsupportedHeaders('  '), isFalse);
-      expect(CastService.needsUnsupportedHeaders(null), isFalse);
-    });
   });
 }

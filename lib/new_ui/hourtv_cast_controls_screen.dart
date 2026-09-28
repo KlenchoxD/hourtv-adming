@@ -1,9 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_chrome_cast/flutter_chrome_cast.dart';
-
-import '../services/cast_service.dart';
+import '../services/remote_playback.dart';
 
 const _black = Color(0xFF000000);
 const _surface = Color(0xFF111113);
@@ -11,100 +9,78 @@ const _line = Color(0xFF2A2A2E);
 const _muted = Color(0xFFA6A6B0);
 const _red = Color(0xFF00C781);
 
-/// Controles Chromecast con el lenguaje visual rojo/negro de HourTV.
+/// Controles del video que se ve en el TV (Chromecast o DLNA).
 class CastControlsScreen extends StatefulWidget {
   const CastControlsScreen({
     super.key,
     required this.title,
-    this.fallbackDuration = Duration.zero,
+    required this.playback,
   });
 
   final String title;
-  final Duration fallbackDuration;
+  final RemotePlayback playback;
 
   @override
   State<CastControlsScreen> createState() => _CastControlsScreenState();
 }
 
 class _CastControlsScreenState extends State<CastControlsScreen> {
-  StreamSubscription<GoogleCastSession?>? _sessionSubscription;
-  StreamSubscription<GoggleCastMediaStatus?>? _statusSubscription;
-  StreamSubscription<Duration>? _positionSubscription;
-  GoogleCastSession? _session;
-  GoggleCastMediaStatus? _status;
-  Duration _position = Duration.zero;
-  double _volume = .5;
-  bool _disconnecting = false;
+  RemotePlayback get _p => widget.playback;
+
+  // Posición mientras se arrastra la barra (se busca al soltar).
+  Duration? _dragging;
 
   @override
   void initState() {
     super.initState();
-    final sessions = GoogleCastSessionManager.instance;
-    final media = GoogleCastRemoteMediaClient.instance;
-    _session = sessions.currentSession;
-    _status = media.mediaStatus;
-    _position = media.playerPosition;
-    _volume = (_session?.currentDeviceVolume ?? .5).clamp(0, 1);
-    _sessionSubscription = sessions.currentSessionStream.listen((session) {
-      if (!mounted) return;
-      if (session == null && !_disconnecting) {
-        Navigator.maybePop(context, true);
-        return;
-      }
-      setState(() {
-        _session = session;
-        _volume = (session?.currentDeviceVolume ?? _volume).clamp(0, 1);
-      });
-    });
-    _statusSubscription = media.mediaStatusStream.listen((status) {
-      if (mounted) setState(() => _status = status);
-    });
-    _positionSubscription = media.playerPositionStream.listen((position) {
-      if (mounted) setState(() => _position = position);
-    });
+    _p.addListener(_refresh);
+    RemotePlayback.active.addListener(_onActiveChanged);
   }
 
   @override
   void dispose() {
-    _sessionSubscription?.cancel();
-    _statusSubscription?.cancel();
-    _positionSubscription?.cancel();
+    _p.removeListener(_refresh);
+    RemotePlayback.active.removeListener(_onActiveChanged);
     super.dispose();
   }
 
-  Duration get _duration =>
-      _status?.mediaInformation?.duration ?? widget.fallbackDuration;
-
-  bool get _playing =>
-      _status?.playerState == CastMediaPlayerState.playing ||
-      _status?.playerState == CastMediaPlayerState.buffering ||
-      _status?.playerState == CastMediaPlayerState.loading;
-
-  String get _stateLabel => switch (_status?.playerState) {
-    CastMediaPlayerState.playing => 'Reproduciendo',
-    CastMediaPlayerState.paused => 'Pausado',
-    CastMediaPlayerState.buffering => 'Cargando',
-    CastMediaPlayerState.loading => 'Cargando',
-    CastMediaPlayerState.idle => 'Detenido',
-    _ => 'Conectado',
-  };
-
-  Future<void> _toggle() async {
-    final media = GoogleCastRemoteMediaClient.instance;
-    _playing ? await media.pause() : await media.play();
+  void _refresh() {
+    if (mounted) setState(() {});
   }
 
-  Future<void> _seek(Duration target) async {
+  // La transmisión terminó (desconectada aquí, desde el TV o la notificación).
+  void _onActiveChanged() {
+    if (mounted && !identical(RemotePlayback.active.value, _p)) {
+      Navigator.maybePop(context, true);
+    }
+  }
+
+  Duration get _duration => _p.duration;
+  Duration get _position => _dragging ?? _p.position;
+  bool get _playing => _p.playing;
+  String get _stateLabel => _p.stateLabel;
+
+  Future<void> _run(Future<void> Function() action) async {
+    try {
+      await action();
+    } catch (_) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('El televisor no respondió.')),
+      );
+    }
+  }
+
+  Future<void> _toggle() => _run(_p.togglePlay);
+
+  Future<void> _seek(Duration target) {
     final max = _duration.inMilliseconds;
     final value = target.inMilliseconds.clamp(0, max > 0 ? max : 0);
-    await GoogleCastRemoteMediaClient.instance.seek(
-      GoogleCastMediaSeekOption(position: Duration(milliseconds: value)),
-    );
+    return _run(() => _p.seek(Duration(milliseconds: value)));
   }
 
   Future<void> _disconnect() async {
-    _disconnecting = true;
-    await CastService.instance.disconnect();
+    await _run(_p.disconnect);
     if (mounted) Navigator.pop(context, true);
   }
 
@@ -176,7 +152,7 @@ class _CastControlsScreenState extends State<CastControlsScreen> {
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        '${_session?.device?.friendlyName ?? 'Chromecast'} · $_stateLabel',
+                        '${_p.deviceName} · $_stateLabel',
                         style: const TextStyle(color: _muted),
                       ),
                       const SizedBox(height: 28),
@@ -191,14 +167,16 @@ class _CastControlsScreenState extends State<CastControlsScreen> {
                           max: durationMs > 0 ? durationMs.toDouble() : 1,
                           onChanged: durationMs > 0
                               ? (value) => setState(
-                                  () => _position = Duration(
+                                  () => _dragging = Duration(
                                     milliseconds: value.round(),
                                   ),
                                 )
                               : null,
                           onChangeEnd: durationMs > 0
-                              ? (value) =>
-                                    _seek(Duration(milliseconds: value.round()))
+                              ? (value) {
+                                  setState(() => _dragging = null);
+                                  _seek(Duration(milliseconds: value.round()));
+                                }
                               : null,
                         ),
                       ),
@@ -247,31 +225,33 @@ class _CastControlsScreenState extends State<CastControlsScreen> {
                           ),
                         ],
                       ),
-                      const SizedBox(height: 26),
-                      Row(
-                        children: [
-                          const Icon(Icons.volume_down_rounded, color: _muted),
-                          Expanded(
-                            child: Slider(
-                              value: _volume,
-                              activeColor: _red,
-                              onChanged: (value) {
-                                setState(() => _volume = value);
-                                GoogleCastSessionManager.instance
-                                    .setDeviceVolume(value);
-                              },
+                      if (_p.volume != null) ...[
+                        const SizedBox(height: 26),
+                        Row(
+                          children: [
+                            const Icon(
+                              Icons.volume_down_rounded,
+                              color: _muted,
                             ),
-                          ),
-                          const Icon(Icons.volume_up_rounded, color: _muted),
-                        ],
-                      ),
+                            Expanded(
+                              child: Slider(
+                                value: _p.volume!,
+                                activeColor: _red,
+                                onChanged: (value) =>
+                                    unawaited(_run(() => _p.setVolume(value))),
+                              ),
+                            ),
+                            const Icon(Icons.volume_up_rounded, color: _muted),
+                          ],
+                        ),
+                      ],
                       const SizedBox(height: 12),
                       OutlinedButton.icon(
                         style: OutlinedButton.styleFrom(
                           foregroundColor: Colors.white,
                           side: const BorderSide(color: _line),
                         ),
-                        onPressed: GoogleCastRemoteMediaClient.instance.stop,
+                        onPressed: () => unawaited(_run(_p.stop)),
                         icon: const Icon(Icons.stop_rounded),
                         label: const Text('Detener reproducción'),
                       ),

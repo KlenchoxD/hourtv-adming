@@ -15,6 +15,7 @@ import io.flutter.plugin.common.MethodChannel
 
 class MainActivity : FlutterActivity() {
     private val channel = "hourtv/device"
+    private var multicastLock: android.net.wifi.WifiManager.MulticastLock? = null
 
     override fun onCreate(savedInstanceState: android.os.Bundle?) {
         val nativeStart = System.currentTimeMillis()
@@ -81,6 +82,23 @@ class MainActivity : FlutterActivity() {
                             }
                         }
                     }
+                }
+                // Algunos Wi-Fi descartan las respuestas SSDP (búsqueda de TVs
+                // DLNA) si la app no tiene este bloqueo mientras busca.
+                "multicastLock" -> {
+                    val wifi = applicationContext.getSystemService(Context.WIFI_SERVICE)
+                        as? android.net.wifi.WifiManager
+                    if (call.argument<Boolean>("acquire") == true) {
+                        if (multicastLock == null) {
+                            multicastLock = wifi?.createMulticastLock("hourtv-dlna")?.apply {
+                                setReferenceCounted(false)
+                            }
+                        }
+                        multicastLock?.acquire()
+                    } else {
+                        multicastLock?.release()
+                    }
+                    result.success(null)
                 }
                 "shareText" -> {
                     val text = call.argument<String>("text")?.trim().orEmpty()

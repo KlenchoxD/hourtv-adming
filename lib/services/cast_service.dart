@@ -6,31 +6,14 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_chrome_cast/flutter_chrome_cast.dart';
 
 import '../models/channel.dart';
+import 'archive_service.dart';
 import 'device_type.dart';
+import 'embed_resolver.dart';
+import 'stalker_service.dart';
 
-/// Motivo estructurado por el cual un stream no es apto para Chromecast directo.
-enum StreamBlockReason {
-  requiresHeaders,
-  webViewOrEmbed,
-  unsupportedFormat,
-  invalidUrl,
-}
-
-/// Información tipada y descriptiva sobre la incompatibilidad de un stream.
-class StreamBlockInfo {
-  final StreamBlockReason reason;
-  final String explanation;
-  final bool isHeaderOrWebView;
-
-  const StreamBlockInfo({
-    required this.reason,
-    required this.explanation,
-    required this.isHeaderOrWebView,
-  });
-
-  @override
-  String toString() => explanation;
-}
+/// Video listo para enviar al TV: URL directa y las cabeceras que exige su
+/// servidor (se agregan desde el teléfono con CastProxy).
+typedef CastMedia = ({String url, Map<String, String> headers});
 
 /// Objetivo alcanzado al abrir los ajustes de transmisión del sistema Android.
 enum CastSettingsTarget {
@@ -385,9 +368,6 @@ class CastService {
     return uri != null && (uri.scheme == 'http' || uri.scheme == 'https');
   }
 
-  static bool needsUnsupportedHeaders(String? userAgent) =>
-      userAgent != null && userAgent.trim().isNotEmpty;
-
   /// Deduce el tipo MIME a partir de la extension de la URL. Muchas fuentes
   /// IPTV sirven HLS/MP4 sin extension visible (query string, redirecciones,
   /// tokens); cuando ya sabemos que tipo de contenido es (`mediaType`, tomado
@@ -409,47 +389,28 @@ class CastService {
     return null;
   }
 
-  /// Evalúa si [streamUrl] puede enviarse por Chromecast directo o si presenta
-  /// bloqueos técnicos (cabeceras privadas, visor web, formato incompatible).
-  static StreamBlockInfo? checkStreamBlocked({
-    required String streamUrl,
-    MediaType? mediaType,
-    String? userAgent,
-    bool requiresHeaders = false,
-    bool isEmbedOrWebView = false,
-  }) {
-    if (isEmbedOrWebView || isKnownEmbedHost(streamUrl) || hasUnequivocalEmbedPath(streamUrl)) {
-      return const StreamBlockInfo(
-        reason: StreamBlockReason.webViewOrEmbed,
-        explanation:
-            'Este servidor se reproduce mediante visor web y no se puede transmitir directamente por Chromecast.',
-        isHeaderOrWebView: true,
-      );
+  /// Stream directo de [channel] para el TV: resuelve embeds, archive: y
+  /// stalker: igual que el reproductor. Null si solo se abre en visor web.
+  static Future<CastMedia?> resolveMedia(Channel channel) async {
+    final url = channel.url;
+    final agent = channel.userAgent?.trim();
+    final headers = agent == null || agent.isEmpty
+        ? const <String, String>{}
+        : {'User-Agent': agent};
+    if (url.startsWith('archive:')) {
+      final resolved = await ArchiveService.resolveStream(url);
+      return resolved == null ? null : (url: resolved, headers: headers);
     }
-    if (requiresHeaders || needsUnsupportedHeaders(userAgent)) {
-      return const StreamBlockInfo(
-        reason: StreamBlockReason.requiresHeaders,
-        explanation:
-            'Este servidor exige cabeceras personalizadas (User-Agent o Referer) y el receptor predeterminado de Chromecast no permite enviarlas, por lo que el televisor rechazaría el vídeo.',
-        isHeaderOrWebView: true,
-      );
+    if (url.startsWith('stalker:')) {
+      final resolved = await StalkerService.resolveStream(url);
+      return resolved == null ? null : (url: resolved, headers: headers);
     }
-    if (!isNetworkUrl(streamUrl)) {
-      return const StreamBlockInfo(
-        reason: StreamBlockReason.invalidUrl,
-        explanation:
-            'La dirección del servidor no es una URL de red válida para Chromecast.',
-        isHeaderOrWebView: false,
-      );
+    if (channel.type != MediaType.live && isLikelyEmbedUrl(url)) {
+      final resolved = await EmbedResolver.resolve(url);
+      return resolved == null
+          ? null
+          : (url: resolved.url, headers: resolved.headers);
     }
-    if (contentTypeFor(streamUrl, mediaType: mediaType) == null) {
-      return const StreamBlockInfo(
-        reason: StreamBlockReason.unsupportedFormat,
-        explanation:
-            'Este servidor no expone una URL HLS (.m3u8) ni MP4, que son los formatos que acepta Chromecast.',
-        isHeaderOrWebView: false,
-      );
-    }
-    return null;
+    return isNetworkUrl(url) ? (url: url, headers: headers) : null;
   }
 }

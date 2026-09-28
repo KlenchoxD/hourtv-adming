@@ -4,11 +4,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_chrome_cast/flutter_chrome_cast.dart';
 
 import '../models/channel.dart';
 import '../services/catalog/catalog_detail_navigator.dart';
 import '../services/cast_service.dart';
+import '../services/remote_playback.dart';
 import '../services/catalog/hero_tag_helper.dart';
 import '../services/content_store.dart';
 import '../services/device_type.dart';
@@ -77,8 +77,6 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
   // desactivado y devuelve al toque, dejando una ventana breve para el
   // segundo toque).
   bool _opening = false;
-  StreamSubscription<List<GoogleCastDevice>>? _castDevicesSub;
-  StreamSubscription<GoogleCastSession?>? _castSessionSub;
   final FocusNode tvFocus = FocusNode();
 
   Channel get channel => widget.channel;
@@ -141,24 +139,16 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
         SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
       }
     });
-    _watchCastDevices();
+    RemotePlayback.active.addListener(_onCastChanged);
   }
 
-  void _watchCastDevices() {
-    if (!CastService.instance.isAvailable) return;
-    unawaited(CastService.instance.startDiscovery());
-    _castDevicesSub = CastService.instance.devicesStream.listen((_) {
-      if (mounted) setState(() {});
-    });
-    _castSessionSub = CastService.instance.sessionStream.listen((_) {
-      if (mounted) setState(() {});
-    });
+  void _onCastChanged() {
+    if (mounted) setState(() {});
   }
 
   @override
   void dispose() {
-    _castDevicesSub?.cancel();
-    _castSessionSub?.cancel();
+    RemotePlayback.active.removeListener(_onCastChanged);
     tvFocus.dispose();
     if (defaultTargetPlatform == TargetPlatform.android) {
       SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
@@ -283,28 +273,20 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
       );
       return;
     }
-    // Mismo panel propio que el reproductor: busca, muestra el estado, deja
-    // elegir y desconectar, y explica los errores sin salir de la app.
-    final streamUrl = channel.url;
-    final isEmbed = CastService.isLikelyEmbedUrl(streamUrl);
-    final blockInfo = CastService.checkStreamBlocked(
-      streamUrl: streamUrl,
-      mediaType: channel.type,
-      userAgent: channel.userAgent,
-      isEmbedOrWebView: isEmbed,
-    );
-    final connected = await showCastSheet(
+    // Mismo panel propio que el reproductor: busca Chromecast y Smart TV
+    // DLNA, resuelve el servidor al elegir el TV y explica los errores.
+    final playback = await showCastSheet(
       context,
       title: channel.displayName,
-      streamUrl: () => streamUrl,
+      media: () => CastService.resolveMedia(channel),
       posterUrl: channel.backdrop ?? channel.logo,
       mediaType: channel.type,
-      blockInfo: blockInfo,
     );
-    if (!mounted || !connected) return;
+    if (!mounted || playback == null) return;
     await Navigator.of(context).push<bool>(
       MaterialPageRoute(
-        builder: (_) => CastControlsScreen(title: channel.displayName),
+        builder: (_) =>
+            CastControlsScreen(title: channel.displayName, playback: playback),
       ),
     );
     if (mounted) setState(() {});
@@ -1005,14 +987,14 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
               ),
               Expanded(
                 child: _labelledAction(
-                  CastService.instance.isConnected
+                  (RemotePlayback.active.value != null)
                       ? Icons.cast_connected_rounded
                       : Icons.cast_rounded,
-                  CastService.instance.isConnected
+                  (RemotePlayback.active.value != null)
                       ? 'Conectado'
                       : 'Transmitir',
                   () => unawaited(castToDevice()),
-                  active: CastService.instance.isConnected,
+                  active: (RemotePlayback.active.value != null),
                   enabled: true,
                 ),
               ),
@@ -1049,12 +1031,12 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
         ),
         const SizedBox(width: 8),
         _roundAction(
-          CastService.instance.isConnected
+          (RemotePlayback.active.value != null)
               ? Icons.cast_connected_rounded
               : Icons.cast_rounded,
           () => unawaited(castToDevice()),
-          label: CastService.instance.isConnected ? 'Conectado' : 'Transmitir',
-          active: CastService.instance.isConnected,
+          label: (RemotePlayback.active.value != null) ? 'Conectado' : 'Transmitir',
+          active: (RemotePlayback.active.value != null),
         ),
       ],
     );

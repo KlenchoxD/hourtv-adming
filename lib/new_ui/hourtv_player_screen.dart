@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_chrome_cast/flutter_chrome_cast.dart';
 import 'package:video_player/video_player.dart';
 import 'package:chewie/chewie.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -19,6 +18,7 @@ import '../services/embed_resolver.dart';
 import '../services/hls_variants.dart';
 import '../services/playback_progress.dart';
 import '../services/playback_source_fallback.dart';
+import '../services/remote_playback.dart';
 import '../services/sync/profile_sync_engine.dart';
 import '../services/subtitles/hourtv_subtitle_track.dart';
 import '../services/subtitles/subtitle_controller.dart';
@@ -107,17 +107,14 @@ class _PlayerScreenState extends State<PlayerScreen>
   String? _gestureLabel;
   String? _activeServerUrl;
   String? _resolvedPlaybackUrl;
+  // Cabeceras (Referer/User-Agent) que exige el video actual; tambien se
+  // usan al transmitirlo al TV.
+  Map<String, String> _playHeaders = const {};
   // Calidades del HLS maestro de la fuente actual; al elegir una se reproduce
   // esa variante (null = automática, el maestro).
   String? _hlsMasterUrl;
-  Map<String, String> _hlsHeaders = const {};
   List<HlsVariant> _hlsVariants = const [];
   int? _qualityHeight;
-  // El receptor Chromecast por defecto no puede enviar cabeceras HTTP
-  // personalizadas (Referer/User-Agent) al pedir el video: si la
-  // reproduccion actual depende de eso (paginas embed resueltas), transmitir
-  // siempre va a fallar en el televisor aunque el link sea valido aca.
-  bool _resolvedPlaybackNeedsHeaders = false;
   // Orden de mirrors a probar para el canal actual; se reconstruye en cada
   // llamada "fresca" a _init (cambio de canal, seleccion manual de servidor,
   // botón Reintentar) y se recorre sola cuando un mirror falla en caliente.
@@ -139,12 +136,9 @@ class _PlayerScreenState extends State<PlayerScreen>
   // WebView contenido en vez de dejar la pelicula sin reproducir.
   String? _embedUrl;
   WebViewController? _embedController;
-  StreamSubscription<List<GoogleCastDevice>>? _castDevicesSubscription;
-  StreamSubscription<GoogleCastSession?>? _castSessionSubscription;
-  // Solo se guarda si hay sesion activa, para pintar el boton. La lista de
-  // dispositivos y el estado de conexion los lleva el panel de transmision
-  // (`showCastSheet`), que es quien los muestra.
-  bool _castConnected = false;
+  // Solo se guarda si hay transmision activa, para pintar el boton. La lista
+  // de TVs y la conexion las lleva el panel (`showCastSheet`).
+  bool _castConnected = RemotePlayback.active.value != null;
 
   final ValueNotifier<int?> _nextEpisodeCountdown = ValueNotifier(null);
   final ValueNotifier<bool> _creditsMode = ValueNotifier(false);
@@ -604,7 +598,6 @@ class _PlayerScreenState extends State<PlayerScreen>
           // la original, porque el WebView del alias ya bloquea el salto.
           final webUrl = resolution.safeWebUrl ?? targetUrl;
           _resolvedPlaybackUrl = webUrl;
-          _resolvedPlaybackNeedsHeaders = true;
           _createEmbedController(webUrl);
           setState(() => _loading = false);
           return;
@@ -636,7 +629,8 @@ class _PlayerScreenState extends State<PlayerScreen>
         playUrl = resolved;
       }
       _resolvedPlaybackUrl = playUrl;
-      _resolvedPlaybackNeedsHeaders = playHeaders.isNotEmpty;
+      _playHeaders = playHeaders;
+      if (direct == null) _hlsMasterUrl = playUrl;
       debugPrint('[PLAYER] initialize_start');
       _vc = VideoPlayerController.networkUrl(
         Uri.parse(playUrl),
@@ -647,10 +641,6 @@ class _PlayerScreenState extends State<PlayerScreen>
       );
       await _vc!.initialize();
       debugPrint('[PLAYER] initialize_done');
-      if (direct == null) {
-        _hlsMasterUrl = playUrl;
-        _hlsHeaders = playHeaders;
-      }
       unawaited(
         _discoverSubtitles(
           ch,
@@ -1213,21 +1203,17 @@ class _PlayerScreenState extends State<PlayerScreen>
   }
 
   Future<void> _initializeCast() async {
-    final available = await CastService.instance.initialize();
-    if (!mounted || !available) return;
-    _castSessionSubscription = CastService.instance.sessionStream.listen(
-      _onCastSessionChanged,
-    );
-    setState(() => _castConnected = CastService.instance.isConnected);
-    // El descubrimiento arranca ya, para que al abrir el panel la lista este
-    // poblada en vez de tener que esperar desde cero.
-    await CastService.instance.startDiscovery();
+    RemotePlayback.active.addListener(_onCastChanged);
+    // El descubrimiento Chromecast arranca ya, para que al abrir el panel la
+    // lista este poblada en vez de tener que esperar desde cero.
+    if (await CastService.instance.initialize()) {
+      await CastService.instance.startDiscovery();
+    }
   }
 
-  void _onCastSessionChanged(GoogleCastSession? session) {
+  void _onCastChanged() {
     if (!mounted) return;
-    final connected =
-        session?.connectionState == GoogleCastConnectState.connected;
+    final connected = RemotePlayback.active.value != null;
     final disconnected = _castConnected && !connected;
     if (connected) unawaited(_vc?.pause());
     setState(() => _castConnected = connected);
@@ -1300,39 +1286,35 @@ class _PlayerScreenState extends State<PlayerScreen>
   /// Ahora siempre abre la hoja propia, que ya muestra el estado "buscando".
   Future<void> _openRealCast() async {
     final channel = widget.allChannels[_idx];
-    final streamUrl = _resolvedPlaybackUrl ?? _activeServerUrl ?? channel.url;
-
-    final blockInfo = CastService.checkStreamBlocked(
-      streamUrl: streamUrl,
-      mediaType: channel.type,
-      userAgent: channel.userAgent,
-      requiresHeaders: _resolvedPlaybackNeedsHeaders,
-      isEmbedOrWebView: _embedController != null,
-    );
-
-    final connected = await showCastSheet(
+    final playback = await showCastSheet(
       context,
       title: channel.displayName,
-      streamUrl: () => _resolvedPlaybackUrl ?? _activeServerUrl ?? channel.url,
+      // Lo mismo que se reproduce aqui (embed ya resuelto), con sus
+      // cabeceras: el panel las agrega desde el telefono si hacen falta.
+      media: () async {
+        final url = _resolvedPlaybackUrl ?? _activeServerUrl ?? channel.url;
+        return (url: url, headers: _playHeaders);
+      },
       posterUrl: channel.backdrop ?? channel.logo,
       position: () => _vc?.value.position ?? Duration.zero,
-      duration: () => _vc?.value.duration,
       mediaType: channel.type,
-      blockInfo: blockInfo,
+      blockedReason: _embedController != null
+          ? 'Este servidor solo se abre en el visor web y no se puede enviar '
+                'al TV. Cambia de servidor o usa Duplicar pantalla.'
+          : null,
     );
-    if (!mounted || !connected) return;
-    // Con la sesion activa el video local no debe seguir sonando.
+    if (!mounted || playback == null) return;
+    // Con la transmision activa el video local no debe seguir sonando.
     await _vc?.pause();
-    if (mounted) await _openCastControls();
+    if (mounted) await _openCastControls(playback);
   }
 
-  Future<void> _openCastControls() async {
-    final video = _vc;
+  Future<void> _openCastControls(RemotePlayback playback) async {
     await Navigator.of(context).push<bool>(
       MaterialPageRoute(
         builder: (_) => CastControlsScreen(
           title: widget.allChannels[_idx].displayName,
-          fallbackDuration: video?.value.duration ?? Duration.zero,
+          playback: playback,
         ),
       ),
     );
@@ -1626,7 +1608,7 @@ class _PlayerScreenState extends State<PlayerScreen>
       widget.allChannels[_idx],
       streamUrl: _activeServerUrl,
       isFallbackAttempt: true,
-      direct: (url: variant?.url ?? master, headers: _hlsHeaders),
+      direct: (url: variant?.url ?? master, headers: _playHeaders),
     );
     if (mounted) _screenFocus.requestFocus();
   }
@@ -3560,8 +3542,7 @@ class _PlayerScreenState extends State<PlayerScreen>
     _chromeTimer?.cancel();
     _gestureTimer?.cancel();
     _scrubMs.dispose();
-    _castDevicesSubscription?.cancel();
-    _castSessionSubscription?.cancel();
+    RemotePlayback.active.removeListener(_onCastChanged);
     unawaited(CastService.instance.stopDiscovery());
     _vc?.removeListener(_onVideoProgress);
     _cc?.dispose();
