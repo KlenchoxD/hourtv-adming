@@ -103640,11 +103640,8 @@
       "plot": "Versión moderna de varios cuentos de los Hermanos Grimm que entrelaza las tramas de algunas historias seleccionadas y explora las…",
       "cast": "Clara Miglioli, Julián Tello",
       "director": "Alejo Franzetti",
-      "writer": "",
       "releaseDate": "2014-01-01",
       "year": "2014",
-      "genre": "",
-      "rating": "",
       "duration": "10 min",
       "poster": "https://image.tmdb.org/t/p/w500/KVc6PYfYc9F9ZvrKiQlCrDSyd1.jpg",
       "backdrop": "https://image.tmdb.org/t/p/w780/qF938YRj7RoYkjwOsXFDNYf907J.jpg",
@@ -103657,11 +103654,9 @@
         {
           "name": "BlogdePelis",
           "url": "https://paulinito.com/player/474x9eSDECU2MhH/",
-          "language": "Español",
-          "id": "bc96b4da-87ad-4789-90ea-34b0e471d68b"
+          "language": "Español"
         }
-      ],
-      "sourceUrl": "https://blogdepelis.net/en-el-bosque.html"
+      ]
     },
     {
       "id": "m072c19398e5b",
