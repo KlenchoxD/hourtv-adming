@@ -26,7 +26,10 @@ void main() {
     expect(config.hasLevelPlay, isFalse);
   });
 
-  test('sin claves no se intenta mostrar video', () {
-    expect(AdConfig.fromJson({}).hasLevelPlay, isFalse);
+  test('sin app_config.json se usan las claves de fábrica', () {
+    final config = AdConfig.fromJson({});
+    expect(config.hasLevelPlay, isTrue);
+    expect(config.levelPlayAppKey, '2862a1335');
+    expect(config.levelPlayInterstitialId, 'k4kyfg81dmv52b4e');
   });
 }

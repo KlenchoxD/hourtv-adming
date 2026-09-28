@@ -23,9 +23,15 @@ class AdConfig {
   /// Valores de fábrica (también si el archivo remoto aún no existe).
   static const defaults = AdConfig(
     levelPlay: true,
-    levelPlayAppKey: String.fromEnvironment('LEVELPLAY_APP_KEY'),
+    // Claves de la cuenta de LevelPlay de HourTV (no son secretas: van en
+    // cualquier app que muestre sus anuncios).
+    levelPlayAppKey: String.fromEnvironment(
+      'LEVELPLAY_APP_KEY',
+      defaultValue: '2862a1335',
+    ),
     levelPlayInterstitialId: String.fromEnvironment(
       'LEVELPLAY_INTERSTITIAL_ID',
+      defaultValue: 'k4kyfg81dmv52b4e',
     ),
   );
 
