@@ -163,6 +163,8 @@ class _ResponsiveRoot extends StatelessWidget {
         builder: (context, hasChosenProfile, _) {
           if (!hasChosenProfile) {
             return HourTvCloudProfileGate(
+              accountId:
+                  SupabaseBootstrap.instance.client?.auth.currentUser?.id,
               repository: SupabaseProfileRepository(
                 client: SupabaseBootstrap.instance.client,
                 currentUserId: () =>

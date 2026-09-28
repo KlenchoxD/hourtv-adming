@@ -192,4 +192,66 @@ void main() {
       expect(StorageService.hasChosenProfile.value, isFalse);
     });
   });
+
+  group('Traer perfiles del teléfono a una cuenta nueva', () {
+    testWidgets('los sube con sus datos y no vuelve a ofrecerlo', (tester) async {
+      SharedPreferences.setMockInitialValues({});
+      await StorageService.init();
+      await StorageService.createProfile(
+        name: 'Kleiner',
+        avatarId: 'adult_2',
+        isKids: false,
+      );
+      final local = StorageService.loadProfiles().single;
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString(
+        'recent_channels.profile.${local['id']}',
+        '[{"name":"Coco","url":"https://x/movie/coco.mp4"}]',
+      );
+      await prefs.setStringList(
+        'liked_channels.profile.${local['id']}',
+        ['https://x/movie/coco.mp4'],
+      );
+
+      final repository = FakeProfileRepository.withCount(0);
+      await tester.pumpWidget(testApp(HourTvCloudProfileGate(
+        repository: repository,
+        accountId: 'owner-1',
+      )));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Trae tus perfiles'), findsOneWidget);
+      expect(find.text('Kleiner'), findsOneWidget);
+      await tester.tap(find.byKey(const Key('import_local_profiles_button')));
+      await tester.pumpAndSettle();
+
+      // Quedó en la cuenta y listo para elegir.
+      expect(repository.createCalls, 1);
+      expect(find.text('¿Quién está viendo?'), findsOneWidget);
+      expect(find.text('Kleiner'), findsOneWidget);
+      // Sus datos se copiaron al perfil de la nube (el local sigue igual).
+      expect(
+        prefs.getString('recent_channels.profile.cloud-p-0'),
+        contains('Coco'),
+      );
+      expect(
+        prefs.getStringList('liked_channels.profile.cloud-p-0'),
+        ['https://x/movie/coco.mp4'],
+      );
+      expect(
+        prefs.getString('recent_channels.profile.${local['id']}'),
+        contains('Coco'),
+      );
+
+      // Otra vez con la cuenta vacía (p. ej. borró los perfiles): ya no insiste.
+      await tester.pumpWidget(testApp(HourTvCloudProfileGate(
+        key: UniqueKey(),
+        repository: FakeProfileRepository.withCount(0),
+        accountId: 'owner-1',
+      )));
+      await tester.pumpAndSettle();
+      expect(find.text('Trae tus perfiles'), findsNothing);
+      expect(find.text('Nuevo perfil'), findsOneWidget);
+    });
+  });
 }

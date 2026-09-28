@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../models/hourtv_account_profile.dart';
 import '../services/content_store.dart';
 import '../services/migration/guest_migration_service.dart';
+import '../services/migration/local_profiles_importer.dart';
 import '../services/profiles/profile_repository.dart';
 import '../services/storage_service.dart';
 import '../services/sync/profile_sync_engine.dart';
@@ -14,7 +15,7 @@ const _bg = Color(0xFF050505);
 const _muted = Color(0xFFA6A6B0);
 const _emerald = Color(0xFF00C781);
 
-enum _CloudGateStep { list, type, avatar, name }
+enum _CloudGateStep { list, import, type, avatar, name }
 
 class HourTvCloudProfileGate extends StatefulWidget {
   const HourTvCloudProfileGate({
@@ -24,7 +25,11 @@ class HourTvCloudProfileGate extends StatefulWidget {
     this.accountId,
     this.onProfileSelected,
     this.onSignOut,
+    this.localImporter,
   });
+
+  /// Para pruebas; por defecto usa el repositorio de la cuenta.
+  final LocalProfilesImporter? localImporter;
 
   final ProfileRepository repository;
   final GuestMigrationService? migrationService;
@@ -45,6 +50,10 @@ class _HourTvCloudProfileGateState extends State<HourTvCloudProfileGate> {
   String? _avatarId;
   var _busy = false;
   final _nameController = TextEditingController();
+  late final LocalProfilesImporter _importer =
+      widget.localImporter ??
+      LocalProfilesImporter(repository: widget.repository);
+  String? _importError;
   GuestMigrationSummary? _guestSummary;
   bool _showMigrationPrompt = false;
 
@@ -70,7 +79,8 @@ class _HourTvCloudProfileGateState extends State<HourTvCloudProfileGate> {
       if (!mounted) return;
 
       final migration = widget.migrationService ?? GuestMigrationService();
-      final ownerId = widget.accountId ?? (list.isNotEmpty ? list.first.ownerId : null);
+      final ownerId =
+          widget.accountId ?? (list.isNotEmpty ? list.first.ownerId : null);
       GuestMigrationSummary? guestSummary;
       bool showMigrationPrompt = false;
 
@@ -91,32 +101,70 @@ class _HourTvCloudProfileGateState extends State<HourTvCloudProfileGate> {
         _isLoading = false;
         _guestSummary = guestSummary;
         _showMigrationPrompt = showMigrationPrompt;
-        _step = list.isEmpty ? _CloudGateStep.type : _CloudGateStep.list;
+        final accountId = widget.accountId;
+        _step = list.isNotEmpty
+            ? _CloudGateStep.list
+            : accountId != null && _importer.shouldOffer(accountId, list)
+            ? _CloudGateStep.import
+            : _CloudGateStep.type;
       });
     } catch (e) {
       if (!mounted) return;
       setState(() {
-        _errorMessage = 'No se pudieron cargar tus perfiles. Verifica tu conexión.';
+        _errorMessage =
+            'No se pudieron cargar tus perfiles. Verifica tu conexión.';
         _isLoading = false;
       });
     }
   }
 
-  void _goToType() => setState(() {
-        _isKids = false;
-        _avatarId = null;
-        _step = _CloudGateStep.type;
+  Future<void> _importLocalProfiles() async {
+    final accountId = widget.accountId;
+    if (accountId == null || _busy) return;
+    setState(() {
+      _busy = true;
+      _importError = null;
+    });
+    try {
+      final created = await _importer.importAll(accountId);
+      if (!mounted) return;
+      setState(() {
+        _profiles = created;
+        _step = _CloudGateStep.list;
       });
+    } catch (_) {
+      if (!mounted) return;
+      setState(
+        () => _importError =
+            'No se pudieron subir los perfiles. Revisa tu conexión e '
+            'inténtalo de nuevo.',
+      );
+    } finally {
+      if (mounted) setState(() => _busy = false);
+    }
+  }
+
+  Future<void> _skipImport() async {
+    final accountId = widget.accountId;
+    if (accountId != null) await _importer.dismiss(accountId);
+    if (mounted) _goToType();
+  }
+
+  void _goToType() => setState(() {
+    _isKids = false;
+    _avatarId = null;
+    _step = _CloudGateStep.type;
+  });
 
   void _pickType(bool isKids) => setState(() {
-        _isKids = isKids;
-        _step = _CloudGateStep.avatar;
-      });
+    _isKids = isKids;
+    _step = _CloudGateStep.avatar;
+  });
 
   void _pickAvatar(String avatarId) => setState(() {
-        _avatarId = avatarId;
-        _step = _CloudGateStep.name;
-      });
+    _avatarId = avatarId;
+    _step = _CloudGateStep.name;
+  });
 
   Future<void> _activateProfile(HourTvAccountProfile profile) async {
     await StorageService.setCloudProfileContext(
@@ -148,17 +196,15 @@ class _HourTvCloudProfileGateState extends State<HourTvCloudProfileGate> {
     if (name.isEmpty || avatarId == null || _busy) return;
     setState(() => _busy = true);
     try {
-      final created = await widget.repository.create(ProfileDraft(
-        name: name,
-        avatarId: avatarId,
-        isKids: _isKids,
-      ));
+      final created = await widget.repository.create(
+        ProfileDraft(name: name, avatarId: avatarId, isKids: _isKids),
+      );
       await _activateProfile(created);
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(e.toString())),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(e.toString())));
     } finally {
       if (mounted) setState(() => _busy = false);
     }
@@ -169,9 +215,7 @@ class _HourTvCloudProfileGateState extends State<HourTvCloudProfileGate> {
     if (_isLoading) {
       return const Scaffold(
         backgroundColor: _bg,
-        body: Center(
-          child: CircularProgressIndicator(color: _emerald),
-        ),
+        body: Center(child: CircularProgressIndicator(color: _emerald)),
       );
     }
 
@@ -184,7 +228,11 @@ class _HourTvCloudProfileGateState extends State<HourTvCloudProfileGate> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Icon(Icons.error_outline_rounded, color: Colors.redAccent, size: 48),
+                const Icon(
+                  Icons.error_outline_rounded,
+                  color: Colors.redAccent,
+                  size: 48,
+                ),
                 const SizedBox(height: 16),
                 Text(
                   _errorMessage!,
@@ -221,6 +269,7 @@ class _HourTvCloudProfileGateState extends State<HourTvCloudProfileGate> {
       body: SafeArea(
         child: switch (_step) {
           _CloudGateStep.list => _listStep(),
+          _CloudGateStep.import => _importStep(),
           _CloudGateStep.type => _typeStep(),
           _CloudGateStep.avatar => _avatarStep(),
           _CloudGateStep.name => _nameStep(),
@@ -229,18 +278,43 @@ class _HourTvCloudProfileGateState extends State<HourTvCloudProfileGate> {
     );
   }
 
+  Widget _importStep() => HourTvProfileStep(
+    title: 'Trae tus perfiles',
+    subtitle:
+        'Estos perfiles están en este teléfono. Súbelos a tu cuenta con sus '
+        'favoritos y "Continuar viendo".',
+    child: HourTvProfileImportChoice(
+      profiles: [
+        for (final p in _importer.localProfiles.take(
+          LocalProfilesImporter.maxCloudProfiles,
+        ))
+          (
+            name: p['name'].toString(),
+            avatarSeed: HourTvAvatarCatalog.seedFor(
+              p['avatarId']?.toString() ?? '',
+            ),
+            isKids: p['isKids'] == true,
+          ),
+      ],
+      busy: _busy,
+      error: _importError,
+      onImport: () => unawaited(_importLocalProfiles()),
+      onSkip: () => unawaited(_skipImport()),
+    ),
+  );
+
   Widget _typeStep() => HourTvProfileStep(
     title: 'Nuevo perfil',
     subtitle: '¿Para quién es este perfil?',
-    onBack: _profiles.isNotEmpty ? () => setState(() => _step = _CloudGateStep.list) : null,
+    onBack: _profiles.isNotEmpty
+        ? () => setState(() => _step = _CloudGateStep.list)
+        : null,
     child: HourTvProfileTypeChoice(onPick: _pickType),
   );
 
   Widget _avatarStep() => HourTvProfileStep(
     title: 'Elige un avatar',
-    subtitle: _isKids
-        ? 'Para el perfil infantil'
-        : 'Toca el que más te guste',
+    subtitle: _isKids ? 'Para el perfil infantil' : 'Toca el que más te guste',
     onBack: _busy ? null : _goToType,
     child: HourTvAvatarGrid(
       options: _isKids ? HourTvAvatarCatalog.kids : HourTvAvatarCatalog.adults,
@@ -278,7 +352,8 @@ class _HourTvCloudProfileGateState extends State<HourTvCloudProfileGate> {
               onDecision: (decision) async {
                 final migration =
                     widget.migrationService ?? GuestMigrationService();
-                final ownerId = widget.accountId ??
+                final ownerId =
+                    widget.accountId ??
                     (_profiles.isNotEmpty ? _profiles.first.ownerId : null);
                 if (ownerId != null) {
                   await migration.rememberDecision(ownerId, decision);
@@ -328,5 +403,4 @@ class _HourTvCloudProfileGateState extends State<HourTvCloudProfileGate> {
       ],
     );
   }
-
 }

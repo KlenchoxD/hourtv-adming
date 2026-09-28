@@ -587,3 +587,108 @@ class _AvatarCircle extends StatelessWidget {
     );
   }
 }
+
+/// Paso "Trae tus perfiles": vista previa de los perfiles del teléfono y
+/// dos opciones (subirlos o empezar de cero).
+class HourTvProfileImportChoice extends StatelessWidget {
+  const HourTvProfileImportChoice({
+    super.key,
+    required this.profiles,
+    required this.onImport,
+    required this.onSkip,
+    this.busy = false,
+    this.error,
+  });
+
+  final List<({String name, String avatarSeed, bool isKids})> profiles;
+  final VoidCallback onImport;
+  final VoidCallback onSkip;
+  final bool busy;
+  final String? error;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Wrap(
+          spacing: 16,
+          runSpacing: 18,
+          alignment: WrapAlignment.center,
+          children: [
+            for (final p in profiles)
+              SizedBox(
+                width: 96,
+                child: Column(
+                  children: [
+                    _AvatarCircle(
+                      seed: p.avatarSeed,
+                      name: p.name,
+                      radius: 40,
+                      ringColor: p.isKids ? _emerald : _line,
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      p.name,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+          ],
+        ),
+        const SizedBox(height: 28),
+        if (error != null) ...[
+          Text(
+            error!,
+            textAlign: TextAlign.center,
+            style: const TextStyle(color: Color(0xFFFF6B6B)),
+          ),
+          const SizedBox(height: 14),
+        ],
+        SizedBox(
+          width: double.infinity,
+          height: 52,
+          child: FilledButton(
+            key: const Key('import_local_profiles_button'),
+            onPressed: busy ? null : onImport,
+            style: FilledButton.styleFrom(
+              backgroundColor: _emerald,
+              foregroundColor: Colors.black,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(14),
+              ),
+            ),
+            child: busy
+                ? const SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      color: Colors.black,
+                    ),
+                  )
+                : Text(
+                    profiles.length == 1
+                        ? 'Subir este perfil'
+                        : 'Subir los ${profiles.length} perfiles',
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+          ),
+        ),
+        const SizedBox(height: 8),
+        TextButton(
+          onPressed: busy ? null : onSkip,
+          child: const Text('Empezar de cero', style: TextStyle(color: _muted)),
+        ),
+      ],
+    );
+  }
+}

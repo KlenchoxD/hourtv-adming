@@ -299,6 +299,37 @@ class StorageService {
 
   static String _profileKey(String base) => '$base.profile.$activeProfileId';
 
+  /// Copia todos los datos de un perfil (favoritos, "Me gusta", recientes,
+  /// conteos...) a otro. No pisa lo que el destino ya tenga.
+  static Future<void> copyProfileData({
+    required String fromProfileId,
+    required String toProfileId,
+  }) async {
+    final prefs = _prefs;
+    if (prefs == null || fromProfileId == toProfileId) return;
+    final suffix = '.profile.$fromProfileId';
+    for (final key in prefs.getKeys().toList()) {
+      if (!key.endsWith(suffix)) continue;
+      final target =
+          '${key.substring(0, key.length - suffix.length)}.profile.$toProfileId';
+      if (prefs.containsKey(target)) continue;
+      final value = prefs.get(key);
+      switch (value) {
+        case String v:
+          await prefs.setString(target, v);
+        case List v:
+          await prefs.setStringList(target, v.cast<String>());
+        case bool v:
+          await prefs.setBool(target, v);
+        case int v:
+          await prefs.setInt(target, v);
+        case double v:
+          await prefs.setDouble(target, v);
+      }
+    }
+    if (activeProfileId == toProfileId) _recentCache = null;
+  }
+
   static Future<void> _migrateLegacyProfileData() async {
     final settings = loadSettings();
     final profileId =

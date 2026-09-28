@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
+import 'hourtv_profile_avatars.dart';
+
 /// Avatar de perfil generado por DiceBear (dicebear.com, gratis, sin API
 /// key): el mismo nombre de perfil siempre produce el mismo dibujo, como los
 /// avatares fijos de Netflix/HBO/Prime, en vez de una simple inicial o un
@@ -34,7 +36,11 @@ class HourTvProfileAvatar extends StatelessWidget {
       child: CachedNetworkImage(
         fadeInDuration: Duration.zero,
         fadeOutDuration: Duration.zero,
-        imageUrl: profileAvatarUrl(avatarSeed ?? profileName),
+        // Acepta el id del catálogo ("m1") o la semilla: antes varias
+        // pantallas pasaban el id guardado y dibujaban otra caricatura.
+        imageUrl: profileAvatarUrl(
+          HourTvAvatarCatalog.seedFor(avatarSeed ?? profileName),
+        ),
         width: size,
         height: size,
         fit: BoxFit.cover,
