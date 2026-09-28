@@ -99,6 +99,60 @@ class LikesService {
     }
   }
 
+  static List<(String, int)>? _top;
+  static DateTime _topAt = DateTime(0);
+
+  /// Títulos con más Me gusta de todos los usuarios (clave, total), de más a
+  /// menos. Vacío si no hay conexión o la función aún no está en el servidor.
+  static Future<List<(String, int)>> topLiked({int limit = 40}) async {
+    final cached = _top;
+    if (cached != null &&
+        DateTime.now().difference(_topAt) < const Duration(minutes: 10)) {
+      return cached;
+    }
+    final client = SupabaseBootstrap.instance.client;
+    if (client == null) return const [];
+    try {
+      final rows = await client.rpc(
+        'get_top_liked',
+        params: {'p_limit': limit},
+      );
+      final top = <(String, int)>[
+        if (rows is List)
+          for (final r in rows)
+            if (r is Map && r['key'] is String)
+              (r['key'] as String, (r['likes'] as num?)?.toInt() ?? 0),
+      ];
+      _top = top;
+      _topAt = DateTime.now();
+      return top;
+    } catch (e) {
+      debugPrint('[LIKES] top ${e.runtimeType}');
+      return const [];
+    }
+  }
+
+  /// Canales de [candidates] en el orden de [top] (los que no están en el
+  /// catálogo visible, p. ej. en un perfil infantil, se omiten).
+  static List<Channel> rank(
+    List<(String, int)> top,
+    Iterable<Channel> candidates,
+  ) {
+    if (top.isEmpty) return const [];
+    final byKey = <String, Channel>{};
+    for (final channel in candidates) {
+      byKey.putIfAbsent(keyFor(channel), () => channel);
+      // Me gusta antiguos se guardaban por URL.
+      byKey.putIfAbsent(channel.url, () => channel);
+    }
+    final seen = <String>{};
+    return [
+      for (final (key, likes) in top)
+        if (likes > 0 && byKey[key] != null && seen.add(byKey[key]!.url))
+          byKey[key]!,
+    ];
+  }
+
   /// "1", "12", "1,2 mil", "3,4 M".
   static String format(int count) {
     String short(double v) {

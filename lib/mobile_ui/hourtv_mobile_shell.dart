@@ -21,6 +21,7 @@ import '../services/catalog_presentation_index.dart';
 import '../services/content_store.dart';
 import '../services/device_type.dart';
 import '../services/parental_control_service.dart';
+import '../services/likes_service.dart';
 import '../services/storage_service.dart';
 import '../services/supabase_bootstrap.dart';
 import '../services/xtream_service.dart';
@@ -319,6 +320,12 @@ class _HourTvMobileShellState extends State<HourTvMobileShell>
   }
 
   void _openSetting(BuildContext context, String label) {
+    if (label == 'Historial') {
+      // Es la pestaña Historial de Mi Biblioteca (con sus filtros).
+      HourTvMobileLibrary.openTab.value = 'Historial';
+      _setDestination(HourTvMobileDestination.library);
+      return;
+    }
     final page = switch (label) {
       'Reproducción y calidad' => const HourTvPlaybackSettingsPage(),
       'Idioma y subtítulos' => const HourTvLanguageSettingsPage(),
@@ -481,6 +488,33 @@ class _HourTvMobileHomeState extends State<HourTvMobileHome> {
   CatalogPageSource? _moviesPageSource;
   CatalogPageSource? _seriesPageSource;
   List<RecommendationItem> _recommendations = [];
+
+  // "Lo que más gusta": ranking global de Me gusta cruzado con el catálogo
+  // visible (se recalcula solo si cambia alguno de los dos).
+  List<(String, int)> _topLiked = const [];
+  Object? _mostLikedSource;
+  List<Channel> _mostLikedCache = const [];
+
+  Future<void> _loadTopLiked() async {
+    final top = await LikesService.topLiked();
+    if (mounted && top.isNotEmpty) setState(() => _topLiked = top);
+  }
+
+  List<Channel> _mostLiked(List<Channel> movies, List<Channel> series) {
+    final source = (_topLiked, movies, series);
+    final old = _mostLikedSource;
+    if (old is (List<(String, int)>, List<Channel>, List<Channel>) &&
+        identical(old.$1, source.$1) &&
+        identical(old.$2, source.$2) &&
+        identical(old.$3, source.$3)) {
+      return _mostLikedCache;
+    }
+    _mostLikedSource = source;
+    return _mostLikedCache = LikesService.rank(_topLiked, [
+      ...movies,
+      ...series,
+    ]);
+  }
   List<Channel> _cachedDriftMovies = const [];
   List<Channel> _cachedDriftSeries = const [];
   Timer? _genreWarmupTimer;
@@ -534,6 +568,7 @@ class _HourTvMobileHomeState extends State<HourTvMobileHome> {
     } else {
       _loadRecommendations();
     }
+    unawaited(_loadTopLiked());
   }
 
   Future<void> _loadRecommendations() async {
@@ -897,6 +932,7 @@ class _HourTvMobileHomeState extends State<HourTvMobileHome> {
     final genreRowsReady = widget.store.homeGenreRowsReady;
     if (!genreRowsReady) _scheduleGenreWarmup();
     final rows = <(String, List<Channel>)>[
+      ('Lo que más gusta', _mostLiked(effectiveMovies, effectiveSeries)),
       ('Películas', effectiveMovies),
       ('Series', effectiveSeries),
       if (genreRowsReady) ...[
@@ -2134,6 +2170,9 @@ class HourTvMobileLibrary extends StatefulWidget {
   final ValueChanged<Channel>? onOpenContinue;
   final CatalogRepository? catalogRepository;
 
+  /// Pestaña a mostrar al llegar desde otra pantalla (Perfil → Historial).
+  static final openTab = ValueNotifier<String?>(null);
+
   @override
   State<HourTvMobileLibrary> createState() => _HourTvMobileLibraryState();
 }
@@ -2146,6 +2185,23 @@ class _HourTvMobileLibraryState extends State<HourTvMobileLibrary> {
   @override
   void initState() {
     super.initState();
+    HourTvMobileLibrary.openTab.addListener(_applyRequestedTab);
+    _applyRequestedTab();
+    _resolveDriftItems();
+  }
+
+  @override
+  void dispose() {
+    HourTvMobileLibrary.openTab.removeListener(_applyRequestedTab);
+    super.dispose();
+  }
+
+  void _applyRequestedTab() {
+    final requested = HourTvMobileLibrary.openTab.value;
+    if (requested == null) return;
+    HourTvMobileLibrary.openTab.value = null;
+    if (!mounted || requested == tab) return;
+    setState(() => tab = requested);
     _resolveDriftItems();
   }
 
@@ -2452,6 +2508,11 @@ class HourTvMobileProfile extends StatelessWidget {
           'Cuenta',
           email ?? 'Iniciar sesión o crear cuenta',
         ),
+      (
+        Icons.history_rounded,
+        'Historial',
+        'Películas y episodios que viste',
+      ),
       (
         Icons.high_quality_outlined,
         'Reproducción y calidad',
