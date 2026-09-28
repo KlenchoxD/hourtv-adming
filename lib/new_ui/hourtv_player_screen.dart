@@ -740,7 +740,8 @@ class _PlayerScreenState extends State<PlayerScreen>
     final combinedTracks = <HourTvSubtitleTrack>[...tracks];
     setState(() => _availableSubtitles = combinedTracks);
 
-    // Repositorio hourtv-subtitles: español por TMDB id del catálogo.
+    // Repositorio hourtv-subtitles: español por TMDB id (películas) o por
+    // id de la serie en el catálogo (episodios).
     try {
       final catalogId = channel.catalogTitleId;
       final key = catalogId == null || !CatalogRepository.hasInstance
@@ -750,6 +751,7 @@ class _PlayerScreenState extends State<PlayerScreen>
           ? const <HourTvSubtitleTrack>[]
           : await _githubSubtitles.find(
               tmdbId: key.tmdbId,
+              seriesId: key.seriesId,
               season: key.season,
               episode: key.episode,
             );

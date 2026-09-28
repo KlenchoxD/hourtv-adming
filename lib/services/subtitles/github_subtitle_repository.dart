@@ -9,7 +9,7 @@ import 'hourtv_subtitle_track.dart';
 /// SubDL nunca viaja dentro de la app:
 ///
 ///   movie/<tmdb>.es.srt
-///   tv/<tmdb>/S01E02.es.srt
+///   tv/<id de la serie en el catálogo>/S01E02.es.srt
 class GithubSubtitleRepository {
   static const String defaultBaseUrl =
       'https://raw.githubusercontent.com/KlenchoxD/hourtv-subtitles/main';
@@ -26,35 +26,39 @@ class GithubSubtitleRepository {
   /// Limpia la caché en memoria (para pruebas o al cerrar sesión).
   void clearCache() => _cache.clear();
 
-  /// URL del subtítulo de una película, o de un episodio si hay [season] y
-  /// [episode].
-  String urlFor({
-    required int tmdbId,
+  /// URL del subtítulo de una película ([tmdbId]) o de un episodio
+  /// ([seriesId] del catálogo, [season] y [episode]).
+  String? urlFor({
+    int? tmdbId,
+    String? seriesId,
     int? season,
     int? episode,
     String language = 'es',
   }) {
-    if (season != null && episode != null) {
+    if (seriesId != null && season != null && episode != null) {
       final s = season.toString().padLeft(2, '0');
       final e = episode.toString().padLeft(2, '0');
-      return '$baseUrl/tv/$tmdbId/S${s}E$e.$language.srt';
+      return '$baseUrl/tv/$seriesId/S${s}E$e.$language.srt';
     }
-    return '$baseUrl/movie/$tmdbId.$language.srt';
+    return tmdbId == null ? null : '$baseUrl/movie/$tmdbId.$language.srt';
   }
 
   /// Pista en español del título, o vacío si el repositorio aún no la tiene.
   Future<List<HourTvSubtitleTrack>> find({
-    required int tmdbId,
+    int? tmdbId,
+    String? seriesId,
     int? season,
     int? episode,
     String language = 'es',
   }) async {
     final url = urlFor(
       tmdbId: tmdbId,
+      seriesId: seriesId,
       season: season,
       episode: episode,
       language: language,
     );
+    if (url == null) return const [];
     final cached = _cache[url];
     if (cached != null) return cached;
 

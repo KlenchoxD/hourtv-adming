@@ -40,13 +40,13 @@ void main() {
       expect(tracks.single.label, 'Español');
     });
 
-    test('episodio: tv/<tmdb>/S01E02.es.srt', () async {
+    test('episodio: tv/<id serie>/S01E02.es.srt', () async {
       final repo = GithubSubtitleRepository(
         baseUrl: 'https://raw.test/subs',
         client: MockClient((_) async => http.Response(srt, 200)),
       );
-      final tracks = await repo.find(tmdbId: 197067, season: 1, episode: 2);
-      expect(tracks.single.url, 'https://raw.test/subs/tv/197067/S01E02.es.srt');
+      final tracks = await repo.find(seriesId: 'abc-123', season: 1, episode: 2);
+      expect(tracks.single.url, 'https://raw.test/subs/tv/abc-123/S01E02.es.srt');
     });
 
     test('sin subtítulo (404 o HTML) no hay pista y no se vuelve a pedir', () async {
