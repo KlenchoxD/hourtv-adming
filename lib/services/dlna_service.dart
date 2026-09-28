@@ -199,19 +199,30 @@ class DlnaService {
     required String title,
     required String mimeType,
     Duration position = Duration.zero,
+    // Subtítulo .srt: se anuncia en las formas que leen Samsung (sec:),
+    // LG/Sony (res text/srt) y otros (pv:subtitleFileUri).
+    String? subtitleSrtUrl,
   }) async {
     // Algunos TV rechazan un video nuevo mientras reproducen otro.
     await _tryAv(tv, 'Stop', '');
+    final sub = subtitleSrtUrl == null ? null : _escape(subtitleSrtUrl);
     final didl =
         '<DIDL-Lite xmlns="urn:schemas-upnp-org:metadata-1-0/DIDL-Lite/" '
         'xmlns:dc="http://purl.org/dc/elements/1.1/" '
-        'xmlns:upnp="urn:schemas-upnp-org:metadata-1-0/upnp/">'
+        'xmlns:upnp="urn:schemas-upnp-org:metadata-1-0/upnp/" '
+        'xmlns:sec="http://www.sec.co.kr/" '
+        'xmlns:pv="http://www.pv.com/pvns/">'
         '<item id="0" parentID="-1" restricted="1">'
         '<dc:title>${_escape(title)}</dc:title>'
         '<upnp:class>object.item.videoItem.movie</upnp:class>'
+        '${sub == null ? '' : '<sec:CaptionInfoEx sec:type="srt">$sub</sec:CaptionInfoEx>'
+                  '<sec:CaptionInfo sec:type="srt">$sub</sec:CaptionInfo>'}'
         '<res protocolInfo="http-get:*:$mimeType:DLNA.ORG_OP=01;DLNA.ORG_CI=0;'
-        'DLNA.ORG_FLAGS=01700000000000000000000000000000">'
-        '${_escape(url)}</res></item></DIDL-Lite>';
+        'DLNA.ORG_FLAGS=01700000000000000000000000000000"'
+        '${sub == null ? '' : ' pv:subtitleFileUri="$sub" pv:subtitleFileType="srt"'}>'
+        '${_escape(url)}</res>'
+        '${sub == null ? '' : '<res protocolInfo="http-get:*:text/srt:*">$sub</res>'}'
+        '</item></DIDL-Lite>';
     await _av(
       tv,
       'SetAVTransportURI',

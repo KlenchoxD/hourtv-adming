@@ -1,13 +1,16 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_chrome_cast/flutter_chrome_cast.dart';
+import 'package:http/http.dart' as http;
 
 import '../models/channel.dart';
 import '../services/cast_proxy.dart';
 import '../services/cast_service.dart';
 import '../services/dlna_service.dart';
 import '../services/remote_playback.dart';
+import '../services/subtitles/hourtv_subtitle_track.dart';
 
 const _accent = Color(0xFF00C781);
 const _bg = Color(0xFF0B0D0C);
@@ -33,6 +36,10 @@ Future<RemotePlayback?> showCastSheet(
 
   /// Motivo conocido de antemano por el que no se puede enviar al TV.
   String? blockedReason,
+
+  /// Subtítulo (SRT/VTT) para enviar con el video y si arranca visible.
+  Future<HourTvSubtitleTrack?> Function()? subtitle,
+  bool subtitleOn = false,
 }) {
   return showModalBottomSheet<RemotePlayback>(
     context: context,
@@ -45,6 +52,8 @@ Future<RemotePlayback?> showCastSheet(
       position: position,
       mediaType: mediaType,
       blockedReason: blockedReason,
+      subtitle: subtitle,
+      subtitleOn: subtitleOn,
     ),
   );
 }
@@ -57,6 +66,8 @@ class _CastSheet extends StatefulWidget {
     this.position,
     this.mediaType,
     this.blockedReason,
+    this.subtitle,
+    this.subtitleOn = false,
   });
 
   final String title;
@@ -65,6 +76,8 @@ class _CastSheet extends StatefulWidget {
   final Duration Function()? position;
   final MediaType? mediaType;
   final String? blockedReason;
+  final Future<HourTvSubtitleTrack?> Function()? subtitle;
+  final bool subtitleOn;
 
   @override
   State<_CastSheet> createState() => _CastSheetState();
@@ -201,6 +214,8 @@ class _CastSheetState extends State<_CastSheet> {
     final url = media.headers.isNotEmpty || isHls
         ? await CastProxy.instance.urlFor(media.url, media.headers)
         : media.url;
+    // Después de urlFor: una transmisión nueva descarta el subtítulo anterior.
+    final subs = await _publishSubtitle();
     await CastService.instance.connectAndLoad(
       device: device,
       url: url,
@@ -208,8 +223,32 @@ class _CastSheetState extends State<_CastSheet> {
       posterUrl: widget.posterUrl,
       position: position,
       mediaType: widget.mediaType,
+      subtitleUrl: subs?.vtt,
+      subtitleOn: widget.subtitleOn,
     );
-    return GoogleCastPlayback();
+    final playback = GoogleCastPlayback(hasSubtitles: subs != null);
+    if (subs != null && widget.subtitleOn) {
+      unawaited(playback.showSubtitlesWhenReady());
+    }
+    return playback;
+  }
+
+  /// Baja el subtítulo del título y lo sirve desde el teléfono (el TV no
+  /// puede leer directo un .srt de GitHub: Chromecast exige WebVTT).
+  Future<({String vtt, String srt})?> _publishSubtitle() async {
+    try {
+      final url = (await widget.subtitle?.call())?.url;
+      if (url == null) return null;
+      final res = await http
+          .get(Uri.parse(url))
+          .timeout(const Duration(seconds: 8));
+      if (res.statusCode != 200) return null;
+      final text = utf8.decode(res.bodyBytes, allowMalformed: true);
+      if (!text.contains('-->')) return null;
+      return CastProxy.instance.subtitleUrls(text);
+    } catch (_) {
+      return null; // sin subtítulo, el video se envía igual
+    }
   }
 
   Future<RemotePlayback> _castDlna(
@@ -223,14 +262,23 @@ class _CastSheetState extends State<_CastSheet> {
     final mime =
         CastService.contentTypeFor(media.url, mediaType: widget.mediaType) ??
         'video/mp4';
-    await DlnaService.instance.load(
+    final subs = await _publishSubtitle();
+    final live = widget.mediaType == MediaType.live;
+    Future<void> load(bool withSubtitle, Duration at) =>
+        DlnaService.instance.load(
+          tv,
+          url: url,
+          title: widget.title,
+          mimeType: mime,
+          position: live ? Duration.zero : at,
+          subtitleSrtUrl: withSubtitle ? subs?.srt : null,
+        );
+    await load(widget.subtitleOn, position);
+    return DlnaPlayback(
       tv,
-      url: url,
-      title: widget.title,
-      mimeType: mime,
-      position: widget.mediaType == MediaType.live ? Duration.zero : position,
+      reload: subs == null ? null : load,
+      subtitlesOn: subs != null && widget.subtitleOn,
     );
-    return DlnaPlayback(tv);
   }
 
   void _fail(String message) {

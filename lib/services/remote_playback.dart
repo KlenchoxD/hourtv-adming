@@ -21,6 +21,11 @@ abstract class RemotePlayback extends ChangeNotifier {
   /// 0..1; null si el TV no deja controlar el volumen.
   double? get volume;
 
+  /// Si se envió un subtítulo con el video (se puede mostrar u ocultar).
+  bool get hasSubtitles => false;
+  bool get subtitlesOn => false;
+  Future<void> setSubtitles(bool on) async {}
+
   Future<void> togglePlay();
   Future<void> seek(Duration position);
   Future<void> setVolume(double value);
@@ -37,7 +42,7 @@ abstract class RemotePlayback extends ChangeNotifier {
 }
 
 class GoogleCastPlayback extends RemotePlayback {
-  GoogleCastPlayback() {
+  GoogleCastPlayback({this.hasSubtitles = false}) {
     final sessions = GoogleCastSessionManager.instance;
     final media = GoogleCastRemoteMediaClient.instance;
     _session = sessions.currentSession;
@@ -65,6 +70,8 @@ class GoogleCastPlayback extends RemotePlayback {
   }
 
   late final List<StreamSubscription<Object?>> _subs;
+  @override
+  final bool hasSubtitles;
   GoogleCastSession? _session;
   GoggleCastMediaStatus? _status;
   Duration _position = Duration.zero;
@@ -113,6 +120,41 @@ class GoogleCastPlayback extends RemotePlayback {
   Future<void> setVolume(double value) async =>
       GoogleCastSessionManager.instance.setDeviceVolume(value);
 
+  // Con HLS el TV numera él mismo la pista (la lee de la lista); con MP4
+  // es la que se envió.
+  int get _textTrackId =>
+      _status?.mediaInformation?.tracks
+          ?.where((t) => t.type == TrackType.text)
+          .firstOrNull
+          ?.trackId ??
+      CastService.subtitleTrackId;
+
+  @override
+  bool get subtitlesOn =>
+      _status?.activeTrackIds?.contains(_textTrackId) ?? false;
+
+  @override
+  Future<void> setSubtitles(bool on) =>
+      GoogleCastRemoteMediaClient.instance.setActiveTrackIDs(
+        on ? [_textTrackId] : const [],
+      );
+
+  /// Activa los subtítulos en cuanto el TV termina de leer sus pistas.
+  Future<void> showSubtitlesWhenReady() async {
+    for (var i = 0; i < 25 && !_disposed; i++) {
+      final ready =
+          _status?.mediaInformation?.tracks?.any(
+            (t) => t.type == TrackType.text,
+          ) ??
+          false;
+      if (ready) {
+        await setSubtitles(true);
+        return;
+      }
+      await Future<void>.delayed(const Duration(milliseconds: 400));
+    }
+  }
+
   @override
   Future<void> stop() => GoogleCastRemoteMediaClient.instance.stop();
 
@@ -136,7 +178,10 @@ class GoogleCastPlayback extends RemotePlayback {
 }
 
 class DlnaPlayback extends RemotePlayback {
-  DlnaPlayback(this.renderer) {
+  /// [reload] vuelve a enviar el video con o sin subtítulo desde una
+  /// posición: DLNA no permite cambiarlos sin recargar.
+  DlnaPlayback(this.renderer, {this.reload, bool subtitlesOn = false})
+    : _subtitlesOn = subtitlesOn {
     _timer = Timer.periodic(const Duration(seconds: 1), (_) => _poll());
     unawaited(
       DlnaService.instance.volume(renderer).then((v) {
@@ -148,6 +193,8 @@ class DlnaPlayback extends RemotePlayback {
   }
 
   final DlnaRenderer renderer;
+  final Future<void> Function(bool subtitles, Duration position)? reload;
+  bool _subtitlesOn;
   late final Timer _timer;
   String _state = 'TRANSITIONING';
   Duration _position = Duration.zero;
@@ -219,6 +266,22 @@ class DlnaPlayback extends RemotePlayback {
     _volume = value;
     notifyListeners();
     await DlnaService.instance.setVolume(renderer, (value * 100).round());
+  }
+
+  @override
+  bool get hasSubtitles => reload != null;
+
+  @override
+  bool get subtitlesOn => _subtitlesOn;
+
+  @override
+  Future<void> setSubtitles(bool on) async {
+    final reload = this.reload;
+    if (reload == null || on == _subtitlesOn) return;
+    await reload(on, _position);
+    if (_disposed) return;
+    _subtitlesOn = on;
+    notifyListeners();
   }
 
   @override

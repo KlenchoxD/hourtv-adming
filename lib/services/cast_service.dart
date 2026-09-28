@@ -52,6 +52,9 @@ class CastService {
 
   static final CastService instance = CastService._();
   static const String defaultReceiverAppId = 'CC1AD845';
+
+  /// Id de la pista de subtítulos que se envía a Chromecast.
+  static const int subtitleTrackId = 1;
   static const MethodChannel _platform = MethodChannel('hourtv/device');
 
   bool _initializationAttempted = false;
@@ -112,6 +115,9 @@ class CastService {
     Duration position = Duration.zero,
     Duration? duration,
     MediaType? mediaType,
+    // Subtítulo en WebVTT (Chromecast no lee SRT) y si arranca visible.
+    String? subtitleUrl,
+    bool subtitleOn = false,
   }) async {
     if (!_available) throw StateError('Google Cast no está disponible.');
     final uri = Uri.parse(url);
@@ -156,11 +162,34 @@ class CastService {
         title: title,
         images: images.isEmpty ? null : images,
       ),
+      // HLS: el subtítulo va declarado dentro de la lista (CastProxy); el
+      // reproductor HLS de Chromecast falla con una pista suelta.
+      tracks: subtitleUrl == null || contentType == 'application/x-mpegURL'
+          ? null
+          : [
+              GoogleCastMediaTrack(
+                trackId: subtitleTrackId,
+                type: TrackType.text,
+                subtype: TextTrackType.subtitles,
+                trackContentId: subtitleUrl,
+                trackContentType: 'text/vtt',
+                name: 'Español',
+                language: Rfc5646Language.spanish,
+              ),
+            ],
     );
     await GoogleCastRemoteMediaClient.instance.loadMedia(
       media,
       autoPlay: true,
       playPosition: position,
+      // En HLS se activan después (GoogleCastPlayback), cuando el TV ya
+      // leyó la pista de la lista.
+      activeTrackIds:
+          subtitleUrl != null &&
+              subtitleOn &&
+              contentType != 'application/x-mpegURL'
+          ? const [subtitleTrackId]
+          : null,
     );
 
     // `loadMedia` solo confirma que el comando salió, no que el receptor
@@ -171,6 +200,10 @@ class CastService {
     try {
       await GoogleCastRemoteMediaClient.instance.mediaStatusStream
           .firstWhere((status) {
+            // Solo cuenta el estado de ESTE video: el receptor puede
+            // informar primero un error del intento anterior (o uno de paso
+            // mientras carga) y el TV terminaba reproduciendo igual.
+            if (status?.mediaInformation?.contentId != url) return false;
             final state = status?.playerState;
             if (state == CastMediaPlayerState.playing ||
                 state == CastMediaPlayerState.buffering ||

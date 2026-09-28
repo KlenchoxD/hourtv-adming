@@ -13,7 +13,6 @@ import '../services/archive_service.dart';
 import '../services/stalker_service.dart';
 import '../services/device_type.dart';
 import '../services/cast_service.dart';
-import '../services/catalog/catalog_repository.dart';
 import '../services/content_store.dart';
 import '../services/embed_resolver.dart';
 import '../services/hls_variants.dart';
@@ -743,22 +742,7 @@ class _PlayerScreenState extends State<PlayerScreen>
     // Repositorio hourtv-subtitles: español por TMDB id (películas) o por
     // id de la serie en el catálogo (episodios).
     try {
-      final key = await _subtitleKey(channel);
-      if (key == null) {
-        debugPrint(
-          '[SUBTITLES_GH] sin clave: tvg=${channel.tvgId} '
-          'catalog=${channel.catalogTitleId} tmdb=${channel.tmdbId} '
-          'drift=${CatalogRepository.hasInstance}',
-        );
-      }
-      final ghTracks = key == null
-          ? const <HourTvSubtitleTrack>[]
-          : await _githubSubtitles.find(
-              tmdbId: key.tmdbId,
-              seriesId: key.seriesId,
-              season: key.season,
-              episode: key.episode,
-            );
+      final ghTracks = await _githubSubtitles.findFor(channel);
 
       if (mounted &&
           generation == _subtitleDiscoveryGeneration &&
@@ -897,45 +881,6 @@ class _PlayerScreenState extends State<PlayerScreen>
       }
     } catch (_) {}
     return 'es';
-  }
-
-  /// Clave del repositorio de subtítulos: el TMDB id que trae el catálogo
-  /// JSON (episodios: el de la serie + "…:temporada:episodio" del tvgId) o,
-  /// si no, la ficha del catálogo local.
-  static Future<({int? tmdbId, String? seriesId, int? season, int? episode})?>
-  _subtitleKey(Channel channel) async {
-    // "Continuar viendo" guardado antes de existir tmdbId: se toma del mismo
-    // título en el catálogo cargado.
-    final tvgId = channel.tvgId;
-    final tmdb =
-        channel.tmdbId ??
-        (tvgId == null
-            ? null
-            : [
-                ...ContentStore.instance.all,
-                for (final s in ContentStore.instance.series) ...?s.episodes,
-              ].where((c) => c.tvgId == tvgId).firstOrNull?.tmdbId);
-    if (tmdb != null) {
-      if (channel.type != MediaType.series) {
-        return (tmdbId: tmdb, seriesId: null, season: null, episode: null);
-      }
-      final parts = (channel.tvgId ?? '').split(':');
-      final season = parts.length >= 3
-          ? int.tryParse(parts[parts.length - 2])
-          : null;
-      final episode = parts.length >= 3 ? int.tryParse(parts.last) : null;
-      if (season != null && episode != null) {
-        return (
-          tmdbId: null,
-          seriesId: '$tmdb',
-          season: season,
-          episode: episode,
-        );
-      }
-    }
-    final catalogId = channel.stableTitleId;
-    if (catalogId == null || !CatalogRepository.hasInstance) return null;
-    return CatalogRepository.instance.dao.subtitleKeyFor(catalogId);
   }
 
   static int? _extractSeason(String name) {
@@ -1393,6 +1338,17 @@ class _PlayerScreenState extends State<PlayerScreen>
           ? 'Este servidor solo se abre en el visor web y no se puede enviar '
                 'al TV. Cambia de servidor o usa Duplicar pantalla.'
           : null,
+      // El subtítulo que se ve aquí (o el primero descargable) va al TV,
+      // visible si aquí estaba activado.
+      subtitle: () async {
+        bool castable(HourTvSubtitleTrack t) =>
+            t.url != null &&
+            !t.isHlsMediaPlaylist &&
+            (t.format == SubtitleFormat.srt || t.format == SubtitleFormat.vtt);
+        if (castable(_selectedSubtitle)) return _selectedSubtitle;
+        return _availableSubtitles.where(castable).firstOrNull;
+      },
+      subtitleOn: _selectedSubtitle.id != 'off',
     );
     if (!mounted || playback == null) return;
     // Con la transmision activa el video local no debe seguir sonando.

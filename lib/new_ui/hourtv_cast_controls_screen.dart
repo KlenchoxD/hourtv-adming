@@ -245,6 +245,29 @@ class _CastControlsScreenState extends State<CastControlsScreen> {
                           ],
                         ),
                       ],
+                      if (_p.hasSubtitles) ...[
+                        const SizedBox(height: 14),
+                        SwitchListTile(
+                          value: _p.subtitlesOn,
+                          activeThumbColor: _red,
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                          ),
+                          secondary: const Icon(
+                            Icons.closed_caption_rounded,
+                            color: Colors.white,
+                          ),
+                          title: const Text(
+                            'Subtítulos en español',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          onChanged: (on) =>
+                              unawaited(_run(() => _p.setSubtitles(on))),
+                        ),
+                      ],
                       const SizedBox(height: 12),
                       OutlinedButton.icon(
                         style: OutlinedButton.styleFrom(

@@ -9,6 +9,7 @@ import '../models/channel.dart';
 import '../services/catalog/catalog_detail_navigator.dart';
 import '../services/cast_service.dart';
 import '../services/remote_playback.dart';
+import '../services/subtitles/github_subtitle_repository.dart';
 import '../services/catalog/hero_tag_helper.dart';
 import '../services/content_store.dart';
 import '../services/device_type.dart';
@@ -281,6 +282,13 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
       media: () => CastService.resolveMedia(channel),
       posterUrl: channel.backdrop ?? channel.logo,
       mediaType: channel.type,
+      subtitle: () async =>
+          (await GithubSubtitleRepository().findFor(channel)).firstOrNull,
+      // Como en el reproductor: visibles de entrada solo si se eligió
+      // "Siempre en español" (el idioma del audio aún no se conoce).
+      subtitleOn: const {'always', 'manual'}.contains(
+        StorageService.getSetting('preferredSubtitleMode', defaultValue: 'auto'),
+      ),
     );
     if (!mounted || playback == null) return;
     await Navigator.of(context).push<bool>(
