@@ -22,158 +22,59 @@ void main() {
   });
 
   group('GithubSubtitleRepository', () {
-    test('devuelve lista vacía si el repositorio no está configurado o está deshabilitado', () async {
-      final repoDisabled = GithubSubtitleRepository(
-        baseUrl: 'https://raw.githubusercontent.com/example/subs/main',
-        enabled: false,
-      );
-      final tracksDisabled = await repoDisabled.searchSubtitles(title: 'Inception');
-      expect(tracksDisabled, isEmpty);
+    const srt = '1\n00:00:01,000 --> 00:00:04,000\nHola\n';
 
-      final repoNoUrl = GithubSubtitleRepository(
-        baseUrl: '',
-        enabled: true,
+    test('película: movie/<tmdb>.es.srt', () async {
+      final requested = <String>[];
+      final repo = GithubSubtitleRepository(
+        baseUrl: 'https://raw.test/subs',
+        client: MockClient((req) async {
+          requested.add(req.url.toString());
+          return http.Response(srt, 200);
+        }),
       );
-      final tracksNoUrl = await repoNoUrl.searchSubtitles(title: 'Inception');
-      expect(tracksNoUrl, isEmpty);
+      final tracks = await repo.find(tmdbId: 808);
+      expect(requested, ['https://raw.test/subs/movie/808.es.srt']);
+      expect(tracks.single.format, SubtitleFormat.srt);
+      expect(tracks.single.languageCode, 'es');
+      expect(tracks.single.label, 'Español');
     });
 
-    test('búsqueda por película con respuesta SRT válida', () async {
-      const validSrt = '''1
-00:01:20,000 --> 00:01:23,000
-Hola mundo desde subtítulo.
-''';
-
-      final mockClient = MockClient((request) async {
-        if (request.url.path.contains('inception') && request.url.path.endsWith('.srt')) {
-          return http.Response(validSrt, 200, headers: {'content-type': 'text/plain'});
-        }
-        return http.Response('Not found', 404);
-      });
-
+    test('episodio: tv/<tmdb>/S01E02.es.srt', () async {
       final repo = GithubSubtitleRepository(
-        baseUrl: 'https://raw.githubusercontent.com/example/subs/main',
-        enabled: true,
-        client: mockClient,
+        baseUrl: 'https://raw.test/subs',
+        client: MockClient((_) async => http.Response(srt, 200)),
       );
-
-      final tracks = await repo.searchSubtitles(
-        title: 'Inception',
-        year: '2010',
-        language: 'es',
-      );
-
-      expect(tracks, isNotEmpty);
-      expect(tracks.first.format, SubtitleFormat.srt);
-      expect(tracks.first.languageCode, 'es');
-      expect(tracks.first.label, contains('Español (GitHub)'));
-      expect(tracks.first.url, contains('inception'));
+      final tracks = await repo.find(tmdbId: 197067, season: 1, episode: 2);
+      expect(tracks.single.url, 'https://raw.test/subs/tv/197067/S01E02.es.srt');
     });
 
-    test('búsqueda por serie, temporada y episodio con respuesta VTT válida', () async {
-      const validVtt = '''WEBVTT
-
-00:00:05.000 --> 00:00:08.000
-Breaking Bad temporada 1 episodio 1.
-''';
-
-      final mockClient = MockClient((request) async {
-        if (request.url.path.contains('breaking-bad') && request.url.path.contains('S01E01')) {
-          return http.Response(validVtt, 200, headers: {'content-type': 'text/vtt'});
-        }
-        return http.Response('Not found', 404);
-      });
-
+    test('sin subtítulo (404 o HTML) no hay pista y no se vuelve a pedir', () async {
+      var calls = 0;
       final repo = GithubSubtitleRepository(
-        baseUrl: 'https://raw.githubusercontent.com/example/subs/main',
-        enabled: true,
-        client: mockClient,
+        client: MockClient((_) async {
+          calls++;
+          return http.Response('404: Not Found', 404);
+        }),
       );
+      expect(await repo.find(tmdbId: 1), isEmpty);
+      expect(await repo.find(tmdbId: 1), isEmpty);
+      expect(calls, 1);
 
-      final tracks = await repo.searchSubtitles(
-        title: 'Breaking Bad',
-        season: 1,
-        episode: 1,
-        language: 'es',
+      final html = GithubSubtitleRepository(
+        client: MockClient((_) async => http.Response('<html>x</html>', 200)),
       );
-
-      expect(tracks, isNotEmpty);
-      expect(tracks.first.format, SubtitleFormat.vtt);
-      expect(tracks.first.url, contains('S01E01'));
+      expect(await html.find(tmdbId: 2), isEmpty);
     });
 
-    test('rechaza respuestas HTML o páginas de error 404/bloqueo de GitHub', () async {
-      const htmlError = '''<!DOCTYPE html>
-<html>
-<head><title>404 Not Found</title></head>
-<body><h1>File not found</h1></body>
-</html>
-''';
-
-      final mockClient = MockClient((request) async {
-        return http.Response(htmlError, 200, headers: {'content-type': 'text/html'});
-      });
-
+    test('timeout no lanza excepción', () async {
       final repo = GithubSubtitleRepository(
-        baseUrl: 'https://raw.githubusercontent.com/example/subs/main',
-        enabled: true,
-        client: mockClient,
+        client: MockClient((_) async {
+          await Future<void>.delayed(const Duration(seconds: 6));
+          return http.Response(srt, 200);
+        }),
       );
-
-      final tracks = await repo.searchSubtitles(title: 'Unknown Title');
-      expect(tracks, isEmpty);
-    });
-
-    test('maneja timeout sin lanzar excepción', () async {
-      final mockClient = MockClient((request) async {
-        await Future<void>.delayed(const Duration(milliseconds: 200));
-        return http.Response('content', 200);
-      });
-
-      final repo = GithubSubtitleRepository(
-        baseUrl: 'https://raw.githubusercontent.com/example/subs/main',
-        enabled: true,
-        client: mockClient,
-      );
-
-      // Usando un client que simule TimeoutException
-      final timeoutClient = MockClient((request) async {
-        throw TimeoutException('Request timed out');
-      });
-
-      final tracks = await repo.searchSubtitles(
-        title: 'Slow Movie',
-        httpClient: timeoutClient,
-      );
-      expect(tracks, isEmpty);
-    });
-
-    test('mantiene caché en memoria de consultas previas', () async {
-      var callCount = 0;
-      const validSrt = '''1
-00:00:10,000 --> 00:00:15,000
-Prueba de caché.
-''';
-
-      final mockClient = MockClient((request) async {
-        callCount++;
-        return http.Response(validSrt, 200);
-      });
-
-      final repo = GithubSubtitleRepository(
-        baseUrl: 'https://raw.githubusercontent.com/example/subs/main',
-        enabled: true,
-        client: mockClient,
-      );
-
-      final tracks1 = await repo.searchSubtitles(title: 'Cached Movie', year: '2022');
-      expect(tracks1, isNotEmpty);
-      expect(callCount, greaterThan(0));
-
-      final prevCount = callCount;
-      final tracks2 = await repo.searchSubtitles(title: 'Cached Movie', year: '2022');
-      expect(tracks2, isNotEmpty);
-      expect(callCount, equals(prevCount)); // No volvió a llamar por la red
+      expect(await repo.find(tmdbId: 3), isEmpty);
     });
 
     test('deduplicación con pistas HLS existentes', () {

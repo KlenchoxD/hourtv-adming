@@ -13,6 +13,7 @@ import '../services/archive_service.dart';
 import '../services/stalker_service.dart';
 import '../services/device_type.dart';
 import '../services/cast_service.dart';
+import '../services/catalog/catalog_repository.dart';
 import '../services/content_store.dart';
 import '../services/embed_resolver.dart';
 import '../services/hls_variants.dart';
@@ -739,18 +740,19 @@ class _PlayerScreenState extends State<PlayerScreen>
     final combinedTracks = <HourTvSubtitleTrack>[...tracks];
     setState(() => _availableSubtitles = combinedTracks);
 
-    // Consulta en segundo plano al repositorio GitHub
+    // Repositorio hourtv-subtitles: español por TMDB id del catálogo.
     try {
-      final season = _extractSeason(channel.name);
-      final episode = _extractEpisode(channel.name);
-      final cleanTitle = _extractCleanTitle(channel.name);
-
-      final ghTracks = await _githubSubtitles.searchSubtitles(
-        title: cleanTitle.isNotEmpty ? cleanTitle : channel.displayName,
-        year: channel.year,
-        season: season,
-        episode: episode,
-      );
+      final catalogId = channel.catalogTitleId;
+      final key = catalogId == null || !CatalogRepository.hasInstance
+          ? null
+          : await CatalogRepository.instance.dao.subtitleKeyFor(catalogId);
+      final ghTracks = key == null
+          ? const <HourTvSubtitleTrack>[]
+          : await _githubSubtitles.find(
+              tmdbId: key.tmdbId,
+              season: key.season,
+              episode: key.episode,
+            );
 
       if (mounted &&
           generation == _subtitleDiscoveryGeneration &&
@@ -840,11 +842,50 @@ class _PlayerScreenState extends State<PlayerScreen>
       'preferredSubtitleLanguage',
       defaultValue: 'es',
     ).toString();
+    // Subtítulos en el mismo idioma que el audio (película doblada al
+    // latino) solo estorban: ahí quedan disponibles en el menú, apagados.
+    if (await _audioLanguage(channel, controller) == preferred) return;
     final automatic = SubtitleController.resolveAutomaticTrack(
       tracks: combinedTracks,
       profileLanguage: preferred,
     );
     if (automatic.id != 'off') await _applySubtitleTrack(automatic);
+  }
+
+  /// Idioma del audio ('es', 'en'...) según el servidor o las pistas del
+  /// video. Casi todas las fuentes vienen sin idioma: si no se sabe, se
+  /// asume español (el catálogo es mayormente doblado).
+  Future<String> _audioLanguage(
+    Channel channel,
+    VideoPlayerController controller,
+  ) async {
+    final server = channel.servers
+        .where((s) => s.url == _activeServerUrl)
+        .firstOrNull;
+    final label = (server?.language ?? '').toLowerCase();
+    if (label.contains('sub') || label.startsWith('en') || label.contains('ingl')) {
+      return 'en';
+    }
+    if (label.startsWith('es') ||
+        label.contains('espa') ||
+        label.contains('latin') ||
+        label.contains('castell')) {
+      return 'es';
+    }
+    try {
+      if (controller.isAudioTrackSupportAvailable()) {
+        final languages = [
+          for (final t in await controller.getAudioTracks())
+            (t.language ?? '').toLowerCase(),
+        ];
+        if (languages.any((l) => l.startsWith('es') || l.startsWith('spa'))) {
+          return 'es';
+        }
+        final known = languages.where((l) => l.isNotEmpty && l != 'und');
+        if (known.isNotEmpty) return known.first.substring(0, 2);
+      }
+    } catch (_) {}
+    return 'es';
   }
 
   static int? _extractSeason(String name) {

@@ -112,6 +112,33 @@ class CatalogDao extends DatabaseAccessor<CatalogDatabase> with _$CatalogDaoMixi
         .getSingleOrNull();
   }
 
+  /// TMDB id de una película o serie, con temporada y episodio si [id] es un
+  /// episodio. Es la clave del repositorio de subtítulos.
+  Future<({int tmdbId, int? season, int? episode})?> subtitleKeyFor(
+    String id,
+  ) async {
+    final title = await getTitleById(id);
+    if (title != null) {
+      final tmdb = title.tmdbId;
+      return tmdb == null ? null : (tmdbId: tmdb, season: null, episode: null);
+    }
+    final ep = await (select(
+      localEpisodes,
+    )..where((e) => e.id.equals(id))).getSingleOrNull();
+    if (ep == null) return null;
+    final season = await (select(
+      localSeasons,
+    )..where((s) => s.id.equals(ep.seasonId))).getSingleOrNull();
+    if (season == null) return null;
+    final tmdb = (await getTitleById(season.titleId))?.tmdbId;
+    if (tmdb == null) return null;
+    return (
+      tmdbId: tmdb,
+      season: season.seasonNumber,
+      episode: ep.episodeNumber,
+    );
+  }
+
   Future<List<LocalTitle>> getTitlesByIds(List<String> ids) {
     if (ids.isEmpty) return Future.value([]);
     return (select(localTitles)..where((t) => t.id.isIn(ids) & t.isDeleted.equals(false)))
