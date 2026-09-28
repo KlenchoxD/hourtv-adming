@@ -843,14 +843,19 @@ class _PlayerScreenState extends State<PlayerScreen>
       'preferredSubtitleMode',
       defaultValue: 'auto',
     ).toString();
-    if (mode != 'auto' || combinedTracks.isEmpty) return;
+    // 'auto': solo si el audio no es del idioma preferido; 'always' (o
+    // 'manual', elegido en el menú): siempre que haya; 'off': nunca.
+    if (mode == 'off' || combinedTracks.isEmpty) return;
     final preferred = StorageService.getSetting(
       'preferredSubtitleLanguage',
       defaultValue: 'es',
     ).toString();
     // Subtítulos en el mismo idioma que el audio (película doblada al
     // latino) solo estorban: ahí quedan disponibles en el menú, apagados.
-    if (await _audioLanguage(channel, controller) == preferred) return;
+    if (mode == 'auto' &&
+        await _audioLanguage(channel, controller) == preferred) {
+      return;
+    }
     final automatic = SubtitleController.resolveAutomaticTrack(
       tracks: combinedTracks,
       profileLanguage: preferred,

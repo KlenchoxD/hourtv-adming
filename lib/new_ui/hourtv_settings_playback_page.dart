@@ -15,6 +15,19 @@ class _HourTvPlaybackSettingsPageState
     extends State<HourTvPlaybackSettingsPage> {
   late bool autoPlay;
   late bool forceLandscape;
+  late String subtitleMode;
+
+  // Mismos valores que guarda el menú de subtítulos del reproductor
+  // ('manual' = eligió un idioma ahí; se trata como "siempre").
+  static const _subtitleModes = <(String, String, String)>[
+    (
+      'auto',
+      'Automático',
+      'Solo cuando el audio no está en español',
+    ),
+    ('always', 'Siempre en español', 'Si la película o episodio los tiene'),
+    ('off', 'Desactivados', 'Puedes activarlos en el reproductor'),
+  ];
 
   @override
   void initState() {
@@ -24,6 +37,11 @@ class _HourTvPlaybackSettingsPageState
     forceLandscape =
         StorageService.getSetting('forceLandscape', defaultValue: false) ==
         true;
+    final mode = StorageService.getSetting(
+      'preferredSubtitleMode',
+      defaultValue: 'auto',
+    ).toString();
+    subtitleMode = mode == 'manual' ? 'always' : mode;
   }
 
   @override
@@ -52,6 +70,20 @@ class _HourTvPlaybackSettingsPageState
             StorageService.saveSetting('forceLandscape', value);
           },
         ),
+        const SettingsSectionLabel('Mostrar subtítulos'),
+        for (final (value, title, subtitle) in _subtitleModes)
+          SettingsRadioRow(
+            title: title,
+            subtitle: subtitle,
+            selected: subtitleMode == value,
+            onTap: () {
+              setState(() => subtitleMode = value);
+              StorageService.saveSetting('preferredSubtitleMode', value);
+              if (value == 'always') {
+                StorageService.saveSetting('preferredSubtitleLanguage', 'es');
+              }
+            },
+          ),
         const SettingsSectionLabel('Servidor y calidad'),
         const SettingsInfoRow(
           icon: Icons.dns_rounded,
