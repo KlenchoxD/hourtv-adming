@@ -234,7 +234,7 @@ class StorageService {
       if (profiles.isNotEmpty) {
         await _activateProfileRecord(profiles.first);
       } else {
-        hasChosenProfile.value = false;
+        await clearChosenProfile();
       }
     }
     return true;
@@ -272,6 +272,9 @@ class StorageService {
     settings.remove(_activeProfileIdKey);
     settings.remove('activeProfileAvatarId');
     settings.remove('activeProfileIsKids');
+    // Persistido, no solo en memoria: si no, tras reiniciar la app se
+    // volvía a entrar sin pasar por "¿Quién está viendo?" y sin perfil.
+    settings[_hasChosenProfileKey] = false;
     hasChosenProfile.value = false;
     await _prefs?.setString(_settingsKey, jsonEncode(settings));
   }

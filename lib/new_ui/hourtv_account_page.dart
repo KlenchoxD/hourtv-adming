@@ -49,11 +49,14 @@ Future<void> _backToAuth(BuildContext context) async {
 }
 
 Future<void> _signOut(BuildContext context, AuthController controller) async {
+  // Se toma el navegador antes: al cerrar la sesión esta pantalla se
+  // reconstruye (pasa a "sin cuenta") y su context deja de servir.
+  final navigator = Navigator.of(context, rootNavigator: true);
   await ProfileSyncEngine.instance?.flush();
   await controller.signOut();
   await StorageService.clearCloudProfileContext();
   ContentStore.instance.refreshProfileData();
-  if (context.mounted) await _backToAuth(context);
+  navigator.popUntil((r) => r.isFirst);
 }
 
 class _SignedIn extends StatelessWidget {

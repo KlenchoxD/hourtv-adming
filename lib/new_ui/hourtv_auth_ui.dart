@@ -72,13 +72,15 @@ class HourTvAuthHero extends StatelessWidget {
                 angle: -0.14,
                 child: Opacity(
                   opacity: .5,
+                  // Más ancho que cualquier pantalla (tablet, TV): tras girarlo
+                  // no deben verse bordes vacíos.
                   child: SizedBox(
-                    width: 640,
+                    width: 1400,
                     child: Wrap(
                       spacing: 10,
                       runSpacing: 10,
                       children: [
-                        for (var i = 0; i < 18; i++)
+                        for (var i = 0; i < 44; i++)
                           ClipRRect(
                             borderRadius: BorderRadius.circular(10),
                             child: Image.asset(

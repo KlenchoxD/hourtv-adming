@@ -43,14 +43,16 @@ class _HourTvNewPasswordPageState extends State<HourTvNewPasswordPage> {
         return Scaffold(
           backgroundColor: hourTvAuthBg,
           body: SingleChildScrollView(
-            child: Center(
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 440),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    const HourTvAuthHero(height: 220, tagline: null),
-                    Padding(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                // El muro de pósters va de borde a borde; el formulario
+                // sí se limita a un ancho cómodo.
+                const HourTvAuthHero(height: 220, tagline: null),
+                Center(
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 440),
+                    child: Padding(
                       padding: const EdgeInsets.fromLTRB(22, 8, 22, 28),
                       child: AutofillGroup(
                         child: Column(
@@ -121,9 +123,9 @@ class _HourTvNewPasswordPageState extends State<HourTvNewPasswordPage> {
                         ),
                       ),
                     ),
-                  ],
+                  ),
                 ),
-              ),
+              ],
             ),
           ),
         );

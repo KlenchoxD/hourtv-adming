@@ -93,14 +93,16 @@ class _HourTvAuthPageState extends State<HourTvAuthPage> {
         return Scaffold(
           backgroundColor: hourTvAuthBg,
           body: SingleChildScrollView(
-            child: Center(
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 440),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    HourTvAuthHero(height: (height * .34).clamp(220, 320)),
-                    Padding(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                // El muro de pósters va de borde a borde; el formulario
+                // sí se limita a un ancho cómodo.
+                HourTvAuthHero(height: (height * .34).clamp(220, 320)),
+                Center(
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 440),
+                    child: Padding(
                       padding: const EdgeInsets.fromLTRB(22, 8, 22, 28),
                       child: AutofillGroup(
                         child: Column(
@@ -257,9 +259,9 @@ class _HourTvAuthPageState extends State<HourTvAuthPage> {
                         ),
                       ),
                     ),
-                  ],
+                  ),
                 ),
-              ),
+              ],
             ),
           ),
         );
