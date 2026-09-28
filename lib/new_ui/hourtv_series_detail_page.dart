@@ -7,6 +7,7 @@ import '../models/channel.dart';
 import '../services/catalog/catalog_detail_navigator.dart';
 import '../services/content_store.dart';
 import '../services/device_type.dart';
+import '../services/likes_service.dart';
 import '../services/parental_control_service.dart';
 import '../services/playback_progress.dart';
 import '../services/recommendations/related_content_engine.dart';
@@ -163,6 +164,35 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
   List<Channel> _relatedChannels = const [];
   String? _relatedCacheKey;
 
+  bool _liked = false;
+
+  /// Total global de Me gusta de la serie; null = aún no se sabe.
+  int? _likeCount;
+
+  String get _likeLabel {
+    final count = _likeCount;
+    if (count == null || count == 0) return 'Me gusta';
+    return '${LikesService.format(count)} Me gusta';
+  }
+
+  Future<void> _toggleLiked() async {
+    final wasLiked = _liked;
+    setState(() {
+      _liked = !wasLiked;
+      if (_likeCount != null) {
+        _likeCount = (_likeCount! + (wasLiked ? -1 : 1)).clamp(0, 1 << 31);
+      }
+    });
+    final item = hourTvSeriesChannel(widget.series);
+    final nowLiked = await LikesService.toggle(item);
+    final confirmed = await LikesService.count(item);
+    if (!mounted) return;
+    setState(() {
+      _liked = nowLiked;
+      if (confirmed != null) _likeCount = confirmed;
+    });
+  }
+
   Channel get channel {
     final item = hourTvSeriesChannel(widget.series);
     final favorite = store.favorites.any((saved) => saved.url == item.url);
@@ -239,6 +269,13 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
   void initState() {
     super.initState();
     store.addListener(_refresh);
+    final likeItem = hourTvSeriesChannel(widget.series);
+    _liked = LikesService.isLiked(likeItem);
+    unawaited(
+      LikesService.count(likeItem).then((count) {
+        if (mounted && count != null) setState(() => _likeCount = count);
+      }),
+    );
     unawaited(_load());
     _rebuildRelated();
   }
@@ -684,6 +721,45 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
                         const Text(
                           'Mi Lista',
                           style: TextStyle(
+                            color: Color(0xFFF5F5F5),
+                            fontSize: 13,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  onTap: () => unawaited(_toggleLiked()),
+                  borderRadius: BorderRadius.circular(12),
+                  child: Container(
+                    height: 64,
+                    decoration: BoxDecoration(
+                      color: _surfaceControl,
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: _line),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.thumb_up_alt_rounded,
+                          color: _liked ? _red : const Color(0xFFF5F5F5),
+                          size: 18,
+                        ),
+                        const SizedBox(height: 6),
+                        Text(
+                          _likeLabel,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
                             color: Color(0xFFF5F5F5),
                             fontSize: 13,
                             fontWeight: FontWeight.w500,
@@ -1503,6 +1579,15 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
           active: channel.isFavorite,
         ),
         const SizedBox(width: 8),
+        Tooltip(
+          message: _likeLabel,
+          child: _action(
+            Icons.thumb_up_alt_rounded,
+            _toggleLiked,
+            active: _liked,
+          ),
+        ),
+        const SizedBox(width: 8),
         _action(Icons.ios_share_rounded, _share),
       ],
     );
@@ -1637,6 +1722,15 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
                   : Icons.favorite_border_rounded,
               _favorite,
               active: item.isFavorite,
+            ),
+            const SizedBox(width: 8),
+            Tooltip(
+              message: _likeLabel,
+              child: _action(
+                Icons.thumb_up_alt_rounded,
+                _toggleLiked,
+                active: _liked,
+              ),
             ),
             const SizedBox(width: 8),
             _action(Icons.ios_share_rounded, _share),

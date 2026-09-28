@@ -12,6 +12,7 @@ import '../services/cast_service.dart';
 import '../services/catalog/hero_tag_helper.dart';
 import '../services/content_store.dart';
 import '../services/device_type.dart';
+import '../services/likes_service.dart';
 import '../services/recommendations/related_content_engine.dart';
 import '../services/storage_service.dart';
 import 'hourtv_artwork.dart';
@@ -62,6 +63,9 @@ class HourTvDetailPage extends StatefulWidget {
 
 class _HourTvDetailPageState extends State<HourTvDetailPage> {
   bool liked = false;
+
+  /// Total global de Me gusta (todos los usuarios); null = aún no se sabe.
+  int? likeCount;
   int tvSection = 0;
   int tvAction = 0;
   int tvRelated = 0;
@@ -117,7 +121,14 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
   @override
   void initState() {
     super.initState();
-    liked = StorageService.loadLikedUrls().contains(channel.url);
+    liked = widget.preview ? false : LikesService.isLiked(channel);
+    if (!widget.preview) {
+      unawaited(
+        LikesService.count(channel).then((count) {
+          if (mounted && count != null) setState(() => likeCount = count);
+        }),
+      );
+    }
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
       _loadRelatedAfterTransition();
@@ -229,13 +240,33 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
     if (mounted) setState(() {});
   }
 
+  /// "Me gusta" o "12 Me gusta" (total de todos los usuarios).
+  String get _likeLabel {
+    final count = likeCount;
+    if (count == null || count == 0) return 'Me gusta';
+    return '${LikesService.format(count)} Me gusta';
+  }
+
   Future<void> toggleLiked() async {
     if (widget.preview) {
       setState(() => liked = !liked);
       return;
     }
-    final nowLiked = await StorageService.toggleLiked(channel.url);
-    if (mounted) setState(() => liked = nowLiked);
+    // Al instante en pantalla; el total real se confirma con el servidor.
+    final wasLiked = liked;
+    setState(() {
+      liked = !wasLiked;
+      if (likeCount != null) {
+        likeCount = (likeCount! + (wasLiked ? -1 : 1)).clamp(0, 1 << 31);
+      }
+    });
+    final nowLiked = await LikesService.toggle(channel);
+    final confirmed = await LikesService.count(channel);
+    if (!mounted) return;
+    setState(() {
+      liked = nowLiked;
+      if (confirmed != null) likeCount = confirmed;
+    });
   }
 
   /// Envia el contenido a un TV por Chromecast/Cast, no comparte texto: el
@@ -967,7 +998,7 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
               Expanded(
                 child: _labelledAction(
                   Icons.thumb_up_alt_rounded,
-                  'Me gusta',
+                  _likeLabel,
                   () => unawaited(toggleLiked()),
                   active: liked,
                 ),
@@ -1013,7 +1044,7 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
         _roundAction(
           Icons.thumb_up_alt_rounded,
           () => unawaited(toggleLiked()),
-          label: 'Me gusta',
+          label: _likeLabel,
           active: liked,
         ),
         const SizedBox(width: 8),
