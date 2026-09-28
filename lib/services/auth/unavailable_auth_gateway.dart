@@ -52,6 +52,11 @@ class UnavailableAuthGateway implements AuthGateway {
   }
 
   @override
+  Future<void> updatePassword(String newPassword) async {
+    throw const AuthUnavailableException();
+  }
+
+  @override
   Future<void> signOut() async {
     // No-op for unavailable gateway
   }

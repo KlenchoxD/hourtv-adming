@@ -3,6 +3,8 @@ import '../services/auth/auth_controller.dart';
 import '../services/auth/auth_gateway.dart';
 import '../services/supabase_bootstrap.dart';
 import 'hourtv_auth_page.dart';
+import 'hourtv_auth_ui.dart';
+import 'hourtv_new_password_page.dart';
 import 'hourtv_verify_email_page.dart';
 
 class HourTvAuthGate extends StatefulWidget {
@@ -34,10 +36,14 @@ class _HourTvAuthGateState extends State<HourTvAuthGate> {
       _controller = AuthController(gateway: SupabaseBootstrap.instance.authGateway);
       _createdOwnController = true;
     }
+    HourTvAuthScope.current = _controller;
   }
 
   @override
   void dispose() {
+    if (identical(HourTvAuthScope.current, _controller)) {
+      HourTvAuthScope.current = null;
+    }
     if (_createdOwnController) {
       _controller.dispose();
     }
@@ -57,9 +63,17 @@ class _HourTvAuthGateState extends State<HourTvAuthGate> {
 
         switch (phase) {
           case AuthSessionPhase.guest:
-            return widget.guestChild;
+            return HourTvAuthScope(
+              controller: _controller,
+              child: widget.guestChild,
+            );
           case AuthSessionPhase.authenticated:
-            return widget.authenticatedChild;
+            return HourTvAuthScope(
+              controller: _controller,
+              child: widget.authenticatedChild,
+            );
+          case AuthSessionPhase.passwordRecovery:
+            return HourTvNewPasswordPage(controller: _controller);
           case AuthSessionPhase.verificationRequired:
             return HourTvVerifyEmailPage(
               controller: _controller,

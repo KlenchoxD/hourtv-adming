@@ -1,17 +1,32 @@
 import 'dart:async';
 
-enum AuthSessionPhase { guest, signedOut, verificationRequired, authenticated }
+enum AuthSessionPhase {
+  guest,
+  signedOut,
+  verificationRequired,
+  authenticated,
+
+  /// Entró con el enlace de "¿Olvidaste tu contraseña?": debe elegir una
+  /// contraseña nueva antes de seguir.
+  passwordRecovery,
+}
 
 final class AuthUser {
   const AuthUser({
     required this.id,
     required this.email,
     required this.emailVerified,
+    this.provider = 'email',
+    this.createdAt,
   });
 
   final String id;
   final String email;
   final bool emailVerified;
+
+  /// Cómo se registró: 'email' o 'google'.
+  final String provider;
+  final DateTime? createdAt;
 
   @override
   bool operator ==(Object other) =>
@@ -69,5 +84,7 @@ abstract interface class AuthGateway {
   Future<AuthSessionState> refreshSession();
   Future<void> resendVerification(String email);
   Future<void> resetPassword(String email);
+  /// Cambia la contraseña de la sesión activa (o de la recuperación).
+  Future<void> updatePassword(String newPassword);
   Future<void> signOut();
 }

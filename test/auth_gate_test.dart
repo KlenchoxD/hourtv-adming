@@ -92,6 +92,9 @@ class FakeAuthGateway implements AuthGateway {
   }
 
   @override
+  Future<void> updatePassword(String newPassword) async {}
+
+  @override
   Future<void> resetPassword(String email) async {}
 
   @override
@@ -123,13 +126,56 @@ void main() {
       )));
       await tester.pumpAndSettle();
 
-      expect(find.text('Continuar como invitado'), findsOneWidget);
-      await tester.tap(find.text('Continuar como invitado'));
+      expect(find.text('Continuar sin cuenta'), findsOneWidget);
+      await tester.ensureVisible(find.text('Continuar sin cuenta'));
+      await tester.tap(find.text('Continuar sin cuenta'));
       await tester.pumpAndSettle();
 
       expect(find.text('GUEST_APP'), findsOneWidget);
       expect(find.text('CLOUD_PROFILES'), findsNothing);
     });
+
+    testWidgets(
+      'el enlace de recuperación pide una contraseña nueva, aun como invitado',
+      (tester) async {
+        final gateway = FakeAuthGateway.signedOut();
+        final controller = AuthController(gateway: gateway);
+        controller.continueAsGuest();
+
+        await tester.pumpWidget(testApp(HourTvAuthGate(
+          controller: controller,
+          guestChild: const Text('GUEST_APP'),
+          authenticatedChild: const Text('CLOUD_PROFILES'),
+        )));
+        await tester.pumpAndSettle();
+        expect(find.text('GUEST_APP'), findsOneWidget);
+
+        // Supabase emite passwordRecovery al abrir el enlace del correo.
+        const user = AuthUser(
+          id: 'u-1',
+          email: 'olvide@example.com',
+          emailVerified: true,
+        );
+        gateway.emit(const AuthSessionState(
+          AuthSessionPhase.passwordRecovery,
+          user: user,
+        ));
+        await tester.pumpAndSettle();
+        expect(find.text('Elige una contraseña nueva'), findsOneWidget);
+
+        // Mientras la sesión sigue activa, no entra a la app sin cambiarla.
+        gateway.emit(const AuthSessionState(
+          AuthSessionPhase.authenticated,
+          user: user,
+        ));
+        await tester.pumpAndSettle();
+        expect(find.text('CLOUD_PROFILES'), findsNothing);
+
+        await controller.updatePassword('NuevaClave123', 'NuevaClave123');
+        await tester.pumpAndSettle();
+        expect(find.text('CLOUD_PROFILES'), findsOneWidget);
+      },
+    );
 
     testWidgets('unverified email cannot enter cloud profiles', (tester) async {
       final gateway = FakeAuthGateway.verificationRequired('user@example.com');

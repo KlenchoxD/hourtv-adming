@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/channel.dart';
+import '../new_ui/hourtv_account_page.dart';
 import '../new_ui/hourtv_startup_cover.dart';
 import '../new_ui/hourtv_live_page.dart';
 import '../new_ui/hourtv_new_shell.dart' show PreviewCatalog;
@@ -21,6 +22,7 @@ import '../services/content_store.dart';
 import '../services/device_type.dart';
 import '../services/parental_control_service.dart';
 import '../services/storage_service.dart';
+import '../services/supabase_bootstrap.dart';
 import '../services/xtream_service.dart';
 import 'hourtv_compact_filter_selector.dart';
 import 'hourtv_genre_service.dart';
@@ -324,6 +326,7 @@ class _HourTvMobileShellState extends State<HourTvMobileShell>
       'Reproducción y calidad' => const HourTvPlaybackSettingsPage(),
       'Idioma y subtítulos' => const HourTvLanguageSettingsPage(),
       'Control parental' => const HourTvParentalSettingsPage(),
+      'Cuenta' => const HourTvAccountPage(),
       _ => const HourTvSettingsPage(),
     };
     Navigator.of(context).push(MaterialPageRoute<void>(builder: (_) => page));
@@ -2426,7 +2429,18 @@ class HourTvMobileProfile extends StatelessWidget {
       'activeProfile',
       defaultValue: 'Invitado',
     ).toString();
-    const settings = [
+    // Como "Gestión de cuentas" de Xuper: con quién está conectada la app.
+    final accounts = SupabaseBootstrap.instance.isAvailable;
+    final email = accounts
+        ? SupabaseBootstrap.instance.authGateway.currentState.user?.email
+        : null;
+    final settings = [
+      if (accounts)
+        (
+          Icons.account_circle_outlined,
+          'Cuenta',
+          email ?? 'Iniciar sesión o crear cuenta',
+        ),
       (
         Icons.high_quality_outlined,
         'Reproducción y calidad',

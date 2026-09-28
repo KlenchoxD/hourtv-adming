@@ -13,6 +13,7 @@ class MockAuthGateway implements AuthGateway {
   String? lastSignInEmail;
   String? lastSignInPassword;
   String? lastResetEmail;
+  String? lastNewPassword;
   bool shouldFail = false;
   String failMessage = 'Error simulado';
 
@@ -66,6 +67,11 @@ class MockAuthGateway implements AuthGateway {
   Future<void> resendVerification(String email) async {}
 
   @override
+  Future<void> updatePassword(String newPassword) async {
+    lastNewPassword = newPassword;
+  }
+
+  @override
   Future<void> resetPassword(String email) async {
     lastResetEmail = email;
     if (shouldFail) throw Exception(failMessage);
@@ -102,9 +108,11 @@ void main() {
       )));
       await tester.pumpAndSettle();
 
-      expect(find.text('INICIAR SESIÓN'), findsWidgets);
-      expect(find.text('CREAR CUENTA'), findsWidgets);
-      expect(find.text('Continuar como invitado'), findsOneWidget);
+      expect(find.text('Inicia sesión'), findsOneWidget);
+      expect(find.text('Iniciar sesión'), findsOneWidget);
+      expect(find.text('Crea una gratis'), findsOneWidget);
+      expect(find.text('Continuar con Google'), findsOneWidget);
+      expect(find.text('Continuar sin cuenta'), findsOneWidget);
     });
 
     testWidgets('validates email format and password length in Spanish', (tester) async {
@@ -123,6 +131,7 @@ void main() {
 
       await tester.enterText(emailFinder, 'invalid-email');
       await tester.enterText(passwordFinder, '12345678');
+      await tester.ensureVisible(find.byKey(const Key('auth_submit_button')));
       await tester.tap(find.byKey(const Key('auth_submit_button')));
       await tester.pumpAndSettle();
       expect(find.text('Ingresa un correo electrónico válido.'), findsOneWidget);
@@ -130,6 +139,7 @@ void main() {
       // Test short password
       await tester.enterText(emailFinder, 'valid@example.com');
       await tester.enterText(passwordFinder, '123');
+      await tester.ensureVisible(find.byKey(const Key('auth_submit_button')));
       await tester.tap(find.byKey(const Key('auth_submit_button')));
       await tester.pumpAndSettle();
       expect(find.text('La contraseña debe tener al menos 8 caracteres.'), findsOneWidget);
@@ -146,7 +156,8 @@ void main() {
       )));
       await tester.pumpAndSettle();
 
-      // Switch to Crear Cuenta tab
+      // Pasar a "Crea tu cuenta"
+      await tester.ensureVisible(find.byKey(const Key('auth_tab_signup')));
       await tester.tap(find.byKey(const Key('auth_tab_signup')));
       await tester.pumpAndSettle();
 
@@ -157,6 +168,7 @@ void main() {
       await tester.enterText(passwordFinder, 'SecurePass123!');
       await tester.pump();
 
+      await tester.ensureVisible(find.byKey(const Key('auth_submit_button')));
       await tester.tap(find.byKey(const Key('auth_submit_button')));
       await tester.pumpAndSettle();
 
@@ -181,8 +193,28 @@ void main() {
       await tester.tap(find.text('¿Olvidaste tu contraseña?'));
       await tester.pumpAndSettle();
 
+      // Paso propio: el correo escrito se conserva y se envía el enlace.
+      expect(find.text('Recupera tu contraseña'), findsOneWidget);
+      expect(find.byKey(const Key('auth_password_field')), findsNothing);
+      await tester.ensureVisible(find.byKey(const Key('auth_submit_button')));
+      await tester.tap(find.byKey(const Key('auth_submit_button')));
+      await tester.pumpAndSettle();
+
       expect(gateway.lastResetEmail, 'reset@example.com');
       expect(find.text('Se envió un enlace para restablecer tu contraseña.'), findsOneWidget);
+    });
+
+    testWidgets('contraseña nueva: valida y guarda con el gateway', (tester) async {
+      final gateway = MockAuthGateway();
+      final controller = AuthController(gateway: gateway);
+
+      expect(await controller.updatePassword('corta', 'corta'), isFalse);
+      expect(controller.errorMessage, contains('8 caracteres'));
+      expect(await controller.updatePassword('NuevaClave123', 'Otra12345'), isFalse);
+      expect(controller.errorMessage, 'Las contraseñas no coinciden.');
+      expect(await controller.updatePassword('NuevaClave123', 'NuevaClave123'), isTrue);
+      expect(gateway.lastNewPassword, 'NuevaClave123');
+      expect(controller.successMessage, 'Tu contraseña se actualizó.');
     });
   });
 }

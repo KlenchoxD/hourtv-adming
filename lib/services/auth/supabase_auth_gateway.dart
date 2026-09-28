@@ -29,10 +29,23 @@ class SupabaseAuthGateway implements AuthGateway {
   );
 
   @override
-  Stream<AuthSessionState> get states => _client.auth.onAuthStateChange.map(
-    (event) =>
-        _mapSession(event.session, explicitUser: _client.auth.currentUser),
-  );
+  Stream<AuthSessionState> get states =>
+      _client.auth.onAuthStateChange.map((event) {
+        final state = _mapSession(
+          event.session,
+          explicitUser: _client.auth.currentUser,
+        );
+        // El enlace del correo de recuperación abre la app con una sesión
+        // temporal: se marca aparte para pedir la contraseña nueva.
+        if (event.event == AuthChangeEvent.passwordRecovery &&
+            state.user != null) {
+          return AuthSessionState(
+            AuthSessionPhase.passwordRecovery,
+            user: state.user,
+          );
+        }
+        return state;
+      });
 
   @override
   Future<AuthSessionState> signUp({
@@ -120,6 +133,11 @@ class SupabaseAuthGateway implements AuthGateway {
   }
 
   @override
+  Future<void> updatePassword(String newPassword) async {
+    await _client.auth.updateUser(UserAttributes(password: newPassword));
+  }
+
+  @override
   Future<void> signOut() async {
     await _client.auth.signOut();
   }
@@ -134,6 +152,8 @@ class SupabaseAuthGateway implements AuthGateway {
       id: user.id,
       email: user.email ?? '',
       emailVerified: isVerified,
+      provider: user.appMetadata['provider']?.toString() ?? 'email',
+      createdAt: DateTime.tryParse(user.createdAt),
     );
     if (!isVerified) {
       return AuthSessionState(

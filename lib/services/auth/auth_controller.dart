@@ -6,6 +6,15 @@ import 'auth_telemetry.dart';
 class AuthController extends ChangeNotifier {
   AuthController({required this.gateway}) {
     _subscription = _gateway.states.listen((state) {
+      if (state.phase == AuthSessionPhase.passwordRecovery) {
+        // Llegó desde el correo: aunque estuviera como invitado, primero
+        // elige la contraseña nueva.
+        _recovering = true;
+        _isGuest = false;
+        notifyListeners();
+        return;
+      }
+      if (state.phase == AuthSessionPhase.signedOut) _recovering = false;
       if (!_isGuest) {
         notifyListeners();
       }
@@ -18,6 +27,7 @@ class AuthController extends ChangeNotifier {
 
   bool _isLoading = false;
   bool _isGuest = false;
+  bool _recovering = false;
   String? _errorMessage;
   String? _successMessage;
 
@@ -30,7 +40,14 @@ class AuthController extends ChangeNotifier {
     if (_isGuest) {
       return const AuthSessionState(AuthSessionPhase.guest);
     }
-    return _gateway.currentState;
+    final state = _gateway.currentState;
+    if (_recovering && state.user != null) {
+      return AuthSessionState(
+        AuthSessionPhase.passwordRecovery,
+        user: state.user,
+      );
+    }
+    return state;
   }
 
   AuthSessionPhase get currentPhase => sessionState.phase;
@@ -230,12 +247,42 @@ class AuthController extends ChangeNotifier {
     }
   }
 
+  /// Guarda una contraseña nueva: desde el enlace de recuperación o desde
+  /// Cuenta > Cambiar contraseña.
+  Future<bool> updatePassword(String password, String confirmation) async {
+    final clean = password.trim();
+    if (clean.length < 8) {
+      _errorMessage = 'La contraseña debe tener al menos 8 caracteres.';
+      notifyListeners();
+      return false;
+    }
+    if (clean != confirmation.trim()) {
+      _errorMessage = 'Las contraseñas no coinciden.';
+      notifyListeners();
+      return false;
+    }
+    _setLoading(true);
+    try {
+      await _gateway.updatePassword(clean);
+      _recovering = false;
+      _errorMessage = null;
+      _successMessage = 'Tu contraseña se actualizó.';
+      _setLoading(false);
+      return true;
+    } catch (e) {
+      _errorMessage = _mapAuthError(e);
+      _setLoading(false);
+      return false;
+    }
+  }
+
   Future<void> signOut() async {
     _setLoading(true);
     try {
       await _gateway.signOut();
     } finally {
       _isGuest = false;
+      _recovering = false;
       _errorMessage = null;
       _successMessage = null;
       _setLoading(false);
@@ -260,6 +307,10 @@ class AuthController extends ChangeNotifier {
     }
     if (msg.contains('user already registered') || msg.contains('already exists')) {
       return 'Ya existe una cuenta con este correo electrónico.';
+    }
+    if (msg.contains('same_password') ||
+        msg.contains('should be different from the old')) {
+      return 'La contraseña nueva debe ser distinta de la anterior.';
     }
     if (msg.contains('password should be at least')) {
       return 'La contraseña debe tener al menos 8 caracteres.';

@@ -8,6 +8,7 @@ import '../services/parental_control_service.dart';
 import '../services/storage_service.dart';
 import '../services/supabase_bootstrap.dart';
 import '../services/sync/profile_sync_engine.dart';
+import 'hourtv_account_page.dart';
 import 'hourtv_focusable.dart';
 import 'hourtv_parental_gate.dart';
 import 'hourtv_profile_avatar.dart';
@@ -69,7 +70,16 @@ class _HourTvProfilePageState extends State<HourTvProfilePage> {
           defaultValue: false,
         ) ==
         true;
+    final account = SupabaseBootstrap.instance.isAvailable
+        ? SupabaseBootstrap.instance.authGateway.currentState.user?.email
+        : null;
     return [
+      if (SupabaseBootstrap.instance.isAvailable)
+        (
+          Icons.account_circle_rounded,
+          'Cuenta',
+          account ?? 'Sin iniciar sesión',
+        ),
       (
         Icons.high_quality_rounded,
         'Reproducción y calidad',
@@ -567,6 +577,7 @@ class _HourTvProfilePageState extends State<HourTvProfilePage> {
       'Reproducción y calidad' => const HourTvPlaybackSettingsPage(),
       'Idioma y subtítulos' => const HourTvLanguageSettingsPage(),
       'Control parental' => const HourTvParentalSettingsPage(),
+      'Cuenta' => const HourTvAccountPage(),
       _ => const HourTvSettingsPage(),
     };
     await Navigator.of(context).push(MaterialPageRoute(builder: (_) => page));

@@ -37,6 +37,9 @@ class MockAuthGateway implements AuthGateway {
   Future<void> resendVerification(String email) async {}
 
   @override
+  Future<void> updatePassword(String newPassword) async {}
+
+  @override
   Future<void> resetPassword(String email) async {}
 
   @override
@@ -98,18 +101,19 @@ void main() {
       expect(toggleFinder, findsOneWidget);
 
       // Initial password field is obscured
-      final passwordField = tester.widget<TextField>(find.byKey(const Key('auth_password_field')));
+      final passwordField = tester.widget<TextField>(find.descendant(of: find.byKey(const Key('auth_password_field')), matching: find.byType(TextField)));
       expect(passwordField.obscureText, isTrue);
 
       // Tap toggle to reveal password
       await tester.tap(toggleFinder);
       await tester.pumpAndSettle();
 
-      final revealedField = tester.widget<TextField>(find.byKey(const Key('auth_password_field')));
+      final revealedField = tester.widget<TextField>(find.descendant(of: find.byKey(const Key('auth_password_field')), matching: find.byType(TextField)));
       expect(revealedField.obscureText, isFalse);
 
       // Tap Google button with unconfigured simulation
       gateway.simulateGoogleUnconfigured = true;
+      await tester.ensureVisible(googleBtn);
       await tester.tap(googleBtn);
       await tester.pumpAndSettle();
 

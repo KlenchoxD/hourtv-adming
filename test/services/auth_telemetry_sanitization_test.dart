@@ -32,6 +32,9 @@ class _FakeTelemetryAuthGateway implements AuthGateway {
   Future<void> resendVerification(String email) async {}
 
   @override
+  Future<void> updatePassword(String newPassword) async {}
+
+  @override
   Future<void> resetPassword(String email) async {}
 
   @override
