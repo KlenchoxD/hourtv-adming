@@ -69,6 +69,25 @@ class DeviceProfile {
     return size.shortestSide >= 600 ? DeviceType.tablet : DeviceType.phone;
   }
 
+  /// Orientaciones de la app fuera del reproductor: en teléfono siempre
+  /// vertical (como Xuper), aunque el teléfono tenga el giro automático
+  /// activado; en tablet y TV, cualquiera.
+  static List<DeviceOrientation> appOrientations() {
+    final views = WidgetsBinding.instance.platformDispatcher.views;
+    if (views.isEmpty || _isTvCache == true) return _anyOrientation;
+    final view = views.first;
+    final shortest = view.physicalSize.shortestSide / view.devicePixelRatio;
+    return shortest > 0 && shortest < 600
+        ? const [DeviceOrientation.portraitUp]
+        : _anyOrientation;
+  }
+
+  static const _anyOrientation = [
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.landscapeLeft,
+    DeviceOrientation.landscapeRight,
+  ];
+
   static bool isTv(BuildContext context) => of(context) == DeviceType.tv;
   static bool isDesktop(BuildContext context) =>
       of(context) == DeviceType.desktop;

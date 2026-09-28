@@ -85,6 +85,12 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.7.1")
     implementation("androidx.mediarouter:mediarouter:1.8.1")
     implementation("com.google.android.gms:play-services-cast-framework:21.5.0")
+    // Publicidad: Unity LevelPlay (el SDK lo trae el plugin) + red Unity Ads.
+    implementation("com.unity3d.ads-mediation:unityads-adapter:5.13.0")
+    implementation("com.unity3d.ads:unity-ads:4.20.1")
+    implementation("com.google.android.gms:play-services-appset:16.0.2")
+    implementation("com.google.android.gms:play-services-ads-identifier:18.0.1")
+    implementation("com.google.android.gms:play-services-basement:18.3.0")
 }
 
 flutter {

@@ -3599,11 +3599,7 @@ class _PlayerScreenState extends State<PlayerScreen>
     _playbackEnded.dispose();
     _screenFocus.dispose();
     if (_forcedLandscape || _forcedPortrait) {
-      const appOrientations = [
-        DeviceOrientation.portraitUp,
-        DeviceOrientation.landscapeLeft,
-        DeviceOrientation.landscapeRight,
-      ];
+      final appOrientations = DeviceProfile.appOrientations();
       if (_landscape) {
         // Con la rotación bloqueada, Android se queda en la orientación
         // actual si sigue permitida: toda la app quedaba en horizontal al

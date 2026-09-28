@@ -12,6 +12,7 @@ import 'new_ui/hourtv_new_shell.dart';
 import 'new_ui/hourtv_profile_gate.dart';
 import 'new_ui/hourtv_settings_update_page.dart';
 import 'new_ui/hourtv_startup_cover.dart';
+import 'services/ad_service.dart';
 import 'services/content_store.dart';
 import 'services/device_type.dart';
 import 'services/iptv_server_service.dart';
@@ -78,11 +79,9 @@ void main() {
     debugPrint('[PERF_TTI] DRIFT_OPEN_DONE: time=$tDriftEnd elapsedMs=${tDriftEnd - tDriftStart}');
 
     // Configuración de pantalla no bloqueante
-    unawaited(SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.landscapeLeft,
-      DeviceOrientation.landscapeRight,
-    ]));
+    unawaited(
+      SystemChrome.setPreferredOrientations(DeviceProfile.appOrientations()),
+    );
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
@@ -95,6 +94,9 @@ void main() {
     final tDartInitEnd = DateTime.now().millisecondsSinceEpoch;
     debugPrint('[PERF_TTI] DART_INIT_DONE: time=$tDartInitEnd totalDartMs=${tDartInitEnd - tDartStart}');
     runApp(HourTVApp(catalogInfrastructure: catalogInfra));
+    // Publicidad: configuración remota y video precargado, sin frenar el
+    // arranque.
+    unawaited(AdService.warmUp());
 
     if (StorageService.getSetting('iptv_server_enabled', defaultValue: false) ==
         true) {
