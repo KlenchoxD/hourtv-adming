@@ -390,27 +390,36 @@ class CastService {
   }
 
   /// Stream directo de [channel] para el TV: resuelve embeds, archive: y
-  /// stalker: igual que el reproductor. Null si solo se abre en visor web.
+  /// stalker: igual que el reproductor, probando cada servidor en orden.
+  /// Null si ninguno da un video directo (solo se abren en visor web).
   static Future<CastMedia?> resolveMedia(Channel channel) async {
-    final url = channel.url;
     final agent = channel.userAgent?.trim();
     final headers = agent == null || agent.isEmpty
         ? const <String, String>{}
         : {'User-Agent': agent};
-    if (url.startsWith('archive:')) {
-      final resolved = await ArchiveService.resolveStream(url);
-      return resolved == null ? null : (url: resolved, headers: headers);
+    final urls = [
+      for (final server in channel.servers) server.url,
+      if (channel.servers.isEmpty) channel.url,
+    ];
+    for (final url in urls) {
+      if (url.startsWith('archive:')) {
+        final resolved = await ArchiveService.resolveStream(url);
+        if (resolved != null) return (url: resolved, headers: headers);
+      } else if (url.startsWith('stalker:')) {
+        final resolved = await StalkerService.resolveStream(url);
+        if (resolved != null) return (url: resolved, headers: headers);
+      } else if (channel.type != MediaType.live && isEmbedStreamUrl(url)) {
+        // Misma regla que el reproductor: un VOD sin extensión de video es
+        // una página (paulinito, streamwish...) y se extrae el video real.
+        final resolved = await EmbedResolver.resolve(url);
+        if (resolved != null) {
+          return (url: resolved.url, headers: resolved.headers);
+        }
+      } else if (isNetworkUrl(url)) {
+        return (url: url, headers: headers);
+      }
     }
-    if (url.startsWith('stalker:')) {
-      final resolved = await StalkerService.resolveStream(url);
-      return resolved == null ? null : (url: resolved, headers: headers);
-    }
-    if (channel.type != MediaType.live && isLikelyEmbedUrl(url)) {
-      final resolved = await EmbedResolver.resolve(url);
-      return resolved == null
-          ? null
-          : (url: resolved.url, headers: resolved.headers);
-    }
-    return isNetworkUrl(url) ? (url: url, headers: headers) : null;
+    return null;
   }
+
 }

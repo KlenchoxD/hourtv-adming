@@ -129,6 +129,12 @@ class CastProxy {
         type.contains('mpegurl') ||
         finalUrl.path.toLowerCase().endsWith('.m3u8');
 
+    if (!kReleaseMode) {
+      debugPrint(
+        '[CAST] proxy ${request.method} ${upstream.statusCode} $type '
+        '${finalUrl.pathSegments.isEmpty ? '' : finalUrl.pathSegments.last}',
+      );
+    }
     response.statusCode = upstream.statusCode;
     if (isPlaylist && upstream.statusCode == HttpStatus.ok) {
       final text = await upstream.transform(utf8.decoder).join();
