@@ -708,6 +708,8 @@ class StorageService {
     'preferredSubtitleMode',
     'subtitleFontScale',
     'subtitleBold',
+    'subtitleColor',
+    'subtitleBackground',
     'autoPlay',
     'forceLandscape',
   };

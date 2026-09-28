@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../services/storage_service.dart';
+import '../services/subtitles/subtitle_style.dart';
 import 'hourtv_settings_kit.dart';
 
 /// Claves de preferencias reales (leidas por el reproductor):
@@ -10,6 +11,7 @@ import 'hourtv_settings_kit.dart';
 ///   manual de audio del reproductor).
 /// - subtitleFontScale: tamaño de letra de subtitulos (0.85 / 1.0 / 1.3).
 /// - subtitleBold: negrita en subtitulos.
+/// - subtitleColor / subtitleBackground: color y fondo (ver SubtitleStyle).
 class HourTvLanguageSettingsPage extends StatefulWidget {
   const HourTvLanguageSettingsPage({super.key});
 
@@ -23,6 +25,8 @@ class _HourTvLanguageSettingsPageState
   late String audioLanguage;
   late double subtitleScale;
   late bool subtitleBold;
+  late String subtitleColor;
+  late String subtitleBackground;
 
   static const _languages = <(String, String)>[
     ('auto', 'Automático (el de la fuente)'),
@@ -57,7 +61,32 @@ class _HourTvLanguageSettingsPageState
     subtitleBold =
         StorageService.getSetting('subtitleBold', defaultValue: false) ==
         true;
+    final style = SubtitleStyle.load();
+    subtitleColor = style.color;
+    subtitleBackground = style.background;
   }
+
+  /// Vista previa con lo elegido, sobre un fondo tipo escena.
+  Widget _preview() => Container(
+    height: 120,
+    margin: const EdgeInsets.only(bottom: 12),
+    alignment: Alignment.bottomCenter,
+    padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(12),
+      gradient: const LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [Color(0xFF6D8FA8), Color(0xFFD9C29A), Color(0xFF2E3A2F)],
+      ),
+    ),
+    child: SubtitleStyle(
+      scale: subtitleScale,
+      bold: subtitleBold,
+      color: subtitleColor,
+      background: subtitleBackground,
+    ).build('Así se verán los subtítulos', baseSize: 16),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -87,6 +116,7 @@ class _HourTvLanguageSettingsPageState
           ),
         ),
         const SettingsSectionLabel('Subtítulos'),
+        _preview(),
         for (var i = 0; i < _sizes.length; i++)
           SettingsRadioRow(
             title: 'Tamaño de letra: ${_sizes[i].$2}',
@@ -109,10 +139,30 @@ class _HourTvLanguageSettingsPageState
             StorageService.saveSetting('subtitleBold', next);
           },
         ),
+        const SettingsSectionLabel('Color de la letra'),
+        for (final (value, label, _) in SubtitleStyle.colors)
+          SettingsRadioRow(
+            title: label,
+            selected: subtitleColor == value,
+            onTap: () {
+              setState(() => subtitleColor = value);
+              StorageService.saveSetting('subtitleColor', value);
+            },
+          ),
+        const SettingsSectionLabel('Fondo'),
+        for (final (value, label) in SubtitleStyle.backgrounds)
+          SettingsRadioRow(
+            title: label,
+            selected: subtitleBackground == value,
+            onTap: () {
+              setState(() => subtitleBackground = value);
+              StorageService.saveSetting('subtitleBackground', value);
+            },
+          ),
         const Padding(
           padding: EdgeInsets.fromLTRB(4, 4, 4, 0),
           child: Text(
-            'El reproductor pinta los subtítulos con este tamaño y grosor, '
+            'El reproductor pinta los subtítulos con este tamaño y estilo, '
             'pero solo cuando la fuente los entrega. Los canales en vivo IPTV '
             'casi nunca incluyen una pista de subtítulos que se pueda leer, '
             'así que en la mayoría no verás ninguno.',

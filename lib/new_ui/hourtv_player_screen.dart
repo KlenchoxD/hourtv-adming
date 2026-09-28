@@ -23,6 +23,7 @@ import '../services/sync/profile_sync_engine.dart';
 import '../services/subtitles/hourtv_subtitle_track.dart';
 import '../services/subtitles/subtitle_controller.dart';
 import '../services/subtitles/subtitle_discovery_service.dart';
+import '../services/subtitles/subtitle_style.dart';
 import '../services/subtitles/github_subtitle_repository.dart';
 import '../services/subtitles/opensubtitles_repository.dart';
 import 'hourtv_focusable.dart';
@@ -123,8 +124,7 @@ class _PlayerScreenState extends State<PlayerScreen>
   // Estilo de subtitulos elegido en Perfil > Idioma y subtitulos. Chewie solo
   // pinta subtitulos dentro de sus controles (y aqui van desactivados), asi
   // que HourTV dibuja la linea de subtitulo con este estilo.
-  double _subtitleScale = 1;
-  bool _subtitleBold = false;
+  SubtitleStyle _subtitleStyle = const SubtitleStyle();
   final SubtitleController _subtitleController = SubtitleController();
   final SubtitleDiscoveryService _subtitleDiscovery =
       SubtitleDiscoveryService();
@@ -197,16 +197,7 @@ class _PlayerScreenState extends State<PlayerScreen>
       unawaited(_startInitialPlayback());
       unawaited(_initializeCast());
     });
-    _subtitleScale =
-        double.tryParse(
-          StorageService.getSetting(
-            'subtitleFontScale',
-            defaultValue: 1.0,
-          ).toString(),
-        ) ??
-        1.0;
-    _subtitleBold =
-        StorageService.getSetting('subtitleBold', defaultValue: false) == true;
+    _subtitleStyle = SubtitleStyle.load();
     _applyOrientationLock();
   }
 
@@ -2233,30 +2224,7 @@ class _PlayerScreenState extends State<PlayerScreen>
             final text = value.caption.text.trim();
             if (text.isEmpty) return const SizedBox.shrink();
             return Center(
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                  color: Colors.black.withValues(alpha: .66),
-                  borderRadius: BorderRadius.circular(6),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 6,
-                  ),
-                  child: Text(
-                    text,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18 * _subtitleScale,
-                      fontWeight: _subtitleBold
-                          ? FontWeight.w900
-                          : FontWeight.w500,
-                      height: 1.3,
-                    ),
-                  ),
-                ),
-              ),
+              child: _subtitleStyle.build(text),
             );
           },
         ),
