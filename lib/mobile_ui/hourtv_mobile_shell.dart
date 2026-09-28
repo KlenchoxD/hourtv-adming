@@ -9,7 +9,7 @@ import '../models/channel.dart';
 import '../new_ui/hourtv_account_page.dart';
 import '../new_ui/hourtv_startup_cover.dart';
 import '../new_ui/hourtv_live_page.dart';
-import '../new_ui/hourtv_new_shell.dart' show PreviewCatalog;
+import '../new_ui/hourtv_empty_state.dart';
 import '../new_ui/hourtv_series_detail_page.dart';
 import '../new_ui/hourtv_profile_avatar.dart';
 import '../new_ui/hourtv_profile_page.dart';
@@ -141,7 +141,7 @@ class _HourTvMobileShellState extends State<HourTvMobileShell>
 
   List<Channel> get _movies {
     if (store.movies.isNotEmpty) return store.movies;
-    return store.loading ? const [] : PreviewCatalog.movies;
+    return const [];
   }
 
   List<Channel>? _memoizedAllContent;
@@ -171,7 +171,7 @@ class _HourTvMobileShellState extends State<HourTvMobileShell>
     );
     final resolved = content.isNotEmpty
         ? content
-        : (store.loading ? const <Channel>[] : PreviewCatalog.movies);
+        : const <Channel>[];
     _memoizedAllContent = List<Channel>.unmodifiable(resolved);
     _lastVisibleAllRef = currentVisibleAll;
     _lastVisibleSeriesRef = currentVisibleSeries;
@@ -222,8 +222,6 @@ class _HourTvMobileShellState extends State<HourTvMobileShell>
   List<Channel> get _liveChannels =>
       store.visibleAll.where((item) => item.type == MediaType.live).toList();
 
-  List<Channel> get _liveChannelsOrPreview =>
-      _liveChannels.isNotEmpty ? _liveChannels : PreviewCatalog.live;
 
   static bool _sameUrls(List<Channel> a, List<Channel>? b) {
     if (b == null || a.length != b.length) return false;
@@ -292,7 +290,6 @@ class _HourTvMobileShellState extends State<HourTvMobileShell>
       repository: widget.catalogRepository,
       store: store,
       fromContinueWatching: fromContinueWatching,
-      preview: PreviewCatalog.movies.any((item) => item.url == channel.url),
     );
   }
 
@@ -356,16 +353,30 @@ class _HourTvMobileShellState extends State<HourTvMobileShell>
           recommendationEngine: widget.recommendationEngine,
         ),
       ),
-      HourTvMobileDestination.live => ValueListenableBuilder<bool>(
-        valueListenable: _isLiveActive,
-        builder: (context, active, _) => HourTvLivePage(
-          channels: _liveChannelsOrPreview,
-          preview: _liveChannels.isEmpty,
-          phone: !DeviceProfile.isTablet(context),
-          tablet: DeviceProfile.isTablet(context),
-          tv: false,
-          active: active,
-        ),
+      HourTvMobileDestination.live => ListenableBuilder(
+        listenable: Listenable.merge([store, _isLiveActive]),
+        builder: (context, _) {
+          final channels = _liveChannels;
+          if (channels.isEmpty) {
+            return HourTvEmptyState(
+              loading: store.loading,
+              title: 'No hay canales en vivo',
+              message: StorageService.activeProfileIsKids
+                  ? 'No encontramos canales infantiles en tus listas.'
+                  : 'No se pudieron cargar las listas de canales. Revisa tu '
+                        'conexión.',
+              onRetry: store.retry,
+            );
+          }
+          return HourTvLivePage(
+            channels: channels,
+            preview: false,
+            phone: !DeviceProfile.isTablet(context),
+            tablet: DeviceProfile.isTablet(context),
+            tv: false,
+            active: _isLiveActive.value,
+          );
+        },
       ),
       HourTvMobileDestination.search => ListenableBuilder(
         listenable: Listenable.merge([store, _indexRevision]),
@@ -1032,8 +1043,8 @@ class _LoadErrorBanner extends StatelessWidget {
         const SizedBox(width: 12),
         const Expanded(
           child: Text(
-            'No pudimos cargar el catálogo real. Mostrando contenido de '
-            'muestra: revisá tu conexión o tus fuentes en Perfil.',
+            'No pudimos cargar el catálogo. Revisa tu conexión e '
+            'inténtalo de nuevo.',
             style: TextStyle(color: Colors.white, fontSize: 12.5, height: 1.3),
           ),
         ),

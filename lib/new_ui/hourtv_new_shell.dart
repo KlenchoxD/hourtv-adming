@@ -1,3 +1,4 @@
+import 'hourtv_empty_state.dart';
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
@@ -184,7 +185,7 @@ class _HourTvNewShellState extends State<HourTvNewShell> {
         ? _moviesPageSource!.items.map(CatalogRepository.titleToChannel).toList()
         : const <Channel>[];
     if (drift.isNotEmpty) return drift;
-    return store.movies.isEmpty ? PreviewCatalog.movies : store.movies;
+    return store.movies;
   }
 
   List<Channel> get series {
@@ -209,7 +210,7 @@ class _HourTvNewShellState extends State<HourTvNewShell> {
       for (final item in [...direct, ...converted])
         if (seen.add(item.displayName.trim().toLowerCase())) item,
     ];
-    return real.isEmpty ? PreviewCatalog.series : real;
+    return real;
   }
 
   bool get showingSeriesPreview {
@@ -222,7 +223,7 @@ class _HourTvNewShellState extends State<HourTvNewShell> {
     final real = store.visibleAll
         .where((item) => item.type == MediaType.live)
         .toList();
-    return real.isEmpty ? PreviewCatalog.live : real;
+    return real;
   }
 
   bool get showingPreview {
@@ -306,8 +307,24 @@ class _HourTvNewShellState extends State<HourTvNewShell> {
     final repo = widget.catalogRepository ??
         (CatalogRepository.hasInstance ? CatalogRepository.instance : null);
 
+    // Sin catálogo (cargando o sin conexión): un estado honesto en lugar de
+    // títulos de ejemplo que no reproducían nada.
+    HourTvEmptyState? empty(bool isEmpty, String title) => isEmpty
+        ? HourTvEmptyState(
+            loading: store.loading,
+            title: title,
+            message: 'No se pudo cargar el catálogo. Revisa tu conexión.',
+            onRetry: store.retry,
+          )
+        : null;
+
     switch (section) {
       case _Section.home:
+        final none = empty(
+          movies.isEmpty && series.isEmpty,
+          'No hay contenido disponible',
+        );
+        if (none != null) return none;
         return _HomePage(
           movies: movies,
           series: series,
@@ -322,6 +339,8 @@ class _HourTvNewShellState extends State<HourTvNewShell> {
           initialRecommendations: widget.initialRecommendations,
         );
       case _Section.movies:
+        final none = empty(movies.isEmpty, 'No hay películas disponibles');
+        if (none != null) return none;
         return _CatalogPage(
           title: 'Películas',
           items: movies,
@@ -333,6 +352,8 @@ class _HourTvNewShellState extends State<HourTvNewShell> {
           catalogRepository: repo,
         );
       case _Section.series:
+        final none = empty(series.isEmpty, 'No hay series disponibles');
+        if (none != null) return none;
         return _CatalogPage(
           title: 'Series',
 
@@ -359,6 +380,8 @@ class _HourTvNewShellState extends State<HourTvNewShell> {
           catalogRepository: repo,
         );
       case _Section.live:
+        final none = empty(live.isEmpty, 'No hay canales en vivo');
+        if (none != null) return none;
         return HourTvLivePage(
           channels: live,
           preview: store.visibleAll
@@ -816,7 +839,7 @@ class _HomePageState extends State<_HomePage> {
             title: 'Series para ti',
             items: widget.series.take(10).toList(),
             store: widget.store,
-            preview: widget.series == PreviewCatalog.series,
+            preview: false,
             phone: widget.phone,
             tablet: widget.tablet,
             tv: widget.tv,
@@ -1830,95 +1853,3 @@ void _open(
   );
 }
 
-class PreviewCatalog {
-  static Channel item(
-    String name,
-    String poster,
-    String backdrop, {
-    String genre = 'Sci-Fi',
-    String year = '2026',
-  }) => Channel(
-    name: name,
-    url: 'preview://${name.toLowerCase().replaceAll(' ', '-')}',
-    logo: poster,
-    backdrop: backdrop,
-    genre: genre,
-    year: year,
-    duration: '2h 15m',
-    plot:
-        'Una historia original de HourTV donde el misterio, la emoción y la aventura cambian todo.',
-    forcedType: 'movie',
-  );
-
-  static final movies = <Channel>[
-    item(
-      'Project Nova',
-      'https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?q=80&w=600&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1400&auto=format&fit=crop',
-    ),
-    item(
-      'Ecos del Ayer',
-      'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=600&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1498837167922-ddd27525d352?q=80&w=1400&auto=format&fit=crop',
-      genre: 'Drama',
-    ),
-    item(
-      'Legado de Honor',
-      'https://images.unsplash.com/photo-1533928298208-27ff66555d8d?q=80&w=600&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1519074069444-1ba4e6664104?q=80&w=1400&auto=format&fit=crop',
-      genre: 'Acción',
-    ),
-    item(
-      'Shadow City',
-      'https://images.unsplash.com/photo-1511447333015-45b65e60f6d5?q=80&w=600&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=1400&auto=format&fit=crop',
-      genre: 'Misterio',
-    ),
-    item(
-      'Cosmos Odyssey',
-      'https://images.unsplash.com/photo-1462331940025-496dfbfc7564?q=80&w=600&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1400&auto=format&fit=crop',
-    ),
-    item(
-      'Neon Hearts',
-      'https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=600&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=1400&auto=format&fit=crop',
-      genre: 'Romance',
-    ),
-    item(
-      'The Silent Peak',
-      'https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=600&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=1400&auto=format&fit=crop',
-      genre: 'Aventura',
-    ),
-    item(
-      'The Grid Matrix',
-      'https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=600&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&w=1400&auto=format&fit=crop',
-    ),
-    item(
-      'Lluvia de Medianoche',
-      'https://images.unsplash.com/photo-1485846234645-a62644f84728?q=80&w=600&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1428908728789-d2de25dbd4e2?q=80&w=1400&auto=format&fit=crop',
-      genre: 'Suspenso',
-    ),
-  ];
-
-  static final series = movies.reversed
-      .take(7)
-      .map((item) => item.copyWith(forcedType: 'series'))
-      .toList();
-
-  // Canal real de ejemplo (lista publica tdtchannels) para ver como se ve
-  // En Vivo con contenido real en vez de datos de mentira.
-  static final live = <Channel>[
-    Channel(
-      name: 'La 1',
-      url: 'https://rtvelivestream.rtve.es/rtvesec/la1/la1_main_dvr.m3u8',
-      logo:
-          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKAkEfk96B4C3wdml0A6_Ewv8zhsVAj2AVDSLpS34DMw&s',
-      group: 'Generalistas',
-      tvgName: 'La 1',
-    ),
-  ];
-}

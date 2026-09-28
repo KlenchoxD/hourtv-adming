@@ -18,7 +18,6 @@ class HourTvSettingsPage extends StatefulWidget {
 class _HourTvSettingsPageState extends State<HourTvSettingsPage> {
   late bool wifiOnly;
   late bool serverEnabled;
-  late String sortBy;
   String? serverUrl;
   String? version;
 
@@ -32,9 +31,6 @@ class _HourTvSettingsPageState extends State<HourTvSettingsPage> {
     });
     wifiOnly =
         StorageService.getSetting('wifiOnly', defaultValue: false) == true;
-    sortBy =
-        (StorageService.getSetting('sortBy', defaultValue: 'name') ?? 'name')
-            .toString();
     serverEnabled =
         StorageService.getSetting('iptv_server_enabled', defaultValue: false) ==
         true;
@@ -78,59 +74,6 @@ class _HourTvSettingsPageState extends State<HourTvSettingsPage> {
         const SnackBar(content: Text('No se pudo iniciar el servidor IPTV.')),
       );
     }
-  }
-
-  Future<void> _pickSort() async {
-    final selected = await showModalBottomSheet<String>(
-      context: context,
-      backgroundColor: kSetSurface,
-      builder: (sheetContext) => SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const SizedBox(height: 12),
-            const Text(
-              'Orden del catálogo',
-              style: TextStyle(
-                fontWeight: FontWeight.w800,
-                fontSize: 18,
-                color: Colors.white,
-              ),
-            ),
-            ListTile(
-              leading: Icon(
-                sortBy == 'name'
-                    ? Icons.radio_button_checked_rounded
-                    : Icons.radio_button_off_rounded,
-                color: sortBy == 'name' ? kSetRed : kSetMuted,
-              ),
-              title: const Text(
-                'Nombre',
-                style: TextStyle(color: Colors.white),
-              ),
-              onTap: () => Navigator.pop(sheetContext, 'name'),
-            ),
-            ListTile(
-              leading: Icon(
-                sortBy == 'group'
-                    ? Icons.radio_button_checked_rounded
-                    : Icons.radio_button_off_rounded,
-                color: sortBy == 'group' ? kSetRed : kSetMuted,
-              ),
-              title: const Text(
-                'Categoría / grupo',
-                style: TextStyle(color: Colors.white),
-              ),
-              onTap: () => Navigator.pop(sheetContext, 'group'),
-            ),
-            const SizedBox(height: 8),
-          ],
-        ),
-      ),
-    );
-    if (selected == null) return;
-    setState(() => sortBy = selected);
-    await StorageService.saveSetting('sortBy', selected);
   }
 
   Future<void> _clearImageCache() async {
@@ -189,12 +132,6 @@ class _HourTvSettingsPageState extends State<HourTvSettingsPage> {
             setState(() => wifiOnly = value);
             StorageService.saveSetting('wifiOnly', value);
           },
-        ),
-        SettingsChoiceRow(
-          icon: Icons.sort_rounded,
-          title: 'Orden del catálogo',
-          subtitle: sortBy == 'group' ? 'Categoría / grupo' : 'Nombre',
-          onTap: _pickSort,
         ),
         const SettingsSectionLabel('Servidor IPTV local'),
         SettingsToggleRow(

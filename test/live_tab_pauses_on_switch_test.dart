@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:streamtv/main.dart';
 import 'package:streamtv/mobile_ui/hourtv_mobile_components.dart';
+import 'package:streamtv/models/channel.dart';
 import 'package:streamtv/new_ui/hourtv_live_page.dart';
+import 'package:streamtv/services/content_store.dart';
 import 'package:streamtv/services/storage_service.dart';
 
 void main() {
@@ -32,6 +34,13 @@ void main() {
       await tester.pumpWidget(const HourTVApp());
       // Pasa la pausa de marca de _LaunchSplash (900ms).
       await tester.pump(const Duration(milliseconds: 950));
+      // Un canal en vivo real (ya no hay canales de ejemplo de relleno).
+      ContentStore.instance.all = [
+        ...ContentStore.instance.all,
+        Channel(name: 'Canal Prueba', url: 'rtmp://example.invalid/live/1'),
+      ];
+      ContentStore.instance.refreshProfileData();
+      await tester.pump();
 
       // Entra a la pestaña TV: primera visita, construye la guia en vivo.
       await tester.tap(navTv(tester));
