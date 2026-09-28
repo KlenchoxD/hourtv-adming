@@ -214,9 +214,9 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
             channel: channel,
             allChannels: allChannels,
             initialIndex: index,
-            // Solo la entrada desde la fila "Continuar viendo" reanuda
-            // directo; el resto de entradas muestra la decision.
-            resumePlayback: widget.fromContinueWatching,
+            // "Continuar viendo" o el botón "Continuar desde…" reanudan
+            // directo; sin progreso guardado no hay nada que reanudar.
+            resumePlayback: widget.fromContinueWatching || _resume != null,
           ),
         ),
       );
@@ -701,7 +701,10 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
                             _tvAction(
                               0,
                               Icons.play_arrow_rounded,
-                              'Reproducir',
+                              _resume == null
+                                  ? 'Reproducir'
+                                  : 'Continuar desde '
+                                        '${formatResumeClock(_resume!.positionMs)}',
                             ),
                             const SizedBox(width: 14),
                             _tvAction(
@@ -935,6 +938,17 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
     style: const TextStyle(color: _muted, fontWeight: FontWeight.w500),
   );
 
+  /// Avance guardado (para "Continuar desde X"); null si no hay.
+  ResumeOffer? get _resume =>
+      widget.preview ? null : resumeOfferFor(channel, autoResume: true);
+
+  String get _playLabel {
+    final resume = _resume;
+    return resume == null
+        ? 'REPRODUCIR'
+        : 'CONTINUAR DESDE ${formatResumeClock(resume.positionMs)}';
+  }
+
   Widget _actions({bool phone = false, bool desktop = false}) {
     final playButton = FilledButton.icon(
       onPressed: play,
@@ -951,12 +965,15 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
         shape: const StadiumBorder(),
       ),
       icon: const Icon(Icons.play_arrow_rounded),
-      label: const FittedBox(
+      label: FittedBox(
         fit: BoxFit.scaleDown,
         child: Text(
-          'REPRODUCIR',
+          _playLabel,
           maxLines: 1,
-          style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: .3),
+          style: const TextStyle(
+            fontWeight: FontWeight.w900,
+            letterSpacing: .3,
+          ),
         ),
       ),
     );

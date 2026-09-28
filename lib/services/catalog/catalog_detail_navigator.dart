@@ -30,6 +30,7 @@ class CatalogDetailNavigator {
   }) async {
     final effectiveStore = store ?? ContentStore.instance;
     final effectiveRepo = repository ?? (CatalogRepository.hasInstance ? CatalogRepository.instance : null);
+    channel = current(channel, effectiveStore.all);
 
     // 1. Si no es del catálogo Drift o no hay repositorio, usar resolución directa tradicional
     if (!channel.isDriftCatalog || effectiveRepo == null) {
@@ -69,6 +70,20 @@ class CatalogDetailNavigator {
       ),
     );
   }
+}
+
+/// Versión actual de [saved] en el catálogo cargado. Biblioteca, Historial
+/// y Continuar viendo guardan una copia del título con los servidores de ese
+/// día; si el catálogo los cambió, esa copia abría un servidor caído (pantalla
+/// negra). El progreso no se pierde: se guarda por id del título.
+@visibleForTesting
+Channel current(Channel saved, List<Channel> catalog) {
+  final id = saved.tvgId?.trim();
+  if (id == null || id.isEmpty || saved.type == MediaType.live) return saved;
+  for (final item in catalog) {
+    if (item.tvgId == id && item.type == saved.type) return item;
+  }
+  return saved;
 }
 
 class _HydratingDetailPage extends StatefulWidget {
