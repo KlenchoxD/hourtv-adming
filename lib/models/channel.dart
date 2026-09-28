@@ -284,6 +284,10 @@ class Channel {
   final bool isKidsSafe;
   final String? catalogTitleId;
 
+  /// TMDB id de la película, o de la serie si es un episodio. Clave de los
+  /// subtítulos del repositorio hourtv-subtitles.
+  final int? tmdbId;
+
   bool get isDriftCatalog =>
       (catalogTitleId != null && catalogTitleId!.isNotEmpty) ||
       url.startsWith('catalog://');
@@ -328,6 +332,7 @@ class Channel {
     this.isFeatured = false,
     this.isKidsSafe = false,
     this.catalogTitleId,
+    this.tmdbId,
   });
 
   factory Channel.fromM3U(
@@ -406,6 +411,7 @@ class Channel {
     'isFeatured': isFeatured,
     'isKidsSafe': isKidsSafe,
     'catalogTitleId': catalogTitleId,
+    'tmdbId': tmdbId,
   };
 
   factory Channel.fromJson(Map<String, dynamic> json) => Channel(
@@ -452,6 +458,7 @@ class Channel {
     isFeatured: json['isFeatured'] == true || json['featured'] == true,
     isKidsSafe: json['isKidsSafe'] == true || json['is_kids_safe'] == true,
     catalogTitleId: json['catalogTitleId']?.toString(),
+    tmdbId: int.tryParse('${json['tmdbId'] ?? ''}'),
   );
 
   Channel copyWith({
@@ -487,6 +494,7 @@ class Channel {
     bool? isFeatured,
     bool? isKidsSafe,
     String? catalogTitleId,
+    int? tmdbId,
   }) {
     return Channel(
       name: name ?? this.name,
@@ -521,6 +529,7 @@ class Channel {
       isFeatured: isFeatured ?? this.isFeatured,
       isKidsSafe: isKidsSafe ?? this.isKidsSafe,
       catalogTitleId: catalogTitleId ?? this.catalogTitleId,
+      tmdbId: tmdbId ?? this.tmdbId,
     );
   }
 

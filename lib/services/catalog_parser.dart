@@ -162,6 +162,7 @@ class CatalogParser {
           servers: servers,
           categories: categories,
           isFeatured: _truthy(movie['featured']),
+          tmdbId: int.tryParse(_text(movie['tmdbId']) ?? ''),
         ),
       );
     }
@@ -206,6 +207,7 @@ class CatalogParser {
       final seriesId = 'catalog:$rawId';
       final categories = _strings(item['categories']);
       final cover = _text(item['poster'] ?? item['cover']);
+      final tmdbId = int.tryParse(_text(item['tmdbId']) ?? '');
       final episodes = <Channel>[];
       final seasons = item['seasons'];
       if (seasons is List) {
@@ -257,6 +259,7 @@ class CatalogParser {
                 ),
                 servers: servers,
                 categories: categories,
+                tmdbId: tmdbId,
               ),
             );
           }

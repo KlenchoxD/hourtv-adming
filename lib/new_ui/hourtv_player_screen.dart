@@ -743,10 +743,14 @@ class _PlayerScreenState extends State<PlayerScreen>
     // Repositorio hourtv-subtitles: español por TMDB id (películas) o por
     // id de la serie en el catálogo (episodios).
     try {
-      final catalogId = channel.catalogTitleId;
-      final key = catalogId == null || !CatalogRepository.hasInstance
-          ? null
-          : await CatalogRepository.instance.dao.subtitleKeyFor(catalogId);
+      final key = await _subtitleKey(channel);
+      if (key == null) {
+        debugPrint(
+          '[SUBTITLES_GH] sin clave: tvg=${channel.tvgId} '
+          'catalog=${channel.catalogTitleId} tmdb=${channel.tmdbId} '
+          'drift=${CatalogRepository.hasInstance}',
+        );
+      }
       final ghTracks = key == null
           ? const <HourTvSubtitleTrack>[]
           : await _githubSubtitles.find(
@@ -888,6 +892,45 @@ class _PlayerScreenState extends State<PlayerScreen>
       }
     } catch (_) {}
     return 'es';
+  }
+
+  /// Clave del repositorio de subtítulos: el TMDB id que trae el catálogo
+  /// JSON (episodios: el de la serie + "…:temporada:episodio" del tvgId) o,
+  /// si no, la ficha del catálogo local.
+  static Future<({int? tmdbId, String? seriesId, int? season, int? episode})?>
+  _subtitleKey(Channel channel) async {
+    // "Continuar viendo" guardado antes de existir tmdbId: se toma del mismo
+    // título en el catálogo cargado.
+    final tvgId = channel.tvgId;
+    final tmdb =
+        channel.tmdbId ??
+        (tvgId == null
+            ? null
+            : [
+                ...ContentStore.instance.all,
+                for (final s in ContentStore.instance.series) ...?s.episodes,
+              ].where((c) => c.tvgId == tvgId).firstOrNull?.tmdbId);
+    if (tmdb != null) {
+      if (channel.type != MediaType.series) {
+        return (tmdbId: tmdb, seriesId: null, season: null, episode: null);
+      }
+      final parts = (channel.tvgId ?? '').split(':');
+      final season = parts.length >= 3
+          ? int.tryParse(parts[parts.length - 2])
+          : null;
+      final episode = parts.length >= 3 ? int.tryParse(parts.last) : null;
+      if (season != null && episode != null) {
+        return (
+          tmdbId: null,
+          seriesId: '$tmdb',
+          season: season,
+          episode: episode,
+        );
+      }
+    }
+    final catalogId = channel.stableTitleId;
+    if (catalogId == null || !CatalogRepository.hasInstance) return null;
+    return CatalogRepository.instance.dao.subtitleKeyFor(catalogId);
   }
 
   static int? _extractSeason(String name) {

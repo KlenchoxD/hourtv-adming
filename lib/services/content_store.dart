@@ -377,7 +377,7 @@ class ContentStore extends ChangeNotifier {
 
   /// Subir al cambiar cómo se interpreta el catálogo (parser, dedupe,
   /// filtros de `all`): fuerza reconstruir aunque las fuentes no cambien.
-  static const _catalogPipelineVersion = 1;
+  static const _catalogPipelineVersion = 2; // 2: guarda tmdbId (subtítulos)
 
   /// `all`/`series` son exactamente la caché cuyo origen tiene esta huella.
   bool _catalogFromSnapshot = false;
