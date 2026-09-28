@@ -327,7 +327,66 @@ class StorageService {
           await prefs.setDouble(target, v);
       }
     }
+    // Las posiciones de reanudación viven dentro de settings, no como clave
+    // propia: sin esto se perdía en qué minuto se había quedado.
+    final settings = loadSettings();
+    var changed = false;
+    for (final key in settings.keys.toList()) {
+      if (!key.endsWith(suffix)) continue;
+      final target =
+          '${key.substring(0, key.length - suffix.length)}.profile.$toProfileId';
+      if (settings.containsKey(target)) continue;
+      settings[target] = settings[key];
+      changed = true;
+    }
+    if (changed) await prefs.setString(_settingsKey, jsonEncode(settings));
     if (activeProfileId == toProfileId) _recentCache = null;
+  }
+
+  // ---- Datos de un perfil cualquiera (no solo el activo): los usa la
+  // sincronización con la nube para los demás perfiles de la cuenta.
+
+  static List<Channel> loadFavoritesFor(String profileId) =>
+      _decodeChannelList(_prefs?.getString('$_favoritesKey.profile.$profileId'));
+
+  static Future<void> saveFavoritesFor(
+    String profileId,
+    List<Channel> favorites,
+  ) async {
+    await _prefs?.setString(
+      '$_favoritesKey.profile.$profileId',
+      jsonEncode(favorites.map((c) => c.toJson()).toList()),
+    );
+  }
+
+  static List<Channel> loadRecentFor(String profileId) =>
+      profileId == activeProfileId
+      ? List.of(loadRecent())
+      : _decodeChannelList(_prefs?.getString('$_recentKey.profile.$profileId'));
+
+  static Future<void> saveRecentFor(
+    String profileId,
+    List<Channel> recent,
+  ) async {
+    if (profileId == activeProfileId) {
+      _recentCache = recent;
+      _recentCacheProfileId = profileId;
+    }
+    await _prefs?.setString(
+      '$_recentKey.profile.$profileId',
+      jsonEncode(recent.map((c) => c.toJson()).toList()),
+    );
+  }
+
+  static List<Channel> _decodeChannelList(String? data) {
+    if (data == null) return [];
+    try {
+      return (jsonDecode(data) as List)
+          .map((json) => Channel.fromJson(json))
+          .toList();
+    } catch (_) {
+      return [];
+    }
   }
 
   static Future<void> _migrateLegacyProfileData() async {

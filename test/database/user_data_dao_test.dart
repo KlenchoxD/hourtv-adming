@@ -118,7 +118,7 @@ void main() {
       final now = DateTime.utc(2026, 9, 12, 14, 0, 0);
 
       final seq1 = await dao.getNextSequence('p-1', 'dev-A');
-      expect(seq1, equals(1));
+      expect(seq1, greaterThan(0));
 
       await dao.enqueueOperation(
         operationId: 'op-1',
@@ -132,7 +132,7 @@ void main() {
       );
 
       final seq2 = await dao.getNextSequence('p-1', 'dev-A');
-      expect(seq2, equals(2));
+      expect(seq2, greaterThan(seq1));
 
       await dao.enqueueOperation(
         operationId: 'op-2',

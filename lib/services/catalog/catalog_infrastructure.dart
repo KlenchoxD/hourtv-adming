@@ -127,8 +127,12 @@ Future<CatalogInfrastructure> initializeCatalogInfrastructure({
 
   // 6. Construir y registrar ProfileSyncEngine (Fase 4)
   ProfileSyncGateway? effectiveProfileSyncGateway = profileSyncGateway;
-  if (effectiveProfileSyncGateway == null && effectiveClient != null) {
-    effectiveProfileSyncGateway = SupabaseProfileSyncGateway(client: effectiveClient);
+  if (effectiveProfileSyncGateway == null &&
+      (effectiveClient != null || supabaseClient == null)) {
+    effectiveProfileSyncGateway = SupabaseProfileSyncGateway(
+      client: supabaseClient,
+      clientProvider: () => effectiveBootstrap.client,
+    );
   }
 
   final effectiveDeviceId = deviceId ??

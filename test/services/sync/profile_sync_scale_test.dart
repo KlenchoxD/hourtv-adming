@@ -121,7 +121,7 @@ void main() {
       final dbs = <CatalogDatabase>[];
 
       for (int p = 1; p <= 5; p++) {
-        final profileId = 'profile-$p';
+        final profileId = UuidUtils.v5(UuidUtils.namespaceUrl, 'profile-$p');
         final dbA = CatalogDatabase.inMemory();
         final dbB = CatalogDatabase.inMemory();
         dbs.add(dbA);
@@ -178,7 +178,7 @@ void main() {
 
       // Verificar que los 5 perfiles tienen exactamente 20 operaciones registradas en el servidor
       for (int p = 1; p <= 5; p++) {
-        final profileId = 'profile-$p';
+        final profileId = UuidUtils.v5(UuidUtils.namespaceUrl, 'profile-$p');
         final pull = await scaleGateway.pullChanges(profileId, sinceRevision: 0, limit: 100);
         final ops = pull['operations'] as List;
         expect(ops.length, equals(20));
@@ -194,7 +194,7 @@ void main() {
     });
 
     test('Paginacion keyset por lotes sin perdida ni duplicados bajo volumen alto', () async {
-      final profileId = 'profile-keyset-test';
+      final profileId = UuidUtils.v5(UuidUtils.namespaceUrl, 'profile-keyset-test');
       final engine = ProfileSyncEngine(
         userDataDao: dao,
         gateway: scaleGateway,

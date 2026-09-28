@@ -21,6 +21,7 @@ import 'dart:io';
 
 import 'package:path_provider/path_provider.dart';
 
+import 'services/sync/profile_cloud_sync.dart';
 import 'services/sync/profile_sync_engine.dart';
 import 'services/recommendations/recommendation_engine.dart';
 import 'services/catalog/catalog_infrastructure.dart';
@@ -219,6 +220,8 @@ class _AppShellState extends State<_AppShell> with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
       unawaited(ContentStore.instance.maybeRefresh());
+      // Lo que se hizo en otro equipo mientras la app estaba en segundo plano.
+      unawaited(ProfileCloudSync.syncActive());
     } else if (state == AppLifecycleState.paused ||
         state == AppLifecycleState.inactive ||
         state == AppLifecycleState.hidden) {
@@ -231,9 +234,11 @@ class _AppShellState extends State<_AppShell> with WidgetsBindingObserver {
     super.didChangeDependencies();
     if (_checkedForUpdate) return;
     _checkedForUpdate = true;
-    WidgetsBinding.instance.addPostFrameCallback(
-      (_) => unawaited(_checkForUpdate()),
-    );
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      unawaited(_checkForUpdate());
+      // Con el catálogo ya cargado: trae lo hecho en otros equipos.
+      unawaited(ProfileCloudSync.syncActive());
+    });
   }
 
   Future<void> _checkForUpdate() async {

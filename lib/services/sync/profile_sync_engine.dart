@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart' show debugPrint;
 import 'package:drift/drift.dart';
 import '../../database/catalog_database.dart';
 import '../../database/daos/user_data_dao.dart';
@@ -58,26 +59,28 @@ class ProfileSyncEngine {
   ProfileSyncGateway? get _gateway => gateway;
   String get _deviceId => deviceId;
 
-  /// Identifica si un perfil pertenece al modo invitado / local offline o a un perfil cloud
-  bool isGuestProfile(String profileId) {
-    if (profileId == 'guest' || profileId == 'invitado') return true;
-    try {
-      if (StorageService.isInitialized) {
-        final cloudId = StorageService.cloudProfileId;
-        if (cloudId == null || cloudId.isEmpty) {
-          return true; // Modo Invitado activo
-        }
-        return profileId != cloudId;
-      }
-    } catch (_) {}
-    return false;
-  }
+  /// Perfil local (sin cuenta) o de la nube. Los perfiles de la nube tienen
+  /// id UUID de Supabase; los locales, un slug ("kleiner", "invitado").
+  /// Antes solo contaba el perfil activo: lo que se hacía en los demás
+  /// perfiles de la cuenta (o lo importado) nunca se subía.
+  bool isGuestProfile(String profileId) => !UuidUtils.isUuid(profileId);
 
   /// Vuelca forzadamente y sincroniza las operaciones locales en cambios de ciclo de vida.
   Future<void> flush([String? profileId]) async {
     final targetId = profileId ?? StorageService.activeProfileId;
-    if (isGuestProfile(targetId)) return;
-    await syncProfile(targetId);
+    if (!isGuestProfile(targetId)) await syncProfile(targetId);
+    await pushAllPending(except: targetId);
+  }
+
+  /// Sube lo pendiente de todos los perfiles de la cuenta.
+  Future<void> pushAllPending({String? except}) async {
+    if (_gateway == null) return;
+    for (final profileId in await _dao.getProfilesWithPendingOperations()) {
+      if (profileId == except || isGuestProfile(profileId)) continue;
+      try {
+        await pushPendingOperations(profileId);
+      } catch (_) {}
+    }
   }
 
   // --- Grabación local con encolado determinista para sincronización ---
@@ -318,38 +321,37 @@ class ProfileSyncEngine {
 
     final pending = await _dao.getPendingOperations(profileId, limit: batchSize);
     if (pending.isEmpty) {
+      debugPrint('[SYNC] push ${profileId.substring(0, 8)}: nada pendiente');
       return const PushResult();
     }
 
-    final operationsPayload = pending.map((op) {
-      Map<String, dynamic> payloadMap;
-      try {
-        payloadMap = jsonDecode(op.payload) as Map<String, dynamic>;
-      } catch (_) {
-        payloadMap = {};
+    // Lo que el servidor jamás aceptaría (p. ej. historial de menos de un
+    // minuto) se descarta: un solo rechazo tumba el lote entero.
+    final sendable = <LocalProfileSyncQueueData>[];
+    final operationsPayload = <Map<String, dynamic>>[];
+    final dropped = <String>[];
+    for (final op in pending) {
+      final item = toServerOperation(
+        profileId: profileId,
+        operationId: op.operationId,
+        deviceId: op.deviceId,
+        clientSequence: op.clientSequence,
+        operationType: op.operationType,
+        contentKey: op.contentKey,
+        playbackSessionId: op.playbackSessionId,
+        titleId: op.titleId,
+        payload: op.payload,
+        clientTimestamp: op.clientTimestamp,
+      );
+      if (item == null || op.retryCount >= 5) {
+        dropped.add(op.operationId);
+      } else {
+        sendable.add(op);
+        operationsPayload.add(item);
       }
-
-      final item = <String, dynamic>{
-        'operation_id': op.operationId,
-        'device_id': op.deviceId,
-        'client_sequence': op.clientSequence,
-        'operation_type': op.operationType,
-        'content_key': op.contentKey,
-        'payload': payloadMap,
-        'client_timestamp': op.clientTimestamp.toIso8601String(),
-      };
-
-      if (op.playbackSessionId != null) {
-        item['playback_session_id'] = op.playbackSessionId;
-      }
-      if (op.titleId != null) {
-        item['title_id'] = op.titleId;
-      }
-      if (op.episodeId != null) {
-        item['episode_id'] = op.episodeId;
-      }
-      return item;
-    }).toList();
+    }
+    if (dropped.isNotEmpty) await _dao.removeOperations(dropped);
+    if (operationsPayload.isEmpty) return const PushResult();
 
     try {
       final results = await gateway.pushOperations(profileId, operationsPayload);
@@ -372,13 +374,18 @@ class ProfileSyncEngine {
       if (appliedIds.isNotEmpty) {
         await _dao.removeOperations(appliedIds);
       }
+      debugPrint(
+        '[SYNC] push ${profileId.substring(0, 8)}: '
+        'enviadas ${operationsPayload.length}, aceptadas ${appliedIds.length}',
+      );
 
       return PushResult(
         sentCount: operationsPayload.length,
         appliedCount: appliedIds.length,
       );
     } catch (e) {
-      for (final op in pending) {
+      debugPrint('[SYNC] push ${profileId.substring(0, 8)} rechazado: $e');
+      for (final op in sendable) {
         await _dao.updateOperationStatus(op.operationId, 'failed', retryCount: op.retryCount + 1);
       }
       return PushResult(
@@ -389,11 +396,103 @@ class ProfileSyncEngine {
     }
   }
 
+  static const _allowedPreferenceKeys = {
+    'preferred_audio_language',
+    'preferred_subtitle_language',
+    'subtitles_enabled',
+    'preferred_quality',
+  };
+
+  /// Traduce una operación de la cola al contrato de push_profile_operations
+  /// (ver la migración create_profile_sync_schema). null = el servidor la
+  /// rechazaría siempre.
+  ///
+  /// - playback_session_id debe ser UUID; title_id/episode_id no se envían.
+  /// - El historial se llama history_append y lleva position_ms/duration_ms
+  ///   (y solo se acepta si pasó de un minuto o del 90 %).
+  /// - preferences_update solo admite ciertas claves.
+  static Map<String, dynamic>? toServerOperation({
+    required String profileId,
+    required String operationId,
+    required String deviceId,
+    required int clientSequence,
+    required String operationType,
+    required String contentKey,
+    required String? playbackSessionId,
+    required String? titleId,
+    required String payload,
+    required DateTime clientTimestamp,
+  }) {
+    final key = contentKey.trim();
+    if (key.isEmpty || key.length > 255) return null;
+    Map<String, dynamic> data;
+    try {
+      data = Map<String, dynamic>.from(jsonDecode(payload) as Map);
+    } catch (_) {
+      data = {};
+    }
+    // Una sesión estable por perfil y título: el servidor ignora el avance
+    // que llega con otra sesión distinta de la guardada.
+    // Siempre la misma (aunque la operación traiga otra): si llegara con una
+    // sesión distinta de la guardada, el servidor la marcaría como vieja.
+    final session = UuidUtils.v5(
+      UuidUtils.namespaceUrl,
+      'hourtv-session:$profileId:$key',
+    );
+    var type = operationType;
+    switch (operationType) {
+      case 'favorite_add':
+      case 'favorite_remove':
+        data = {};
+      case 'progress_update':
+        final pos = (data['position_ms'] as num?)?.toInt() ?? 0;
+        final dur = (data['duration_ms'] as num?)?.toInt() ?? 0;
+        if (pos < 0 || dur < 0) return null;
+        data = {
+          'position_ms': dur > 0 && pos > dur ? dur : pos,
+          'duration_ms': dur,
+        };
+      case 'restart':
+      case 'mark_completed':
+        final dur = (data['duration_ms'] as num?)?.toInt();
+        data = {if (dur != null && dur > 0) 'duration_ms': dur};
+      case 'history_add':
+      case 'history_append':
+        type = 'history_append';
+        final pos =
+            (data['position_ms'] as num?)?.toInt() ??
+            (data['stopped_at_ms'] as num?)?.toInt() ??
+            0;
+        final dur = (data['duration_ms'] as num?)?.toInt() ?? 0;
+        final meaningful = pos >= 60000 || (dur > 0 && pos >= dur * 0.9);
+        if (!meaningful || pos < 0 || dur < 0) return null;
+        data = {'position_ms': pos, 'duration_ms': dur};
+      case 'preferences_update':
+        data.removeWhere((k, _) => !_allowedPreferenceKeys.contains(k));
+        if (data.isEmpty) return null;
+      default:
+        return null;
+    }
+    return {
+      'operation_id': operationId,
+      'device_id': deviceId,
+      'client_sequence': clientSequence,
+      'operation_type': type,
+      'content_key': key,
+      'payload': data,
+      'client_timestamp': clientTimestamp.toUtc().toIso8601String(),
+      'playback_session_id': session,
+      // Sin title_id: el servidor exige que exista en su tabla "titles" y el
+      // catálogo publicado (catalog.json) no está ahí. La clave de contenido
+      // ya identifica el título.
+    };
+  }
+
   // --- Sincronización Remota: Pull ---
 
   Future<void> pullRemoteChanges(String profileId, {int pageSize = 100}) async {
     final gateway = _gateway;
-    if (gateway == null || profileId == 'guest') {
+    if (gateway == null || isGuestProfile(profileId)) {
       return;
     }
 
@@ -448,9 +547,15 @@ class ProfileSyncEngine {
     final sessionId = op['playback_session_id']?.toString();
     final serverRev = (op['server_revision'] as num?)?.toInt() ?? 0;
     final serverReceivedAtStr = op['server_received_at']?.toString();
-    final receivedAt = serverReceivedAtStr != null
-        ? DateTime.tryParse(serverReceivedAtStr)?.toUtc() ?? DateTime.now().toUtc()
-        : DateTime.now().toUtc();
+    // Cuándo ocurrió en el dispositivo de origen (para ordenar "Continuar
+    // viendo"); si no viene, cuándo lo recibió el servidor.
+    final clientTs = DateTime.tryParse(op['client_timestamp']?.toString() ?? '');
+    final receivedAt =
+        clientTs?.toUtc() ??
+        (serverReceivedAtStr != null
+            ? DateTime.tryParse(serverReceivedAtStr)?.toUtc() ??
+                  DateTime.now().toUtc()
+            : DateTime.now().toUtc());
 
     final payload = (op['payload'] is Map)
         ? Map<String, dynamic>.from(op['payload'] as Map)
@@ -526,8 +631,15 @@ class ProfileSyncEngine {
         );
         break;
       case 'history_add':
-        final histId = payload['history_id']?.toString() ?? UuidUtils.v4();
-        final stoppedAt = (payload['stopped_at_ms'] as num?)?.toInt() ?? 0;
+      case 'history_append':
+        final histId =
+            payload['history_id']?.toString() ??
+            op['operation_id']?.toString() ??
+            UuidUtils.v4();
+        final stoppedAt =
+            (payload['stopped_at_ms'] as num?)?.toInt() ??
+            (payload['position_ms'] as num?)?.toInt() ??
+            0;
         final dur = (payload['duration_ms'] as num?)?.toInt() ?? 0;
         final isComp = payload['is_completed'] == true;
         final frac = dur > 0 ? (stoppedAt / dur).clamp(0.0, 1.0) : 0.0;
@@ -667,7 +779,11 @@ class ProfileSyncEngine {
     }
 
     try {
-      await pushPendingOperations(profileId);
+      // Todos los lotes (el servidor acepta hasta 100 por llamada).
+      for (var batch = 0; batch < 40; batch++) {
+        final pushed = await pushPendingOperations(profileId);
+        if (pushed.hasError || pushed.sentCount == 0) break;
+      }
       await pullRemoteChanges(profileId);
       return const SyncResult(success: true);
     } catch (e) {

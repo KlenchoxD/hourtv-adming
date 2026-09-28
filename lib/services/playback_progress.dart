@@ -166,8 +166,41 @@ class PlaybackProgress {
     return StorageService.saveSetting(profileKey, '{}');
   }
 
-  static String _profileStorageKey() =>
-      '$_storageKey.profile.${StorageService.activeProfileId}';
+  static String _profileStorageKey([String? profileId]) =>
+      '$_storageKey.profile.${profileId ?? StorageService.activeProfileId}';
+
+  /// Posiciones guardadas de un perfil (clave de contenido -> posición).
+  static Map<String, SavedPosition> positionsFor(String profileId) {
+    final raw = _loadAll(_profileStorageKey(profileId));
+    return {
+      for (final e in raw.entries)
+        if (e.value is Map)
+          e.key: SavedPosition.fromMap(Map<String, dynamic>.from(e.value)),
+    };
+  }
+
+  /// Reemplaza las posiciones de un perfil (lo usa la sincronización).
+  static Future<void> savePositionsFor(
+    String profileId,
+    Map<String, SavedPosition> positions,
+  ) {
+    final key = _profileStorageKey(profileId);
+    final map = <String, dynamic>{
+      for (final e in positions.entries) e.key: e.value.toMap(),
+    };
+    _cache[key] = map;
+    final payload = jsonEncode(map);
+    final completer = Completer<void>();
+    _writeChain = _writeChain.then((_) async {
+      try {
+        await StorageService.saveSetting(key, payload);
+        completer.complete();
+      } catch (e, st) {
+        completer.completeError(e, st);
+      }
+    }).catchError((_) {});
+    return completer.future;
+  }
 
   static Map<String, dynamic> _loadAll([String? key]) {
     final storageKey = key ?? _profileStorageKey();

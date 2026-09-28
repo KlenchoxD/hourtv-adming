@@ -10,6 +10,15 @@ class UuidUtils {
   /// Namespace predeterminado RFC 4122 para URLs / contenido HourTV
   static const String namespaceUrl = '6ba7b811-9dad-11d1-80b4-00c04fd430c8';
 
+  static final _uuidPattern = RegExp(
+    r'^[0-9a-fA-F]{8}-?[0-9a-fA-F]{4}-?[0-9a-fA-F]{4}-?[0-9a-fA-F]{4}-?[0-9a-fA-F]{12}$',
+  );
+
+  /// true si [value] es un UUID (con o sin guiones), como los ids de
+  /// Supabase. Los perfiles locales usan slugs ("kleiner", "invitado").
+  static bool isUuid(String? value) =>
+      value != null && _uuidPattern.hasMatch(value.trim());
+
   /// Genera un UUID v4 criptográficamente seguro (RFC 4122)
   static String v4([Random? customRandom]) {
     final rng = customRandom ?? _random;

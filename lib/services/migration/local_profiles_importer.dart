@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import '../../models/hourtv_account_profile.dart';
 import '../profiles/profile_repository.dart';
 import '../storage_service.dart';
+import '../sync/profile_cloud_sync.dart';
 
 /// Lleva a una cuenta nueva los perfiles creados en este teléfono sin cuenta
 /// (nombre, avatar, si es infantil) junto con sus datos: favoritos, "Me
@@ -49,7 +52,15 @@ class LocalProfilesImporter {
         fromProfileId: local['id'].toString(),
         toProfileId: profile.id,
       );
+      // El historial y el avance de la base local (de ahí salen las
+      // recomendaciones) se copian en la primera sincronización del perfil.
+      await ProfileCloudSync.rememberImportSource(
+        cloudProfileId: profile.id,
+        localProfileId: local['id'].toString(),
+      );
       created.add(profile);
+      // Sube sus favoritos y avance para verlos en cualquier equipo.
+      unawaited(ProfileCloudSync.sync(profile.id));
     }
     await StorageService.saveSetting(_doneKey(accountId), 'imported');
     return created;

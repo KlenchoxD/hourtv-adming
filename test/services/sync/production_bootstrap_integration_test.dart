@@ -204,14 +204,14 @@ void main() {
         // Configurar perfil cloud
         await StorageService.setCloudProfileContext(
           accountId: 'account-uuid-1',
-          profileId: 'cloud-profile-uuid-1',
+          profileId: '22222222-2222-4222-8222-222222222222',
           name: 'Pedro Cloud',
           avatarId: 'adult_1',
           isKids: false,
         );
 
-        expect(StorageService.cloudProfileId, 'cloud-profile-uuid-1');
-        expect(ProfileSyncEngine.instance!.isGuestProfile('cloud-profile-uuid-1'), isFalse);
+        expect(StorageService.cloudProfileId, '22222222-2222-4222-8222-222222222222');
+        expect(ProfileSyncEngine.instance!.isGuestProfile('22222222-2222-4222-8222-222222222222'), isFalse);
 
         final channel = Channel(
           name: 'Película Cloud',
@@ -225,7 +225,7 @@ void main() {
         await pumpEventQueue();
 
         var pendingOps = await db.userDataDao.getPendingOperations(
-          'cloud-profile-uuid-1',
+          '22222222-2222-4222-8222-222222222222',
         );
         expect(pendingOps.any((op) => op.operationType == 'favorite_add'), isTrue);
 
@@ -238,7 +238,7 @@ void main() {
         await pumpEventQueue();
 
         pendingOps = await db.userDataDao.getPendingOperations(
-          'cloud-profile-uuid-1',
+          '22222222-2222-4222-8222-222222222222',
         );
         expect(
           pendingOps.any((op) => op.operationType == 'progress_update' || op.operationType == 'restart'),
@@ -252,12 +252,12 @@ void main() {
 
         // La cola pendiente ahora está limpia
         final remainingOps = await db.userDataDao.getPendingOperations(
-          'cloud-profile-uuid-1',
+          '22222222-2222-4222-8222-222222222222',
         );
         expect(remainingOps, isEmpty);
 
         // 4. Sync profile ejecuta pull
-        final syncResult = await ProfileSyncEngine.instance!.syncProfile('cloud-profile-uuid-1');
+        final syncResult = await ProfileSyncEngine.instance!.syncProfile('22222222-2222-4222-8222-222222222222');
         expect(syncResult.success, isTrue);
         expect(mockGateway.pullCalls, greaterThanOrEqualTo(1));
       },

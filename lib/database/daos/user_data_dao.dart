@@ -200,6 +200,22 @@ class UserDataDao extends DatabaseAccessor<CatalogDatabase> with _$UserDataDaoMi
     required DateTime watchedAt,
     int? serverRevision,
   }) async {
+    // Lo que llega del servidor puede ser una entrada que este mismo equipo
+    // ya guardó con otro id (la subió y la vuelve a bajar): mismo título y
+    // mismo instante = la misma visualización.
+    if (serverRevision != null) {
+      final same = await (select(localProfileHistory)
+            ..where(
+              (t) =>
+                  t.profileId.equals(profileId) &
+                  t.contentKey.equals(contentKey) &
+                  t.watchedAt.equals(watchedAt) &
+                  t.id.equals(id).not(),
+            )
+            ..limit(1))
+          .getSingleOrNull();
+      if (same != null) return;
+    }
     await into(localProfileHistory).insertOnConflictUpdate(
       LocalProfileHistoryCompanion.insert(
         id: id,
@@ -265,6 +281,10 @@ class UserDataDao extends DatabaseAccessor<CatalogDatabase> with _$UserDataDaoMi
 
   // --- Cola de Sincronización ---
 
+  /// Secuencia estrictamente creciente por dispositivo. Se basa en el reloj
+  /// (microsegundos): antes era "máximo de la cola + 1" y, al vaciarse la
+  /// cola tras subirla, volvía a 1; el servidor rechaza números repetidos
+  /// y la sincronización quedaba trabada para siempre.
   Future<int> getNextSequence(String profileId, String deviceId) async {
     final maxSeq = localProfileSyncQueue.clientSequence.max();
     final query = selectOnly(localProfileSyncQueue)
@@ -273,7 +293,39 @@ class UserDataDao extends DatabaseAccessor<CatalogDatabase> with _$UserDataDaoMi
       ..addColumns([maxSeq]);
     final result = await query.getSingle();
     final current = result.read(maxSeq) ?? 0;
-    return current + 1;
+    final now = DateTime.now().microsecondsSinceEpoch;
+    return now > current ? now : current + 1;
+  }
+
+  /// Perfiles con operaciones sin subir (para sincronizarlos todos, no solo
+  /// el activo).
+  Future<List<String>> getProfilesWithPendingOperations() async {
+    final query = selectOnly(localProfileSyncQueue, distinct: true)
+      ..addColumns([localProfileSyncQueue.profileId])
+      ..where(localProfileSyncQueue.status.isIn(['pending', 'failed']));
+    final rows = await query.get();
+    return [
+      for (final row in rows)
+        if (row.read(localProfileSyncQueue.profileId) != null)
+          row.read(localProfileSyncQueue.profileId)!,
+    ];
+  }
+
+  /// Todas las filas de favoritos del perfil, incluidas las quitadas.
+  Future<List<LocalProfileFavorite>> getAllFavoriteRows(String profileId) {
+    return (select(localProfileFavorites)
+          ..where((t) => t.profileId.equals(profileId)))
+        .get();
+  }
+
+  /// Todo el progreso del perfil, más reciente primero.
+  Future<List<LocalProfilePlaybackProgressData>> getAllProgress(
+    String profileId,
+  ) {
+    return (select(localProfilePlaybackProgress)
+          ..where((t) => t.profileId.equals(profileId))
+          ..orderBy([(t) => OrderingTerm.desc(t.lastWatchedAt)]))
+        .get();
   }
 
   Future<void> enqueueOperation({

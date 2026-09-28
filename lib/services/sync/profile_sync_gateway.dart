@@ -28,9 +28,20 @@ abstract class ProfileSyncGateway {
 
 /// Implementación de ProfileSyncGateway mediante RPCs transaccionales seguras de Supabase.
 class SupabaseProfileSyncGateway implements ProfileSyncGateway {
-  final SupabaseClient? client;
+  SupabaseProfileSyncGateway({
+    SupabaseClient? client,
+    SupabaseClient? Function()? clientProvider,
+  }) : _client = client,
+       _clientProvider = clientProvider;
 
-  SupabaseProfileSyncGateway({this.client});
+  final SupabaseClient? _client;
+
+  /// Se resuelve al usar: la base local y el motor se crean al arrancar en
+  /// paralelo con Supabase y, si el cliente se tomaba en ese momento, podía
+  /// ser null y la sincronización quedaba apagada toda la sesión.
+  final SupabaseClient? Function()? _clientProvider;
+
+  SupabaseClient? get client => _client ?? _clientProvider?.call();
 
   @override
   Future<List<Map<String, dynamic>>> pushOperations(

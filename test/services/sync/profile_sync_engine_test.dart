@@ -137,7 +137,7 @@ void main() {
 
       await dao.enqueueOperation(
         operationId: 'op-push-1',
-        profileId: 'p-1',
+        profileId: '11111111-1111-4111-8111-111111111111',
         deviceId: 'device-test-1',
         clientSequence: 1,
         operationType: 'favorite_add',
@@ -148,7 +148,7 @@ void main() {
 
       await dao.enqueueOperation(
         operationId: 'op-push-2',
-        profileId: 'p-1',
+        profileId: '11111111-1111-4111-8111-111111111111',
         deviceId: 'device-test-1',
         clientSequence: 2,
         operationType: 'restart',
@@ -157,12 +157,12 @@ void main() {
         clientTimestamp: now,
       );
 
-      final result = await engine.pushPendingOperations('p-1');
+      final result = await engine.pushPendingOperations('11111111-1111-4111-8111-111111111111');
       expect(result.sentCount, equals(2));
       expect(result.appliedCount, equals(2));
       expect(gateway.lastPushedOperations.length, equals(2));
 
-      final remaining = await dao.getPendingOperations('p-1');
+      final remaining = await dao.getPendingOperations('11111111-1111-4111-8111-111111111111');
       expect(remaining.isEmpty, isTrue);
     });
 
@@ -181,12 +181,12 @@ void main() {
         }
       ];
 
-      await engine.pullRemoteChanges('p-1');
+      await engine.pullRemoteChanges('11111111-1111-4111-8111-111111111111');
 
-      final isFav = await dao.isFavorite('p-1', 'movie:remote_1');
+      final isFav = await dao.isFavorite('11111111-1111-4111-8111-111111111111', 'movie:remote_1');
       expect(isFav, isTrue);
 
-      final cp = await dao.getCheckpoint('p-1');
+      final cp = await dao.getCheckpoint('11111111-1111-4111-8111-111111111111');
       expect(cp, isNotNull);
       expect(cp!.latestServerRevision, equals(15));
     });
@@ -194,7 +194,7 @@ void main() {
     test('3. Pull incremental omite materializar operaciones con apply_status ignored_stale', () async {
       // Estado local actual
       await dao.upsertProgress(
-        profileId: 'p-1',
+        profileId: '11111111-1111-4111-8111-111111111111',
         contentKey: 'movie:conflict',
         playbackSessionId: 'sess-active',
         positionMs: 100,
@@ -220,9 +220,9 @@ void main() {
         }
       ];
 
-      await engine.pullRemoteChanges('p-1');
+      await engine.pullRemoteChanges('11111111-1111-4111-8111-111111111111');
 
-      final prog = await dao.getProgress('p-1', 'movie:conflict');
+      final prog = await dao.getProgress('11111111-1111-4111-8111-111111111111', 'movie:conflict');
       expect(prog!.playbackSessionId, equals('sess-active'));
       expect(prog.positionMs, equals(100)); // No fue degradado por la operación stale
     });
@@ -230,16 +230,16 @@ void main() {
     test('4. Full resync requerido solicita snapshot consistente y lo aplica atomicamente', () async {
       gateway.returnFullResyncOnPull = true;
 
-      await engine.pullRemoteChanges('p-1');
+      await engine.pullRemoteChanges('11111111-1111-4111-8111-111111111111');
 
-      final isFav = await dao.isFavorite('p-1', 'movie:snapshot_fav');
+      final isFav = await dao.isFavorite('11111111-1111-4111-8111-111111111111', 'movie:snapshot_fav');
       expect(isFav, isTrue);
 
-      final prog = await dao.getProgress('p-1', 'movie:snapshot_prog');
+      final prog = await dao.getProgress('11111111-1111-4111-8111-111111111111', 'movie:snapshot_prog');
       expect(prog, isNotNull);
       expect(prog!.positionMs, equals(5000));
 
-      final cp = await dao.getCheckpoint('p-1');
+      final cp = await dao.getCheckpoint('11111111-1111-4111-8111-111111111111');
       expect(cp!.latestServerRevision, equals(500));
     });
 
@@ -266,7 +266,7 @@ void main() {
 
       await dao.enqueueOperation(
         operationId: 'op-fail-1',
-        profileId: 'p-1',
+        profileId: '11111111-1111-4111-8111-111111111111',
         deviceId: 'device-test-1',
         clientSequence: 1,
         operationType: 'favorite_add',
@@ -277,10 +277,10 @@ void main() {
 
       gateway.throwOnPush = true;
 
-      final result = await engine.pushPendingOperations('p-1');
+      final result = await engine.pushPendingOperations('11111111-1111-4111-8111-111111111111');
       expect(result.hasError, isTrue);
 
-      final pending = await dao.getPendingOperations('p-1');
+      final pending = await dao.getPendingOperations('11111111-1111-4111-8111-111111111111');
       expect(pending.length, equals(1));
       expect(pending.first.status, equals('failed'));
       expect(pending.first.retryCount, equals(1));

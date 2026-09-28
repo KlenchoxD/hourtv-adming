@@ -6,7 +6,7 @@ import '../services/migration/guest_migration_service.dart';
 import '../services/migration/local_profiles_importer.dart';
 import '../services/profiles/profile_repository.dart';
 import '../services/storage_service.dart';
-import '../services/sync/profile_sync_engine.dart';
+import '../services/sync/profile_cloud_sync.dart';
 import 'hourtv_guest_import_prompt.dart';
 import 'hourtv_profile_avatars.dart';
 import 'hourtv_profile_picker.dart';
@@ -98,6 +98,9 @@ class _HourTvCloudProfileGateState extends State<HourTvCloudProfileGate> {
       if (!mounted) return;
       setState(() {
         _profiles = list;
+        unawaited(
+          ProfileCloudSync.rememberAccountProfiles(list.map((p) => p.id)),
+        );
         _isLoading = false;
         _guestSummary = guestSummary;
         _showMigrationPrompt = showMigrationPrompt;
@@ -130,6 +133,9 @@ class _HourTvCloudProfileGateState extends State<HourTvCloudProfileGate> {
       if (!mounted) return;
       setState(() {
         _profiles = created;
+        unawaited(
+          ProfileCloudSync.rememberAccountProfiles(created.map((p) => p.id)),
+        );
         _step = _CloudGateStep.list;
       });
     } catch (_) {
@@ -176,7 +182,12 @@ class _HourTvCloudProfileGateState extends State<HourTvCloudProfileGate> {
     );
     await StorageService.markProfileChosen();
     ContentStore.instance.refreshProfileData();
-    unawaited(ProfileSyncEngine.instance?.syncProfile(profile.id));
+    // Trae lo que se hizo en otros equipos con este perfil.
+    unawaited(
+      ProfileCloudSync.sync(profile.id).then((changed) {
+        if (changed) ContentStore.instance.refreshProfileData();
+      }),
+    );
     widget.onProfileSelected?.call(profile);
   }
 
