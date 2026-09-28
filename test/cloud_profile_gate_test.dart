@@ -100,7 +100,7 @@ void main() {
       )));
       await tester.pumpAndSettle();
 
-      expect(find.text('AGREGAR PERFIL'), findsNothing);
+      expect(find.text('Agregar perfil'), findsNothing);
       expect(find.text('Máximo de 5 perfiles'), findsOneWidget);
     });
 
@@ -153,19 +153,19 @@ void main() {
       )));
       await tester.pumpAndSettle();
 
-      expect(find.text('TIPO DE PERFIL'), findsOneWidget);
-      await tester.tap(find.text('PERFIL NORMAL'));
+      expect(find.text('Nuevo perfil'), findsOneWidget);
+      await tester.tap(find.text('Perfil normal'));
       await tester.pumpAndSettle();
 
-      expect(find.text('ELIGE TU AVATAR'), findsOneWidget);
-      await tester.tap(find.text(HourTvAvatarCatalog.adults.first.label.toUpperCase()));
+      expect(find.text('Elige un avatar'), findsOneWidget);
+      await tester.tap(find.byKey(ValueKey('avatar-${HourTvAvatarCatalog.adults.first.id}')));
       await tester.pumpAndSettle();
 
-      expect(find.text('PONLE UN NOMBRE'), findsOneWidget);
+      expect(find.text('¿Cómo se llama?'), findsOneWidget);
       await tester.enterText(find.byType(TextField), 'Nuevo Perfil');
       await tester.pump();
 
-      await tester.tap(find.text('GUARDAR'));
+      await tester.tap(find.text('Guardar'));
       await tester.pumpAndSettle();
 
       expect(repository.createCalls, 1);

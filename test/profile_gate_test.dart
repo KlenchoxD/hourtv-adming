@@ -34,10 +34,10 @@ void main() {
       expect(find.byType(HourTvProfileGate), findsOneWidget);
       // Sin instalar nunca la app no debe verse ningun perfil listo para
       // usar: solo la eleccion de tipo de perfil a crear.
-      expect(find.text('PERFIL NORMAL'), findsOneWidget);
-      expect(find.text('PERFIL INFANTIL'), findsOneWidget);
+      expect(find.text('Perfil normal'), findsOneWidget);
+      expect(find.text('Perfil infantil'), findsOneWidget);
 
-      await tester.tap(find.text('PERFIL NORMAL'));
+      await tester.tap(find.text('Perfil normal'));
       await tester.pumpAndSettle();
 
       expect(
@@ -46,17 +46,17 @@ void main() {
         reason: 'debe haber minimo 6 caricaturas de adultos para elegir',
       );
       for (final option in HourTvAvatarCatalog.adults) {
-        expect(find.text(option.label.toUpperCase()), findsOneWidget);
+        expect(find.byKey(ValueKey('avatar-${option.id}')), findsOneWidget);
       }
 
       await tester.tap(
-        find.text(HourTvAvatarCatalog.adults.first.label.toUpperCase()),
+        find.byKey(ValueKey('avatar-${HourTvAvatarCatalog.adults.first.id}')),
       );
       await tester.pumpAndSettle();
 
       await tester.enterText(find.byType(TextField), 'Ana');
       await tester.pump();
-      await tester.tap(find.text('CREAR PERFIL'));
+      await tester.tap(find.text('Crear perfil'));
       // El shell iniciado tras crear el perfil mantiene indicadores animados;
       // basta avanzar la transición en vez de esperar quietud absoluta.
       await tester.pump(const Duration(milliseconds: 800));
@@ -81,12 +81,13 @@ void main() {
       // Pasa la pausa de marca de _LaunchSplash (900ms).
       await tester.pump(const Duration(milliseconds: 950));
 
-      await tester.tap(find.text('PERFIL INFANTIL'));
+      await tester.tap(find.text('Perfil infantil'));
       await tester.pumpAndSettle();
 
       expect(HourTvAvatarCatalog.kids, hasLength(2));
-      expect(find.text('NIÑO'), findsOneWidget);
-      expect(find.text('NIÑA'), findsOneWidget);
+      for (final option in HourTvAvatarCatalog.kids) {
+        expect(find.byKey(ValueKey('avatar-${option.id}')), findsOneWidget);
+      }
       expect(tester.takeException(), isNull);
     },
   );

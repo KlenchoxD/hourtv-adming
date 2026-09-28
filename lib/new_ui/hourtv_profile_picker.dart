@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../mobile_ui/hourtv_mobile_components.dart';
 import 'hourtv_profile_avatar.dart';
+import 'hourtv_profile_avatars.dart';
 
 const _muted = Color(0xFFA6A6B0);
 const _line = Color(0xFF3A3A42);
@@ -75,10 +76,7 @@ class HourTvProfilePicker extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 32),
-                  if (header != null) ...[
-                    header!,
-                    const SizedBox(height: 24),
-                  ],
+                  if (header != null) ...[header!, const SizedBox(height: 24)],
                   Wrap(
                     spacing: 16,
                     runSpacing: 24,
@@ -137,25 +135,11 @@ class _ProfileTile extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                // Fondo circular: las caricaturas son PNG transparentes y
-                // flotaban; así combinan con el círculo de "Agregar perfil".
-                Container(
-                  width: radius * 2,
-                  height: radius * 2,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: const Color(0xFF17171B),
-                    border: Border.all(
-                      color: profile.isKids ? _emerald : _line,
-                      width: 2,
-                    ),
-                  ),
-                  padding: const EdgeInsets.all(8),
-                  child: HourTvProfileAvatar(
-                    profileName: profile.name,
-                    avatarSeed: profile.avatarSeed,
-                    radius: radius - 8,
-                  ),
+                _AvatarCircle(
+                  seed: profile.avatarSeed,
+                  name: profile.name,
+                  radius: radius,
+                  ringColor: profile.isKids ? _emerald : _line,
                 ),
                 const SizedBox(height: 10),
                 Text(
@@ -244,6 +228,361 @@ class _AddTile extends StatelessWidget {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+// ── Crear perfil ──────────────────────────────────────────────────────────
+// Mismo lenguaje que "¿Quién está viendo?": bloque centrado, títulos sin
+// mayúsculas forzadas y avatares en círculo. Compartido por el selector local
+// y el de la nube.
+
+/// Paso del asistente: flecha atrás arriba y el contenido centrado.
+class HourTvProfileStep extends StatelessWidget {
+  const HourTvProfileStep({
+    super.key,
+    required this.title,
+    required this.subtitle,
+    required this.child,
+    this.onBack,
+  });
+
+  final String title;
+  final String subtitle;
+  final Widget child;
+  final VoidCallback? onBack;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        LayoutBuilder(
+          builder: (context, box) => SingleChildScrollView(
+            padding: const EdgeInsets.fromLTRB(20, 56, 20, 24),
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minHeight: box.maxHeight - 80),
+              child: Center(
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 460),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        title,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 24,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        subtitle,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(color: _muted, fontSize: 14),
+                      ),
+                      const SizedBox(height: 32),
+                      child,
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+        if (onBack != null)
+          Positioned(
+            left: 4,
+            top: 4,
+            child: IconButton(
+              tooltip: 'Atrás',
+              onPressed: onBack,
+              icon: const Icon(Icons.arrow_back_rounded, color: Colors.white),
+            ),
+          ),
+      ],
+    );
+  }
+}
+
+/// Elegir entre perfil normal e infantil: dos tarjetas anchas, una debajo
+/// de la otra, en vez de dos cuadritos que dejaban media pantalla vacía.
+class HourTvProfileTypeChoice extends StatelessWidget {
+  const HourTvProfileTypeChoice({super.key, required this.onPick});
+
+  final ValueChanged<bool> onPick;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        _TypeCard(
+          icon: Icons.person_rounded,
+          title: 'Perfil normal',
+          description: 'Todo el catálogo: películas, series y TV en vivo',
+          accent: Colors.white,
+          onTap: () => onPick(false),
+        ),
+        const SizedBox(height: 14),
+        _TypeCard(
+          icon: Icons.child_care_rounded,
+          title: 'Perfil infantil',
+          description: 'Solo caricaturas y contenido para niños',
+          accent: _emerald,
+          onTap: () => onPick(true),
+        ),
+      ],
+    );
+  }
+}
+
+class _TypeCard extends StatelessWidget {
+  const _TypeCard({
+    required this.icon,
+    required this.title,
+    required this.description,
+    required this.accent,
+    required this.onTap,
+  });
+
+  final IconData icon;
+  final String title;
+  final String description;
+  final Color accent;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: const Color(0xFF131316),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(18),
+        side: const BorderSide(color: _line),
+      ),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(18),
+        child: Padding(
+          padding: const EdgeInsets.all(18),
+          child: Row(
+            children: [
+              Container(
+                width: 56,
+                height: 56,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: accent.withValues(alpha: .12),
+                ),
+                child: Icon(icon, color: accent, size: 30),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 17,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      description,
+                      style: const TextStyle(color: _muted, fontSize: 13),
+                    ),
+                  ],
+                ),
+              ),
+              const Icon(Icons.chevron_right_rounded, color: _muted),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Grilla de avatares en círculo, sin etiquetas (antes decían "Hombre 1"
+/// aunque la caricatura no lo fuera). Cada uno lleva la clave
+/// `avatar-<id>` para las pruebas.
+class HourTvAvatarGrid extends StatelessWidget {
+  const HourTvAvatarGrid({
+    super.key,
+    required this.options,
+    required this.onPick,
+    this.kids = false,
+    this.enabled = true,
+  });
+
+  final List<HourTvAvatarOption> options;
+  final ValueChanged<String> onPick;
+  final bool kids;
+  final bool enabled;
+
+  @override
+  Widget build(BuildContext context) {
+    // Ancho de 3 avatares: 6 opciones quedan 3 + 3 (no 4 + 2).
+    return ConstrainedBox(
+      constraints: const BoxConstraints(maxWidth: 3 * 100 + 2 * 18 + 1),
+      child: Wrap(
+        spacing: 18,
+        runSpacing: 18,
+        alignment: WrapAlignment.center,
+        children: [
+          for (final option in options)
+            Semantics(
+              button: true,
+              label: option.label,
+              child: InkWell(
+                key: ValueKey('avatar-${option.id}'),
+                onTap: enabled ? () => onPick(option.id) : null,
+                customBorder: const CircleBorder(),
+                child: _AvatarCircle(
+                  seed: option.seed,
+                  name: option.label,
+                  radius: 50,
+                  ringColor: kids ? _emerald : _line,
+                ),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Avatar grande, campo de nombre y botón.
+class HourTvProfileNameForm extends StatelessWidget {
+  const HourTvProfileNameForm({
+    super.key,
+    required this.avatarSeed,
+    required this.controller,
+    required this.buttonLabel,
+    required this.onSubmit,
+    required this.onChanged,
+    this.kids = false,
+    this.busy = false,
+  });
+
+  final String? avatarSeed;
+  final TextEditingController controller;
+  final String buttonLabel;
+  final VoidCallback onSubmit;
+  final VoidCallback onChanged;
+  final bool kids;
+  final bool busy;
+
+  @override
+  Widget build(BuildContext context) {
+    final canSubmit = !busy && controller.text.trim().isNotEmpty;
+    OutlineInputBorder border(Color color, [double width = 1]) =>
+        OutlineInputBorder(
+          borderRadius: BorderRadius.circular(14),
+          borderSide: BorderSide(color: color, width: width),
+        );
+    return Column(
+      children: [
+        if (avatarSeed != null)
+          _AvatarCircle(
+            seed: avatarSeed!,
+            name: controller.text,
+            radius: 64,
+            ringColor: kids ? _emerald : _line,
+          ),
+        const SizedBox(height: 28),
+        TextField(
+          controller: controller,
+          autofocus: true,
+          textCapitalization: TextCapitalization.words,
+          textInputAction: TextInputAction.done,
+          textAlign: TextAlign.center,
+          onSubmitted: (_) {
+            if (canSubmit) onSubmit();
+          },
+          onChanged: (_) => onChanged(),
+          style: const TextStyle(color: Colors.white, fontSize: 18),
+          decoration: InputDecoration(
+            hintText: 'Nombre del perfil',
+            hintStyle: const TextStyle(color: _muted),
+            filled: true,
+            fillColor: const Color(0xFF131316),
+            border: border(_line),
+            enabledBorder: border(_line),
+            focusedBorder: border(_emerald, 2),
+          ),
+        ),
+        const SizedBox(height: 20),
+        SizedBox(
+          width: double.infinity,
+          height: 52,
+          child: FilledButton(
+            onPressed: canSubmit ? onSubmit : null,
+            style: FilledButton.styleFrom(
+              backgroundColor: _emerald,
+              foregroundColor: Colors.black,
+              disabledBackgroundColor: const Color(0xFF1E1E22),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(14),
+              ),
+            ),
+            child: busy
+                ? const SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      color: Colors.black,
+                    ),
+                  )
+                : Text(
+                    buttonLabel,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+/// Caricatura sobre un círculo oscuro con borde (las imágenes son PNG
+/// transparentes y flotaban).
+class _AvatarCircle extends StatelessWidget {
+  const _AvatarCircle({
+    required this.seed,
+    required this.name,
+    required this.radius,
+    required this.ringColor,
+  });
+
+  final String seed;
+  final String name;
+  final double radius;
+  final Color ringColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: radius * 2,
+      height: radius * 2,
+      padding: EdgeInsets.all(radius * .14),
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: const Color(0xFF17171B),
+        border: Border.all(color: ringColor, width: 2),
+      ),
+      child: HourTvProfileAvatar(
+        profileName: name,
+        avatarSeed: seed,
+        radius: radius * .86,
       ),
     );
   }

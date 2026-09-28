@@ -7,13 +7,10 @@ import '../services/profiles/profile_repository.dart';
 import '../services/storage_service.dart';
 import '../services/sync/profile_sync_engine.dart';
 import 'hourtv_guest_import_prompt.dart';
-import 'hourtv_profile_avatar.dart';
 import 'hourtv_profile_avatars.dart';
 import 'hourtv_profile_picker.dart';
 
 const _bg = Color(0xFF050505);
-const _surface = Color(0xFF111113);
-const _line = Color(0xFF29292E);
 const _muted = Color(0xFFA6A6B0);
 const _emerald = Color(0xFF00C781);
 
@@ -219,66 +216,56 @@ class _HourTvCloudProfileGateState extends State<HourTvCloudProfileGate> {
       );
     }
 
-    if (_step == _CloudGateStep.list) {
-      return Scaffold(
-        backgroundColor: _bg,
-        body: SafeArea(child: _listStep()),
-      );
-    }
     return Scaffold(
       backgroundColor: _bg,
       body: SafeArea(
-        child: Align(
-          alignment: Alignment.topCenter,
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 560),
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
-              child: switch (_step) {
-                _CloudGateStep.list => _listStep(),
-                _CloudGateStep.type => _typeStep(),
-                _CloudGateStep.avatar => _avatarStep(),
-                _CloudGateStep.name => _nameStep(),
-              },
-            ),
-          ),
-        ),
+        child: switch (_step) {
+          _CloudGateStep.list => _listStep(),
+          _CloudGateStep.type => _typeStep(),
+          _CloudGateStep.avatar => _avatarStep(),
+          _CloudGateStep.name => _nameStep(),
+        },
       ),
     );
   }
 
-  Widget _header(String title, String subtitle, {VoidCallback? onBack}) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        if (onBack != null)
-          Align(
-            alignment: Alignment.centerLeft,
-            child: IconButton(
-              onPressed: _busy ? null : onBack,
-              icon: const Icon(Icons.arrow_back_rounded, color: Colors.white),
-            ),
-          ),
-        Text(
-          title,
-          textAlign: TextAlign.center,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 26,
-            fontWeight: FontWeight.w900,
-            letterSpacing: .4,
-          ),
-        ),
-        const SizedBox(height: 8),
-        Text(
-          subtitle,
-          textAlign: TextAlign.center,
-          style: const TextStyle(color: _muted, fontSize: 14),
-        ),
-        const SizedBox(height: 32),
-      ],
-    );
-  }
+  Widget _typeStep() => HourTvProfileStep(
+    title: 'Nuevo perfil',
+    subtitle: '¿Para quién es este perfil?',
+    onBack: _profiles.isNotEmpty ? () => setState(() => _step = _CloudGateStep.list) : null,
+    child: HourTvProfileTypeChoice(onPick: _pickType),
+  );
+
+  Widget _avatarStep() => HourTvProfileStep(
+    title: 'Elige un avatar',
+    subtitle: _isKids
+        ? 'Para el perfil infantil'
+        : 'Toca el que más te guste',
+    onBack: _busy ? null : _goToType,
+    child: HourTvAvatarGrid(
+      options: _isKids ? HourTvAvatarCatalog.kids : HourTvAvatarCatalog.adults,
+      kids: _isKids,
+      enabled: !_busy,
+      onPick: _pickAvatar,
+    ),
+  );
+
+  Widget _nameStep() => HourTvProfileStep(
+    title: '¿Cómo se llama?',
+    subtitle: 'Así vas a identificar este perfil',
+    onBack: _busy ? null : () => setState(() => _step = _CloudGateStep.avatar),
+    child: HourTvProfileNameForm(
+      avatarSeed: _avatarId == null
+          ? null
+          : HourTvAvatarCatalog.seedFor(_avatarId!),
+      controller: _nameController,
+      buttonLabel: 'Guardar',
+      kids: _isKids,
+      busy: _busy,
+      onChanged: () => setState(() {}),
+      onSubmit: () => unawaited(_createProfile()),
+    ),
+  );
 
   Widget _listStep() {
     final canAdd = _profiles.length < 5;
@@ -342,224 +329,4 @@ class _HourTvCloudProfileGateState extends State<HourTvCloudProfileGate> {
     );
   }
 
-  Widget _typeStep() {
-    final canGoBack = _profiles.isNotEmpty;
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        _header(
-          'TIPO DE PERFIL',
-          'Elige el tipo para empezar',
-          onBack: canGoBack ? () => setState(() => _step = _CloudGateStep.list) : null,
-        ),
-        Row(
-          children: [
-            Expanded(
-              child: _choiceCard(
-                icon: Icons.person_rounded,
-                label: 'Perfil normal',
-                description: 'Acceso completo al catálogo',
-                onTap: () => _pickType(false),
-              ),
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: _choiceCard(
-                icon: Icons.child_care_rounded,
-                label: 'Perfil infantil',
-                description: 'Solo contenido para niños',
-                onTap: () => _pickType(true),
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-
-  Widget _choiceCard({
-    required IconData icon,
-    required String label,
-    required String description,
-    required VoidCallback onTap,
-  }) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(16),
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 14),
-        decoration: BoxDecoration(
-          color: _surface,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: _line),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(icon, color: _emerald, size: 34),
-            const SizedBox(height: 12),
-            Text(
-              label.toUpperCase(),
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 13,
-                fontWeight: FontWeight.w800,
-                letterSpacing: .2,
-              ),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              description,
-              textAlign: TextAlign.center,
-              style: const TextStyle(color: _muted, fontSize: 11),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _avatarStep() {
-    final options = _isKids ? HourTvAvatarCatalog.kids : HourTvAvatarCatalog.adults;
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        _header(
-          'ELIGE TU AVATAR',
-          _isKids ? 'Para el perfil infantil' : 'Opciones para elegir',
-          onBack: _goToType,
-        ),
-        Wrap(
-          spacing: 16,
-          runSpacing: 16,
-          alignment: WrapAlignment.center,
-          children: [
-            for (final option in options)
-              SizedBox(
-                width: 130,
-                child: _avatarCard(
-                  seed: option.seed,
-                  label: option.label,
-                  onTap: () => _pickAvatar(option.id),
-                ),
-              ),
-          ],
-        ),
-      ],
-    );
-  }
-
-  Widget _avatarCard({
-    required String seed,
-    required String label,
-    required VoidCallback onTap,
-  }) {
-    return Opacity(
-      opacity: _busy ? .5 : 1,
-      child: InkWell(
-        onTap: _busy ? null : onTap,
-        borderRadius: BorderRadius.circular(16),
-        child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 8),
-          decoration: BoxDecoration(
-            color: _surface,
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: _line),
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              HourTvProfileAvatar(
-                profileName: label,
-                avatarSeed: seed,
-                radius: 36,
-                backgroundColor: _emerald,
-              ),
-              const SizedBox(height: 10),
-              Text(
-                label.toUpperCase(),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w800,
-                  letterSpacing: .2,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _nameStep() {
-    final avatarId = _avatarId;
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        _header(
-          'PONLE UN NOMBRE',
-          'Así vas a identificar este perfil',
-          onBack: () => setState(() => _step = _CloudGateStep.avatar),
-        ),
-        if (avatarId != null)
-          HourTvProfileAvatar(
-            profileName: _nameController.text,
-            avatarSeed: HourTvAvatarCatalog.seedFor(avatarId),
-            radius: 44,
-            backgroundColor: _emerald,
-          ),
-        const SizedBox(height: 24),
-        TextField(
-          controller: _nameController,
-          autofocus: true,
-          textCapitalization: TextCapitalization.words,
-          textInputAction: TextInputAction.done,
-          onSubmitted: (_) => unawaited(_createProfile()),
-          onChanged: (_) => setState(() {}),
-          style: const TextStyle(color: Colors.white),
-          decoration: InputDecoration(
-            hintText: 'Nombre del perfil',
-            hintStyle: const TextStyle(color: _muted),
-            filled: true,
-            fillColor: _surface,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(14),
-              borderSide: const BorderSide(color: _line),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(14),
-              borderSide: const BorderSide(color: _line),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(14),
-              borderSide: const BorderSide(color: _emerald, width: 2),
-            ),
-          ),
-        ),
-        const SizedBox(height: 24),
-        ElevatedButton(
-          onPressed: _nameController.text.trim().isEmpty || _busy
-              ? null
-              : () => unawaited(_createProfile()),
-          style: ElevatedButton.styleFrom(
-            backgroundColor: _emerald,
-            foregroundColor: Colors.black,
-            padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 14),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          ),
-          child: _busy
-              ? const SizedBox(
-                  width: 18,
-                  height: 18,
-                  child: CircularProgressIndicator(strokeWidth: 2, color: Colors.black),
-                )
-              : const Text('GUARDAR', style: TextStyle(fontWeight: FontWeight.w800)),
-        ),
-      ],
-    );
-  }
 }
