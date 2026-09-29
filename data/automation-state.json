@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-09-29T14:02:25.324Z",
+  "lastRunAt": "2026-09-29T19:23:58.820Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -24,16 +24,16 @@
     1341138,
     1368337,
     1032863,
-    1294189,
     1751701,
     1228834,
+    1294189,
     1375646,
-    1607127,
     1492640,
-    1482547,
     1377237,
+    1607127,
     1339713,
     460458,
+    1482547,
     1335666,
     1083381
   ],
@@ -107,11 +107,6 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1294189,
-      "title": "The Mongoose",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
-    },
-    {
       "tmdbId": 1751701,
       "title": "After Impact",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
@@ -122,13 +117,13 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1375646,
-      "title": "Colony",
+      "tmdbId": 1294189,
+      "title": "The Mongoose",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1607127,
-      "title": "Un último disparo",
+      "tmdbId": 1375646,
+      "title": "Colony",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
@@ -137,13 +132,18 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1482547,
-      "title": "Zip Wire",
+      "tmdbId": 1377237,
+      "title": "Entrega al límite",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1377237,
-      "title": "Entrega al límite",
+      "tmdbId": 1607127,
+      "title": "Un último disparo",
+      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+    },
+    {
+      "tmdbId": 1482547,
+      "title": "Zip Wire",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     }
   ]
