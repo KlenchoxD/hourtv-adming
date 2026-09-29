@@ -2573,9 +2573,9 @@ class _HourTvMobileLibraryState extends State<HourTvMobileLibrary> {
   }
 
   List<Channel> get _tabRawItems {
+    // "Continuar viendo" ya no es pestaña aparte: el historial incluye lo
+    // que quedó a medias (con su avance), y era casi la misma lista.
     switch (tab) {
-      case 'Continuar viendo':
-        return widget.store.continueWatching;
       case 'Historial':
         return widget.store.history;
       default:
@@ -2616,17 +2616,12 @@ class _HourTvMobileLibraryState extends State<HourTvMobileLibrary> {
 
   (IconData, String, String) get _emptyState {
     switch (tab) {
-      case 'Continuar viendo':
-        return (
-          Icons.play_circle_outline_rounded,
-          'Nada en progreso',
-          'Lo que empieces a ver aparece aquí para retomarlo.',
-        );
       case 'Historial':
         return (
           Icons.history_rounded,
           'Sin reproducciones aún',
-          'Lo que veas queda registrado aquí.',
+          'Lo que veas queda aquí; lo que dejes a medias, listo para '
+              'retomarlo.',
         );
       default:
         return (
@@ -2697,7 +2692,7 @@ class _HourTvMobileLibraryState extends State<HourTvMobileLibrary> {
           padding: const EdgeInsets.fromLTRB(16, 14, 16, 0),
           sliver: SliverToBoxAdapter(
             child: HourTvEvenTabs(
-              labels: const ['Mi Lista', 'Continuar viendo', 'Historial'],
+              labels: const ['Mi Lista', 'Historial'],
               selected: tab,
               onSelected: (value) {
                 setState(() => tab = value);
@@ -2749,20 +2744,28 @@ class _HourTvMobileLibraryState extends State<HourTvMobileLibrary> {
             sliver: SliverGrid.builder(
               itemCount: items.length,
               gridDelegate: const HourTvPosterGridDelegate(),
-              itemBuilder: (_, index) => HourTvPosterCard(
-                channel: items[index],
-                onTap: () {
-                  final channel = items[index];
-                  if (tab == 'Continuar viendo' &&
-                      widget.onOpenContinue != null) {
-                    widget.onOpenContinue!(channel);
-                  } else {
-                    widget.onOpen(channel);
-                  }
-                },
-                width: double.infinity,
-                assetFallback: _fallbackArtwork(index),
-              ),
+              itemBuilder: (_, index) {
+                final channel = items[index];
+                final inProgress =
+                    tab == 'Historial' && (channel.progressFraction ?? 0) > 0;
+                return HourTvPosterCard(
+                  channel: channel,
+                  progress: inProgress ? channel.progressFraction : null,
+                  secondaryProgressLabel: inProgress
+                      ? _HourTvMobileHomeState.remainingLabel(channel)
+                      : null,
+                  onTap: () {
+                    // A medias: abre para seguir donde iba.
+                    if (inProgress && widget.onOpenContinue != null) {
+                      widget.onOpenContinue!(channel);
+                    } else {
+                      widget.onOpen(channel);
+                    }
+                  },
+                  width: double.infinity,
+                  assetFallback: _fallbackArtwork(index),
+                );
+              },
             ),
           ),
       ],

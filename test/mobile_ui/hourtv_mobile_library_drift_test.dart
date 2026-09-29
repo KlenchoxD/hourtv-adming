@@ -208,8 +208,8 @@ void main() {
 
       await tester.pump();
 
-      // Cambiar a la pestaña "Continuar viendo"
-      await tester.tap(find.text('CONTINUAR VIENDO'));
+      // Lo que quedó a medias está en "Historial" y se abre para retomarlo.
+      await tester.tap(find.text('HISTORIAL'));
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 50));
 

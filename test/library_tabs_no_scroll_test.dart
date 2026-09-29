@@ -12,8 +12,8 @@ void main() {
   });
 
   testWidgets(
-    '"Mi Lista", "Continuar viendo" e "Historial" se ven las tres a la vez '
-    'sin tener que arrastrar un carrusel horizontal',
+    '"Mi Lista" e "Historial" (que ya incluye lo que quedó a medias) se '
+    'ven a la vez sin tener que arrastrar un carrusel horizontal',
     (tester) async {
       tester.view.physicalSize = const Size(390, 844);
       tester.view.devicePixelRatio = 1;
@@ -37,7 +37,7 @@ void main() {
       // Las tres etiquetas deben existir en el arbol sin depender de
       // scroll: no estan dentro de un ListView horizontal recortado.
       expect(find.text('MI LISTA'), findsOneWidget);
-      expect(find.text('CONTINUAR VIENDO'), findsOneWidget);
+      expect(find.text('CONTINUAR VIENDO'), findsNothing);
       expect(find.text('HISTORIAL'), findsOneWidget);
       expect(find.byType(ListView), findsNothing);
 
