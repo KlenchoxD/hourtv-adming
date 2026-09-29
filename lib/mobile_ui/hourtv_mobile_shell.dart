@@ -2673,6 +2673,110 @@ class _HourTvMobileLibraryState extends State<HourTvMobileLibrary> {
     }
   }
 
+  /// Cabecera de computador estilo Netflix: título con el conteo al lado,
+  /// y debajo pestañas de texto (subrayado verde) con el filtro a la derecha.
+  Widget _desktopHeader(int count) => Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Row(
+        crossAxisAlignment: CrossAxisAlignment.baseline,
+        textBaseline: TextBaseline.alphabetic,
+        children: [
+          const Text(
+            'Mi Biblioteca',
+            style: TextStyle(
+              color: HourTvMobileTokens.textPrimary,
+              fontSize: 30,
+              fontWeight: FontWeight.w900,
+            ),
+          ),
+          const SizedBox(width: 12),
+          Text(
+            '$count ${count == 1 ? 'título' : 'títulos'}',
+            style: const TextStyle(
+              color: HourTvMobileTokens.textMuted,
+              fontSize: 14,
+            ),
+          ),
+        ],
+      ),
+      const SizedBox(height: 18),
+      DecoratedBox(
+        decoration: const BoxDecoration(
+          border: Border(
+            bottom: BorderSide(color: HourTvMobileTokens.borderSubtle),
+          ),
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            for (final label in const ['Mi Lista', 'Historial'])
+              _textTab(label),
+            const Spacer(),
+            for (final option in _LibraryFilterSelector._options)
+              Padding(
+                padding: const EdgeInsets.only(left: 8, bottom: 10),
+                child: ChoiceChip(
+                  label: Text(option),
+                  selected: filter == option,
+                  showCheckmark: false,
+                  visualDensity: VisualDensity.compact,
+                  onSelected: (_) => setState(() => filter = option),
+                  selectedColor: HourTvMobileTokens.emerald,
+                  backgroundColor: HourTvMobileTokens.surfacePrimary,
+                  side: BorderSide(
+                    color: filter == option
+                        ? HourTvMobileTokens.emerald
+                        : HourTvMobileTokens.borderSubtle,
+                  ),
+                  shape: const StadiumBorder(),
+                  labelStyle: TextStyle(
+                    color: filter == option
+                        ? Colors.black
+                        : HourTvMobileTokens.textPrimary,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 13,
+                  ),
+                ),
+              ),
+          ],
+        ),
+      ),
+    ],
+  );
+
+  Widget _textTab(String label) {
+    final selected = tab == label;
+    return InkWell(
+      onTap: () {
+        setState(() => tab = label);
+        _resolveDriftItems();
+      },
+      child: Container(
+        padding: const EdgeInsets.fromLTRB(2, 8, 2, 12),
+        margin: const EdgeInsets.only(right: 28),
+        decoration: BoxDecoration(
+          border: Border(
+            bottom: BorderSide(
+              color: selected ? HourTvMobileTokens.emerald : Colors.transparent,
+              width: 3,
+            ),
+          ),
+        ),
+        child: Text(
+          label,
+          style: TextStyle(
+            color: selected
+                ? HourTvMobileTokens.textPrimary
+                : HourTvMobileTokens.textMuted,
+            fontSize: 16,
+            fontWeight: selected ? FontWeight.w800 : FontWeight.w600,
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget _tabs() => HourTvEvenTabs(
     labels: const ['Mi Lista', 'Historial'],
     selected: tab,
@@ -2703,99 +2807,66 @@ class _HourTvMobileLibraryState extends State<HourTvMobileLibrary> {
   @override
   Widget build(BuildContext context) {
     final items = _items;
+    final wide = hourTvWideLayout(context);
+    final pad = wide ? hourTvDesktopPadding(context) : 16.0;
     return CustomScrollView(
       key: const PageStorageKey('hourtv-mobile-library'),
       slivers: [
-        SliverPadding(
-          padding: const EdgeInsets.fromLTRB(16, 20, 16, 0),
-          sliver: SliverToBoxAdapter(
-            child: Row(
-              children: [
-                const Icon(
-                  Icons.bookmark_border_rounded,
-                  color: HourTvMobileTokens.emerald,
-                  size: 22,
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: FittedBox(
-                    fit: BoxFit.scaleDown,
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'MI BIBLIOTECA',
-                      maxLines: 1,
-                      style: Theme.of(
-                        context,
-                      ).textTheme.headlineMedium?.copyWith(letterSpacing: .3),
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 8),
-                DecoratedBox(
-                  decoration: BoxDecoration(
-                    color: HourTvMobileTokens.surfacePrimary,
-                    borderRadius: BorderRadius.circular(999),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 6,
-                    ),
-                    child: Text(
-                      '${items.length} ${items.length == 1 ? 'TÍTULO' : 'TÍTULOS'}',
-                      style: const TextStyle(
-                        color: HourTvMobileTokens.emerald,
-                        fontSize: 10,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        // Antes era un carrusel horizontal: con solo 3 opciones, obligaba a
-        // arrastrar para ver "Historial" en vez de mostrar las tres de una.
-        // En computador: pestañas cortas y el filtro como chips en la misma
-        // fila (a todo el ancho parecían barras de celular estiradas).
-        if (hourTvWideLayout(context))
+        if (wide)
           SliverPadding(
-            padding: const EdgeInsets.fromLTRB(16, 14, 16, 12),
+            padding: EdgeInsets.fromLTRB(pad, 28, pad, 20),
+            sliver: SliverToBoxAdapter(child: _desktopHeader(items.length)),
+          )
+        else
+          SliverPadding(
+            padding: const EdgeInsets.fromLTRB(16, 20, 16, 0),
             sliver: SliverToBoxAdapter(
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(width: 360, child: _tabs()),
-                  const SizedBox(width: 24),
-                  for (final option in _LibraryFilterSelector._options)
-                    Padding(
-                      padding: const EdgeInsets.only(left: 8),
-                      child: ChoiceChip(
-                        label: Text(option),
-                        selected: filter == option,
-                        showCheckmark: false,
-                        onSelected: (_) => setState(() => filter = option),
-                        selectedColor: HourTvMobileTokens.emerald,
-                        backgroundColor: HourTvMobileTokens.surfacePrimary,
-                        side: BorderSide(
-                          color: filter == option
-                              ? HourTvMobileTokens.emerald
-                              : HourTvMobileTokens.borderSubtle,
-                        ),
-                        shape: const StadiumBorder(),
-                        labelStyle: TextStyle(
-                          color: filter == option
-                              ? Colors.black
-                              : HourTvMobileTokens.textPrimary,
-                          fontWeight: FontWeight.w700,
+                  const Icon(
+                    Icons.bookmark_border_rounded,
+                    color: HourTvMobileTokens.emerald,
+                    size: 22,
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'MI BIBLIOTECA',
+                        maxLines: 1,
+                        style: Theme.of(
+                          context,
+                        ).textTheme.headlineMedium?.copyWith(letterSpacing: .3),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: HourTvMobileTokens.surfacePrimary,
+                      borderRadius: BorderRadius.circular(999),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 6,
+                      ),
+                      child: Text(
+                        '${items.length} ${items.length == 1 ? 'TÍTULO' : 'TÍTULOS'}',
+                        style: const TextStyle(
+                          color: HourTvMobileTokens.emerald,
+                          fontSize: 10,
                         ),
                       ),
                     ),
+                  ),
                 ],
               ),
             ),
-          )
-        else ...[
+          ),
+        if (!wide) ...[
           SliverPadding(
             padding: const EdgeInsets.fromLTRB(16, 14, 16, 0),
             sliver: SliverToBoxAdapter(child: _tabs()),
@@ -2840,7 +2911,7 @@ class _HourTvMobileLibraryState extends State<HourTvMobileLibrary> {
           )
         else
           SliverPadding(
-            padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
+            padding: EdgeInsets.fromLTRB(pad, 16, pad, 24),
             sliver: SliverGrid.builder(
               itemCount: items.length,
               gridDelegate: const HourTvPosterGridDelegate(),
