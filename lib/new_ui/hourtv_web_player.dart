@@ -309,7 +309,14 @@ class HourTvWebPlayerState extends State<PlayerScreen> {
 
   Widget _landscape(Widget player) => Stack(
     children: [
-      Positioned.fill(child: player),
+      // Recuadro siempre 16:9 y centrado: los reproductores de los servidores
+      // se dibujan 16:9 según el ancho, y en ventanas más anchas que eso
+      // sobraba video abajo y se podía desplazar dentro del reproductor.
+      Positioned.fill(
+        child: Center(
+          child: AspectRatio(aspectRatio: 16 / 9, child: player),
+        ),
+      ),
       Positioned(left: 16, top: 16, child: hourTvPointerShield(_roundButton())),
       // Sin botón propio de pantalla completa: aquí el reproductor del
       // servidor ya trae el suyo y salían dos.
