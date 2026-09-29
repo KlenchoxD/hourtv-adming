@@ -95,6 +95,7 @@ class StorageService {
   }
 
   static Future<void> _writeBlob(String key, String content) async {
+    if (kIsWeb) return; // ver saveChannels
     if (_blobDir == null) {
       // En web esto va a localStorage (~5 MB): el catálogo (~6 MB) no cabe y
       // el error cortaba toda la actualización. Sin caché, se baja en cada
@@ -437,6 +438,9 @@ class StorageService {
 
   // ============ CHANNELS ============
   static Future<void> saveChannels(List<Channel> channels) async {
+    // En web no cabe (localStorage ~5 MB) y convertirlo a JSON congelaba la
+    // pantalla ~3 s: sin caché, se baja en cada visita.
+    if (kIsWeb) return;
     final encoded = await compute(_encodeChannels, channels);
     await _writeBlob(_channelsKey, encoded);
   }
@@ -453,6 +457,7 @@ class StorageService {
 
   // ============ SERIES ============
   static Future<void> saveSeries(List<XtreamSeries> series) async {
+    if (kIsWeb) return; // ver saveChannels
     final encoded = await compute(_encodeSeries, series);
     await _writeBlob(_seriesKey, encoded);
   }

@@ -142,6 +142,12 @@ class HourTvGenreService {
   static final RegExp _oVariants = RegExp('[óòöôõ]');
   static final RegExp _uVariants = RegExp('[úùüû]');
   static final RegExp _nonAlphaNumeric = RegExp(r'[^a-z0-9]+');
+  // Compiladas una vez: antes se creaban en cada llamada, miles de veces al
+  // armar los géneros del catálogo (en web, en el mismo hilo que la pantalla).
+  static final RegExp _digitsOnly = RegExp(r'^\d+$');
+  static final RegExp _leadingJunk = RegExp(r"""^[\[\(*"'\-\s]+""");
+  static final RegExp _trailingJunk = RegExp(r"""[\]\)*"'\-\s]+$""");
+  static final RegExp _accents = RegExp(r'[áéíóúÁÉÍÓÚñÑ]');
 
   /// Normaliza una cadena para comparaciones sin mayúsculas, acentos ni
   /// caracteres especiales.
@@ -171,7 +177,7 @@ class HourTvGenreService {
     final clean = token.trim();
     if (clean.length <= 1) return true;
     // Solo dígitos (ej. años 2024, números 123)
-    if (RegExp(r'^\d+$').hasMatch(clean)) return true;
+    if (_digitsOnly.hasMatch(clean)) return true;
     // URLs o nombres de dominio
     if (clean.contains('http://') ||
         clean.contains('https://') ||
@@ -202,7 +208,7 @@ class HourTvGenreService {
 
     if (words.every(
       (w) =>
-          RegExp(r'^\d+$').hasMatch(w) ||
+          _digitsOnly.hasMatch(w) ||
           _blacklist.contains(w) ||
           _countryBlacklist.contains(w),
     )) {
@@ -216,8 +222,8 @@ class HourTvGenreService {
   static String formatDisplayGenre(String raw) {
     var cleaned = raw
         .trim()
-        .replaceAll(RegExp(r"""^[\[\(*"'\-\s]+"""), '')
-        .replaceAll(RegExp(r"""[\]\)*"'\-\s]+$"""), '')
+        .replaceAll(_leadingJunk, '')
+        .replaceAll(_trailingJunk, '')
         .trim();
 
     if (cleaned.isEmpty) return cleaned;
@@ -394,22 +400,12 @@ class HourTvGenreService {
 
     void processString(String? text, {bool isGroup = false}) {
       if (text == null || text.trim().isEmpty) return;
-
-      final parts = text.split(_delimiterRegex);
-      for (final rawPart in parts) {
-        if (isGroup) {
-          final recognized = resolveRecognizedGenre(rawPart);
-          if (recognized != null && !isJunkGenre(recognized)) {
-            result.add(recognized);
-          }
-          continue;
-        }
-
-        final candidate = formatDisplayGenre(rawPart);
-        if (candidate.isEmpty) continue;
-        if (isJunkGenre(candidate)) continue;
-        result.add(candidate);
-      }
+      result.addAll(
+        (isGroup ? _groupGenresMemo : _textGenresMemo).putIfAbsent(
+          text,
+          () => _genresOf(text, isGroup: isGroup),
+        ),
+      );
     }
 
     // 1. Channel.genre
@@ -424,6 +420,31 @@ class HourTvGenreService {
     processString(item.group, isGroup: true);
 
     return result;
+  }
+
+  // ponytail: memo sin límite; son unos cientos de textos distintos.
+  static final Map<String, List<String>> _textGenresMemo = {};
+  static final Map<String, List<String>> _groupGenresMemo = {};
+
+  static List<String> _genresOf(String text, {required bool isGroup}) {
+    final result = <String>{};
+    final parts = text.split(_delimiterRegex);
+    for (final rawPart in parts) {
+      if (isGroup) {
+        final recognized = resolveRecognizedGenre(rawPart);
+        if (recognized != null && !isJunkGenre(recognized)) {
+          result.add(recognized);
+        }
+        continue;
+      }
+
+      final candidate = formatDisplayGenre(rawPart);
+      if (candidate.isEmpty) continue;
+      if (isJunkGenre(candidate)) continue;
+      result.add(candidate);
+    }
+
+    return result.toList(growable: false);
   }
 
   /// Deduplica y ordena la lista de géneros disponibles para un conjunto
@@ -455,10 +476,8 @@ class HourTvGenreService {
 
   /// Determina si una versión de género es más legible (más acentos o mejor capitalizada).
   static bool _isMoreReadable(String candidate, String current) {
-    final candidateAccents = RegExp(
-      r'[áéíóúÁÉÍÓÚñÑ]',
-    ).allMatches(candidate).length;
-    final currentAccents = RegExp(r'[áéíóúÁÉÍÓÚñÑ]').allMatches(current).length;
+    final candidateAccents = _accents.allMatches(candidate).length;
+    final currentAccents = _accents.allMatches(current).length;
 
     if (candidateAccents > currentAccents) return true;
     if (candidateAccents < currentAccents) return false;
