@@ -129,6 +129,9 @@ class HourTVApp extends StatelessWidget {
     return MaterialApp(
       title: 'HourTV',
       debugShowCheckedModeBanner: false,
+      // En la web, sin el estiramiento/rebote de Android al llegar al borde:
+      // en una página se sentía raro. La app de Android queda igual.
+      scrollBehavior: kIsWeb ? const _WebScrollBehavior() : null,
       theme: HourTvMobileTheme.build(),
       // Respeta "Texto grande" del sistema, pero acotado: esta UI tiene
       // carruseles y grillas de alto fijo que se rompen mucho antes de
@@ -371,4 +374,19 @@ class _FatalError extends StatelessWidget {
       ),
     );
   }
+}
+
+class _WebScrollBehavior extends MaterialScrollBehavior {
+  const _WebScrollBehavior();
+
+  @override
+  Widget buildOverscrollIndicator(
+    BuildContext context,
+    Widget child,
+    ScrollableDetails details,
+  ) => child;
+
+  @override
+  ScrollPhysics getScrollPhysics(BuildContext context) =>
+      const ClampingScrollPhysics();
 }
