@@ -9,6 +9,8 @@ import '../models/channel.dart';
 import '../new_ui/hourtv_account_page.dart';
 import '../new_ui/hourtv_detail_parts.dart';
 import '../new_ui/hourtv_play_button.dart';
+import '../new_ui/hourtv_parental_gate.dart';
+import '../new_ui/hourtv_player_screen.dart';
 import '../new_ui/hourtv_startup_cover.dart';
 import '../new_ui/hourtv_live_page.dart';
 import '../new_ui/hourtv_empty_state.dart';
@@ -1314,6 +1316,24 @@ class _DesktopHero extends StatelessWidget {
   final Channel channel;
   final VoidCallback onOpen;
 
+  Future<void> _play(BuildContext context) async {
+    final isSeries =
+        channel.type == MediaType.series || channel.forcedType == 'series';
+    if (isSeries || channel.url.startsWith('catalog://')) return onOpen();
+    if (!await ensureParentalAccess(context, channel) || !context.mounted) {
+      return;
+    }
+    await Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (_) => PlayerScreen(
+          channel: channel,
+          allChannels: [channel],
+          initialIndex: 0,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final pad = hourTvDesktopPadding(context);
@@ -1389,16 +1409,41 @@ class _DesktopHero extends StatelessWidget {
                   ),
                 ],
                 const SizedBox(height: 20),
-                // Abre la ficha, donde están Reproducir, servidores y
-                // subtítulos (no se inventa un "Reproducir" que haga otra
-                // cosa).
-                IntrinsicWidth(
-                  child: HourTvPlayButton(
-                    label: 'Más información',
-                    icon: Icons.info_outline_rounded,
-                    large: true,
-                    onPressed: onOpen,
-                  ),
+                // Como en Android: Reproducir y Favorito. Las series abren
+                // su ficha para elegir episodio.
+                ListenableBuilder(
+                  listenable: ContentStore.instance,
+                  builder: (context, _) {
+                    final fav = ContentStore.instance.favorites.any(
+                      (c) => c.url == channel.url,
+                    );
+                    return Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        IntrinsicWidth(
+                          child: HourTvPlayButton(
+                            label: 'Reproducir',
+                            large: true,
+                            onPressed: () => unawaited(_play(context)),
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        IntrinsicWidth(
+                          child: HourTvPlayButton(
+                            label: fav ? 'En favoritos' : 'Favorito',
+                            icon: fav
+                                ? Icons.favorite_rounded
+                                : Icons.favorite_border_rounded,
+                            secondary: true,
+                            large: true,
+                            onPressed: () => unawaited(
+                              ContentStore.instance.toggleFavorite(channel),
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  },
                 ),
               ],
             ),

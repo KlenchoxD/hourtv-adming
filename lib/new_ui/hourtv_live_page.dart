@@ -777,15 +777,13 @@ class _HourTvLivePageState extends State<HourTvLivePage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
-                  child: SingleChildScrollView(
-                    padding: const EdgeInsets.only(bottom: 24),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        player,
-                        _NowPlaying(channel: current),
-                      ],
-                    ),
+                  // Fijo: solo la lista de canales se desplaza.
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Flexible(child: player),
+                      _NowPlaying(channel: current),
+                    ],
                   ),
                 ),
                 SizedBox(width: pad),

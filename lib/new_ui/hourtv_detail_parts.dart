@@ -563,3 +563,37 @@ Future<void> hourTvCastChannel(
     ),
   );
 }
+
+/// Portada pequeña junto al título en la ficha de computador/tablet, como la
+/// del celular. Sin portada no ocupa espacio.
+Widget hourTvWideHeroWithPoster({
+  required String? posterUrl,
+  required Widget info,
+  double width = 150,
+}) {
+  final url = posterUrl?.trim();
+  if (url == null || url.isEmpty) return info;
+  return Row(
+    crossAxisAlignment: CrossAxisAlignment.end,
+    children: [
+      Container(
+        width: width,
+        height: width * 1.5,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: const [
+            BoxShadow(color: Color(0x99000000), blurRadius: 24),
+          ],
+        ),
+        child: HourTvArtwork(
+          url: url,
+          borderRadius: BorderRadius.circular(10),
+          memCacheWidth: (width * 2).round(),
+          memCacheHeight: (width * 3).round(),
+        ),
+      ),
+      const SizedBox(width: 24),
+      Flexible(child: info),
+    ],
+  );
+}

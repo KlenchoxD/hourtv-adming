@@ -440,7 +440,7 @@ class _DesktopNavLink extends StatelessWidget {
         fontWeight: selected ? FontWeight.w800 : FontWeight.w500,
       ),
     ),
-    child: Text(label == 'TV' ? 'TV en vivo' : label),
+    child: Text((label == 'TV' ? 'TV en vivo' : label).toUpperCase()),
   );
 }
 

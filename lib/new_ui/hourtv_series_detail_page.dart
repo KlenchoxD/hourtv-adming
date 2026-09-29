@@ -1078,32 +1078,26 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
                 Positioned(
                   left: 58,
                   bottom: 42,
+                  // Igual que la ficha de películas: portada pequeña, título,
+                  // datos y botones; la sinopsis va en la ficha de abajo.
                   child: ConstrainedBox(
-                    constraints: BoxConstraints(maxWidth: tablet ? 480 : 610),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        _badge('SERIE'),
-                        const SizedBox(height: 10),
-                        _heroTitle(tablet ? 38 : 46),
-                        const SizedBox(height: 10),
-                        _heroMeta(),
-                        if ((widget.series.plot ?? '').trim().isNotEmpty) ...[
-                          const SizedBox(height: 12),
-                          Text(
-                            widget.series.plot!,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                              color: _textSecondary,
-                              height: 1.5,
-                            ),
-                          ),
+                    constraints: BoxConstraints(maxWidth: tablet ? 700 : 900),
+                    child: hourTvWideHeroWithPoster(
+                      posterUrl: widget.series.cover,
+                      width: tablet ? 110 : 150,
+                      info: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          _badge('SERIE'),
+                          const SizedBox(height: 10),
+                          _heroTitle(tablet ? 38 : 46),
+                          const SizedBox(height: 10),
+                          _heroMeta(),
+                          const SizedBox(height: 18),
+                          _wideActions(),
                         ],
-                        const SizedBox(height: 18),
-                        _wideActions(),
-                      ],
+                      ),
                     ),
                   ),
                 ),
@@ -1119,7 +1113,21 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
                 padding: const EdgeInsets.fromLTRB(34, 24, 34, 56),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [_episodesBody(compact: tablet)],
+                  children: [
+                    HourTvDetailInfo(
+                      plot: widget.series.plot,
+                      director: widget.series.director,
+                      writer: widget.series.writer,
+                      genre: widget.series.genre,
+                      releaseDate: widget.series.releaseDate,
+                      year: widget.series.year,
+                      rating: widget.series.rating,
+                      duration: seasons.isEmpty ? null : '${seasons.length}',
+                      durationLabel: 'Temporadas',
+                    ),
+                    const SizedBox(height: 28),
+                    _episodesBody(compact: tablet),
+                  ],
                 ),
               ),
             ),

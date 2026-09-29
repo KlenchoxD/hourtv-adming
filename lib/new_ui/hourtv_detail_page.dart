@@ -460,13 +460,18 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
                       left: 32,
                       right: 32,
                       bottom: 26,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          _title(42),
-                          const SizedBox(height: 10),
-                          _meta(),
-                        ],
+                      child: hourTvWideHeroWithPoster(
+                        posterUrl: _heroPosterUrl,
+                        width: 110,
+                        info: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            _title(42),
+                            const SizedBox(height: 10),
+                            _meta(),
+                          ],
+                        ),
                       ),
                     ),
                   ],
@@ -477,32 +482,15 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
           SliverToBoxAdapter(
             child: Center(
               child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 1000),
+                constraints: const BoxConstraints(maxWidth: 1440),
                 child: Padding(
-                  padding: const EdgeInsets.fromLTRB(32, 24, 32, 60),
+                  padding: const EdgeInsets.fromLTRB(20, 24, 20, 60),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       _actions(),
                       const SizedBox(height: 28),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            flex: 2,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                _description(),
-                                const SizedBox(height: 12),
-                                _castSection(),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(width: 34),
-                          Expanded(child: _genres()),
-                        ],
-                      ),
+                      _informationPanel(compact: true),
                       if (related.isNotEmpty) ...[
                         const SizedBox(height: 34),
                         _relatedGrid(columns: 5, portrait: true),
@@ -545,16 +533,20 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
                       right: 42,
                       bottom: 42,
                       child: ConstrainedBox(
-                        constraints: const BoxConstraints(maxWidth: 700),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            _title(52),
-                            const SizedBox(height: 12),
-                            _meta(),
-                            const SizedBox(height: 18),
-                            _actions(desktop: true),
-                          ],
+                        constraints: const BoxConstraints(maxWidth: 900),
+                        child: hourTvWideHeroWithPoster(
+                          posterUrl: _heroPosterUrl,
+                          info: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              _title(52),
+                              const SizedBox(height: 12),
+                              _meta(),
+                              const SizedBox(height: 18),
+                              _actions(desktop: true),
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -566,29 +558,13 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
           SliverToBoxAdapter(
             child: Center(
               child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 1240),
+                constraints: const BoxConstraints(maxWidth: 1800),
                 child: Padding(
-                  padding: const EdgeInsets.fromLTRB(62, 38, 62, 70),
+                  padding: const EdgeInsets.fromLTRB(20, 38, 20, 70),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(flex: 2, child: _description()),
-                          const SizedBox(width: 54),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                _castSection(),
-                                const SizedBox(height: 18),
-                                _genres(),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
+                      _informationPanel(compact: false),
                       if (related.isNotEmpty) ...[
                         const SizedBox(height: 40),
                         _relatedGrid(columns: 3, portrait: false),
@@ -1036,6 +1012,116 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
     ),
   );
 
+  Widget _infoHeading(String text) => Padding(
+    padding: const EdgeInsets.only(bottom: 10),
+    child: Row(
+      children: [
+        Container(
+          width: 18,
+          height: 2,
+          decoration: BoxDecoration(
+            color: _red,
+            borderRadius: BorderRadius.circular(2),
+          ),
+        ),
+        const SizedBox(width: 9),
+        Text(
+          text.toUpperCase(),
+          style: const TextStyle(
+            color: _muted,
+            fontSize: 11,
+            fontWeight: FontWeight.w800,
+            letterSpacing: 1.15,
+          ),
+        ),
+      ],
+    ),
+  );
+
+  Widget _informationPanel({required bool compact}) {
+    final plot = channel.plot?.trim();
+    final hasPlot = plot != null && plot.isNotEmpty;
+    final cast = channel.cast?.trim();
+    final hasCast =
+        cast != null &&
+        cast.isNotEmpty &&
+        isDistinctDetailCast(cast, channel.plot);
+    final hasGenres = _genreNames().isNotEmpty;
+    if (!hasPlot && !hasCast && !hasGenres) return const SizedBox.shrink();
+
+    final details = <Widget>[];
+    if (hasCast) details.add(_castSection(compact: true));
+    if (hasGenres) {
+      if (details.isNotEmpty) details.add(const SizedBox(height: 22));
+      details.add(_genres(compact: true));
+    }
+    final detailsColumn = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: details,
+    );
+    final description = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [_infoHeading('Sinopsis'), _description(large: true)],
+    );
+
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.all(compact ? 20 : 24),
+      decoration: BoxDecoration(
+        color: _surface,
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: _line.withValues(alpha: .8)),
+      ),
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final stack = constraints.maxWidth < (compact ? 680 : 760);
+          if (!hasPlot) return detailsColumn;
+          if (details.isEmpty) return description;
+
+          if (stack) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                description,
+                Container(
+                  width: double.infinity,
+                  margin: const EdgeInsets.only(top: 22),
+                  padding: const EdgeInsets.only(top: 20),
+                  decoration: BoxDecoration(
+                    border: Border(
+                      top: BorderSide(color: _line.withValues(alpha: .8)),
+                    ),
+                  ),
+                  child: detailsColumn,
+                ),
+              ],
+            );
+          }
+
+          final dividerSpace = compact ? 24.0 : 34.0;
+          return Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(flex: 2, child: description),
+              SizedBox(width: dividerSpace),
+              Expanded(
+                child: Container(
+                  padding: EdgeInsets.only(left: dividerSpace),
+                  decoration: BoxDecoration(
+                    border: Border(
+                      left: BorderSide(color: _line.withValues(alpha: .8)),
+                    ),
+                  ),
+                  child: detailsColumn,
+                ),
+              ),
+            ],
+          );
+        },
+      ),
+    );
+  }
+
   // Una sola sinopsis, la de `plot`. Se acabo el texto de relleno inventado
   // ("Una historia original de HourTV..."): si no hay sinopsis, no hay bloque.
   Widget _description({int? maxLines, bool large = false}) {
@@ -1116,7 +1202,7 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
 
   // Sin fotos del reparto en el catalogo, un carrusel visual seria una fila de
   // huecos. Se muestra como texto, recortado y con opcion de verlo entero.
-  Widget _castSection() {
+  Widget _castSection({bool compact = false}) {
     final cast = channel.cast?.trim();
     if (cast == null || cast.isEmpty) return const SizedBox.shrink();
     // Algunos proveedores copian la sinopsis completa en el campo de actores:
@@ -1125,11 +1211,11 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
       return const SizedBox.shrink();
     }
     return Padding(
-      padding: const EdgeInsets.only(top: 22),
+      padding: EdgeInsets.only(top: compact ? 0 : 22),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _sectionTitle('Reparto'),
+          compact ? _infoHeading('Reparto') : _sectionTitle('Reparto'),
           Text(
             cast,
             maxLines: castExpanded ? null : 2,
@@ -1175,7 +1261,7 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
     return buffer.toString().trim();
   }
 
-  Widget _genres() {
+  List<String> _genreNames() {
     // Solo generos de verdad: se parte `genre` por comas y se descartan las
     // categorias internas y lo que ya aparece repetido.
     final seen = <String>{};
@@ -1191,17 +1277,45 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
       if (!seen.add(key)) continue;
       values.add(value[0].toUpperCase() + value.substring(1));
     }
+    return values.take(6).toList(growable: false);
+  }
+
+  Widget _genres({bool compact = false}) {
+    final values = _genreNames();
     if (values.isEmpty) return const SizedBox.shrink();
     return Padding(
-      padding: const EdgeInsets.only(top: 16),
-      child: Text(
-        values.take(6).join(' · '),
-        style: const TextStyle(
-          color: _muted,
-          fontSize: 12.5,
-          fontWeight: FontWeight.w700,
-          height: 1.4,
-        ),
+      padding: EdgeInsets.only(top: compact ? 0 : 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          compact ? _infoHeading('Géneros') : _sectionTitle('Géneros'),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: [
+              for (final value in values)
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 11,
+                    vertical: 7,
+                  ),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF171D1A),
+                    borderRadius: BorderRadius.circular(999),
+                    border: Border.all(color: _line),
+                  ),
+                  child: Text(
+                    value,
+                    style: const TextStyle(
+                      color: _muted,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+            ],
+          ),
+        ],
       ),
     );
   }
