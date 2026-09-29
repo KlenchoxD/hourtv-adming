@@ -96,7 +96,14 @@ class StorageService {
 
   static Future<void> _writeBlob(String key, String content) async {
     if (_blobDir == null) {
-      await _prefs?.setString(key, content);
+      // En web esto va a localStorage (~5 MB): el catálogo (~6 MB) no cabe y
+      // el error cortaba toda la actualización. Sin caché, se baja en cada
+      // visita.
+      try {
+        await _prefs?.setString(key, content);
+      } catch (e) {
+        debugPrint('[Storage] sin caché para $key: ${e.runtimeType}');
+      }
       return;
     }
     // Codificar varios MB a UTF-8 en el hilo principal trababa el arranque.

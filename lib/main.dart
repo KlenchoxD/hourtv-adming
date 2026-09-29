@@ -96,6 +96,7 @@ void main() {
     final tDartInitEnd = DateTime.now().millisecondsSinceEpoch;
     debugPrint('[PERF_TTI] DART_INIT_DONE: time=$tDartInitEnd totalDartMs=${tDartInitEnd - tDartStart}');
     runApp(HourTVApp(catalogInfrastructure: catalogInfra));
+    _appStarted = true;
     // Publicidad: configuración remota y video precargado, sin frenar el
     // arranque.
     unawaited(AdService.warmUp());
@@ -104,8 +105,19 @@ void main() {
         true) {
       unawaited(IptvServerService.instance.start().catchError((_) {}));
     }
-  }, (error, stack) => runApp(HourTVApp(fatalError: '$error')));
+  }, (error, stack) {
+    // Solo un error del arranque deja la pantalla de error. Con la app ya
+    // abierta, un fallo suelto (una fuente o una imagen que no bajó por mala
+    // señal) reemplazaba toda la app por esa pantalla.
+    if (_appStarted) {
+      debugPrint('Error no capturado: $error');
+      return;
+    }
+    runApp(HourTVApp(fatalError: '$error'));
+  });
 }
+
+var _appStarted = false;
 
 class HourTVApp extends StatelessWidget {
   const HourTVApp({super.key, this.fatalError, this.catalogInfrastructure});
