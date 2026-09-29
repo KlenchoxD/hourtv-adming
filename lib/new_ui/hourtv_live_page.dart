@@ -1339,6 +1339,19 @@ class _PlayerSurfaceState extends State<_PlayerSurface> {
   // Se mantiene al cambiar de canal, como en Xuper.
   static bool _muted = false;
 
+  // Controles visibles en pantalla completa; se esconden a los 3 s sin mover
+  // el mouse ni tocar.
+  bool _chromeVisible = true;
+  Timer? _chromeTimer;
+
+  void _showChrome() {
+    _chromeTimer?.cancel();
+    _chromeTimer = Timer(const Duration(seconds: 3), () {
+      if (mounted) setState(() => _chromeVisible = false);
+    });
+    if (!_chromeVisible) setState(() => _chromeVisible = true);
+  }
+
   void _toggleMute() {
     setState(() => _muted = !_muted);
     unawaited(_controller?.setVolume(_muted ? 0 : 1));
@@ -1353,6 +1366,11 @@ class _PlayerSurfaceState extends State<_PlayerSurface> {
   @override
   void didUpdateWidget(covariant _PlayerSurface oldWidget) {
     super.didUpdateWidget(oldWidget);
+    if (widget.fullscreen && !oldWidget.fullscreen) _showChrome();
+    if (!widget.fullscreen) {
+      _chromeTimer?.cancel();
+      _chromeVisible = true;
+    }
     if (oldWidget.channel.url != widget.channel.url) {
       _load();
       return;
@@ -1387,6 +1405,7 @@ class _PlayerSurfaceState extends State<_PlayerSurface> {
 
   @override
   void dispose() {
+    _chromeTimer?.cancel();
     unawaited(_stopImmediately(_controller));
     super.dispose();
   }
@@ -1452,7 +1471,15 @@ class _PlayerSurfaceState extends State<_PlayerSurface> {
     final onPlay = widget.onPlay;
     final fullscreen = widget.fullscreen;
     final playing = _controller?.value.isInitialized == true && !_failed;
-    return AspectRatio(
+    // Como YouTube: en pantalla completa los controles se esconden solos y
+    // vuelven al mover el mouse o tocar la pantalla.
+    final chrome = !fullscreen || _chromeVisible;
+    Widget fade(Widget child) => AnimatedOpacity(
+      opacity: chrome ? 1 : 0,
+      duration: const Duration(milliseconds: 250),
+      child: IgnorePointer(ignoring: !chrome, child: child),
+    );
+    final surface = AspectRatio(
       aspectRatio: 16 / 9,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(tv || widget.edgeToEdge ? 0 : 18),
@@ -1484,16 +1511,18 @@ class _PlayerSurfaceState extends State<_PlayerSurface> {
               )
             else
               _NetworkArtwork(url: channel.backdrop ?? channel.logo),
-            const DecoratedBox(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Color(0x22000000),
-                    Color(0x22000000),
-                    Color(0xEF000000),
-                  ],
+            fade(
+              const DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Color(0x22000000),
+                      Color(0x22000000),
+                      Color(0xEF000000),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -1516,20 +1545,22 @@ class _PlayerSurfaceState extends State<_PlayerSurface> {
               Positioned(
                 right: 8,
                 bottom: 40,
-                child: IconButton(
-                  tooltip: fullscreen
-                      ? 'Salir de pantalla completa'
-                      : 'Pantalla completa',
-                  onPressed: onPlay,
-                  style: IconButton.styleFrom(
-                    backgroundColor: const Color(0xB30B0B0D),
-                    foregroundColor: Colors.white,
-                  ),
-                  icon: Icon(
-                    fullscreen
-                        ? Icons.fullscreen_exit_rounded
-                        : Icons.fullscreen_rounded,
-                    size: 26,
+                child: fade(
+                  IconButton(
+                    tooltip: fullscreen
+                        ? 'Salir de pantalla completa'
+                        : 'Pantalla completa',
+                    onPressed: onPlay,
+                    style: IconButton.styleFrom(
+                      backgroundColor: const Color(0xB30B0B0D),
+                      foregroundColor: Colors.white,
+                    ),
+                    icon: Icon(
+                      fullscreen
+                          ? Icons.fullscreen_exit_rounded
+                          : Icons.fullscreen_rounded,
+                      size: 26,
+                    ),
                   ),
                 ),
               ),
@@ -1551,15 +1582,19 @@ class _PlayerSurfaceState extends State<_PlayerSurface> {
               Positioned(
                 left: 12,
                 top: 10,
-                child: IconButton(
-                  tooltip: _muted ? 'Activar sonido' : 'Silenciar',
-                  onPressed: _toggleMute,
-                  style: IconButton.styleFrom(
-                    backgroundColor: const Color(0xB30B0B0D),
-                    foregroundColor: Colors.white,
-                  ),
-                  icon: Icon(
-                    _muted ? Icons.volume_off_rounded : Icons.volume_up_rounded,
+                child: fade(
+                  IconButton(
+                    tooltip: _muted ? 'Activar sonido' : 'Silenciar',
+                    onPressed: _toggleMute,
+                    style: IconButton.styleFrom(
+                      backgroundColor: const Color(0xB30B0B0D),
+                      foregroundColor: Colors.white,
+                    ),
+                    icon: Icon(
+                      _muted
+                          ? Icons.volume_off_rounded
+                          : Icons.volume_up_rounded,
+                    ),
                   ),
                 ),
               ),
@@ -1611,50 +1646,58 @@ class _PlayerSurfaceState extends State<_PlayerSurface> {
                 // Deja sitio al botón de pantalla completa (abajo a la derecha).
                 right: 64,
                 bottom: 14,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      '${channel.displayName} • ${_currentTitle(channel)}',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w800,
+                child: fade(
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '${channel.displayName} • ${_currentTitle(channel)}',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w800,
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 6),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            channel.currentProgram?.timeRange ?? 'Ahora',
-                            style: const TextStyle(
-                              color: Colors.white70,
-                              fontSize: 11,
+                      const SizedBox(height: 6),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              channel.currentProgram?.timeRange ?? 'Ahora',
+                              style: const TextStyle(
+                                color: Colors.white70,
+                                fontSize: 11,
+                              ),
                             ),
                           ),
-                        ),
-                        Expanded(
-                          child: Text(
-                            'A continuación: ${_nextTitle(channel)}',
-                            textAlign: TextAlign.right,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                              color: Colors.white70,
-                              fontSize: 11,
+                          Expanded(
+                            child: Text(
+                              'A continuación: ${_nextTitle(channel)}',
+                              textAlign: TextAlign.right,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                color: Colors.white70,
+                                fontSize: 11,
+                              ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
           ],
         ),
       ),
+    );
+    if (!fullscreen) return surface;
+    return MouseRegion(
+      cursor: chrome ? MouseCursor.defer : SystemMouseCursors.none,
+      onHover: (_) => _showChrome(),
+      child: Listener(onPointerDown: (_) => _showChrome(), child: surface),
     );
   }
 }
