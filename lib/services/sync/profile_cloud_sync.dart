@@ -173,13 +173,16 @@ class ProfileCloudSync {
       await _importLocalDataOnce(engine, profileId);
       await backfill(engine, profileId);
       final result = await engine.syncProfile(profileId);
-      var changed = await apply(dao, profileId);
+      final applied = await apply(dao, profileId);
       // Me gusta, conteos y ajustes (los ajustes son del teléfono: solo
       // se aplican los del perfil que se está usando).
-      changed |= await ProfileExtrasSync.sync(
+      final extras = await ProfileExtrasSync.sync(
         profileId,
         includeSettings: profileId == StorageService.activeProfileId,
       );
+      // En dos pasos: `changed |= await ...` compilaba mal a WebAssembly
+      // (dart2wasm de Flutter 3.44 generaba código que el navegador rechaza).
+      final changed = applied || extras;
       debugPrint(
         '[SYNC] ${profileId.substring(0, 8)}: '
         '${result.isOffline ? 'sin conexión con el servidor' : result.success ? 'ok' : result.errorMessage}'
