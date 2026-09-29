@@ -5,3 +5,5 @@ Widget hourTvEmbedFrame(String url) => const SizedBox.shrink();
 
 Widget hourTvVideoFrame(String url, {VoidCallback? onError}) =>
     const SizedBox.shrink();
+
+Widget hourTvPointerShield(Widget child) => child;

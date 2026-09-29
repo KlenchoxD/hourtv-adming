@@ -64,3 +64,16 @@ Widget hourTvVideoFrame(String url, {VoidCallback? onError}) =>
         }
       },
     );
+
+/// Un botón de Flutter dibujado encima del iframe no recibe los toques: se
+/// los queda el reproductor de abajo. Un div transparente del navegador
+/// debajo del botón los intercepta (lo que hace el paquete
+/// pointer_interceptor).
+Widget hourTvPointerShield(Widget child) => Stack(
+  children: [
+    Positioned.fill(
+      child: HtmlElementView.fromTagName(tagName: 'div', isVisible: false),
+    ),
+    child,
+  ],
+);
