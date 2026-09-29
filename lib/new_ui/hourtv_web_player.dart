@@ -311,11 +311,8 @@ class HourTvWebPlayerState extends State<PlayerScreen> {
     children: [
       Positioned.fill(child: player),
       Positioned(left: 16, top: 16, child: hourTvPointerShield(_roundButton())),
-      Positioned(
-        right: 16,
-        bottom: 16,
-        child: hourTvPointerShield(_fullscreenButton()),
-      ),
+      // Sin botón propio de pantalla completa: aquí el reproductor del
+      // servidor ya trae el suyo y salían dos.
       if (_servers.length > 1)
         Positioned(
           right: 16,
