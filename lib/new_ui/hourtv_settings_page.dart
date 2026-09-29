@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -112,16 +113,19 @@ class _HourTvSettingsPageState extends State<HourTvSettingsPage> {
     return HourTvSettingsScaffold(
       title: widget.title,
       children: [
-        const SettingsSectionLabel('Actualizaciones'),
-        SettingsChoiceRow(
-          icon: Icons.system_update_rounded,
-          title: 'Buscar actualizaciones',
-          subtitle: 'Descarga e instala nuevas versiones desde GitHub',
-          autofocus: true,
-          onTap: () => Navigator.of(context).push(
-            MaterialPageRoute(builder: (_) => const HourTvUpdatePage()),
+        // En la web no hay APK que instalar: se actualiza sola.
+        if (!kIsWeb) ...[
+          const SettingsSectionLabel('Actualizaciones'),
+          SettingsChoiceRow(
+            icon: Icons.system_update_rounded,
+            title: 'Buscar actualizaciones',
+            subtitle: 'Descarga e instala nuevas versiones desde GitHub',
+            autofocus: true,
+            onTap: () => Navigator.of(context).push(
+              MaterialPageRoute(builder: (_) => const HourTvUpdatePage()),
+            ),
           ),
-        ),
+        ],
         const SettingsSectionLabel('Catálogo y datos'),
         SettingsToggleRow(
           icon: Icons.wifi_rounded,

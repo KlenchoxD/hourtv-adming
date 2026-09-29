@@ -57,6 +57,9 @@ class UpdateService {
   final ValueNotifier<bool> hasUpdateAvailable = ValueNotifier<bool>(false);
 
   Future<UpdateCheckResult> checkForUpdate() async {
+    // La web se actualiza sola al publicarla: ofrecer el APK de Android ahí
+    // no tiene sentido.
+    if (kIsWeb) return const UpToDate();
     final http.Response response;
     try {
       response = await http
