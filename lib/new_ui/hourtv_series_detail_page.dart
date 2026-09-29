@@ -979,7 +979,8 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
           ),
           itemBuilder: (context, index) {
             final item = related[index];
-            final posterUrl = item.backdrop ?? item.logo;
+            // Cuadro vertical: la portada, no el fondo horizontal recortado.
+            final posterUrl = item.logo ?? item.backdrop;
             return ClipRRect(
               borderRadius: BorderRadius.circular(8),
               child: Material(
@@ -997,16 +998,7 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
                     }
                   },
                   child: posterUrl != null && posterUrl.isNotEmpty
-                      ? CachedNetworkImage(
-                          fadeInDuration: Duration.zero,
-                          fadeOutDuration: Duration.zero,
-                          imageUrl: posterUrl,
-                          fit: BoxFit.cover,
-                          errorWidget: (_, _, _) => Container(
-                            color: _surfaceControl,
-                            child: const Icon(Icons.tv_rounded, color: _line),
-                          ),
-                        )
+                      ? HourTvArtwork(url: posterUrl)
                       : Container(
                           color: _surfaceControl,
                           child: const Icon(Icons.tv_rounded, color: _line),

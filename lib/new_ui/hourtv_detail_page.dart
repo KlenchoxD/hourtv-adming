@@ -567,7 +567,7 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
                       _informationPanel(compact: false),
                       if (related.isNotEmpty) ...[
                         const SizedBox(height: 40),
-                        _relatedGrid(columns: 3, portrait: false),
+                        _relatedGrid(columns: 6, portrait: true),
                       ],
                     ],
                   ),
