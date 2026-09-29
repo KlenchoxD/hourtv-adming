@@ -929,7 +929,7 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
             liked: liked,
             likeLabel: _likeLabel,
             onLike: () => unawaited(toggleLiked()),
-            onCast: () => unawaited(castToDevice()),
+            onCast: kIsWeb ? null : () => unawaited(castToDevice()),
           ),
         ],
       );
@@ -969,17 +969,19 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
           label: _likeLabel,
           active: liked,
         ),
-        const SizedBox(width: 8),
-        _roundAction(
-          (RemotePlayback.active.value != null)
-              ? Icons.cast_connected_rounded
-              : Icons.cast_rounded,
-          () => unawaited(castToDevice()),
-          label: (RemotePlayback.active.value != null)
-              ? 'Conectado'
-              : 'Transmitir',
-          active: (RemotePlayback.active.value != null),
-        ),
+        if (!kIsWeb) ...[
+          const SizedBox(width: 8),
+          _roundAction(
+            (RemotePlayback.active.value != null)
+                ? Icons.cast_connected_rounded
+                : Icons.cast_rounded,
+            () => unawaited(castToDevice()),
+            label: (RemotePlayback.active.value != null)
+                ? 'Conectado'
+                : 'Transmitir',
+            active: (RemotePlayback.active.value != null),
+          ),
+        ],
       ],
     );
     if (progress == null) return buttons;

@@ -1,8 +1,9 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
+import '../mobile_ui/hourtv_mobile_components.dart';
 import '../models/channel.dart';
 import '../services/cast_service.dart';
+import '../services/image_resolution_service.dart';
 import '../services/remote_playback.dart';
 import '../services/storage_service.dart';
 import '../services/subtitles/github_subtitle_repository.dart';
@@ -94,14 +95,14 @@ class HourTvDetailPhoneHeader extends StatelessWidget {
         (posterUrl?.trim().isNotEmpty ?? false
             ? ClipRRect(
                 borderRadius: BorderRadius.circular(8),
-                child: CachedNetworkImage(
-                  fadeInDuration: Duration.zero,
-                  fadeOutDuration: Duration.zero,
-                  imageUrl: posterUrl!,
+                child: SizedBox(
                   width: 72,
                   height: 108,
-                  fit: BoxFit.cover,
-                  errorWidget: (_, _, _) => const SizedBox.shrink(),
+                  child: HourTvArtwork(
+                    url: posterUrl,
+                    memCacheWidth: 216,
+                    memCacheHeight: 324,
+                  ),
                 ),
               )
             : null);
@@ -115,14 +116,16 @@ class HourTvDetailPhoneHeader extends StatelessWidget {
           else
             // topCenter sin banner: el póster vertical recortado al centro
             // corta justo la cara del protagonista.
-            CachedNetworkImage(
-              fadeInDuration: Duration.zero,
-              fadeOutDuration: Duration.zero,
-              imageUrl: imageUrl,
+            // HourTvArtwork también muestra imágenes sin CORS en web.
+            HourTvArtwork(
+              url: imageUrl,
               memCacheWidth: 900,
-              fit: BoxFit.cover,
+              // Solo el ancho: con los dos, un póster vertical se deformaría.
+              memCacheHeight: null,
+              variant: hasBackdrop
+                  ? ImageResolutionVariant.heroBackdrop
+                  : ImageResolutionVariant.poster,
               alignment: hasBackdrop ? Alignment.center : Alignment.topCenter,
-              errorWidget: (_, _, _) => const ColoredBox(color: _surface),
             ),
           const DecoratedBox(
             decoration: BoxDecoration(
@@ -306,7 +309,7 @@ class HourTvDetailActionBoxes extends StatelessWidget {
     required this.liked,
     required this.likeLabel,
     required this.onLike,
-    required this.onCast,
+    this.onCast,
   });
 
   final bool inList;
@@ -314,7 +317,9 @@ class HourTvDetailActionBoxes extends StatelessWidget {
   final bool liked;
   final String likeLabel;
   final VoidCallback onLike;
-  final VoidCallback onCast;
+
+  /// null = sin caja "Transmitir" (en el navegador no hay Chromecast/DLNA).
+  final VoidCallback? onCast;
 
   @override
   Widget build(BuildContext context) {
@@ -339,17 +344,19 @@ class HourTvDetailActionBoxes extends StatelessWidget {
               active: liked,
             ),
           ),
-          const SizedBox(width: 10),
-          Expanded(
-            child: _box(
-              casting != null
-                  ? Icons.cast_connected_rounded
-                  : Icons.cast_rounded,
-              casting != null ? 'Conectado' : 'Transmitir',
-              onCast,
-              active: casting != null,
+          if (onCast case final onCast?) ...[
+            const SizedBox(width: 10),
+            Expanded(
+              child: _box(
+                casting != null
+                    ? Icons.cast_connected_rounded
+                    : Icons.cast_rounded,
+                casting != null ? 'Conectado' : 'Transmitir',
+                onCast,
+                active: casting != null,
+              ),
             ),
-          ),
+          ],
         ],
       ),
     );

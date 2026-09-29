@@ -1627,6 +1627,16 @@ class _ChannelLogo extends StatelessWidget {
   Widget build(BuildContext context) {
     final u = url?.trim() ?? '';
     if (u.isEmpty) return _fallback;
+    // Muchos logos vienen de sitios sin CORS: en el navegador se muestran
+    // como <img> normal.
+    if (kIsWeb) {
+      return Image.network(
+        u,
+        fit: BoxFit.contain,
+        webHtmlElementStrategy: WebHtmlElementStrategy.fallback,
+        errorBuilder: (_, _, _) => _fallback,
+      );
+    }
     return Image(
       image: _channelLogoProvider(u),
       fit: BoxFit.contain,

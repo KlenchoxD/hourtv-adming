@@ -276,7 +276,9 @@ class ContentStore extends ChangeNotifier {
         unawaited(_refreshContent(localSources));
       } else {
         unawaited(() async {
-          await Future<void>.delayed(const Duration(seconds: 20));
+          // En web la primera visita no trae canales guardados: esperar 20 s
+          // dejaba TV en vivo vacía todo ese rato.
+          await Future<void>.delayed(Duration(seconds: kIsWeb ? 3 : 20));
           await _waitForTouchIdle();
           await _refreshContent(localSources);
         }());
@@ -883,10 +885,12 @@ class ContentStore extends ChangeNotifier {
           final response = await http
               .get(
                 fresh,
-                headers: {
-                  'User-Agent': 'Mozilla/5.0',
-                  'Cache-Control': 'no-cache',
-                },
+                // En el navegador esas cabeceras obligan a una consulta CORS
+                // previa que GitHub rechaza; el "_=" de la URL ya evita la
+                // caché.
+                headers: kIsWeb
+                    ? null
+                    : {'User-Agent': 'Mozilla/5.0', 'Cache-Control': 'no-cache'},
               )
               .timeout(const Duration(seconds: 12));
           return (

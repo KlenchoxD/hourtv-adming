@@ -26,6 +26,7 @@ import '../services/subtitles/subtitle_discovery_service.dart';
 import '../services/subtitles/subtitle_style.dart';
 import '../services/subtitles/github_subtitle_repository.dart';
 import '../services/subtitles/opensubtitles_repository.dart';
+import 'hourtv_web_player.dart';
 import 'hourtv_focusable.dart';
 import 'hourtv_cast_controls_screen.dart';
 import 'hourtv_cast_sheet.dart';
@@ -75,7 +76,12 @@ class PlayerScreen extends StatefulWidget {
     this.resumePlayback = false,
   });
   @override
-  State<PlayerScreen> createState() => _PlayerScreenState();
+  // En el navegador el reproductor es el iframe del servidor (ver
+  // HourTvWebPlayerState); en Android, el reproductor completo de siempre.
+  // La plataforma no cambia mientras vive la pantalla.
+  State<PlayerScreen> createState() =>
+      // ignore: no_logic_in_create_state
+      kIsWeb ? HourTvWebPlayerState() : _PlayerScreenState();
 }
 
 class _PlayerScreenState extends State<PlayerScreen>

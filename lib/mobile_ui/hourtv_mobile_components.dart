@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart' show SliverConstraints, SliverGridLayout;
 
 import '../models/channel.dart';
 import '../new_ui/hourtv_profile_avatar.dart';
@@ -428,6 +429,27 @@ bool hourTvWideLayout(BuildContext context) =>
     DeviceProfile.isDesktop(context) ||
     (DeviceProfile.isTablet(context) &&
         MediaQuery.sizeOf(context).width >= 1000);
+
+/// Cuadrícula de pósters: 3 columnas en celular, como siempre; con más
+/// ancho, las que quepan a ~170 px para que no salgan gigantes. Mide el ancho
+/// real de la cuadrícula, no el de la pantalla.
+class HourTvPosterGridDelegate extends SliverGridDelegate {
+  const HourTvPosterGridDelegate();
+
+  @override
+  SliverGridLayout getLayout(SliverConstraints constraints) {
+    final width = constraints.crossAxisExtent;
+    return SliverGridDelegateWithFixedCrossAxisCount(
+      crossAxisCount: width < 600 ? 3 : (width / 170).floor().clamp(4, 10),
+      mainAxisSpacing: 16,
+      crossAxisSpacing: 10,
+      childAspectRatio: 120 / 218,
+    ).getLayout(constraints);
+  }
+
+  @override
+  bool shouldRelayout(HourTvPosterGridDelegate oldDelegate) => false;
+}
 
 /// Margen lateral del contenido en computador: crece con la ventana como en
 /// Netflix (≈4 % del ancho), sin bajar de 24 ni pasar de 60.

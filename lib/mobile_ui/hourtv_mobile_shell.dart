@@ -373,11 +373,15 @@ class _HourTvMobileShellState extends State<HourTvMobileShell>
               onRetry: store.retry,
             );
           }
+          // Ancho (computador, iPad horizontal): video a la izquierda y la
+          // guía a la derecha, en vez de la lista del celular estirada.
+          final wide = hourTvWideLayout(context);
+          final tablet = DeviceProfile.isTablet(context) && !wide;
           return HourTvLivePage(
             channels: channels,
             preview: false,
-            phone: !DeviceProfile.isTablet(context),
-            tablet: DeviceProfile.isTablet(context),
+            phone: !tablet && !wide,
+            tablet: tablet,
             tv: false,
             active: _isLiveActive.value,
           );
@@ -1046,12 +1050,7 @@ class HourTvMobileRowPage extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
             sliver: SliverGrid.builder(
               itemCount: items.length,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                mainAxisSpacing: 16,
-                crossAxisSpacing: 10,
-                childAspectRatio: 120 / 218,
-              ),
+              gridDelegate: const HourTvPosterGridDelegate(),
               itemBuilder: (_, index) => HourTvPosterCard(
                 channel: items[index],
                 onTap: () => onOpen(items[index]),
@@ -2235,12 +2234,7 @@ class _HourTvMobileSearchState extends State<HourTvMobileSearch> {
             padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
             sliver: SliverGrid(
               key: const ValueKey('hourtv-mobile-search-results-grid'),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                mainAxisSpacing: 16,
-                crossAxisSpacing: 10,
-                childAspectRatio: 120 / 218,
-              ),
+              gridDelegate: const HourTvPosterGridDelegate(),
               delegate: SliverChildBuilderDelegate(
                 (_, index) => RepaintBoundary(
                   child: HourTvPosterCard(
@@ -2754,12 +2748,7 @@ class _HourTvMobileLibraryState extends State<HourTvMobileLibrary> {
             padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
             sliver: SliverGrid.builder(
               itemCount: items.length,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                mainAxisSpacing: 16,
-                crossAxisSpacing: 10,
-                childAspectRatio: 120 / 218,
-              ),
+              gridDelegate: const HourTvPosterGridDelegate(),
               itemBuilder: (_, index) => HourTvPosterCard(
                 channel: items[index],
                 onTap: () {

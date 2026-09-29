@@ -22,6 +22,8 @@ dependencies:
   url_launcher: ^6.3.1
   connectivity_plus: ^6.1.4
   webview_flutter: 4.14.1
+  # Para el iframe del reproductor en la versión web.
+  web: ^1.1.1
   flutter_chrome_cast: 1.4.6
   package_info_plus: ^10.2.1
   open_filex: ^4.7.0

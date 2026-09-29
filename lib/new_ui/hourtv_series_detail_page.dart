@@ -1,12 +1,15 @@
 import 'dart:async';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 
+import '../mobile_ui/hourtv_mobile_components.dart';
 import '../models/channel.dart';
 import '../services/catalog/catalog_detail_navigator.dart';
 import '../services/content_store.dart';
 import '../services/device_type.dart';
+import '../services/image_resolution_service.dart';
 import '../services/likes_service.dart';
 import '../services/parental_control_service.dart';
 import '../services/playback_progress.dart';
@@ -465,7 +468,7 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
                     liked: _liked,
                     likeLabel: _likeLabel,
                     onLike: () => unawaited(_toggleLiked()),
-                    onCast: () => unawaited(_castNext()),
+                    onCast: kIsWeb ? null : () => unawaited(_castNext()),
                   ),
                   const SizedBox(height: 20),
                   HourTvDetailInfo(
@@ -645,8 +648,7 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
   static int _episodeNumber(Channel episode, int index) {
     final id = episode.tvgId ?? '';
     final match = RegExp(r'E(\d+)$|:(\d+)$').firstMatch(id);
-    return int.tryParse(match?.group(1) ?? match?.group(2) ?? '') ??
-        index + 1;
+    return int.tryParse(match?.group(1) ?? match?.group(2) ?? '') ?? index + 1;
   }
 
   // "Episodios" y el selector de temporada estilo Netflix: botón gris
@@ -1031,14 +1033,13 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
       return const ColoredBox(color: _surface);
     }
 
-    return CachedNetworkImage(
-      fadeInDuration: Duration.zero,
-      fadeOutDuration: Duration.zero,
-      imageUrl: url,
-      memCacheWidth: 900,
-      fit: BoxFit.cover,
+    // HourTvArtwork también muestra imágenes de sitios sin CORS en web.
+    return HourTvArtwork(
+      url: url,
+      memCacheWidth: 1280,
+      memCacheHeight: null,
+      variant: ImageResolutionVariant.heroBackdrop,
       alignment: hasBackdrop ? Alignment.center : Alignment.topCenter,
-      errorWidget: (_, _, _) => const ColoredBox(color: _surface),
     );
   }
 
@@ -1118,9 +1119,7 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
                 padding: const EdgeInsets.fromLTRB(34, 24, 34, 56),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _episodesBody(compact: tablet),
-                  ],
+                  children: [_episodesBody(compact: tablet)],
                 ),
               ),
             ),
@@ -1167,8 +1166,15 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
             active: _liked,
           ),
         ),
-        const SizedBox(width: 8),
-        _action(Icons.ios_share_rounded, _share),
+        // Como en el celular: Transmitir en vez de Compartir (y nada en el
+        // navegador, donde no hay Chromecast/DLNA).
+        if (!kIsWeb) ...[
+          const SizedBox(width: 8),
+          Tooltip(
+            message: 'Transmitir',
+            child: _action(Icons.cast_rounded, _castNext),
+          ),
+        ],
       ],
     );
   }
