@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../mobile_ui/hourtv_mobile_theme.dart';
 import '../models/channel.dart';
+import 'hourtv_detail_parts.dart';
 import 'hourtv_player_screen.dart';
 import 'web_embed/embed_frame.dart';
 
@@ -60,92 +62,255 @@ class HourTvWebPlayerState extends State<PlayerScreen> {
 
   void _close() => Navigator.of(context).maybePop();
 
+  // El mismo reproductor en vertical y en horizontal: con la llave global se
+  // mueve de lugar sin recrear el iframe (antes al girar se recargaba).
+  final _playerKey = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
-    final title = widget.channel.displayName;
+    final size = MediaQuery.sizeOf(context);
+    // Vertical (celular): video arriba y la ficha debajo. Horizontal o
+    // computador: el video a pantalla completa con controles flotantes.
+    final portrait = size.width < 600 || size.height > size.width;
+    final player = KeyedSubtree(key: _playerKey, child: _player());
     return CallbackShortcuts(
       bindings: {const SingleActivator(LogicalKeyboardKey.escape): _close},
       child: Focus(
         autofocus: true,
         child: Scaffold(
-          backgroundColor: Colors.black,
-          body: Column(
-            children: [
-              _topBar(title),
-              Expanded(
-                child: _servers.isEmpty
-                    ? const _NoWebServer()
-                    : _failed.contains(_selected)
-                    ? _NoWebServer(
-                        message: _servers.length > 1
-                            ? 'Este servidor no se puede ver en el navegador. '
-                                  'Prueba con otro de arriba.'
-                            : null,
-                      )
-                    : _isDirectMedia(_servers[_selected].url)
-                    ? hourTvVideoFrame(
-                        _servers[_selected].url,
-                        onError: () => setState(() => _failed.add(_selected)),
-                      )
-                    : hourTvEmbedFrame(_servers[_selected].url),
-              ),
-            ],
-          ),
+          backgroundColor: HourTvMobileTokens.deepBlack,
+          body: portrait ? _portrait(player) : _landscape(player),
         ),
       ),
     );
   }
 
-  Widget _topBar(String title) => Container(
-    color: Colors.black,
-    padding: const EdgeInsets.fromLTRB(8, 8, 16, 8),
-    child: SafeArea(
-      bottom: false,
-      child: Row(
-        children: [
-          IconButton(
-            tooltip: 'Volver',
-            onPressed: _close,
-            icon: const Icon(Icons.arrow_back_rounded, color: Colors.white),
-          ),
-          const SizedBox(width: 4),
-          Expanded(
-            child: Text(
-              title,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 17,
-                fontWeight: FontWeight.w800,
+  Widget _portrait(Widget player) => SafeArea(
+    bottom: false,
+    child: Column(
+      children: [
+        Stack(
+          children: [
+            AspectRatio(aspectRatio: 16 / 9, child: player),
+            Positioned(left: 8, top: 8, child: _roundButton()),
+          ],
+        ),
+        Expanded(
+          child: ListView(
+            padding: const EdgeInsets.fromLTRB(16, 18, 16, 32),
+            children: [
+              Text(
+                widget.channel.displayName,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  color: HourTvMobileTokens.textPrimary,
+                  fontSize: 22,
+                  fontWeight: FontWeight.w900,
+                  height: 1.15,
+                ),
               ),
-            ),
+              const SizedBox(height: 8),
+              HourTvDetailMeta(
+                rating: widget.channel.rating,
+                year: widget.channel.year,
+                extra: hourTvPrettyDuration(widget.channel.duration),
+              ),
+              if (_servers.length > 1) ...[
+                const SizedBox(height: 22),
+                const _SectionTitle('Servidores'),
+                const SizedBox(height: 4),
+                const Text(
+                  'Si uno no carga, prueba con otro.',
+                  style: TextStyle(
+                    color: HourTvMobileTokens.textMuted,
+                    fontSize: 13,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                for (var i = 0; i < _servers.length; i++) _serverTile(i),
+              ],
+              if ((widget.channel.plot ?? '').trim().isNotEmpty) ...[
+                const SizedBox(height: 22),
+                const _SectionTitle('Sinopsis'),
+                const SizedBox(height: 8),
+                Text(
+                  widget.channel.plot!.trim(),
+                  style: const TextStyle(
+                    color: HourTvMobileTokens.textSecondary,
+                    fontSize: 14,
+                    height: 1.5,
+                  ),
+                ),
+              ],
+            ],
           ),
-          // Si un servidor no carga, se prueba otro sin salir.
-          if (_servers.length > 1)
-            Flexible(
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                reverse: true,
+        ),
+      ],
+    ),
+  );
+
+  Widget _landscape(Widget player) => Stack(
+    children: [
+      Positioned.fill(child: player),
+      Positioned(left: 16, top: 16, child: _roundButton()),
+      if (_servers.length > 1)
+        Positioned(
+          right: 16,
+          top: 16,
+          child: Material(
+            color: const Color(0xB3000000),
+            shape: const StadiumBorder(
+              side: BorderSide(color: HourTvMobileTokens.borderSubtle),
+            ),
+            child: InkWell(
+              customBorder: const StadiumBorder(),
+              onTap: _openServerSheet,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(14, 9, 10, 9),
                 child: Row(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    for (var i = 0; i < _servers.length; i++)
-                      Padding(
-                        padding: const EdgeInsets.only(left: 8),
-                        child: ChoiceChip(
-                          label: Text(_serverLabel(i)),
-                          selected: i == _selected,
-                          onSelected: (_) => setState(() => _selected = i),
-                        ),
+                    const Icon(
+                      Icons.dns_rounded,
+                      size: 18,
+                      color: HourTvMobileTokens.emerald,
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                      _serverLabel(_selected),
+                      style: const TextStyle(
+                        color: HourTvMobileTokens.textPrimary,
+                        fontWeight: FontWeight.w700,
                       ),
+                    ),
+                    const Icon(
+                      Icons.keyboard_arrow_down_rounded,
+                      color: HourTvMobileTokens.textPrimary,
+                    ),
                   ],
                 ),
               ),
             ),
+          ),
+        ),
+    ],
+  );
+
+  Widget _roundButton() => Material(
+    color: const Color(0xB3000000),
+    shape: const CircleBorder(),
+    child: IconButton(
+      tooltip: 'Volver',
+      onPressed: _close,
+      icon: const Icon(
+        Icons.arrow_back_rounded,
+        color: HourTvMobileTokens.textPrimary,
+      ),
+    ),
+  );
+
+  Future<void> _openServerSheet() => showModalBottomSheet<void>(
+    context: context,
+    backgroundColor: HourTvMobileTokens.background,
+    showDragHandle: true,
+    isScrollControlled: true,
+    constraints: const BoxConstraints(maxWidth: 520),
+    builder: (sheetContext) => SafeArea(
+      child: ListView(
+        shrinkWrap: true,
+        padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+        children: [
+          const _SectionTitle('Servidores'),
+          const SizedBox(height: 12),
+          for (var i = 0; i < _servers.length; i++)
+            _serverTile(i, onChosen: () => Navigator.pop(sheetContext)),
         ],
       ),
     ),
   );
+
+  Widget _player() => _servers.isEmpty
+      ? const _NoWebServer()
+      : _failed.contains(_selected)
+      ? _NoWebServer(
+          message: _servers.length > 1
+              ? 'Este servidor no se puede ver en el navegador. '
+                    'Prueba con otro.'
+              : null,
+        )
+      : _isDirectMedia(_servers[_selected].url)
+      ? hourTvVideoFrame(
+          _servers[_selected].url,
+          onError: () => setState(() => _failed.add(_selected)),
+        )
+      : hourTvEmbedFrame(_servers[_selected].url);
+
+  /// Servidor como tarjeta de la app: el elegido con borde e ícono verdes.
+  Widget _serverTile(int i, {VoidCallback? onChosen}) {
+    final selected = i == _selected;
+    final failed = _failed.contains(i);
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8),
+      child: Material(
+        color: selected
+            ? HourTvMobileTokens.emerald.withValues(alpha: .10)
+            : HourTvMobileTokens.surfacePrimary,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(HourTvMobileTokens.radiusMedium),
+          side: BorderSide(
+            color: selected
+                ? HourTvMobileTokens.emerald
+                : HourTvMobileTokens.borderSubtle,
+          ),
+        ),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(HourTvMobileTokens.radiusMedium),
+          onTap: () {
+            setState(() => _selected = i);
+            onChosen?.call();
+          },
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 13),
+            child: Row(
+              children: [
+                Icon(
+                  selected
+                      ? Icons.play_circle_fill_rounded
+                      : Icons.play_circle_outline_rounded,
+                  color: selected
+                      ? HourTvMobileTokens.emerald
+                      : HourTvMobileTokens.textMuted,
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Text(
+                    _serverLabel(i),
+                    style: const TextStyle(
+                      color: HourTvMobileTokens.textPrimary,
+                      fontSize: 15,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ),
+                if (selected || failed)
+                  Text(
+                    failed ? 'No carga' : 'Reproduciendo',
+                    style: TextStyle(
+                      color: failed
+                          ? HourTvMobileTokens.error
+                          : HourTvMobileTokens.emerald,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 
   String _serverLabel(int i) {
     final name = _servers[i].name.trim();
@@ -175,6 +340,21 @@ class _NoWebServer extends StatelessWidget {
           height: 1.4,
         ),
       ),
+    ),
+  );
+}
+
+class _SectionTitle extends StatelessWidget {
+  const _SectionTitle(this.text);
+  final String text;
+
+  @override
+  Widget build(BuildContext context) => Text(
+    text,
+    style: const TextStyle(
+      color: HourTvMobileTokens.textPrimary,
+      fontSize: 16,
+      fontWeight: FontWeight.w800,
     ),
   );
 }

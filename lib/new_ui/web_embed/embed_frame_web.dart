@@ -51,7 +51,9 @@ Widget hourTvVideoFrame(String url, {VoidCallback? onError}) =>
           ..src = url
           ..controls = true
           ..autoplay = true
-          ..playsInline = true;
+          ..playsInline = true
+          // Sin el botón de "transmitir" que Chrome de Android dibuja encima.
+          ..disableRemotePlayback = true;
         video.style
           ..width = '100%'
           ..height = '100%'
