@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-09-29T14:02:21.713Z",
-  "durationMs": 3614,
+  "generatedAt": "2026-09-29T19:23:56.967Z",
+  "durationMs": 1858,
   "dryRun": false,
   "moviesFound": 34,
   "moviesDiscarded": 21,
@@ -78,11 +78,6 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1294189,
-      "title": "The Mongoose",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
-    },
-    {
       "tmdbId": 1751701,
       "title": "After Impact",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
@@ -93,13 +88,13 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1375646,
-      "title": "Colony",
+      "tmdbId": 1294189,
+      "title": "The Mongoose",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1607127,
-      "title": "Un último disparo",
+      "tmdbId": 1375646,
+      "title": "Colony",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
@@ -108,13 +103,18 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1482547,
-      "title": "Zip Wire",
+      "tmdbId": 1377237,
+      "title": "Entrega al límite",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1377237,
-      "title": "Entrega al límite",
+      "tmdbId": 1607127,
+      "title": "Un último disparo",
+      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+    },
+    {
+      "tmdbId": 1482547,
+      "title": "Zip Wire",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     }
   ]
