@@ -2763,9 +2763,10 @@ class _HourTvMobileLibraryState extends State<HourTvMobileLibrary> {
             padding: const EdgeInsets.fromLTRB(16, 14, 16, 12),
             sliver: SliverToBoxAdapter(
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SizedBox(width: 360, child: _tabs()),
-                  const Spacer(),
+                  const SizedBox(width: 24),
                   for (final option in _LibraryFilterSelector._options)
                     Padding(
                       padding: const EdgeInsets.only(left: 8),
