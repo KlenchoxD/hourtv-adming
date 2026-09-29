@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-09-29T01:15:33.351Z",
-  "durationMs": 1480,
+  "generatedAt": "2026-09-29T14:02:21.713Z",
+  "durationMs": 3614,
   "dryRun": false,
   "moviesFound": 34,
   "moviesDiscarded": 21,
@@ -58,13 +58,13 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1341138,
-      "title": "Spa Weekend",
+      "tmdbId": 1291595,
+      "title": "Insidious: Fuera del más allá",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1291595,
-      "title": "Insidious: Fuera del más allá",
+      "tmdbId": 1341138,
+      "title": "Relajadas y muy peligrosas",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
@@ -113,8 +113,8 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1232569,
-      "title": "Pinocho: Desatado",
+      "tmdbId": 1377237,
+      "title": "Entrega al límite",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     }
   ]
