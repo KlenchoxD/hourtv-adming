@@ -16,6 +16,7 @@ import '../services/device_type.dart';
 import '../services/logo_image_provider.dart';
 import '../services/storage_service.dart';
 import 'hourtv_player_screen.dart';
+import 'web_embed/fullscreen.dart';
 import 'hourtv_search_keyboard.dart';
 
 const _red = Color(0xFF00C781);
@@ -56,6 +57,10 @@ class HourTvLivePage extends StatefulWidget {
   // Perfil, etc. despues de salir de "En vivo".
   final bool active;
   final LiveBackController? backController;
+
+  /// Pantalla completa del reproductor de TV en vivo en la web (la barra de
+  /// la app se oculta mientras dura).
+  static final webFullscreen = ValueNotifier<bool>(false);
 
   @override
   State<HourTvLivePage> createState() => _HourTvLivePageState();
@@ -565,7 +570,31 @@ class _HourTvLivePageState extends State<HourTvLivePage> {
     return KeyEventResult.handled;
   }
 
+  /// En la web, "pantalla completa" agranda el mismo reproductor (no abre
+  /// otro): antes se abría un segundo reproductor del navegador que salía
+  /// en negro. La barra de la app se oculta mientras dura.
+  ValueNotifier<bool> get webFullscreen => HourTvLivePage.webFullscreen;
+  final _surfaceKey = GlobalKey();
+  static var _fullscreenListening = false;
+
+  void _setWebFullscreen(bool value) {
+    if (webFullscreen.value == value) return;
+    webFullscreen.value = value;
+    if (value != hourTvIsFullscreen()) hourTvToggleFullscreen();
+    if (mounted) setState(() {});
+  }
+
   void play() {
+    if (kIsWeb && !widget.phone) {
+      if (!_fullscreenListening) {
+        _fullscreenListening = true;
+        hourTvOnFullscreenChange((on) {
+          if (!on) webFullscreen.value = false;
+        });
+      }
+      _setWebFullscreen(true);
+      return;
+    }
     if (widget.preview) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -592,6 +621,30 @@ class _HourTvLivePageState extends State<HourTvLivePage> {
   @override
   Widget build(BuildContext context) {
     if (widget.tv) return _tvLayout();
+    if (kIsWeb && !widget.phone) {
+      return ValueListenableBuilder<bool>(
+        valueListenable: webFullscreen,
+        builder: (context, full, _) => full
+            ? CallbackShortcuts(
+                bindings: {
+                  const SingleActivator(LogicalKeyboardKey.escape): () =>
+                      _setWebFullscreen(false),
+                },
+                child: Focus(
+                  autofocus: true,
+                  child: ColoredBox(
+                    color: Colors.black,
+                    child: Stack(
+                      children: [
+                        Positioned.fill(child: _livePlayer(fullscreen: true)),
+                      ],
+                    ),
+                  ),
+                ),
+              )
+            : _desktopLayout(),
+      );
+    }
     if (widget.phone) return _touchLayout(columns: 1);
     if (widget.tablet) return _desktopLayout();
     return _desktopLayout();
@@ -740,15 +793,7 @@ class _HourTvLivePageState extends State<HourTvLivePage> {
       builder: (context, constraints) {
         final side = constraints.maxWidth >= 980;
         final pad = (constraints.maxWidth * .03).clamp(16.0, 40.0);
-        final player = _PlayerSurface(
-          channel: current,
-          onFailed: _onChannelFailed,
-          onPlaying: _onChannelPlaying,
-          onPlay: play,
-          onNext: _selectNextAvailable,
-          large: true,
-          active: widget.active && !_racing,
-        );
+        final player = _livePlayer();
         final guideHeader = Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -842,6 +887,21 @@ class _HourTvLivePageState extends State<HourTvLivePage> {
       },
     );
   }
+
+  // Con la misma llave el reproductor se mueve entre la vista normal y la de
+  // pantalla completa sin volver a abrir el canal.
+  Widget _livePlayer({bool fullscreen = false}) => _PlayerSurface(
+    key: _surfaceKey,
+    channel: current,
+    onFailed: _onChannelFailed,
+    onPlaying: _onChannelPlaying,
+    onPlay: fullscreen ? () => _setWebFullscreen(false) : play,
+    onNext: _selectNextAvailable,
+    large: true,
+    edgeToEdge: fullscreen,
+    fullscreen: fullscreen,
+    active: widget.active && !_racing,
+  );
 
   /// Categorías como chips a la vista (en computador una hoja que sube
   /// desde abajo se sentía de celular).
@@ -1244,6 +1304,7 @@ class _HourTvLivePageState extends State<HourTvLivePage> {
 
 class _PlayerSurface extends StatefulWidget {
   const _PlayerSurface({
+    super.key,
     required this.channel,
     required this.onFailed,
     required this.onPlaying,
@@ -1253,6 +1314,7 @@ class _PlayerSurface extends StatefulWidget {
     required this.large,
     this.tv = false,
     this.active = true,
+    this.fullscreen = false,
   });
   final Channel channel;
   final ValueChanged<Channel> onFailed;
@@ -1263,6 +1325,9 @@ class _PlayerSurface extends StatefulWidget {
   final bool large;
   final bool tv;
   final bool active;
+
+  /// Ya está en pantalla completa: el botón pasa a "salir".
+  final bool fullscreen;
 
   @override
   State<_PlayerSurface> createState() => _PlayerSurfaceState();
@@ -1385,6 +1450,7 @@ class _PlayerSurfaceState extends State<_PlayerSurface> {
     final channel = widget.channel;
     final tv = widget.tv;
     final onPlay = widget.onPlay;
+    final fullscreen = widget.fullscreen;
     final playing = _controller?.value.isInitialized == true && !_failed;
     return AspectRatio(
       aspectRatio: 16 / 9,
@@ -1451,13 +1517,20 @@ class _PlayerSurfaceState extends State<_PlayerSurface> {
                 right: 8,
                 bottom: 40,
                 child: IconButton(
-                  tooltip: 'Pantalla completa',
+                  tooltip: fullscreen
+                      ? 'Salir de pantalla completa'
+                      : 'Pantalla completa',
                   onPressed: onPlay,
                   style: IconButton.styleFrom(
                     backgroundColor: const Color(0xB30B0B0D),
                     foregroundColor: Colors.white,
                   ),
-                  icon: const Icon(Icons.fullscreen_rounded, size: 26),
+                  icon: Icon(
+                    fullscreen
+                        ? Icons.fullscreen_exit_rounded
+                        : Icons.fullscreen_rounded,
+                    size: 26,
+                  ),
                 ),
               ),
             // Sin boton de play: el canal arranca solo. Mientras el stream

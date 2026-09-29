@@ -28,3 +28,12 @@ void hourTvToggleFullscreen() {
 }
 
 bool hourTvIsFullscreen() => web.document.fullscreenElement != null;
+
+/// Avisa cuando se entra o sale de pantalla completa (también con la tecla
+/// Esc del navegador, que no llega a la app).
+void hourTvOnFullscreenChange(void Function(bool fullscreen) callback) {
+  web.document.addEventListener(
+    'fullscreenchange',
+    ((web.Event _) => callback(hourTvIsFullscreen())).toJS,
+  );
+}

@@ -447,14 +447,19 @@ class _HourTvMobileShellState extends State<HourTvMobileShell>
         child: desktop
             ? Column(
                 children: [
-                  HourTvDesktopTopBar(
-                    index: destination.index,
-                    onChanged: go,
-                    profileName: StorageService.getSetting(
-                      'activeProfile',
-                      defaultValue: 'Invitado',
-                    ).toString(),
-                    avatarSeed: StorageService.activeProfileAvatarId,
+                  ValueListenableBuilder<bool>(
+                    valueListenable: HourTvLivePage.webFullscreen,
+                    builder: (context, full, bar) =>
+                        full ? const SizedBox.shrink() : bar!,
+                    child: HourTvDesktopTopBar(
+                      index: destination.index,
+                      onChanged: go,
+                      profileName: StorageService.getSetting(
+                        'activeProfile',
+                        defaultValue: 'Invitado',
+                      ).toString(),
+                      avatarSeed: StorageService.activeProfileAvatarId,
+                    ),
                   ),
                   Expanded(child: pages),
                 ],
