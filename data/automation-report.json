@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-09-29T19:23:56.967Z",
-  "durationMs": 1858,
+  "generatedAt": "2026-09-29T23:04:07.395Z",
+  "durationMs": 2793,
   "dryRun": false,
   "moviesFound": 34,
-  "moviesDiscarded": 21,
+  "moviesDiscarded": 20,
   "moviesAdded": 0,
   "moviesEnriched": 0,
-  "duplicates": 13,
+  "duplicates": 14,
   "tmdbErrors": 0,
   "providerErrors": 0,
   "invalidSources": 0,
@@ -53,18 +53,13 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1127384,
-      "title": "En mar abierto",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
-    },
-    {
       "tmdbId": 1291595,
       "title": "Insidious: Fuera del más allá",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1341138,
-      "title": "Relajadas y muy peligrosas",
+      "tmdbId": 1127384,
+      "title": "En mar abierto",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {

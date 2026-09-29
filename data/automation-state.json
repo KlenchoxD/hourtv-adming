@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-09-29T19:23:58.820Z",
+  "lastRunAt": "2026-09-29T23:04:10.183Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -7,21 +7,21 @@
     1101383,
     1204680,
     1288445,
-    1084244,
     1263337,
-    1108427,
+    1084244,
     1477712,
+    1108427,
     299534,
     1240889,
     1315772,
     1465063,
     1275779,
     1185806,
-    1127384,
     1081003,
-    1137844,
     1291595,
-    1341138,
+    1127384,
+    1137844,
+    1273221,
     1368337,
     1032863,
     1751701,
@@ -82,18 +82,13 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1127384,
-      "title": "En mar abierto",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
-    },
-    {
       "tmdbId": 1291595,
       "title": "Insidious: Fuera del más allá",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1341138,
-      "title": "Relajadas y muy peligrosas",
+      "tmdbId": 1127384,
+      "title": "En mar abierto",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
