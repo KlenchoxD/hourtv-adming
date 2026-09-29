@@ -29,7 +29,68 @@ class HourTvCompactFilterSelector extends StatelessWidget {
   static const _border = Color(0xFF27302C);
   static const _muted = Color(0xFFA6A6B0);
 
+  /// Computador/tablet ancha: menú desplegable bajo el botón, como en una
+  /// web. La hoja que sube desde abajo con tarjetas enormes era de celular.
+  Future<void> _openMenu(BuildContext context) async {
+    final box = context.findRenderObject()! as RenderBox;
+    final overlay =
+        Navigator.of(context).overlay!.context.findRenderObject()! as RenderBox;
+    final topLeft = box.localToGlobal(
+      Offset(0, box.size.height + 6),
+      ancestor: overlay,
+    );
+    final selected = await showMenu<String>(
+      context: context,
+      position: RelativeRect.fromLTRB(
+        topLeft.dx,
+        topLeft.dy,
+        overlay.size.width - topLeft.dx - box.size.width,
+        0,
+      ),
+      color: _surface,
+      elevation: 12,
+      constraints: BoxConstraints(
+        minWidth: box.size.width,
+        maxWidth: box.size.width,
+        maxHeight: 420,
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+        side: const BorderSide(color: _border),
+      ),
+      items: [
+        for (final option in options)
+          PopupMenuItem<String>(
+            value: option,
+            height: 42,
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    option,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      color: option == value ? _emerald : Colors.white,
+                      fontSize: 14,
+                      fontWeight: option == value
+                          ? FontWeight.w800
+                          : FontWeight.w500,
+                    ),
+                  ),
+                ),
+                if (option == value)
+                  const Icon(Icons.check_rounded, color: _emerald, size: 18),
+              ],
+            ),
+          ),
+      ],
+    );
+    if (selected != null && selected != value) onChanged(selected);
+  }
+
   Future<void> _openSheet(BuildContext context) async {
+    if (MediaQuery.sizeOf(context).width >= 900) return _openMenu(context);
     final start = DateTime.now().millisecondsSinceEpoch;
     debugPrint('[PERF_MODAL] SHEET_OPEN: $label start=$start');
 

@@ -124,7 +124,10 @@ class _HourTvLivePageState extends State<HourTvLivePage> {
   Channel _firstAlive() {
     final saved = _savedGood();
     if (saved != null) return saved;
-    final country = WidgetsBinding.instance.platformDispatcher.locale
+    final country = WidgetsBinding
+        .instance
+        .platformDispatcher
+        .locale
         .countryCode
         ?.toLowerCase();
     if (country != null) {
@@ -143,7 +146,8 @@ class _HourTvLivePageState extends State<HourTvLivePage> {
   /// responde. Elige un servidor cercano y descarta caídos (403) en
   /// fracciones de segundo, en vez de los 4-8 s que tarda el reproductor.
   Future<void> _raceForFastChannel() async {
-    final country = await DeviceProfile.countryIso() ??
+    final country =
+        await DeviceProfile.countryIso() ??
         WidgetsBinding.instance.platformDispatcher.locale.countryCode
             ?.toLowerCase();
     var candidates = [
@@ -225,9 +229,11 @@ class _HourTvLivePageState extends State<HourTvLivePage> {
   void initState() {
     super.initState();
     ContentStore.instance.ensureEpgLoaded();
-    unawaited(DeviceProfile.countryIso().then((iso) {
-      if (mounted && iso != null) setState(() => _country = iso);
-    }));
+    unawaited(
+      DeviceProfile.countryIso().then((iso) {
+        if (mounted && iso != null) setState(() => _country = iso);
+      }),
+    );
     current = _firstAlive();
     if (_savedGood() == null &&
         !widget.preview &&
@@ -397,7 +403,9 @@ class _HourTvLivePageState extends State<HourTvLivePage> {
     int rank(Channel c) => !_usable(c)
         ? 2
         : (_country != null && c.countryCode == _country ? 0 : 1);
-    final indexed = [for (var i = 0; i < channels.length; i++) (i, channels[i])];
+    final indexed = [
+      for (var i = 0; i < channels.length; i++) (i, channels[i]),
+    ];
     indexed.sort((a, b) {
       final r = rank(a.$2).compareTo(rank(b.$2));
       return r != 0 ? r : a.$1.compareTo(b.$1);
@@ -585,7 +593,7 @@ class _HourTvLivePageState extends State<HourTvLivePage> {
   Widget build(BuildContext context) {
     if (widget.tv) return _tvLayout();
     if (widget.phone) return _touchLayout(columns: 1);
-    if (widget.tablet) return _touchLayout(columns: 2);
+    if (widget.tablet) return _desktopLayout();
     return _desktopLayout();
   }
 
@@ -601,39 +609,40 @@ class _HourTvLivePageState extends State<HourTvLivePage> {
       children: [
         // En teléfono, como Xuper: el video arriba de borde a borde, sin
         // título que le quite espacio.
-        if (!phone) Padding(
-          padding: EdgeInsets.fromLTRB(
-            widget.phone ? 14 : 28,
-            22,
-            widget.phone ? 14 : 28,
-            16,
-          ),
-          // Mismo tamaño que los demas titulos de seccion (Buscar, Perfil,
-          // Mi Biblioteca): antes 30px se veia mas grande que el resto.
-          child: const Align(
-            alignment: Alignment.centerLeft,
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(
-                  Icons.live_tv_outlined,
-                  color: Color(0xFF00C781),
-                  size: 22,
-                ),
-                SizedBox(width: 8),
-                Text(
-                  'TV EN VIVO',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
-                    fontWeight: FontWeight.w700,
-                    letterSpacing: -0.35,
+        if (!phone)
+          Padding(
+            padding: EdgeInsets.fromLTRB(
+              widget.phone ? 14 : 28,
+              22,
+              widget.phone ? 14 : 28,
+              16,
+            ),
+            // Mismo tamaño que los demas titulos de seccion (Buscar, Perfil,
+            // Mi Biblioteca): antes 30px se veia mas grande que el resto.
+            child: const Align(
+              alignment: Alignment.centerLeft,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    Icons.live_tv_outlined,
+                    color: Color(0xFF00C781),
+                    size: 22,
                   ),
-                ),
-              ],
+                  SizedBox(width: 8),
+                  Text(
+                    'TV EN VIVO',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 24,
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: -0.35,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: phone ? 0 : 28),
           child: _PlayerSurface(
@@ -689,106 +698,185 @@ class _HourTvLivePageState extends State<HourTvLivePage> {
             ),
           )
         else
-        Expanded(
-          child: GridView.builder(
-            padding: EdgeInsets.fromLTRB(
-              widget.phone ? 14 : 28,
-              0,
-              widget.phone ? 14 : 28,
-              40,
+          Expanded(
+            child: GridView.builder(
+              padding: EdgeInsets.fromLTRB(
+                widget.phone ? 14 : 28,
+                0,
+                widget.phone ? 14 : 28,
+                40,
+              ),
+              itemCount: channels.length,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: columns,
+                mainAxisSpacing: phone ? 6 : 9,
+                crossAxisSpacing: 9,
+                // Filas compactas en teléfono (~8 canales a la vista, como
+                // Xuper) en vez de ~3 con miniaturas grandes.
+                childAspectRatio: phone ? 5.6 : 3.0,
+              ),
+              itemBuilder: (context, index) {
+                final channel = channels[index];
+                return _GuideRow(
+                  channel: channel,
+                  number: index + 1,
+                  active: channel.url == current.url,
+                  focused: false,
+                  onTap: () => select(channel),
+                );
+              },
             ),
-            itemCount: channels.length,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: columns,
-              mainAxisSpacing: phone ? 6 : 9,
-              crossAxisSpacing: 9,
-              // Filas compactas en teléfono (~8 canales a la vista, como
-              // Xuper) en vez de ~3 con miniaturas grandes.
-              childAspectRatio: phone ? 5.6 : 3.0,
-            ),
-            itemBuilder: (context, index) {
-              final channel = channels[index];
-              return _GuideRow(
-                channel: channel,
-                number: index + 1,
-                active: channel.url == current.url,
-                focused: false,
-                onTap: () => select(channel),
-              );
-            },
           ),
-        ),
       ],
     );
   }
 
+  // Computador y tablet: el video grande con la ficha del canal debajo y, al
+  // lado (o debajo si no cabe), buscador, categorías en chips y la guía en
+  // filas compactas. Sin el título gigante: la barra de arriba ya lo dice.
   Widget _desktopLayout() {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.fromLTRB(32, 32, 32, 50),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'TV EN VIVO',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 36,
-              fontWeight: FontWeight.w900,
-              letterSpacing: .3,
+    final channels = _touchOrdered(filtered);
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final side = constraints.maxWidth >= 980;
+        final pad = (constraints.maxWidth * .03).clamp(16.0, 40.0);
+        final player = _PlayerSurface(
+          channel: current,
+          onFailed: _onChannelFailed,
+          onPlaying: _onChannelPlaying,
+          onPlay: play,
+          onNext: _selectNextAvailable,
+          large: true,
+          active: widget.active && !_racing,
+        );
+        final guideHeader = Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _channelSearchField(),
+            const SizedBox(height: 12),
+            _categoryChips(),
+            const SizedBox(height: 12),
+            Text(
+              '${channels.length} ${channels.length == 1 ? 'canal' : 'canales'}',
+              style: const TextStyle(color: _muted, fontSize: 12),
             ),
-          ),
-          const SizedBox(height: 20),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                flex: 2,
-                child: _PlayerSurface(
-                  channel: current,
-                  onFailed: _onChannelFailed,
-                  onPlaying: _onChannelPlaying,
-                  onPlay: play,
-                  large: true,
-                  active: !_racing,
-                ),
-              ),
-              const SizedBox(width: 22),
-              Expanded(
-                child: Column(
-                  children: [
-                    _channelSearchField(),
-                    const SizedBox(height: 12),
-                    _categoryPills(),
-                    const SizedBox(height: 12),
-                    SizedBox(
-                      height: 560,
-                      child: ListView.separated(
-                        itemCount: filtered.length,
-                        separatorBuilder: (_, _) => const SizedBox(height: 8),
-                        itemBuilder: (context, index) {
-                          final channel = filtered[index];
-                          return SizedBox(
-                            height: 92,
-                            child: _GuideRow(
-                              channel: channel,
-                              number: widget.channels.indexOf(channel) + 1,
-                              active: channel.url == current.url,
-                              focused: false,
-                              onTap: () => select(channel),
-                            ),
-                          );
-                        },
-                      ),
+            const SizedBox(height: 8),
+          ],
+        );
+        Widget row(int index) => _WideChannelRow(
+          channel: channels[index],
+          number: index + 1,
+          active: channels[index].url == current.url,
+          onTap: () => select(channels[index]),
+        );
+
+        if (side) {
+          return Padding(
+            padding: EdgeInsets.fromLTRB(pad, 16, pad, 0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                    padding: const EdgeInsets.only(bottom: 24),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        player,
+                        _NowPlaying(channel: current),
+                      ],
                     ),
+                  ),
+                ),
+                SizedBox(width: pad),
+                SizedBox(
+                  width: (constraints.maxWidth * .3).clamp(320.0, 420.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      guideHeader,
+                      Expanded(
+                        child: ListView.builder(
+                          padding: const EdgeInsets.only(bottom: 24),
+                          itemExtent: 64,
+                          itemCount: channels.length,
+                          itemBuilder: (_, i) => row(i),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          );
+        }
+        // Tablet vertical: video arriba y la guía en dos columnas debajo.
+        return CustomScrollView(
+          slivers: [
+            SliverPadding(
+              padding: EdgeInsets.fromLTRB(pad, 16, pad, 0),
+              sliver: SliverToBoxAdapter(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    player,
+                    _NowPlaying(channel: current),
+                    const SizedBox(height: 8),
+                    guideHeader,
                   ],
                 ),
               ),
-            ],
-          ),
-        ],
-      ),
+            ),
+            SliverPadding(
+              padding: EdgeInsets.fromLTRB(pad, 0, pad, 32),
+              sliver: SliverGrid.builder(
+                itemCount: channels.length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  mainAxisExtent: 64,
+                  crossAxisSpacing: 12,
+                ),
+                itemBuilder: (_, i) => row(i),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
+
+  /// Categorías como chips a la vista (en computador una hoja que sube
+  /// desde abajo se sentía de celular).
+  Widget _categoryChips() => SizedBox(
+    height: 36,
+    child: ListView.separated(
+      scrollDirection: Axis.horizontal,
+      itemCount: categories.length,
+      separatorBuilder: (_, _) => const SizedBox(width: 8),
+      itemBuilder: (_, i) {
+        final value = categories[i];
+        final selected = value == category;
+        return ChoiceChip(
+          label: Text(value == 'Todos los canales' ? 'Todos' : value),
+          selected: selected,
+          showCheckmark: false,
+          onSelected: (_) => setState(() {
+            category = value;
+            guideIndex = 0;
+          }),
+          labelStyle: TextStyle(
+            color: selected ? Colors.black : Colors.white,
+            fontWeight: FontWeight.w700,
+            fontSize: 12.5,
+          ),
+          selectedColor: _red,
+          backgroundColor: _surface,
+          side: BorderSide(color: selected ? _red : _line),
+          shape: const StadiumBorder(),
+        );
+      },
+    ),
+  );
 
   Widget _tvLayout() {
     return Focus(
@@ -1303,9 +1391,7 @@ class _PlayerSurfaceState extends State<_PlayerSurface> {
     return AspectRatio(
       aspectRatio: 16 / 9,
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(
-          tv || widget.edgeToEdge ? 0 : 18,
-        ),
+        borderRadius: BorderRadius.circular(tv || widget.edgeToEdge ? 0 : 18),
         child: Stack(
           fit: StackFit.expand,
           children: [
@@ -1572,7 +1658,7 @@ class _PhoneChannelRow extends StatelessWidget {
               SizedBox(
                 width: 56,
                 height: 34,
-                child: _ChannelLogo(url: channel.logo),
+                child: _ChannelLogo(url: channel.logo ?? channel.backdrop),
               ),
               const SizedBox(width: 12),
               Expanded(
@@ -1630,11 +1716,19 @@ class _ChannelLogo extends StatelessWidget {
     // Muchos logos vienen de sitios sin CORS: en el navegador se muestran
     // como <img> normal.
     if (kIsWeb) {
-      return Image.network(
-        u,
+      return CachedNetworkImage(
+        imageUrl: u,
         fit: BoxFit.contain,
-        webHtmlElementStrategy: WebHtmlElementStrategy.fallback,
-        errorBuilder: (_, _, _) => _fallback,
+        fadeInDuration: Duration.zero,
+        fadeOutDuration: Duration.zero,
+        placeholder: (_, _) => const SizedBox.shrink(),
+        // Sin CORS no se puede leer: se muestra como <img> del navegador.
+        errorWidget: (_, _, _) => Image.network(
+          u,
+          fit: BoxFit.contain,
+          webHtmlElementStrategy: WebHtmlElementStrategy.prefer,
+          errorBuilder: (_, _, _) => _fallback,
+        ),
       );
     }
     return Image(
@@ -1774,14 +1868,13 @@ class _ProgramProgress extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Solo con guía real (EPG): antes se dibujaba un 38 % inventado.
     final program = channel.currentProgram;
-    var progress = .38;
-    if (program != null) {
-      final total = program.stop.difference(program.start).inSeconds;
-      if (total > 0) {
-        progress = DateTime.now().difference(program.start).inSeconds / total;
-      }
-    }
+    final total = program == null
+        ? 0
+        : program.stop.difference(program.start).inSeconds;
+    if (program == null || total <= 0) return const SizedBox.shrink();
+    final progress = DateTime.now().difference(program.start).inSeconds / total;
     return ClipRRect(
       borderRadius: BorderRadius.circular(6),
       child: LinearProgressIndicator(
@@ -1839,8 +1932,9 @@ Future<bool> _probeStream((String, String?) args) async {
   final client = http.Client();
   try {
     final request = http.Request('GET', Uri.parse(url))
-      ..headers['User-Agent'] =
-          (userAgent?.isNotEmpty ?? false) ? userAgent! : 'Mozilla/5.0';
+      ..headers['User-Agent'] = (userAgent?.isNotEmpty ?? false)
+          ? userAgent!
+          : 'Mozilla/5.0';
     final response = await client
         .send(request)
         .timeout(const Duration(seconds: 3));
@@ -1851,5 +1945,193 @@ Future<bool> _probeStream((String, String?) args) async {
     return false;
   } finally {
     client.close();
+  }
+}
+
+/// Ficha del canal que se está viendo, debajo del video en computador.
+class _NowPlaying extends StatelessWidget {
+  const _NowPlaying({required this.channel});
+  final Channel channel;
+
+  @override
+  Widget build(BuildContext context) {
+    final program = channel.currentProgram;
+    final category = (channel.genre ?? channel.group ?? '').trim();
+    return Padding(
+      padding: const EdgeInsets.only(top: 16),
+      child: Row(
+        children: [
+          Container(
+            width: 88,
+            height: 56,
+            padding: const EdgeInsets.all(6),
+            decoration: BoxDecoration(
+              color: _surface,
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(color: _line),
+            ),
+            child: _ChannelLogo(url: channel.logo ?? channel.backdrop),
+          ),
+          const SizedBox(width: 14),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 7,
+                        vertical: 3,
+                      ),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFE50914),
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      child: const Text(
+                        'EN VIVO',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 10,
+                          fontWeight: FontWeight.w900,
+                          letterSpacing: .5,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Text(
+                        channel.displayName,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w900,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 4),
+                // Solo lo que se sabe de verdad: el programa si hay guía
+                // (EPG); si no, la categoría.
+                Text(
+                  program?.title ?? category,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(color: _muted, fontSize: 13),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Fila compacta de la guía en computador/tablet: número, logo, nombre y
+/// categoría. El canal que se ve queda marcado en verde.
+class _WideChannelRow extends StatefulWidget {
+  const _WideChannelRow({
+    required this.channel,
+    required this.number,
+    required this.active,
+    required this.onTap,
+  });
+  final Channel channel;
+  final int number;
+  final bool active;
+  final VoidCallback onTap;
+
+  @override
+  State<_WideChannelRow> createState() => _WideChannelRowState();
+}
+
+class _WideChannelRowState extends State<_WideChannelRow> {
+  var _hover = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final channel = widget.channel;
+    final active = widget.active;
+    final program = channel.currentProgram;
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 6),
+      child: MouseRegion(
+        cursor: SystemMouseCursors.click,
+        onEnter: (_) => setState(() => _hover = true),
+        onExit: (_) => setState(() => _hover = false),
+        child: GestureDetector(
+          onTap: widget.onTap,
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 120),
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            decoration: BoxDecoration(
+              color: active
+                  ? _red.withValues(alpha: .12)
+                  : (_hover ? const Color(0xFF171C19) : Colors.transparent),
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(color: active ? _red : Colors.transparent),
+            ),
+            child: Row(
+              children: [
+                SizedBox(
+                  width: 28,
+                  child: Text(
+                    '${widget.number}',
+                    style: TextStyle(
+                      color: active ? _red : _muted,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                ),
+                Container(
+                  width: 64,
+                  height: 40,
+                  padding: const EdgeInsets.all(4),
+                  decoration: BoxDecoration(
+                    color: _surface,
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  child: _ChannelLogo(url: channel.logo ?? channel.backdrop),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        channel.displayName,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 13.5,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        program?.title ??
+                            (channel.genre ?? channel.group ?? ''),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(color: _muted, fontSize: 11.5),
+                      ),
+                    ],
+                  ),
+                ),
+                if (active)
+                  const Icon(Icons.equalizer_rounded, color: _red, size: 18),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

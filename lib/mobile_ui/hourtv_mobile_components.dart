@@ -351,41 +351,63 @@ class HourTvDesktopTopBar extends StatelessWidget {
       height: 68,
       padding: EdgeInsets.symmetric(horizontal: hourTvDesktopPadding(context)),
       color: HourTvMobileTokens.deepBlack,
+      // Secciones centradas en la barra; logo a la izquierda y buscar/perfil
+      // a la derecha, con el mismo ancho a cada lado para que el centro sea
+      // el centro de verdad.
       child: Row(
         children: [
-          const HourTvLogo(fontSize: 28),
-          const SizedBox(width: 36),
-          for (var i = 0; i < destinations.length; i++)
-            if (i != _search && i != _profile)
-              _DesktopNavLink(
-                label: destinations[i].label,
-                selected: index == i,
-                onTap: () => onChanged(i),
-              ),
-          const Spacer(),
-          IconButton(
-            tooltip: 'Buscar',
-            onPressed: () => onChanged(_search),
-            icon: Icon(
-              Icons.search_rounded,
-              size: 26,
-              color: index == _search
-                  ? HourTvMobileTokens.emerald
-                  : HourTvMobileTokens.textPrimary,
+          const SizedBox(
+            width: 200,
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: HourTvLogo(fontSize: 28),
             ),
           ),
-          const SizedBox(width: 12),
-          Tooltip(
-            message: 'Perfil',
-            child: InkWell(
-              borderRadius: BorderRadius.circular(20),
-              onTap: () => onChanged(_profile),
-              child: HourTvProfileAvatar(
-                profileName: profileName,
-                avatarSeed: avatarSeed,
-                radius: 18,
-                backgroundColor: HourTvMobileTokens.emerald,
-              ),
+          Expanded(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                for (var i = 0; i < destinations.length; i++)
+                  if (i != _search && i != _profile)
+                    _DesktopNavLink(
+                      label: destinations[i].label,
+                      selected: index == i,
+                      onTap: () => onChanged(i),
+                    ),
+              ],
+            ),
+          ),
+          SizedBox(
+            width: 200,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                IconButton(
+                  tooltip: 'Buscar',
+                  onPressed: () => onChanged(_search),
+                  icon: Icon(
+                    Icons.search_rounded,
+                    size: 26,
+                    color: index == _search
+                        ? HourTvMobileTokens.emerald
+                        : HourTvMobileTokens.textPrimary,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Tooltip(
+                  message: 'Perfil',
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(20),
+                    onTap: () => onChanged(_profile),
+                    child: HourTvProfileAvatar(
+                      profileName: profileName,
+                      avatarSeed: avatarSeed,
+                      radius: 18,
+                      backgroundColor: HourTvMobileTokens.emerald,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ],

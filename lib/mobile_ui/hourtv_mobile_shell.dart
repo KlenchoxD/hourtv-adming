@@ -2032,8 +2032,9 @@ class _HourTvMobileSearchState extends State<HourTvMobileSearch> {
           sliver: SliverToBoxAdapter(
             child: Row(
               children: [
-                Expanded(
-                  child: HourTvCompactFilterSelector(
+                _filterSlot(
+                  context,
+                  HourTvCompactFilterSelector(
                     key: const ValueKey('hourtv-filter-type-selector'),
                     label: 'TIPO',
                     value: _type,
@@ -2045,8 +2046,9 @@ class _HourTvMobileSearchState extends State<HourTvMobileSearch> {
                   ),
                 ),
                 const SizedBox(width: 10),
-                Expanded(
-                  child: HourTvCompactFilterSelector(
+                _filterSlot(
+                  context,
+                  HourTvCompactFilterSelector(
                     key: const ValueKey('hourtv-filter-genre-selector'),
                     label: 'GÉNERO',
                     value: _genre,
@@ -2251,6 +2253,13 @@ class _HourTvMobileSearchState extends State<HourTvMobileSearch> {
       ],
     );
   }
+
+  /// En celular cada filtro ocupa la mitad; en computador, un ancho fijo
+  /// (estirados a toda la pantalla parecían barras, no botones).
+  static Widget _filterSlot(BuildContext context, Widget child) =>
+      hourTvWideLayout(context)
+      ? SizedBox(width: 260, child: child)
+      : Expanded(child: child);
 
   Widget _sortMenu() => MenuAnchor(
     alignmentOffset: const Offset(0, 4),
@@ -2614,6 +2623,15 @@ class _HourTvMobileLibraryState extends State<HourTvMobileLibrary> {
     }
   }
 
+  Widget _tabs() => HourTvEvenTabs(
+    labels: const ['Mi Lista', 'Historial'],
+    selected: tab,
+    onSelected: (value) {
+      setState(() => tab = value);
+      _resolveDriftItems();
+    },
+  );
+
   (IconData, String, String) get _emptyState {
     switch (tab) {
       case 'Historial':
@@ -2688,28 +2706,59 @@ class _HourTvMobileLibraryState extends State<HourTvMobileLibrary> {
         ),
         // Antes era un carrusel horizontal: con solo 3 opciones, obligaba a
         // arrastrar para ver "Historial" en vez de mostrar las tres de una.
-        SliverPadding(
-          padding: const EdgeInsets.fromLTRB(16, 14, 16, 0),
-          sliver: SliverToBoxAdapter(
-            child: HourTvEvenTabs(
-              labels: const ['Mi Lista', 'Historial'],
-              selected: tab,
-              onSelected: (value) {
-                setState(() => tab = value);
-                _resolveDriftItems();
-              },
+        // En computador: pestañas cortas y el filtro como chips en la misma
+        // fila (a todo el ancho parecían barras de celular estiradas).
+        if (hourTvWideLayout(context))
+          SliverPadding(
+            padding: const EdgeInsets.fromLTRB(16, 14, 16, 12),
+            sliver: SliverToBoxAdapter(
+              child: Row(
+                children: [
+                  SizedBox(width: 360, child: _tabs()),
+                  const Spacer(),
+                  for (final option in _LibraryFilterSelector._options)
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8),
+                      child: ChoiceChip(
+                        label: Text(option),
+                        selected: filter == option,
+                        showCheckmark: false,
+                        onSelected: (_) => setState(() => filter = option),
+                        selectedColor: HourTvMobileTokens.emerald,
+                        backgroundColor: HourTvMobileTokens.surfacePrimary,
+                        side: BorderSide(
+                          color: filter == option
+                              ? HourTvMobileTokens.emerald
+                              : HourTvMobileTokens.borderSubtle,
+                        ),
+                        shape: const StadiumBorder(),
+                        labelStyle: TextStyle(
+                          color: filter == option
+                              ? Colors.black
+                              : HourTvMobileTokens.textPrimary,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            ),
+          )
+        else ...[
+          SliverPadding(
+            padding: const EdgeInsets.fromLTRB(16, 14, 16, 0),
+            sliver: SliverToBoxAdapter(child: _tabs()),
+          ),
+          SliverPadding(
+            padding: const EdgeInsets.fromLTRB(16, 14, 16, 12),
+            sliver: SliverToBoxAdapter(
+              child: _LibraryFilterSelector(
+                value: filter,
+                onChanged: (value) => setState(() => filter = value),
+              ),
             ),
           ),
-        ),
-        SliverPadding(
-          padding: const EdgeInsets.fromLTRB(16, 14, 16, 12),
-          sliver: SliverToBoxAdapter(
-            child: _LibraryFilterSelector(
-              value: filter,
-              onChanged: (value) => setState(() => filter = value),
-            ),
-          ),
-        ),
+        ],
         if (items.isEmpty)
           SliverFillRemaining(
             hasScrollBody: false,
