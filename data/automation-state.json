@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-09-29T01:15:34.826Z",
+  "lastRunAt": "2026-09-29T07:08:23.002Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -20,8 +20,8 @@
     1127384,
     1081003,
     1137844,
-    1341138,
     1291595,
+    1341138,
     1368337,
     1032863,
     1294189,
@@ -31,9 +31,9 @@
     1607127,
     1492640,
     1482547,
+    1377237,
     1339713,
     460458,
-    1232569,
     1335666,
     1083381
   ],
@@ -87,13 +87,13 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1341138,
-      "title": "Spa Weekend",
+      "tmdbId": 1291595,
+      "title": "Insidious: Fuera del más allá",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1291595,
-      "title": "Insidious: Fuera del más allá",
+      "tmdbId": 1341138,
+      "title": "Relajadas y muy peligrosas",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
@@ -142,8 +142,8 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1232569,
-      "title": "Pinocho: Desatado",
+      "tmdbId": 1377237,
+      "title": "Entrega al límite",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     }
   ]
