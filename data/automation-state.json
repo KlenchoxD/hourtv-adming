@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-10-01T09:11:37.011Z",
+  "lastRunAt": "2026-10-01T16:25:54.804Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -7,21 +7,21 @@
     1204680,
     1101383,
     1288445,
-    1263337,
-    1084244,
     1248832,
+    1084244,
+    1263337,
     1477712,
-    1108427,
     299534,
-    1240889,
+    1108427,
     1315772,
+    1240889,
     1465063,
     1275779,
+    1283515,
     1185806,
     980431,
-    1081003,
     671,
-    1273221,
+    1081003,
     1368337,
     1032863,
     1228834,
@@ -30,9 +30,9 @@
     1377237,
     1375646,
     1492640,
-    1339713,
     460458,
-    1607127,
+    1339713,
+    977942,
     1482547,
     1335666,
     1083381
@@ -62,13 +62,13 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1263337,
-      "title": "En el corazón de la bestia",
+      "tmdbId": 1248832,
+      "title": "Digger",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1248832,
-      "title": "Digger",
+      "tmdbId": 1263337,
+      "title": "En el corazón de la bestia",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
@@ -84,6 +84,11 @@
     {
       "tmdbId": 1465063,
       "title": "La isla olvidada",
+      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+    },
+    {
+      "tmdbId": 1283515,
+      "title": "Verity. La sombra de un engaño",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
@@ -127,8 +132,8 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1607127,
-      "title": "Un último disparo",
+      "tmdbId": 977942,
+      "title": "El hombre que desafió al rey",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {

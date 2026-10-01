@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-10-01T09:11:34.620Z",
-  "durationMs": 2394,
+  "generatedAt": "2026-10-01T16:25:53.258Z",
+  "durationMs": 1551,
   "dryRun": false,
   "moviesFound": 34,
-  "moviesDiscarded": 19,
+  "moviesDiscarded": 20,
   "moviesAdded": 0,
   "moviesEnriched": 0,
-  "duplicates": 15,
+  "duplicates": 14,
   "tmdbErrors": 0,
   "providerErrors": 0,
   "invalidSources": 0,
@@ -33,13 +33,13 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1263337,
-      "title": "En el corazón de la bestia",
+      "tmdbId": 1248832,
+      "title": "Digger",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1248832,
-      "title": "Digger",
+      "tmdbId": 1263337,
+      "title": "En el corazón de la bestia",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
@@ -55,6 +55,11 @@
     {
       "tmdbId": 1465063,
       "title": "La isla olvidada",
+      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+    },
+    {
+      "tmdbId": 1283515,
+      "title": "Verity. La sombra de un engaño",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
@@ -98,8 +103,8 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1607127,
-      "title": "Un último disparo",
+      "tmdbId": 977942,
+      "title": "El hombre que desafió al rey",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
