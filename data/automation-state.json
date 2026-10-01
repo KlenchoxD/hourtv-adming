@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-09-30T23:34:01.770Z",
+  "lastRunAt": "2026-10-01T02:24:53.927Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -9,6 +9,7 @@
     1288445,
     1263337,
     1084244,
+    1248832,
     1477712,
     1108427,
     299534,
@@ -19,7 +20,6 @@
     1185806,
     980431,
     1081003,
-    1291595,
     671,
     1273221,
     1368337,
@@ -34,7 +34,6 @@
     460458,
     1607127,
     1482547,
-    1248832,
     1335666,
     1083381
   ],
@@ -68,6 +67,11 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
+      "tmdbId": 1248832,
+      "title": "Digger",
+      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+    },
+    {
       "tmdbId": 1477712,
       "title": "Dulce sabor a muerte",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
@@ -80,11 +84,6 @@
     {
       "tmdbId": 1465063,
       "title": "La isla olvidada",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
-    },
-    {
-      "tmdbId": 1291595,
-      "title": "Insidious: Fuera del más allá",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
@@ -135,11 +134,6 @@
     {
       "tmdbId": 1482547,
       "title": "Zip Wire",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
-    },
-    {
-      "tmdbId": 1248832,
-      "title": "Digger",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     }
   ]

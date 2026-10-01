@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-09-30T23:34:00.394Z",
-  "durationMs": 1381,
+  "generatedAt": "2026-10-01T02:24:53.424Z",
+  "durationMs": 509,
   "dryRun": false,
-  "moviesFound": 35,
-  "moviesDiscarded": 20,
+  "moviesFound": 34,
+  "moviesDiscarded": 19,
   "moviesAdded": 0,
   "moviesEnriched": 0,
   "duplicates": 15,
@@ -38,6 +38,11 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
+      "tmdbId": 1248832,
+      "title": "Digger",
+      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+    },
+    {
       "tmdbId": 1477712,
       "title": "Dulce sabor a muerte",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
@@ -50,11 +55,6 @@
     {
       "tmdbId": 1465063,
       "title": "La isla olvidada",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
-    },
-    {
-      "tmdbId": 1291595,
-      "title": "Insidious: Fuera del más allá",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
@@ -105,11 +105,6 @@
     {
       "tmdbId": 1482547,
       "title": "Zip Wire",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
-    },
-    {
-      "tmdbId": 1248832,
-      "title": "Digger",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     }
   ]
