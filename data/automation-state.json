@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-10-01T16:25:54.804Z",
+  "lastRunAt": "2026-10-01T21:10:21.124Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -23,17 +23,17 @@
     671,
     1081003,
     1368337,
-    1032863,
     1228834,
+    1032863,
     1751701,
-    1294189,
     1377237,
+    1294189,
     1375646,
     1492640,
     460458,
     1339713,
     977942,
-    1482547,
+    233651,
     1335666,
     1083381
   ],
@@ -97,13 +97,13 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1032863,
-      "title": "La hipótesis del amor",
+      "tmdbId": 1228834,
+      "title": "Operación Teherán",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1228834,
-      "title": "Operación Teherán",
+      "tmdbId": 1032863,
+      "title": "La hipótesis del amor",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
@@ -112,13 +112,13 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1294189,
-      "title": "The Mongoose",
+      "tmdbId": 1377237,
+      "title": "Entrega al límite",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1377237,
-      "title": "Entrega al límite",
+      "tmdbId": 1294189,
+      "title": "The Mongoose",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
@@ -137,8 +137,8 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1482547,
-      "title": "Zip Wire",
+      "tmdbId": 233651,
+      "title": "セックス・ライダー　濡れたハイウェイ",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     }
   ]

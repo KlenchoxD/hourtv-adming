@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-01T16:25:53.258Z",
-  "durationMs": 1551,
+  "generatedAt": "2026-10-01T21:10:18.830Z",
+  "durationMs": 2300,
   "dryRun": false,
   "moviesFound": 34,
   "moviesDiscarded": 20,
@@ -68,13 +68,13 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1032863,
-      "title": "La hipótesis del amor",
+      "tmdbId": 1228834,
+      "title": "Operación Teherán",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1228834,
-      "title": "Operación Teherán",
+      "tmdbId": 1032863,
+      "title": "La hipótesis del amor",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
@@ -83,13 +83,13 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1294189,
-      "title": "The Mongoose",
+      "tmdbId": 1377237,
+      "title": "Entrega al límite",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1377237,
-      "title": "Entrega al límite",
+      "tmdbId": 1294189,
+      "title": "The Mongoose",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
@@ -108,8 +108,8 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1482547,
-      "title": "Zip Wire",
+      "tmdbId": 233651,
+      "title": "セックス・ライダー　濡れたハイウェイ",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     }
   ]
