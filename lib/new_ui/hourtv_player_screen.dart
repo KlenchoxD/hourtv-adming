@@ -26,6 +26,7 @@ import '../services/subtitles/subtitle_discovery_service.dart';
 import '../services/subtitles/subtitle_style.dart';
 import '../services/subtitles/github_subtitle_repository.dart';
 import '../services/subtitles/opensubtitles_repository.dart';
+import '../services/subtitles/subtitle_identity.dart';
 import 'hourtv_web_player.dart';
 import 'hourtv_focusable.dart';
 import 'hourtv_cast_controls_screen.dart';
@@ -763,31 +764,15 @@ class _PlayerScreenState extends State<PlayerScreen>
 
     // Consulta en segundo plano a OpenSubtitles.com (API oficial v1)
     try {
-      final season = _extractSeason(channel.name);
-      final episode = _extractEpisode(channel.name);
-      final cleanTitle = _extractCleanTitle(channel.name);
-
-      String? tmdbId;
-      String? imdbId;
-      final tvg = channel.tvgId?.trim();
-      if (tvg != null && tvg.isNotEmpty) {
-        if (tvg.toLowerCase().startsWith('tt')) {
-          imdbId = tvg;
-        } else if (tvg.toLowerCase().startsWith('tmdb:') ||
-            tvg.toLowerCase().startsWith('tmdb/')) {
-          tmdbId = tvg.split(RegExp(r'[:/]')).last;
-        } else if (RegExp(r'^\d+$').hasMatch(tvg)) {
-          tmdbId = tvg;
-        }
-      }
+      final identity = subtitleIdentity(channel, ContentStore.instance.series);
 
       final osTracks = await _openSubtitles.searchSubtitles(
-        title: cleanTitle.isNotEmpty ? cleanTitle : channel.displayName,
+        title: identity.title,
         year: channel.year,
-        season: season,
-        episode: episode,
-        tmdbId: tmdbId,
-        imdbId: imdbId,
+        season: identity.season,
+        episode: identity.episode,
+        tmdbId: identity.tmdbId,
+        imdbId: identity.imdbId,
         languages: const ['es', 'en'],
       );
 
@@ -880,37 +865,6 @@ class _PlayerScreenState extends State<PlayerScreen>
       }
     } catch (_) {}
     return 'es';
-  }
-
-  static int? _extractSeason(String name) {
-    final match = RegExp(
-      r'[sS](\d+)|[tT](\d+)|[tT]emporada\s*(\d+)',
-    ).firstMatch(name);
-    if (match != null) {
-      return int.tryParse(
-        match.group(1) ?? match.group(2) ?? match.group(3) ?? '',
-      );
-    }
-    return null;
-  }
-
-  static int? _extractEpisode(String name) {
-    final match = RegExp(
-      r'[eE](\d+)|[cC]ap[ií]tulo\s*(\d+)|[eE]pisodio\s*(\d+)',
-    ).firstMatch(name);
-    if (match != null) {
-      return int.tryParse(
-        match.group(1) ?? match.group(2) ?? match.group(3) ?? '',
-      );
-    }
-    return null;
-  }
-
-  static String _extractCleanTitle(String name) {
-    return name
-        .split(RegExp(r'[sS]\d+|[tT]\d+|[tT]emporada|[eE]\d+|[cC]ap[ií]tulo'))
-        .first
-        .trim();
   }
 
   /// Si `failedUrl` es la fuente activa del plan y quedan mirrors por probar,
@@ -1540,6 +1494,14 @@ class _PlayerScreenState extends State<PlayerScreen>
       if (!mounted || !identical(_vc, vc)) return;
       if (captionFile != null) {
         await vc.setClosedCaptionFile(Future.value(captionFile));
+        final savedDelay = StorageService.getSetting(
+          _subtitleTimingKey(track),
+          defaultValue: 0,
+        );
+        SubtitleController.applyCaptionDelay(
+          vc,
+          Duration(milliseconds: savedDelay is int ? savedDelay : 0),
+        );
         // No forzar seekTo ni play innecesarios para evitar que ExoPlayer
         // vacíe el búfer o produzca microcongelamientos.
         if (mounted && identical(_vc, vc)) {
@@ -1580,6 +1542,18 @@ class _PlayerScreenState extends State<PlayerScreen>
       builder: (dialogContext) => SimpleDialog(
         title: const Text('Subtítulos'),
         children: [
+          if (_selectedSubtitle.id != 'off')
+            SimpleDialogOption(
+              onPressed: () {
+                Navigator.pop(dialogContext);
+                _showSubtitleTimingDialog();
+              },
+              child: const ListTile(
+                leading: Icon(Icons.sync),
+                title: Text('Sincronizar subtítulos'),
+                subtitle: Text('Adelantar o retrasar para esta edición'),
+              ),
+            ),
           for (final track in allTracks)
             SimpleDialogOption(
               onPressed: () async {
@@ -1638,6 +1612,74 @@ class _PlayerScreenState extends State<PlayerScreen>
       ),
     );
     if (mounted) _screenFocus.requestFocus();
+  }
+
+  String _subtitleTimingKey(HourTvSubtitleTrack track) {
+    final channel = _currentChannel;
+    final source = Uri.tryParse(_activeServerUrl ?? channel.url) ?? Uri();
+    final subtitle = Uri.tryParse(track.url ?? '');
+    return 'subtitleDelay:${SubtitleController.computeCacheKey(source.replace(query: '', fragment: ''), '${channel.tvgId ?? channel.name}|${subtitle?.host}/${subtitle?.path}|${track.languageCode}')}';
+  }
+
+  Future<void> _showSubtitleTimingDialog() async {
+    final vc = _vc;
+    if (vc == null || _selectedSubtitle.id == 'off') return;
+    final key = _subtitleTimingKey(_selectedSubtitle);
+    var delay = -vc.value.captionOffset.inMilliseconds;
+    await showDialog<void>(
+      context: context,
+      builder: (context) => StatefulBuilder(
+        builder: (context, update) {
+          void change(int next) {
+            if (!mounted || !identical(vc, _vc)) return;
+            update(() => delay = next.clamp(-300000, 300000));
+            // La API busca en position + captionOffset: retrasar usa signo negativo.
+            SubtitleController.applyCaptionDelay(
+              vc,
+              Duration(milliseconds: delay),
+            );
+            unawaited(StorageService.saveSetting(key, delay));
+          }
+
+          return AlertDialog(
+            title: const Text('Sincronizar subtítulos'),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text('Retraso: ${(delay / 1000).toStringAsFixed(1)} s'),
+                const Text(
+                  'Si salen antes de la voz, pulsa Retrasar. Si salen después, Adelantar.',
+                ),
+                const SizedBox(height: 12),
+                Wrap(
+                  spacing: 8,
+                  children: [
+                    TextButton(
+                      onPressed: () => change(delay - 500),
+                      child: const Text('Adelantar 0.5 s'),
+                    ),
+                    TextButton(
+                      onPressed: () => change(delay + 500),
+                      child: const Text('Retrasar 0.5 s'),
+                    ),
+                    TextButton(
+                      onPressed: () => change(0),
+                      child: const Text('Restablecer'),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Listo'),
+              ),
+            ],
+          );
+        },
+      ),
+    );
   }
 
   Future<void> _showQualitySelector() async {

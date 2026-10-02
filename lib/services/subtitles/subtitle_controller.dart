@@ -22,6 +22,17 @@ import 'hourtv_subtitle_track.dart';
 /// - Sanitización de errores: no expone URIs, tokens ni query strings en logs.
 /// - HLS segmentado no compatible → mensaje explícito, sin afirmar soporte.
 class SubtitleController {
+  /// Positivo retrasa el texto. Recalcula el cue inmediatamente: video_player
+  /// calcula el primer setCaptionOffset con el valor anterior del offset.
+  static void applyCaptionDelay(
+    VideoPlayerController controller,
+    Duration delay,
+  ) {
+    final offset = Duration(microseconds: -delay.inMicroseconds);
+    controller.setCaptionOffset(offset);
+    controller.setCaptionOffset(offset);
+  }
+
   static const int maxCacheEntries = 10;
   static const int maxFileSizeBytes = 1024 * 1024; // 1 MB
   static const Duration requestTimeout = Duration(seconds: 5);
@@ -337,7 +348,6 @@ class SubtitleController {
       _captionCache[cacheKey] = captionFile;
     }
   }
-
 
   /// Descarga el cuerpo de [uri] siguiendo redirecciones manualmente.
   ///

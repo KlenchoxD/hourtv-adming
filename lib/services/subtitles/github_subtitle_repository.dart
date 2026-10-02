@@ -7,13 +7,14 @@ import '../../models/channel.dart';
 import '../catalog/catalog_repository.dart';
 import '../content_store.dart';
 import 'hourtv_subtitle_track.dart';
+import 'subtitle_identity.dart';
 
 /// Subtítulos en español del repositorio público `hourtv-subtitles`. Una
 /// tarea diaria de GitHub los baja de SubDL por TMDB id, así la clave de
 /// SubDL nunca viaja dentro de la app:
 ///
-///   movie/<tmdb>.es.srt
-///   tv/<id de la serie en el catálogo>/S01E02.es.srt
+///   `movie/<tmdb>.es.srt`
+///   `tv/<id de la serie en el catálogo>/S01E02.es.srt`
 class GithubSubtitleRepository {
   static const String defaultBaseUrl =
       'https://raw.githubusercontent.com/KlenchoxD/hourtv-subtitles/main';
@@ -55,8 +56,10 @@ class GithubSubtitleRepository {
     // "Continuar viendo" guardado antes de existir tmdbId: se toma del mismo
     // título en el catálogo cargado.
     final tvgId = channel.tvgId;
+    final identity = subtitleIdentity(channel, ContentStore.instance.series);
     final tmdb =
         channel.tmdbId ??
+        int.tryParse(identity.tmdbId ?? '') ??
         (tvgId == null
             ? null
             : [
@@ -67,11 +70,8 @@ class GithubSubtitleRepository {
       if (channel.type != MediaType.series) {
         return (tmdbId: tmdb, seriesId: null, season: null, episode: null);
       }
-      final parts = (channel.tvgId ?? '').split(':');
-      final season = parts.length >= 3
-          ? int.tryParse(parts[parts.length - 2])
-          : null;
-      final episode = parts.length >= 3 ? int.tryParse(parts.last) : null;
+      final season = identity.season;
+      final episode = identity.episode;
       if (season != null && episode != null) {
         return (
           tmdbId: null,
@@ -180,7 +180,9 @@ class GithubSubtitleRepository {
 
     // Validación SRT: debe contener al menos un timestamp `-->`
     if (content.contains('-->')) {
-      final srtRegex = RegExp(r'\d{2}:\d{2}:\d{2}[,\.]\d{3}\s*-->\s*\d{2}:\d{2}:\d{2}[,\.]\d{3}');
+      final srtRegex = RegExp(
+        r'\d{2}:\d{2}:\d{2}[,\.]\d{3}\s*-->\s*\d{2}:\d{2}:\d{2}[,\.]\d{3}',
+      );
       if (srtRegex.hasMatch(content)) {
         return SubtitleFormat.srt;
       }
