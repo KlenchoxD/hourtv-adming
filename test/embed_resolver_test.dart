@@ -27,6 +27,55 @@ String _voeScriptTag(String encrypted) =>
     '<script type="application/json">["$encrypted"]</script>';
 
 void main() {
+  test('OK.ru utiliza metadata del capítulo, no la plantilla genérica HLS', () {
+    const stream =
+        'https://cdn.example.test/video.m3u8?token=chapter&expires=123';
+    final options = jsonEncode({
+      'flashvars': {
+        'metadata': {'hlsManifestUrl': stream},
+      },
+    });
+    final escaped = const HtmlEscape(HtmlEscapeMode.attribute).convert(options);
+    final html =
+        '<script>var template="https://cdn.example.test/video.m3u8?cmd=videoPlayerCdn";</script>'
+        '<div data-options="$escaped"></div>';
+    final result = EmbedResolver.debugResolve('https://ok.ru/videoembed/123', [
+      ('https://ok.ru/videoembed/123', html),
+    ]);
+    expect(result.stream?.url, stream);
+    expect(result.stream?.headers['Referer'], 'https://ok.ru/videoembed/123');
+  });
+
+  test('OK.ru sin metadata no entrega plantilla inválida al reproductor', () {
+    final result = EmbedResolver.debugResolve('https://ok.ru/videoembed/123', [
+      (
+        'https://ok.ru/videoembed/123',
+        '<script>var x="https://cdn.test/video.m3u8?cmd=videoPlayerCdn";</script>',
+      ),
+    ]);
+    expect(result.stream, isNull);
+  });
+
+  test('OK.ru acepta metadata JSON como string y conserva parámetros', () {
+    const stream = 'https://cdn.test/?video=123&sig=abc';
+    final options = jsonEncode({
+      'flashvars': {
+        'metadata': jsonEncode({
+          'videos': [
+            {'name': 'hd', 'url': stream},
+          ],
+        }),
+      },
+    });
+    final html =
+        '<div data-options="${const HtmlEscape(HtmlEscapeMode.attribute).convert(options)}"></div>';
+    expect(
+      EmbedResolver.debugResolve('https://ok.ru/videoembed/123', [
+        ('https://ok.ru/videoembed/123', html),
+      ]).stream?.url,
+      stream,
+    );
+  });
   // El packer sustituye tokens base-36 por palabras. Este ejemplo mínimo
   // codifica sources:[{file:"https://cdn.test/x/master.m3u8"}] con radix 36.
   // Tokens: 0->sources, 1->file, 2->https, 3->cdn, 4->master

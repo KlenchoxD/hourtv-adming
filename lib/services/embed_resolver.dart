@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+import 'package:html/parser.dart' as html_parser;
 
 /// Stream directo extraído de una página embed, con las cabeceras que su CDN
 /// exige (Referer/User-Agent), para reproducirlo nativo en ExoPlayer.
@@ -55,10 +56,15 @@ class EmbedResolver {
           )
           .timeout(const Duration(seconds: 15));
       if (res.statusCode != 200 || res.body.isEmpty) {
-        debugPrint('[PLAYER] embed_http ${res.statusCode} host=${Uri.parse(embedUrl).host}');
+        debugPrint(
+          '[PLAYER] embed_http ${res.statusCode} host=${Uri.parse(embedUrl).host}',
+        );
         return const EmbedResolution();
       }
       final html = res.body;
+      if (_isOkRu(embedUrl)) {
+        return EmbedResolution(stream: _okRuSource(html, embedUrl));
+      }
 
       // VOE: la pagina voe.sx es solo una redireccion JS a un alias propio.
       // El stream real vive en el alias, cifrado en un application/json.
@@ -140,6 +146,9 @@ class EmbedResolver {
     EmbedResolution resolve(String url) {
       final html = byUrl[url];
       if (html == null) return const EmbedResolution();
+      if (_isOkRu(url)) {
+        return EmbedResolution(stream: _okRuSource(html, url));
+      }
       final safeWebUrl = _safeWebRedirect(html, url);
       if (safeWebUrl != null) {
         final aliasHtml = byUrl[safeWebUrl];
@@ -164,6 +173,48 @@ class EmbedResolver {
     }
 
     return resolve(startUrl);
+  }
+
+  static bool _isOkRu(String url) {
+    final host = Uri.tryParse(url)?.host.toLowerCase() ?? '';
+    return host == 'ok.ru' || host.endsWith('.ok.ru');
+  }
+
+  /// OK.ru publica la fuente del vídeo dentro de data-options, no en el primer
+  /// literal .m3u8 del HTML (ese literal es una plantilla de CDN sin autorización).
+  static ResolvedStream? _okRuSource(String html, String pageUrl) {
+    for (final element
+        in html_parser.parse(html).querySelectorAll('[data-options]')) {
+      try {
+        final options = jsonDecode(element.attributes['data-options']!);
+        if (options is! Map || options['flashvars'] is! Map) continue;
+        dynamic metadata = options['flashvars']['metadata'];
+        if (metadata is String) metadata = jsonDecode(metadata);
+        if (metadata is! Map) continue;
+        final candidates = <String>[
+          if (metadata['hlsManifestUrl'] is String) metadata['hlsManifestUrl'],
+          if (metadata['videos'] is List)
+            for (final video in (metadata['videos'] as List).reversed)
+              if (video is Map && video['url'] is String) video['url'],
+        ];
+        for (final candidate in candidates) {
+          final uri = Uri.tryParse(candidate);
+          if (uri == null ||
+              uri.scheme != 'https' ||
+              !uri.hasAuthority ||
+              uri.userInfo.isNotEmpty) {
+            continue;
+          }
+          return ResolvedStream(candidate, {
+            'User-Agent': _ua,
+            'Referer': pageUrl,
+          });
+        }
+      } catch (_) {
+        // Otro elemento puede contener las opciones reales del reproductor.
+      }
+    }
+    return null;
   }
 
   /// Solo para pruebas: expone la extracción VOE (payload cifrado) sin red.
