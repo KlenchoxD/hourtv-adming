@@ -27,6 +27,25 @@ String _voeScriptTag(String encrypted) =>
     '<script type="application/json">["$encrypted"]</script>';
 
 void main() {
+  test(
+    'VOE resuelve el alias actual jeremyparticipantanything nativamente',
+    () {
+      const original = 'https://voe.sx/e/episode';
+      const alias = 'https://jeremyparticipantanything.com/e/episode';
+      final encrypted = _voeEncrypt(
+        jsonEncode({'source': 'https://cdn.test/episode.m3u8'}),
+      );
+      final result = EmbedResolver.debugResolve(original, [
+        (original, "window.location.href = '$alias';"),
+        (alias, _voeScriptTag(encrypted)),
+      ]);
+      expect(result.stream?.url, 'https://cdn.test/episode.m3u8');
+      expect(
+        result.stream?.headers['Referer'],
+        'https://jeremyparticipantanything.com/',
+      );
+    },
+  );
   test('OK.ru utiliza metadata del capítulo, no la plantilla genérica HLS', () {
     const stream =
         'https://cdn.example.test/video.m3u8?token=chapter&expires=123';

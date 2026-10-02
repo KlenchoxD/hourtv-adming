@@ -35,7 +35,11 @@ class EmbedResolver {
       '(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36';
 
   static const Map<String, Set<String>> _trustedRedirectAliases = {
-    'voe.sx': {'eugenemakedraw.com', 'katherineschoolphone.com'},
+    'voe.sx': {
+      'eugenemakedraw.com',
+      'katherineschoolphone.com',
+      'jeremyparticipantanything.com',
+    },
   };
 
   static Future<ResolvedStream?> resolve(String embedUrl) async {
