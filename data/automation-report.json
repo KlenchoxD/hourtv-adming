@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-02T00:45:03.845Z",
-  "durationMs": 2610,
+  "generatedAt": "2026-10-02T06:16:06.336Z",
+  "durationMs": 2434,
   "dryRun": false,
   "moviesFound": 34,
   "moviesDiscarded": 21,
@@ -104,7 +104,7 @@
     },
     {
       "tmdbId": 1492640,
-      "title": "UNABOMBER",
+      "title": "Unabomber",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
