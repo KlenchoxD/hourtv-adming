@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-10-01T21:10:21.124Z",
+  "lastRunAt": "2026-10-02T00:45:06.451Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -20,8 +20,8 @@
     1283515,
     1185806,
     980431,
+    1101412,
     671,
-    1081003,
     1368337,
     1228834,
     1032863,
@@ -89,6 +89,11 @@
     {
       "tmdbId": 1283515,
       "title": "Verity. La sombra de un engaño",
+      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+    },
+    {
+      "tmdbId": 1101412,
+      "title": "Fall 2: Deadpoint",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {

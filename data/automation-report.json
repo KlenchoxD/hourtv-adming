@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-10-01T21:10:18.830Z",
-  "durationMs": 2300,
+  "generatedAt": "2026-10-02T00:45:03.845Z",
+  "durationMs": 2610,
   "dryRun": false,
   "moviesFound": 34,
-  "moviesDiscarded": 20,
+  "moviesDiscarded": 21,
   "moviesAdded": 0,
   "moviesEnriched": 0,
-  "duplicates": 14,
+  "duplicates": 13,
   "tmdbErrors": 0,
   "providerErrors": 0,
   "invalidSources": 0,
@@ -60,6 +60,11 @@
     {
       "tmdbId": 1283515,
       "title": "Verity. La sombra de un engaño",
+      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+    },
+    {
+      "tmdbId": 1101412,
+      "title": "Fall 2: Deadpoint",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
