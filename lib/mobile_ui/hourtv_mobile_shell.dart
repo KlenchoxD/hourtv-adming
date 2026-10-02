@@ -1754,7 +1754,11 @@ class _HourTvMobileSearchState extends State<HourTvMobileSearch> {
       };
 
   void _executeDriftSearch() {
-    if (_driftPageSource == null) return;
+    if (_driftPageSource == null ||
+        _query.isNotEmpty ||
+        _usesCatalogIndexFilters) {
+      return;
+    }
     _driftPageSource!.updateFilters(
       mediaType: _toDriftMediaType(_type),
       genreSlug: _driftGenreSlug,
@@ -1938,11 +1942,7 @@ class _HourTvMobileSearchState extends State<HourTvMobileSearch> {
   void _onScroll() {
     if (!_scrollController.hasClients) return;
     if (_scrollController.position.extentAfter >= 600) return;
-    final bool useDrift =
-        _driftUsable &&
-        _query.isEmpty &&
-        (_hasActiveFilters || _cachedDriftResults.isNotEmpty);
-    if (useDrift) {
+    if (_useDriftForVisibleResults) {
       if (_driftPageSource!.hasMore && !_driftPageSource!.isLoading) {
         unawaited(_driftPageSource!.loadNextPage());
       }
@@ -1992,6 +1992,20 @@ class _HourTvMobileSearchState extends State<HourTvMobileSearch> {
   bool get _driftUsable =>
       _driftPageSource != null && ParentalControlService.filterMode == 0;
 
+  // Los géneros, Anime y Novelas se derivan del catálogo publicado; Drift
+  // conserva una copia separada y solo clasifica tipo movie/series. Estos
+  // filtros deben usar el mismo índice que genera sus opciones, no Drift.
+  bool get _usesCatalogIndexFilters =>
+      _genre != HourTvGenreService.defaultGenre ||
+      _type == 'Anime' ||
+      _type == 'Novelas';
+
+  bool get _useDriftForVisibleResults =>
+      _driftUsable &&
+      _query.isEmpty &&
+      !_usesCatalogIndexFilters &&
+      (_hasActiveFilters || _cachedDriftResults.isNotEmpty);
+
   bool get _hasActiveFilters =>
       _query.isNotEmpty ||
       _type != 'Todo' ||
@@ -2006,10 +2020,7 @@ class _HourTvMobileSearchState extends State<HourTvMobileSearch> {
     // nunca. El índice en memoria (_currentResults) sí se arma desde el
     // catálogo real que el panel publica, así que es la única fuente
     // confiable en cuanto hay texto escrito.
-    final bool useDrift =
-        _driftUsable &&
-        _query.isEmpty &&
-        (_hasActiveFilters || _cachedDriftResults.isNotEmpty);
+    final bool useDrift = _useDriftForVisibleResults;
     final List<Channel> resultsList = useDrift
         ? _cachedDriftResults
         : _currentResults;
