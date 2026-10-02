@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-02T12:56:24.967Z",
-  "durationMs": 2765,
+  "generatedAt": "2026-10-02T18:10:27.210Z",
+  "durationMs": 1394,
   "dryRun": false,
   "moviesFound": 34,
   "moviesDiscarded": 21,
@@ -53,13 +53,13 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1240889,
-      "title": "Adolescencia, sexo y muerte en campamento Miasma",
+      "tmdbId": 1465063,
+      "title": "La isla olvidada",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1465063,
-      "title": "La isla olvidada",
+      "tmdbId": 1240889,
+      "title": "Adolescencia, sexo y muerte en campamento Miasma",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
@@ -83,8 +83,8 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1032863,
-      "title": "La hipótesis del amor",
+      "tmdbId": 1377237,
+      "title": "Entrega al límite",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
@@ -93,8 +93,8 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1377237,
-      "title": "Entrega al límite",
+      "tmdbId": 1032863,
+      "title": "La hipótesis del amor",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
