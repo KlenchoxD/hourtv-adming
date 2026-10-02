@@ -73,9 +73,13 @@ class EmbedResolver {
       // VOE: la pagina voe.sx es solo una redireccion JS a un alias propio.
       // El stream real vive en el alias, cifrado en un application/json.
       // Se sigue la redireccion UNA sola vez y solo hacia el alias conocido.
-      final safeWebUrl = _safeWebRedirect(html, embedUrl);
+      final safeWebUrl =
+          _safeWebRedirect(html, embedUrl) ??
+          _voeEpisodeRedirect(html, embedUrl);
       if (safeWebUrl != null) {
-        return _resolveTrustedAlias(safeWebUrl).then((voeStream) {
+        return _resolveTrustedAlias(safeWebUrl, verifiedRedirect: true).then((
+          voeStream,
+        ) {
           return voeStream != null
               ? EmbedResolution(stream: voeStream)
               : EmbedResolution(safeWebUrl: safeWebUrl);
@@ -109,7 +113,10 @@ class EmbedResolver {
   /// Descarga el alias de confianza (ej. eugenemakedraw.com para voe.sx) e
   /// intenta resolver el stream nativo desde su payload cifrado. Nunca se
   /// usaria para una redireccion no verificada.
-  static Future<ResolvedStream?> _resolveTrustedAlias(String aliasUrl) async {
+  static Future<ResolvedStream?> _resolveTrustedAlias(
+    String aliasUrl, {
+    bool verifiedRedirect = false,
+  }) async {
     try {
       final res = await http
           .get(
@@ -122,7 +129,7 @@ class EmbedResolver {
           )
           .timeout(const Duration(seconds: 15));
       if (res.statusCode != 200 || res.body.isEmpty) return null;
-      return _voeSource(res.body, aliasUrl);
+      return _voeSource(res.body, aliasUrl, verifiedRedirect: verifiedRedirect);
     } catch (_) {
       return null;
     }
@@ -153,12 +160,13 @@ class EmbedResolver {
       if (_isOkRu(url)) {
         return EmbedResolution(stream: _okRuSource(html, url));
       }
-      final safeWebUrl = _safeWebRedirect(html, url);
+      final safeWebUrl =
+          _safeWebRedirect(html, url) ?? _voeEpisodeRedirect(html, url);
       if (safeWebUrl != null) {
         final aliasHtml = byUrl[safeWebUrl];
         final voeStream = aliasHtml == null
             ? null
-            : _voeSource(aliasHtml, safeWebUrl);
+            : _voeSource(aliasHtml, safeWebUrl, verifiedRedirect: true);
         return voeStream != null
             ? EmbedResolution(stream: voeStream)
             : EmbedResolution(safeWebUrl: safeWebUrl);
@@ -182,6 +190,42 @@ class EmbedResolver {
   static bool _isOkRu(String url) {
     final host = Uri.tryParse(url)?.host.toLowerCase() ?? '';
     return host == 'ok.ru' || host.endsWith('.ok.ru');
+  }
+
+  /// Rotación de dominios anunciada por el origen HTTPS real de VOE.
+  /// Se conserva el ID exacto del vídeo y se excluyen anuncios y credenciales.
+  static String? _voeEpisodeRedirect(String html, String sourceUrl) {
+    final source = Uri.tryParse(sourceUrl);
+    if (source == null ||
+        source.scheme != 'https' ||
+        source.host != 'voe.sx' ||
+        source.userInfo.isNotEmpty) {
+      return null;
+    }
+    final parts = source.pathSegments.where((p) => p.isNotEmpty).toList();
+    if (parts.isEmpty ||
+        parts.length > 2 ||
+        (parts.length == 2 && parts.first != 'e') ||
+        !RegExp(r'^[a-zA-Z0-9]{8,}$').hasMatch(parts.last)) {
+      return null;
+    }
+    for (final match in RegExp(
+      r'''(?:window\.)?location\.href\s*=\s*['"](https://[^'"]+)['"]''',
+    ).allMatches(html)) {
+      final target = Uri.tryParse(match.group(1)!);
+      if (target == null ||
+          target.scheme != 'https' ||
+          !target.hasAuthority ||
+          target.userInfo.isNotEmpty ||
+          target.hasPort ||
+          target.hasQuery ||
+          target.hasFragment ||
+          target.path != '/e/${parts.last}') {
+        continue;
+      }
+      return target.toString();
+    }
+    return null;
   }
 
   /// OK.ru publica la fuente del vídeo dentro de data-options, no en el primer
@@ -312,12 +356,16 @@ class EmbedResolver {
   // y NUNCA debe usarse (lo cubre _isDecoy).
   // ─────────────────────────────────────────────────────────────────────
 
-  static ResolvedStream? _voeSource(String html, String pageUrl) {
+  static ResolvedStream? _voeSource(
+    String html,
+    String pageUrl, {
+    bool verifiedRedirect = false,
+  }) {
     final page = Uri.tryParse(pageUrl);
     if (page == null ||
         page.scheme != 'https' ||
         page.userInfo.isNotEmpty ||
-        !_isTrustedVoeAlias(page.host)) {
+        (!verifiedRedirect && !_isTrustedVoeAlias(page.host))) {
       return null;
     }
     final payload = _voeDecrypt(html);

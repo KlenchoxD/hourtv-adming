@@ -27,6 +27,42 @@ String _voeScriptTag(String encrypted) =>
     '<script type="application/json">["$encrypted"]</script>';
 
 void main() {
+  test('VOE rota a un dominio nuevo conservando el mismo ID del vídeo', () {
+    const id = 'abcdefgh1234';
+    const origin = 'https://voe.sx/e/$id';
+    const target = 'https://new-provider-alias.test/e/$id';
+    final payload = _voeScriptTag(
+      _voeEncrypt(jsonEncode({'source': 'https://cdn.test/episode.m3u8'})),
+    );
+    expect(
+      EmbedResolver.debugResolve(origin, [
+        (origin, "window.location.href = '$target';"),
+        (target, payload),
+      ]).stream?.url,
+      'https://cdn.test/episode.m3u8',
+    );
+    for (final invalid in [
+      'http://new-provider-alias.test/e/$id',
+      'https://new-provider-alias.test/e/other-video',
+      'https://user@new-provider-alias.test/e/$id',
+      'https://new-provider-alias.test/e/$id?redirect=ad',
+    ]) {
+      expect(
+        EmbedResolver.debugResolve(origin, [
+          (origin, "window.location.href = '$invalid';"),
+          (invalid, payload),
+        ]).stream,
+        isNull,
+      );
+    }
+    expect(
+      EmbedResolver.debugResolve('https://fake-voe.test/e/$id', [
+        ('https://fake-voe.test/e/$id', "window.location.href = '$target';"),
+        (target, payload),
+      ]).stream,
+      isNull,
+    );
+  });
   test(
     'VOE resuelve el alias actual jeremyparticipantanything nativamente',
     () {

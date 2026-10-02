@@ -636,7 +636,7 @@ class _PlayerScreenState extends State<PlayerScreen>
             ? VideoViewType.platformView
             : VideoViewType.textureView,
       );
-      await _vc!.initialize();
+      await _vc!.initialize().timeout(const Duration(seconds: 25));
       debugPrint('[PLAYER] initialize_done');
       unawaited(
         _discoverSubtitles(
@@ -855,7 +855,9 @@ class _PlayerScreenState extends State<PlayerScreen>
         .where((s) => s.url == _activeServerUrl)
         .firstOrNull;
     final label = (server?.language ?? '').toLowerCase();
-    if (label.contains('sub') || label.startsWith('en') || label.contains('ingl')) {
+    if (label.contains('sub') ||
+        label.startsWith('en') ||
+        label.contains('ingl')) {
       return 'en';
     }
     if (label.startsWith('es') ||
@@ -997,6 +999,15 @@ class _PlayerScreenState extends State<PlayerScreen>
       ..setBackgroundColor(Colors.black)
       ..setNavigationDelegate(
         NavigationDelegate(
+          onWebResourceError: (error) {
+            if (!mounted || _embedUrl != url || error.isForMainFrame != true) {
+              return;
+            }
+            setState(
+              () => _err =
+                  'El servidor no pudo cargar el vídeo. Reintenta o elige otro servidor.',
+            );
+          },
           // Permite el host del embed y sus subdominios/redirecciones internas
           // (algunos players saltan a otro dominio propio para cargar). Solo
           // bloquea saltos claramente externos (popups de otra marca).
@@ -1021,6 +1032,35 @@ class _PlayerScreenState extends State<PlayerScreen>
     return Stack(
       children: [
         Positioned.fill(child: WebViewWidget(controller: _embedController!)),
+        if (_err != null)
+          Positioned.fill(
+            child: ColoredBox(
+              color: Colors.black,
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(24),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        _err!,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(color: Colors.white),
+                      ),
+                      const SizedBox(height: 16),
+                      TextButton(
+                        onPressed: () {
+                          setState(() => _err = null);
+                          _embedController?.reload();
+                        },
+                        child: const Text('Reintentar'),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
         Positioned(
           top: 0,
           left: 0,
@@ -2046,8 +2086,9 @@ class _PlayerScreenState extends State<PlayerScreen>
                               ValueListenableBuilder<bool>(
                                 valueListenable: _bufferingNotifier,
                                 builder: (context, isBuffering, _) {
-                                  if (!isBuffering)
+                                  if (!isBuffering) {
                                     return const SizedBox.shrink();
+                                  }
                                   return Center(
                                     child: DecoratedBox(
                                       decoration: BoxDecoration(
@@ -2229,9 +2270,7 @@ class _PlayerScreenState extends State<PlayerScreen>
           builder: (context, value) {
             final text = value.caption.text.trim();
             if (text.isEmpty) return const SizedBox.shrink();
-            return Center(
-              child: _subtitleStyle.build(text),
-            );
+            return Center(child: _subtitleStyle.build(text));
           },
         ),
       ),
