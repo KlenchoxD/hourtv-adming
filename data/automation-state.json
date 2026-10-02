@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-10-02T06:16:08.765Z",
+  "lastRunAt": "2026-10-02T12:56:27.728Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -7,21 +7,22 @@
     1204680,
     1101383,
     1288445,
-    1248832,
     1084244,
+    1248832,
     1263337,
     1477712,
     299534,
     1108427,
     1315772,
+    1283515,
     1240889,
     1465063,
     1275779,
-    1283515,
     1185806,
     980431,
     1101412,
     671,
+    1599191,
     1368337,
     1228834,
     1032863,
@@ -33,7 +34,6 @@
     460458,
     1339713,
     977942,
-    233651,
     1335666,
     1083381
   ],
@@ -77,6 +77,11 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
+      "tmdbId": 1283515,
+      "title": "Verity. La sombra de un engaño",
+      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+    },
+    {
       "tmdbId": 1240889,
       "title": "Adolescencia, sexo y muerte en campamento Miasma",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
@@ -87,13 +92,13 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1283515,
-      "title": "Verity. La sombra de un engaño",
+      "tmdbId": 1101412,
+      "title": "Fall 2: Deadpoint",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1101412,
-      "title": "Fall 2: Deadpoint",
+      "tmdbId": 1599191,
+      "title": "仙逆剧场版：弑仙之战",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
@@ -139,11 +144,6 @@
     {
       "tmdbId": 977942,
       "title": "El hombre que desafió al rey",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
-    },
-    {
-      "tmdbId": 233651,
-      "title": "セックス・ライダー　濡れたハイウェイ",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     }
   ]
