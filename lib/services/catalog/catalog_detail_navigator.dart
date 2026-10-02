@@ -29,12 +29,34 @@ class CatalogDetailNavigator {
     bool preview = false,
   }) async {
     final effectiveStore = store ?? ContentStore.instance;
-    final effectiveRepo = repository ?? (CatalogRepository.hasInstance ? CatalogRepository.instance : null);
+    final effectiveRepo =
+        repository ??
+        (CatalogRepository.hasInstance ? CatalogRepository.instance : null);
     channel = current(channel, effectiveStore.all);
+
+    // El catálogo publicado es la fuente completa actual; Drift puede conservar
+    // una tarjeta antigua sin temporadas mientras termina su sincronización.
+    final publishedSeries = hourTvResolveSeries(
+      channel,
+      effectiveStore.visibleSeries,
+      allowSynthetic: false,
+    );
+    if (publishedSeries != null &&
+        publishedSeries.episodes?.isNotEmpty == true) {
+      Navigator.of(context).push(
+        instantRoute<void>(
+          (_) => HourTvSeriesDetailPage(series: publishedSeries),
+        ),
+      );
+      return;
+    }
 
     // 1. Si no es del catálogo Drift o no hay repositorio, usar resolución directa tradicional
     if (!channel.isDriftCatalog || effectiveRepo == null) {
-      final legacySeries = hourTvResolveSeries(channel, effectiveStore.visibleSeries);
+      final legacySeries = hourTvResolveSeries(
+        channel,
+        effectiveStore.visibleSeries,
+      );
       if (legacySeries != null) {
         Navigator.of(context).push(
           instantRoute<void>(
@@ -112,7 +134,8 @@ class _HydratingDetailPageState extends State<_HydratingDetailPage> {
     final titleId = card.stableTitleId;
     if (titleId == null || titleId.isEmpty) return null;
 
-    var isSeries = card.forcedType == 'series' ||
+    var isSeries =
+        card.forcedType == 'series' ||
         card.forcedType == 'anime' ||
         card.forcedType == 'novela';
     if (!isSeries && card.forcedType == null) {
@@ -199,9 +222,7 @@ class _DetailPlaceholder extends StatelessWidget {
                 ),
                 const SizedBox(height: 24),
                 if (!failed)
-                  const Center(
-                    child: CircularProgressIndicator(strokeWidth: 2),
-                  )
+                  const Center(child: CircularProgressIndicator(strokeWidth: 2))
                 else ...[
                   const Text(
                     'No se pudieron cargar los detalles del título.',

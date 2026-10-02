@@ -7,6 +7,48 @@ import 'package:streamtv/new_ui/hourtv_series_detail_page.dart';
 import 'package:streamtv/services/xtream_service.dart';
 
 void main() {
+  test('una tarjeta Drift resuelve la serie publicada por ID estable', () {
+    final series = XtreamSeries(
+      seriesId: 'catalog:42',
+      name: 'Título actualizado',
+      host: '',
+      username: '',
+      password: '',
+      episodes: [Channel(name: 'Piloto', url: 'https://example.test/1')],
+    );
+    final card = Channel(
+      name: 'Título antiguo',
+      url: 'catalog://catalog:42',
+      catalogTitleId: 'catalog:42',
+      forcedType: 'series',
+    );
+    expect(
+      hourTvResolveSeries(card, [series], allowSynthetic: false),
+      same(series),
+    );
+  });
+
+  test('no inventa episodios reproducibles desde una tarjeta sintética', () {
+    final series = XtreamSeries(
+      seriesId: 'catalog:42',
+      name: 'Serie',
+      host: '',
+      username: '',
+      password: '',
+    );
+    expect(
+      hourTvResolveSeries(hourTvSeriesChannel(series), const [])!.episodes,
+      isEmpty,
+    );
+    expect(
+      hourTvResolveSeries(
+        Channel(name: 'Serie', url: 'catalog://42', forcedType: 'series'),
+        const [],
+      ),
+      isA<XtreamSeries>().having((s) => s.episodes, 'episodes', isEmpty),
+    );
+  });
+
   test('el catálogo móvil incorpora las series estructuradas publicadas', () {
     final episode = Channel(
       name: 'Episodio 1',

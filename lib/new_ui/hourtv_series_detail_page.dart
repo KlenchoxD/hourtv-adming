@@ -60,8 +60,9 @@ Channel hourTvSeriesChannel(XtreamSeries series) => Channel(
 
 XtreamSeries? hourTvResolveSeries(
   Channel channel,
-  Iterable<XtreamSeries> series,
-) {
+  Iterable<XtreamSeries> series, {
+  bool allowSynthetic = true,
+}) {
   // 1. Coincidencia directa por clave url de serie
   if (channel.url.startsWith('hourtv-series:')) {
     for (final item in series) {
@@ -70,10 +71,11 @@ XtreamSeries? hourTvResolveSeries(
   }
 
   // 2. Coincidencia por seriesId o prefijo de tvgId
-  if (channel.tvgId != null && channel.tvgId!.isNotEmpty) {
+  final identity = channel.stableTitleId;
+  if (identity != null && identity.isNotEmpty) {
     for (final item in series) {
-      if (item.seriesId == channel.tvgId ||
-          channel.tvgId!.startsWith('${item.seriesId}:')) {
+      if (item.seriesId == identity ||
+          identity.startsWith('${item.seriesId}:')) {
         return item;
       }
     }
@@ -112,7 +114,8 @@ XtreamSeries? hourTvResolveSeries(
   }
 
   // 6. Si el canal está forzado como serie o es tipo serie, sintetizar XtreamSeries
-  if (channel.type == MediaType.series || channel.forcedType == 'series') {
+  if (allowSynthetic &&
+      (channel.type == MediaType.series || channel.forcedType == 'series')) {
     return XtreamSeries(
       seriesId: channel.tvgId ?? 'series:${channel.displayName}',
       name: channel.seriesTitle.isNotEmpty
@@ -132,14 +135,17 @@ XtreamSeries? hourTvResolveSeries(
       writer: channel.writer,
       releaseDate: channel.releaseDate,
       episodes: [
-        channel.copyWith(
-          name: 'Capítulo 1',
-          url: channel.url.isNotEmpty
-              ? channel.url
-              : channel.servers.firstOrNull?.url,
-          group: 'T1',
-          forcedType: 'series',
-        ),
+        if (!channel.url.startsWith('hourtv-series:') &&
+            !channel.url.startsWith('catalog://') &&
+            (channel.url.isNotEmpty || channel.servers.isNotEmpty))
+          channel.copyWith(
+            name: 'Capítulo 1',
+            url: channel.url.isNotEmpty
+                ? channel.url
+                : channel.servers.firstOrNull?.url,
+            group: 'T1',
+            forcedType: 'series',
+          ),
       ],
     );
   }
@@ -163,6 +169,7 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
   String? error;
   String? season;
   bool _opening = false;
+  List<Channel>? _publishedEpisodes;
 
   /// Resultado de RelatedContentEngine, precalculado fuera de build().
   /// Se invalida cuando cambia la serie, el control parental o el catálogo.
@@ -298,6 +305,19 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
 
   void _refresh() {
     if (mounted) {
+      final published = hourTvResolveSeries(
+        hourTvSeriesChannel(widget.series),
+        store.visibleSeries,
+        allowSynthetic: false,
+      )?.episodes;
+      if (published != null &&
+          published.isNotEmpty &&
+          !identical(published, _publishedEpisodes)) {
+        _publishedEpisodes = published;
+        episodes = List<Channel>.from(published);
+        loading = false;
+        error = null;
+      }
       _rebuildRelated();
       setState(() {});
     }
@@ -328,7 +348,15 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
 
   Future<void> _load() async {
     try {
-      final existingEpisodes = widget.series.episodes;
+      final published = hourTvResolveSeries(
+        hourTvSeriesChannel(widget.series),
+        store.visibleSeries,
+        allowSynthetic: false,
+      )?.episodes;
+      _publishedEpisodes = published;
+      final existingEpisodes = published?.isNotEmpty == true
+          ? published
+          : widget.series.episodes;
       final result = (existingEpisodes != null && existingEpisodes.isNotEmpty)
           ? existingEpisodes
           : (widget.series.host.isNotEmpty
@@ -358,7 +386,10 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
       }
       if (!mounted) return;
       setState(() {
-        episodes = finalEpisodes;
+        // Una actualización del catálogo pudo llegar durante fetchEpisodes.
+        episodes = _publishedEpisodes?.isNotEmpty == true
+            ? List<Channel>.from(_publishedEpisodes!)
+            : finalEpisodes;
         loading = false;
         season = seasons.keys.isEmpty ? null : seasons.keys.first;
       });
@@ -987,15 +1018,11 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
                 color: _surfaceControl,
                 child: InkWell(
                   onTap: () {
-                    final s = hourTvResolveSeries(item, const []);
-                    if (s != null) {
-                      Navigator.pushReplacement(
-                        context,
-                        CatalogDetailNavigator.instantRoute(
-                          (_) => HourTvSeriesDetailPage(series: s),
-                        ),
-                      );
-                    }
+                    CatalogDetailNavigator.openDetails(
+                      context,
+                      item,
+                      store: store,
+                    );
                   },
                   child: posterUrl != null && posterUrl.isNotEmpty
                       ? HourTvArtwork(url: posterUrl)
