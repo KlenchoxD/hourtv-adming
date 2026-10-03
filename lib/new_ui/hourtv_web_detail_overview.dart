@@ -158,7 +158,7 @@ class _OverviewState extends State<HourTvWebDetailOverview> {
       ),
     );
     return Padding(
-      padding: const EdgeInsets.fromLTRB(32, 70, 32, 32),
+      padding: const EdgeInsets.fromLTRB(32, 8, 32, 32),
       child: LayoutBuilder(
         builder: (context, constraints) => Column(
           crossAxisAlignment: CrossAxisAlignment.start,

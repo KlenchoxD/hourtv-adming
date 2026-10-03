@@ -627,7 +627,6 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
             ],
           ),
         ),
-        _backButton(left: 24, top: 20, close: true),
       ],
     ),
   );

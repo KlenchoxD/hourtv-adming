@@ -4,6 +4,39 @@ import 'package:streamtv/models/channel.dart';
 import 'package:streamtv/new_ui/hourtv_web_detail_overview.dart';
 
 void main() {
+  testWidgets('al abrir una ficha el reparto cabe sin margen superior sobrante', (
+    tester,
+  ) async {
+    await tester.binding.setSurfaceSize(const Size(1352, 600));
+    addTearDown(() => tester.binding.setSurfaceSize(null));
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(
+          body: SingleChildScrollView(
+            child: HourTvWebDetailOverview(
+              channel: Channel(
+                name: 'Backrooms',
+                url: 'movie:test',
+                forcedType: 'movie',
+                year: '2026',
+                rating: '7.1',
+                duration: '105',
+                genre: 'Terror, Misterio, Ciencia ficción',
+                plot:
+                    'Una puerta extraña aparece en el sótano de una sala de exposición de muebles.',
+                cast:
+                    'Chiwetel Ejiofor, Renate Reinsve, Finn Bennett, Lukita Maxwell, Mark Duplass, Avan Jogia',
+              ),
+              actions: const SizedBox(height: 44, child: Text('Reproducir')),
+            ),
+          ),
+        ),
+      ),
+    );
+    expect(tester.getTopLeft(find.text('PELÍCULA')).dy, lessThanOrEqualTo(16));
+    expect(tester.getBottomRight(find.text('Avan Jogia')).dy, lessThan(590));
+    expect(tester.takeException(), isNull);
+  });
   testWidgets(
     'limita a seis créditos únicos y coloca reparto bajo la información',
     (tester) async {
