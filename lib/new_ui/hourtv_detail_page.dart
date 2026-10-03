@@ -16,6 +16,7 @@ import '../services/likes_service.dart';
 import '../services/recommendations/related_content_engine.dart';
 import '../services/storage_service.dart';
 import 'hourtv_artwork.dart';
+import 'hourtv_web_related.dart';
 import 'hourtv_detail_parts.dart';
 import 'hourtv_focusable.dart';
 import 'hourtv_play_button.dart';
@@ -1328,6 +1329,7 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
   }
 
   Widget _relatedRow({required bool portrait, required double cardWidth}) {
+    if (kIsWeb) return HourTvWebRelated(channels: related, onOpen: openRelated);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -1361,37 +1363,39 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
     );
   }
 
-  Widget _relatedGrid({required int columns, required bool portrait}) => Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      const Text(
-        'RELACIONADO',
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 21,
-          fontWeight: FontWeight.w900,
-          letterSpacing: .3,
-        ),
-      ),
-      const SizedBox(height: 14),
-      GridView.builder(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemCount: related.length,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: columns,
-          crossAxisSpacing: 14,
-          mainAxisSpacing: 14,
-          childAspectRatio: portrait ? .66 : 1.35,
-        ),
-        itemBuilder: (context, index) => _RelatedCard(
-          channel: related[index],
-          portrait: portrait,
-          onTap: () => openRelated(related[index]),
-        ),
-      ),
-    ],
-  );
+  Widget _relatedGrid({required int columns, required bool portrait}) => kIsWeb
+      ? HourTvWebRelated(channels: related, onOpen: openRelated)
+      : Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'RELACIONADO',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 21,
+                fontWeight: FontWeight.w900,
+                letterSpacing: .3,
+              ),
+            ),
+            const SizedBox(height: 14),
+            GridView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: related.length,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: columns,
+                crossAxisSpacing: 14,
+                mainAxisSpacing: 14,
+                childAspectRatio: portrait ? .66 : 1.35,
+              ),
+              itemBuilder: (context, index) => _RelatedCard(
+                channel: related[index],
+                portrait: portrait,
+                onTap: () => openRelated(related[index]),
+              ),
+            ),
+          ],
+        );
 }
 
 class _Backdrop extends StatelessWidget {

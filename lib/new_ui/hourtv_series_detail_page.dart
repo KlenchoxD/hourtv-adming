@@ -18,6 +18,7 @@ import '../services/share_service.dart';
 import '../services/tmdb_service.dart';
 import '../services/xtream_service.dart';
 import 'hourtv_detail_parts.dart';
+import 'hourtv_web_related.dart';
 import 'hourtv_play_button.dart';
 import 'hourtv_focusable.dart';
 import 'hourtv_parental_gate.dart';
@@ -985,6 +986,15 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
     final related = _relatedChannels;
     if (related.isEmpty) return const SizedBox.shrink();
 
+    if (kIsWeb) {
+      return HourTvWebRelated(
+        channels: related,
+        onOpen: (item) {
+          CatalogDetailNavigator.openDetails(context, item, store: store);
+        },
+      );
+
+    }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
