@@ -40,6 +40,20 @@ class _HourTvUpdatePageState extends State<HourTvUpdatePage> {
     // tiene que seguir insistiendo, la decision de actualizar ahora es suya
     // desde esta pantalla.
     UpdateService.instance.hasUpdateAvailable.value = false;
+    UpdateService.instance.downloadProgress.addListener(_onProgress);
+    if (_info != null) _download();
+  }
+
+  void _onProgress() {
+    if (mounted && _stage == _Stage.downloading) {
+      setState(() => _progress = UpdateService.instance.downloadProgress.value);
+    }
+  }
+
+  @override
+  void dispose() {
+    UpdateService.instance.downloadProgress.removeListener(_onProgress);
+    super.dispose();
   }
 
   Future<void> _check() async {
@@ -57,6 +71,7 @@ class _HourTvUpdatePageState extends State<HourTvUpdatePage> {
           _info = info;
           _stage = _Stage.available;
         });
+        await _download();
       case UpdateCheckFailed(:final reason):
         setState(() {
           _error = reason;
@@ -73,16 +88,7 @@ class _HourTvUpdatePageState extends State<HourTvUpdatePage> {
       _progress = 0;
     });
     try {
-      final path = await UpdateService.instance.preparedDownloadPath(
-        info.version,
-      );
-      await for (final progress in UpdateService.instance.download(
-        info,
-        path,
-      )) {
-        if (!mounted) return;
-        setState(() => _progress = progress);
-      }
+      final path = await UpdateService.instance.prepareUpdate(info);
       if (!mounted) return;
       setState(() {
         _downloadedPath = path;
@@ -189,8 +195,7 @@ class _HourTvUpdatePageState extends State<HourTvUpdatePage> {
             icon: null,
             loading: true,
             title: 'Descargando…',
-            subtitle:
-                '${(_progress * 100).clamp(0, 100).toStringAsFixed(0)}%',
+            subtitle: '${(_progress * 100).clamp(0, 100).toStringAsFixed(0)}%',
           ),
           const SizedBox(height: 4),
           ClipRRect(
@@ -209,8 +214,7 @@ class _HourTvUpdatePageState extends State<HourTvUpdatePage> {
             icon: Icons.check_circle_rounded,
             iconColor: Color(0xFF00C781),
             title: 'Descarga lista',
-            subtitle:
-                'Toca instalar y confirma en el instalador de Android.',
+            subtitle: 'Toca instalar y confirma en el instalador de Android.',
           ),
           const SizedBox(height: 6),
           SettingsActionButton(

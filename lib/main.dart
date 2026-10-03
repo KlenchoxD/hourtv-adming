@@ -33,88 +33,121 @@ import 'services/update_service.dart';
 void main() {
   final tBoot = DateTime.now().millisecondsSinceEpoch;
   debugPrint('[PERF_TTI] APP_BOOT: time=$tBoot');
-  runZonedGuarded(() async {
-    WidgetsFlutterBinding.ensureInitialized();
-    ErrorWidget.builder = (details) => _FatalError(details.exceptionAsString());
+  runZonedGuarded(
+    () async {
+      WidgetsFlutterBinding.ensureInitialized();
+      ErrorWidget.builder = (details) =>
+          _FatalError(details.exceptionAsString());
 
-    final tDartStart = DateTime.now().millisecondsSinceEpoch;
-    debugPrint('[PERF_TTI] DART_INIT_START: time=$tDartStart');
+      final tDartStart = DateTime.now().millisecondsSinceEpoch;
+      debugPrint('[PERF_TTI] DART_INIT_START: time=$tDartStart');
 
-    // Inicializaciones concurrentes tempranas (almacenamiento, Supabase, dispositivo y ruta de BD)
-    final tInitStart = DateTime.now().millisecondsSinceEpoch;
-    // En web no hay carpetas: la base vive en el navegador (ver CatalogDatabase.web).
-    final Future<Directory?> docsDirFuture = kIsWeb
-        ? Future.value(null)
-        : getApplicationDocumentsDirectory().catchError((_) => Directory.systemTemp);
-    Future<T> timed<T>(String label, Future<T> f) => f.whenComplete(() => debugPrint(
-        '[PERF_TTI] $label: elapsedMs=${DateTime.now().millisecondsSinceEpoch - tInitStart}'));
-    final storageFuture = timed('STORAGE_INIT', StorageService.init().catchError((_) {}));
-    final deviceProfileFuture = timed('DEVICE_PROFILE', DeviceProfile.warmUp().catchError((_) {}));
-    final supabaseFuture = timed('SUPABASE_INIT', SupabaseBootstrap.instance
-        .initialize(SupabaseConfig.fromEnvironment())
-        .catchError((e, st) {
-      debugPrint('Error al inicializar Supabase: ${e.runtimeType}');
-      if (kDebugMode) debugPrintStack(stackTrace: st);
-    }));
+      // Inicializaciones concurrentes tempranas (almacenamiento, Supabase, dispositivo y ruta de BD)
+      final tInitStart = DateTime.now().millisecondsSinceEpoch;
+      // En web no hay carpetas: la base vive en el navegador (ver CatalogDatabase.web).
+      final Future<Directory?> docsDirFuture = kIsWeb
+          ? Future.value(null)
+          : getApplicationDocumentsDirectory().catchError(
+              (_) => Directory.systemTemp,
+            );
+      Future<T> timed<T>(String label, Future<T> f) => f.whenComplete(
+        () => debugPrint(
+          '[PERF_TTI] $label: elapsedMs=${DateTime.now().millisecondsSinceEpoch - tInitStart}',
+        ),
+      );
+      final storageFuture = timed(
+        'STORAGE_INIT',
+        StorageService.init().catchError((_) {}),
+      );
+      final deviceProfileFuture = timed(
+        'DEVICE_PROFILE',
+        DeviceProfile.warmUp().catchError((_) {}),
+      );
+      final supabaseFuture = timed(
+        'SUPABASE_INIT',
+        SupabaseBootstrap.instance
+            .initialize(SupabaseConfig.fromEnvironment())
+            .catchError((e, st) {
+              debugPrint('Error al inicializar Supabase: ${e.runtimeType}');
+              if (kDebugMode) debugPrintStack(stackTrace: st);
+            }),
+      );
 
-    // Iniciar apertura de Drift tan pronto como la ruta de documentos esté disponible,
-    // solapando la apertura de SQLite en segundo plano con la inicialización de Supabase y SharedPreferences.
-    final docsDir = await docsDirFuture;
-    final tDriftStart = DateTime.now().millisecondsSinceEpoch;
-    final Future<CatalogInfrastructure?> driftFuture = timed('DRIFT_INIT',
+      // Iniciar apertura de Drift tan pronto como la ruta de documentos esté disponible,
+      // solapando la apertura de SQLite en segundo plano con la inicialización de Supabase y SharedPreferences.
+      final docsDir = await docsDirFuture;
+      final tDriftStart = DateTime.now().millisecondsSinceEpoch;
+      final Future<CatalogInfrastructure?> driftFuture = timed(
+        'DRIFT_INIT',
         initializeCatalogInfrastructure(
-      databaseFile: docsDir == null ? null : File('${docsDir.path}/hourtv_catalog.db'),
-    ).then<CatalogInfrastructure?>((infra) => infra).catchError((e, st) {
-      debugPrint('Error al inicializar infraestructura de catálogo: ${e.runtimeType}');
-      if (kDebugMode) debugPrintStack(stackTrace: st);
-      return null;
-    }));
+          databaseFile: docsDir == null
+              ? null
+              : File('${docsDir.path}/hourtv_catalog.db'),
+        ).then<CatalogInfrastructure?>((infra) => infra).catchError((e, st) {
+          debugPrint(
+            'Error al inicializar infraestructura de catálogo: ${e.runtimeType}',
+          );
+          if (kDebugMode) debugPrintStack(stackTrace: st);
+          return null;
+        }),
+      );
 
-    // Esperar almacenamiento y sesión
-    await Future.wait([storageFuture, supabaseFuture, deviceProfileFuture]);
-    final tSessionEnd = DateTime.now().millisecondsSinceEpoch;
-    debugPrint('[PERF_TTI] SESSION_RESTORE_DONE: time=$tSessionEnd elapsedMs=${tSessionEnd - tInitStart}');
+      // Esperar almacenamiento y sesión
+      await Future.wait([storageFuture, supabaseFuture, deviceProfileFuture]);
+      final tSessionEnd = DateTime.now().millisecondsSinceEpoch;
+      debugPrint(
+        '[PERF_TTI] SESSION_RESTORE_DONE: time=$tSessionEnd elapsedMs=${tSessionEnd - tInitStart}',
+      );
 
-    // Esperar finalización de Drift (que corrió en paralelo)
-    final catalogInfra = await driftFuture;
-    final tDriftEnd = DateTime.now().millisecondsSinceEpoch;
-    debugPrint('[PERF_TTI] DRIFT_OPEN_DONE: time=$tDriftEnd elapsedMs=${tDriftEnd - tDriftStart}');
+      // Esperar finalización de Drift (que corrió en paralelo)
+      final catalogInfra = await driftFuture;
+      final tDriftEnd = DateTime.now().millisecondsSinceEpoch;
+      debugPrint(
+        '[PERF_TTI] DRIFT_OPEN_DONE: time=$tDriftEnd elapsedMs=${tDriftEnd - tDriftStart}',
+      );
 
-    // Configuración de pantalla no bloqueante
-    unawaited(
-      SystemChrome.setPreferredOrientations(DeviceProfile.appOrientations()),
-    );
-    SystemChrome.setSystemUIOverlayStyle(
-      const SystemUiOverlayStyle(
-        statusBarColor: Colors.transparent,
-        statusBarIconBrightness: Brightness.light,
-        systemNavigationBarColor: Color(0xFF0C0C0E),
-        systemNavigationBarIconBrightness: Brightness.light,
-      ),
-    );
+      // Configuración de pantalla no bloqueante
+      unawaited(
+        SystemChrome.setPreferredOrientations(DeviceProfile.appOrientations()),
+      );
+      SystemChrome.setSystemUIOverlayStyle(
+        const SystemUiOverlayStyle(
+          statusBarColor: Colors.transparent,
+          statusBarIconBrightness: Brightness.light,
+          systemNavigationBarColor: Color(0xFF0C0C0E),
+          systemNavigationBarIconBrightness: Brightness.light,
+        ),
+      );
 
-    final tDartInitEnd = DateTime.now().millisecondsSinceEpoch;
-    debugPrint('[PERF_TTI] DART_INIT_DONE: time=$tDartInitEnd totalDartMs=${tDartInitEnd - tDartStart}');
-    runApp(HourTVApp(catalogInfrastructure: catalogInfra));
-    _appStarted = true;
-    // Publicidad: configuración remota y video precargado, sin frenar el
-    // arranque.
-    unawaited(AdService.warmUp());
+      final tDartInitEnd = DateTime.now().millisecondsSinceEpoch;
+      debugPrint(
+        '[PERF_TTI] DART_INIT_DONE: time=$tDartInitEnd totalDartMs=${tDartInitEnd - tDartStart}',
+      );
+      runApp(HourTVApp(catalogInfrastructure: catalogInfra));
+      _appStarted = true;
+      // Publicidad: configuración remota y video precargado, sin frenar el
+      // arranque.
+      unawaited(AdService.warmUp());
 
-    if (StorageService.getSetting('iptv_server_enabled', defaultValue: false) ==
-        true) {
-      unawaited(IptvServerService.instance.start().catchError((_) {}));
-    }
-  }, (error, stack) {
-    // Solo un error del arranque deja la pantalla de error. Con la app ya
-    // abierta, un fallo suelto (una fuente o una imagen que no bajó por mala
-    // señal) reemplazaba toda la app por esa pantalla.
-    if (_appStarted) {
-      debugPrint('Error no capturado: $error');
-      return;
-    }
-    runApp(HourTVApp(fatalError: '$error'));
-  });
+      if (StorageService.getSetting(
+            'iptv_server_enabled',
+            defaultValue: false,
+          ) ==
+          true) {
+        unawaited(IptvServerService.instance.start().catchError((_) {}));
+      }
+    },
+    (error, stack) {
+      // Solo un error del arranque deja la pantalla de error. Con la app ya
+      // abierta, un fallo suelto (una fuente o una imagen que no bajó por mala
+      // señal) reemplazaba toda la app por esa pantalla.
+      if (_appStarted) {
+        debugPrint('Error no capturado: $error');
+        return;
+      }
+      runApp(HourTVApp(fatalError: '$error'));
+    },
+  );
 }
 
 var _appStarted = false;
@@ -265,7 +298,32 @@ class _AppShellState extends State<_AppShell> with WidgetsBindingObserver {
     if (!mounted) return;
     if (result case UpdateAvailable(:final info)) {
       UpdateService.instance.hasUpdateAvailable.value = true;
-      _showUpdateDialog(info);
+      if (kIsWeb || defaultTargetPlatform != TargetPlatform.android) {
+        _showUpdateDialog(info);
+        return;
+      }
+      try {
+        await UpdateService.instance.prepareUpdate(info);
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('HourTV ${info.version}: actualización descargada'),
+            duration: const Duration(seconds: 15),
+            action: SnackBarAction(
+              label: 'Instalar',
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute<void>(
+                    builder: (_) => HourTvUpdatePage(preloadedInfo: info),
+                  ),
+                );
+              },
+            ),
+          ),
+        );
+      } catch (_) {
+        // El fallo no interrumpe el uso; Ajustes permite reintentar.
+      }
     }
   }
 
@@ -313,7 +371,8 @@ class _AppShellState extends State<_AppShell> with WidgetsBindingObserver {
       valueListenable: DeviceProfile.overrideType,
       builder: (context, _, _) {
         final isPhone = DeviceProfile.isPhone(context);
-        final recEngine = widget.catalogInfrastructure?.recommendationEngine ??
+        final recEngine =
+            widget.catalogInfrastructure?.recommendationEngine ??
             CatalogInfrastructure.current?.recommendationEngine ??
             (ProfileSyncEngine.instance != null
                 ? RecommendationEngine(

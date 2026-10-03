@@ -55,6 +55,38 @@ class UpdateService {
   /// la pantalla de Actualizaciones, no cuando termina de instalarla (ya
   /// vio el aviso, la decisión de actualizar ahora es suya).
   final ValueNotifier<bool> hasUpdateAvailable = ValueNotifier<bool>(false);
+  final ValueNotifier<double> downloadProgress = ValueNotifier<double>(0);
+  final Map<String, Future<String>> _downloads = {};
+
+  /// Una sola descarga por versión, compartida por el aviso y Ajustes.
+  Future<String> prepareUpdate(UpdateInfo info) {
+    return _downloads.putIfAbsent(info.version, () async {
+      try {
+        final path = await preparedDownloadPath(info.version);
+        final file = File(path);
+        if (info.sizeBytes > 0 &&
+            await file.exists() &&
+            await file.length() == info.sizeBytes) {
+          return path;
+        }
+        final partial = '$path.part';
+        downloadProgress.value = 0;
+        await for (final progress in download(info, partial)) {
+          downloadProgress.value = progress;
+        }
+        final downloaded = File(partial);
+        if (info.sizeBytes > 0 && await downloaded.length() != info.sizeBytes) {
+          throw const FormatException('Descarga incompleta');
+        }
+        await downloaded.rename(path);
+        downloadProgress.value = 1;
+        return path;
+      } catch (_) {
+        _downloads.remove(info.version);
+        rethrow;
+      }
+    });
+  }
 
   Future<UpdateCheckResult> checkForUpdate() async {
     // La web se actualiza sola al publicarla: ofrecer el APK de Android ahí
@@ -156,9 +188,9 @@ class UpdateService {
           'GET',
           Uri.parse('https://github.com/$_owner/$_repo/releases/latest'),
         )..followRedirects = false;
-        redirect = await client.send(request).timeout(
-          const Duration(seconds: 15),
-        );
+        redirect = await client
+            .send(request)
+            .timeout(const Duration(seconds: 15));
       } finally {
         client.close();
       }
@@ -235,7 +267,9 @@ class UpdateService {
     final request = http.Request('GET', Uri.parse(info.downloadUrl));
     final client = http.Client();
     try {
-      final response = await client.send(request);
+      final response = await client
+          .send(request)
+          .timeout(const Duration(seconds: 30));
       if (response.statusCode != 200) {
         throw Exception('Descarga falló (HTTP ${response.statusCode}).');
       }
@@ -245,7 +279,9 @@ class UpdateService {
       var received = 0;
       var lastReported = -1;
       try {
-        await for (final chunk in response.stream) {
+        await for (final chunk in response.stream.timeout(
+          const Duration(seconds: 30),
+        )) {
           sink.add(chunk);
           received += chunk.length;
           if (total <= 0) continue;
