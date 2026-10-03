@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-03T18:49:28.329Z",
-  "durationMs": 900,
+  "generatedAt": "2026-10-03T21:55:30.901Z",
+  "durationMs": 2089,
   "dryRun": false,
   "moviesFound": 34,
   "moviesDiscarded": 21,
@@ -108,13 +108,13 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1492640,
-      "title": "Unabomber",
+      "tmdbId": 977942,
+      "title": "El hombre que desafió al rey",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 977942,
-      "title": "El hombre que desafió al rey",
+      "tmdbId": 1492640,
+      "title": "Unabomber",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     }
   ]

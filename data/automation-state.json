@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-10-03T18:49:29.226Z",
+  "lastRunAt": "2026-10-03T21:55:32.985Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -18,9 +18,9 @@
     1465063,
     1275779,
     1240889,
-    1185806,
     980431,
     1101412,
+    1185806,
     671,
     1599191,
     1368337,
@@ -29,11 +29,11 @@
     1751701,
     1032863,
     1294189,
-    1375646,
     460458,
-    1492640,
+    1375646,
     977942,
     1339713,
+    1492640,
     1335666,
     1083381
   ],
@@ -137,13 +137,13 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1492640,
-      "title": "Unabomber",
+      "tmdbId": 977942,
+      "title": "El hombre que desafió al rey",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 977942,
-      "title": "El hombre que desafió al rey",
+      "tmdbId": 1492640,
+      "title": "Unabomber",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     }
   ]
