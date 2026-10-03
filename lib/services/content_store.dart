@@ -1504,11 +1504,38 @@ class ContentStore extends ChangeNotifier {
 
   /// VOD empezado pero no terminado, para la fila "Continuar viendo". En Vivo
   /// no aplica: no tiene sentido "continuar" un canal en directo.
-  List<Channel> get continueWatching => history.where((item) {
-    if (item.type == MediaType.live) return false;
-    final fraction = item.progressFraction;
-    return fraction != null && fraction > 0.02 && fraction < 0.95;
-  }).toList();
+  List<Channel> get continueWatching {
+    final seen = <String>{};
+    final result = <Channel>[];
+    // History is newest first. Claim the series before filtering progress:
+    // finishing its latest episode must not revive an older unfinished one.
+    for (final item in history) {
+      if (item.type == MediaType.live) continue;
+      var key = 'video:${item.url}';
+      if (item.type == MediaType.series) {
+        final id = item.tvgId ?? '';
+        for (final parent in series) {
+          if ((id.isNotEmpty && id.startsWith('${parent.seriesId}:')) ||
+              (parent.episodes ?? const <Channel>[]).any(
+                (episode) => item.url.isNotEmpty && episode.url == item.url,
+              )) {
+            key = 'series:${parent.seriesId}';
+            break;
+          }
+        }
+        if (key.startsWith('video:') && id.startsWith('catalog:')) {
+          final match = RegExp(r'^(.*):\d+:\d+$').firstMatch(id);
+          if (match != null) key = 'series:${match.group(1)}';
+        }
+      }
+      if (!seen.add(key)) continue;
+      final fraction = item.progressFraction;
+      if (fraction != null && fraction > 0.02 && fraction < 0.95) {
+        result.add(item);
+      }
+    }
+    return result;
+  }
 
   /// Guarda cuanto se avanzo en `channel` para que "Continuar viendo" refleje
   /// progreso real. Se llama desde el reproductor, no desde la UI.

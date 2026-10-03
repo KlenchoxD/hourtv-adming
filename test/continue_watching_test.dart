@@ -13,6 +13,25 @@ void main() {
     await StorageService.init();
   });
 
+  test('continuar conserva solo el último capítulo de cada serie', () async {
+    final store = ContentStore.instance;
+    final previous = store.all;
+    addTearDown(() => store.all = previous);
+    final first = Channel(name: 'Capítulo 1', url: 'vod:episode1',
+        tvgId: 'catalog:example:1:1', forcedType: 'series');
+    final latest = Channel(name: 'Capítulo 12', url: 'vod:episode12',
+        tvgId: 'catalog:example:1:12', forcedType: 'series');
+    store.all = [first, latest];
+    await StorageService.saveRecent(first);
+    await store.updatePlaybackProgress(first, 0.4);
+    await StorageService.saveRecent(latest);
+    await store.updatePlaybackProgress(latest, 0.5);
+    expect(store.continueWatching.map((e) => e.url), ['vod:episode12']);
+    await store.updatePlaybackProgress(latest, 0.99);
+    expect(store.continueWatching, isEmpty);
+    expect(store.history.length, 2);
+  });
+
   test(
     'continueWatching solo incluye VOD empezado y no terminado',
     () async {
