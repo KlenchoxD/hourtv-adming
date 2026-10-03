@@ -66,8 +66,12 @@ class ContentStore extends ChangeNotifier {
   List<XtreamSeries> series = [];
   List<CountryBucket> countries = [];
   bool _legacyLoading = false;
+  // Web-only readiness: a cached movie catalogue does not mean TV lists
+  // have finished loading. Native builds never consult this flag.
+  bool _webLiveLoading = false;
   bool get loading =>
       _legacyLoading ||
+      (kIsWeb && _webLiveLoading) ||
       (!readiness.canEnterApp && readiness.phase != CatalogLoadPhase.failed);
   set loading(bool val) {
     _legacyLoading = val;
@@ -112,6 +116,7 @@ class ContentStore extends ChangeNotifier {
     _networkLoadRunning = false;
     _refreshAgain = false;
     _legacyLoading = false;
+    _webLiveLoading = false;
     error = null;
     failedSourceNames = {};
     _visibleSeriesCache = null;
@@ -182,6 +187,7 @@ class ContentStore extends ChangeNotifier {
     Duration remoteTimeout = const Duration(seconds: 10),
   }) async {
     error = null;
+    if (kIsWeb) _webLiveLoading = true;
     _started = true;
     _lastLoad = DateTime.now();
     _setReadiness(const CatalogReadiness(CatalogLoadPhase.openingCache));
@@ -230,6 +236,9 @@ class ContentStore extends ChangeNotifier {
     if (all.isNotEmpty || series.isNotEmpty) {
       _recomputeCountries();
     }
+    if (kIsWeb && all.any((channel) => channel.type == MediaType.live)) {
+      _webLiveLoading = false;
+    }
 
     _setReadiness(const CatalogReadiness(CatalogLoadPhase.syncingCatalog));
 
@@ -261,6 +270,10 @@ class ContentStore extends ChangeNotifier {
           );
         }
         _legacyLoading = false;
+        notifyListeners();
+      }
+      if (kIsWeb) {
+        _webLiveLoading = false;
         notifyListeners();
       }
       return;
@@ -433,6 +446,7 @@ class ContentStore extends ChangeNotifier {
       return;
     }
     if (!await _remoteRefreshAllowed()) {
+      if (kIsWeb) _webLiveLoading = false;
       loading = false;
       notifyListeners();
       return;
@@ -630,6 +644,7 @@ class ContentStore extends ChangeNotifier {
       }
     } finally {
       failedSourceNames = failed;
+      if (kIsWeb) _webLiveLoading = false;
       notifyListeners();
       _networkLoadRunning = false;
       if (_refreshAgain) {
