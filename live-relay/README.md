@@ -12,7 +12,9 @@ HLS URLs. Never commit these values or put them in the Flutter build.
 
 Only explicitly configured hosts are allowed, including validated redirect
 hosts. HLS variant, segment, key and map URLs use authenticated AES-GCM tokens
-with 20-minute expiry; the browser cannot decode the provider credentials.
+with a maximum 24-hour playback-session expiry explicitly approved by the owner;
+the browser cannot decode the provider credentials. Standalone helper tokens
+default to 20 minutes. Segment URLs stay stable within a playback session.
 Redirect targets, upstream exception details and credentials are not logged
 or returned. Video bodies are streamed, not buffered or cached.
 
@@ -29,3 +31,9 @@ authentication. The public player is intentionally accessible to HourTV users.
 Provider connection limits still apply. This relay does not multiply the paid
 account's four simultaneous connections or enable VOD. No paid plan is enabled
 by this deployment. Monitor Workers quotas before broadening the channel list.
+
+Compatibility is separate from reachability. The purchased principal RCN
+variants tested on 2026-10-03 contain MPEG-2 video; browsers cannot decode them
+through HLS.js without transcoding. RCN Mas is H.264/AAC and verified in the
+isolated browser. The HD2 source can produce malformed/discontinuous segments;
+do not describe every RCN signal as repaired based on HTTP 200 alone.

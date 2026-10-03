@@ -20,29 +20,41 @@ function b64(bytes) {
 function unb64(text) {
   return Uint8Array.from(atob(text.replaceAll('-', '+').replaceAll('_', '/')), c => c.charCodeAt(0));
 }
-export async function seal(url, secret, expires = Date.now() + 20 * 60 * 1000) {
-  const iv = crypto.getRandomValues(new Uint8Array(12));
+export async function seal(url, secret, expires = Date.now() + 20 * 60 * 1000, stable = false) {
+  const plaintext = encoder.encode(JSON.stringify({url, expires}));
+  // HLS compares segment URLs across playlist reloads. A keyed nonce derived
+  // from the complete plaintext is stable only for the exact same payload;
+  // different URLs/expiry values do not reuse a GCM nonce.
+  let iv = crypto.getRandomValues(new Uint8Array(12));
+  if (stable) {
+    const nonceKey = await crypto.subtle.importKey('raw', encoder.encode('hls-nonce:' + secret),
+      {name:'HMAC', hash:'SHA-256'}, false, ['sign']);
+    iv = new Uint8Array(await crypto.subtle.sign('HMAC', nonceKey, plaintext)).slice(0, 12);
+  }
   const encrypted = new Uint8Array(await crypto.subtle.encrypt({name: 'AES-GCM', iv},
-    await key(secret), encoder.encode(JSON.stringify({url, expires}))));
+    await key(secret), plaintext));
   const bytes = new Uint8Array(iv.length + encrypted.length);
   bytes.set(iv); bytes.set(encrypted, iv.length);
   return b64(bytes);
 }
 export async function unseal(token, secret) {
+  return (await unsealPayload(token, secret)).url;
+}
+async function unsealPayload(token, secret) {
   if (token.length > 8192) throw new Error('Invalid token');
   const bytes = unb64(token);
   const payload = JSON.parse(decoder.decode(await crypto.subtle.decrypt(
     {name: 'AES-GCM', iv: bytes.slice(0, 12)}, await key(secret), bytes.slice(12))));
   if (!Number.isFinite(payload.expires) || payload.expires < Date.now()) throw new Error('Expired token');
-  return payload.url;
+  return payload;
 }
 
-export async function rewriteManifest(text, upstream, origin, env) {
+export async function rewriteManifest(text, upstream, origin, env, expires = Date.now() + 20 * 60 * 1000) {
   if (!text.trimStart().startsWith('#EXTM3U')) throw new Error('Invalid manifest');
   async function rewrite(uri) {
     if (uri.startsWith('data:')) return uri;
     const target = checkUpstream(new URL(uri, upstream), env);
-    return `${origin}/part/${await seal(target.href, env.RELAY_KEY)}`;
+    return `${origin}/part/${await seal(target.href, env.RELAY_KEY, expires, true)}`;
   }
   const output = [];
   for (const line of text.split(/\r?\n/)) {
@@ -116,21 +128,30 @@ export default {
       }
       const live = url.pathname.match(/^\/live\/([a-z0-9-]+)\.m3u8$/);
       const part = url.pathname.match(/^\/part\/([A-Za-z0-9_-]+)$/);
-      let target;
+      // The owner explicitly authorized up to 24 hours for playback sessions.
+      let target; let expires = Date.now() + 24 * 60 * 60 * 1000;
       if (live && names[live[1]] && channels[live[1]]) target = channels[live[1]];
       else if (part) {
-        try { target = await unseal(part[1], env.RELAY_KEY); }
+        try { const payload = await unsealPayload(part[1], env.RELAY_KEY); target = payload.url; expires = payload.expires; }
         catch { return reply('Invalid or expired media token', 403); }
       } else return reply('Not found', 404);
       stage = 'upstream';
       const result = await upstreamFetch(target, env, request, transport);
       const upstream = result.response;
       if (!upstream.ok) { headers.set('X-Relay-Upstream-Status', String(upstream.status)); await upstream.body?.cancel(); return reply('Channel unavailable', 502); }
+      // Xtream redirects create a playback session. Pin playlist refreshes to
+      // that resolved session instead of opening a new one every few seconds.
+      // Child media URLs inherit this session expiry and remain stable.
+      if (live) {
+        await upstream.body?.cancel();
+        headers.set('Location', `${url.origin}/part/${await seal(result.target.href, env.RELAY_KEY, expires)}`);
+        return reply(null, 302);
+      }
       const type = upstream.headers.get('Content-Type') || 'application/octet-stream';
       if (/mpegurl/i.test(type) || result.target.pathname.endsWith('.m3u8')) {
         stage = 'manifest';
         const text = await smallText(upstream);
-        const manifest = await rewriteManifest(text, result.target.href, url.origin, env);
+        const manifest = await rewriteManifest(text, result.target.href, url.origin, env, expires);
         headers.set('Content-Type', 'application/vnd.apple.mpegurl');
         return reply(manifest);
       }

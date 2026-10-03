@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="es"><meta charset="utf-8"><title>HourTV HLS verification</title>
+<body style="background:#050505;color:white;font-family:sans-serif">
+<h1>Prueba aislada del reproductor HLS</h1>
+<video id="video" controls muted style="width:80vw;max-height:75vh"></video>
+<pre id="status">Cargando…</pre>
+<script src="/vendor/hls.min.js"></script>
+<script>
+const video = document.querySelector('video');
+const status = document.querySelector('#status');
+const channel = new URLSearchParams(location.search).get('channel') || 'rcn';
+const hls = new Hls({enableWorker:false});
+window.testHls = hls;
+window.diagnostics = [];
+hls.on(Hls.Events.ERROR, (_, data) => {
+  const safe = {type:data.type, details:data.details, fatal:data.fatal};
+  window.diagnostics.push(safe); status.textContent = JSON.stringify(safe);
+});
+hls.on(Hls.Events.MANIFEST_PARSED, () => video.play().catch(() => {}));
+video.addEventListener('playing', () => {status.textContent = 'Reproduciendo';});
+hls.attachMedia(video);
+hls.loadSource('/relay/live/' + encodeURIComponent(channel) + '.m3u8');
+</script></body></html>

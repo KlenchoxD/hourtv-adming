@@ -17,6 +17,19 @@ test('HLS variants, segments and key URIs use only HTTPS encrypted relay URLs', 
   assert.equal((output.match(/https:\/\/relay.example\/part\//g) || []).length, 3);
   assert.ok(!output.includes('example.com'));
 });
+
+test('segment URLs stay stable within a session without extending token expiry', async () => {
+  const expires = Date.now() + 600000;
+  const manifest = '#EXTM3U\n#EXT-X-MEDIA-SEQUENCE:12\n#EXTINF:6,\nsegment.ts';
+  const first = await rewriteManifest(manifest, 'http://example.com/list.m3u8', 'https://relay.example', env, expires);
+  const second = await rewriteManifest(manifest, 'http://example.com/list.m3u8', 'https://relay.example', env, expires);
+  assert.equal(first, second);
+  const one = await seal('http://example.com/one.ts', env.RELAY_KEY, expires, true);
+  const two = await seal('http://example.com/two.ts', env.RELAY_KEY, expires, true);
+  assert.notDeepEqual(Buffer.from(one, 'base64url').subarray(0,12), Buffer.from(two, 'base64url').subarray(0,12));
+  assert.equal(await unseal(one, env.RELAY_KEY), 'http://example.com/one.ts');
+  await assert.rejects(unseal(await seal('http://example.com/one.ts', env.RELAY_KEY, 1, true), env.RELAY_KEY));
+});
 test('arbitrary hosts and caller-supplied URLs are rejected', async () => {
   assert.throws(() => checkUpstream('http://127.0.0.1/admin', env));
   assert.throws(() => checkUpstream('file:///etc/passwd', env));
@@ -27,4 +40,18 @@ test('catalog exposes no provider information and foreign origins are blocked', 
   const response = await relay.fetch(new Request('https://relay.example/catalog'), env);
   assert.deepEqual(await response.json(), [{name:'Canal RCN', url:'https://relay.example/live/rcn.m3u8'}]);
   assert.equal((await relay.fetch(new Request('https://relay.example/catalog', {headers:{Origin:'https://foreign.example'}}), env)).status, 403);
+});
+
+test('playback pins refreshes to one encrypted session with stable media URLs', async () => {
+  const transport = async () => new Response('#EXTM3U\n#EXT-X-MEDIA-SEQUENCE:2\n#EXTINF:6,\nsegment.ts',
+    {headers:{'Content-Type':'application/vnd.apple.mpegurl'}});
+  const start = await relay.fetch(new Request('https://relay.example/live/rcn.m3u8'), env, null, transport);
+  assert.equal(start.status, 302);
+  const location = start.headers.get('Location');
+  assert.ok(location.startsWith('https://relay.example/part/'));
+  assert.ok(!location.includes('example.com'));
+  const one = await relay.fetch(new Request(location), env, null, transport);
+  const two = await relay.fetch(new Request(location), env, null, transport);
+  assert.equal(one.status, 200);
+  assert.equal(await one.text(), await two.text());
 });

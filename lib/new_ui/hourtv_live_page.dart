@@ -21,6 +21,7 @@ import 'hourtv_search_keyboard.dart';
 import 'hourtv_web_live_overlay.dart';
 import 'hourtv_web_channel_guide.dart';
 import 'hourtv_web_live_sources.dart';
+import 'web_embed/relay_player.dart';
 
 const _red = Color(0xFF00C781);
 const _surface = Color(0xFF101412);
@@ -1396,6 +1397,7 @@ class _PlayerSurface extends StatefulWidget {
 class _PlayerSurfaceState extends State<_PlayerSurface> {
   VideoPlayerController? _controller;
   bool _failed = false;
+  String? _webFailureReason;
   // Se mantiene al cambiar de canal, como en Xuper.
   static bool _muted = false;
   double _volume = 1;
@@ -1424,7 +1426,10 @@ class _PlayerSurfaceState extends State<_PlayerSurface> {
   @override
   void initState() {
     super.initState();
-    if (kIsWeb) _showChrome();
+    if (kIsWeb) {
+      registerHourTvRelayPlayer();
+      _showChrome();
+    }
     if (widget.active) _load();
   }
 
@@ -1486,7 +1491,10 @@ class _PlayerSurfaceState extends State<_PlayerSurface> {
     final startup = Stopwatch()..start();
     final old = _controller;
     _controller = null;
-    setState(() => _failed = false);
+    setState(() {
+      _failed = false;
+      _webFailureReason = null;
+    });
     await old?.dispose();
     final uri = Uri.tryParse(
       kIsWeb ? hourTvWebLivePlaybackUrl(widget.channel) : widget.channel.url,
@@ -1508,6 +1516,20 @@ class _PlayerSurfaceState extends State<_PlayerSurface> {
     try {
       // Un stream caído puede quedarse conectando indefinidamente.
       await controller.initialize().timeout(const Duration(seconds: 8));
+      if (kIsWeb &&
+          uri.host == 'hourtv-live-relay.hourtv-release-20261002.workers.dev' &&
+          (controller.value.size.width == 0 ||
+              controller.value.size.height == 0)) {
+        await controller.dispose();
+        if (mounted) {
+          setState(() {
+            _failed = true;
+            _webFailureReason =
+                'El formato de video de esta señal no es compatible con este navegador';
+          });
+        }
+        return;
+      }
       // Si mientras esto cargaba (un stream en vivo puede tardar varios
       // segundos en conectar) el usuario ya salio de la pestaña En Vivo,
       // asignar igual `_controller` dejaba un reproductor sonando de fondo
@@ -1677,9 +1699,13 @@ class _PlayerSurfaceState extends State<_PlayerSurface> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Text(
-                      'Este canal no está disponible',
-                      style: TextStyle(
+                    Text(
+                      kIsWeb
+                          ? (_webFailureReason ??
+                                'Este canal no está disponible')
+                          : 'Este canal no está disponible',
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w700,
                       ),
