@@ -2304,7 +2304,12 @@ class _PlayerScreenState extends State<PlayerScreen>
     return Positioned(
       left: 24,
       right: 24,
-      bottom: DeviceProfile.isTv(context) ? 120 : 88,
+      // Keep captions near the lower edge during playback, lifting them only
+      // while transport controls are visible so neither layer obscures the other.
+      bottom: MediaQuery.paddingOf(context).bottom +
+          (_chromeVisible
+              ? (DeviceProfile.isTv(context) ? 120.0 : 88.0)
+              : (DeviceProfile.isTv(context) ? 32.0 : 20.0)),
       child: IgnorePointer(
         child: _VideoSelector(
           controller: controller,
