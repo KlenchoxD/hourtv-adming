@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../models/channel.dart';
 import 'hourtv_artwork.dart';
 import 'hourtv_web_feedback.dart';
+import '../mobile_ui/hourtv_compact_filter_selector.dart';
 
 class HourTvWebLibrary extends StatefulWidget {
   const HourTvWebLibrary({
@@ -34,8 +35,9 @@ class _WebLibraryState extends State<HourTvWebLibrary> {
                       : c.type == MediaType.series)),
         )
         .toList();
-    if (sort == 'Título A–Z')
+    if (sort == 'Título A–Z') {
       items.sort((a, b) => a.displayName.compareTo(b.displayName));
+    }
     return LayoutBuilder(
       builder: (context, constraints) {
         final pad = constraints.maxWidth < 700 ? 20.0 : 56.0;
@@ -52,24 +54,22 @@ class _WebLibraryState extends State<HourTvWebLibrary> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      'Tu colección, a tu manera',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 32,
-                        fontWeight: FontWeight.w800,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      'Mi biblioteca · ${items.length} ${items.length == 1 ? 'título' : 'títulos'}',
-                      style: const TextStyle(color: Colors.white54),
-                    ),
-                    const SizedBox(height: 24),
+                    if (constraints.maxWidth >= 1100)
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Expanded(child: _heading(items.length)),
+                          _controls(),
+                        ],
+                      )
+                    else ...[
+                      _heading(items.length),
+                      const SizedBox(height: 20),
+                      _controls(),
+                    ],
+                    const SizedBox(height: 16),
                     Wrap(
                       spacing: 12,
-                      runSpacing: 12,
-                      crossAxisAlignment: WrapCrossAlignment.center,
                       children: [
                         for (final tab in ['Mi Lista', 'Historial'])
                           TextButton(
@@ -94,37 +94,9 @@ class _WebLibraryState extends State<HourTvWebLibrary> {
                               ],
                             ),
                           ),
-                        SizedBox(
-                          width: 260,
-                          child: TextField(
-                            onChanged: (v) => setState(() => query = v),
-                            style: const TextStyle(color: Colors.white),
-                            decoration: InputDecoration(
-                              hintText: 'Buscar en mi biblioteca',
-                              hintStyle: const TextStyle(
-                                color: Colors.white54,
-                                fontSize: 13,
-                              ),
-                              prefixIcon: const Icon(Icons.search, size: 20),
-                              isDense: true,
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                            ),
-                          ),
-                        ),
-                        _dropdown(type, [
-                          'Todo',
-                          'Películas',
-                          'Series',
-                        ], (v) => setState(() => type = v)),
-                        _dropdown(sort, [
-                          'Recientes',
-                          'Título A–Z',
-                        ], (v) => setState(() => sort = v)),
                       ],
                     ),
-                    const Divider(color: Colors.white12, height: 24),
+                    const Divider(color: Colors.white12, height: 12),
                   ],
                 ),
               ),
@@ -162,27 +134,68 @@ class _WebLibraryState extends State<HourTvWebLibrary> {
     );
   }
 
+  Widget _heading(int count) => Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      const Text(
+        'Tu colección, a tu manera',
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 32,
+          fontWeight: FontWeight.w800,
+        ),
+      ),
+      const SizedBox(height: 8),
+      Text(
+        'Mi biblioteca · $count ${count == 1 ? 'título' : 'títulos'}',
+        style: const TextStyle(color: Colors.white54),
+      ),
+    ],
+  );
+
+  Widget _controls() => Wrap(
+    spacing: 12,
+    runSpacing: 12,
+    crossAxisAlignment: WrapCrossAlignment.center,
+    children: [
+      SizedBox(
+        width: 260,
+        height: 48,
+        child: TextField(
+          onChanged: (v) => setState(() => query = v),
+          style: const TextStyle(color: Colors.white),
+          decoration: const InputDecoration(
+            hintText: 'Buscar en mi biblioteca',
+            prefixIcon: Icon(Icons.search_rounded, color: Color(0xFFA6A6B0)),
+          ),
+        ),
+      ),
+      _dropdown(sort, [
+        'Recientes',
+        'Título A–Z',
+      ], (v) => setState(() => sort = v)),
+      _dropdown(type, [
+        'Todo',
+        'Películas',
+        'Series',
+      ], (v) => setState(() => type = v)),
+    ],
+  );
+
   Widget _dropdown(
     String value,
     List<String> options,
     ValueChanged<String> changed,
-  ) => Container(
-    padding: const EdgeInsets.symmetric(horizontal: 12),
-    decoration: BoxDecoration(
-      border: Border.all(color: Colors.white24),
-      borderRadius: BorderRadius.circular(8),
-    ),
-    child: DropdownButton<String>(
+  ) => SizedBox(
+    width: 150,
+    child: HourTvCompactFilterSelector(
+      label: options.contains('Todo') ? 'Tipo' : 'Ordenar',
       value: value,
-      underline: const SizedBox.shrink(),
-      dropdownColor: const Color(0xFF161A18),
-      style: const TextStyle(color: Colors.white, fontSize: 13),
-      items: options
-          .map((v) => DropdownMenuItem(value: v, child: Text(v)))
-          .toList(),
-      onChanged: (v) {
-        if (v != null) changed(v);
-      },
+      icon: options.contains('Todo')
+          ? Icons.layers_rounded
+          : Icons.sort_rounded,
+      options: options,
+      onChanged: changed,
     ),
   );
   Widget _card(Channel c) => HourTvWebFeedback(
@@ -200,7 +213,13 @@ class _WebLibraryState extends State<HourTvWebLibrary> {
                     ? c.backdrop!
                     : c.logo ?? '',
                 fit: BoxFit.cover,
-                fallback: const Center(child: Icon(Icons.movie_outlined,color:Colors.white24,size:40)),
+                fallback: const Center(
+                  child: Icon(
+                    Icons.movie_outlined,
+                    color: Colors.white24,
+                    size: 40,
+                  ),
+                ),
               ),
               const DecoratedBox(
                 decoration: BoxDecoration(
