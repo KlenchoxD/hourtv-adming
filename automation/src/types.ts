@@ -29,6 +29,7 @@ export interface CatalogMovie {
   title: string;
   plot?: string;
   cast?: string;
+  castPhotos?: Record<string, string>;
   director?: string;
   writer?: string;
   releaseDate?: string;
@@ -77,6 +78,7 @@ export interface TmdbCrewMember {
 }
 
 export interface TmdbCastMember {
+  profile_path?: string | null;
   name: string;
   order: number;
 }
@@ -112,6 +114,7 @@ export interface NormalizedMovie {
   originalLanguage: string;
   plot: string;
   cast: string;
+  castPhotos: Record<string, string>;
   director: string;
   writer: string;
   releaseDate: string;

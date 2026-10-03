@@ -70,6 +70,7 @@ export function enrichMissingFields(existing: CatalogMovie, fresh: Partial<Catal
   const fillable: (keyof CatalogMovie & string)[] = [
     "plot",
     "cast",
+    "castPhotos",
     "director",
     "writer",
     "releaseDate",

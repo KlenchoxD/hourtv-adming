@@ -53,6 +53,7 @@ Channel hourTvSeriesChannel(XtreamSeries series) => Channel(
   duration: series.duration,
   genre: series.genre,
   cast: series.cast,
+  castPhotos: series.castPhotos,
   director: series.director,
   writer: series.writer,
   releaseDate: series.releaseDate,

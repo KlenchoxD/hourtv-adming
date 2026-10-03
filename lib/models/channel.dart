@@ -270,6 +270,7 @@ class Channel {
   String? rating;
   String? duration;
   String? cast; // actores principales, separados por coma (TMDB/Xtream)
+  final Map<String, String> castPhotos;
   String? director;
   String? writer;
   String? releaseDate;
@@ -320,6 +321,7 @@ class Channel {
     this.rating,
     this.duration,
     this.cast,
+    this.castPhotos = const {},
     this.director,
     this.writer,
     this.releaseDate,
@@ -399,6 +401,7 @@ class Channel {
     'rating': rating,
     'duration': duration,
     'cast': cast,
+    'castPhotos': castPhotos,
     'director': director,
     'writer': writer,
     'releaseDate': releaseDate,
@@ -435,6 +438,11 @@ class Channel {
     rating: json['rating']?.toString(),
     duration: json['duration']?.toString(),
     cast: json['cast']?.toString(),
+    castPhotos:
+        (json['castPhotos'] as Map?)?.map(
+          (k, v) => MapEntry(k.toString(), v.toString()),
+        ) ??
+        const {},
     director: json['director']?.toString(),
     writer: json['writer']?.toString(),
     releaseDate: (json['releaseDate'] ?? json['release_date'])?.toString(),
@@ -517,6 +525,7 @@ class Channel {
       rating: rating ?? this.rating,
       duration: duration ?? this.duration,
       cast: cast ?? this.cast,
+      castPhotos: this.castPhotos,
       director: director ?? this.director,
       writer: writer ?? this.writer,
       releaseDate: releaseDate ?? this.releaseDate,

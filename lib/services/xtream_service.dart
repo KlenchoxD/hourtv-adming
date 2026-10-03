@@ -21,6 +21,7 @@ class XtreamSeries {
   final String? duration;
   final String? genre;
   final String? cast;
+  final Map<String, String> castPhotos;
   final String? director;
   final String? writer;
   final String? releaseDate;
@@ -41,6 +42,7 @@ class XtreamSeries {
     this.duration,
     this.genre,
     this.cast,
+    this.castPhotos = const {},
     this.director,
     this.writer,
     this.releaseDate,
@@ -63,6 +65,7 @@ class XtreamSeries {
     'duration': duration,
     'genre': genre,
     'cast': cast,
+    'castPhotos': castPhotos,
     'director': director,
     'writer': writer,
     'releaseDate': releaseDate,
@@ -88,6 +91,11 @@ class XtreamSeries {
     duration: json['duration']?.toString(),
     genre: json['genre']?.toString(),
     cast: json['cast']?.toString(),
+    castPhotos:
+        (json['castPhotos'] as Map?)?.map(
+          (k, v) => MapEntry(k.toString(), v.toString()),
+        ) ??
+        const {},
     director: json['director']?.toString(),
     writer: json['writer']?.toString(),
     releaseDate: (json['releaseDate'] ?? json['release_date'])?.toString(),

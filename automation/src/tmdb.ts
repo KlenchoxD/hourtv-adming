@@ -189,6 +189,7 @@ export async function buildNormalizedMovie(
     originalLanguage: details.original_language,
     plot,
     cast,
+    castPhotos: Object.fromEntries(credits.cast.slice().sort((a,b)=>a.order-b.order).slice(0,6).filter(c=>c.profile_path).map(c=>[c.name, 'https://image.tmdb.org/t/p/w185'+c.profile_path])),
     director,
     writer,
     releaseDate,

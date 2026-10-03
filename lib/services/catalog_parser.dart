@@ -155,6 +155,11 @@ class CatalogParser {
           rating: _text(movie['rating']),
           duration: _text(movie['duration']),
           cast: _text(movie['cast']),
+          castPhotos:
+              (movie['castPhotos'] as Map?)?.map(
+                (k, v) => MapEntry(k.toString(), v.toString()),
+              ) ??
+              const {},
           director: _text(movie['director']),
           writer: _text(movie['writer'] ?? movie['screenwriter']),
           releaseDate: _text(movie['releaseDate'] ?? movie['release_date']),
@@ -280,6 +285,11 @@ class CatalogParser {
           duration: _text(item['duration']),
           genre: _text(item['genre']),
           cast: _text(item['cast']),
+          castPhotos:
+              (item['castPhotos'] as Map?)?.map(
+                (k, v) => MapEntry(k.toString(), v.toString()),
+              ) ??
+              const {},
           director: _text(item['director']),
           writer: _text(item['writer'] ?? item['screenwriter']),
           releaseDate: _text(item['releaseDate'] ?? item['release_date']),

@@ -205,17 +205,21 @@ class _OverviewState extends State<HourTvWebDetailOverview> {
                       width: width,
                       child: Column(
                         children: [
-                          CircleAvatar(
-                            radius: width.clamp(56, 100) / 2,
-                            backgroundColor: const Color(0xFF303735),
-                            foregroundColor: Colors.white,
-                            child: Text(
-                              name
-                                  .split(RegExp(r'\s+'))
-                                  .take(2)
-                                  .map((p) => p.substring(0, 1))
-                                  .join(),
-                              style: const TextStyle(fontSize: 22),
+                          ClipOval(
+                            child: SizedBox(
+                              width: width.clamp(56, 100).toDouble(),
+                              height: width.clamp(56, 100).toDouble(),
+                              child:
+                                  (c.castPhotos[name] ?? '').startsWith(
+                                    'https://image.tmdb.org/',
+                                  )
+                                  ? Image.network(
+                                      c.castPhotos[name]!,
+                                      fit: BoxFit.cover,
+                                      errorBuilder: (_, __, ___) =>
+                                          actorInitials(name, width),
+                                    )
+                                  : actorInitials(name, width),
                             ),
                           ),
                           const SizedBox(height: 10),
@@ -239,6 +243,16 @@ class _OverviewState extends State<HourTvWebDetailOverview> {
           },
         ),
       ],
+    ),
+  );
+
+  Widget actorInitials(String name, double width) => CircleAvatar(
+    radius: width.clamp(56, 100) / 2,
+    backgroundColor: const Color(0xFF303735),
+    foregroundColor: Colors.white,
+    child: Text(
+      name.split(RegExp(r'\s+')).take(2).map((p) => p.substring(0, 1)).join(),
+      style: const TextStyle(fontSize: 22),
     ),
   );
 

@@ -220,6 +220,7 @@ async function main() {
       const filled = enrichMissingFields(existing, {
         plot: fresh.plot || undefined,
         cast: fresh.cast || undefined,
+        castPhotos: fresh.castPhotos,
         director: fresh.director || undefined,
         writer: fresh.writer || undefined,
         releaseDate: fresh.releaseDate || undefined,
@@ -339,6 +340,7 @@ async function main() {
       title: movie.title,
       plot: movie.plot,
       cast: movie.cast,
+      castPhotos: movie.castPhotos,
       director: movie.director,
       writer: movie.writer,
       releaseDate: movie.releaseDate,

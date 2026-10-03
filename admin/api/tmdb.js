@@ -108,6 +108,7 @@ module.exports = async (req, res) => {
           .slice(0, 30)
           .map((c) => c.name)
           .join(', '),
+        castPhotos: Object.fromEntries(cast.slice().sort((a,b)=>(a.order||0)-(b.order||0)).slice(0,6).filter(c=>c.profile_path).map(c=>[c.name,'https://image.tmdb.org/t/p/w185'+c.profile_path])),
         director: (
           crew.find((c) => c.job === 'Director') ||
           (data.created_by && data.created_by[0]) ||

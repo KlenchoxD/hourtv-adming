@@ -1677,6 +1677,7 @@ async function tmdbPick(type,id){
     set('f_title',info.title);
     set('f_plot',info.plot);
     fill('f_cast',info.cast);
+    set('f_cast_photos',JSON.stringify(info.castPhotos||{}));
     fill('f_director',info.director);
     fill('f_writer',info.writer);
     fill('f_genre',(info.genres||[]).join(', '));
@@ -1839,6 +1840,7 @@ function vodForm(it, isSeries){
   <div class="section-label">Ficha técnica</div>
   <div class="row2">
     <div class="row"><label>Reparto (separado por comas)</label><input id="f_cast" value="${esc(it.cast)}" placeholder="Actor 1, Actor 2…"></div>
+    <input type="hidden" id="f_cast_photos" value="${esc(JSON.stringify(it.castPhotos||{}))}">
     <div class="row"><label>Director</label><input id="f_director" value="${esc(it.director)}"></div>
   </div>
   <div class="row2">
@@ -1925,6 +1927,7 @@ function saveItem(idx){
     title:val('f_title'),
     plot:val('f_plot')||undefined,
     cast:val('f_cast')||undefined,
+    castPhotos:JSON.parse(val('f_cast_photos')||'{}'),
     director:val('f_director')||undefined,
     writer:val('f_writer')||undefined,
     releaseDate:releaseDate||undefined,
