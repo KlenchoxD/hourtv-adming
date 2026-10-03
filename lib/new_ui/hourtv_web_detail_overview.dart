@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../models/channel.dart';
 import 'hourtv_detail_parts.dart';
 import '../mobile_ui/hourtv_mobile_components.dart';
+import 'hourtv_web_genres.dart';
 
 class HourTvWebDetailOverview extends StatefulWidget {
   const HourTvWebDetailOverview({
@@ -76,25 +77,7 @@ class _OverviewState extends State<HourTvWebDetailOverview> {
         ),
         if (genres.isNotEmpty) ...[
           const SizedBox(height: 18),
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            children: genres
-                .map(
-                  (g) => Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 8,
-                    ),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.white30),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: text(g, size: 13),
-                  ),
-                )
-                .toList(),
-          ),
+          HourTvWebGenres(genres: genres.toList()),
         ],
         const SizedBox(height: 22),
         widget.actions,
