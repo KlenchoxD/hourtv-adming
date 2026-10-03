@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'hourtv_genre_symbols.dart';
 import '../models/channel.dart';
 import '../mobile_ui/hourtv_genre_service.dart';
 import '../mobile_ui/hourtv_mobile_components.dart' show HourTvArtwork;
@@ -74,7 +75,7 @@ class _GenresState extends State<HourTvWebGenres> {
                       child: Builder(
                         builder: (context) {
                           final genre = widget.genres[i];
-                          final (icon, color) = style(genre);
+                          const color = Color(0xFFB8BABD);
                           return MouseRegion(
                             onEnter: (_) => setState(() => active = i),
                             child: Focus(
@@ -100,25 +101,44 @@ class _GenresState extends State<HourTvWebGenres> {
                                   },
                                   child: Column(
                                     children: [
-                                      Container(
-                                        width: 32,
-                                        height: 32,
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          border: Border.all(
-                                            color: color.withValues(alpha: .7),
+                                      AnimatedScale(
+                                        scale: active == i ? 1.08 : 1,
+                                        duration:
+                                            MediaQuery.disableAnimationsOf(
+                                              context,
+                                            )
+                                            ? Duration.zero
+                                            : const Duration(milliseconds: 180),
+                                        child: AnimatedContainer(
+                                          duration: const Duration(
+                                            milliseconds: 180,
                                           ),
-                                          gradient: RadialGradient(
-                                            colors: [
-                                              color.withValues(alpha: .22),
-                                              const Color(0xEE101412),
-                                            ],
+                                          width: 32,
+                                          height: 32,
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            border: Border.all(
+                                              color: color.withValues(
+                                                alpha: active == i ? .9 : .35,
+                                              ),
+                                            ),
+                                            gradient: RadialGradient(
+                                              colors: [
+                                                active == i
+                                                    ? const Color(0xFF35383C)
+                                                    : const Color(0xFF25272A),
+                                                const Color(0xFF0B0C0E),
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                        child: Center(
-                                          child: CustomPaint(
-                                            size: const Size(22, 22),
-                                            painter: _GenreSymbol(icon),
+                                          child: Center(
+                                            child: CustomPaint(
+                                              size: const Size(22, 22),
+                                              painter: HourTvGenreSymbol(
+                                                genre,
+                                                bright: active == i,
+                                              ),
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -153,57 +173,6 @@ class _GenresState extends State<HourTvWebGenres> {
       ),
     ),
   );
-}
-
-class _GenreSymbol extends CustomPainter {
-  _GenreSymbol(this.icon);
-  final IconData icon;
-  @override
-  void paint(Canvas canvas, Size size) {
-    canvas.save();
-    canvas.scale(size.width / 24, size.height / 24);
-    final p = Paint()
-      ..color = Colors.white
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.5;
-    if (icon == Icons.circle_outlined) {
-      canvas.drawCircle(const Offset(12, 12), 6, p);
-      canvas.save();
-      canvas.translate(12, 12);
-      canvas.rotate(-.45);
-      canvas.drawOval(const Rect.fromLTWH(-11, -3, 22, 6), p);
-      canvas.restore();
-    } else if (icon == Icons.face) {
-      final mask = Path()
-        ..moveTo(12, 2)
-        ..cubicTo(1, 2, 3, 14, 8, 20)
-        ..quadraticBezierTo(12, 25, 16, 20)
-        ..cubicTo(21, 14, 23, 2, 12, 2)
-        ..close();
-      canvas.drawPath(mask, Paint()..color = Colors.white);
-      final dark = Paint()..color = const Color(0xFF101412);
-      canvas.drawOval(const Rect.fromLTWH(6, 7, 4, 5), dark);
-      canvas.drawOval(const Rect.fromLTWH(14, 7, 4, 5), dark);
-      canvas.drawOval(const Rect.fromLTWH(10, 13, 4, 8), dark);
-    } else {
-      final text = TextPainter(
-        text: TextSpan(
-          text: String.fromCharCode(icon.codePoint),
-          style: TextStyle(
-            fontFamily: icon.fontFamily,
-            fontSize: 23,
-            color: Colors.white,
-          ),
-        ),
-        textDirection: TextDirection.ltr,
-      )..layout();
-      text.paint(canvas, Offset.zero);
-    }
-    canvas.restore();
-  }
-
-  @override
-  bool shouldRepaint(_GenreSymbol old) => old.icon != icon;
 }
 
 List<Channel> hourTvWebGenreResults(Iterable<Channel> content, String genre) =>
