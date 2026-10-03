@@ -560,7 +560,12 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
               child: ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: 1800),
                 child: Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 38, 20, 70),
+                  padding: EdgeInsets.fromLTRB(
+                    kIsWeb ? 32 : 20,
+                    38,
+                    kIsWeb ? 32 : 20,
+                    70,
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -1066,7 +1071,9 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
 
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.all(compact ? 20 : 24),
+      padding: EdgeInsets.all(
+        kIsWeb ? (compact ? 24 : 32) : (compact ? 20 : 24),
+      ),
       decoration: BoxDecoration(
         color: _surface,
         borderRadius: BorderRadius.circular(18),

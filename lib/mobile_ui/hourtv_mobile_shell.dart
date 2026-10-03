@@ -3,6 +3,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/foundation.dart' show compute;
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/channel.dart';
@@ -1527,7 +1528,7 @@ class _PosterRowState extends State<_PosterRow> {
         : 120.0;
     _step = perPage * (cardWidth + _gap);
     // Póster 120:178 + título y línea de datos debajo (~42 px).
-    final height = cardWidth * 178 / 120 + 42;
+    final height = cardWidth * 178 / 120 + (kIsWeb ? 58 : 42);
     final list = ListView.separated(
       key: PageStorageKey(widget.storageKey),
       controller: _controller,

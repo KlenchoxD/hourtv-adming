@@ -19,6 +19,16 @@ final class SupabaseConfig {
   /// URL de redirección desde Supabase hacia la aplicación móvil (Deep link)
   static const String appRedirectUrl = 'hourtv://auth-callback';
 
+  /// Web vuelve al origen de acceso; las aplicaciones conservan el deep link.
+  static String authRedirectUrl({required bool isWeb, Uri? currentUri}) {
+    if (!isWeb) return appRedirectUrl;
+    final uri = currentUri ?? Uri.base;
+    if ((uri.scheme != 'https' && uri.scheme != 'http') || uri.host.isEmpty) {
+      throw ArgumentError.value(uri, 'currentUri', 'Origen web inválido.');
+    }
+    return '${uri.origin}/';
+  }
+
   /// Client ID OAuth de tipo Web usado para validar tokens nativos de Google.
   /// Se inyecta en compilación y nunca debe incluir el client secret.
   static const String googleWebClientId = String.fromEnvironment(

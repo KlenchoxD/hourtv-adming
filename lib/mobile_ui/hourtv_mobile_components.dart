@@ -1,7 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart' show SliverConstraints, SliverGridLayout;
+import 'package:flutter/rendering.dart'
+    show SliverConstraints, SliverGridLayout;
 
 import '../models/channel.dart';
 import '../new_ui/hourtv_profile_avatar.dart';
@@ -963,7 +964,7 @@ class _HourTvPosterCardState extends State<HourTvPosterCard> {
                   const SizedBox(height: 6),
                   Text(
                     widget.channel.name,
-                    maxLines: 1,
+                    maxLines: kIsWeb ? 2 : 1,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
                       fontSize: 12,

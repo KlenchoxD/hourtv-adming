@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 abstract final class HourTvMobileTokens {
@@ -23,7 +24,7 @@ abstract final class HourTvMobileTokens {
 }
 
 abstract final class HourTvMobileTheme {
-  static ThemeData build() {
+  static ThemeData build({bool web = kIsWeb}) {
     final base = ThemeData(
       useMaterial3: true,
       brightness: Brightness.dark,
@@ -42,10 +43,14 @@ abstract final class HourTvMobileTheme {
       focusColor: Colors.transparent,
     );
 
-    final text = GoogleFonts.robotoSerifTextTheme(base.textTheme).apply(
-      bodyColor: HourTvMobileTokens.textPrimary,
-      displayColor: HourTvMobileTokens.textPrimary,
-    );
+    final text =
+        (web
+                ? GoogleFonts.interTextTheme(base.textTheme)
+                : GoogleFonts.robotoSerifTextTheme(base.textTheme))
+            .apply(
+              bodyColor: HourTvMobileTokens.textPrimary,
+              displayColor: HourTvMobileTokens.textPrimary,
+            );
 
     return base.copyWith(
       textTheme: text.copyWith(

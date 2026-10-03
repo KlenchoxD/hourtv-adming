@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' hide AuthUser;
 import '../supabase_config.dart';
 import 'auth_gateway.dart';
@@ -19,6 +20,9 @@ class SupabaseAuthGateway implements AuthGateway {
       SupabaseConfig.googleOAuthCallbackUrl;
   static const String appRedirectUrl = SupabaseConfig.appRedirectUrl;
 
+  static String get currentAuthRedirectUrl =>
+      SupabaseConfig.authRedirectUrl(isWeb: kIsWeb);
+
   final SupabaseClient _client;
   final NativeGoogleAccountSelector _googleAccountSelector;
 
@@ -29,23 +33,23 @@ class SupabaseAuthGateway implements AuthGateway {
   );
 
   @override
-  Stream<AuthSessionState> get states =>
-      _client.auth.onAuthStateChange.map((event) {
-        final state = _mapSession(
-          event.session,
-          explicitUser: _client.auth.currentUser,
-        );
-        // El enlace del correo de recuperación abre la app con una sesión
-        // temporal: se marca aparte para pedir la contraseña nueva.
-        if (event.event == AuthChangeEvent.passwordRecovery &&
-            state.user != null) {
-          return AuthSessionState(
-            AuthSessionPhase.passwordRecovery,
-            user: state.user,
-          );
-        }
-        return state;
-      });
+  Stream<AuthSessionState> get states => _client.auth.onAuthStateChange.map((
+    event,
+  ) {
+    final state = _mapSession(
+      event.session,
+      explicitUser: _client.auth.currentUser,
+    );
+    // El enlace del correo de recuperación abre la app con una sesión
+    // temporal: se marca aparte para pedir la contraseña nueva.
+    if (event.event == AuthChangeEvent.passwordRecovery && state.user != null) {
+      return AuthSessionState(
+        AuthSessionPhase.passwordRecovery,
+        user: state.user,
+      );
+    }
+    return state;
+  });
 
   @override
   Future<AuthSessionState> signUp({
@@ -55,7 +59,7 @@ class SupabaseAuthGateway implements AuthGateway {
     final response = await _client.auth.signUp(
       email: email,
       password: password,
-      emailRedirectTo: appRedirectUrl,
+      emailRedirectTo: currentAuthRedirectUrl,
     );
     return _mapSession(response.session, explicitUser: response.user);
   }
@@ -85,7 +89,7 @@ class SupabaseAuthGateway implements AuthGateway {
         },
         openBrowserFallback: () => _client.auth.signInWithOAuth(
           OAuthProvider.google,
-          redirectTo: appRedirectUrl,
+          redirectTo: currentAuthRedirectUrl,
         ),
       ).signIn();
     } catch (e) {
@@ -123,13 +127,16 @@ class SupabaseAuthGateway implements AuthGateway {
     await _client.auth.resend(
       type: OtpType.signup,
       email: email,
-      emailRedirectTo: appRedirectUrl,
+      emailRedirectTo: currentAuthRedirectUrl,
     );
   }
 
   @override
   Future<void> resetPassword(String email) async {
-    await _client.auth.resetPasswordForEmail(email, redirectTo: appRedirectUrl);
+    await _client.auth.resetPasswordForEmail(
+      email,
+      redirectTo: currentAuthRedirectUrl,
+    );
   }
 
   @override
