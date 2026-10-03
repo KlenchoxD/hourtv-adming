@@ -73,6 +73,7 @@ class ContentStore extends ChangeNotifier {
     _legacyLoading = val;
     notifyListeners();
   }
+
   bool vodLoading = false;
   bool epgLoading = false;
   String? error;
@@ -244,16 +245,20 @@ class ContentStore extends ChangeNotifier {
         notifyListeners();
       } catch (e) {
         if (all.isNotEmpty || series.isNotEmpty) {
-          _setReadiness(const CatalogReadiness(
-            CatalogLoadPhase.offlineReady,
-            message: 'Modo sin conexión',
-          ));
+          _setReadiness(
+            const CatalogReadiness(
+              CatalogLoadPhase.offlineReady,
+              message: 'Modo sin conexión',
+            ),
+          );
         } else {
-          _setReadiness(CatalogReadiness(
-            CatalogLoadPhase.failed,
-            message: 'No se pudo cargar el catálogo: $e',
-            canRetry: true,
-          ));
+          _setReadiness(
+            CatalogReadiness(
+              CatalogLoadPhase.failed,
+              message: 'No se pudo cargar el catálogo: $e',
+              canRetry: true,
+            ),
+          );
         }
         _legacyLoading = false;
         notifyListeners();
@@ -291,24 +296,30 @@ class ContentStore extends ChangeNotifier {
           _setReadiness(const CatalogReadiness(CatalogLoadPhase.buildingHome));
           _setReadiness(const CatalogReadiness(CatalogLoadPhase.ready));
         } else {
-          _setReadiness(const CatalogReadiness(
-            CatalogLoadPhase.failed,
-            message: 'No se pudo cargar el catálogo.',
-            canRetry: true,
-          ));
+          _setReadiness(
+            const CatalogReadiness(
+              CatalogLoadPhase.failed,
+              message: 'No se pudo cargar el catálogo.',
+              canRetry: true,
+            ),
+          );
         }
       } catch (e) {
         if (all.isNotEmpty || series.isNotEmpty) {
-          _setReadiness(const CatalogReadiness(
-            CatalogLoadPhase.offlineReady,
-            message: 'Modo sin conexión',
-          ));
+          _setReadiness(
+            const CatalogReadiness(
+              CatalogLoadPhase.offlineReady,
+              message: 'Modo sin conexión',
+            ),
+          );
         } else {
-          _setReadiness(const CatalogReadiness(
-            CatalogLoadPhase.failed,
-            message: 'No se pudo cargar el catálogo.',
-            canRetry: true,
-          ));
+          _setReadiness(
+            const CatalogReadiness(
+              CatalogLoadPhase.failed,
+              message: 'No se pudo cargar el catálogo.',
+              canRetry: true,
+            ),
+          );
         }
       }
     }
@@ -318,7 +329,6 @@ class ContentStore extends ChangeNotifier {
         !kIsWeb && Platform.environment.containsKey('FLUTTER_TEST');
     unawaited(() async {
       if (!isTestEnv) {
-        await Future<void>.delayed(const Duration(seconds: 20));
         await _waitForTouchIdle();
       }
       await _refreshTrending();
@@ -346,8 +356,9 @@ class ContentStore extends ChangeNotifier {
 
   Future<void> _refreshTrending() async {
     final titles = await TmdbService.trendingTitles();
-    if (titles.isEmpty || titles.length == _trendingTitles.length) return;
+    if (titles.isEmpty || setEquals(titles, _trendingTitles)) return;
     _trendingTitles = titles;
+    _trendingCache = null;
     notifyListeners();
   }
 
@@ -366,7 +377,9 @@ class ContentStore extends ChangeNotifier {
       if (result.contains(ConnectivityResult.mobile) &&
           !result.contains(ConnectivityResult.wifi) &&
           !result.contains(ConnectivityResult.ethernet)) {
-        debugPrint('[CatalogFetch] Bloqueado por wifiOnly: conectividad=$result');
+        debugPrint(
+          '[CatalogFetch] Bloqueado por wifiOnly: conectividad=$result',
+        );
         return false;
       }
     } catch (_) {
@@ -392,12 +405,7 @@ class ContentStore extends ChangeNotifier {
     _AssetSources assetSources,
     List<M3UList> lists,
     List<
-      ({
-        M3UList list,
-        List<Channel> channels,
-        bool success,
-        int fingerprint,
-      })
+      ({M3UList list, List<Channel> channels, bool success, int fingerprint})
     >
     results,
   ) {
@@ -496,7 +504,9 @@ class ContentStore extends ChangeNotifier {
       if (inputFingerprint != null &&
           _catalogFromSnapshot &&
           inputFingerprint == _snapshotFingerprint) {
-        debugPrint('[CatalogFetch] Catálogo sin cambios: se conserva el visible');
+        debugPrint(
+          '[CatalogFetch] Catálogo sin cambios: se conserva el visible',
+        );
         _setReadiness(const CatalogReadiness(CatalogLoadPhase.ready));
         _legacyLoading = false;
         unawaited(_loadEpg(assetSources.epgUrls));
@@ -601,18 +611,22 @@ class ContentStore extends ChangeNotifier {
       debugPrint('[CatalogFetch] _refreshContent falló: $exception');
       if (all.isEmpty && series.isEmpty) {
         error = exception.toString();
-        _setReadiness(CatalogReadiness(
-          CatalogLoadPhase.failed,
-          message: error,
-          canRetry: true,
-        ));
+        _setReadiness(
+          CatalogReadiness(
+            CatalogLoadPhase.failed,
+            message: error,
+            canRetry: true,
+          ),
+        );
         _legacyLoading = false;
         notifyListeners();
       } else {
-        _setReadiness(const CatalogReadiness(
-          CatalogLoadPhase.offlineReady,
-          message: 'Modo sin conexión',
-        ));
+        _setReadiness(
+          const CatalogReadiness(
+            CatalogLoadPhase.offlineReady,
+            message: 'Modo sin conexión',
+          ),
+        );
       }
     } finally {
       failedSourceNames = failed;
@@ -847,7 +861,9 @@ class ContentStore extends ChangeNotifier {
           .timeout(const Duration(seconds: 10));
       final content = row?['content'];
       if (content is String && content.trim().isNotEmpty) {
-        debugPrint('[CatalogFetch] OK Supabase catalog_snapshot bytes=${content.length}');
+        debugPrint(
+          '[CatalogFetch] OK Supabase catalog_snapshot bytes=${content.length}',
+        );
         await StorageService.saveRemoteSourcesCache(content);
         return content;
       }
@@ -890,7 +906,10 @@ class ContentStore extends ChangeNotifier {
                 // caché.
                 headers: kIsWeb
                     ? null
-                    : {'User-Agent': 'Mozilla/5.0', 'Cache-Control': 'no-cache'},
+                    : {
+                        'User-Agent': 'Mozilla/5.0',
+                        'Cache-Control': 'no-cache',
+                      },
               )
               .timeout(const Duration(seconds: 12));
           return (
@@ -932,7 +951,8 @@ class ContentStore extends ChangeNotifier {
         raw = await _fetchRemoteSourcesFromNetwork();
       }
       raw ??= await _cachedRemoteSources();
-      final isTestEnv = !kIsWeb && Platform.environment.containsKey('FLUTTER_TEST');
+      final isTestEnv =
+          !kIsWeb && Platform.environment.containsKey('FLUTTER_TEST');
       if (raw == null && !kIsWeb) {
         try {
           final file = File('assets/data/sources.json');
@@ -1335,9 +1355,7 @@ class ContentStore extends ChangeNotifier {
     final anime = <Channel>[];
     final kDramas = <Channel>[];
     final byTmdb = <Channel>[];
-    final counts = StorageService.loadWatchCounts();
-    final watched = <Channel>[];
-    final trendingTitlesCount = _trendingTitles.length;
+    final trendingTitlesSnapshot = _trendingTitles;
     // Presupuesto por tiempo, no por cantidad: la primera vez cada título
     // pasa por varias regex y 250 por tanda eran 30-48 ms seguidos.
     final budget = Stopwatch()..start();
@@ -1347,11 +1365,9 @@ class ContentStore extends ChangeNotifier {
         final genres = _genresForMovie(c);
         if (genres.contains('Anime')) anime.add(c);
         if (genres.contains('K-Drama')) kDramas.add(c);
-        if (_trendingTitles.isNotEmpty &&
-            _trendingTitles.contains(_normalizedTitle(c.displayName))) {
+        if (trendingTitlesSnapshot.contains(_normalizedTitle(c.displayName))) {
           byTmdb.add(c);
         }
-        if ((counts[c.url] ?? 0) > 0) watched.add(c);
       }
       if (budget.elapsedMilliseconds >= 6) {
         await SchedulerBinding.instance.endOfFrame;
@@ -1364,15 +1380,8 @@ class ContentStore extends ChangeNotifier {
     _genreCategoryCache['Anime'] ??= List.of(anime, growable: false);
     _genreCategoryCache['K-Drama'] ??= List.of(kDramas, growable: false);
     if (_trendingCache == null &&
-        _trendingTitles.length == trendingTitlesCount) {
-      if (byTmdb.isNotEmpty) {
-        _trendingCache = List.of(byTmdb, growable: false);
-      } else {
-        watched.sort(
-          (a, b) => (counts[b.url] ?? 0).compareTo(counts[a.url] ?? 0),
-        );
-        _trendingCache = List.unmodifiable(watched);
-      }
+        identical(_trendingTitles, trendingTitlesSnapshot)) {
+      _trendingCache = List.of(byTmdb, growable: false);
     }
   }
 
@@ -1406,9 +1415,8 @@ class ContentStore extends ChangeNotifier {
   List<Channel> get kDramas => _nonLiveByCanonicalGenre('K-Drama');
 
   /// Primero cruza el catálogo contra lo que TMDB marca en tendencia esta
-  /// semana (popularidad real, no solo de este dispositivo). Sin conexión o
-  /// sin coincidencias, cae a lo mas reproducido localmente (tambien real,
-  /// via `StorageService.loadWatchCounts`) para que la fila no desaparezca.
+  /// semana (popularidad real, no solo de este dispositivo). Sin coincidencias
+  /// no muestra historial local como si fueran tendencias.
   // normalizeTitle usa varias regex; los títulos se repiten entre recargas.
   static final _normalizedTitles = <String, String>{};
   static String _normalizedTitle(String name) =>
@@ -1430,14 +1438,7 @@ class ContentStore extends ChangeNotifier {
         return byTmdb;
       }
     }
-    final counts = StorageService.loadWatchCounts();
-    final candidates = visibleAll
-        .where((c) => c.type != MediaType.live && (counts[c.url] ?? 0) > 0)
-        .toList();
-    candidates.sort(
-      (a, b) => (counts[b.url] ?? 0).compareTo(counts[a.url] ?? 0),
-    );
-    final result = List<Channel>.unmodifiable(candidates);
+    const result = <Channel>[];
     _trendingCache = result;
     return result;
   }
