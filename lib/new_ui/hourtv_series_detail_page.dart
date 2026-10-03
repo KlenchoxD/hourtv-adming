@@ -19,6 +19,7 @@ import '../services/tmdb_service.dart';
 import '../services/xtream_service.dart';
 import 'hourtv_detail_parts.dart';
 import 'hourtv_web_related.dart';
+import 'hourtv_web_detail_overview.dart';
 import 'hourtv_play_button.dart';
 import 'hourtv_focusable.dart';
 import 'hourtv_parental_gate.dart';
@@ -453,6 +454,7 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
 
   @override
   Widget build(BuildContext context) {
+    if (kIsWeb) return _web();
     final phone = DeviceProfile.isPhone(context);
     final tablet = DeviceProfile.isTablet(context);
     final tv = DeviceProfile.isTv(context);
@@ -993,7 +995,6 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
           CatalogDetailNavigator.openDetails(context, item, store: store);
         },
       );
-
     }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -1071,6 +1072,53 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
       alignment: hasBackdrop ? Alignment.center : Alignment.topCenter,
     );
   }
+
+  Widget _web() => Scaffold(
+    backgroundColor: _bgPrimary,
+    body: Stack(
+      children: [
+        Positioned.fill(
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              _heroBackdrop(),
+              const DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [Color(0xC9000000), Color(0xDB000000), _black],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              HourTvWebDetailOverview(
+                channel: hourTvSeriesChannel(widget.series),
+                actions: _wideActions(),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(32, 0, 32, 60),
+                child: _episodesBody(
+                  compact: MediaQuery.sizeOf(context).width < 1000,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(32, 0, 32, 60),
+                child: _relatedSection(),
+              ),
+            ],
+          ),
+        ),
+        Positioned(left: 24, top: 20, child: _floatingBackButton()),
+      ],
+    ),
+  );
 
   // ─────────────────────────────────────────────────────────────────────────
   // LAYOUT: Tablet / Desktop

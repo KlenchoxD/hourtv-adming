@@ -17,6 +17,8 @@ import '../services/recommendations/related_content_engine.dart';
 import '../services/storage_service.dart';
 import 'hourtv_artwork.dart';
 import 'hourtv_web_related.dart';
+import 'hourtv_web_detail_overview.dart';
+import '../mobile_ui/hourtv_mobile_components.dart' show HourTvArtwork;
 import 'hourtv_detail_parts.dart';
 import 'hourtv_focusable.dart';
 import 'hourtv_play_button.dart';
@@ -349,6 +351,7 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
 
   @override
   Widget build(BuildContext context) {
+    if (kIsWeb) return webLayout();
     if (DeviceProfile.isTv(context)) return tvLayout();
     if (DeviceProfile.isPhone(context)) return phoneLayout();
     if (DeviceProfile.isTablet(context)) return tabletLayout();
@@ -585,6 +588,49 @@ class _HourTvDetailPageState extends State<HourTvDetailPage> {
       ),
     );
   }
+
+  Widget webLayout() => Scaffold(
+    backgroundColor: _black,
+    body: Stack(
+      children: [
+        Positioned.fill(
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              if ((channel.backdrop ?? channel.logo)?.isNotEmpty == true)
+                HourTvArtwork(url: (channel.backdrop ?? channel.logo)!),
+              const DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [Color(0xB3000000), Color(0xD0000000), _black],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              HourTvWebDetailOverview(
+                channel: channel,
+                actions: _actions(desktop: true),
+              ),
+              if (related.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(32, 0, 32, 60),
+                  child: _relatedGrid(columns: 6, portrait: true),
+                ),
+            ],
+          ),
+        ),
+        _backButton(left: 24, top: 20, close: true),
+      ],
+    ),
+  );
 
   Widget tvLayout() {
     return Scaffold(
