@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-03T11:55:57.091Z",
-  "durationMs": 1725,
+  "generatedAt": "2026-10-03T15:33:35.761Z",
+  "durationMs": 2194,
   "dryRun": false,
   "moviesFound": 34,
   "moviesDiscarded": 21,
@@ -78,13 +78,13 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1228834,
-      "title": "Operación Teherán",
+      "tmdbId": 1377237,
+      "title": "Entrega al límite",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1377237,
-      "title": "Entrega al límite",
+      "tmdbId": 1228834,
+      "title": "Operación Teherán",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
