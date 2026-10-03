@@ -16,39 +16,44 @@ class HourTvWebGenres extends StatefulWidget {
 
 class _GenresState extends State<HourTvWebGenres> {
   int? active;
-  (String, Color) style(String genre) {
+  bool hovering = false;
+  (IconData, Color) style(String genre) {
     final key = HourTvGenreService.normalize(genre);
     if (key.contains('terror') || key.contains('horror')) {
-      return ('👻', const Color(0xFFB0A6BC));
+      return (Icons.face, const Color(0xFFB0A6BC));
     }
     if (key.contains('mister') || key.contains('crimen')) {
-      return ('🔎', const Color(0xFF48B5AD));
+      return (Icons.search, const Color(0xFF48B5AD));
     }
     if (key.contains('ficcion') || key.contains('fantas')) {
-      return ('🪐', const Color(0xFFA87BD7));
+      return (Icons.circle_outlined, const Color(0xFFA87BD7));
     }
     if (key.contains('accion') || key.contains('aventura')) {
-      return ('⚔️', const Color(0xFFEE6868));
+      return (Icons.bolt, const Color(0xFFEE6868));
     }
     if (key.contains('comedia')) {
-      return ('🎭', const Color(0xFFE7B65A));
+      return (Icons.theater_comedy, const Color(0xFFE7B65A));
     }
     if (key.contains('romance')) {
-      return ('♥', const Color(0xFFE88BB5));
+      return (Icons.favorite, const Color(0xFFE88BB5));
     }
-    return ('🎬', const Color(0xFF7AAED7));
+    return (Icons.movie, const Color(0xFF7AAED7));
   }
 
   @override
   Widget build(BuildContext context) => MouseRegion(
-    onExit: (_) => setState(() => active = null),
+    onEnter: (_) => setState(() => hovering = true),
+    onExit: (_) => setState(() {
+      active = null;
+      hovering = false;
+    }),
     child: Focus(
       child: LayoutBuilder(
         builder: (context, constraints) {
           final count = widget.genres.length;
           if (count == 0) return const SizedBox.shrink();
           // Keep every shortcut reachable, even with many genres or a small window.
-          const spacing = 30.0;
+          final spacing = hovering ? 35.0 : 23.0;
           final width = 110.0 + (count - 1) * spacing;
           return SingleChildScrollView(
             scrollDirection: Axis.horizontal,
@@ -111,12 +116,9 @@ class _GenresState extends State<HourTvWebGenres> {
                                           ),
                                         ),
                                         child: Center(
-                                          child: Text(
-                                            icon,
-                                            style: TextStyle(
-                                              color: color,
-                                              fontSize: 21,
-                                            ),
+                                          child: CustomPaint(
+                                            size: const Size(22, 22),
+                                            painter: _GenreSymbol(icon),
                                           ),
                                         ),
                                       ),
@@ -151,6 +153,57 @@ class _GenresState extends State<HourTvWebGenres> {
       ),
     ),
   );
+}
+
+class _GenreSymbol extends CustomPainter {
+  _GenreSymbol(this.icon);
+  final IconData icon;
+  @override
+  void paint(Canvas canvas, Size size) {
+    canvas.save();
+    canvas.scale(size.width / 24, size.height / 24);
+    final p = Paint()
+      ..color = Colors.white
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.5;
+    if (icon == Icons.circle_outlined) {
+      canvas.drawCircle(const Offset(12, 12), 6, p);
+      canvas.save();
+      canvas.translate(12, 12);
+      canvas.rotate(-.45);
+      canvas.drawOval(const Rect.fromLTWH(-11, -3, 22, 6), p);
+      canvas.restore();
+    } else if (icon == Icons.face) {
+      final mask = Path()
+        ..moveTo(12, 2)
+        ..cubicTo(1, 2, 3, 14, 8, 20)
+        ..quadraticBezierTo(12, 25, 16, 20)
+        ..cubicTo(21, 14, 23, 2, 12, 2)
+        ..close();
+      canvas.drawPath(mask, Paint()..color = Colors.white);
+      final dark = Paint()..color = const Color(0xFF101412);
+      canvas.drawOval(const Rect.fromLTWH(6, 7, 4, 5), dark);
+      canvas.drawOval(const Rect.fromLTWH(14, 7, 4, 5), dark);
+      canvas.drawOval(const Rect.fromLTWH(10, 13, 4, 8), dark);
+    } else {
+      final text = TextPainter(
+        text: TextSpan(
+          text: String.fromCharCode(icon.codePoint),
+          style: TextStyle(
+            fontFamily: icon.fontFamily,
+            fontSize: 23,
+            color: Colors.white,
+          ),
+        ),
+        textDirection: TextDirection.ltr,
+      )..layout();
+      text.paint(canvas, Offset.zero);
+    }
+    canvas.restore();
+  }
+
+  @override
+  bool shouldRepaint(_GenreSymbol old) => old.icon != icon;
 }
 
 List<Channel> hourTvWebGenreResults(Iterable<Channel> content, String genre) =>

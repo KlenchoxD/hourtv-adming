@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'hourtv_web_feedback.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -1587,31 +1588,33 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
     Future<void> Function() action, {
     bool active = false,
   }) {
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: () => unawaited(action()),
-        customBorder: const CircleBorder(),
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 200),
-          curve: Curves.easeOutCubic,
-          width: 48,
-          height: 48,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: active ? _red : _surface,
-            border: Border.all(color: active ? _red : _line),
-            boxShadow: active
-                ? [
-                    BoxShadow(
-                      color: _red.withValues(alpha: .45),
-                      blurRadius: 14,
-                      spreadRadius: 1,
-                    ),
-                  ]
-                : null,
+    return HourTvWebFeedback(
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: () => unawaited(action()),
+          customBorder: const CircleBorder(),
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 200),
+            curve: Curves.easeOutCubic,
+            width: 48,
+            height: 48,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: active ? _red : _surface,
+              border: Border.all(color: active ? _red : _line),
+              boxShadow: active
+                  ? [
+                      BoxShadow(
+                        color: _red.withValues(alpha: .45),
+                        blurRadius: 14,
+                        spreadRadius: 1,
+                      ),
+                    ]
+                  : null,
+            ),
+            child: Icon(icon, color: Colors.white, size: 22),
           ),
-          child: Icon(icon, color: Colors.white, size: 22),
         ),
       ),
     );

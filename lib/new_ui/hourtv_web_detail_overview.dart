@@ -79,7 +79,7 @@ class _OverviewState extends State<HourTvWebDetailOverview> {
           const SizedBox(height: 18),
           HourTvWebGenres(genres: genres.toList()),
         ],
-        const SizedBox(height: 22),
+        const SizedBox(height: 6),
         widget.actions,
         if (plot.isNotEmpty) ...[
           const SizedBox(height: 22),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'hourtv_web_feedback.dart';
 
 /// Botones de reproducir estilo Netflix, iguales en toda la app: el
 /// principal blanco con letra negra y el secundario gris translúcido.
@@ -26,26 +27,31 @@ class HourTvPlayButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final height = large ? 52.0 : 44.0;
-    return FilledButton.icon(
-      onPressed: onPressed,
-      style: FilledButton.styleFrom(
-        backgroundColor: secondary ? const Color(0xB36D6D6E) : Colors.white,
-        foregroundColor: secondary ? Colors.white : Colors.black,
-        disabledBackgroundColor: Colors.white24,
-        minimumSize: Size(large ? 150 : 0, height),
-        padding: EdgeInsets.symmetric(horizontal: large ? 26 : 18),
-        elevation: 0,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-      ),
-      icon: Icon(icon, size: secondary ? (large ? 24 : 22) : (large ? 32 : 28)),
-      label: FittedBox(
-        fit: BoxFit.scaleDown,
-        child: Text(
-          label,
-          maxLines: 1,
-          style: TextStyle(
-            fontSize: large ? 18 : 16,
-            fontWeight: secondary ? FontWeight.w600 : FontWeight.w700,
+    return HourTvWebFeedback(
+      child: FilledButton.icon(
+        onPressed: onPressed,
+        style: FilledButton.styleFrom(
+          backgroundColor: secondary ? const Color(0xB36D6D6E) : Colors.white,
+          foregroundColor: secondary ? Colors.white : Colors.black,
+          disabledBackgroundColor: Colors.white24,
+          minimumSize: Size(large ? 150 : 0, height),
+          padding: EdgeInsets.symmetric(horizontal: large ? 26 : 18),
+          elevation: 0,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+        ),
+        icon: Icon(
+          icon,
+          size: secondary ? (large ? 24 : 22) : (large ? 32 : 28),
+        ),
+        label: FittedBox(
+          fit: BoxFit.scaleDown,
+          child: Text(
+            label,
+            maxLines: 1,
+            style: TextStyle(
+              fontSize: large ? 18 : 16,
+              fontWeight: secondary ? FontWeight.w600 : FontWeight.w700,
+            ),
           ),
         ),
       ),

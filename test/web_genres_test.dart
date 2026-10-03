@@ -30,7 +30,7 @@ void main() {
     expect(find.text('Misterio'), findsNothing);
     await mouse.moveTo(tester.getCenter(target));
     await tester.pumpAndSettle();
-    expect(tester.getTopLeft(target).dx, before);
+      expect(tester.getTopLeft(target).dx, greaterThan(before));
     expect(find.text('Misterio'), findsOneWidget);
     await tester.tap(target);
     expect(selected, 'Misterio');
