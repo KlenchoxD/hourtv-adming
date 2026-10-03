@@ -19,6 +19,7 @@ import 'hourtv_player_screen.dart';
 import 'web_embed/fullscreen.dart';
 import 'hourtv_search_keyboard.dart';
 import 'hourtv_web_live_overlay.dart';
+import 'hourtv_web_channel_guide.dart';
 
 const _red = Color(0xFF00C781);
 const _surface = Color(0xFF101412);
@@ -789,6 +790,7 @@ class _HourTvLivePageState extends State<HourTvLivePage> {
   // lado (o debajo si no cabe), buscador, categorías en chips y la guía en
   // filas compactas. Sin el título gigante: la barra de arriba ya lo dice.
   Widget _desktopLayout() {
+    if (kIsWeb) return _webDesktopLayout();
     final channels = _touchOrdered(filtered);
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -888,6 +890,62 @@ class _HourTvLivePageState extends State<HourTvLivePage> {
       },
     );
   }
+
+  Widget _webDesktopLayout() => LayoutBuilder(
+    builder: (context, constraints) {
+      final pad = (constraints.maxWidth * .03).clamp(16.0, 40.0);
+      final guide = HourTvWebChannelGuide(
+        channels: _touchOrdered(widget.channels),
+        currentUrl: current.url,
+        onSelect: select,
+        onFavorite: (channel) async {
+          await ContentStore.instance.toggleFavorite(channel);
+          if (mounted) setState(() {});
+        },
+      );
+      if (constraints.maxWidth >= 980) {
+        return Padding(
+          padding: EdgeInsets.fromLTRB(pad, 16, pad, 20),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Flexible(child: _livePlayer()),
+                    _NowPlaying(channel: current),
+                  ],
+                ),
+              ),
+              SizedBox(width: pad),
+              SizedBox(
+                width: (constraints.maxWidth * .31).clamp(340.0, 440.0),
+                child: guide,
+              ),
+            ],
+          ),
+        );
+      }
+      return CustomScrollView(
+        slivers: [
+          SliverPadding(
+            padding: EdgeInsets.fromLTRB(pad, 16, pad, 20),
+            sliver: SliverToBoxAdapter(
+              child: Column(
+                children: [
+                  _livePlayer(),
+                  _NowPlaying(channel: current),
+                  const SizedBox(height: 20),
+                  SizedBox(height: 620, child: guide),
+                ],
+              ),
+            ),
+          ),
+        ],
+      );
+    },
+  );
 
   // Con la misma llave el reproductor se mueve entre la vista normal y la de
   // pantalla completa sin volver a abrir el canal.
