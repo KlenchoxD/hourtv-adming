@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-03T06:29:32.292Z",
-  "durationMs": 1679,
+  "generatedAt": "2026-10-03T11:55:57.091Z",
+  "durationMs": 1725,
   "dryRun": false,
   "moviesFound": 34,
   "moviesDiscarded": 21,
@@ -28,13 +28,13 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1288445,
-      "title": "El motín",
+      "tmdbId": 1248832,
+      "title": "Digger",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1248832,
-      "title": "Digger",
+      "tmdbId": 1288445,
+      "title": "El motín",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
@@ -43,13 +43,13 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1477712,
-      "title": "Dulce sabor a muerte",
+      "tmdbId": 1283515,
+      "title": "Verity. La sombra de un engaño",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1283515,
-      "title": "Verity. La sombra de un engaño",
+      "tmdbId": 1477712,
+      "title": "Dulce sabor a muerte",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
