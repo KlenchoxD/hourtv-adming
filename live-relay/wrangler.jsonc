@@ -1,0 +1,11 @@
+{
+  "name": "hourtv-live-relay",
+  "main": "entry.mjs",
+  "compatibility_date": "2026-10-03",
+  "workers_dev": true,
+  "observability": { "enabled": false },
+  "vars": {
+    "ALLOWED_ORIGIN": "https://hourtv.pages.dev",
+    "ALLOWED_UPSTREAM_HOSTS": "red4tv.lat,95.143.42.179,181.78.14.26"
+  }
+}

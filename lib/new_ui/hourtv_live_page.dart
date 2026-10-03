@@ -20,6 +20,7 @@ import 'web_embed/fullscreen.dart';
 import 'hourtv_search_keyboard.dart';
 import 'hourtv_web_live_overlay.dart';
 import 'hourtv_web_channel_guide.dart';
+import 'hourtv_web_live_sources.dart';
 
 const _red = Color(0xFF00C781);
 const _surface = Color(0xFF101412);
@@ -1487,7 +1488,9 @@ class _PlayerSurfaceState extends State<_PlayerSurface> {
     _controller = null;
     setState(() => _failed = false);
     await old?.dispose();
-    final uri = Uri.tryParse(widget.channel.url);
+    final uri = Uri.tryParse(
+      kIsWeb ? hourTvWebLivePlaybackUrl(widget.channel) : widget.channel.url,
+    );
     if (uri == null || !(uri.scheme == 'http' || uri.scheme == 'https')) {
       if (mounted) setState(() => _failed = true);
       return;
