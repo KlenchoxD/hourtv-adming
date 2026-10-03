@@ -18,6 +18,7 @@ import '../services/storage_service.dart';
 import 'hourtv_player_screen.dart';
 import 'web_embed/fullscreen.dart';
 import 'hourtv_search_keyboard.dart';
+import 'hourtv_web_live_overlay.dart';
 
 const _red = Color(0xFF00C781);
 const _surface = Color(0xFF101412);
@@ -1338,6 +1339,7 @@ class _PlayerSurfaceState extends State<_PlayerSurface> {
   bool _failed = false;
   // Se mantiene al cambiar de canal, como en Xuper.
   static bool _muted = false;
+  double _volume = 1;
 
   // Controles visibles en pantalla completa; se esconden a los 3 s sin mover
   // el mouse ni tocar.
@@ -1353,13 +1355,17 @@ class _PlayerSurfaceState extends State<_PlayerSurface> {
   }
 
   void _toggleMute() {
-    setState(() => _muted = !_muted);
-    unawaited(_controller?.setVolume(_muted ? 0 : 1));
+    setState(() {
+      _muted = !_muted;
+      if (kIsWeb && !_muted && _volume == 0) _volume = 1;
+    });
+    unawaited(_controller?.setVolume(_muted ? 0 : (kIsWeb ? _volume : 1)));
   }
 
   @override
   void initState() {
     super.initState();
+    if (kIsWeb) _showChrome();
     if (widget.active) _load();
   }
 
@@ -1367,7 +1373,7 @@ class _PlayerSurfaceState extends State<_PlayerSurface> {
   void didUpdateWidget(covariant _PlayerSurface oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.fullscreen && !oldWidget.fullscreen) _showChrome();
-    if (!widget.fullscreen) {
+    if (!widget.fullscreen && !kIsWeb) {
       _chromeTimer?.cancel();
       _chromeVisible = true;
     }
@@ -1452,7 +1458,7 @@ class _PlayerSurfaceState extends State<_PlayerSurface> {
         return;
       }
       await controller.setLooping(false);
-      await controller.setVolume(_muted ? 0 : 1);
+      await controller.setVolume(_muted ? 0 : (kIsWeb ? _volume : 1));
       await controller.play();
       setState(() => _controller = controller);
       widget.onPlaying(widget.channel, startup.elapsedMilliseconds);
@@ -1473,7 +1479,9 @@ class _PlayerSurfaceState extends State<_PlayerSurface> {
     final playing = _controller?.value.isInitialized == true && !_failed;
     // Como YouTube: en pantalla completa los controles se esconden solos y
     // vuelven al mover el mouse o tocar la pantalla.
-    final chrome = !fullscreen || _chromeVisible;
+    final chrome = kIsWeb
+        ? (_chromeVisible || !playing || _controller?.value.isPlaying == false)
+        : (!fullscreen || _chromeVisible);
     Widget fade(Widget child) => AnimatedOpacity(
       opacity: chrome ? 1 : 0,
       duration: const Duration(milliseconds: 250),
@@ -1511,21 +1519,22 @@ class _PlayerSurfaceState extends State<_PlayerSurface> {
               )
             else
               _NetworkArtwork(url: channel.backdrop ?? channel.logo),
-            fade(
-              const DecoratedBox(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      Color(0x22000000),
-                      Color(0x22000000),
-                      Color(0xEF000000),
-                    ],
+            if (!kIsWeb)
+              fade(
+                const DecoratedBox(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Color(0x22000000),
+                        Color(0x22000000),
+                        Color(0xEF000000),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
             // En TV el texto vive a la izquierda: oscurece ese lado y deja el
             // derecho mas limpio, como en el diseño original.
             if (tv)
@@ -1539,7 +1548,7 @@ class _PlayerSurfaceState extends State<_PlayerSurface> {
                   ),
                 ),
               ),
-            if (!tv)
+            if (!tv && !kIsWeb)
               // Mismo estilo que el botón de sonido (arriba a la izquierda),
               // a la altura del nombre del canal para no tapar la guía.
               Positioned(
@@ -1578,7 +1587,7 @@ class _PlayerSurfaceState extends State<_PlayerSurface> {
                   ),
                 ),
               ),
-            if (!tv && playing)
+            if (!tv && playing && !kIsWeb)
               Positioned(
                 left: 12,
                 top: 10,
@@ -1640,7 +1649,7 @@ class _PlayerSurfaceState extends State<_PlayerSurface> {
                   ],
                 ),
               ),
-            if (!tv)
+            if (!tv && !kIsWeb)
               Positioned(
                 left: 16,
                 // Deja sitio al botón de pantalla completa (abajo a la derecha).
@@ -1689,14 +1698,56 @@ class _PlayerSurfaceState extends State<_PlayerSurface> {
                   ),
                 ),
               ),
+            if (kIsWeb && !tv)
+              Positioned.fill(
+                child: fade(
+                  HourTvWebLiveOverlay(
+                    channel: channel.displayName,
+                    currentTitle: _currentTitle(channel),
+                    currentTime: channel.currentProgram?.timeRange,
+                    nextTitle: channel.nextProgram?.title,
+                    nextTime: channel.nextProgram?.timeRange,
+                    ready: playing,
+                    playing: _controller?.value.isPlaying == true,
+                    volume: _muted ? 0 : _volume,
+                    fullscreen: fullscreen,
+                    onFullscreen: onPlay,
+                    onMute: () {
+                      _toggleMute();
+                      _showChrome();
+                    },
+                    onVolume: (v) {
+                      setState(() {
+                        _volume = v;
+                        _muted = v == 0;
+                      });
+                      unawaited(_controller?.setVolume(v));
+                      _showChrome();
+                    },
+                    onPause: () async {
+                      final c = _controller;
+                      if (c == null) return;
+                      if (c.value.isPlaying) {
+                        await c.pause();
+                      } else {
+                        await c.play();
+                      }
+                      if (!mounted) return;
+                      setState(() {});
+                      _showChrome();
+                    },
+                  ),
+                ),
+              ),
           ],
         ),
       ),
     );
-    if (!fullscreen) return surface;
+    if (!fullscreen && !kIsWeb) return surface;
     return MouseRegion(
       cursor: chrome ? MouseCursor.defer : SystemMouseCursors.none,
       onHover: (_) => _showChrome(),
+      onEnter: (_) => _showChrome(),
       child: Listener(onPointerDown: (_) => _showChrome(), child: surface),
     );
   }
