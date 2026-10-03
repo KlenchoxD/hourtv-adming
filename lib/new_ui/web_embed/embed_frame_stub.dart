@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+void hourTvSetPlayerPointerEnabled(bool enabled) {}
 
 /// Fuera del navegador no hay iframes: la app nativa usa su reproductor.
 Widget hourTvEmbedFrame(String url) => const SizedBox.shrink();

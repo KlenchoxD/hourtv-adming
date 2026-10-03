@@ -3,6 +3,22 @@ import 'dart:js_interop';
 import 'package:flutter/widgets.dart';
 import 'package:web/web.dart' as web;
 
+/// Keep embedded player surfaces from stealing modal-menu clicks.
+void hourTvSetPlayerPointerEnabled(bool enabled) {
+  final elements = web.document.querySelectorAll('iframe, video');
+  for (var i = 0; i < elements.length; i++) {
+    final element = elements.item(i) as web.HTMLElement;
+    if (!enabled) {
+      element.setAttribute('data-hourtv-pointer', element.style.pointerEvents);
+      element.style.pointerEvents = 'none';
+    } else if (element.hasAttribute('data-hourtv-pointer')) {
+      element.style.pointerEvents =
+          element.getAttribute('data-hourtv-pointer') ?? '';
+      element.removeAttribute('data-hourtv-pointer');
+    }
+  }
+}
+
 /// Reproductor del servidor (paulinito, voe, ok.ru...) dentro de un iframe.
 /// Es la única forma sin servidor intermedio: esos videos exigen que la
 /// petición venga de su propia página, y el navegador no deja fingirlo.

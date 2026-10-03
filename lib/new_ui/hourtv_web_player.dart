@@ -378,25 +378,34 @@ class HourTvWebPlayerState extends State<PlayerScreen> {
     ),
   );
 
-  Future<void> _openServerSheet() => showModalBottomSheet<void>(
-    context: context,
-    backgroundColor: HourTvMobileTokens.background,
-    showDragHandle: true,
-    isScrollControlled: true,
-    constraints: const BoxConstraints(maxWidth: 520),
-    builder: (sheetContext) => SafeArea(
-      child: ListView(
-        shrinkWrap: true,
-        padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-        children: [
-          const _SectionTitle('Servidores'),
-          const SizedBox(height: 12),
-          for (var i = 0; i < _servers.length; i++)
-            _serverTile(i, onChosen: () => Navigator.pop(sheetContext)),
-        ],
-      ),
-    ),
-  );
+  Future<void> _openServerSheet() async {
+    hourTvSetPlayerPointerEnabled(false);
+    try {
+      await showModalBottomSheet<void>(
+        context: context,
+        backgroundColor: HourTvMobileTokens.background,
+        showDragHandle: true,
+        isScrollControlled: true,
+        constraints: const BoxConstraints(maxWidth: 520),
+        builder: (sheetContext) => hourTvPointerShield(
+          SafeArea(
+            child: ListView(
+              shrinkWrap: true,
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+              children: [
+                const _SectionTitle('Servidores'),
+                const SizedBox(height: 12),
+                for (var i = 0; i < _servers.length; i++)
+                  _serverTile(i, onChosen: () => Navigator.pop(sheetContext)),
+              ],
+            ),
+          ),
+        ),
+      );
+    } finally {
+      hourTvSetPlayerPointerEnabled(true);
+    }
+  }
 
   Widget _player() => _servers.isEmpty
       ? const _NoWebServer()
