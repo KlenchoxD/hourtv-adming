@@ -16,7 +16,12 @@ class HourTvWebRelated extends StatelessWidget {
     if (channels.isEmpty) return const SizedBox.shrink();
     return LayoutBuilder(
       builder: (context, constraints) {
-        final width = ((constraints.maxWidth - 80) / 6).clamp(130.0, 180.0);
+        // Seis pósteres y cinco separaciones llenan el ancho disponible.
+        // En ventanas estrechas se mantiene una tarjeta legible y scroll.
+        final width = ((constraints.maxWidth - 80) / 6).clamp(
+          130.0,
+          double.infinity,
+        );
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
