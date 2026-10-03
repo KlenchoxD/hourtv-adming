@@ -1,4 +1,5 @@
 import 'dart:async';
+import '../new_ui/hourtv_web_library.dart';
 import 'dart:math' as math;
 
 import 'package:flutter/foundation.dart' show compute;
@@ -2915,6 +2916,17 @@ class _HourTvMobileLibraryState extends State<HourTvMobileLibrary> {
   @override
   Widget build(BuildContext context) {
     final items = _items;
+    if (kIsWeb)
+      return HourTvWebLibrary(
+        items: _tabItems,
+        tab: tab,
+        onTab: (value) {
+          setState(() => tab = value);
+          _resolveDriftItems();
+        },
+        onOpen: widget.onOpen,
+        onRemove: (c) => unawaited(widget.store.toggleFavorite(c)),
+      );
     final wide = hourTvWideLayout(context);
     final pad = wide ? hourTvDesktopPadding(context) : 16.0;
     return CustomScrollView(

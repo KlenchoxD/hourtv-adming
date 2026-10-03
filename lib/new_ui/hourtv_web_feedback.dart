@@ -10,10 +10,16 @@ class HourTvWebFeedback extends StatefulWidget {
 
 class _FeedbackState extends State<HourTvWebFeedback>
     with SingleTickerProviderStateMixin {
-  late final controller = AnimationController(
-    vsync: this,
-    duration: const Duration(milliseconds: 300),
-  );
+  late final AnimationController controller;
+  @override
+  void initState() {
+    super.initState();
+    controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 300),
+    );
+  }
+
   bool hover = false, pressed = false;
   @override
   void dispose() {
