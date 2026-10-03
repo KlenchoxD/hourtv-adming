@@ -4,6 +4,7 @@ import 'dart:math' as math;
 import 'package:flutter/foundation.dart' show compute;
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'hourtv_web_hero.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/channel.dart';
@@ -1262,7 +1263,9 @@ class _HeroCarouselState extends State<_HeroCarousel> {
   /// de la ventana, con la info a la izquierda sobre un degradado.
   Widget _desktop(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
-    final height = (size.height * 0.62).clamp(340.0, 680.0);
+    final height = kIsWeb
+        ? (size.height - 68).clamp(520.0, 920.0)
+        : (size.height * 0.62).clamp(340.0, 680.0);
     return SizedBox(
       key: const ValueKey('hourtv-hero-carousel'),
       height: height,
@@ -1282,8 +1285,9 @@ class _HeroCarouselState extends State<_HeroCarousel> {
           ),
           if (widget.channels.length > 1)
             Positioned(
-              right: hourTvDesktopPadding(context),
-              bottom: 28,
+              right: kIsWeb ? null : hourTvDesktopPadding(context),
+              left: kIsWeb ? (size.width < 1000 ? 32 : 60) : null,
+              bottom: kIsWeb ? 56 : 28,
               child: Row(
                 children: [
                   for (var i = 0; i < widget.channels.length; i++)
@@ -1298,10 +1302,16 @@ class _HeroCarouselState extends State<_HeroCarousel> {
                         child: AnimatedContainer(
                           duration: const Duration(milliseconds: 200),
                           margin: const EdgeInsets.symmetric(horizontal: 3),
-                          width: i == _page ? 22 : 8,
-                          height: 8,
+                          width: kIsWeb
+                              ? (i == _page ? 36 : 16)
+                              : (i == _page ? 22 : 8),
+                          height: kIsWeb ? 4 : 8,
                           decoration: BoxDecoration(
-                            color: i == _page ? Colors.white : Colors.white38,
+                            color: i == _page
+                                ? (kIsWeb
+                                      ? const Color(0xFF00C896)
+                                      : Colors.white)
+                                : Colors.white38,
                             borderRadius: BorderRadius.circular(4),
                           ),
                         ),
@@ -1321,6 +1331,91 @@ class _DesktopHero extends StatelessWidget {
 
   final Channel channel;
   final VoidCallback onOpen;
+
+  Widget _web(BuildContext context) {
+    final plot = channel.plot?.trim();
+    return HourTvWebHero(
+      backdrop: HourTvArtwork(
+        url: channel.backdrop ?? channel.logo,
+        alignment: Alignment.topCenter,
+        variant: ImageResolutionVariant.heroBackdrop,
+        memCacheWidth: 1920,
+        memCacheHeight: 1080,
+        onShown: HourTvStartupCover.markHeroShown,
+      ),
+      content: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            channel.name,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 54,
+              fontWeight: FontWeight.w900,
+              height: 1.05,
+            ),
+          ),
+          const SizedBox(height: 16),
+          HourTvDetailMeta(
+            rating: channel.rating,
+            year: channel.year,
+            extra: hourTvPrettyDuration(channel.duration),
+          ),
+          if (plot != null && plot.isNotEmpty) ...[
+            const SizedBox(height: 16),
+            Text(
+              plot,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                color: Color(0xFFE5E5E5),
+                fontSize: 16,
+                height: 1.55,
+              ),
+            ),
+          ],
+          const SizedBox(height: 24),
+          ListenableBuilder(
+            listenable: ContentStore.instance,
+            builder: (context, _) {
+              final fav = ContentStore.instance.favorites.any(
+                (c) => c.url == channel.url,
+              );
+              return Wrap(
+                spacing: 12,
+                runSpacing: 12,
+                children: [
+                  IntrinsicWidth(
+                    child: HourTvPlayButton(
+                      label: 'Reproducir',
+                      large: true,
+                      onPressed: () => unawaited(_play(context)),
+                    ),
+                  ),
+                  IntrinsicWidth(
+                    child: HourTvPlayButton(
+                      label: fav ? 'En favoritos' : 'Favorito',
+                      icon: fav
+                          ? Icons.favorite_rounded
+                          : Icons.favorite_border_rounded,
+                      secondary: true,
+                      large: true,
+                      onPressed: () => unawaited(
+                        ContentStore.instance.toggleFavorite(channel),
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
 
   Future<void> _play(BuildContext context) async {
     final isSeries =
@@ -1342,6 +1437,7 @@ class _DesktopHero extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (kIsWeb) return _web(context);
     final pad = hourTvDesktopPadding(context);
     final plot = channel.plot?.trim();
     return Stack(
