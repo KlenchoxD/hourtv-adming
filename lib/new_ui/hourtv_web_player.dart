@@ -156,20 +156,6 @@ class HourTvWebPlayerState extends State<PlayerScreen> {
                 year: _current.year,
                 extra: hourTvPrettyDuration(_current.duration),
               ),
-              if (_servers.length > 1) ...[
-                const SizedBox(height: 22),
-                const _SectionTitle('Servidores'),
-                const SizedBox(height: 4),
-                const Text(
-                  'Si uno no carga, prueba con otro.',
-                  style: TextStyle(
-                    color: HourTvMobileTokens.textMuted,
-                    fontSize: 13,
-                  ),
-                ),
-                const SizedBox(height: 12),
-                for (var i = 0; i < _servers.length; i++) _serverTile(i),
-              ],
               if ((_current.plot ?? '').trim().isNotEmpty) ...[
                 const SizedBox(height: 22),
                 const _SectionTitle('Sinopsis'),
@@ -318,50 +304,11 @@ class HourTvWebPlayerState extends State<PlayerScreen> {
         ),
       ),
       Positioned(left: 16, top: 16, child: hourTvPointerShield(_roundButton())),
-      // Sin botón propio de pantalla completa: aquí el reproductor del
-      // servidor ya trae el suyo y salían dos.
-      if (_servers.length > 1)
-        Positioned(
-          right: 16,
-          top: 16,
-          child: hourTvPointerShield(
-            Material(
-              color: const Color(0xB3000000),
-              shape: const StadiumBorder(
-                side: BorderSide(color: HourTvMobileTokens.borderSubtle),
-              ),
-              child: InkWell(
-                customBorder: const StadiumBorder(),
-                onTap: _openServerSheet,
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(14, 9, 10, 9),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Icon(
-                        Icons.dns_rounded,
-                        size: 18,
-                        color: HourTvMobileTokens.emerald,
-                      ),
-                      const SizedBox(width: 8),
-                      Text(
-                        _serverLabel(_selected),
-                        style: const TextStyle(
-                          color: HourTvMobileTokens.textPrimary,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                      const Icon(
-                        Icons.keyboard_arrow_down_rounded,
-                        color: HourTvMobileTokens.textPrimary,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
+      Positioned(
+        right: 16,
+        top: 16,
+        child: hourTvPointerShield(_fullscreenButton()),
+      ),
     ],
   );
 
@@ -378,35 +325,6 @@ class HourTvWebPlayerState extends State<PlayerScreen> {
     ),
   );
 
-  Future<void> _openServerSheet() async {
-    hourTvSetPlayerPointerEnabled(false);
-    try {
-      await showModalBottomSheet<void>(
-        context: context,
-        backgroundColor: HourTvMobileTokens.background,
-        showDragHandle: true,
-        isScrollControlled: true,
-        constraints: const BoxConstraints(maxWidth: 520),
-        builder: (sheetContext) => hourTvPointerShield(
-          SafeArea(
-            child: ListView(
-              shrinkWrap: true,
-              padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-              children: [
-                const _SectionTitle('Servidores'),
-                const SizedBox(height: 12),
-                for (var i = 0; i < _servers.length; i++)
-                  _serverTile(i, onChosen: () => Navigator.pop(sheetContext)),
-              ],
-            ),
-          ),
-        ),
-      );
-    } finally {
-      hourTvSetPlayerPointerEnabled(true);
-    }
-  }
-
   Widget _player() => _servers.isEmpty
       ? const _NoWebServer()
       : _failed.contains(_selected)
@@ -422,79 +340,6 @@ class HourTvWebPlayerState extends State<PlayerScreen> {
           onError: () => setState(() => _failed.add(_selected)),
         )
       : hourTvEmbedFrame(_servers[_selected].url);
-
-  /// Servidor como tarjeta de la app: el elegido con borde e ícono verdes.
-  Widget _serverTile(int i, {VoidCallback? onChosen}) {
-    final selected = i == _selected;
-    final failed = _failed.contains(i);
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
-      child: Material(
-        color: selected
-            ? HourTvMobileTokens.emerald.withValues(alpha: .10)
-            : HourTvMobileTokens.surfacePrimary,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(HourTvMobileTokens.radiusMedium),
-          side: BorderSide(
-            color: selected
-                ? HourTvMobileTokens.emerald
-                : HourTvMobileTokens.borderSubtle,
-          ),
-        ),
-        child: InkWell(
-          borderRadius: BorderRadius.circular(HourTvMobileTokens.radiusMedium),
-          onTap: () {
-            setState(() => _selected = i);
-            onChosen?.call();
-          },
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 13),
-            child: Row(
-              children: [
-                Icon(
-                  selected
-                      ? Icons.play_circle_fill_rounded
-                      : Icons.play_circle_outline_rounded,
-                  color: selected
-                      ? HourTvMobileTokens.emerald
-                      : HourTvMobileTokens.textMuted,
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Text(
-                    _serverLabel(i),
-                    style: const TextStyle(
-                      color: HourTvMobileTokens.textPrimary,
-                      fontSize: 15,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                ),
-                if (selected || failed)
-                  Text(
-                    failed ? 'No carga' : 'Reproduciendo',
-                    style: TextStyle(
-                      color: failed
-                          ? HourTvMobileTokens.error
-                          : HourTvMobileTokens.emerald,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  String _serverLabel(int i) {
-    final name = _servers[i].name.trim();
-    final language = _servers[i].language?.trim();
-    final base = name.isEmpty ? 'Servidor ${i + 1}' : name;
-    return language == null || language.isEmpty ? base : '$base · $language';
-  }
 }
 
 class _NoWebServer extends StatelessWidget {
