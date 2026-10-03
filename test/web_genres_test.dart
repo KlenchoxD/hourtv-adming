@@ -26,9 +26,11 @@ void main() {
     final before = tester.getTopLeft(target).dx;
     final mouse = await tester.createGesture(kind: PointerDeviceKind.mouse);
     await mouse.addPointer(location: const Offset(700, 400));
-    await mouse.moveTo(const Offset(20, 20));
+    expect(find.text('Terror'), findsNothing);
+    expect(find.text('Misterio'), findsNothing);
+    await mouse.moveTo(tester.getCenter(target));
     await tester.pumpAndSettle();
-    expect(tester.getTopLeft(target).dx, greaterThan(before));
+    expect(tester.getTopLeft(target).dx, before);
     expect(find.text('Misterio'), findsOneWidget);
     await tester.tap(target);
     expect(selected, 'Misterio');

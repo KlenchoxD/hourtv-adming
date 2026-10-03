@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 const _hourTvRed = Color(0xFF00C781);
@@ -39,6 +40,8 @@ class TvFocusable extends StatefulWidget {
 class _TvFocusableState extends State<TvFocusable> {
   late FocusNode _node;
   bool _focused = false;
+  bool _hovered = false;
+  bool _pressed = false;
 
   @override
   void initState() {
@@ -98,38 +101,66 @@ class _TvFocusableState extends State<TvFocusable> {
   @override
   Widget build(BuildContext context) {
     final radius = widget.borderRadius ?? BorderRadius.circular(12);
-    return Focus(
-      focusNode: _node,
-      autofocus: widget.autofocus,
-      onKeyEvent: _onKey,
-      onFocusChange: _onFocus,
-      child: GestureDetector(
-        onTap: widget.onTap,
-        child: AnimatedScale(
-          scale: _focused ? widget.scale : 1,
-          duration: const Duration(milliseconds: 170),
-          curve: Curves.easeOutCubic,
-          child: widget.decorated
-              ? AnimatedContainer(
-                  duration: const Duration(milliseconds: 170),
-                  decoration: BoxDecoration(
-                    borderRadius: radius,
-                    border: Border.all(
-                      color: _focused ? _hourTvRed : Colors.transparent,
-                      width: 3,
+    final highlighted =
+        _focused || (kIsWeb && _hovered && widget.onTap != null);
+    final duration = kIsWeb && MediaQuery.disableAnimationsOf(context)
+        ? Duration.zero
+        : const Duration(milliseconds: 170);
+    return MouseRegion(
+      cursor: kIsWeb && widget.onTap != null
+          ? SystemMouseCursors.click
+          : MouseCursor.defer,
+      onEnter: kIsWeb ? (_) => setState(() => _hovered = true) : null,
+      onExit: kIsWeb
+          ? (_) => setState(() {
+              _hovered = false;
+              _pressed = false;
+            })
+          : null,
+      child: Focus(
+        focusNode: _node,
+        autofocus: widget.autofocus,
+        onKeyEvent: _onKey,
+        onFocusChange: _onFocus,
+        child: GestureDetector(
+          onTap: widget.onTap,
+          onTapDown: kIsWeb && widget.onTap != null
+              ? (_) => setState(() => _pressed = true)
+              : null,
+          onTapUp: kIsWeb ? (_) => setState(() => _pressed = false) : null,
+          onTapCancel: kIsWeb ? () => setState(() => _pressed = false) : null,
+          child: AnimatedScale(
+            scale: kIsWeb && MediaQuery.disableAnimationsOf(context)
+                ? 1
+                : _pressed
+                ? .97
+                : highlighted
+                ? (kIsWeb ? 1.025 : widget.scale)
+                : 1,
+            duration: duration,
+            curve: Curves.easeOutCubic,
+            child: widget.decorated
+                ? AnimatedContainer(
+                    duration: duration,
+                    decoration: BoxDecoration(
+                      borderRadius: radius,
+                      border: Border.all(
+                        color: highlighted ? _hourTvRed : Colors.transparent,
+                        width: 3,
+                      ),
+                      boxShadow: highlighted
+                          ? [
+                              BoxShadow(
+                                color: _hourTvRed.withValues(alpha: .5),
+                                blurRadius: 12,
+                              ),
+                            ]
+                          : null,
                     ),
-                    boxShadow: _focused
-                        ? [
-                            BoxShadow(
-                              color: _hourTvRed.withValues(alpha: .5),
-                              blurRadius: 12,
-                            ),
-                          ]
-                        : null,
-                  ),
-                  child: widget.child,
-                )
-              : widget.child,
+                    child: widget.child,
+                  )
+                : widget.child,
+          ),
         ),
       ),
     );

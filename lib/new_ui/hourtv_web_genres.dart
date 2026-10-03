@@ -15,50 +15,48 @@ class HourTvWebGenres extends StatefulWidget {
 }
 
 class _GenresState extends State<HourTvWebGenres> {
-  bool expanded = false;
-  (IconData, Color) style(String genre) {
+  int? active;
+  (String, Color) style(String genre) {
     final key = HourTvGenreService.normalize(genre);
     if (key.contains('terror') || key.contains('horror')) {
-      return (Icons.masks_outlined, const Color(0xFFB0A6BC));
+      return ('👻', const Color(0xFFB0A6BC));
     }
     if (key.contains('mister') || key.contains('crimen')) {
-      return (Icons.search_rounded, const Color(0xFF48B5AD));
+      return ('🔎', const Color(0xFF48B5AD));
     }
     if (key.contains('ficcion') || key.contains('fantas')) {
-      return (Icons.public, const Color(0xFFA87BD7));
+      return ('🪐', const Color(0xFFA87BD7));
     }
     if (key.contains('accion') || key.contains('aventura')) {
-      return (Icons.bolt_rounded, const Color(0xFFEE6868));
+      return ('⚔️', const Color(0xFFEE6868));
     }
     if (key.contains('comedia')) {
-      return (Icons.theater_comedy_outlined, const Color(0xFFE7B65A));
+      return ('🎭', const Color(0xFFE7B65A));
     }
     if (key.contains('romance')) {
-      return (Icons.favorite_outline, const Color(0xFFE88BB5));
+      return ('♥', const Color(0xFFE88BB5));
     }
-    return (Icons.movie_outlined, const Color(0xFF7AAED7));
+    return ('🎬', const Color(0xFF7AAED7));
   }
 
   @override
   Widget build(BuildContext context) => MouseRegion(
-    onEnter: (_) => setState(() => expanded = true),
-    onExit: (_) => setState(() => expanded = false),
+    onExit: (_) => setState(() => active = null),
     child: Focus(
-      onFocusChange: (value) => setState(() => expanded = value),
       child: LayoutBuilder(
         builder: (context, constraints) {
           final count = widget.genres.length;
           if (count == 0) return const SizedBox.shrink();
           // Keep every shortcut reachable, even with many genres or a small window.
-        final spacing = expanded ? 92.0 : 28.0;
-          final width = 76.0 + (count - 1) * spacing;
+          const spacing = 30.0;
+          final width = 110.0 + (count - 1) * spacing;
           return SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 220),
               curve: Curves.easeOutCubic,
               width: width,
-            height: 54,
+              height: 54,
               child: Stack(
                 children: [
                   for (var i = count - 1; i >= 0; i--)
@@ -67,62 +65,82 @@ class _GenresState extends State<HourTvWebGenres> {
                       curve: Curves.easeOutCubic,
                       left: i * spacing,
                       top: 0,
-                      width: 76,
+                      width: 36,
                       child: Builder(
                         builder: (context) {
                           final genre = widget.genres[i];
                           final (icon, color) = style(genre);
-                          return Tooltip(
-                            message: 'Explorar $genre',
-                            child: InkWell(
-                              key: ValueKey('genre-$genre'),
-                              borderRadius: BorderRadius.circular(26),
-                              onTap: () {
-                                if (widget.onSelect != null) {
-                                  widget.onSelect!(genre);
-                                } else {
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute<void>(
-                                      builder: (_) =>
-                                          HourTvWebGenrePage(genre: genre),
-                                    ),
-                                  );
-                                }
-                              },
-                              child: Column(
-                                children: [
-                                  Container(
-                            width: 32,
-                            height: 32,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      border: Border.all(
-                                        color: color.withValues(alpha: .7),
+                          return MouseRegion(
+                            onEnter: (_) => setState(() => active = i),
+                            child: Focus(
+                              onFocusChange: (value) =>
+                                  setState(() => active = value ? i : null),
+                              child: Semantics(
+                                label: 'Explorar $genre',
+                                button: true,
+                                child: InkWell(
+                                  key: ValueKey('genre-$genre'),
+                                  borderRadius: BorderRadius.circular(26),
+                                  onTap: () {
+                                    if (widget.onSelect != null) {
+                                      widget.onSelect!(genre);
+                                    } else {
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute<void>(
+                                          builder: (_) =>
+                                              HourTvWebGenrePage(genre: genre),
+                                        ),
+                                      );
+                                    }
+                                  },
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        width: 32,
+                                        height: 32,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          border: Border.all(
+                                            color: color.withValues(alpha: .7),
+                                          ),
+                                          gradient: RadialGradient(
+                                            colors: [
+                                              color.withValues(alpha: .22),
+                                              const Color(0xEE101412),
+                                            ],
+                                          ),
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            icon,
+                                            style: TextStyle(
+                                              color: color,
+                                              fontSize: 21,
+                                            ),
+                                          ),
+                                        ),
                                       ),
-                                      gradient: RadialGradient(
-                                        colors: [
-                                          color.withValues(alpha: .22),
-                                          const Color(0xEE101412),
-                                        ],
-                                      ),
-                                    ),
-                            child: Icon(icon, color: color, size: 19),
+                                    ],
                                   ),
-                                  const SizedBox(height: 5),
-                                  Text(
-                                    expanded || i == 0 ? genre : '',
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 11,
-                                    ),
-                                  ),
-                                ],
+                                ),
                               ),
                             ),
                           );
                         },
+                      ),
+                    ),
+                  if (active != null)
+                    Positioned(
+                      left: 0,
+                      top: 37,
+                      child: IgnorePointer(
+                        child: Text(
+                          widget.genres[active!],
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 11,
+                          ),
+                        ),
                       ),
                     ),
                 ],

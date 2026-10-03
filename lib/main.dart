@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'new_ui/hourtv_web_interaction_theme.dart';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -165,7 +166,9 @@ class HourTVApp extends StatelessWidget {
       // En la web, sin el estiramiento/rebote de Android al llegar al borde:
       // en una página se sentía raro. La app de Android queda igual.
       scrollBehavior: kIsWeb ? const _WebScrollBehavior() : null,
-      theme: HourTvMobileTheme.build(),
+      theme: kIsWeb
+          ? hourTvWebInteractionTheme(HourTvMobileTheme.build())
+          : HourTvMobileTheme.build(),
       // Respeta "Texto grande" del sistema, pero acotado: esta UI tiene
       // carruseles y grillas de alto fijo que se rompen mucho antes de
       // llegar al 200% que Android permite. Sin este limite, activar la
