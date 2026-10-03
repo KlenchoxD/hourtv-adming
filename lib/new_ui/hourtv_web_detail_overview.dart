@@ -44,6 +44,7 @@ class _OverviewState extends State<HourTvWebDetailOverview> {
               .map((s) => s.trim())
               .where((s) => s.isNotEmpty)
               .toSet()
+              .take(6)
               .toList();
     final genres = (c.genre ?? '')
         .split(RegExp(r'[,;/·]'))
@@ -86,8 +87,7 @@ class _OverviewState extends State<HourTvWebDetailOverview> {
                       vertical: 8,
                     ),
                     decoration: BoxDecoration(
-                      color: accent.withValues(alpha: .08),
-                      border: Border.all(color: accent.withValues(alpha: .3)),
+                      border: Border.all(color: Colors.white30),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: text(g, size: 13),
@@ -122,12 +122,7 @@ class _OverviewState extends State<HourTvWebDetailOverview> {
       ],
     );
     final about = Container(
-      padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(
-        color: const Color(0xD9101412),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.white12),
-      ),
+      padding: const EdgeInsets.only(left: 12, top: 8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -172,11 +167,19 @@ class _OverviewState extends State<HourTvWebDetailOverview> {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(width: constraints.maxWidth * .22, child: poster),
+                  SizedBox(width: constraints.maxWidth * .29, child: poster),
                   const SizedBox(width: 28),
-                  Expanded(child: info),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        info,
+                        if (names.isNotEmpty) castSection(names),
+                      ],
+                    ),
+                  ),
                   const SizedBox(width: 28),
-                  SizedBox(width: constraints.maxWidth * .21, child: about),
+                  SizedBox(width: constraints.maxWidth * .20, child: about),
                 ],
               )
             else ...[
@@ -190,55 +193,71 @@ class _OverviewState extends State<HourTvWebDetailOverview> {
               ),
               const SizedBox(height: 24),
               about,
-            ],
-            if (names.isNotEmpty) ...[
-              const SizedBox(height: 30),
-              const Divider(color: Colors.white12),
-              const SizedBox(height: 20),
-              text('Reparto principal', size: 24, bold: true),
-              const SizedBox(height: 20),
-              Wrap(
-                spacing: 12,
-                runSpacing: 12,
-                children: names
-                    .map(
-                      (name) => Container(
-                        width: constraints.maxWidth >= 1000
-                            ? (constraints.maxWidth - 60) / 6
-                            : 240,
-                        padding: const EdgeInsets.all(14),
-                        decoration: BoxDecoration(
-                          color: const Color(0xCC101412),
-                          border: Border.all(color: Colors.white12),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Row(
-                          children: [
-                            CircleAvatar(
-                              backgroundColor: const Color(0xFF24382F),
-                              foregroundColor: Colors.white,
-                              child: Text(
-                                name
-                                    .split(RegExp(r'\s+'))
-                                    .take(2)
-                                    .map((p) => p.substring(0, 1))
-                                    .join(),
-                              ),
-                            ),
-                            const SizedBox(width: 12),
-                            Expanded(child: text(name, size: 14, bold: true)),
-                          ],
-                        ),
-                      ),
-                    )
-                    .toList(),
-              ),
+              if (names.isNotEmpty) castSection(names),
             ],
           ],
         ),
       ),
     );
   }
+
+  Widget castSection(List<String> names) => Padding(
+    padding: const EdgeInsets.only(top: 28),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        text('Reparto principal', size: 22, bold: true),
+        const SizedBox(height: 18),
+        LayoutBuilder(
+          builder: (context, constraints) {
+            final width = constraints.maxWidth >= 540
+                ? (constraints.maxWidth - 50) / 6
+                : 88.0;
+            return Wrap(
+              spacing: 10,
+              runSpacing: 18,
+              children: names
+                  .map(
+                    (name) => SizedBox(
+                      width: width,
+                      child: Column(
+                        children: [
+                          CircleAvatar(
+                            radius: width.clamp(56, 100) / 2,
+                            backgroundColor: const Color(0xFF303735),
+                            foregroundColor: Colors.white,
+                            child: Text(
+                              name
+                                  .split(RegExp(r'\s+'))
+                                  .take(2)
+                                  .map((p) => p.substring(0, 1))
+                                  .join(),
+                              style: const TextStyle(fontSize: 22),
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          Text(
+                            name,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                  .toList(),
+            );
+          },
+        ),
+      ],
+    ),
+  );
 
   Widget field(String label, String value) => Padding(
     padding: const EdgeInsets.only(top: 20),

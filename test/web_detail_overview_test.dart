@@ -4,6 +4,42 @@ import 'package:streamtv/models/channel.dart';
 import 'package:streamtv/new_ui/hourtv_web_detail_overview.dart';
 
 void main() {
+  testWidgets(
+    'limita a seis créditos únicos y coloca reparto bajo la información',
+    (tester) async {
+      await tester.binding.setSurfaceSize(const Size(1440, 1000));
+      addTearDown(() => tester.binding.setSurfaceSize(null));
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: SingleChildScrollView(
+              child: HourTvWebDetailOverview(
+                channel: Channel(
+                  name: 'Historia',
+                  url: 'movie:test',
+                  forcedType: 'movie',
+                  plot: 'Sinopsis real',
+                  cast: 'Ana, Luis, Ana, Sara, Pedro, Eva, Juan, Extra',
+                ),
+                actions: const Text('Acciones'),
+              ),
+            ),
+          ),
+        ),
+      );
+      expect(find.byType(CircleAvatar), findsNWidgets(6));
+      expect(find.text('Extra'), findsNothing);
+      expect(
+        tester.getTopLeft(find.text('Reparto principal')).dx,
+        greaterThan(350),
+      );
+      expect(
+        tester.getTopLeft(find.text('Reparto principal')).dy,
+        greaterThan(tester.getBottomRight(find.text('Sinopsis real')).dy),
+      );
+      expect(tester.takeException(), isNull);
+    },
+  );
   testWidgets('sinopsis expandible y reparto real sin datos inventados', (
     tester,
   ) async {
