@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import relay, {seal, unseal, rewriteManifest, checkUpstream} from './worker.mjs';
+import auditedStreams from './audited-streams.mjs';
 const env = {RELAY_KEY: 'test-only-secret', ALLOWED_ORIGIN: 'https://hourtv.pages.dev',
   ALLOWED_UPSTREAM_HOSTS: 'example.com', UPSTREAM_CHANNELS: '{"rcn":"http://example.com/private/live.m3u8"}'};
 test('media tokens encrypt credentials, expire and resist tampering', async () => {
@@ -54,4 +55,20 @@ test('playback pins refreshes to one encrypted session with stable media URLs', 
   const two = await relay.fetch(new Request(location), env, null, transport);
   assert.equal(one.status, 200);
   assert.equal(await one.text(), await two.text());
+});
+
+test('purchased playback allows only audited IDs and keeps account details encrypted', async () => {
+  const paidEnv={...env,IPTV_XTREAM:JSON.stringify({host:'http://example.com',username:'fake-user',password:'fake-password'})};
+  const id=auditedStreams[0]?.id;
+  assert.ok(id);
+  let upstream;
+  const transport=async value=>{upstream=String(value);return new Response('#EXTM3U\n#EXTINF:5,\nmedia.ts');};
+  const response=await relay.fetch(new Request(`https://relay.example/live/iptv-${id}.m3u8`),paidEnv,null,transport);
+  assert.equal(response.status,302);
+  const location=response.headers.get('Location');
+  assert.ok(!location.includes('fake-user')&&!location.includes('fake-password'));
+  assert.equal(await unseal(new URL(location).pathname.slice(6),env.RELAY_KEY),upstream);
+  assert.equal((await relay.fetch(new Request('https://relay.example/live/iptv-999999999.m3u8'),paidEnv,null,transport)).status,404);
+  const catalog=await (await relay.fetch(new Request('https://relay.example/catalog'),paidEnv)).text();
+  assert.ok(!catalog.includes('fake-user')&&!catalog.includes('fake-password'));
 });

@@ -1,3 +1,5 @@
+import auditedStreams from './audited-streams.mjs';
+const paidStreams = new Map(auditedStreams.map(row => [String(row.id), row]));
 const encoder = new TextEncoder();
 const decoder = new TextDecoder();
 const names = { rcn: 'Canal RCN', 'rcn-mas': 'RCN Mas', 'rcn-hd2': 'RCN HD2' };
@@ -124,13 +126,24 @@ export default {
       if (url.pathname === '/catalog') {
         headers.set('Content-Type', 'application/json');
         return reply(JSON.stringify(Object.keys(names).filter(id => channels[id]).map(id =>
-          ({name: names[id], url: `${url.origin}/live/${id}.m3u8`}))));
+          ({name: names[id], url: `${url.origin}/live/${id}.m3u8`})).concat(
+            env.IPTV_XTREAM ? auditedStreams.map(row=>({name:row.name,url:`${url.origin}/live/iptv-${row.id}.m3u8`})) : []
+          )));
       }
       const live = url.pathname.match(/^\/live\/([a-z0-9-]+)\.m3u8$/);
       const part = url.pathname.match(/^\/part\/([A-Za-z0-9_-]+)$/);
       // The owner explicitly authorized up to 24 hours for playback sessions.
       let target; let expires = Date.now() + 24 * 60 * 60 * 1000;
       if (live && names[live[1]] && channels[live[1]]) target = channels[live[1]];
+      else if (live && live[1].startsWith('iptv-') && paidStreams.has(live[1].slice(5))) {
+        if (!env.IPTV_XTREAM) return reply('Provider not configured',503);
+        const account = JSON.parse(env.IPTV_XTREAM);
+        const host = checkUpstream(account.host,env);
+        if (!account.username || !account.password) return reply('Provider not configured',503);
+        host.pathname = `/live/${encodeURIComponent(account.username)}/${encodeURIComponent(account.password)}/${live[1].slice(5)}.m3u8`;
+        host.search = ''; host.hash = '';
+        target = host.href;
+      }
       else if (part) {
         try { const payload = await unsealPayload(part[1], env.RELAY_KEY); target = payload.url; expires = payload.expires; }
         catch { return reply('Invalid or expired media token', 403); }

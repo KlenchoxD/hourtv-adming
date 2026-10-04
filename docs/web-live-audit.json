@@ -1,0 +1,3967 @@
+{
+  "checkedAt": "2026-10-03T21:23:39.426Z",
+  "auditedOld": 7936,
+  "totalOld": 7936,
+  "checkedNew": 363,
+  "totalNew": 4161,
+  "removed": 565,
+  "replaced": 0,
+  "added": 0,
+  "changes": [
+    {
+      "name": "Arena Sport 5 Premium",
+      "country": "rs",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "CCTV-5+",
+      "country": "cn",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "CDN Deportes (720p) [Not 24/7]",
+      "country": "do",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Digi Sport 2 HD (1080i)",
+      "country": "ro",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "ESPNU (720p)",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Fast&FunBox (Russia) HD (1080p)",
+      "country": "ru",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Hard Knocks (1080p)",
+      "country": "ca",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Maincast Sport (1080p)",
+      "country": "ua",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Pluto TV Sport (Sweden)",
+      "country": "se",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Sky Sports Cricket HD",
+      "country": "uk",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Sportitalia 24 (720p) [Geo-blocked]",
+      "country": "it",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Sportitalia Motori (720p) [Geo-blocked]",
+      "country": "it",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Star Sports 2 HD (720p)",
+      "country": "in",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Star Sports 2 Hindi (720p)",
+      "country": "in",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "T Sports (1080p)",
+      "country": "bd",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Talent TV (720p)",
+      "country": "lk",
+      "reason": "down",
+      "httpCode": 200,
+      "replacement": null
+    },
+    {
+      "name": "Tigo Sports (Costa Rica) (720p) [Geo-blocked]",
+      "country": "cr",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Tigo Sports+ (1280p)",
+      "country": "py",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "UPL.TV",
+      "country": "ua",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Willow (720p)",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "2GB (1080p)",
+      "country": "au",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "3AW (1080p)",
+      "country": "au",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "6PR (1080p)",
+      "country": "au",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "30A Lionel Nation",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "30A Loomered TV",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "ABC News (India) (576p)",
+      "country": "in",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "ABC News Live 1 (720p)",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "ABC News Live 4 (720p)",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "ABC News Live 2 (720p)",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "ABC News Live 3 (720p)",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "ABC News Live 5 (720p)",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "ABC News Live 7 (720p)",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "ABC News Live 6 (720p)",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "ABC News Live 8 (720p)",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "ABC News Live 9 (720p)",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "ABC News Live 10 (720p)",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Acustik TV",
+      "country": "mx",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "ALWifak News TV (720p)",
+      "country": "lb",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "ANN News (576p)",
+      "country": "in",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Bharat Update (576p)",
+      "country": "in",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "BN Channel (1080p)",
+      "country": "id",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "BR8 TV",
+      "country": "br",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Bulgaria On Air",
+      "country": "bg",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "CBS News Bay Area (720p)",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "CBS News Boston (720p)",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "CBS News Chicago (720p)",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "CBS News Detroit (720p)",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "CBS News Colorado (720p)",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "CBS News Los Angeles (720p)",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "CBS News Minnesota (720p)",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "CBS News Philly (720p)",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "CBS News Pittsburgh (720p)",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "CBS News New York (720p)",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "CDNN 23 (1080p) [Not 24/7]",
+      "country": "ni",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "CGTN Russian (1080p)",
+      "country": "cn",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "DBC News (480p)",
+      "country": "bd",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "eTv Marche (720p)",
+      "country": "it",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "eTv Rete 7 (720p)",
+      "country": "it",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Euronews Bulgaria",
+      "country": "bg",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "HRT 4 HD (720p) [Geo-blocked]",
+      "country": "hr",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Huma Betang TV (720p) [Not 24/7]",
+      "country": "id",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "I-UA.tv (1080p)",
+      "country": "ua",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Le Monde en 24h",
+      "country": "cd",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Libya Al Ahrar TV (1080p)",
+      "country": "qa",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Lindell TV (720p)",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Lolwe TV (576p) [Not 24/7]",
+      "country": "ke",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Mario Pinto TV (720p) [Not 24/7]",
+      "country": "ec",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Maya TV",
+      "country": "hn",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Mirame TV (360p) [Not 24/7]",
+      "country": "es",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Nablus TV (720p) [Not 24/7]",
+      "country": "ps",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "News12+ Hudson Valley (1080p) [Geo-blocked]",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "News12+ Long Island (1080p) [Geo-blocked]",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "News12+ New Jersey (1080p) [Geo-blocked]",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "News12 Bronx [Geo-blocked]",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "News12 Brooklyn [Geo-blocked]",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "News12 Conneticut [Geo-blocked]",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "News12 Hudson Valley [Geo-blocked]",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "News 21 (576p)",
+      "country": "in",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "News 24 (India) (720p)",
+      "country": "in",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "News of the World (720p)",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Nova News",
+      "country": "bg",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "NRT TV (720p) [Not 24/7]",
+      "country": "iq",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Opinionsur (720p)",
+      "country": "cl",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Online TV Nusantara (720p) [Not 24/7]",
+      "country": "id",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Panafrican Media TV (480p)",
+      "country": "cm",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Pradesh24 Gujarati (1080p)",
+      "country": "in",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Prime News (1080p)",
+      "country": "in",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "QBC (1080p)",
+      "country": "qa",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Radio Uno Tacna (720p)",
+      "country": "pe",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Republic Bharat (1080p)",
+      "country": "in",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Republic TV (1080p)",
+      "country": "in",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "RT en Espanol (1080p)",
+      "country": "ru",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Sky News Urdu (720p)",
+      "country": "pk",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "SNN TV [Not 24/7]",
+      "country": "ir",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Telenews TV",
+      "country": "do",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "TN (1080p)",
+      "country": "ar",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "TV8 (Moldova) [Not 24/7]",
+      "country": "md",
+      "reason": "down",
+      "httpCode": 200,
+      "replacement": null
+    },
+    {
+      "name": "TV Paraense (720p)",
+      "country": "br",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "VNP",
+      "country": "pe",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "WPLG 10.1 (720p)",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Zee 24 Ghanta (576p)",
+      "country": "in",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "4 Fun Kids (576i)",
+      "country": "pl",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "ZillarBarta News",
+      "country": "in",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "BabyFirst Brazil",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Cine+ Kids (576p)",
+      "country": "ua",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Chithiram (576p)",
+      "country": "in",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Disney Channel (Bulgaria)",
+      "country": "bg",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Disney Channel (Netherlands) HD (1080i)",
+      "country": "nl",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Disney Channel (Poland) HD (1080p)",
+      "country": "pl",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Disney Jr. Latin America North HD (1080p)",
+      "country": "ar",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Disney XD (Poland) (576p)",
+      "country": "pl",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Disney Junior (United States) (480p)",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Gloob Web [Not 24/7]",
+      "country": "br",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Giggle Mug (576p)",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Nick Jr. (United States) East HD (1080p)",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Nicktoons (United States) (1080p)",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Nicktoons Scandinavia",
+      "country": "nl",
+      "reason": "down",
+      "httpCode": 200,
+      "replacement": null
+    },
+    {
+      "name": "PBS Kids Eastern/Central (720p)",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 200,
+      "replacement": null
+    },
+    {
+      "name": "Polsat JimJam (576p)",
+      "country": "pl",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "RING",
+      "country": "bg",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Smotrim 100% Detskoe (720p)",
+      "country": "ru",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "VTV (Indonesia) HD (1080p)",
+      "country": "id",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "ZB Cartoon (1080p)",
+      "country": "in",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "All Time Movies (576p)",
+      "country": "in",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Asianet Movies HD (720p)",
+      "country": "in",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "AXN Asia Philippines (576p)",
+      "country": "sg",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Cine Sony (720p)",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Cinevault 80s (720p)",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Film Now HD (1080i)",
+      "country": "ro",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Hollywood Ukraine (576p)",
+      "country": "ua",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "HomePlus",
+      "country": "ir",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "ICC plus (1080p)",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Komsan TV [Not 24/7]",
+      "country": "kh",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Magnificent Movies Network",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Mosfilm Gold Collection (576p)",
+      "country": "ru",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Drama Sangat (1080p) [Geo-blocked]",
+      "country": "my",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "GZT (1080p)",
+      "country": "tr",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "La Rosa de Guadalupe (360p)",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Novela Channel (720p) [Not 24/7]",
+      "country": "ci",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "RTS Drama (576p)",
+      "country": "rs",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Tlnovelas Latin America (1080p)",
+      "country": "mx",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Canal CHD",
+      "country": "co",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Canal 9 Cosespu",
+      "country": "co",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Canal Telesantiago (1080p)",
+      "country": "co",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Canal 13 Bajio (720p) [Not 24/7]",
+      "country": "mx",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Canal 30 Cintalapa (720p) [Not 24/7]",
+      "country": "mx",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "RCG TV 2 (360p) [Not 24/7]",
+      "country": "mx",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Super9 TV (480p) [Not 24/7]",
+      "country": "mx",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Tele UV [Not 24/7]",
+      "country": "mx",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Transmedia Television Morelia (614p) [Geo-blocked]",
+      "country": "mx",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "UDG TV (720p) [Not 24/7]",
+      "country": "mx",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "TV Cuatro 4.2 (1080p)",
+      "country": "mx",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Bravo TV (1080p)",
+      "country": "ar",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Canal 4 Jujuy",
+      "country": "ar",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Canal 2 de Ushuaia (1080p)",
+      "country": "ar",
+      "reason": "down",
+      "httpCode": 200,
+      "replacement": null
+    },
+    {
+      "name": "Canal 22 (720p)",
+      "country": "ar",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Panc TV (720p) [Not 24/7]",
+      "country": "ar",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Telecinco (240p)",
+      "country": "ar",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "AM Canal",
+      "country": "cl",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Arica TV",
+      "country": "cl",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Canal Chilote (720p)",
+      "country": "cl",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Primicia Vida (720p)",
+      "country": "cl",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "ABTelevision (720p)",
+      "country": "pe",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Millenium 109 FM",
+      "country": "pe",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Prattel TV (720p)",
+      "country": "pe",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Radio San Borja TV (1080p)",
+      "country": "pe",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Senal Peru TV (404p) [Not 24/7]",
+      "country": "pe",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Anzoategui TV (360p) [Not 24/7]",
+      "country": "ve",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "EXC TV (720p) [Not 24/7]",
+      "country": "ve",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Audaz TV (432p) [Not 24/7]",
+      "country": "ve",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Oasis Television (720p) [Not 24/7]",
+      "country": "ve",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Canal Extremadura (576p) [Not 24/7]",
+      "country": "es",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Canal Luz Television (1080p)",
+      "country": "es",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Fibwi (1080p) [Not 24/7]",
+      "country": "es",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Imas TV (1080p) [Not 24/7]",
+      "country": "es",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "NatureTime ES (1080p)",
+      "country": "ca",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Parlamento de Navarra (368p) [Not 24/7]",
+      "country": "es",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Popular TV Melilla (1080p) [Not 24/7]",
+      "country": "es",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Pirineus TV (1080p)",
+      "country": "es",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Sevilla FC TV (360p) [Not 24/7]",
+      "country": "es",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "KCHTV (1080p)",
+      "country": "ec",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Telecosta (Ecuador)",
+      "country": "ec",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "VitoTVO (1080p)",
+      "country": "ec",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Canal 5 TV Max (1080p)",
+      "country": "py",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Canal 15 Teleor (720p)",
+      "country": "bo",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Garabito TV (720p)",
+      "country": "cr",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Quince UCR (720p) [Not 24/7]",
+      "country": "cr",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "TV Sur Canal 9 (620p) [Not 24/7]",
+      "country": "cr",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Cana TV Digital (720p) [Not 24/7]",
+      "country": "do",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Coral 39 (1080p) [Not 24/7]",
+      "country": "do",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "TV Canal Sur (720p) [Not 24/7]",
+      "country": "do",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Villa Altagracia TV (1080p) [Not 24/7]",
+      "country": "do",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "NG Radio TV (360p)",
+      "country": "pr",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Community 12TV (720p)",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Escambia County TV (720p)",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "GMTV (1080p)",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "HarPal Geo (360p)",
+      "country": "pk",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Humor Mill (1080p)",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Littleton 8 TV (1080p)",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "MCPSS TV",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Mohabat TV (United States) (540p)",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 200,
+      "replacement": null
+    },
+    {
+      "name": "Overcomers TV (720p)",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "PixL TV",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Rocky Hill Channel 16 (480p)",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Timeless TV",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Canal 6 (Nicaragua) (480p) [Not 24/7]",
+      "country": "ni",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Canal 15 (1080p) [Not 24/7]",
+      "country": "ni",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Aviva TV (288p) [Not 24/7]",
+      "country": "hn",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "UNAH UTV (360p) [Not 24/7]",
+      "country": "hn",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Kanali 7 Ⓢ",
+      "country": "al",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Panorama TV Ⓢ",
+      "country": "al",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Servus TV Ⓖ",
+      "country": "at",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Belros Ⓢ",
+      "country": "ru",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "ISTV",
+      "country": "br",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "CBC News",
+      "country": "ca",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "CPAC (FR)",
+      "country": "ca",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "HRT 1 Ⓖ",
+      "country": "hr",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Al Ghad Plus",
+      "country": "eg",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "ERT 1 Ⓖ",
+      "country": "gr",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Vásárhelyi Televízió",
+      "country": "hu",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "iFilm",
+      "country": "ir",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Al-Rasheed",
+      "country": "iq",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Al-Hurra Iraq",
+      "country": "iq",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Abc Tv",
+      "country": null,
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "AB Channel",
+      "country": "it",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Antenna 3 Veneto Nord Est",
+      "country": "it",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Basilicata 1 Tv",
+      "country": null,
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "è Tv Umbria",
+      "country": null,
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Globus Television",
+      "country": null,
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "GS Channel",
+      "country": null,
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Italia Channel",
+      "country": "it",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Lucania Tv",
+      "country": null,
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Mediterranea Tv",
+      "country": null,
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Otto Channel",
+      "country": null,
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Radio Piter Pan Tv",
+      "country": null,
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Tele Sirio",
+      "country": null,
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Tv Uno",
+      "country": null,
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Video Nola",
+      "country": null,
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "NHK WORLD JAPAN",
+      "country": "jp",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "LTV1",
+      "country": "lv",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "RCG 3 Saltillo",
+      "country": "mx",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "MVM NoticiasⓈ",
+      "country": "mx",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "KCTV",
+      "country": "kp",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "TVP1",
+      "country": "pl",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Хуго 2",
+      "country": "mk",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Frikanalen",
+      "country": "no",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "4fun.tv Ⓢ",
+      "country": "pl",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Al Sunnah Al Nabawiyah TV",
+      "country": "sa",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "San Marino Rtv",
+      "country": "sm",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Саратов 24",
+      "country": "ru",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Nova Ⓢ",
+      "country": "es",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "La 7 CYLTV",
+      "country": "es",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Västmanlands TV",
+      "country": "se",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Öppna Kanalen Skövde",
+      "country": "se",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "CNC3",
+      "country": "tt",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "TRT EBA Lise",
+      "country": null,
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "TRT EBA Ilkokul",
+      "country": null,
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "BBC World Service",
+      "country": "uk",
+      "reason": "down",
+      "httpCode": 410,
+      "replacement": null
+    },
+    {
+      "name": "Суспільне Київ",
+      "country": "ua",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "TV7+",
+      "country": "ua",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "CNN",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "NASA TV Public",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "CBS News",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "NASA TV Media",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Sportitalia LIVE24",
+      "country": "it",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "bTV Action",
+      "country": "bg",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Max (576p)",
+      "country": "al",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "CNC Pereira (720p)",
+      "country": "co",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "HBO Drama (1080p)",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Buenisima Radio TV",
+      "country": "co",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Golden (1080p)",
+      "country": "mx",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Prokino (360p)",
+      "country": "ua",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Ecos Canal 57 (1080p) [Not 24/7]",
+      "country": "do",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Radio Yguazu TV (480p)",
+      "country": "ar",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "America Television (1080p)",
+      "country": "pe",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Senal Colombia (1080p)",
+      "country": "co",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "HTV3 (720p)",
+      "country": "vn",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Despierta TV (1080p) [Not 24/7]",
+      "country": "mx",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Proclamacion TV [Not 24/7]",
+      "country": "ve",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Canal 13 Campeche (720p) [Not 24/7]",
+      "country": "mx",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Canal 13 Esquipulas (720p)",
+      "country": "gt",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Canal 10 Cordoba",
+      "country": "ar",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Canal 9 Litoral (720p)",
+      "country": "ar",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Agricultura TV (1080p)",
+      "country": "cl",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Chacra TV",
+      "country": "ar",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Telefe Buenos Aires (1080p)",
+      "country": "ar",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Telenord (Argentina) (1080p) [Not 24/7]",
+      "country": "ar",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "TIV Television (720p)",
+      "country": "ar",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "La Sultana del Este TV (720p) [Not 24/7]",
+      "country": "do",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Pequeradio (720p) [Not 24/7]",
+      "country": "es",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Diaspora TV",
+      "country": "pe",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Interactiva TV (720p)",
+      "country": "cl",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Vida Nueva TV",
+      "country": "cl",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Guayape TV",
+      "country": "hn",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "ECO Television (720p)",
+      "country": "pe",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Monagas Vision (720p) [Not 24/7]",
+      "country": "ve",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Italianissimo (360p) [Not 24/7]",
+      "country": "ve",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "TV Andes (720p) [Not 24/7]",
+      "country": "ve",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "TVR (Spain) (360p) [Not 24/7]",
+      "country": "es",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "CanalCosta (1080p)",
+      "country": "es",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Congreso de los Diputados 1 (360p) [Not 24/7]",
+      "country": "es",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Logos TV Estudio (720p) [Not 24/7]",
+      "country": "es",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Telemotril (720p) [Not 24/7]",
+      "country": "es",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Zaracay TV (1080p) [Not 24/7]",
+      "country": "ec",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "RTV (Ecuador) (720p) [Not 24/7]",
+      "country": "ec",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "SPC Canal 15 (720p)",
+      "country": "bo",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Canal de la Fe (720p)",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Telemedios Canal 8 (1080p) [Not 24/7]",
+      "country": "do",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Marla Vision (576p) [Not 24/7]",
+      "country": "do",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Paraiso TV (720p)",
+      "country": "pr",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "NBC WLIO (720p) [Not 24/7]",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Waldivision Internacional",
+      "country": "hn",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "TBN (1080p)",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "HRT 2 Ⓖ",
+      "country": "hr",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "ERT 2 Ⓖ",
+      "country": "gr",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "iFilm 2 Ⓢ",
+      "country": "ir",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Al-Hurra",
+      "country": "iq",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Sicilia Tv",
+      "country": null,
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "VB33",
+      "country": null,
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "RDE Tv",
+      "country": null,
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Idea Plus",
+      "country": null,
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Pop Tv",
+      "country": null,
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Nuova Tv 2",
+      "country": null,
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Tele Tutto",
+      "country": null,
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Tele Pegaso",
+      "country": null,
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "LTV7 Ⓖ",
+      "country": "lv",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Ryongnamsan TV",
+      "country": "kp",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "TVP2",
+      "country": "pl",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Север",
+      "country": "ru",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "gayelle",
+      "country": null,
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "bTV Cinema",
+      "country": "bg",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "HBO Hits West HD (1080p)",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Viasat Kino (576p)",
+      "country": "ua",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Oscar Movies Bhojpuri (720p)",
+      "country": "in",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "13E (720p)",
+      "country": "cl",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Rete Veneta",
+      "country": null,
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "ABC WBBJ-TV (432p)",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Panche Television",
+      "country": "co",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "AsiriTV (720p) [Not 24/7]",
+      "country": "pe",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Icrtv Colima (1080p)",
+      "country": "mx",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "SQCS Canal 4 (1080p)",
+      "country": "mx",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "California Medios TV (720p)",
+      "country": "mx",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Canal Calima TV (720p)",
+      "country": "co",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Canal 13 Chiapas (720p) [Not 24/7]",
+      "country": "mx",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "La Que Buena Atlanta",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Canal 3 Las Heras (720p)",
+      "country": "ar",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Maniel TV (720p) [Not 24/7]",
+      "country": "do",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Interradio TV",
+      "country": "cl",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Bonches Latinos TV (720p)",
+      "country": "do",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Siembra TV (Venezuela) [Not 24/7]",
+      "country": "ve",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Oxigeno TV (360p) [Not 24/7]",
+      "country": "ve",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Tac12",
+      "country": "es",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Condavision (1080p) [Not 24/7]",
+      "country": "es",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Congreso de los Diputados 2 (360p) [Not 24/7]",
+      "country": "es",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Logos TV Salud (720p) [Not 24/7]",
+      "country": "es",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Vision Latina Network (1080p)",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "SOY Plancha TV (720p)",
+      "country": "cr",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Claro Television Dominicana (360p)",
+      "country": "do",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "NBC WTVJ (1080p)",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "NBC WRDE-LD (720p) [Not 24/7]",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "TBN Inspire (1080p)",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "TN8 (1080p)",
+      "country": "ni",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "HRT 3 Ⓖ",
+      "country": "hr",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "ERT 3 Ⓖ",
+      "country": "gr",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "iFilm Arabic Ⓢ",
+      "country": "ir",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Radio Roma",
+      "country": null,
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Radio Roma Television",
+      "country": null,
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Tele Tutto 2",
+      "country": null,
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Tele Mia Extra",
+      "country": null,
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Tele Radio Orte",
+      "country": null,
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "TVP Polonia",
+      "country": "pl",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "bTV Lady",
+      "country": "bg",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Synergy TV",
+      "country": "tt",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "TeleQuindio (1080p)",
+      "country": "co",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Fox Business Network (720p)",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Smotrim 100% Lyubov (720p)",
+      "country": "ru",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Film & Arts (1080p)",
+      "country": "ar",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "ZTV (1080p)",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Viasat Kino Action (576p)",
+      "country": "ua",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Mtavari Arkhi",
+      "country": "ge",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Ecuavisa (1080p)",
+      "country": "ec",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Global TV (Dominican Republic) (720p)",
+      "country": "do",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "LaPuraCrema Television",
+      "country": "ve",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Presumiendo Mexico (720p)",
+      "country": "mx",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Canal 13 Guadalajara (720p) [Not 24/7]",
+      "country": "mx",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Osorno TV (720p)",
+      "country": "cl",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Andina RTV (720p)",
+      "country": "pe",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "KandelaTV (480p)",
+      "country": "ve",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Radio Vision de Dios Stereo (720p) [Not 24/7]",
+      "country": "ni",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Huelva TV (720p)",
+      "country": "es",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Congreso de los Diputados 3 (360p) [Not 24/7]",
+      "country": "es",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "TeleBrunca (720p) [Not 24/7]",
+      "country": "cr",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "SCHLAGER DELUXE",
+      "country": "de",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Небеса ТВ7 Ⓢ",
+      "country": "ru",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "iFilm English Ⓢ",
+      "country": "ir",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Medjugorje Tv Puglia",
+      "country": null,
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Ora Tv",
+      "country": null,
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Tele Occidente",
+      "country": null,
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Donna Shopping Tv",
+      "country": null,
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Tele Tutto 24",
+      "country": null,
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "TVP Info",
+      "country": "pl",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Jazz TV",
+      "country": "mk",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "TTT",
+      "country": "tt",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "CineStar 1 Bulgaria",
+      "country": "bg",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Solive TV",
+      "country": "ar",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Smotrim 100% Muzhskoe (720p)",
+      "country": "ru",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Tele Posadas (720p)",
+      "country": "ar",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "RTS (1080p)",
+      "country": "ec",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Film Detective",
+      "country": null,
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Tele Pavia",
+      "country": null,
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Canal Mundo Vision (720p) [Not 24/7]",
+      "country": "co",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "LTV (Honduras) (720p) [Not 24/7]",
+      "country": "hn",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Canal 13 Michoacan (720p) [Not 24/7]",
+      "country": "mx",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "SUR TV (1080p)",
+      "country": "cl",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Super Digital TV (1080p) [Not 24/7]",
+      "country": "do",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "VTV (Argentina) (720p) [Not 24/7]",
+      "country": "ar",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Altura TV (720p)",
+      "country": "pe",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "AbejalesTV (720p)",
+      "country": "ve",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Arpegio TV (720p)",
+      "country": "pe",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Canal TE24",
+      "country": "es",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Congreso de los Diputados 4 (360p) [Not 24/7]",
+      "country": "es",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Teleonuba (1080p)",
+      "country": "es",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Uno Tv",
+      "country": null,
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "TVP World",
+      "country": "pl",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "IBN",
+      "country": null,
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Diema",
+      "country": "bg",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Lifetime Movies (1080p)",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "La Voz del Tropico (480p) [Geo-blocked]",
+      "country": "do",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "La Trois",
+      "country": "be",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "The Bob Ross Channel (720p)",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "RTS 3",
+      "country": "rs",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Teleamazonas (1080p)",
+      "country": "ec",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Tele Quattro Trieste",
+      "country": null,
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "13P (720p)",
+      "country": "cl",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Canal Nets (720p) [Not 24/7]",
+      "country": "co",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Curiquingue TV (720p)",
+      "country": "ec",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "TV Oasis Monay (720p)",
+      "country": "ve",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Q'hubo TV (410p) [Not 24/7]",
+      "country": "hn",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Canal 13 Oaxaca (720p) [Not 24/7]",
+      "country": "mx",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Canal 7 Neuquen (1080p)",
+      "country": "ar",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Zoom Tecnologico Plus (720p)",
+      "country": "cl",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Enterate RD [Not 24/7]",
+      "country": "do",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Portuguesa Television (480p) [Not 24/7]",
+      "country": "ve",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Onda TV (Peru) (720p)",
+      "country": "pe",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Vivamovil (720p)",
+      "country": "es",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Oasis TV (Paraguay) (720p)",
+      "country": "py",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Video Tour Channel",
+      "country": "cr",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Congreso de los Diputados 5 (360p) [Not 24/7]",
+      "country": "es",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Telecadena 7 y 4 (576p)",
+      "country": "hn",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Rock TV",
+      "country": "mk",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "FILMBOX+ Emotion Bulgaria",
+      "country": "pl",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "TNT International SD (480p)",
+      "country": "ru",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Trinity TV",
+      "country": null,
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "CNN",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "TV Kaliente (720p)",
+      "country": "pe",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Kentucky Educational Television WKPC-TV (480p)",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 200,
+      "replacement": null
+    },
+    {
+      "name": "TV Cisne (1080p)",
+      "country": "ec",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Canal 13 Puebla (720p) [Not 24/7]",
+      "country": "mx",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "TV UCT (1080p)",
+      "country": "cl",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Nublevision (720p)",
+      "country": "cl",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Majestad Television (720p)",
+      "country": "ec",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Kentucky Educational Television WKMJ-TV (480p)",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 200,
+      "replacement": null
+    },
+    {
+      "name": "Kino Nova",
+      "country": "bg",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Somos Entre Rios (360p)",
+      "country": "ar",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Pursuit Channel (720p)",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Grande TV",
+      "country": "ve",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Canal 13 Tabasco (720p) [Not 24/7]",
+      "country": "mx",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Dega TV (720p) [Not 24/7]",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "TV+ Chincha (720p)",
+      "country": "pe",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "HTV Live (1080p) [Not 24/7]",
+      "country": "do",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "TeleRent 7Gold",
+      "country": "it",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Tele Sud Puglia",
+      "country": null,
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "TV1000 Russian Kino Global",
+      "country": "ru",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Jalsha Movies (576p)",
+      "country": "in",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Neo TV (Peru) (720p)",
+      "country": "pe",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "La Perla Radio TV (720p) [Not 24/7]",
+      "country": "ec",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Canal 13 Tapachula (720p) [Not 24/7]",
+      "country": "mx",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Radio Tele Kajou (480p) [Not 24/7]",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Matrix Tv",
+      "country": null,
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "bTV",
+      "country": "bg",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Nim TV (720p) [Not 24/7]",
+      "country": "gt",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Canal 32 STO (720p) [Not 24/7]",
+      "country": "hn",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "DNJ TV (720p)",
+      "country": "pr",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Jászsági Térségi TV",
+      "country": null,
+      "reason": "down",
+      "httpCode": 200,
+      "replacement": null
+    },
+    {
+      "name": "Tele Radio Sciacca",
+      "country": null,
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "CNN Prima News",
+      "country": "cz",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Nova TV",
+      "country": "bg",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Supremateve (720p) [Not 24/7]",
+      "country": "do",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "El Trece (1080p)",
+      "country": "ar",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Duran TV (480p) [Not 24/7]",
+      "country": "ec",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "RTH-TV1 (1080p)",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "UACJ-TV [Not 24/7]",
+      "country": "mx",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Radio Tele Wisdom (360p) [Not 24/7]",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Deportes13 Ⓖ",
+      "country": "cl",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Unicentro TV (720p)",
+      "country": "pe",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Pula TV (1080p) [Not 24/7]",
+      "country": "do",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Rocavision TV [Not 24/7]",
+      "country": "do",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Retrox TV (720p) [Not 24/7]",
+      "country": "cr",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "TV Rivera [Not 24/7]",
+      "country": "co",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Universitaria TV (720p)",
+      "country": "pe",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Josue TV (1080p)",
+      "country": "sv",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "TeleDanli (720p) [Not 24/7]",
+      "country": "hn",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Vuemme Tv",
+      "country": null,
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Primantenna Torino",
+      "country": null,
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Prima MAX",
+      "country": "cz",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Totovision",
+      "country": "gt",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "JOJ Family Ⓢ",
+      "country": "sk",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Telealtura (1080p) [Not 24/7]",
+      "country": "do",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Vision TV (Chile)",
+      "country": "cl",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Vision 3000 [Geo-blocked]",
+      "country": "do",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "WVVH-CD 18.1 (720p)",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "ST Europe Channel",
+      "country": null,
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Telesud Trapani",
+      "country": null,
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Youtoo America KVVB-LD (1080p) [Not 24/7]",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "CS Film",
+      "country": "cz",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Tele Venezia",
+      "country": null,
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Tele Video Agrigento (T.V.A.)",
+      "country": null,
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Hallmark Channel (1080p)",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "TeleAmbiente",
+      "country": null,
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "CS History",
+      "country": "cz",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "TV Daja (1080p) [Not 24/7]",
+      "country": "do",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Sky News Now (AU)",
+      "country": "au",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Abya Yala TV (720p)",
+      "country": "bo",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "TeleRegione Live",
+      "country": null,
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Tv 12",
+      "country": null,
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "AYNI TV (1080p)",
+      "country": "bo",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Bolivision (1080p)",
+      "country": "bo",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Nueva Vision 14 (1080p) [Not 24/7]",
+      "country": "do",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "CTV (Bolivia) (1080p)",
+      "country": "bo",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Reelz (720p)",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "CVC (1080p)",
+      "country": "bo",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Zerouno Tv Music",
+      "country": null,
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "F10 HD (720p)",
+      "country": "bo",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "TV Montana Canal 10 (1080p) [Not 24/7]",
+      "country": "do",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Palenque TV (576p)",
+      "country": "bo",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Plus TLT (720p)",
+      "country": "bo",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Poder de Dios TV (1080p)",
+      "country": "bo",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Flex Studio Radio TV [Not 24/7]",
+      "country": "bz",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Red DTV (1080p)",
+      "country": "bo",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Transformers TV (720p)",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Inmaculada TV (720p) [Not 24/7]",
+      "country": "hn",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Red Uno (1080p) [Geo-blocked]",
+      "country": "bo",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Transformers TV CA",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Red Uno La Paz (1080p) [Geo-blocked]",
+      "country": "bo",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "TV Culturas (576p)",
+      "country": "bo",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Vos TV (Bolivia) (720p)",
+      "country": "bo",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Star TV",
+      "country": "mn",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Stockton Gov TV (720p)",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "The Burbank Channel (720p)",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "More TV Sci-fi",
+      "country": "de",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Pluto TV Ferne Galaxien",
+      "country": "de",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Pluto TV Film Ancora Piu Romantici",
+      "country": "de",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Pluto TV Notti di Sangue",
+      "country": "de",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Pluto TV Notti di Terrore",
+      "country": "de",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Star Trek: Voyager (Germany)",
+      "country": "de",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Summer of Movies",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Homicide Hunter",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Iron Chef",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Mi Extrana Obsesion",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Pluto TV Series (Germany)",
+      "country": "de",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Scorpion (Germany)",
+      "country": "de",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Cazador de Homicidas",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "MTV Geordies",
+      "country": "de",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Pluto TV Karaoke por Stingray LatAm (720p)",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    },
+    {
+      "name": "Pluto TV Mi Obsesion Favorita",
+      "country": "us",
+      "reason": "down",
+      "httpCode": 404,
+      "replacement": null
+    }
+  ]
+}

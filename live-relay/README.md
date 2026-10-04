@@ -37,3 +37,29 @@ variants tested on 2026-10-03 contain MPEG-2 video; browsers cannot decode them
 through HLS.js without transcoding. RCN Mas is H.264/AAC and verified in the
 isolated browser. The HD2 source can produce malformed/discontinuous segments;
 do not describe every RCN signal as repaired based on HTTP 200 alone.
+# Auditoría y limpieza exclusivamente web
+
+`audit-channels.mjs inventory` inventaría las fuentes existentes y solo los
+canales en vivo de la cuenta comprada (no películas ni series). Las credenciales
+se reciben por entorno; el inventario privado y los resultados de trabajo quedan
+en `.wrangler/channel-audit/`, excluido de Git. Las pruebas tienen límites de
+tiempo/tamaño y cierran los cuerpos de respuesta. La cuenta comprada se prueba
+en serie y esperando capacidad para no confundir su límite de sesiones con
+canales caídos.
+
+`audit-channels.mjs old` revisa todos los enlaces antiguos. La exportación normal
+solo retira dos respuestas concordantes 404/410 o listas vacías. Los timeouts,
+5xx, formatos desconocidos y bloqueos no se borran como caídas confirmadas.
+`build-web-policy.mjs --remove-only` exporta únicamente las retiradas; conserva
+los canales nuevos preparados hasta que se autorice su configuración privada.
+`--include-blocked` requiere una decisión explícita del usuario para 401/403.
+
+La política se carga solo con `kIsWeb`; no modifica las fuentes ni el
+comportamiento nativo. `docs/web-live-audit.json` registra qué se retiró, el motivo,
+el instante de prueba y si existe un reemplazo comprobado. El catálogo público
+contiene hashes de los enlaces retirados y URLs del relay, nunca credenciales.
+
+Los nuevos IDs se habilitan mediante una lista permitida generada. El secreto
+`IPTV_XTREAM` es necesario antes de publicar esas incorporaciones; no debe
+subirse a un proveedor sin la autorización correspondiente. No se interpreta
+un HTTP 200 vacío ni una señal MPEG-2 como video H.264 activo.

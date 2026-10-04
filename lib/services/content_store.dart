@@ -19,6 +19,7 @@ import 'epg_service.dart';
 import 'content_fingerprint.dart';
 import 'tmdb_service.dart';
 import 'supabase_bootstrap.dart';
+import '../new_ui/hourtv_web_live_policy.dart';
 
 /// Agrupacion de canales por país (para el selector EN VIVO).
 class CountryBucket {
@@ -188,6 +189,7 @@ class ContentStore extends ChangeNotifier {
   }) async {
     error = null;
     if (kIsWeb) _webLiveLoading = true;
+    if (kIsWeb) await HourTvWebLivePolicy.instance.load();
     _started = true;
     _lastLoad = DateTime.now();
     _setReadiness(const CatalogReadiness(CatalogLoadPhase.openingCache));
@@ -542,6 +544,7 @@ class ContentStore extends ChangeNotifier {
           : TmdbService.normalizeTitle(c.displayName);
       final refreshedChannels = <Channel>[];
       for (final channel in assetSources.channels) {
+        if (kIsWeb && !HourTvWebLivePolicy.instance.retain(channel)) continue;
         // Las pelis/series del panel se deduplican por su id único, NO por url:
         // dos titulos distintos pueden compartir la misma URL de servidor y una
         // desaparecia. El prefijo evita chocar con las urls de los canales.
@@ -573,6 +576,7 @@ class ContentStore extends ChangeNotifier {
             ? result.channels
             : all.where((channel) => channel.category == result.list.name);
         for (final channel in sourceChannels) {
+          if (kIsWeb && !HourTvWebLivePolicy.instance.retain(channel)) continue;
           final titleKey = vodTitleKey(channel);
           if (titleKey != null &&
               titleKey.isNotEmpty &&
@@ -837,8 +841,10 @@ class ContentStore extends ChangeNotifier {
   /// para que las peliculas que nunca se dieron de alta en el panel no
   /// aparezcan, y limpia las que ya hubieran quedado guardadas de una
   /// version anterior.
-  List<Channel> _withoutArchiveMovies(List<Channel> channels) =>
-      channels.where((c) => !c.url.startsWith('archive:')).toList();
+  List<Channel> _withoutArchiveMovies(List<Channel> channels) {
+    final kept = channels.where((c) => !c.url.startsWith('archive:')).toList();
+    return kIsWeb ? HourTvWebLivePolicy.instance.filter(kept) : kept;
+  }
 
   /// Última versión buena del catálogo remoto, disponible sin red.
   Future<String?> _cachedRemoteSources() async {
@@ -1033,7 +1039,10 @@ class ContentStore extends ChangeNotifier {
       return _AssetSources(
         parsed.lists,
         parsed.epgUrls,
-        parsed.channels,
+        [
+          ...parsed.channels,
+          if (kIsWeb) ...HourTvWebLivePolicy.instance.channels,
+        ],
         parsed.series,
         fingerprint: fingerprint,
       );
