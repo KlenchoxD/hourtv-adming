@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-10-04T00:16:53.930Z",
+  "lastRunAt": "2026-10-04T06:07:22.727Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -93,7 +93,7 @@
     },
     {
       "tmdbId": 1101412,
-      "title": "Fall 2: Deadpoint",
+      "title": "Vertigo 2: Punto muerto",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
