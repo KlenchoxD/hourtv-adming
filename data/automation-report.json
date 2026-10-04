@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-10-04T16:55:11.487Z",
-  "durationMs": 1149,
+  "generatedAt": "2026-10-04T19:51:27.819Z",
+  "durationMs": 2824,
   "dryRun": false,
-  "moviesFound": 34,
-  "moviesDiscarded": 21,
+  "moviesFound": 33,
+  "moviesDiscarded": 20,
   "moviesAdded": 0,
   "moviesEnriched": 0,
   "duplicates": 13,
@@ -58,13 +58,13 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1240889,
-      "title": "Adolescencia, sexo y muerte en campamento Miasma",
+      "tmdbId": 1101412,
+      "title": "Vertigo 2: Punto muerto",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1101412,
-      "title": "Vertigo 2: Punto muerto",
+      "tmdbId": 1240889,
+      "title": "Adolescencia, sexo y muerte en campamento Miasma",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
@@ -93,13 +93,13 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1032863,
-      "title": "La hipótesis del amor",
+      "tmdbId": 1294189,
+      "title": "The Mongoose",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1294189,
-      "title": "The Mongoose",
+      "tmdbId": 1032863,
+      "title": "La hipótesis del amor",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
@@ -110,11 +110,6 @@
     {
       "tmdbId": 977942,
       "title": "El hombre que desafió al rey",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
-    },
-    {
-      "tmdbId": 1492640,
-      "title": "Unabomber",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     }
   ]
