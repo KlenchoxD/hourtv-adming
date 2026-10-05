@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-04T22:38:19.435Z",
-  "durationMs": 2583,
+  "generatedAt": "2026-10-05T01:16:33.789Z",
+  "durationMs": 1447,
   "dryRun": false,
   "moviesFound": 33,
   "moviesDiscarded": 20,
@@ -59,7 +59,7 @@
     },
     {
       "tmdbId": 1101412,
-      "title": "Vertigo 2: Punto muerto",
+      "title": "Fall 2: Deadpoint",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
