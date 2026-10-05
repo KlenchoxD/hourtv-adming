@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-05T16:15:34.909Z",
-  "durationMs": 1551,
+  "generatedAt": "2026-10-05T22:40:21.001Z",
+  "durationMs": 2364,
   "dryRun": false,
   "moviesFound": 34,
   "moviesDiscarded": 21,
@@ -78,13 +78,13 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1377237,
-      "title": "Entrega al límite",
+      "tmdbId": 1228834,
+      "title": "Operación Teherán",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1228834,
-      "title": "Operación Teherán",
+      "tmdbId": 1377237,
+      "title": "Entrega al límite",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
@@ -103,13 +103,13 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1375646,
-      "title": "Colony",
+      "tmdbId": 977942,
+      "title": "El hombre que desafió al rey",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 977942,
-      "title": "El hombre que desafió al rey",
+      "tmdbId": 1375646,
+      "title": "Colony",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
