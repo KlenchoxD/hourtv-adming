@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-10-05T07:19:22.805Z",
+  "lastRunAt": "2026-10-05T16:15:36.457Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -7,19 +7,19 @@
     1204680,
     1101383,
     1248832,
-    1288445,
     1084244,
-    1263337,
+    1288445,
     1283515,
+    1263337,
     1477712,
-    299534,
     1108427,
+    299534,
     1315772,
     1275779,
-    1465063,
     980431,
-    1101412,
     1185806,
+    1465063,
+    1101412,
     1240889,
     671,
     1599191,
@@ -33,6 +33,7 @@
     1375646,
     977942,
     1339713,
+    1232569,
     1335666,
     1083381
   ],
@@ -66,13 +67,13 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1263337,
-      "title": "En el corazón de la bestia",
+      "tmdbId": 1283515,
+      "title": "Verity. La sombra de un engaño",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1283515,
-      "title": "Verity. La sombra de un engaño",
+      "tmdbId": 1263337,
+      "title": "En el corazón de la bestia",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
@@ -138,6 +139,11 @@
     {
       "tmdbId": 977942,
       "title": "El hombre que desafió al rey",
+      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+    },
+    {
+      "tmdbId": 1232569,
+      "title": "Pinocho: Desatado",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     }
   ]
