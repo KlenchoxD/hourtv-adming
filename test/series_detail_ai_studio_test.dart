@@ -197,6 +197,9 @@ void main() {
       await tester.pumpAndSettle();
 
       // Inicialmente en T1 se ven ep1 y ep2
+      await tester.scrollUntilVisible(find.textContaining('Vuelo ciego'), 150,
+          scrollable: find.byType(Scrollable).first);
+      await tester.pumpAndSettle();
       expect(find.textContaining('Sombras en el límite', skipOffstage: false), findsOneWidget);
       expect(find.textContaining('Vuelo ciego', skipOffstage: false), findsOneWidget);
       expect(find.textContaining('Regreso al origen', skipOffstage: false), findsNothing);
@@ -245,7 +248,8 @@ void main() {
 
       // Pulsar ep2 (Vuelo ciego - index 1)
       final ep2Finder = find.textContaining('Vuelo ciego', skipOffstage: false);
-      await tester.ensureVisible(ep2Finder);
+      await tester.scrollUntilVisible(ep2Finder, 150,
+          scrollable: find.byType(Scrollable).first);
       await tester.pumpAndSettle();
       await tester.tap(ep2Finder);
       await tester.pump();

@@ -22,6 +22,7 @@ import 'hourtv_detail_parts.dart';
 import 'hourtv_web_related.dart';
 import 'hourtv_web_detail_overview.dart';
 import 'hourtv_play_button.dart';
+import 'hourtv_episode_tiles.dart';
 import 'hourtv_focusable.dart';
 import 'hourtv_parental_gate.dart';
 import 'hourtv_player_screen.dart';
@@ -451,6 +452,7 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
       );
     } finally {
       _opening = false;
+      if (mounted) setState(() {});
     }
   }
 
@@ -470,6 +472,14 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
   // ─────────────────────────────────────────────────────────────────────────
   Widget _phone() {
     final epList = currentSeasonEpisodes;
+    // Find a genuinely resumable chapter, not a preceding accidental opening.
+    final continueEpisode = epList.where((episode) {
+      final saved = PlaybackProgress.load(episode);
+      return saved != null &&
+          !saved.isCompleted &&
+          saved.fraction > 0 &&
+          saved.positionMs >= 10000;
+    }).firstOrNull;
     final seasonCount = seasons.length;
     return Scaffold(
       backgroundColor: _bgPrimary,
@@ -519,6 +529,42 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
                     durationLabel: 'Temporadas',
                   ),
                   _episodesHeader(),
+                  if (!loading && error == null) ...[
+                    if (continueEpisode case final next?) ...[
+                      const SizedBox(height: 16),
+                      const Text(
+                        'Sigue viendo',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      HourTvEpisodeTile(
+                        key: const ValueKey('hourtv-continue-episode'),
+                        episode: next,
+                        number: _episodeNumber(next, epList.indexOf(next)),
+                        saved: PlaybackProgress.load(next),
+                        seriesCover: widget.series.cover,
+                        seriesBackdrop: widget.series.backdrop,
+                        featured: true,
+                        onPlay: () => unawaited(_play(next)),
+                      ),
+                      const SizedBox(height: 18),
+                      const Divider(color: _line, height: 1),
+                    ],
+                    const SizedBox(height: 14),
+                    const Text(
+                      'Todos los episodios',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                  ],
                 ],
               ),
             ),
@@ -577,8 +623,21 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
               sliver: SliverList.builder(
                 key: const ValueKey('hourtv-series-episodes-sliver-list'),
                 itemCount: epList.length,
-                itemBuilder: (context, index) =>
-                    _episodeCard(epList[index], index),
+                itemBuilder: (context, index) => Column(
+                  children: [
+                    HourTvEpisodeTile(
+                      episode: epList[index],
+                      number: _episodeNumber(epList[index], index),
+                      saved: PlaybackProgress.load(epList[index]),
+                      seriesCover: widget.series.cover,
+                      seriesBackdrop: widget.series.backdrop,
+                      onPlay: () =>
+                          unawaited(_play(epList[index], index: index)),
+                    ),
+                    if (index < epList.length - 1)
+                      const Divider(color: _line, height: 1),
+                  ],
+                ),
               ),
             ),
           SliverToBoxAdapter(
@@ -696,14 +755,26 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
       padding: const EdgeInsets.only(top: 28, bottom: 6),
       child: Row(
         children: [
-          const Expanded(
-            child: Text(
-              'Episodios',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 18,
-                fontWeight: FontWeight.w900,
-              ),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Episodios',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
+                if (!loading && error == null) ...[
+                  const SizedBox(height: 4),
+                  Text(
+                    '${currentSeasonEpisodes.length} episodio${currentSeasonEpisodes.length == 1 ? '' : 's'}',
+                    style: const TextStyle(color: _muted, fontSize: 12),
+                  ),
+                ],
+              ],
             ),
           ),
           if (!several)
@@ -717,11 +788,14 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
             )
           else
             Material(
-              color: const Color(0xFF2A2A2A),
-              borderRadius: BorderRadius.circular(4),
+              color: const Color(0xFF101412),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+                side: const BorderSide(color: _line),
+              ),
               child: InkWell(
                 onTap: () => unawaited(_openSeasonSelector(context)),
-                borderRadius: BorderRadius.circular(4),
+                borderRadius: BorderRadius.circular(8),
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(14, 9, 10, 9),
                   child: Row(
