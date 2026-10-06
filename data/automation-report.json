@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-10-05T22:40:21.001Z",
-  "durationMs": 2364,
+  "generatedAt": "2026-10-06T02:30:38.296Z",
+  "durationMs": 3023,
   "dryRun": false,
   "moviesFound": 34,
-  "moviesDiscarded": 21,
+  "moviesDiscarded": 22,
   "moviesAdded": 0,
   "moviesEnriched": 0,
-  "duplicates": 13,
+  "duplicates": 12,
   "tmdbErrors": 0,
   "providerErrors": 0,
   "invalidSources": 0,
@@ -50,6 +50,11 @@
     {
       "tmdbId": 1477712,
       "title": "Dulce sabor a muerte",
+      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+    },
+    {
+      "tmdbId": 1291595,
+      "title": "Insidious: Fuera del más allá",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
