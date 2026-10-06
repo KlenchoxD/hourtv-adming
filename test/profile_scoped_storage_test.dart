@@ -10,7 +10,11 @@ void main() {
     'migrates legacy favorites and history to the active primary profile',
     () async {
       final favorite = Channel(name: 'Favorita', url: 'fav');
-      final recent = Channel(name: 'Reciente', url: 'recent');
+      final recent = Channel(
+        name: 'Reciente',
+        url: 'recent',
+        forcedType: 'movie',
+      );
       SharedPreferences.setMockInitialValues({
         'favorites': jsonEncode([favorite.toJson()]),
         'recent_channels': jsonEncode([recent.toJson()]),
@@ -34,7 +38,9 @@ void main() {
 
       final invitadoFavorite = Channel(name: 'Uno', url: 'one');
       await StorageService.saveFavorites([invitadoFavorite]);
-      await StorageService.saveRecent(Channel(name: 'Visto', url: 'watched'));
+      await StorageService.saveRecent(
+        Channel(name: 'Visto', url: 'watched', forcedType: 'movie'),
+      );
 
       await StorageService.setActiveProfile('Kids');
       expect(StorageService.activeProfileId, 'kids');

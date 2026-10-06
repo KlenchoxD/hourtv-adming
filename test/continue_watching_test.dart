@@ -71,7 +71,6 @@ void main() {
         ['vod:empezada'],
       );
       expect(store.history.map((item) => item.url), [
-        'live:1',
         'vod:terminada',
         'vod:empezada',
       ]);

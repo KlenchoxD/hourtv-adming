@@ -1503,7 +1503,7 @@ class ContentStore extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Todo lo reproducido recientemente, mas nuevo primero (para "Historial").
+  /// Películas y episodios reproducidos, más nuevos primero (sin TV en vivo).
   List<Channel> get history {
     final saved = StorageService.loadRecent();
     // Solo hacen falta los pocos títulos vistos: antes se armaba un mapa con
@@ -1520,6 +1520,7 @@ class ContentStore extends ChangeNotifier {
     for (final item in saved) {
       final active = activeByUrl[item.url];
       final merged = active ?? item;
+      if (merged.type == MediaType.live) continue;
       merged.lastWatched = item.lastWatched;
       merged.progressFraction = item.progressFraction;
       if (seen.add(merged.url)) result.add(merged);

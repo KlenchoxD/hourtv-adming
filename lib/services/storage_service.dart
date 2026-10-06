@@ -66,6 +66,7 @@ class StorageService {
     }
     if (_blobDir != null) await _moveBlobsOutOfPrefs();
     await _migrateLegacyProfileData();
+    await _removeLiveHistory();
     hasChosenProfile.value = getSetting(
       _hasChosenProfileKey,
       defaultValue: false,
@@ -370,12 +371,17 @@ class StorageService {
   static List<Channel> loadRecentFor(String profileId) =>
       profileId == activeProfileId
       ? List.of(loadRecent())
-      : _decodeChannelList(_prefs?.getString('$_recentKey.profile.$profileId'));
+      : _vodHistory(
+          _decodeChannelList(
+            _prefs?.getString('$_recentKey.profile.$profileId'),
+          ),
+        );
 
   static Future<void> saveRecentFor(
     String profileId,
     List<Channel> recent,
   ) async {
+    recent = _vodHistory(recent);
     if (profileId == activeProfileId) {
       _recentCache = recent;
       _recentCacheProfileId = profileId;
@@ -603,7 +609,35 @@ class StorageService {
   static List<Channel>? _recentCache;
   static String? _recentCacheProfileId;
 
+  static List<Channel> _vodHistory(Iterable<Channel> channels) =>
+      channels.where((channel) => channel.type != MediaType.live).toList();
+
+  // Clean only watch history, including inactive profiles and legacy data.
+  // Live favorites and lastGoodLiveUrlV2 are intentionally left untouched.
+  static Future<void> _removeLiveHistory() async {
+    final prefs = _prefs;
+    if (prefs == null) return;
+    for (final key in prefs.getKeys().where(
+      (key) => key == _recentKey || key.startsWith('$_recentKey.profile.'),
+    )) {
+      try {
+        final raw = prefs.getString(key);
+        if (raw == null) continue;
+        final entries = jsonDecode(raw) as List;
+        final vod = entries
+            .where((entry) => Channel.fromJson(entry).type != MediaType.live)
+            .toList();
+        if (vod.length != entries.length) {
+          await prefs.setString(key, jsonEncode(vod));
+        }
+      } catch (_) {
+        // Malformed history must not overwrite unrelated user data.
+      }
+    }
+  }
+
   static Future<void> _persistRecent(List<Channel> recent) async {
+    recent = _vodHistory(recent);
     _recentCache = recent;
     _recentCacheProfileId = activeProfileId;
     await _prefs?.setString(
@@ -613,6 +647,7 @@ class StorageService {
   }
 
   static Future<void> saveRecent(Channel channel) async {
+    if (channel.type == MediaType.live) return;
     final recent = loadRecent();
     recent.removeWhere((c) => c.url == channel.url);
     channel.lastWatched = DateTime.now();
@@ -678,7 +713,7 @@ class StorageService {
     } else {
       try {
         final List<dynamic> jsonList = jsonDecode(data);
-        result = jsonList.map((json) => Channel.fromJson(json)).toList();
+        result = _vodHistory(jsonList.map((json) => Channel.fromJson(json)));
       } catch (e) {
         result = [];
       }
