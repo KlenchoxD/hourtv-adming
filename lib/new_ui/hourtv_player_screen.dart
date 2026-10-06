@@ -691,7 +691,10 @@ class _PlayerScreenState extends State<PlayerScreen>
         autoResume: changingEpisode || isFallbackAttempt || _isSeriesEpisode,
       );
 
+      // Los canales se sintonizan siempre: no ofrecen pausa ni inicio manual.
+      // La preferencia de reproducción automática se conserva para VOD.
       final autoPlay =
+          _isLive ||
           StorageService.getSetting('autoPlay', defaultValue: true) == true;
       if (autoPlay && mounted && identical(_vc, activeController)) {
         await activeController.play();
@@ -1078,6 +1081,8 @@ class _PlayerScreenState extends State<PlayerScreen>
   }
 
   void _togglePlayPause() {
+    // Ignorar también teclas multimedia/mandos: en vivo no se pausa la señal.
+    if (_isLive) return;
     final v = _vc;
     if (v == null || !v.value.isInitialized) return;
     v.value.isPlaying ? v.pause() : v.play();
@@ -2518,10 +2523,10 @@ class _PlayerScreenState extends State<PlayerScreen>
   }
 
   /// Controles centrales como Netflix: -10 s, play/pausa grande y +10 s.
-  /// En vivo no hay saltos, solo play/pausa.
+  /// En vivo no hay pausa ni saltos: los controles son de sintonización.
   Widget _touchCenterControls() {
     final controller = _vc;
-    if (controller == null || _loading || _err != null) {
+    if (_isLive || controller == null || _loading || _err != null) {
       return const SizedBox.shrink();
     }
     return Center(
@@ -3188,14 +3193,15 @@ class _PlayerScreenState extends State<PlayerScreen>
                   ),
                   const SizedBox(width: 12),
                 ],
-                _tvControl(
-                  icon: value?.isPlaying == true
-                      ? Icons.pause_rounded
-                      : Icons.play_arrow_rounded,
-                  label: value?.isPlaying == true ? 'Pausa' : 'Reproducir',
-                  primary: true,
-                  onTap: _togglePlayPause,
-                ),
+                if (!_isLive)
+                  _tvControl(
+                    icon: value?.isPlaying == true
+                        ? Icons.pause_rounded
+                        : Icons.play_arrow_rounded,
+                    label: value?.isPlaying == true ? 'Pausa' : 'Reproducir',
+                    primary: true,
+                    onTap: _togglePlayPause,
+                  ),
                 if (!_isLive) ...[
                   const SizedBox(width: 12),
                   _tvControl(
