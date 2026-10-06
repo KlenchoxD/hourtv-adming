@@ -472,14 +472,6 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
   // ─────────────────────────────────────────────────────────────────────────
   Widget _phone() {
     final epList = currentSeasonEpisodes;
-    // Find a genuinely resumable chapter, not a preceding accidental opening.
-    final continueEpisode = epList.where((episode) {
-      final saved = PlaybackProgress.load(episode);
-      return saved != null &&
-          !saved.isCompleted &&
-          saved.fraction > 0 &&
-          saved.positionMs >= 10000;
-    }).firstOrNull;
     final seasonCount = seasons.length;
     return Scaffold(
       backgroundColor: _bgPrimary,
@@ -529,42 +521,6 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
                     durationLabel: 'Temporadas',
                   ),
                   _episodesHeader(),
-                  if (!loading && error == null) ...[
-                    if (continueEpisode case final next?) ...[
-                      const SizedBox(height: 16),
-                      const Text(
-                        'Sigue viendo',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      HourTvEpisodeTile(
-                        key: const ValueKey('hourtv-continue-episode'),
-                        episode: next,
-                        number: _episodeNumber(next, epList.indexOf(next)),
-                        saved: PlaybackProgress.load(next),
-                        seriesCover: widget.series.cover,
-                        seriesBackdrop: widget.series.backdrop,
-                        featured: true,
-                        onPlay: () => unawaited(_play(next)),
-                      ),
-                      const SizedBox(height: 18),
-                      const Divider(color: _line, height: 1),
-                    ],
-                    const SizedBox(height: 14),
-                    const Text(
-                      'Todos los episodios',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    const SizedBox(height: 2),
-                  ],
                 ],
               ),
             ),
@@ -753,74 +709,124 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
     final several = seasons.length > 1;
     return Padding(
       padding: const EdgeInsets.only(top: 28, bottom: 6),
-      child: Row(
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'Episodios',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.w900,
+      child: SizedBox(
+        width: double.infinity,
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            final children = <Widget>[
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Episodios',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w900,
+                    ),
                   ),
-                ),
-                if (!loading && error == null) ...[
-                  const SizedBox(height: 4),
-                  Text(
-                    '${currentSeasonEpisodes.length} episodio${currentSeasonEpisodes.length == 1 ? '' : 's'}',
-                    style: const TextStyle(color: _muted, fontSize: 12),
-                  ),
+                  if (!loading && error == null) ...[
+                    const SizedBox(height: 4),
+                    Text(
+                      '${currentSeasonEpisodes.length} episodio${currentSeasonEpisodes.length == 1 ? '' : 's'}',
+                      style: const TextStyle(color: _muted, fontSize: 12),
+                    ),
+                  ],
                 ],
-              ],
-            ),
-          ),
-          if (!several)
-            Text(
-              label,
-              style: const TextStyle(
-                color: _muted,
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
               ),
-            )
-          else
-            Material(
-              color: const Color(0xFF101412),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
-                side: const BorderSide(color: _line),
-              ),
-              child: InkWell(
-                onTap: () => unawaited(_openSeasonSelector(context)),
-                borderRadius: BorderRadius.circular(8),
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(14, 9, 10, 9),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        label,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w700,
-                        ),
+              if (!several)
+                Text(
+                  label,
+                  style: const TextStyle(
+                    color: _muted,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                  ),
+                )
+              else
+                Material(
+                  color: const Color(0xFF101412),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    side: const BorderSide(color: _line),
+                  ),
+                  child: InkWell(
+                    onTap: () => unawaited(_openSeasonSelector(context)),
+                    borderRadius: BorderRadius.circular(8),
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(14, 9, 10, 9),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Flexible(
+                            child: Text(
+                              label,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 6),
+                          const Icon(
+                            Icons.keyboard_arrow_down_rounded,
+                            size: 20,
+                            color: Colors.white,
+                          ),
+                        ],
                       ),
-                      const SizedBox(width: 6),
-                      const Icon(
-                        Icons.keyboard_arrow_down_rounded,
-                        size: 20,
-                        color: Colors.white,
-                      ),
-                    ],
+                    ),
                   ),
                 ),
-              ),
-            ),
-        ],
+            ];
+            double textWidth(String text, TextStyle style) {
+              final painter = TextPainter(
+                text: TextSpan(
+                  text: text,
+                  style: DefaultTextStyle.of(context).style.merge(style),
+                ),
+                textDirection: Directionality.of(context),
+                textScaler: MediaQuery.textScalerOf(context),
+              )..layout();
+              final width = painter.width;
+              painter.dispose();
+              return width;
+            }
+
+            final needed =
+                textWidth(
+                  'Episodios',
+                  const TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
+                ) +
+                textWidth(
+                  label,
+                  TextStyle(
+                    fontSize: 14,
+                    fontWeight: several ? FontWeight.w700 : FontWeight.w600,
+                  ),
+                ) +
+                (several ? 50 : 0) +
+                12;
+            if (needed > constraints.maxWidth) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  children.first,
+                  const SizedBox(height: 12),
+                  Align(alignment: Alignment.centerRight, child: children.last),
+                ],
+              );
+            }
+            return Row(
+              children: [
+                Expanded(child: children.first),
+                children.last,
+              ],
+            );
+          },
+        ),
       ),
     );
   }

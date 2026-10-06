@@ -7,10 +7,9 @@ import 'hourtv_detail_parts.dart' show hourTvPrettyDuration;
 
 const _accent = Color(0xFF00C781);
 const _muted = Color(0xFFA8ADAB);
-const _line = Color(0xFF27302C);
 
-/// Compact episode rows and the continue-first card share the same artwork,
-/// metadata and progress treatment. Playback remains owned by the detail page.
+/// Landscape episode artwork with readable metadata and per-episode progress.
+/// Playback remains owned by the detail page.
 class HourTvEpisodeTile extends StatelessWidget {
   const HourTvEpisodeTile({
     super.key,
@@ -20,7 +19,6 @@ class HourTvEpisodeTile extends StatelessWidget {
     this.saved,
     this.seriesCover,
     this.seriesBackdrop,
-    this.featured = false,
   });
 
   final Channel episode;
@@ -29,7 +27,6 @@ class HourTvEpisodeTile extends StatelessWidget {
   final SavedPosition? saved;
   final String? seriesCover;
   final String? seriesBackdrop;
-  final bool featured;
 
   String get _title {
     final name = episode.displayName.trim();
@@ -77,9 +74,9 @@ class HourTvEpisodeTile extends StatelessWidget {
       alignment: const Alignment(-.75, .7),
       child: Text(
         number.toString().padLeft(2, '0'),
-        style: TextStyle(
-          color: const Color(0x35FFFFFF),
-          fontSize: featured ? 48 : 30,
+        style: const TextStyle(
+          color: Color(0x35FFFFFF),
+          fontSize: 40,
           fontWeight: FontWeight.w800,
         ),
       ),
@@ -89,7 +86,7 @@ class HourTvEpisodeTile extends StatelessWidget {
   Widget _artwork() {
     final still = _still;
     return ClipRRect(
-      borderRadius: BorderRadius.circular(featured ? 10 : 8),
+      borderRadius: BorderRadius.circular(8),
       child: Stack(
         fit: StackFit.expand,
         children: [
@@ -97,7 +94,7 @@ class HourTvEpisodeTile extends StatelessWidget {
             CachedNetworkImage(
               imageUrl: still,
               fit: BoxFit.cover,
-              memCacheWidth: featured ? 480 : 280,
+              memCacheWidth: 480,
               fadeInDuration: Duration.zero,
               fadeOutDuration: Duration.zero,
               placeholder: (_, _) => _numberArtwork(),
@@ -107,8 +104,8 @@ class HourTvEpisodeTile extends StatelessWidget {
             _numberArtwork(),
           Center(
             child: Container(
-              width: featured ? 40 : 30,
-              height: featured ? 40 : 30,
+              width: 38,
+              height: 38,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: const Color(0x8C000000),
@@ -117,22 +114,10 @@ class HourTvEpisodeTile extends StatelessWidget {
               child: Icon(
                 Icons.play_arrow_rounded,
                 color: Colors.white,
-                size: featured ? 26 : 21,
+                size: 26,
               ),
             ),
           ),
-          if (_fraction > 0)
-            Positioned(
-              left: 0,
-              right: 0,
-              bottom: 0,
-              child: LinearProgressIndicator(
-                value: _fraction,
-                minHeight: 3,
-                color: _accent,
-                backgroundColor: const Color(0xAA161B18),
-              ),
-            ),
         ],
       ),
     );
@@ -148,9 +133,9 @@ class HourTvEpisodeTile extends StatelessWidget {
           _title,
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
-          style: TextStyle(
+          style: const TextStyle(
             color: Colors.white,
-            fontSize: featured ? 15 : 14,
+            fontSize: 14,
             fontWeight: FontWeight.w700,
             height: 1.25,
           ),
@@ -170,42 +155,29 @@ class HourTvEpisodeTile extends StatelessWidget {
             ],
           ),
         ] else if (remaining != null) ...[
-          const SizedBox(height: 4),
+          const SizedBox(height: 7),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(3),
+            child: LinearProgressIndicator(
+              value: _fraction,
+              minHeight: 4,
+              color: _accent,
+              backgroundColor: const Color(0xFF343937),
+            ),
+          ),
+          const SizedBox(height: 5),
           Text(
             remaining,
             style: const TextStyle(color: _muted, fontSize: 11.5),
           ),
         ],
-        if (!featured && (episode.plot?.trim().isNotEmpty ?? false)) ...[
-          const SizedBox(height: 5),
+        if (episode.plot?.trim().isNotEmpty ?? false) ...[
+          const SizedBox(height: 7),
           Text(
             episode.plot!.trim(),
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
-            style: const TextStyle(color: _muted, fontSize: 11.5, height: 1.35),
-          ),
-        ],
-        if (featured) ...[
-          const SizedBox(height: 12),
-          SizedBox(
-            width: double.infinity,
-            child: FilledButton.icon(
-              onPressed: onPlay,
-              style: FilledButton.styleFrom(
-                backgroundColor: Colors.white,
-                foregroundColor: Colors.black,
-                minimumSize: const Size(0, 40),
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-              ),
-              icon: const Icon(Icons.play_arrow_rounded, size: 20),
-              label: const Text(
-                'Continuar',
-                style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700),
-              ),
-            ),
+            style: const TextStyle(color: _muted, fontSize: 12, height: 1.35),
           ),
         ],
       ],
@@ -214,44 +186,30 @@ class HourTvEpisodeTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final radius = BorderRadius.circular(featured ? 12 : 8);
+    final radius = BorderRadius.circular(8);
     return Semantics(
       button: true,
       label: _title,
       child: Material(
-        color: featured ? const Color(0xFF101412) : Colors.transparent,
-        shape: RoundedRectangleBorder(
-          borderRadius: radius,
-          side: featured ? const BorderSide(color: _line) : BorderSide.none,
-        ),
+        color: Colors.transparent,
+        shape: RoundedRectangleBorder(borderRadius: radius),
         clipBehavior: Clip.antiAlias,
         child: InkWell(
           onTap: onPlay,
           borderRadius: radius,
           child: Padding(
-            padding: featured
-                ? const EdgeInsets.all(10)
-                : const EdgeInsets.symmetric(vertical: 12),
+            padding: const EdgeInsets.symmetric(vertical: 14),
             child: LayoutBuilder(
               builder: (context, constraints) => Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
-                    width: featured
-                        ? (constraints.maxWidth - 12) * .46
-                        : (constraints.maxWidth < 320 ? 90 : 104),
-                    height: featured ? 136 : 70,
+                    width: (constraints.maxWidth - 12) * .48,
+                    height: (constraints.maxWidth - 12) * .48 / 1.6,
                     child: _artwork(),
                   ),
                   const SizedBox(width: 12),
                   Expanded(child: _metadata()),
-                  if (!featured) ...[
-                    const SizedBox(width: 6),
-                    const Icon(
-                      Icons.chevron_right_rounded,
-                      color: _muted,
-                      size: 18,
-                    ),
-                  ],
                 ],
               ),
             ),
