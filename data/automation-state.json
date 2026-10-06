@@ -1,18 +1,18 @@
 {
-  "lastRunAt": "2026-10-06T09:24:39.852Z",
+  "lastRunAt": "2026-10-06T16:04:58.433Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
     1423191,
     1204680,
-    1101383,
     1248832,
+    1101383,
     1084244,
     1288445,
     1283515,
+    1291595,
     1263337,
     1477712,
-    1291595,
     1108427,
     299534,
     1315772,
@@ -20,8 +20,8 @@
     980431,
     1185806,
     1465063,
+    671,
     1101412,
-    1240889,
     1599191,
     1368337,
     1228834,
@@ -31,9 +31,10 @@
     1294189,
     1032863,
     977942,
+    1339713,
+    30723,
     1375646,
     1232569,
-    1339713,
     1335666,
     1083381
   ],
@@ -72,6 +73,11 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
+      "tmdbId": 1291595,
+      "title": "Insidious: Fuera del más allá",
+      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+    },
+    {
       "tmdbId": 1263337,
       "title": "En el corazón de la bestia",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
@@ -82,11 +88,6 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1291595,
-      "title": "Insidious: Fuera del más allá",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
-    },
-    {
       "tmdbId": 1465063,
       "title": "La isla olvidada",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
@@ -94,11 +95,6 @@
     {
       "tmdbId": 1101412,
       "title": "Fall 2: Deadpoint",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
-    },
-    {
-      "tmdbId": 1240889,
-      "title": "Adolescencia, sexo y muerte en campamento Miasma",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
@@ -139,6 +135,11 @@
     {
       "tmdbId": 977942,
       "title": "El hombre que desafió al rey",
+      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+    },
+    {
+      "tmdbId": 30723,
+      "title": "Cavegirl: La chica de las cavernas (Cavernícola 2)",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
