@@ -63,3 +63,21 @@ test('nested_server_and_episode_changes',()=>{
   assert.equal(model.getView(model.buildRows(local,base),{type:'series'}).total,1);
   assert.equal(model.getView(model.buildRows(local,base),{type:'movies'}).total,0);
 });
+
+test('anime is a disjoint catalog view over movie and series storage without mutation',()=>{
+  const input=catalog([movie('m'),{...movie('am'),categories:['accion','anime']}],[movie('s'),{...movie('as'),categories:['ANIME']}],[{id:'live',categories:['anime']}]);
+  const before=JSON.stringify(input);const rows=model.buildRows(input,null);
+  assert.deepEqual(model.getCatalogCounts(input),{movies:1,series:1,anime:2});
+  assert.deepEqual(model.getView(rows,{type:'movies'}).rows.map(r=>r.item.id),['m']);
+  assert.deepEqual(model.getView(rows,{type:'series'}).rows.map(r=>r.item.id),['s']);
+  const anime=model.getView(rows,{type:'anime'});
+  assert.deepEqual(anime.rows.map(r=>[r.collection,r.index,r.item.id]),[['movies',1,'am'],['series',1,'as']]);
+  assert.equal(JSON.stringify(input),before);
+});
+
+test('anime classification uses explicit metadata rather than every animation or title keywords',()=>{
+  for(const item of [null,{},movie('m'),{genre:'Animación, Familia'},{title:'Un anime de prueba'},{categories:['infantil']},{categories:[null,42]}])assert.equal(model.isAnime(item),false);
+  assert.equal(model.isAnime({categories:[' anime ']}),true);
+  assert.equal(model.isAnime({genre:'Acción, Anime'}),true);
+  assert.deepEqual(model.getCatalogCounts({movies:[null,{}],series:null}),{movies:1,series:0,anime:0});
+});

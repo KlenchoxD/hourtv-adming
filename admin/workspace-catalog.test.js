@@ -58,6 +58,8 @@ test('catalog tabs support keyboard navigation and preserve the collection on re
   await tab(page,'series').press('Home');
   assert.equal(await tab(page,'movies').getAttribute('aria-selected'),'true');
   await tab(page,'movies').press('End');
+  assert.equal(await tab(page,'anime').getAttribute('aria-selected'),'true');
+  await tab(page,'anime').press('ArrowLeft');
   await page.getByRole('button',{name:'TV en vivo',exact:true}).click();
   assert.equal(await page.locator('#workspace-catalog-tabs').isVisible(),false);
   await page.getByRole('button',{name:'Catálogo',exact:true}).click();

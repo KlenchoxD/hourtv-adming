@@ -38,10 +38,23 @@
     if(item.rating==null||item.rating==='')fields.push('rating');
     return fields;
   }
+  function isAnime(item){
+    const categories=Array.isArray(item&&item.categories)?item.categories:[];
+    const genres=String(item&&item.genre||'').split(/[,;|/]/);
+    return [...categories,...genres].some(value=>typeof value==='string'&&value.trim().toLocaleLowerCase()==='anime');
+  }
+  function getCatalogCounts(catalog){
+    const counts={movies:0,series:0,anime:0};
+    for(const row of entries(catalog)){
+      if(row.collection!=='sources')counts[isAnime(row.item)?'anime':row.collection]++;
+    }
+    return counts;
+  }
   function buildRows(catalog,baseline){
     const base=baseline?new Map(entries(baseline).map(r=>[r.comparison,r.item])):null;
     return entries(catalog).map(row=>({
       key:row.key,collection:row.collection,index:row.index,item:row.item,
+      catalogType:row.collection==='sources'?'sources':isAnime(row.item)?'anime':row.collection,
       missing:row.collection==='sources'?[]:missing(row.item),
       change:!base?'unknown':!base.has(row.comparison)?'added':stable(row.item)===stable(base.get(row.comparison))?'unchanged':'modified'
     }));
@@ -51,7 +64,9 @@
     const filtered=rows.filter(row=>{
       if(section==='live'?row.collection!=='sources':row.collection==='sources')return false;
       if(section==='pending'&&!row.missing.length)return false;
-      if(o.type&&o.type!=='all'&&row.collection!==o.type)return false;
+      if(o.type==='anime'){if(row.catalogType!=='anime')return false}
+      else if(o.type&&o.type!=='all'&&row.collection!==o.type)return false;
+      if(section==='catalog'&&['movies','series'].includes(o.type)&&row.catalogType==='anime')return false;
       if(o.status==='complete'&&row.missing.length)return false;
       if(o.status==='incomplete'&&!row.missing.length)return false;
       if(o.status==='changed'&&!['added','modified'].includes(row.change))return false;
@@ -73,5 +88,5 @@
     return {known:true,added,modified,removed,total:added+modified+removed};
   }
   function resolveSelection(rows,key){return rows.find(row=>row.key===key)||null;}
-  return {buildRows,getView,summarizeChanges,resolveSelection};
+  return {buildRows,getView,summarizeChanges,resolveSelection,isAnime,getCatalogCounts};
 });

@@ -1,6 +1,8 @@
 (function(root,factory){const api=factory();if(typeof module==='object'&&module.exports)module.exports=api;else root.HourTVWorkspaceUI=api})(typeof globalThis!=='undefined'?globalThis:this,function(){
   const escape=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   function imageUrl(value){try{const u=new URL(value);return ['http:','https:'].includes(u.protocol)&&!u.username&&!u.password?u.href:''}catch{return ''}}
+  const catalogTypes=['movies','series','anime'];
+  const catalogViews={movies:{title:'Películas',singular:'película',plural:'películas',add:'Añadir película'},series:{title:'Series',singular:'serie',plural:'series',add:'Añadir serie'},anime:{title:'Animes',singular:'anime',plural:'animes',add:'Añadir anime'}};
   function createWorkspace({root,model,adapter}){
     const selects=root.defaultView.HourTVWorkspaceSelect.createSelects(root);
     const el=id=>root.getElementById(id);const state={section:'catalog',type:'movies',status:'all',query:'',page:1,pageSize:25};
@@ -11,12 +13,13 @@
     function navigation(){
       for(const b of el('workspace-tabs').querySelectorAll('[data-section]')){const active=b.dataset.section===state.section;b.classList.toggle('active',active);b.setAttribute('aria-current',active?'page':'false')}
       const isCatalog=state.section==='catalog';
-      el('workspace-title').textContent=isCatalog?(catalogType==='series'?'Series':'Películas'):{pending:'Pendientes',live:'TV en vivo',servers:'Servidores'}[state.section];
+      const collectionInfo=catalogViews[catalogType];
+      el('workspace-title').textContent=isCatalog?collectionInfo.title:{pending:'Pendientes',live:'TV en vivo',servers:'Servidores'}[state.section];
       const counts=adapter.getCounts();
       const collectionCount=counts[catalogType]||0;
-      const collectionName=catalogType==='series'?(collectionCount===1?'serie':'series'):(collectionCount===1?'película':'películas');
-      el('workspace-summary').textContent=isCatalog?`${collectionCount} ${collectionName} en tu catálogo`:`${counts.movies||0} películas · ${counts.series||0} series · ${counts.pending||0} fichas pendientes`;
-      el('search').placeholder=isCatalog?(catalogType==='series'?'Buscar series…':'Buscar películas…'):'Buscar título…';
+      const collectionName=collectionCount===1?collectionInfo.singular:collectionInfo.plural;
+      el('workspace-summary').textContent=isCatalog?`${collectionCount} ${collectionName} en tu catálogo`:`${counts.movies||0} películas · ${counts.series||0} series · ${counts.anime||0} animes · ${counts.pending||0} fichas pendientes`;
+      el('search').placeholder=isCatalog?`Buscar ${collectionInfo.plural}…`:'Buscar título…';
       el('workspace-catalog-tabs').hidden=!isCatalog;
       for(const button of el('workspace-catalog-tabs').querySelectorAll('[data-catalog-type]')){
         const active=button.dataset.catalogType===catalogType;
@@ -31,7 +34,7 @@
       el('workspace-inspector').hidden=server;el('workspace-pagination').hidden=server;
       root.querySelector('.content-layout').style.gridTemplateColumns=server?'minmax(0,1fr)':'';
       root.querySelector('[data-action="add"]').hidden=server;
-      root.querySelector('[data-action="add"]').textContent=isCatalog?(catalogType==='series'?'Añadir serie':'Añadir película'):'Añadir contenido';
+      root.querySelector('[data-action="add"]').textContent=isCatalog?collectionInfo.add:'Añadir contenido';
       root.querySelector('[data-action="copyIptv"]').hidden=state.section!=='live';
       const secondary=[['down_servers','Servidores caídos',counts.down],['backup_providers','Páginas de respaldo',counts.backup],['notifications','Notificaciones',counts.notifications]];
       el('workspace-server-tabs').innerHTML=secondary.map(([id,label,count])=>`<button type="button" data-server-section="${id}" class="${id===serverSection?'active':''}">${label} <small>${count||0}</small></button>`).join('');
@@ -56,7 +59,7 @@
       const i=row.item;const art=imageUrl(i.backdrop)||imageUrl(i.poster);const field=(label,value,wide=false)=>`<div class="${wide?'wide':''}"><dt>${label}</dt><dd>${escape(value||'—')}</dd></div>`;
       const seasons=Array.isArray(i.seasons)?i.seasons:[];const episodeCount=seasons.reduce((n,s)=>n+(Array.isArray(s.episodes)?s.episodes.length:0),0);
       const servers=Array.isArray(i.servers)?i.servers:[];const languages=[...new Set(servers.map(s=>s.language||s.idioma).filter(Boolean))];
-      const kind=row.collection==='series'?'Serie':row.collection==='sources'?'Fuente en vivo':'Película';
+      const kind=row.catalogType==='anime'?(row.collection==='series'?'Anime · Serie':'Anime · Película'):row.collection==='series'?'Serie':row.collection==='sources'?'Fuente en vivo':'Película';
       el('workspace-inspector').innerHTML=`<h2>${escape(i.title||i.name||'Sin título')}</h2>${art?`<img class="inspector-art" src="${escape(art)}" alt="" loading="lazy">`:'<div class="inspector-art" aria-label="Sin imagen"></div>'}
         <span class="workspace-chip">${kind}</span><small style="color:var(--dim);margin-left:8px">Vista de consulta</small>
         <dl class="inspector-fields">${field('Título',i.title||i.name,true)}${field('Tipo',row.collection==='sources'?i.type||'M3U':kind)}${field('Ficha',row.missing.length?'Incompleta':'Completa')}${row.collection==='sources'?'':field('Año',i.year)+field('Rating',i.rating??'—')+field('Géneros',i.genre,true)}</dl>
@@ -71,12 +74,12 @@
       const summary=model.summarizeChanges(catalog,base);el('workspace-change-count').textContent=!summary.known?'Base remota no cargada':summary.total?`${summary.total} cambios sin publicar`:'Sin cambios locales';
       if(state.section==='servers'){el('workspace-result-count').textContent='';return adapter.renderServerSection(serverSection)}
       if(selected){const previous=selected;selected=model.resolveSelection(rows,previous.key);if(!selected&&selectedUnique&&previous.item.id!=null){const matches=rows.filter(r=>r.item.id===previous.item.id);if(matches.length===1)selected=matches[0]}}
-      if(state.section==='catalog'&&selected&&selected.collection!==catalogType)selected=null;
+      if(state.section==='catalog'&&selected&&selected.catalogType!==catalogType)selected=null;
       view=model.getView(rows,state);state.page=view.page;state.pageSize=view.pageSize;
       el('workspace-result-count').textContent=`${view.total} elementos`;
       el('list').className='workspace-table';
       el('list').innerHTML=view.total?`<table><colgroup><col style="width:48%"><col style="width:15%"><col style="width:27%"><col style="width:10%"></colgroup><thead><tr><th>Título</th><th>Tipo</th><th>Estado</th><th><span class="sr-only">Acciones</span></th></tr></thead><tbody>${view.rows.map(row=>{
-        const i=row.item,photo=imageUrl(i.poster),key=escape(row.key);const kind=row.collection==='series'?'Serie':row.collection==='sources'?'En vivo':'Película';
+        const i=row.item,photo=imageUrl(i.poster),key=escape(row.key);const kind=row.catalogType==='anime'?'Anime':row.collection==='series'?'Serie':row.collection==='sources'?'En vivo':'Película';
         return `<tr data-row-key="${key}" class="${selected&&selected.key===row.key?'selected':''}"><td><div class="workspace-name">${photo?`<img class="workspace-thumb" src="${escape(photo)}" loading="lazy" alt="">`:'<span class="workspace-thumb" aria-hidden="true"></span>'}<div style="min-width:0"><button type="button" class="title-select" data-select="${key}">${escape(i.title||i.name||'Sin título')}</button><small>${escape(row.collection==='sources'?i.type||'Lista M3U':i.year||'Año pendiente')}</small></div></div></td><td><span class="workspace-chip">${kind}</span></td><td><span class="workspace-chip ${row.missing.length?'incomplete':''}">${row.missing.length?'Ficha incompleta':'Ficha completa'}</span>${['added','modified'].includes(row.change)?'<small class="workspace-chip changed">Cambio local</small>':''}</td><td><button type="button" class="btn-ghost btn-sm" data-edit="${key}" aria-label="Editar ${escape(i.title||i.name||'elemento')}">↗</button></td></tr>`;
       }).join('')}</tbody></table>`:'<div class="empty">No hay resultados para estos filtros.</div>';
       el('workspace-pagination').innerHTML=`<span>${view.total?`${(view.page-1)*view.pageSize+1}–${Math.min(view.page*view.pageSize,view.total)} de ${view.total}`:'0 resultados'}</span><label>Filas <select id="workspace-page-size">${[25,50,100].map(n=>`<option ${n===view.pageSize?'selected':''}>${n}</option>`).join('')}</select></label><div class="workspace-buttons"><button type="button" class="btn-ghost btn-sm" data-page="${view.page-1}" ${view.page===1?'disabled':''}>Anterior</button><span>${view.page} / ${view.pageCount}</span><button type="button" class="btn-ghost btn-sm" data-page="${view.page+1}" ${view.page===view.pageCount?'disabled':''}>Siguiente</button></div>`;
@@ -86,7 +89,7 @@
     function setSection(section,subsection){
       clearTimeout(timer);
       if(['down_servers','backup_providers','notifications'].includes(subsection))serverSection=subsection;
-      if(section==='catalog'&&['movies','series'].includes(subsection))catalogType=subsection;
+      if(section==='catalog'&&catalogTypes.includes(subsection))catalogType=subsection;
       Object.assign(state,{section,query:'',page:1,type:section==='catalog'?catalogType:'all',status:'all'});
       el('search').value='';el('workspace-type').value=state.type;el('workspace-state').value='all';selected=null;
       return render();
@@ -96,14 +99,14 @@
       return setSection('catalog',type);
     }
     function setFilters(filters){
-      if(state.section==='catalog'&&['movies','series'].includes(filters.type)){catalogType=filters.type;selected=null}
+      if(state.section==='catalog'&&catalogTypes.includes(filters.type)){catalogType=filters.type;selected=null}
       Object.assign(state,filters,{page:1});render();
     }
     function setPage(page){state.page=page;render()}
     function select(key){selected=model.resolveSelection(rows,key);selectedUnique=!!selected&&rows.filter(r=>r.item.id===selected.item.id).length===1;render()}
     async function action(name,event){
       if(name==='edit'){if(selected)adapter.openItem(selected);return}
-      if(name==='add'){adapter.addItem(state.section==='live'?'sources':state.type==='series'?'series':'movies');return}
+      if(name==='add'){adapter.addItem(state.section==='live'?'sources':state.type==='anime'?'anime':state.type==='series'?'series':'movies');return}
       if(busy.has(name))return;
       busy.add(name);const buttons=[...root.querySelectorAll(`[data-action="${name}"]`)];buttons.forEach(b=>b.disabled=true);
       try{await adapter.runAction(name,event)}finally{busy.delete(name);buttons.forEach(b=>b.disabled=false)}
@@ -122,7 +125,8 @@
     function keydown(event){
       const collection=event.target.closest('[data-catalog-type]');
       if(collection&&['ArrowLeft','ArrowRight','Home','End'].includes(event.key)){
-        event.preventDefault();const type=event.key==='Home'?'movies':event.key==='End'?'series':collection.dataset.catalogType==='movies'?'series':'movies';
+        event.preventDefault();const index=catalogTypes.indexOf(collection.dataset.catalogType);
+        const type=event.key==='Home'?catalogTypes[0]:event.key==='End'?catalogTypes.at(-1):catalogTypes[(index+(event.key==='ArrowRight'?1:-1)+catalogTypes.length)%catalogTypes.length];
         setCollection(type);el('workspace-catalog-'+type).focus();return;
       }
       if(event.target.id==='search'&&event.key==='Enter'){clearTimeout(timer);setFilters({query:event.target.value})}if(event.target.classList.contains('workspace-import')&&['Enter',' '].includes(event.key)){event.preventDefault();el('workspace-import-file').click()}
