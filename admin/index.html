@@ -1197,7 +1197,7 @@
   .batch-summary > div { border:1px solid var(--line); border-radius:10px; padding:12px; text-align:center; }
   @media (max-width:768px) { .admin-card-head { flex-direction:column; } .batch-summary { grid-template-columns:1fr; } }
 </style>
-<link rel="stylesheet" href="workspace.css?v=20261007-selects">
+<link rel="stylesheet" href="workspace.css?v=20261007-collections">
 </head>
 <body class="admin-workspace">
 
@@ -1236,10 +1236,10 @@
     <button type="button" class="btn-ghost" data-action="trends" onclick="syncTrending()"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="m3 17 6-7 5 4 7-10M15 4h6v6"/></svg>Sincronizar tendencias</button>
     <button type="button" class="btn-ghost" data-action="export" onclick="exportJson()"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3v13m-5-5 5 5 5-5M4 18v3h16v-3"/></svg>Descargar JSON</button>
     <label class="btn-ghost workspace-import" tabindex="0"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 16V3m-5 5 5-5 5 5M4 18v3h16v-3"/></svg>Importar JSON<input type="file" id="workspace-import-file" accept=".json" onchange="importJson(event)"></label>
-    <button type="button" class="btn-ghost" data-action="load" onclick="loadFromGitHub()"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="6" cy="5" r="2.5"/><circle cx="6" cy="19" r="2.5"/><circle cx="18" cy="5" r="2.5"/><path d="M6 8v8m12-8v2c0 4-12 1-12 6"/></svg>Cargar de GitHub</button>
   </section>
   <section id="workspace-connection" aria-label="Conexión del catálogo">
     <button type="button" class="btn-ghost btn-sm" data-action="config" onclick="openConfig()">GitHub</button>
+    <button type="button" class="btn-ghost btn-sm" data-action="load" onclick="loadFromGitHub()" title="Cargar el catálogo desde GitHub">Cargar</button>
     <a id="workspace-repo" class="workspace-repo">Repo: sin configurar</a>
     <span id="workspace-branch">Rama: —</span><span id="workspace-path">Archivo: —</span>
     <div class="status-wrap" id="status"></div>
@@ -1247,6 +1247,10 @@
     <button type="button" class="btn-ghost btn-sm" data-action="copyIptv" onclick="copyIptvUrl()">URL IPTV</button>
     <code id="sb-gh-raw" hidden>—</code>
   </section>
+  <nav id="workspace-catalog-tabs" role="tablist" aria-label="Colecciones del catálogo">
+    <button type="button" id="workspace-catalog-movies" class="workspace-collection-tab active" role="tab" aria-selected="true" aria-controls="workspace-content" tabindex="0" data-catalog-type="movies">Películas <span class="workspace-collection-count">0</span></button>
+    <button type="button" id="workspace-catalog-series" class="workspace-collection-tab" role="tab" aria-selected="false" aria-controls="workspace-content" tabindex="-1" data-catalog-type="series">Series <span class="workspace-collection-count">0</span></button>
+  </nav>
   <nav id="workspace-server-tabs" aria-label="Gestión de servidores" hidden></nav>
   <section id="workspace-filters" aria-label="Filtrar contenido">
     <div class="search-wrap">
@@ -1257,7 +1261,7 @@
     <label class="workspace-select">Estado<select id="workspace-state"><option value="all">Todos</option><option value="complete">Ficha completa</option><option value="incomplete">Ficha incompleta</option><option value="changed">Cambios locales</option></select></label>
     <span id="workspace-result-count"></span>
   </section>
-  <div class="content-layout">
+  <div id="workspace-content" class="content-layout" role="tabpanel" aria-labelledby="workspace-catalog-movies">
     <div class="content-area">
       <div id="list"></div>
       <div id="workspace-pagination"></div>
@@ -2683,7 +2687,7 @@ document.addEventListener('click', function (event) {
 </script>
 <script src="workspace-model.js"></script>
 <script src="workspace-select.js?v=20261007-selects"></script>
-<script src="workspace-ui.js?v=20261007-selects"></script>
+<script src="workspace-ui.js?v=20261007-collections"></script>
 <script>
 (function(){
   const adapter={
@@ -2709,7 +2713,7 @@ document.addEventListener('click', function (event) {
   window.hourtvWorkspace=workspace;
   window.render=()=>workspace.render();
   window.renderTabs=()=>workspace.refreshConnection();
-  window.setTab=id=>{if(id==='movies'||id==='series'){workspace.setSection('catalog');return workspace.setFilters({type:id})}else return workspace.setSection(id==='sources'?'live':id==='pending'?'pending':'servers',id)};
+  window.setTab=id=>{if(id==='movies'||id==='series')return workspace.setSection('catalog',id);else return workspace.setSection(id==='sources'?'live':id==='pending'?'pending':'servers',id)};
   window.refreshStatus=()=>workspace.refreshConnection();
   window.addEventListener('hourtv:catalog-base-changed',()=>workspace.render());
   window.addEventListener('hourtv:github-operation',event=>workspace.refreshConnection(event.detail));

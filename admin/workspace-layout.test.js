@@ -10,11 +10,12 @@ test('menu is centered with unequal side controls',async t=>{
 test('tools are separate from filters and editors remain reachable',async t=>{
   const page=await openWorkspace(t);if(!page)return;
   const tools=page.locator('#workspace-utilities');assert.equal(await tools.count(),1);
-  for(const label of ['Sincronizar tendencias','Descargar JSON','Importar JSON','Cargar de GitHub'])assert.equal(await tools.getByText(label,{exact:true}).count(),1);
+  for(const label of ['Sincronizar tendencias','Descargar JSON','Importar JSON'])assert.equal(await tools.getByText(label,{exact:true}).count(),1);
+  assert.equal(await page.locator('#workspace-connection').getByRole('button',{name:'Cargar',exact:true}).count(),1);
   assert.equal(await page.locator('#workspace-filters #search').count(),1);
   assert.equal(await page.locator('#search').count(),1);
   assert.equal(await page.locator('#workspace-connection').count(),1);
-  await page.getByRole('button',{name:'Añadir contenido',exact:true}).click();
+  await page.getByRole('button',{name:'Añadir película',exact:true}).click();
   assert.equal(await page.locator('#overlay.open').count(),1);
   assert.equal(await page.locator('#modal #f_title').count(),1);
 });

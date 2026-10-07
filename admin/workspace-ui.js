@@ -3,21 +3,35 @@
   function imageUrl(value){try{const u=new URL(value);return ['http:','https:'].includes(u.protocol)&&!u.username&&!u.password?u.href:''}catch{return ''}}
   function createWorkspace({root,model,adapter}){
     const selects=root.defaultView.HourTVWorkspaceSelect.createSelects(root);
-    const el=id=>root.getElementById(id);const state={section:'catalog',type:'all',status:'all',query:'',page:1,pageSize:25};
+    const el=id=>root.getElementById(id);const state={section:'catalog',type:'movies',status:'all',query:'',page:1,pageSize:25};
+    let catalogType='movies';
     let selected=null,selectedUnique=false,rows=[],view=null,timer=null,inspectorSignature='',serverSection='down_servers',connection=null;const busy=new Set();
     for(const button of root.querySelectorAll('[data-action],[data-section]'))button.removeAttribute('onclick');
     el('search').removeAttribute('oninput');el('workspace-import-file').removeAttribute('onchange');
     function navigation(){
       for(const b of el('workspace-tabs').querySelectorAll('[data-section]')){const active=b.dataset.section===state.section;b.classList.toggle('active',active);b.setAttribute('aria-current',active?'page':'false')}
-      el('workspace-title').textContent={catalog:'Catálogo',pending:'Pendientes',live:'TV en vivo',servers:'Servidores'}[state.section];
+      const isCatalog=state.section==='catalog';
+      el('workspace-title').textContent=isCatalog?(catalogType==='series'?'Series':'Películas'):{pending:'Pendientes',live:'TV en vivo',servers:'Servidores'}[state.section];
       const counts=adapter.getCounts();
-      el('workspace-summary').textContent=`${counts.movies||0} películas · ${counts.series||0} series · ${counts.pending||0} fichas pendientes`;
+      const collectionCount=counts[catalogType]||0;
+      const collectionName=catalogType==='series'?(collectionCount===1?'serie':'series'):(collectionCount===1?'película':'películas');
+      el('workspace-summary').textContent=isCatalog?`${collectionCount} ${collectionName} en tu catálogo`:`${counts.movies||0} películas · ${counts.series||0} series · ${counts.pending||0} fichas pendientes`;
+      el('search').placeholder=isCatalog?(catalogType==='series'?'Buscar series…':'Buscar películas…'):'Buscar título…';
+      el('workspace-catalog-tabs').hidden=!isCatalog;
+      for(const button of el('workspace-catalog-tabs').querySelectorAll('[data-catalog-type]')){
+        const active=button.dataset.catalogType===catalogType;
+        button.classList.toggle('active',active);button.setAttribute('aria-selected',String(active));button.tabIndex=active?0:-1;
+        button.querySelector('.workspace-collection-count').textContent=counts[button.dataset.catalogType]||0;
+      }
+      const content=el('workspace-content');
+      if(isCatalog){content.setAttribute('role','tabpanel');content.setAttribute('aria-labelledby','workspace-catalog-'+catalogType)}else{content.removeAttribute('role');content.removeAttribute('aria-labelledby')}
       const server=state.section==='servers';
-      el('workspace-server-tabs').hidden=!server;el('workspace-type').closest('label').hidden=server||state.section==='live';
+      el('workspace-server-tabs').hidden=!server;el('workspace-type').closest('label').hidden=state.section!=='pending';
       el('workspace-state').closest('label').hidden=server||state.section==='live';
       el('workspace-inspector').hidden=server;el('workspace-pagination').hidden=server;
       root.querySelector('.content-layout').style.gridTemplateColumns=server?'minmax(0,1fr)':'';
       root.querySelector('[data-action="add"]').hidden=server;
+      root.querySelector('[data-action="add"]').textContent=isCatalog?(catalogType==='series'?'Añadir serie':'Añadir película'):'Añadir contenido';
       root.querySelector('[data-action="copyIptv"]').hidden=state.section!=='live';
       const secondary=[['down_servers','Servidores caídos',counts.down],['backup_providers','Páginas de respaldo',counts.backup],['notifications','Notificaciones',counts.notifications]];
       el('workspace-server-tabs').innerHTML=secondary.map(([id,label,count])=>`<button type="button" data-server-section="${id}" class="${id===serverSection?'active':''}">${label} <small>${count||0}</small></button>`).join('');
@@ -52,10 +66,12 @@
         <button type="button" class="btn-primary inspector-edit" data-action="edit">Abrir editor</button>`;
     }
     function render(){
+      if(state.section==='catalog')state.type=catalogType;
       navigation();const catalog=adapter.getCatalog();const base=adapter.getBaseline();rows=model.buildRows(catalog,base);
       const summary=model.summarizeChanges(catalog,base);el('workspace-change-count').textContent=!summary.known?'Base remota no cargada':summary.total?`${summary.total} cambios sin publicar`:'Sin cambios locales';
       if(state.section==='servers'){el('workspace-result-count').textContent='';return adapter.renderServerSection(serverSection)}
       if(selected){const previous=selected;selected=model.resolveSelection(rows,previous.key);if(!selected&&selectedUnique&&previous.item.id!=null){const matches=rows.filter(r=>r.item.id===previous.item.id);if(matches.length===1)selected=matches[0]}}
+      if(state.section==='catalog'&&selected&&selected.collection!==catalogType)selected=null;
       view=model.getView(rows,state);state.page=view.page;state.pageSize=view.pageSize;
       el('workspace-result-count').textContent=`${view.total} elementos`;
       el('list').className='workspace-table';
@@ -67,8 +83,22 @@
       inspector(selected);
       selects.enhance();
     }
-    function setSection(section,subsection){clearTimeout(timer);if(['down_servers','backup_providers','notifications'].includes(subsection))serverSection=subsection;state.section=section;state.query='';state.page=1;state.type='all';state.status='all';el('search').value='';el('workspace-type').value='all';el('workspace-state').value='all';selected=null;return render()}
-    function setFilters(filters){Object.assign(state,filters,{page:1});render()}
+    function setSection(section,subsection){
+      clearTimeout(timer);
+      if(['down_servers','backup_providers','notifications'].includes(subsection))serverSection=subsection;
+      if(section==='catalog'&&['movies','series'].includes(subsection))catalogType=subsection;
+      Object.assign(state,{section,query:'',page:1,type:section==='catalog'?catalogType:'all',status:'all'});
+      el('search').value='';el('workspace-type').value=state.type;el('workspace-state').value='all';selected=null;
+      return render();
+    }
+    function setCollection(type){
+      if(state.section==='catalog'&&catalogType===type)return;
+      return setSection('catalog',type);
+    }
+    function setFilters(filters){
+      if(state.section==='catalog'&&['movies','series'].includes(filters.type)){catalogType=filters.type;selected=null}
+      Object.assign(state,filters,{page:1});render();
+    }
     function setPage(page){state.page=page;render()}
     function select(key){selected=model.resolveSelection(rows,key);selectedUnique=!!selected&&rows.filter(r=>r.item.id===selected.item.id).length===1;render()}
     async function action(name,event){
@@ -80,6 +110,7 @@
     }
     function click(event){const b=event.target.closest('button');if(!b)return;
       if(b.dataset.section)return setSection(b.dataset.section);
+      if(b.dataset.catalogType)return setCollection(b.dataset.catalogType);
       if(b.dataset.serverSection){serverSection=b.dataset.serverSection;return setSection('servers')}
       if(b.dataset.select)return select(b.dataset.select);
       if(b.dataset.edit){const row=model.resolveSelection(rows,b.dataset.edit);if(row)adapter.openItem(row);return}
@@ -88,7 +119,14 @@
     }
     function change(event){if(event.target.id==='workspace-type')setFilters({type:event.target.value});if(event.target.id==='workspace-state')setFilters({status:event.target.value});if(event.target.id==='workspace-page-size')setFilters({pageSize:Number(event.target.value)});if(event.target.id==='workspace-import-file')action('import',event).catch(e=>adapter.onError&&adapter.onError(e))}
     function input(event){if(event.target.id!=='search')return;clearTimeout(timer);timer=setTimeout(()=>setFilters({query:event.target.value}),150)}
-    function keydown(event){if(event.target.id==='search'&&event.key==='Enter'){clearTimeout(timer);setFilters({query:event.target.value})}if(event.target.classList.contains('workspace-import')&&['Enter',' '].includes(event.key)){event.preventDefault();el('workspace-import-file').click()}}
+    function keydown(event){
+      const collection=event.target.closest('[data-catalog-type]');
+      if(collection&&['ArrowLeft','ArrowRight','Home','End'].includes(event.key)){
+        event.preventDefault();const type=event.key==='Home'?'movies':event.key==='End'?'series':collection.dataset.catalogType==='movies'?'series':'movies';
+        setCollection(type);el('workspace-catalog-'+type).focus();return;
+      }
+      if(event.target.id==='search'&&event.key==='Enter'){clearTimeout(timer);setFilters({query:event.target.value})}if(event.target.classList.contains('workspace-import')&&['Enter',' '].includes(event.key)){event.preventDefault();el('workspace-import-file').click()}
+    }
     function error(event){if(event.target.tagName==='IMG'&&event.target.closest('#list,#workspace-inspector')){event.target.hidden=true}}
     root.addEventListener('click',click);root.addEventListener('change',change);root.addEventListener('input',input);root.addEventListener('keydown',keydown);root.addEventListener('error',error,true);
     refreshConnection();render();

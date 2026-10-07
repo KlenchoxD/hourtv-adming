@@ -20,10 +20,13 @@ test('inspector escapes titles and does not leak source credentials',async t=>{
   await page.locator('#list .title-select').click();
   const text=await page.locator('#workspace-inspector').textContent();assert.ok(!text.includes('secret-user'));assert.ok(!text.includes('secret-password'));
 });
-test('selection follows unique ID across collection move and clears after removal',async t=>{
+test('selection clears when moved outside the current collection and opens in its destination',async t=>{
   const page=await openWorkspace(t,{catalog:{version:2,movies:[movie(1)],series:[],sources:[]}});if(!page)return;
   await page.locator('#list .title-select').click();
   await page.evaluate(()=>{catalog.series.push(catalog.movies.pop());render()});
+  assert.equal(await page.getByRole('button',{name:'Abrir editor',exact:true}).count(),0);
+  await page.evaluate(()=>setTab('series'));
+  await page.locator('#list .title-select').click();
   await page.getByRole('button',{name:'Abrir editor',exact:true}).click();
   assert.equal(await page.locator('#f_content_type').inputValue(),'series');
   await page.evaluate(()=>{closeModal();catalog.series=[];render()});
@@ -32,7 +35,7 @@ test('selection follows unique ID across collection move and clears after remova
 test('visible utility controls dispatch each existing action once',async t=>{
   const page=await openWorkspace(t);if(!page)return;
   await page.evaluate(()=>{window.calls=[];window.syncTrending=()=>calls.push('trends');window.exportJson=()=>calls.push('export');window.loadFromGitHub=()=>calls.push('load');window.openConfig=()=>calls.push('config');window.publish=()=>calls.push('publish')});
-  for(const name of ['Sincronizar tendencias','Descargar JSON','Cargar de GitHub','GitHub','Publicar cambios'])await page.getByRole('button',{name,exact:true}).click();
+  for(const name of ['Sincronizar tendencias','Descargar JSON','Cargar','GitHub','Publicar cambios'])await page.getByRole('button',{name,exact:true}).click();
   assert.deepEqual(await page.evaluate(()=>calls),['trends','export','load','config','publish']);
 });
 test('initial large catalog never mounts all cards and page size stays bounded',async t=>{
