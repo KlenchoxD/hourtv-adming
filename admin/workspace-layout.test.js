@@ -24,3 +24,19 @@ test('small screen keeps centered navigation and no page overflow',async t=>{
   assert.ok(Math.abs(nav.x+nav.width/2-195)<2);
   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
 });
+test('desktop utilities evenly fill the approved toolbar',async t=>{
+  const page=await openWorkspace(t);if(!page)return;
+  const widths=await page.locator('#workspace-utilities > *').evaluateAll(elements=>elements.map(e=>e.getBoundingClientRect().width));
+  assert.ok(Math.max(...widths)-Math.min(...widths)<2);
+  const parent=await page.locator('#workspace-utilities').boundingBox();assert.ok(widths.reduce((a,b)=>a+b,0)>parent.width*.85);
+});
+for(const width of [1366,768])test(`workspace and keyboard focus fit ${width}px`,async t=>{
+  const page=await openWorkspace(t,{width,catalog:{version:2,movies:[{id:'1',title:'Tiempo fracturado',year:2026,genre:'Ciencia ficción',rating:7.5,servers:[]}],series:[],sources:[]}});if(!page)return;
+  await page.locator('#list .title-select').click();
+  const nav=await page.locator('#workspace-tabs').boundingBox();assert.ok(Math.abs(nav.x+nav.width/2-width/2)<2);
+  assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
+  await page.keyboard.press('Tab');const outline=await page.evaluate(()=>getComputedStyle(document.activeElement).outlineStyle);assert.notEqual(outline,'none');
+  await page.emulateMedia({reducedMotion:'reduce'});
+  assert.equal(await page.locator('[data-action="publish"]').evaluate(e=>getComputedStyle(e).transitionDuration),'0s');
+  if(width===1366&&process.env.HOURTV_SCREENSHOT)await page.screenshot({path:process.env.HOURTV_SCREENSHOT,fullPage:true});
+});
