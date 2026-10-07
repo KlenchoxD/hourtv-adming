@@ -1,16 +1,17 @@
 {
-  "lastRunAt": "2026-10-07T13:28:09.875Z",
+  "lastRunAt": "2026-10-07T19:26:41.220Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
     1423191,
+    1291595,
     1204680,
     1248832,
     1101383,
     1084244,
-    1288445,
     1283515,
-    1291595,
+    1288445,
+    1101412,
     1263337,
     1477712,
     1108427,
@@ -19,9 +20,8 @@
     1275779,
     980431,
     1185806,
-    1465063,
     671,
-    1101412,
+    1465063,
     1599191,
     1368337,
     1228834,
@@ -38,7 +38,7 @@
     1083381
   ],
   "tmdbIdsPublished": [],
-  "totalMoviesInCatalog": 3401,
+  "totalMoviesInCatalog": 3400,
   "errorsSummary": [],
   "skipped": [
     {
@@ -52,6 +52,11 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
+      "tmdbId": 1291595,
+      "title": "Insidious: Fuera del más allá",
+      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+    },
+    {
       "tmdbId": 1204680,
       "title": "Coyote vs. Acme",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
@@ -62,18 +67,18 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1288445,
-      "title": "El motín",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
-    },
-    {
       "tmdbId": 1283515,
       "title": "Verity. La sombra de un engaño",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1291595,
-      "title": "Insidious: Fuera del más allá",
+      "tmdbId": 1288445,
+      "title": "El motín",
+      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+    },
+    {
+      "tmdbId": 1101412,
+      "title": "Vértigo 2: Punto muerto",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
@@ -89,11 +94,6 @@
     {
       "tmdbId": 1465063,
       "title": "La isla olvidada",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
-    },
-    {
-      "tmdbId": 1101412,
-      "title": "Fall 2: Deadpoint",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
@@ -144,6 +144,11 @@
     {
       "tmdbId": 1232569,
       "title": "Pinocho: Desatado",
+      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+    },
+    {
+      "tmdbId": 1083381,
+      "title": "Backrooms",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     }
   ]

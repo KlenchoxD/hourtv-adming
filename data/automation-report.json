@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-10-07T13:28:07.099Z",
-  "durationMs": 2782,
+  "generatedAt": "2026-10-07T19:26:38.480Z",
+  "durationMs": 2744,
   "dryRun": false,
   "moviesFound": 34,
-  "moviesDiscarded": 21,
+  "moviesDiscarded": 22,
   "moviesAdded": 0,
   "moviesEnriched": 0,
-  "duplicates": 13,
+  "duplicates": 12,
   "tmdbErrors": 0,
   "providerErrors": 0,
   "invalidSources": 0,
@@ -23,6 +23,11 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
+      "tmdbId": 1291595,
+      "title": "Insidious: Fuera del más allá",
+      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+    },
+    {
       "tmdbId": 1204680,
       "title": "Coyote vs. Acme",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
@@ -33,18 +38,18 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1288445,
-      "title": "El motín",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
-    },
-    {
       "tmdbId": 1283515,
       "title": "Verity. La sombra de un engaño",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1291595,
-      "title": "Insidious: Fuera del más allá",
+      "tmdbId": 1288445,
+      "title": "El motín",
+      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+    },
+    {
+      "tmdbId": 1101412,
+      "title": "Vértigo 2: Punto muerto",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
@@ -60,11 +65,6 @@
     {
       "tmdbId": 1465063,
       "title": "La isla olvidada",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
-    },
-    {
-      "tmdbId": 1101412,
-      "title": "Fall 2: Deadpoint",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
@@ -115,6 +115,11 @@
     {
       "tmdbId": 1232569,
       "title": "Pinocho: Desatado",
+      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+    },
+    {
+      "tmdbId": 1083381,
+      "title": "Backrooms",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     }
   ]
