@@ -767,51 +767,6 @@
       ]
     },
     {
-      "id": "tmdb-1083381",
-      "title": "Backrooms",
-      "plot": "Una puerta extraña aparece en el sótano de una sala de exposición de muebles.",
-      "cast": "Chiwetel Ejiofor, Renate Reinsve, Finn Bennett, Lukita Maxwell, Mark Duplass, Avan Jogia, Robert Bobroczkyi, Ember Ambrose, Krista Kosonen, Philip Granger",
-      "director": "Kane Parsons",
-      "writer": "Will Soodik",
-      "releaseDate": "2026-05-27",
-      "year": "2026",
-      "genre": "Terror, Misterio, Ciencia ficción",
-      "rating": 7.1,
-      "duration": "105 min",
-      "poster": "https://image.tmdb.org/t/p/w500/ur2yYTVGPkEDmLdoQ1Obm2RKXuU.jpg",
-      "backdrop": "https://image.tmdb.org/t/p/w1280/dqmMWNWfLnExDRpMtIMqI97GQFR.jpg",
-      "categories": [
-        "recomendado",
-        "estrenos",
-        "populares",
-        "terror",
-        "aventura"
-      ],
-      "featured": true,
-      "tmdbId": 1083381,
-      "tmdbType": "movie",
-      "servers": [
-        {
-          "name": "Streamwish",
-          "url": "https://streamwish.to/e/uscs7h3xbbo9",
-          "language": "Español Latino",
-          "id": "3817f920-0627-43f6-9876-389b55fb9ddf"
-        },
-        {
-          "name": "Streamwish",
-          "url": "https://streamwish.to/e/2jel88xzez9s",
-          "language": "Subtitulado",
-          "id": "927054d7-d2a0-4f61-aa0b-dad32036f6fc"
-        },
-        {
-          "name": "Streamwish",
-          "url": "https://streamwish.to/e/e94tq2gvehr0",
-          "language": "Español",
-          "id": "8bc73f58-b1b7-4c45-83ab-540907293e36"
-        }
-      ]
-    },
-    {
       "id": "tmdb-1335666",
       "title": "La familia Glenrothan",
       "plot": "Dos hermanos tienen una violenta discusión con su padre el día del funeral de su madre, el menor de los dos abandona su hogar de las Highlands rumbo a América. Después de cuarenta años se reencuentran en la tierra que los vio nacer.",
@@ -109833,7 +109788,7 @@
           "episodes": [
             {
               "number": 1,
-              "title": "¡Soy Luffy! ¡El hombre que se convertirá en el Rey de los Piratas!",
+              "title": "Capítulo 1",
               "servers": [
                 {
                   "name": "TokiAnime",
@@ -109869,12 +109824,17 @@
                   "name": "TokiAnime",
                   "url": "https://tokianime.tv/api/player/source?a=21&ep=1&sid=kEqIUwqKp17NhLY774XZWG&mode=iframe",
                   "language": "Español de España"
+                },
+                {
+                  "name": "Paulinitio",
+                  "url": "https://paulinito.com/player/9ZavAKkUlrgKVGW/",
+                  "language": "Latino"
                 }
               ]
             },
             {
               "number": 2,
-              "title": "¡Aparece el gran espadachín! El Cazador de Piratas, Roronoa Zoro",
+              "title": "Capítulo 2",
               "servers": [
                 {
                   "name": "TokiAnime",
@@ -109910,6 +109870,11 @@
                   "name": "TokiAnime",
                   "url": "https://tokianime.tv/api/player/source?a=21&ep=2&sid=bsJ1hLz_JziK__2hTniDJX&mode=iframe",
                   "language": "Español de España"
+                },
+                {
+                  "name": "Paulinitio",
+                  "url": "https://paulinito.com/player/DrmRXwzwdSOG5ER/",
+                  "language": "Latino"
                 }
               ]
             },
@@ -109951,12 +109916,17 @@
                   "name": "TokiAnime",
                   "url": "https://tokianime.tv/api/player/source?a=21&ep=3&sid=PwezxXHdSAv6uURjEWbKtN&mode=iframe",
                   "language": "Español de España"
+                },
+                {
+                  "name": "Paulinitio",
+                  "url": "https://paulinito.com/player/uAp3aBnQK5zgwRI/",
+                  "language": "Latino"
                 }
               ]
             },
             {
               "number": 4,
-              "title": "¡El pasado de Luffy! Aparece Shanks, el Pelirrojo",
+              "title": "Capítulo 4",
               "servers": [
                 {
                   "name": "TokiAnime",
@@ -109997,12 +109967,17 @@
                   "name": "TokiAnime",
                   "url": "https://tokianime.tv/api/player/source?a=21&ep=4&sid=VINk0aZS0aHA0bED6dCC53&mode=iframe",
                   "language": "Español de España"
+                },
+                {
+                  "name": "Paulinitio",
+                  "url": "https://paulinito.com/player/QtDqBtzGxu7CKEU/",
+                  "language": "Latino"
                 }
               ]
             },
             {
               "number": 5,
-              "title": "¡Un poder misterioso y temible! ¡El capitán pirata, Buggy, el Payaso!",
+              "title": "Capítulo 5",
               "servers": [
                 {
                   "name": "TokiAnime",
@@ -110038,12 +110013,17 @@
                   "name": "TokiAnime",
                   "url": "https://tokianime.tv/api/player/source?a=21&ep=5&sid=cc1-LtYTFYRQMYuDvmjkH2&mode=iframe",
                   "language": "Español de España"
+                },
+                {
+                  "name": "Paulinitio",
+                  "url": "https://paulinito.com/player/4ZfbZed0t2Rzt7i/",
+                  "language": "Latino"
                 }
               ]
             },
             {
               "number": 6,
-              "title": "¡Situación desesperada! ¡Mohji, el domador de bestias, contra Luffy!",
+              "title": "Capítulo 6",
               "servers": [
                 {
                   "name": "TokiAnime",
@@ -110079,12 +110059,17 @@
                   "name": "TokiAnime",
                   "url": "https://tokianime.tv/api/player/source?a=21&ep=6&sid=F0rUXVQ0DUN1XEZeSjcjJD&mode=iframe",
                   "language": "Español de España"
+                },
+                {
+                  "name": "Paulinitio",
+                  "url": "https://paulinito.com/player/zPZSkZglwO7bx87/",
+                  "language": "Latino"
                 }
               ]
             },
             {
               "number": 7,
-              "title": "¡Gran duelo! ¡El maestro de la espada Zoro contra el acróbata Cabaji!",
+              "title": "Capítulo 7",
               "servers": [
                 {
                   "name": "TokiAnime",
@@ -110125,12 +110110,17 @@
                   "name": "TokiAnime",
                   "url": "https://tokianime.tv/api/player/source?a=21&ep=7&sid=VScc4-rmLVyJ_T8k54-JU_&mode=iframe",
                   "language": "Español de España"
+                },
+                {
+                  "name": "Paulinitio",
+                  "url": "https://paulinito.com/player/YrXrfNGRp9ve5RQ/",
+                  "language": "Latino"
                 }
               ]
             },
             {
               "number": 8,
-              "title": "¿Quién vencerá? ¡Lucha entre usuarios de las Frutas del Diablo!",
+              "title": "Capítulo 8",
               "servers": [
                 {
                   "name": "TokiAnime",
@@ -110166,6 +110156,11 @@
                   "name": "TokiAnime",
                   "url": "https://tokianime.tv/api/player/source?a=21&ep=8&sid=oge-lgngF7QllmGs7MZ8-q&mode=iframe",
                   "language": "Español de España"
+                },
+                {
+                  "name": "Paulinitio",
+                  "url": "https://paulinito.com/player/kRd9dJSGNlFgfSK/",
+                  "language": "Latino"
                 }
               ]
             },
@@ -148157,9 +148152,102 @@
               ]
             }
           ]
+        },
+        {
+          "number": 2,
+          "episodes": [
+            {
+              "number": 1,
+              "title": "Capítulo 1",
+              "servers": [
+                {
+                  "name": "Paulinito",
+                  "url": "https://paulinito.com/player/2METHCQ7tp5Ha96/",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 2,
+              "title": "Capítulo 2",
+              "servers": [
+                {
+                  "name": "Paulinito",
+                  "url": "https://paulinito.com/player/nFzmO77bar0KGQD/",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 3,
+              "title": "Capítulo 3",
+              "servers": [
+                {
+                  "name": "Paulinito",
+                  "url": "https://paulinito.com/player/YJ2IMygWaKNwM0I/",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 4,
+              "title": "Capítulo 4",
+              "servers": [
+                {
+                  "name": "Paulinito",
+                  "url": "https://paulinito.com/player/cZP5n6LQpHKhIBj/",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 5,
+              "title": "Capítulo 5",
+              "servers": [
+                {
+                  "name": "Paulinito",
+                  "url": "https://paulinito.com/player/8VODbCewtDnlKLK/",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 6,
+              "title": "Capítulo 6",
+              "servers": [
+                {
+                  "name": "Paulinito",
+                  "url": "https://paulinito.com/player/XG0rBElgV3KvJz9/",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 7,
+              "title": "Capítulo 7",
+              "servers": [
+                {
+                  "name": "Paulinito",
+                  "url": "https://paulinito.com/player/v6ldYTzarDtUaGY/",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            },
+            {
+              "number": 8,
+              "title": "Capítulo 8",
+              "servers": [
+                {
+                  "name": "Paulinito",
+                  "url": "https://paulinito.com/player/iV3N2YBmiKdXJpR/",
+                  "language": "Idioma sin identificar"
+                }
+              ]
+            }
+          ]
         }
       ],
-      "sourceUrl": "https://tokianime.tv/anime/one-piece",
+      "sourceUrl": "https://blogdepelis.net/one-piece-temporada-1.html",
       "tmdbId": 111110,
       "tmdbType": "tv",
       "rating": 8.1,
@@ -170195,7 +170283,7 @@
       "backdrop": "https://img.tokianime.tv/b/aHR0cHM6Ly9pbWdzcnYuY3J1bmNoeXJvbGwuY29tL2Nkbi1jZ2kvaW1hZ2UvZml0PWNvdmVyLGZvcm1hdD1hdXRvLHF1YWxpdHk9OTAsd2lkdGg9Mzg0MC9rZXlhcnQvR1JHR1BHOTNSLWJhY2tkcm9wX3dpZGU/1920.webp",
       "year": "2009",
       "genre": "Acción, Aventura, Drama, Fantasía",
-      "rating": 9.0,
+      "rating": 9,
       "categories": [
         "recomendado",
         "anime",
@@ -172891,7 +172979,7 @@
       "backdrop": "https://img.tokianime.tv/b/aHR0cHM6Ly9pbWdzcnYuY3J1bmNoeXJvbGwuY29tL2Nkbi1jZ2kvaW1hZ2UvZml0PWNvdmVyLGZvcm1hdD1hdXRvLHF1YWxpdHk9OTAsd2lkdGg9Mzg0MC9rZXlhcnQvR1I0OUc5VlA2LWJhY2tkcm9wX3dpZGU/1920.webp",
       "year": "2012",
       "genre": "Acción, Aventura, Fantasía, Romance",
-      "rating": 7.0,
+      "rating": 7,
       "categories": [
         "recomendado",
         "anime",
@@ -201828,7 +201916,7 @@
       "backdrop": "https://img.tokianime.tv/b/aHR0cHM6Ly9pbWdzcnYuY3J1bmNoeXJvbGwuY29tL2Nkbi1jZ2kvaW1hZ2UvZml0PWNvdmVyLGZvcm1hdD1hdXRvLHF1YWxpdHk9OTAsd2lkdGg9Mzg0MC9rZXlhcnQvR1k5UEo1S1dSLWJhY2tkcm9wX3dpZGU/1920.webp",
       "year": "2002",
       "genre": "Acción, Aventura, Comedia, Drama, Fantasía, Sobrenatural",
-      "rating": 8.0,
+      "rating": 8,
       "categories": [
         "recomendado",
         "anime",
@@ -219573,7 +219661,7 @@
       "backdrop": "https://img.tokianime.tv/b/aHR0cHM6Ly9pbWFnZS50bWRiLm9yZy90L3Avb3JpZ2luYWwvazZHeW5CRXZ4MnU4djJ0VU9NaDloSEo0bXlkLmpwZw/1920.webp",
       "year": "2015",
       "genre": "Drama, Misterio, Psicológico, Sobrenatural, Suspenso",
-      "rating": 8.0,
+      "rating": 8,
       "categories": [
         "recomendado",
         "anime",
@@ -221878,7 +221966,7 @@
       "backdrop": "https://img.tokianime.tv/b/aHR0cHM6Ly9pbWdzcnYuY3J1bmNoeXJvbGwuY29tL2Nkbi1jZ2kvaW1hZ2UvZml0PWNvdmVyLGZvcm1hdD1hdXRvLHF1YWxpdHk9OTAsd2lkdGg9Mzg0MC9rZXlhcnQvR1laSjQzSk1SLWJhY2tkcm9wX3dpZGU/1920.webp",
       "year": "2018",
       "genre": "Acción, Aventura, Comedia, Fantasía",
-      "rating": 8.0,
+      "rating": 8,
       "categories": [
         "recomendado",
         "anime",
@@ -223147,7 +223235,7 @@
       "backdrop": "https://img.tokianime.tv/b/aHR0cHM6Ly9pbWFnZS50bWRiLm9yZy90L3Avb3JpZ2luYWwvbjM1QUdUOEpNTWNiZFBNeFhMZzRLTVV1THguanBn/1920.webp",
       "year": "2017",
       "genre": "Drama, Misterio, Psicológico",
-      "rating": 7.0,
+      "rating": 7,
       "categories": [
         "recomendado",
         "anime",
@@ -223605,7 +223693,7 @@
       "backdrop": "https://img.tokianime.tv/b/aHR0cHM6Ly9pbWdzcnYuY3J1bmNoeXJvbGwuY29tL2Nkbi1jZ2kvaW1hZ2UvZml0PWNvdmVyLGZvcm1hdD1hdXRvLHF1YWxpdHk9OTAsd2lkdGg9Mzg0MC9rZXlhcnQvR0RLSFpFSjBLLWJhY2tkcm9wX3dpZGU/1920.webp",
       "year": "2024",
       "genre": "Acción, Aventura, Fantasía",
-      "rating": 8.0,
+      "rating": 8,
       "categories": [
         "recomendado",
         "anime",
@@ -226932,7 +227020,7 @@
       "backdrop": "https://img.tokianime.tv/b/aHR0cHM6Ly9pbWdzcnYuY3J1bmNoeXJvbGwuY29tL2Nkbi1jZ2kvaW1hZ2UvZml0PWNvdmVyLGZvcm1hdD1hdXRvLHF1YWxpdHk9OTAsd2lkdGg9Mzg0MC9rZXlhcnQvR1FXSDBNOU44LWJhY2tkcm9wX3dpZGU/1920.webp",
       "year": "2022",
       "genre": "Comedia, Ecchi, Romance, Recuentos de la vida",
-      "rating": 8.0,
+      "rating": 8,
       "categories": [
         "recomendado",
         "anime",
@@ -233595,7 +233683,7 @@
       "backdrop": "https://img.tokianime.tv/b/aHR0cHM6Ly9pbWdzcnYuY3J1bmNoeXJvbGwuY29tL2Nkbi1jZ2kvaW1hZ2UvZml0PWNvdmVyLGZvcm1hdD1hdXRvLHF1YWxpdHk9OTAsd2lkdGg9Mzg0MC9rZXlhcnQvR1IxOVgyRzI2LWJhY2tkcm9wX3dpZGU/1920.webp",
       "year": "2011",
       "genre": "Drama, Romance, Recuentos de la vida, Sobrenatural",
-      "rating": 8.0,
+      "rating": 8,
       "categories": [
         "recomendado",
         "anime",
@@ -239582,7 +239670,7 @@
       "backdrop": "https://img.tokianime.tv/b/aHR0cHM6Ly9pbWdzcnYuY3J1bmNoeXJvbGwuY29tL2Nkbi1jZ2kvaW1hZ2UvZml0PWNvdmVyLGZvcm1hdD1hdXRvLHF1YWxpdHk9OTAsd2lkdGg9Mzg0MC9rZXlhcnQvR0owSDdRNVpKLWJhY2tkcm9wX3dpZGU/1920.webp",
       "year": "2023",
       "genre": "Acción, Aventura, Misterio, Sobrenatural",
-      "rating": 8.0,
+      "rating": 8,
       "categories": [
         "recomendado",
         "anime",
@@ -289151,7 +289239,7 @@
       "backdrop": "https://img.tokianime.tv/b/aHR0cHM6Ly9pbWdzcnYuY3J1bmNoeXJvbGwuY29tL2Nkbi1jZ2kvaW1hZ2UvZml0PWNvdmVyLGZvcm1hdD1hdXRvLHF1YWxpdHk9OTAsd2lkdGg9Mzg0MC9rZXlhcnQvR1JNR0RHWlZSLWJhY2tkcm9wX3dpZGU/1920.webp",
       "year": "2014",
       "genre": "Acción, Romance, Sci-Fi, Sobrenatural",
-      "rating": 7.0,
+      "rating": 7,
       "categories": [
         "recomendado",
         "anime",
@@ -291329,7 +291417,7 @@
       "backdrop": "https://img.tokianime.tv/b/aHR0cHM6Ly93d3cuY3J1bmNoeXJvbGwuY29tL2ltZ3Nydi9kaXNwbGF5L3RodW1ibmFpbC8xOTIweDEwODAvY2F0YWxvZy9jcnVuY2h5cm9sbC85ZjI0NWFjYzllMTU0OGFkY2EzZmY5MzhiYTQwMWY0Yi5qcGU/1920.webp",
       "year": "1998",
       "genre": "Drama, Misterio, Psicológico, Sci-Fi, Sobrenatural",
-      "rating": 8.0,
+      "rating": 8,
       "categories": [
         "recomendado",
         "anime",
@@ -291885,7 +291973,7 @@
       "backdrop": "https://img.tokianime.tv/b/aHR0cHM6Ly9pbWdzcnYuY3J1bmNoeXJvbGwuY29tL2Nkbi1jZ2kvaW1hZ2UvZml0PWNvdmVyLGZvcm1hdD1hdXRvLHF1YWxpdHk9OTAsd2lkdGg9Mzg0MC9rZXlhcnQvR1JHR0pXRDJSLWJhY2tkcm9wX3dpZGU/1920.webp",
       "year": "2006",
       "genre": "Comedia, Drama, Romance, Recuentos de la vida",
-      "rating": 8.0,
+      "rating": 8,
       "categories": [
         "recomendado",
         "anime",
@@ -335873,7 +335961,7 @@
       "backdrop": "https://img.tokianime.tv/b/aHR0cHM6Ly9pbWdzcnYuY3J1bmNoeXJvbGwuY29tL2Nkbi1jZ2kvaW1hZ2UvZml0PWNvdmVyLGZvcm1hdD1hdXRvLHF1YWxpdHk9OTAsd2lkdGg9Mzg0MC9rZXlhcnQvR1IyNEdYODk2LWJhY2tkcm9wX3dpZGU/1920.webp",
       "year": "2016",
       "genre": "Acción, Drama, Fantasía, Terror, Sobrenatural",
-      "rating": 7.0,
+      "rating": 7,
       "categories": [
         "recomendado",
         "anime",
@@ -337012,7 +337100,7 @@
       "backdrop": "https://img.tokianime.tv/b/aHR0cHM6Ly9pbWFnZS50bWRiLm9yZy90L3Avb3JpZ2luYWwvdklCeGRXS0xybzdLek5HcWtrUUNXdzh4cG5JLmpwZw/1920.webp",
       "year": "2012",
       "genre": "Comedia, Recuentos de la vida",
-      "rating": 8.0,
+      "rating": 8,
       "categories": [
         "recomendado",
         "anime",
@@ -339710,7 +339798,7 @@
       "backdrop": "https://img.tokianime.tv/b/aHR0cHM6Ly9pbWdzcnYuY3J1bmNoeXJvbGwuY29tL2Nkbi1jZ2kvaW1hZ2UvZml0PWNvdmVyLGZvcm1hdD1hdXRvLHF1YWxpdHk9OTAsd2lkdGg9Mzg0MC9rZXlhcnQvR1hKSE0zTlc1LWJhY2tkcm9wX3dpZGU/1920.webp",
       "year": "2021",
       "genre": "Drama, Romance, Recuentos de la vida",
-      "rating": 7.0,
+      "rating": 7,
       "categories": [
         "recomendado",
         "anime",
@@ -340872,7 +340960,7 @@
       "backdrop": "https://img.tokianime.tv/b/aHR0cHM6Ly9pbWdzcnYuY3J1bmNoeXJvbGwuY29tL2Nkbi1jZ2kvaW1hZ2UvZml0PWNvdmVyLGZvcm1hdD1hdXRvLHF1YWxpdHk9OTAsd2lkdGg9Mzg0MC9rZXlhcnQvR1JWTlpLNVBZLWJhY2tkcm9wX3dpZGU/1920.webp",
       "year": "2008",
       "genre": "Acción, Sci-Fi, Sobrenatural",
-      "rating": 7.0,
+      "rating": 7,
       "categories": [
         "recomendado",
         "anime",
@@ -341402,7 +341490,7 @@
       "backdrop": "https://img.tokianime.tv/b/aHR0cHM6Ly9pbWdzcnYuY3J1bmNoeXJvbGwuY29tL2Nkbi1jZ2kvaW1hZ2UvZml0PWNvdmVyLGZvcm1hdD1hdXRvLHF1YWxpdHk9OTAsd2lkdGg9Mzg0MC9rZXlhcnQvRzc5SDIzWjhQLWJhY2tkcm9wX3dpZGU/1920.webp",
       "year": "2023",
       "genre": "Acción, Aventura, Comedia, Fantasía, Sci-Fi",
-      "rating": 8.0,
+      "rating": 8,
       "categories": [
         "recomendado",
         "anime",
@@ -346471,7 +346559,7 @@
       "backdrop": "https://img.tokianime.tv/b/aHR0cHM6Ly9pbWdzcnYuY3J1bmNoeXJvbGwuY29tL2Nkbi1jZ2kvaW1hZ2UvZml0PWNvdmVyLGZvcm1hdD1hdXRvLHF1YWxpdHk9OTAsd2lkdGg9Mzg0MC9rZXlhcnQvR1lKUTQzMFc2LWJhY2tkcm9wX3dpZGU/1920.webp",
       "year": "2017",
       "genre": "Comedia, Recuentos de la vida",
-      "rating": 7.0,
+      "rating": 7,
       "categories": [
         "recomendado",
         "anime",
@@ -347244,7 +347332,7 @@
       "backdrop": "https://img.tokianime.tv/b/aHR0cHM6Ly9pbWdzcnYuY3J1bmNoeXJvbGwuY29tL2Nkbi1jZ2kvaW1hZ2UvZml0PWNvdmVyLGZvcm1hdD1hdXRvLHF1YWxpdHk9OTAsd2lkdGg9Mzg0MC9rZXlhcnQvRzZHRzM4MjQ2LWJhY2tkcm9wX3dpZGU/1920.webp",
       "year": "2008",
       "genre": "Aventura, Fantasía, Romance, Recuentos de la vida",
-      "rating": 8.0,
+      "rating": 8,
       "categories": [
         "recomendado",
         "anime",
@@ -349866,7 +349954,7 @@
       "backdrop": "https://img.tokianime.tv/b/aHR0cHM6Ly9pbWFnZS50bWRiLm9yZy90L3Avb3JpZ2luYWwveHVCSjE0OXU1SkJhZ3VjZW93dUVmMHNvMXk4LmpwZw/1920.webp",
       "year": "2012",
       "genre": "Drama, Terror, Misterio, Psicológico, Sci-Fi, Sobrenatural",
-      "rating": 8.0,
+      "rating": 8,
       "categories": [
         "recomendado",
         "anime",
@@ -355347,7 +355435,7 @@
       "backdrop": "https://img.tokianime.tv/b/aHR0cHM6Ly9pbWdzcnYuY3J1bmNoeXJvbGwuY29tL2Nkbi1jZ2kvaW1hZ2UvZml0PWNvdmVyLGZvcm1hdD1hdXRvLHF1YWxpdHk9OTAsd2lkdGg9Mzg0MC9rZXlhcnQvRzYxWDI0UFo2LWJhY2tkcm9wX3dpZGU/1920.webp",
       "year": "2020",
       "genre": "Acción, Misterio, Sci-Fi, Suspenso",
-      "rating": 7.0,
+      "rating": 7,
       "categories": [
         "recomendado",
         "anime",
@@ -356261,7 +356349,7 @@
       "backdrop": "https://img.tokianime.tv/b/aHR0cHM6Ly9pbWdzcnYuY3J1bmNoeXJvbGwuY29tL2Nkbi1jZ2kvaW1hZ2UvZml0PWNvdmVyLGZvcm1hdD1hdXRvLHF1YWxpdHk9OTAsd2lkdGg9Mzg0MC9rZXlhcnQvR1JFNUtFN1A2LWJhY2tkcm9wX3dpZGU/1920.webp",
       "year": "2012",
       "genre": "Comedia, Fantasía, Romance, Sobrenatural",
-      "rating": 8.0,
+      "rating": 8,
       "categories": [
         "recomendado",
         "anime",
@@ -358554,7 +358642,7 @@
       "backdrop": "https://img.tokianime.tv/b/aHR0cHM6Ly9pbWdzcnYuY3J1bmNoeXJvbGwuY29tL2Nkbi1jZ2kvaW1hZ2UvZml0PWNvdmVyLGZvcm1hdD1hdXRvLHF1YWxpdHk9OTAsd2lkdGg9Mzg0MC9rZXlhcnQvR1lQNThRTU1ZLWJhY2tkcm9wX3dpZGU/1920.webp",
       "year": "1998",
       "genre": "Acción, Aventura, Comedia, Drama, Sci-Fi",
-      "rating": 8.0,
+      "rating": 8,
       "categories": [
         "recomendado",
         "anime",
@@ -363582,7 +363670,7 @@
       "backdrop": "https://img.tokianime.tv/b/aHR0cHM6Ly9pbWdzcnYuY3J1bmNoeXJvbGwuY29tL2Nkbi1jZ2kvaW1hZ2UvZml0PWNvdmVyLGZvcm1hdD1hdXRvLHF1YWxpdHk9OTAsd2lkdGg9Mzg0MC9rZXlhcnQvR1QwMDM1NjgwOS1iYWNrZHJvcF93aWRl/1920.webp",
       "year": "2026",
       "genre": "Acción, Drama, Fantasía",
-      "rating": 8.0,
+      "rating": 8,
       "categories": [
         "recomendado",
         "anime",
@@ -368455,7 +368543,7 @@
       "backdrop": "https://img.tokianime.tv/b/aHR0cHM6Ly9pbWdzcnYuY3J1bmNoeXJvbGwuY29tL2Nkbi1jZ2kvaW1hZ2UvZml0PWNvdmVyLGZvcm1hdD1hdXRvLHF1YWxpdHk9OTAsd2lkdGg9Mzg0MC9rZXlhcnQvR1hKSE0zNzlELWJhY2tkcm9wX3dpZGU/1920.webp",
       "year": "2020",
       "genre": "Misterio",
-      "rating": 8.0,
+      "rating": 8,
       "categories": [
         "recomendado",
         "anime",
