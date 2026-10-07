@@ -1,5 +1,6 @@
 :root{--bg:#080b0a;--surface:#101613;--card:#141c18;--panel:#111814;--elev:#202b25;--elev2:#2b3730;--accent:#00c98b;--accent2:#37ddaa;--accent-glow:rgba(0,201,139,.12);--dim:#89988f;--line:rgba(210,235,219,.1);--line-strong:rgba(210,235,219,.2)}
 [hidden]{display:none!important}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 .admin-workspace button{transition:background-color .16s,border-color .16s,color .16s,transform .16s}
 .admin-workspace .btn-primary{color:#031c12;box-shadow:none}
 .admin-workspace .btn-primary:hover{background:#2bddab;box-shadow:none}
