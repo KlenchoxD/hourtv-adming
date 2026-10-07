@@ -2,7 +2,7 @@
 //
 // Por qué existe: la ficha (año, género, rating, sinopsis, reparto, carátula)
 // y sobre todo LAS TENDENCIAS tienen que salir de una fuente real, no de
-// marcarlas a mano. TMDB es gratis, tiene ficha en español y cubre películas,
+// marcarlas a mano. TMDB tiene ficha en español y cubre películas,
 // series, anime y telenovelas.
 //
 // La clave vive en la variable de entorno TMDB_KEY del proyecto de Vercel,
@@ -11,6 +11,7 @@
 // Acciones:
 //   /api/tmdb?action=search&q=Matrix[&year=1999]
 //   /api/tmdb?action=detail&type=movie|tv&id=603
+//   /api/tmdb?action=season&id=1399&season=1
 //   /api/tmdb?action=trending[&window=day|week]
 
 const BASE = 'https://api.themoviedb.org/3';
@@ -28,7 +29,7 @@ function auth() {
 
 async function tmdb(path, params, a) {
   const qs = [a.query, 'language=' + LANG, params].filter(Boolean).join('&');
-  const r = await fetch(BASE + path + '?' + qs, { headers: a.header || {} });
+  const r = await fetch(BASE + path + '?' + qs, { headers: a.header || {}, signal: AbortSignal.timeout(15000) });
   if (!r.ok) throw new Error('TMDB ' + r.status + ' en ' + path);
   return r.json();
 }
@@ -69,8 +70,25 @@ module.exports = async (req, res) => {
     });
   }
 
-  const { action, q, year, type, id, window } = req.query;
+  const { action, q, year, type, id, window, season } = req.query;
   try {
+    if (action === 'season') {
+      const seriesId = Number(id), seasonNumber = Number(season);
+      if (!/^\d+$/.test(String(id)) || !Number.isSafeInteger(seriesId) || seriesId < 1 ||
+          !/^\d+$/.test(String(season)) || !Number.isSafeInteger(seasonNumber) || seasonNumber < 0) {
+        return res.status(400).json({ error: 'id debe ser un entero positivo y season un entero igual o mayor que cero.' });
+      }
+      const data = await tmdb('/tv/' + seriesId + '/season/' + seasonNumber, '', a);
+      if (data.season_number !== seasonNumber || !Array.isArray(data.episodes))
+        throw new Error('TMDB devolvió una temporada no válida.');
+      return res.status(200).json({
+        seasonNumber,
+        episodes: data.episodes.map(episode => ({
+          number: episode.episode_number,
+          poster: img(episode.still_path, 'w300'),
+        })),
+      });
+    }
     if (action === 'search') {
       if (!q) return res.status(400).json({ error: 'Falta el parámetro q.' });
       const params =
@@ -129,7 +147,7 @@ module.exports = async (req, res) => {
       return res.status(200).json({ window: w, results });
     }
 
-    return res.status(400).json({ error: 'action debe ser search, detail o trending.' });
+    return res.status(400).json({ error: 'action debe ser search, detail, season o trending.' });
   } catch (e) {
     return res.status(502).json({ error: e.message });
   }

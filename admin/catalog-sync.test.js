@@ -23,3 +23,19 @@ test('aborts on read failure without writing',async()=>{
  let writes=0; await assert.rejects(createPublisher()({read:async()=>{throw Error('read failed')},write:async()=>{writes++}}));
  assert.equal(writes,0);
 });
+
+test('publishing episode still replacements and explicit clearing preserves concurrent server updates',async()=>{
+ const server={id:'source',url:'https://stream.example/old'};
+ const base={series:[{id:'series',seasons:[{number:1,episodes:[{number:1,poster:'https://old/cover',servers:[server]},{number:2,poster:'https://old/cover',servers:[server]}]}]}]};
+ const local=JSON.parse(JSON.stringify(base));
+ local.series[0].seasons[0].episodes[0].poster='https://image.tmdb.org/t/p/w300/one.jpg';
+ local.series[0].seasons[0].episodes[1].poster=null;
+ const remote=JSON.parse(JSON.stringify(base));
+ remote.series[0].seasons[0].episodes[0].servers[0].url='https://stream.example/refreshed';
+ let published;
+ await createPublisher()({base,local,deleted:new Set(),read:async()=>({sha:'current',catalog:remote}),write:async catalog=>{published=JSON.parse(JSON.stringify(catalog));return {ok:true,status:200};}});
+ const episodes=published.series[0].seasons[0].episodes;
+ assert.equal(episodes[0].poster,'https://image.tmdb.org/t/p/w300/one.jpg');
+ assert.equal(episodes[1].poster,null);
+ assert.equal(episodes[0].servers[0].url,'https://stream.example/refreshed');
+});
