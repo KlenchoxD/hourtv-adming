@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-07T19:26:38.480Z",
-  "durationMs": 2744,
+  "generatedAt": "2026-10-07T23:40:02.658Z",
+  "durationMs": 2587,
   "dryRun": false,
   "moviesFound": 34,
   "moviesDiscarded": 22,
@@ -98,23 +98,23 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1032863,
-      "title": "La hipótesis del amor",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
-    },
-    {
       "tmdbId": 30723,
       "title": "Cavegirl: La chica de las cavernas (Cavernícola 2)",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1375646,
-      "title": "Colony",
+      "tmdbId": 1032863,
+      "title": "La hipótesis del amor",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
       "tmdbId": 1232569,
       "title": "Pinocho: Desatado",
+      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+    },
+    {
+      "tmdbId": 977942,
+      "title": "El hombre que desafió al rey",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
