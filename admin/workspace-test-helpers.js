@@ -15,6 +15,7 @@ async function openWorkspace(t,{width=1440,height=900,catalog={version:2,movies:
   const page=await browser.newPage({viewport:{width,height}});
   await page.route('**/*',route=>new URL(route.request().url()).hostname==='127.0.0.1'?route.continue():route.abort());
   await page.addInitScript(value=>localStorage.setItem('hourtv_admin_catalog',JSON.stringify(value)),catalog);
+  await page.addInitScript(()=>{window.workspacePeak=0;new MutationObserver(()=>{window.workspacePeak=Math.max(window.workspacePeak,document.querySelectorAll('#list .item,#list tbody tr').length)}).observe(document,{subtree:true,childList:true})});
   await page.goto('http://127.0.0.1:'+server.address().port,{waitUntil:'load'});
   return page;
 }

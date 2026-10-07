@@ -2183,7 +2183,9 @@ async function loadFromGitHub(){
 (function(){
   const local=localStorage.getItem('hourtv_admin_catalog');
   if(local){try{catalog=normalize(JSON.parse(local))}catch(e){}}
-  refreshStatus();render();
+  // The workspace controller initializes after the optional legacy modules.
+  // Do not mount the old unbounded card grid first.
+  if(!document.getElementById('workspace-tabs')){refreshStatus();render();}
 })();
 </script>
 <script src="catalog-baseline-store.js"></script>
@@ -2664,6 +2666,38 @@ document.addEventListener('click', function (event) {
       if (activeTab === 'down_servers') renderDownServers();
     }
   }
+})();
+</script>
+<script src="workspace-model.js"></script>
+<script src="workspace-ui.js"></script>
+<script>
+(function(){
+  const adapter={
+    getCatalog:()=>catalog,
+    getBaseline:()=>typeof catalogBase==='object'?catalogBase:null,
+    getConfig:()=>cfg,
+    getCounts:()=>({movies:(catalog.movies||[]).length,series:(catalog.series||[]).length,pending:pendingItems().length,down:window._downServersCount||0,backup:window._backupProvidersCount||0,notifications:window._unreadNotificationsCount||0}),
+    openItem:row=>{activeTab=row.collection;openEditor(row.index)},
+    addItem:type=>{activeTab=type;openEditor()},
+    renderServerSection:id=>{activeTab=id;({down_servers:renderDownServers,backup_providers:renderBackupProviders,notifications:renderNotifications})[id]()},
+    onError:error=>toast(error.message||'No se pudo completar la acción','err'),
+    async runAction(name,event){
+      if(name==='load'){
+        const baseline=this.getBaseline();const changes=HourTVWorkspaceModel.summarizeChanges(catalog,baseline);
+        const hasLocalData=['movies','series','sources'].some(k=>(catalog[k]||[]).length);
+        if((changes.total||!changes.known&&hasLocalData)&&!confirm('Cargar desde GitHub sustituirá el catálogo local. ¿Quieres continuar?'))return;
+      }
+      const handlers={trends:()=>window.syncTrending(),export:()=>window.exportJson(),import:()=>window.importJson(event),load:()=>window.loadFromGitHub(),config:()=>window.openConfig(),auth:()=>window.openSupabaseAuth(),publish:()=>window.publish(),copyRaw:()=>window.copySidebarRawUrl(),copyIptv:()=>window.copyIptvUrl()};
+      if(handlers[name])return await handlers[name]();
+    }
+  };
+  const workspace=HourTVWorkspaceUI.createWorkspace({root:document,model:HourTVWorkspaceModel,adapter});
+  window.hourtvWorkspace=workspace;
+  window.render=()=>workspace.render();
+  window.renderTabs=()=>workspace.refreshConnection();
+  window.setTab=id=>{if(id==='movies'||id==='series'){workspace.setSection('catalog');workspace.setFilters({type:id})}else workspace.setSection(id==='sources'?'live':id==='pending'?'pending':'servers',id)};
+  window.refreshStatus=()=>workspace.refreshConnection();
+  window.addEventListener('pagehide',()=>workspace.destroy(),{once:true});
 })();
 </script>
 </body>
