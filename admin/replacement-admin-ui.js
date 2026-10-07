@@ -363,7 +363,8 @@
   function openSourceNotification(sourceId) {
     const notification = notifications.find(item => item.source_id === sourceId);
     if (!notification) return root.toast('No hay notificación relacionada', 'err');
-    root.HourTVAdminState.activeTab = 'notifications'; root.renderTabs(); renderNotifications().then(() => openNotificationDetail(notification.id));
+    if(typeof root.setTab==='function')return Promise.resolve(root.setTab('notifications')).then(() => openNotificationDetail(notification.id));
+    root.HourTVAdminState.activeTab = 'notifications'; root.renderTabs(); return renderNotifications().then(() => openNotificationDetail(notification.id));
   }
 
   // Sin adaptador instalado el buscador automático nunca va a encontrar un

@@ -61,11 +61,14 @@ async function persistCatalogBase(value,context=catalogContext(cfg)){
   catalogBaseContext=context;
   catalogBaseOrigin=context;
   catalogBaseGeneration++;
+  const generation=catalogBaseGeneration;
   if(!catalogBaselineStore){notifyCatalogEvent('hourtv:catalog-base-changed',{});return false;}
   try{
     await catalogBaselineStore.set(value);
+    if(catalogBaseGeneration!==generation)return false;
     try{localStorage.removeItem(catalogBaselineKey)}catch(e){}
-    try{const hash=await baselineFingerprint(value);if(hash)localStorage.setItem('hourtv_admin_base_context',JSON.stringify({context,hash}));}catch(e){}
+    try{const hash=await baselineFingerprint(value);if(hash&&catalogBaseGeneration===generation)localStorage.setItem('hourtv_admin_base_context',JSON.stringify({context,hash}));}catch(e){}
+    if(catalogBaseGeneration!==generation)return false;
     notifyCatalogEvent('hourtv:catalog-base-changed',{});
     return true;
   }catch(e){
@@ -134,7 +137,10 @@ async function publish(options){
     });
     notifyCatalogEvent('hourtv:github-operation',{context:operationContext,state:'success'});
     if(catalogContext(cfg)!==operationContext){toast('Publicado en el repositorio anterior. Se conservaron los datos locales actuales.','warn');return true;}
-    await persistCatalogBase(outcome.catalog,operationContext);
+    const persistence=persistCatalogBase(outcome.catalog,operationContext);
+    const expectedGeneration=catalogBaseGeneration;
+    await persistence;
+    if(catalogContext(cfg)!==operationContext||catalogBaseGeneration!==expectedGeneration||catalogBaseContext!==operationContext){toast('Publicado en GitHub. El contexto local cambió durante el guardado; se conservaron los datos actuales sin sincronizaciones adicionales.','warn');return true;}
     catalog=CatalogSync.merge(pending,catalog,outcome.catalog);
     for(const id of deleting)deletedIds.delete(id);
     saveDeletedIds();save();render();

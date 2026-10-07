@@ -55,3 +55,19 @@ test('late baseline restoration cannot overwrite newly persisted comparison base
   await vm.runInContext('catalogBaseReady',context);
   assert.deepEqual(vm.runInContext('catalogBase',context),fresh);
 });
+for(const change of ['repository','generation'])test(`publish does not apply stale outcome after persistence changes ${change}`,async()=>{
+  const remote={version:2,movies:[{id:'a',title:'Repository A'}],series:[],sources:[]};
+  const current={version:2,movies:[{id:'b',title:'Current local'}],series:[],sources:[]};
+  let release,start;const started=new Promise(r=>start=r);let finalized=0,snapshots=0,saved=0;
+  const context={window:{HourTvCatalogBaselineStore:{get:async()=>null,set:async()=>{start();await new Promise(r=>release=r)}}},localStorage:{getItem:()=>null,removeItem(){},setItem(){}},CatalogSync,
+    cfg:{token:'synthetic',owner:'owner',repo:'a',branch:'main'},catalog:remote,deletedIds:new Set(['keep']),supabase:{},sbSession:null,toast(){},openConfig(){},saveDeletedIds(){saved++},save(){},render(){},console,atob,btoa,escape,unescape,encodeURIComponent,
+    finalizePendingReplacementPublish:async()=>finalized++,ghApi:async method=>method==='GET'?{ok:true,status:200,json:async()=>({sha:'a',content:btoa(JSON.stringify(remote))})}:{ok:true,status:200}};
+  vm.createContext(context);vm.runInContext(fs.readFileSync(require.resolve('./catalog-publish.js'),'utf8'),context);
+  context.syncCatalogSnapshotToSupabase=async()=>snapshots++;
+  const pending=context.publish({throwOnError:true});await started;
+  context.catalog=current;
+  if(change==='repository')context.cfg.repo='b';else vm.runInContext('catalogBaseGeneration++',context);
+  release();assert.equal(await pending,true);
+  assert.deepEqual(context.catalog,current);assert.equal(context.deletedIds.has('keep'),true);
+  assert.equal(saved,0);assert.equal(finalized,0);assert.equal(snapshots,0);
+});

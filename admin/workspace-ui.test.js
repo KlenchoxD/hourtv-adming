@@ -66,3 +66,29 @@ test('legacy navigation reaches the requested server subsection',async t=>{
   await page.evaluate(()=>setTab('notifications'));
   assert.ok((await page.locator('#workspace-server-tabs button.active').textContent()).startsWith('Notificaciones'));
 });
+for(const id of ['same',undefined,''])test(`unsafe deletion is blocked for ${String(id)} ID`,async t=>{
+  const page=await openWorkspace(t,{catalog:{version:2,movies:[{...movie(1),id},{...movie(2),id}],series:[],sources:[]}});if(!page)return;
+  await page.evaluate(()=>{window.confirm=()=>true;window.publishCalls=0;window.publish=()=>publishCalls++;window.messages=[];window.toast=m=>messages.push(m)});
+  await page.evaluate(()=>{activeTab='movies';return removeItem(1)});
+  assert.equal(await page.evaluate(()=>catalog.movies.length),2);
+  assert.equal(await page.evaluate(()=>publishCalls),0);
+  assert.match(await page.evaluate(()=>messages.join(' ')),/ID/);
+});
+test('unique zero ID can be deleted and tombstoned',async t=>{
+  const page=await openWorkspace(t,{catalog:{version:2,movies:[{...movie(1),id:0}],series:[],sources:[]}});if(!page)return;
+  await page.evaluate(()=>{window.confirm=()=>true;window.publish=()=>true;activeTab='movies';return removeItem(0)});
+  assert.equal(await page.evaluate(()=>catalog.movies.length),0);
+  assert.equal(await page.evaluate(()=>deletedIds.has(0)),true);
+});
+test('source notification uses workspace route and remains selected after render',async t=>{
+  const page=await openWorkspace(t);if(!page)return;
+  await page.evaluate(async()=>{
+    sbSession={user:{id:'synthetic'}};supabase={_publicSession:value=>value};
+    HourTVReplacementActions.loadAdminData=async()=>({notifications:[{id:'n1',source_id:'s1',notification_type:'confirmed_down',message:'Prueba',status:'open'}],candidates:[],sources:[],events:[],providers:[]});
+    await renderNotifications();setTab('down_servers');openSourceNotification('s1');
+  });
+  await page.locator('#overlay.open').waitFor();
+  assert.ok((await page.locator('#workspace-server-tabs button.active').textContent()).startsWith('Notificaciones'));
+  await page.evaluate(()=>{closeModal();render()});
+  assert.ok((await page.locator('#workspace-server-tabs button.active').textContent()).startsWith('Notificaciones'));
+});

@@ -24,6 +24,7 @@
     function refreshConnection(operation){
       navigation();const cfg=adapter.getConfig();const configured=cfg.owner&&cfg.repo;
       const context=JSON.stringify([cfg.owner||'',cfg.repo||'',cfg.branch||'master',cfg.path||'catalog.json']);
+      const contextChanged=connection&&connection.context!==context;
       if(!connection||connection.context!==context)connection={context,state:configured?'configured':'unconfigured'};
       if(operation&&operation.context===context)connection=operation;
       const repo=el('workspace-repo');repo.textContent=configured?`Repo: ${cfg.owner}/${cfg.repo}`:'Repo: sin configurar';
@@ -32,6 +33,7 @@
       el('status').textContent={unconfigured:'Sin configurar',configured:'Configurado, sin comprobar',checking:'Comprobando',success:'Última operación correcta',error:'Error'}[connection.state]||'Configurado, sin comprobar';
       el('status').title=connection.state==='error'?connection.message||'No se pudo completar la operación':'';
       const raw=el('sb-gh-raw');raw.textContent=configured?`https://raw.githubusercontent.com/${cfg.owner}/${cfg.repo}/${cfg.branch||'master'}/${cfg.path||'catalog.json'}`:'—';
+      if(contextChanged&&view)render();
     }
     function inspector(row){
       const signature=row?row.key+JSON.stringify(row.item):'';if(signature===inspectorSignature&&el('workspace-inspector').childElementCount)return;inspectorSignature=signature;
@@ -51,7 +53,7 @@
     function render(){
       navigation();const catalog=adapter.getCatalog();const base=adapter.getBaseline();rows=model.buildRows(catalog,base);
       const summary=model.summarizeChanges(catalog,base);el('workspace-change-count').textContent=!summary.known?'Base remota no cargada':summary.total?`${summary.total} cambios sin publicar`:'Sin cambios locales';
-      if(state.section==='servers'){el('workspace-result-count').textContent='';adapter.renderServerSection(serverSection);return}
+      if(state.section==='servers'){el('workspace-result-count').textContent='';return adapter.renderServerSection(serverSection)}
       if(selected){const previous=selected;selected=model.resolveSelection(rows,previous.key);if(!selected&&selectedUnique&&previous.item.id!=null){const matches=rows.filter(r=>r.item.id===previous.item.id);if(matches.length===1)selected=matches[0]}}
       view=model.getView(rows,state);state.page=view.page;state.pageSize=view.pageSize;
       el('workspace-result-count').textContent=`${view.total} elementos`;
@@ -63,7 +65,7 @@
       el('workspace-pagination').innerHTML=`<span>${view.total?`${(view.page-1)*view.pageSize+1}–${Math.min(view.page*view.pageSize,view.total)} de ${view.total}`:'0 resultados'}</span><label>Filas <select id="workspace-page-size">${[25,50,100].map(n=>`<option ${n===view.pageSize?'selected':''}>${n}</option>`).join('')}</select></label><div class="workspace-buttons"><button type="button" class="btn-ghost btn-sm" data-page="${view.page-1}" ${view.page===1?'disabled':''}>Anterior</button><span>${view.page} / ${view.pageCount}</span><button type="button" class="btn-ghost btn-sm" data-page="${view.page+1}" ${view.page===view.pageCount?'disabled':''}>Siguiente</button></div>`;
       inspector(selected);
     }
-    function setSection(section,subsection){clearTimeout(timer);if(['down_servers','backup_providers','notifications'].includes(subsection))serverSection=subsection;state.section=section;state.query='';state.page=1;state.type='all';state.status='all';el('search').value='';el('workspace-type').value='all';el('workspace-state').value='all';selected=null;render()}
+    function setSection(section,subsection){clearTimeout(timer);if(['down_servers','backup_providers','notifications'].includes(subsection))serverSection=subsection;state.section=section;state.query='';state.page=1;state.type='all';state.status='all';el('search').value='';el('workspace-type').value='all';el('workspace-state').value='all';selected=null;return render()}
     function setFilters(filters){Object.assign(state,filters,{page:1});render()}
     function setPage(page){state.page=page;render()}
     function select(key){selected=model.resolveSelection(rows,key);selectedUnique=!!selected&&rows.filter(r=>r.item.id===selected.item.id).length===1;render()}
