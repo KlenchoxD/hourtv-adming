@@ -2112,11 +2112,12 @@ function refreshStatus(){
     s.innerHTML = `<button type="button" class="gh-status-chip disconnected" onclick="openConfig()" title="Configurar conexión con GitHub"><span class="gh-status-dot"></span><span>Sin configurar</span></button>`;
   }
 }
-async function ghApi(method,extra){
-  if(!cfg.token||!cfg.owner||!cfg.repo){toast('Configura GitHub primero','err');openConfig();throw new Error('no cfg')}
-  const url=`https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${encodeURIComponent(cfg.path).replace(/%2F/g,'/')}`;
-  return fetch(url+(method==='GET'?`?ref=${cfg.branch}`:''),{
-    method, cache:'no-store', headers:{Authorization:`Bearer ${cfg.token}`,Accept:'application/vnd.github+json'},
+async function ghApi(method,extra,operationConfig){
+  const connection=operationConfig||cfg;
+  if(!connection.token||!connection.owner||!connection.repo){toast('Configura GitHub primero','err');openConfig();throw new Error('no cfg')}
+  const url=`https://api.github.com/repos/${encodeURIComponent(connection.owner)}/${encodeURIComponent(connection.repo)}/contents/${encodeURIComponent(connection.path||'catalog.json').replace(/%2F/g,'/')}`;
+  return fetch(url+(method==='GET'?`?ref=${encodeURIComponent(connection.branch||'master')}`:''),{
+    method, cache:'no-store', headers:{Authorization:`Bearer ${connection.token}`,Accept:'application/vnd.github+json'},
     ...(extra||{})
   });
 }
@@ -2154,17 +2155,19 @@ async function uploadImage(file, targetInputId, previewId){
 }
 
 async function loadFromGitHub(){
+  const operationConfig={...cfg};const operationContext=catalogContext(operationConfig);
+  notifyCatalogEvent('hourtv:github-operation',{context:operationContext,state:'checking'});
   try{
-    const res=await ghApi('GET');
-    if(res.status===404){toast('El archivo no existe aún — se creará al publicar','warn');return}
-    if(!res.ok){toast('Error '+res.status+' al cargar','err');return}
+    const res=await ghApi('GET',undefined,operationConfig);
+    if(res.status===404)throw new Error('El archivo no existe aún (404). Se creará al publicar.');
+    if(!res.ok)throw new Error('Error '+res.status+' al cargar');
     const data=await res.json();
     let content;
     if(typeof data.content==='string' && data.content.length>0){
       content=decodeURIComponent(escape(atob(data.content.replace(/\n/g,''))));
     }else if(data.sha){
-      const bRes=await fetch(`https://api.github.com/repos/${cfg.owner}/${cfg.repo}/git/blobs/${data.sha}`,{
-        headers:{Authorization:`Bearer ${cfg.token}`,Accept:'application/vnd.github+json'}
+      const bRes=await fetch(`https://api.github.com/repos/${operationConfig.owner}/${operationConfig.repo}/git/blobs/${data.sha}`,{
+        headers:{Authorization:`Bearer ${operationConfig.token}`,Accept:'application/vnd.github+json'}
       });
       if(!bRes.ok)throw new Error('Error al obtener contenido extenso de GitHub');
       const bData=await bRes.json();
@@ -2172,11 +2175,14 @@ async function loadFromGitHub(){
     }else{
       throw new Error('Respuesta sin contenido');
     }
+    if(catalogContext(cfg)!==operationContext)throw new Error('La configuración cambió. No se sustituyeron los datos locales.');
     catalog=normalize(JSON.parse(content));window._sha=data.sha;
-    await persistCatalogBase(JSON.parse(JSON.stringify(catalog)));
+    await persistCatalogBase(JSON.parse(JSON.stringify(catalog)),operationContext);
     save();render();
+    notifyCatalogEvent('hourtv:github-operation',{context:operationContext,state:'success'});
     toast('Catálogo cargado desde GitHub','ok');
-  }catch(e){toast('No se pudo cargar: '+(e.message||''),'err')}
+    return true;
+  }catch(e){notifyCatalogEvent('hourtv:github-operation',{context:operationContext,state:'error',message:e.message});toast('No se pudo cargar: '+(e.message||''),'err');return false;}
 }
 
 // ---------- Init ----------
@@ -2674,7 +2680,7 @@ document.addEventListener('click', function (event) {
 (function(){
   const adapter={
     getCatalog:()=>catalog,
-    getBaseline:()=>typeof catalogBase==='object'?catalogBase:null,
+    getBaseline:()=>getTrustedCatalogBase(),
     getConfig:()=>cfg,
     getCounts:()=>({movies:(catalog.movies||[]).length,series:(catalog.series||[]).length,pending:pendingItems().length,down:window._downServersCount||0,backup:window._backupProvidersCount||0,notifications:window._unreadNotificationsCount||0}),
     openItem:row=>{activeTab=row.collection;openEditor(row.index)},
@@ -2697,6 +2703,8 @@ document.addEventListener('click', function (event) {
   window.renderTabs=()=>workspace.refreshConnection();
   window.setTab=id=>{if(id==='movies'||id==='series'){workspace.setSection('catalog');workspace.setFilters({type:id})}else workspace.setSection(id==='sources'?'live':id==='pending'?'pending':'servers',id)};
   window.refreshStatus=()=>workspace.refreshConnection();
+  window.addEventListener('hourtv:catalog-base-changed',()=>workspace.render());
+  window.addEventListener('hourtv:github-operation',event=>workspace.refreshConnection(event.detail));
   window.addEventListener('pagehide',()=>workspace.destroy(),{once:true});
 })();
 </script>
