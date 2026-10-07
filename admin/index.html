@@ -1197,101 +1197,73 @@
   .batch-summary > div { border:1px solid var(--line); border-radius:10px; padding:12px; text-align:center; }
   @media (max-width:768px) { .admin-card-head { flex-direction:column; } .batch-summary { grid-template-columns:1fr; } }
 </style>
+<link rel="stylesheet" href="workspace.css">
 </head>
-<body>
+<body class="admin-workspace">
 
 <!-- ═══ HEADER ═══ -->
-<header>
+<header class="workspace-header">
   <div class="logo">
-    <div class="dot"></div>
-    HOUR<span class="logo-accent">TV</span>
+    Hour<span class="logo-accent">TV</span>
     <span class="logo-badge">ADMIN</span>
   </div>
-  <div class="spacer"></div>
-  <div class="status-wrap" id="status">
-    <button type="button" class="gh-status-chip disconnected" onclick="openConfig()" title="Configurar conexión con GitHub">
-      <span class="gh-status-dot"></span>
-      <span>Sin configurar</span>
-    </button>
-  </div>
+  <nav id="workspace-tabs" aria-label="Secciones principales">
+    <button type="button" data-section="catalog" class="workspace-tab active" onclick="setTab('movies')">Catálogo</button>
+    <button type="button" data-section="pending" class="workspace-tab" onclick="setTab('pending')">Pendientes</button>
+    <button type="button" data-section="live" class="workspace-tab" onclick="setTab('sources')">TV en vivo</button>
+    <button type="button" data-section="servers" class="workspace-tab" onclick="setTab('down_servers')">Servidores</button>
+  </nav>
   <div class="header-actions">
-    <button type="button" class="btn-ghost btn-sm" id="btn-supabase-auth" onclick="openSupabaseAuth(); return false;">🔑 Supabase</button>
-    <button class="btn-ghost btn-sm" onclick="openConfig()">⚙ GitHub</button>
-    <button class="btn-ghost btn-sm" onclick="loadFromGitHub()">↻ Cargar</button>
-    <button class="btn-primary btn-sm" onclick="publish()">⬆ Publicar</button>
+    <button type="button" class="btn-ghost btn-sm" id="btn-supabase-auth" onclick="openSupabaseAuth(); return false;">Cuenta y conexión</button>
   </div>
 </header>
 
 <!-- ═══ TABS — Pill Navigation ═══ -->
-<nav class="tabs-bar">
+<nav class="tabs-bar" hidden>
   <div class="tabs" id="tabs"></div>
 </nav>
 
 <!-- ═══ MAIN ═══ -->
-<main>
-  <div class="toolbar">
+<main class="workspace-main">
+  <section class="workspace-heading">
+    <div><p class="workspace-eyebrow">ESPACIO DE TRABAJO</p><h1 id="workspace-title">Catálogo</h1><p id="workspace-summary">Gestiona tu contenido, sin perder el control.</p></div>
+    <div id="workspace-actions"><span id="workspace-change-count">Base remota no cargada</span><div class="workspace-buttons">
+      <button type="button" class="btn-ghost" data-action="add" onclick="openEditor()">Añadir contenido</button>
+      <button type="button" class="btn-primary" data-action="publish" onclick="publish()">Publicar cambios</button>
+    </div></div>
+  </section>
+  <section id="workspace-utilities" aria-label="Herramientas del catálogo">
+    <button type="button" class="btn-ghost" data-action="trends" onclick="syncTrending()">Sincronizar tendencias</button>
+    <button type="button" class="btn-ghost" data-action="export" onclick="exportJson()">Descargar JSON</button>
+    <label class="btn-ghost workspace-import" tabindex="0">Importar JSON<input type="file" id="workspace-import-file" accept=".json" onchange="importJson(event)"></label>
+    <button type="button" class="btn-ghost" data-action="load" onclick="loadFromGitHub()">Cargar de GitHub</button>
+  </section>
+  <section id="workspace-connection" aria-label="Conexión del catálogo">
+    <button type="button" class="btn-ghost btn-sm" data-action="config" onclick="openConfig()">GitHub</button>
+    <a id="workspace-repo" class="workspace-repo">Repo: sin configurar</a>
+    <span id="workspace-branch">Rama: —</span><span id="workspace-path">Archivo: —</span>
+    <div class="status-wrap" id="status"></div>
+    <button type="button" class="btn-ghost btn-sm" data-action="copyRaw" onclick="copySidebarRawUrl()">Copiar URL</button>
+    <button type="button" class="btn-ghost btn-sm" data-action="copyIptv" onclick="copyIptvUrl()">URL IPTV</button>
+    <code id="sb-gh-raw" hidden>—</code>
+  </section>
+  <nav id="workspace-server-tabs" aria-label="Gestión de servidores" hidden></nav>
+  <section id="workspace-filters" aria-label="Filtrar contenido">
     <div class="search-wrap">
-      <span class="search-icon">🔍</span>
-      <input type="search" id="search" placeholder="Buscar por título…" oninput="render()">
+      <span class="search-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg></span>
+      <input type="search" id="search" placeholder="Buscar título…" aria-label="Buscar título" oninput="render()">
     </div>
-    <button class="btn-primary" onclick="openEditor()">+ Añadir</button>
-    <button class="btn-ghost" onclick="syncTrending()">📈 Sincronizar tendencias</button>
-    <button class="btn-ghost" onclick="copyIptvUrl()">📺 URL IPTV</button>
-    <button class="btn-ghost" onclick="exportJson()">Descargar JSON</button>
-    <label class="btn-ghost" style="cursor:pointer;padding:9px 16px;margin:0">Importar JSON<input type="file" accept=".json" onchange="importJson(event)" style="display:none"></label>
-  </div>
+    <label class="workspace-select">Tipo<select id="workspace-type"><option value="all">Todos</option><option value="movies">Películas</option><option value="series">Series</option></select></label>
+    <label class="workspace-select">Estado<select id="workspace-state"><option value="all">Todos</option><option value="complete">Ficha completa</option><option value="incomplete">Ficha incompleta</option><option value="changed">Cambios locales</option></select></label>
+    <span id="workspace-result-count"></span>
+  </section>
   <div class="content-layout">
     <div class="content-area">
       <div id="list"></div>
+      <div id="workspace-pagination"></div>
     </div>
-    <aside class="info-sidebar" id="info-sidebar">
-      <div class="sb-section">
-        <div class="sb-title">📊 Resumen del catálogo</div>
-        <div class="sb-stat-grid">
-          <div class="sb-stat">
-            <span class="sb-stat-icon">🎬</span>
-            <div class="sb-stat-info">
-              <span class="sb-stat-value" id="sb-movies">0</span>
-              <span class="sb-stat-label">Películas</span>
-            </div>
-          </div>
-          <div class="sb-stat">
-            <span class="sb-stat-icon">📺</span>
-            <div class="sb-stat-info">
-              <span class="sb-stat-value" id="sb-series">0</span>
-              <span class="sb-stat-label">Series</span>
-            </div>
-          </div>
-          <div class="sb-stat">
-            <span class="sb-stat-icon">⏳</span>
-            <div class="sb-stat-info">
-              <span class="sb-stat-value" id="sb-pending">0</span>
-              <span class="sb-stat-label">Pendientes</span>
-            </div>
-          </div>
-          <div class="sb-stat">
-            <span class="sb-stat-icon">📡</span>
-            <div class="sb-stat-info">
-              <span class="sb-stat-value" id="sb-live">0</span>
-              <span class="sb-stat-label">En vivo</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="sb-section">
-        <div class="sb-title">🔗 Repositorio</div>
-        <div class="sb-row"><span class="sb-label">Estado</span><span id="sb-gh-status" class="sb-status-warn">Sin configurar</span></div>
-        <div class="sb-row"><span class="sb-label">Repositorio</span><span id="sb-gh-repo" class="sb-value">—</span></div>
-        <div class="sb-row"><span class="sb-label">Rama</span><span id="sb-gh-branch" class="sb-value">—</span></div>
-        <div class="sb-row"><span class="sb-label">Archivo</span><span id="sb-gh-path" class="sb-value">—</span></div>
-      </div>
-      <div class="sb-section">
-        <div class="sb-title">🌐 Enlace público</div>
-        <div class="sb-raw-url">
-          <code id="sb-gh-raw">—</code>
-          <button class="btn-ghost btn-sm" onclick="copySidebarRawUrl()">📋 Copiar URL</button>
-        </div>
-      </div>
+    <aside id="workspace-inspector" aria-label="Detalle del elemento seleccionado">
+      <div class="inspector-empty"><h2>Tu contenido, al detalle</h2><p>Selecciona un título para consultar su ficha y abrir el editor.</p></div>
     </aside>
   </div>
   <!-- Atribución exigida por los términos de uso de la API de TMDB. -->
