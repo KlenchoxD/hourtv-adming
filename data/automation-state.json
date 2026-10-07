@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-10-07T00:22:19.280Z",
+  "lastRunAt": "2026-10-07T06:14:55.962Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -30,7 +30,6 @@
     460458,
     1294189,
     1032863,
-    977942,
     1339713,
     30723,
     1375646,
@@ -130,11 +129,6 @@
     {
       "tmdbId": 1032863,
       "title": "La hipótesis del amor",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
-    },
-    {
-      "tmdbId": 977942,
-      "title": "El hombre que desafió al rey",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {

@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-10-07T00:22:16.355Z",
-  "durationMs": 2930,
+  "generatedAt": "2026-10-07T06:14:53.073Z",
+  "durationMs": 2892,
   "dryRun": false,
-  "moviesFound": 35,
-  "moviesDiscarded": 22,
+  "moviesFound": 34,
+  "moviesDiscarded": 21,
   "moviesAdded": 0,
   "moviesEnriched": 0,
   "duplicates": 13,
@@ -100,11 +100,6 @@
     {
       "tmdbId": 1032863,
       "title": "La hipótesis del amor",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
-    },
-    {
-      "tmdbId": 977942,
-      "title": "El hombre que desafió al rey",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
