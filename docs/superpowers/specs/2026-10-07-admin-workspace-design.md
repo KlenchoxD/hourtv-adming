@@ -1,6 +1,6 @@
 # Rediseño del panel de administración HourTV
 
-Fecha: 2026-10-07. Estado: diseño visual B aprobado; especificación pendiente de revisión.
+Fecha: 2026-10-07. Estado: diseño visual B y especificación aprobados por el usuario.
 
 ## Objetivo y alcance
 
