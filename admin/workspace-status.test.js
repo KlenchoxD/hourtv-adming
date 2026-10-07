@@ -41,3 +41,22 @@ test('late load from previous repository cannot replace current data or connecti
   assert.equal(await page.locator('#status').textContent(),'Configurado, sin comprobar');
   assert.equal(await page.evaluate(()=>catalog.movies.length),0);
 });
+test('changing repository immediately invalidates summary and changed filter',async t=>{
+  const page=await openWorkspace(t,{catalog:remote,storage:{hourtv_admin_cfg:cfg}});if(!page)return;
+  await page.evaluate(async()=>{await persistCatalogBase(JSON.parse(JSON.stringify(catalog)));catalog.movies[0].title='Cambio local';render();hourtvWorkspace.setFilters({status:'changed'})});
+  assert.equal(await page.locator('#list tbody tr').count(),1);
+  await page.evaluate(()=>{cfg.repo='otro';refreshStatus()});
+  assert.equal(await page.locator('#workspace-change-count').textContent(),'Base remota no cargada');
+  assert.equal(await page.locator('#list tbody tr').count(),0);
+});
+test('edits made while GitHub load waits are not discarded',async t=>{
+  const page=await openWorkspace(t,{storage:{hourtv_admin_cfg:cfg}});if(!page)return;
+  let release,start;const started=new Promise(r=>start=r);
+  await page.route('https://api.github.com/**',async route=>{start();await new Promise(r=>release=r);await route.fulfill({status:200,json:content()})});
+  await page.getByRole('button',{name:'Cargar de GitHub',exact:true}).click();await started;
+  await page.evaluate(()=>{catalog.movies.push({id:'local',title:'Edición durante carga'});save();render()});release();
+  await page.waitForFunction(()=>!document.querySelector('[data-action="load"]').disabled);
+  assert.equal(await page.evaluate(()=>catalog.movies[0].id),'local');
+  assert.equal(await page.locator('#status').textContent(),'Error');
+  assert.equal(await page.evaluate(()=>getTrustedCatalogBase()),null);
+});
