@@ -31,4 +31,13 @@ En el inspector de consulta, un rating válido de `0` se visualiza como un guion
 
 ## Publicación
 
-Destino autorizado: proyecto Vercel `hourtv-adming`, raíz `admin`, alias `https://hourtv-adming.vercel.app`. Procedimiento: despliegue de producción sin asignar dominio, comprobación de archivos y endpoint TMDB, y promoción del mismo despliegue verificado. El resultado de publicación se comunica al finalizar; este documento no afirma por sí solo que ya esté publicado.
+Publicado y promovido el 7 de octubre de 2026 en `https://hourtv-adming.vercel.app`.
+
+- Proyecto verificado: `hourtv-adming`, raíz `admin`, Node 24, framework Other.
+- Código del producto: commit `311bef51b3e9d9f0591ae5e40be699e7f7483637`.
+- Despliegue: `dpl_7TMDA6xCem3g6aRCYuNUt2mk5DAA`, estado READY, producción.
+- URL inmutable: `https://hourtv-adming-ip37n8yib-kleinermadridmaceas123-2371s-projects.vercel.app`.
+- HTML y cinco archivos CSS/JS comparados con el código local antes y después de promover: coincidencia exacta normalizando saltos de línea.
+- Endpoint público TMDB para temporada 1 del ID 1399: respuesta correcta con 10 episodios, tanto en el despliegue como en el alias final.
+- Revisión acotada de registros de error (15 minutos): un aviso Node `DEP0169` sobre `url.parse()`, con respuesta HTTP 200. Sin fallo funcional observado en esa comprobación. No se configuraron drains ni nueva monitorización; su configuración no se auditó en este cambio.
+- Se siguió el procedimiento de Vercel: comprobar destino, crear producción sin dominio, verificar y promover exactamente ese despliegue. No se creó un proyecto adicional.
