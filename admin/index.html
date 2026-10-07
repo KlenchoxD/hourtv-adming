@@ -1233,10 +1233,10 @@
     </div></div>
   </section>
   <section id="workspace-utilities" aria-label="Herramientas del catálogo">
-    <button type="button" class="btn-ghost" data-action="trends" onclick="syncTrending()">Sincronizar tendencias</button>
-    <button type="button" class="btn-ghost" data-action="export" onclick="exportJson()">Descargar JSON</button>
-    <label class="btn-ghost workspace-import" tabindex="0">Importar JSON<input type="file" id="workspace-import-file" accept=".json" onchange="importJson(event)"></label>
-    <button type="button" class="btn-ghost" data-action="load" onclick="loadFromGitHub()">Cargar de GitHub</button>
+    <button type="button" class="btn-ghost" data-action="trends" onclick="syncTrending()"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="m3 17 6-7 5 4 7-10M15 4h6v6"/></svg>Sincronizar tendencias</button>
+    <button type="button" class="btn-ghost" data-action="export" onclick="exportJson()"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3v13m-5-5 5 5 5-5M4 18v3h16v-3"/></svg>Descargar JSON</button>
+    <label class="btn-ghost workspace-import" tabindex="0"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 16V3m-5 5 5-5 5 5M4 18v3h16v-3"/></svg>Importar JSON<input type="file" id="workspace-import-file" accept=".json" onchange="importJson(event)"></label>
+    <button type="button" class="btn-ghost" data-action="load" onclick="loadFromGitHub()"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="6" cy="5" r="2.5"/><circle cx="6" cy="19" r="2.5"/><circle cx="18" cy="5" r="2.5"/><path d="M6 8v8m12-8v2c0 4-12 1-12 6"/></svg>Cargar de GitHub</button>
   </section>
   <section id="workspace-connection" aria-label="Conexión del catálogo">
     <button type="button" class="btn-ghost btn-sm" data-action="config" onclick="openConfig()">GitHub</button>
