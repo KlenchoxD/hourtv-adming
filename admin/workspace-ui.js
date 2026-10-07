@@ -2,6 +2,7 @@
   const escape=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   function imageUrl(value){try{const u=new URL(value);return ['http:','https:'].includes(u.protocol)&&!u.username&&!u.password?u.href:''}catch{return ''}}
   function createWorkspace({root,model,adapter}){
+    const selects=root.defaultView.HourTVWorkspaceSelect.createSelects(root);
     const el=id=>root.getElementById(id);const state={section:'catalog',type:'all',status:'all',query:'',page:1,pageSize:25};
     let selected=null,selectedUnique=false,rows=[],view=null,timer=null,inspectorSignature='',serverSection='down_servers',connection=null;const busy=new Set();
     for(const button of root.querySelectorAll('[data-action],[data-section]'))button.removeAttribute('onclick');
@@ -64,6 +65,7 @@
       }).join('')}</tbody></table>`:'<div class="empty">No hay resultados para estos filtros.</div>';
       el('workspace-pagination').innerHTML=`<span>${view.total?`${(view.page-1)*view.pageSize+1}–${Math.min(view.page*view.pageSize,view.total)} de ${view.total}`:'0 resultados'}</span><label>Filas <select id="workspace-page-size">${[25,50,100].map(n=>`<option ${n===view.pageSize?'selected':''}>${n}</option>`).join('')}</select></label><div class="workspace-buttons"><button type="button" class="btn-ghost btn-sm" data-page="${view.page-1}" ${view.page===1?'disabled':''}>Anterior</button><span>${view.page} / ${view.pageCount}</span><button type="button" class="btn-ghost btn-sm" data-page="${view.page+1}" ${view.page===view.pageCount?'disabled':''}>Siguiente</button></div>`;
       inspector(selected);
+      selects.enhance();
     }
     function setSection(section,subsection){clearTimeout(timer);if(['down_servers','backup_providers','notifications'].includes(subsection))serverSection=subsection;state.section=section;state.query='';state.page=1;state.type='all';state.status='all';el('search').value='';el('workspace-type').value='all';el('workspace-state').value='all';selected=null;return render()}
     function setFilters(filters){Object.assign(state,filters,{page:1});render()}
@@ -90,7 +92,7 @@
     function error(event){if(event.target.tagName==='IMG'&&event.target.closest('#list,#workspace-inspector')){event.target.hidden=true}}
     root.addEventListener('click',click);root.addEventListener('change',change);root.addEventListener('input',input);root.addEventListener('keydown',keydown);root.addEventListener('error',error,true);
     refreshConnection();render();
-    return {render,setSection,setFilters,setPage,select,refreshConnection,destroy(){clearTimeout(timer);root.removeEventListener('click',click);root.removeEventListener('change',change);root.removeEventListener('input',input);root.removeEventListener('keydown',keydown);root.removeEventListener('error',error,true)}};
+    return {render,setSection,setFilters,setPage,select,refreshConnection,destroy(){clearTimeout(timer);selects.destroy();root.removeEventListener('click',click);root.removeEventListener('change',change);root.removeEventListener('input',input);root.removeEventListener('keydown',keydown);root.removeEventListener('error',error,true)}};
   }
   return {createWorkspace};
 });

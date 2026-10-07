@@ -70,7 +70,23 @@
 #workspace-inspector details p{color:var(--dim);font-size:11px}
 #workspace-inspector .inspector-edit{width:100%;margin-top:18px}
 #workspace-pagination{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:16px 0;color:var(--dim);font-size:11px}
-#workspace-pagination select{width:auto;font-size:11px;padding:7px 22px 7px 8px}
+#workspace-pagination label{display:inline-flex;align-items:center;gap:12px;margin:0}
+.workspace-select-control{display:inline-block;position:relative;min-width:110px;max-width:100%;flex-shrink:0}
+.workspace-select-control .workspace-select-native{position:absolute;inset:0;width:100%;height:100%;opacity:0;pointer-events:none;margin:0}
+.admin-workspace .workspace-select-trigger{display:flex;align-items:center;justify-content:space-between;gap:18px;width:100%;min-height:40px;padding:10px 12px;border:1px solid var(--line-strong);border-radius:8px;background:var(--surface);color:var(--text);font-size:12px;font-weight:400;line-height:18px;cursor:pointer}
+.workspace-select-trigger span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.workspace-select-trigger svg{width:16px;height:16px;flex-shrink:0;color:var(--dim);transition:transform .16s,color .16s}
+.admin-workspace .workspace-select-trigger:hover{border-color:rgba(210,235,219,.35);background:var(--card)}
+.admin-workspace .workspace-select-trigger[aria-expanded="true"]{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-glow)}
+.workspace-select-trigger[aria-expanded="true"] svg{transform:rotate(180deg);color:var(--accent)}
+.workspace-options{position:absolute;left:0;top:calc(100% + 7px);z-index:40;display:grid;gap:3px;min-width:100%;width:max-content;max-width:min(260px,calc(100vw - 32px));padding:5px;border:1px solid var(--line-strong);border-radius:10px;background:#141c18;box-shadow:0 12px 30px rgba(0,0,0,.4)}
+.workspace-options.opens-up{top:auto;bottom:calc(100% + 7px)}
+.admin-workspace .workspace-options button{display:block;width:100%;padding:10px 12px;text-align:left;border:0;border-radius:6px;background:transparent;color:var(--muted);font-size:12px;font-weight:400;line-height:18px;white-space:nowrap;cursor:pointer}
+.admin-workspace .workspace-options button:hover,.admin-workspace .workspace-options button.highlighted{background:var(--elev);color:#fff}
+.admin-workspace .workspace-options button[aria-selected="true"]{color:var(--accent2);background:var(--accent-glow)}
+#workspace-pagination .workspace-select-control{min-width:76px}
+#workspace-pagination .workspace-select-trigger{min-height:36px;font-size:11px;padding:8px 12px;gap:14px}
+@media(max-width:600px){.workspace-select{flex-wrap:wrap}.workspace-select-control{min-width:100px;flex:1}.workspace-options{max-width:calc(100vw - 32px)}}
 #workspace-server-tabs{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap}
 #workspace-server-tabs button{background:var(--surface);color:var(--muted);border:1px solid var(--line)}
 #workspace-server-tabs button.active{color:var(--accent);border-color:var(--accent)}
