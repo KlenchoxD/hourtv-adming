@@ -46,3 +46,12 @@ test('successful GitHub publish is not reported as failed by a full localStorage
   assert.ok(toasts.some(item=>item.message.includes('¡Publicado!')));
   assert.ok(!toasts.some(item=>item.type==='err'));
 });
+test('late baseline restoration cannot overwrite newly persisted comparison base',async()=>{
+  let resolveRestore;const restored=new Promise(resolve=>resolveRestore=resolve);
+  const old={movies:[{id:'old'}]},fresh={movies:[{id:'new'}]};
+  const context={window:{HourTvCatalogBaselineStore:{get:()=>restored,set:async()=>{}}},cfg:{owner:'owner',repo:'repo'},localStorage:{getItem:()=>null,removeItem(){},setItem(){}},CatalogSync,console,save(){}};
+  vm.createContext(context);vm.runInContext(fs.readFileSync(require.resolve('./catalog-publish.js'),'utf8'),context);
+  await context.persistCatalogBase(fresh);resolveRestore(old);
+  await vm.runInContext('catalogBaseReady',context);
+  assert.deepEqual(vm.runInContext('catalogBase',context),fresh);
+});

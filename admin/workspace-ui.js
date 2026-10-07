@@ -3,7 +3,7 @@
   function imageUrl(value){try{const u=new URL(value);return ['http:','https:'].includes(u.protocol)&&!u.username&&!u.password?u.href:''}catch{return ''}}
   function createWorkspace({root,model,adapter}){
     const el=id=>root.getElementById(id);const state={section:'catalog',type:'all',status:'all',query:'',page:1,pageSize:25};
-    let selected=null,selectedUnique=false,rows=[],view=null,timer=null,inspectorSignature='',serverSection='down_servers';const busy=new Set();
+    let selected=null,selectedUnique=false,rows=[],view=null,timer=null,inspectorSignature='',serverSection='down_servers',connection=null;const busy=new Set();
     for(const button of root.querySelectorAll('[data-action],[data-section]'))button.removeAttribute('onclick');
     el('search').removeAttribute('oninput');el('workspace-import-file').removeAttribute('onchange');
     function navigation(){
@@ -21,12 +21,16 @@
       const secondary=[['down_servers','Servidores caídos',counts.down],['backup_providers','Páginas de respaldo',counts.backup],['notifications','Notificaciones',counts.notifications]];
       el('workspace-server-tabs').innerHTML=secondary.map(([id,label,count])=>`<button type="button" data-server-section="${id}" class="${id===serverSection?'active':''}">${label} <small>${count||0}</small></button>`).join('');
     }
-    function refreshConnection(){
+    function refreshConnection(operation){
       navigation();const cfg=adapter.getConfig();const configured=cfg.owner&&cfg.repo;
+      const context=JSON.stringify([cfg.owner||'',cfg.repo||'',cfg.branch||'master',cfg.path||'catalog.json']);
+      if(!connection||connection.context!==context)connection={context,state:configured?'configured':'unconfigured'};
+      if(operation&&operation.context===context)connection=operation;
       const repo=el('workspace-repo');repo.textContent=configured?`Repo: ${cfg.owner}/${cfg.repo}`:'Repo: sin configurar';
       if(configured){repo.href=`https://github.com/${encodeURIComponent(cfg.owner)}/${encodeURIComponent(cfg.repo)}`;repo.target='_blank';repo.rel='noopener noreferrer'}else repo.removeAttribute('href');
       el('workspace-branch').textContent='Rama: '+(configured?cfg.branch||'master':'—');el('workspace-path').textContent='Archivo: '+(configured?cfg.path||'catalog.json':'—');
-      el('status').textContent=configured?'Configurado, sin comprobar':'Sin configurar';
+      el('status').textContent={unconfigured:'Sin configurar',configured:'Configurado, sin comprobar',checking:'Comprobando',success:'Última operación correcta',error:'Error'}[connection.state]||'Configurado, sin comprobar';
+      el('status').title=connection.state==='error'?connection.message||'No se pudo completar la operación':'';
       const raw=el('sb-gh-raw');raw.textContent=configured?`https://raw.githubusercontent.com/${cfg.owner}/${cfg.repo}/${cfg.branch||'master'}/${cfg.path||'catalog.json'}`:'—';
     }
     function inspector(row){
