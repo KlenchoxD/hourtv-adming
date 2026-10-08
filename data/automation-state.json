@@ -1,17 +1,17 @@
 {
-  "lastRunAt": "2026-10-08T02:55:26.762Z",
+  "lastRunAt": "2026-10-08T09:46:38.182Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
     1423191,
     1291595,
+    1101412,
     1204680,
     1101383,
     1248832,
     1084244,
-    1283515,
     1288445,
-    1101412,
+    1283515,
     1263337,
     1477712,
     1108427,
@@ -19,9 +19,9 @@
     1315772,
     1275779,
     980431,
+    1400837,
     1185806,
     671,
-    1465063,
     1599191,
     1368337,
     1228834,
@@ -33,7 +33,6 @@
     1032863,
     1339713,
     1232569,
-    977942,
     1335666,
     1083381
   ],
@@ -57,6 +56,11 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
+      "tmdbId": 1101412,
+      "title": "Vértigo 2: Punto muerto",
+      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+    },
+    {
       "tmdbId": 1204680,
       "title": "Coyote vs. Acme",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
@@ -67,18 +71,13 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1283515,
-      "title": "Verity. La sombra de un engaño",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
-    },
-    {
       "tmdbId": 1288445,
       "title": "El motín",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1101412,
-      "title": "Vértigo 2: Punto muerto",
+      "tmdbId": 1283515,
+      "title": "Verity. La sombra de un engaño",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
@@ -92,8 +91,8 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1465063,
-      "title": "La isla olvidada",
+      "tmdbId": 1400837,
+      "title": "La otra madre",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
@@ -139,16 +138,6 @@
     {
       "tmdbId": 1232569,
       "title": "Pinocho: Desatado",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
-    },
-    {
-      "tmdbId": 977942,
-      "title": "El hombre que desafió al rey",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
-    },
-    {
-      "tmdbId": 1083381,
-      "title": "Backrooms",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     }
   ]

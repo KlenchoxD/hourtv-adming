@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-10-08T02:55:24.044Z",
-  "durationMs": 2723,
+  "generatedAt": "2026-10-08T09:46:37.523Z",
+  "durationMs": 665,
   "dryRun": false,
-  "moviesFound": 34,
-  "moviesDiscarded": 22,
+  "moviesFound": 33,
+  "moviesDiscarded": 20,
   "moviesAdded": 0,
   "moviesEnriched": 0,
-  "duplicates": 12,
+  "duplicates": 13,
   "tmdbErrors": 0,
   "providerErrors": 0,
   "invalidSources": 0,
@@ -28,6 +28,11 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
+      "tmdbId": 1101412,
+      "title": "Vértigo 2: Punto muerto",
+      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+    },
+    {
       "tmdbId": 1204680,
       "title": "Coyote vs. Acme",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
@@ -38,18 +43,13 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1283515,
-      "title": "Verity. La sombra de un engaño",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
-    },
-    {
       "tmdbId": 1288445,
       "title": "El motín",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1101412,
-      "title": "Vértigo 2: Punto muerto",
+      "tmdbId": 1283515,
+      "title": "Verity. La sombra de un engaño",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
@@ -63,8 +63,8 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1465063,
-      "title": "La isla olvidada",
+      "tmdbId": 1400837,
+      "title": "La otra madre",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
@@ -110,16 +110,6 @@
     {
       "tmdbId": 1232569,
       "title": "Pinocho: Desatado",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
-    },
-    {
-      "tmdbId": 977942,
-      "title": "El hombre que desafió al rey",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
-    },
-    {
-      "tmdbId": 1083381,
-      "title": "Backrooms",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     }
   ]
