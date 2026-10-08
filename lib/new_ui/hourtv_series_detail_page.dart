@@ -18,6 +18,8 @@ import '../services/recommendations/related_content_engine.dart';
 import '../services/share_service.dart';
 import '../services/tmdb_service.dart';
 import '../services/xtream_service.dart';
+import '../services/series_channel_projection.dart';
+export '../services/series_channel_projection.dart' show hourTvSeriesChannel;
 import 'hourtv_detail_parts.dart';
 import 'hourtv_web_related.dart';
 import 'hourtv_web_detail_overview.dart';
@@ -40,29 +42,6 @@ const _red = Color(0xFF00C781); // Emerald Brand Color
 const _textSecondary = Color(0xFFC4C8C6);
 const _muted = Color(0xFFA8ADAB);
 
-String _seriesKey(XtreamSeries series) =>
-    'hourtv-series:${Uri.encodeComponent(series.host)}:${Uri.encodeComponent(series.seriesId)}';
-
-Channel hourTvSeriesChannel(XtreamSeries series) => Channel(
-  name: series.name,
-  url: _seriesKey(series),
-  logo: series.cover,
-  backdrop: series.backdrop ?? series.cover,
-  plot: series.plot,
-  year: series.year,
-  rating: series.rating,
-  duration: series.duration,
-  genre: series.genre,
-  cast: series.cast,
-  castPhotos: series.castPhotos,
-  director: series.director,
-  writer: series.writer,
-  releaseDate: series.releaseDate,
-  category: 'series',
-  forcedType: 'series',
-  categories: [if ((series.genre ?? '').trim().isNotEmpty) series.genre!],
-);
-
 XtreamSeries? hourTvResolveSeries(
   Channel channel,
   Iterable<XtreamSeries> series, {
@@ -71,7 +50,7 @@ XtreamSeries? hourTvResolveSeries(
   // 1. Coincidencia directa por clave url de serie
   if (channel.url.startsWith('hourtv-series:')) {
     for (final item in series) {
-      if (_seriesKey(item) == channel.url) return item;
+      if (hourTvSeriesKey(item) == channel.url) return item;
     }
   }
 

@@ -13,6 +13,7 @@ import 'storage_service.dart';
 import 'm3u_parser_service.dart';
 import 'parental_control_service.dart';
 import 'xtream_service.dart';
+import 'series_channel_projection.dart';
 import 'stalker_service.dart';
 import 'catalog_parser.dart';
 import 'epg_service.dart';
@@ -1349,33 +1350,61 @@ class ContentStore extends ChangeNotifier {
   final Map<String, List<Channel>> _genreCategoryCache = {};
   List<Channel>? _trendingCache;
   Object? _genreCategorySource;
+  Object? _genreCategorySeriesSource;
   int _genreCategoryLength = -1;
-  bool _genreCategoryRestricted = false;
+  int _genreCategorySeriesLength = -1;
+  int _genreCategoryFilterMode = -1;
   int _trendingTitlesCount = -1;
 
   void _checkAndInvalidateGenreCache() {
-    final restricted = ParentalControlService.isEnabled;
+    final filterMode = ParentalControlService.filterMode;
     if (!identical(_genreCategorySource, all) ||
+        !identical(_genreCategorySeriesSource, series) ||
         _genreCategoryLength != all.length ||
-        _genreCategoryRestricted != restricted ||
+        _genreCategorySeriesLength != series.length ||
+        _genreCategoryFilterMode != filterMode ||
         _trendingTitlesCount != _trendingTitles.length) {
       _genreCategoryCache.clear();
       _trendingCache = null;
       _genreCategorySource = all;
+      _genreCategorySeriesSource = series;
       _genreCategoryLength = all.length;
-      _genreCategoryRestricted = restricted;
+      _genreCategorySeriesLength = series.length;
+      _genreCategoryFilterMode = filterMode;
       _trendingTitlesCount = _trendingTitles.length;
     }
   }
 
-  /// Calcula anime, kDramas y trending en UNA pasada por el catálogo, en
-  /// tandas con un frame entre ellas. Antes eran tres recorridos completos de
-  /// un tirón (~50 ms cada uno) sobre el mismo hilo que dibuja y recibe el
-  /// scroll (Flutter 3.29+ fusiona el hilo de UI con el de Android).
+  /// The published series live separately from [all]. Include their title
+  /// cards, not individual episodes, using the same metadata as search.
+  Iterable<Channel> _homeGenreContent() sync* {
+    final seen = <String>{};
+    for (final item in visibleSeries) {
+      final channel = hourTvSeriesChannel(item);
+      if (seen.add(
+        '${channel.type.index}:${channel.displayName.trim().toLowerCase()}',
+      )) {
+        yield channel;
+      }
+    }
+    for (final channel in visibleAll) {
+      if (channel.type != MediaType.live &&
+          seen.add(
+            '${channel.type.index}:${channel.displayName.trim().toLowerCase()}',
+          )) {
+        yield channel;
+      }
+    }
+  }
+
+  /// Calcula anime, kDramas y trending en una pasada, cediendo entre tandas
+  /// para no bloquear el dibujo ni el scroll durante la clasificación.
   Future<void> warmHomeGenreRows() async {
     if (homeGenreRowsReady) return;
-    final source = visibleAll;
+    final source = _homeGenreContent();
     final sourceAll = all;
+    final sourceSeries = series;
+    final filterMode = ParentalControlService.filterMode;
     final anime = <Channel>[];
     final kDramas = <Channel>[];
     final byTmdb = <Channel>[];
@@ -1383,8 +1412,7 @@ class ContentStore extends ChangeNotifier {
     // Presupuesto por tiempo, no por cantidad: la primera vez cada título
     // pasa por varias regex y 250 por tanda eran 30-48 ms seguidos.
     final budget = Stopwatch()..start();
-    for (var i = 0; i < source.length; i++) {
-      final c = source[i];
+    for (final c in source) {
       if (c.type != MediaType.live) {
         final genres = _genresForMovie(c);
         if (genres.contains('Anime')) anime.add(c);
@@ -1395,12 +1423,20 @@ class ContentStore extends ChangeNotifier {
       }
       if (budget.elapsedMilliseconds >= 6) {
         await SchedulerBinding.instance.endOfFrame;
-        if (!identical(all, sourceAll)) return;
+        if (!identical(all, sourceAll) ||
+            !identical(series, sourceSeries) ||
+            filterMode != ParentalControlService.filterMode) {
+          return;
+        }
         budget.reset();
       }
     }
     _checkAndInvalidateGenreCache();
-    if (!identical(_genreCategorySource, sourceAll)) return;
+    if (!identical(_genreCategorySource, sourceAll) ||
+        !identical(_genreCategorySeriesSource, sourceSeries) ||
+        filterMode != ParentalControlService.filterMode) {
+      return;
+    }
     _genreCategoryCache['Anime'] ??= List.of(anime, growable: false);
     _genreCategoryCache['K-Drama'] ??= List.of(kDramas, growable: false);
     if (_trendingCache == null &&
@@ -1423,8 +1459,7 @@ class ContentStore extends ChangeNotifier {
     final cached = _genreCategoryCache[genre];
     if (cached != null) return cached;
 
-    final computed = visibleAll
-        .where((c) => c.type != MediaType.live)
+    final computed = _homeGenreContent()
         .where((c) => _genresForMovie(c).contains(genre))
         .toList(growable: false);
     _genreCategoryCache[genre] = computed;
