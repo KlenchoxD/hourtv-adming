@@ -3,8 +3,18 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'tmdb_service.dart';
 import 'xtream_service.dart';
+
+// Punctuation can identify a sequel (K-On! / K-On!!); keep it and Unicode.
+String normalizeAnimeTitle(String value) {
+  var title = value.trim().toLowerCase();
+  const accents = {'á': 'a', 'é': 'e', 'í': 'i', 'ó': 'o', 'ú': 'u', 'ñ': 'n'};
+  accents.forEach((accent, plain) => title = title.replaceAll(accent, plain));
+  return title
+      .replaceAll(RegExp(r'[-‐‑‒–—]'), ' ')
+      .replaceAll(RegExp(r'\s+'), ' ')
+      .trim();
+}
 
 bool isCalendarAnime(XtreamSeries series) =>
     series.anilistId != null ||
@@ -16,11 +26,11 @@ bool isCalendarAnime(XtreamSeries series) =>
 Set<String> animeCatalogAliases(XtreamSeries series) {
   final source = Uri.tryParse(series.sourceUrl ?? '');
   return {
-    TmdbService.normalizeTitle(series.name),
+    normalizeAnimeTitle(series.name),
     if (source?.host == 'tokianime.tv' &&
         source!.pathSegments.length == 2 &&
         source.pathSegments.first == 'anime')
-      TmdbService.normalizeTitle(source.pathSegments.last.replaceAll('-', ' ')),
+      normalizeAnimeTitle(source.pathSegments.last.replaceAll('-', ' ')),
   }..remove('');
 }
 
@@ -60,7 +70,7 @@ class AnimeAiringMedia {
     return AnimeAiringMedia(
       id: (json['id'] as num).toInt(),
       title: allNames.firstOrNull ?? 'Anime',
-      aliases: allNames.map(TmdbService.normalizeTitle).toSet()..remove(''),
+      aliases: allNames.map(normalizeAnimeTitle).toSet()..remove(''),
       status: json['status']?.toString() ?? '',
       poster: (json['coverImage'] as Map?)?['large']?.toString(),
       adult: json['isAdult'] == true,
@@ -311,10 +321,11 @@ class AnimeScheduleService {
         );
       }
       final index = AnimeCatalogIndex([series]);
+      final seen = <String>{};
       final queries = <String>{
         series.name,
         ...animeCatalogAliases(series),
-      }.take(2);
+      }.where((query) => seen.add(normalizeAnimeTitle(query))).take(2);
       for (final search in queries) {
         final data = await _query(
           '''query(\$search:String){Page(perPage:5){media(search:\$search,type:ANIME,isAdult:false){$_fields}}}''',

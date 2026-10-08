@@ -287,16 +287,6 @@ class _HourTvAnimeCalendarPageState extends State<HourTvAnimeCalendarPage> {
               ),
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.only(bottom: 8),
-            child: Text(
-              'Calendario y metadatos: AniList',
-              style: TextStyle(
-                fontSize: 11,
-                color: HourTvMobileTokens.textMuted,
-              ),
-            ),
-          ),
         ],
       ),
     ),

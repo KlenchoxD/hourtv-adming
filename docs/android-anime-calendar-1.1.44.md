@@ -12,12 +12,14 @@
 
 ## Verificación automatizada
 
-- 8 pruebas nuevas aprobadas: paginación/caché/error/desduplicación/identidad y widgets de calendario/selector a 360x800 y 800x360.
+- 10 pruebas nuevas aprobadas: paginación/caché/error/desduplicación/identidad y widgets de calendario/selector a 360x800 y 800x360. Dos pruebas reproducen y verifican la corrección de temporadas distinguidas por puntuación y de consulta del alias original tras un título traducido.
 - 18 pruebas dirigidas de Inicio, filtros de búsqueda y pantallas estrechas aprobadas después del ajuste de cuadrícula.
 - Suite completa final: **627 aprobadas, 2 omitidas, 1 fallida**. No se presenta la suite como completamente verde.
 - Fallo restante: `guest_migration_service_test.dart`, `GuestMigrationService inspection reports counts but does not expose content payloads`, línea 33: progreso esperado 3, obtenido 0. El servicio de migración, almacenamiento y su prueba son idénticos a HEAD anterior; quedan fuera del alcance de esta actualización.
 - `dart format --output=none --set-exit-if-changed`: 13 archivos, cero cambios.
 - `flutter analyze --no-pub` sobre los 13 archivos Dart de la actualización: sin problemas.
+- Revisión independiente: dos problemas de identificación detectados y reproducidos, corregidos y aprobados en una segunda revisión. Las pruebas dirigidas y el análisis se repitieron tras corregirlos.
+- El pie informativo del calendario se retiró por solicitud del usuario. No cambia las consultas ni los filtros.
 
 ## Límites conocidos
 

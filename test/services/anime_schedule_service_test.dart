@@ -107,6 +107,59 @@ void main() {
       expect(offline.entries.map((e) => e.media.id), [1, 3]);
     },
   );
+  test('season punctuation remains part of anime identity', () {
+    XtreamSeries titled(String name) => XtreamSeries(
+      seriesId: name,
+      name: name,
+      host: '',
+      username: '',
+      password: '',
+      categories: ['anime'],
+    );
+    for (final names in [
+      ['K-On!', 'K-On!!'],
+      ['Working!!', 'Working!!!'],
+    ]) {
+      final item = titled(names.first);
+      final index = AnimeCatalogIndex([item]);
+      expect(
+        index.match(AnimeAiringMedia.fromJson(media(1, name: names.first))),
+        same(item),
+      );
+      expect(
+        index.match(AnimeAiringMedia.fromJson(media(2, name: names.last))),
+        isNull,
+      );
+    }
+  });
+  test(
+    'status lookup tries distinct source alias after localized title',
+    () async {
+      final searches = <String>[];
+      final service = AnimeScheduleService(
+        client: MockClient((request) async {
+          final search =
+              jsonDecode(request.body)['variables']['search'] as String;
+          searches.add(search);
+          return http.Response(
+            jsonEncode({
+              'data': {
+                'Page': {
+                  'media': search == 'blue period' ? [media(1)] : [],
+                },
+              },
+            }),
+            200,
+          );
+        }),
+      );
+      final result = await service.lookup(series());
+      expect(result?.id, 1);
+      expect(searches, ['Periodo azul', 'blue period']);
+      expect((await service.lookup(series()))?.id, 1);
+      expect(searches.length, 2);
+    },
+  );
   test(
     'API failure without cache is an error, not a fabricated empty calendar',
     () async {
