@@ -4,8 +4,9 @@
   const DB_NAME='hourtv-admin-cache';
   const STORE_NAME='snapshots';
   const BASELINE_KEY='catalog-baseline-v1';
+  const CATALOG_KEY='catalog-current-v1';
 
-  function createCatalogBaselineStore(indexedDBApi){
+  function createCatalogBaselineStore(indexedDBApi,key=BASELINE_KEY){
     const api=indexedDBApi===undefined?root.indexedDB:indexedDBApi;
 
     function open(){
@@ -31,7 +32,7 @@
         try{
           const tx=db.transaction(STORE_NAME,method==='put'?'readwrite':'readonly');
           const store=tx.objectStore(STORE_NAME);
-          const operation=method==='put'?store.put(value,BASELINE_KEY):store.get(BASELINE_KEY);
+          const operation=method==='put'?store.put(value,key):store.get(key);
           let result;
           operation.onsuccess=()=>{result=operation.result};
           operation.onerror=()=>fail(operation.error||new Error('Falló la operación de caché.'));
@@ -45,7 +46,14 @@
     return {get:()=>request('get'),set:value=>request('put',value)};
   }
 
-  const api={createCatalogBaselineStore,...createCatalogBaselineStore()};
+  const baseline=createCatalogBaselineStore();
+  const current=createCatalogBaselineStore(undefined,CATALOG_KEY);
+  const api={
+    createCatalogBaselineStore,
+    ...baseline,
+    getCatalog:current.get,
+    setCatalog:current.set,
+  };
   if(typeof module!=='undefined'&&module.exports)module.exports=api;
   root.HourTvCatalogBaselineStore=api;
 })(typeof window!=='undefined'?window:globalThis);

@@ -1312,7 +1312,12 @@ let deletedIds = new Set(JSON.parse(localStorage.getItem('hourtv_admin_deleted')
 function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7)}
 function esc(s){return String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
 function toast(msg,type){const t=document.getElementById('toast');t.textContent=msg;t.className='toast show '+(type||'');setTimeout(()=>t.className='toast',2600)}
-function save(){try{localStorage.setItem('hourtv_admin_catalog',JSON.stringify(catalog))}catch(e){console.warn('Almacenamiento local lleno; los datos se mantienen en memoria para publicar a GitHub.',e)}}
+function save(){
+  const snapshot=JSON.parse(JSON.stringify(catalog));
+  try{localStorage.setItem('hourtv_admin_catalog',JSON.stringify(snapshot))}
+  catch(e){console.warn('localStorage lleno; se usará IndexedDB para conservar el catálogo.',e)}
+  try{if(window.HourTvCatalogBaselineStore&&HourTvCatalogBaselineStore.setCatalog)HourTvCatalogBaselineStore.setCatalog(snapshot).catch(err=>console.warn('No se pudo guardar el catálogo en IndexedDB.',err))}catch(e){}
+}
 function saveDeletedIds(){try{localStorage.setItem('hourtv_admin_deleted',JSON.stringify([...deletedIds]))}catch(e){}}
 
 // ---------- Pendientes ----------
@@ -2724,6 +2729,29 @@ document.addEventListener('click', function (event) {
   window.refreshStatus=()=>workspace.refreshConnection();
   window.addEventListener('hourtv:catalog-base-changed',()=>workspace.render());
   window.addEventListener('hourtv:github-operation',event=>workspace.refreshConnection(event.detail));
+  (async()=>{
+    try{
+      const hasCatalog=['movies','series','sources'].some(key=>(catalog[key]||[]).length);
+      const cached=window.HourTvCatalogBaselineStore&&HourTvCatalogBaselineStore.getCatalog?await HourTvCatalogBaselineStore.getCatalog():null;
+      if(!hasCatalog&&cached&&typeof cached==='object'){
+        catalog=normalize(cached);
+        workspace.render();
+        return;
+      }
+      if(!hasCatalog){
+        const owner=(cfg&&cfg.owner)||'KlenchoxD';
+        const repo=(cfg&&cfg.repo)||'hourtv-adming';
+        const branch=(cfg&&cfg.branch)||'master';
+        const path=(cfg&&cfg.path)||'catalog.json';
+        const rawUrl='https://raw.githubusercontent.com/'+encodeURIComponent(owner)+'/'+encodeURIComponent(repo)+'/'+encodeURIComponent(branch)+'/'+path.replace(/^\/+/, '')+'?_='+Date.now();
+        const res=await fetch(rawUrl,{cache:'no-store'});
+        if(res.ok){
+          catalog=normalize(await res.json());
+          save();workspace.render();
+        }
+      }
+    }catch(e){console.warn('No se pudo restaurar el catálogo guardado en IndexedDB.',e)}
+  })();
   window.addEventListener('pagehide',()=>workspace.destroy(),{once:true});
 })();
 </script>
