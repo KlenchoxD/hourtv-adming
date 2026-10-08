@@ -89042,31 +89042,41 @@
     },
     {
       "id": "m66901646b371",
-      "title": "Backrooms: Sin salida",
-      "plot": "Una extraña puerta aparece en el sótano de una exposición de muebles. Cuando el paciente de una terapeuta desaparece en una…",
-      "cast": "",
-      "director": "",
-      "writer": "",
-      "releaseDate": "",
+      "title": "Backrooms",
+      "plot": "Una extraña puerta aparece en el sótano de una tienda de muebles. Cuando el paciente de una terapeuta desaparece en una dimensión más allá de la realidad, ella deberá adentrarse en lo desconocido para intentar rescatarlo.",
+      "cast": "Chiwetel Ejiofor, Renate Reinsve, Finn Bennett, Lukita Maxwell, Mark Duplass, Avan Jogia, Robert Bobroczkyi, Ember Ambrose, Krista Kosonen, Philip Granger, Katharine Isabelle, Peter New, Sarah Hayward, Natalie Moon, Calix Fraser, Sawyer Fraser, Patrick Baynham, Rhiannon Roberts, Dana Mahmood, Matthew Patrick Savage, Ramona Kim, Milana Wan, Kelly Craig, Mel Kostas",
+      "castPhotos": {
+        "Chiwetel Ejiofor": "https://image.tmdb.org/t/p/w185/kq5DDnqqofoRI0t6ddtRlsJnNPT.jpg",
+        "Renate Reinsve": "https://image.tmdb.org/t/p/w185/q0ljTd4fyFSJKxPgmcrKtdg3HKo.jpg",
+        "Finn Bennett": "https://image.tmdb.org/t/p/w185/p4ya77nmLlhS2cyPKUZi9zVD4Mu.jpg",
+        "Lukita Maxwell": "https://image.tmdb.org/t/p/w185/g5g6XxUAtSdPfsJrSoFkl7vH51d.jpg",
+        "Mark Duplass": "https://image.tmdb.org/t/p/w185/lRDf99rAfcdqt8Cqk4LsIT7XSD2.jpg",
+        "Avan Jogia": "https://image.tmdb.org/t/p/w185/7BX0Lg39bHlgtvWZpszTr1YjTAW.jpg"
+      },
+      "director": "Kane Parsons",
+      "writer": "Will Soodik",
+      "releaseDate": "2026-05-27",
       "year": "2026",
       "genre": "Horror",
-      "rating": "",
-      "duration": "",
-      "poster": "https://image.tmdb.org/t/p/w500/3YTb97zytlWRWZb7HrOiEhk4e6f.jpg",
+      "rating": 7,
+      "duration": "111 min",
+      "poster": "https://image.tmdb.org/t/p/w500/ur2yYTVGPkEDmLdoQ1Obm2RKXuU.jpg",
       "backdrop": "https://image.tmdb.org/t/p/w780/dqmMWNWfLnExDRpMtIMqI97GQFR.jpg",
       "categories": [
         "estrenos",
-        "horror"
+        "populares",
+        "terror",
+        "aventura"
       ],
+      "tmdbId": 1083381,
+      "tmdbType": "movie",
       "servers": [
         {
           "name": "BlogdePelis",
           "url": "https://paulinito.com/player/v6GW8AcMnOBvdDa/",
-          "language": "Español",
-          "id": "b5d094cf-3b88-439f-b31c-674633bca3fd"
+          "language": "Español"
         }
-      ],
-      "sourceUrl": "https://blogdepelis.net/backrooms-sin-salida.html"
+      ]
     },
     {
       "id": "mc63ad1aa5e8c",
