@@ -1312,11 +1312,24 @@ let deletedIds = new Set(JSON.parse(localStorage.getItem('hourtv_admin_deleted')
 function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7)}
 function esc(s){return String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
 function toast(msg,type){const t=document.getElementById('toast');t.textContent=msg;t.className='toast show '+(type||'');setTimeout(()=>t.className='toast',2600)}
+let catalogSaveQueue=Promise.resolve();
+let catalogCacheRevision=0;
 function save(){
-  const snapshot=JSON.parse(JSON.stringify(catalog));
-  try{localStorage.setItem('hourtv_admin_catalog',JSON.stringify(snapshot))}
+  catalogCacheRevision=Math.max(Date.now(),catalogCacheRevision+1);
+  const context=typeof catalogContext==='function'?catalogContext(cfg):JSON.stringify([cfg.owner||'',cfg.repo||'',cfg.branch||'master',cfg.path||'catalog.json']);
+  const snapshot={cacheVersion:2,context,savedAt:catalogCacheRevision,catalog:JSON.parse(JSON.stringify(catalog))};
+  let localSaved=false;
+  try{localStorage.setItem('hourtv_admin_catalog',JSON.stringify(snapshot));localSaved=true}
   catch(e){console.warn('localStorage lleno; se usará IndexedDB para conservar el catálogo.',e)}
-  try{if(window.HourTvCatalogBaselineStore&&HourTvCatalogBaselineStore.setCatalog)HourTvCatalogBaselineStore.setCatalog(snapshot).catch(err=>console.warn('No se pudo guardar el catálogo en IndexedDB.',err))}catch(e){}
+  const persist=async()=>{
+    let indexedSaved=false;
+    try{if(window.HourTvCatalogBaselineStore&&HourTvCatalogBaselineStore.setCatalog){await HourTvCatalogBaselineStore.setCatalog(snapshot);indexedSaved=true}}
+    catch(e){console.warn('No se pudo guardar el catálogo en IndexedDB.',e)}
+    if(!localSaved&&!indexedSaved)toast('No se pudo conservar el catálogo. No cierres la página; exporta JSON para guardar una copia.','err');
+    return localSaved||indexedSaved;
+  };
+  catalogSaveQueue=catalogSaveQueue.then(persist,persist);
+  return catalogSaveQueue;
 }
 function saveDeletedIds(){try{localStorage.setItem('hourtv_admin_deleted',JSON.stringify([...deletedIds]))}catch(e){}}
 
@@ -2170,6 +2183,7 @@ async function uploadImage(file, targetInputId, previewId){
 }
 
 async function loadFromGitHub(){
+  if(window.catalogReady)await window.catalogReady;
   const operationConfig={...cfg};const operationContext=catalogContext(operationConfig);
   const localRevision=JSON.stringify(catalog);
   notifyCatalogEvent('hourtv:github-operation',{context:operationContext,state:'checking'});
@@ -2195,7 +2209,8 @@ async function loadFromGitHub(){
     if(JSON.stringify(catalog)!==localRevision)throw new Error('El catálogo local cambió durante la carga. Se conservaron tus ediciones; vuelve a cargar si quieres sustituirlas.');
     catalog=normalize(JSON.parse(content));window._sha=data.sha;
     await persistCatalogBase(JSON.parse(JSON.stringify(catalog)),operationContext);
-    save();render();
+    if(!await save())throw new Error('El catálogo se cargó, pero no se pudo guardar en este navegador. Exporta JSON antes de cerrar.');
+    render();
     notifyCatalogEvent('hourtv:github-operation',{context:operationContext,state:'success'});
     toast('Catálogo cargado desde GitHub','ok');
     return true;
@@ -2205,7 +2220,7 @@ async function loadFromGitHub(){
 // ---------- Init ----------
 (function(){
   const local=localStorage.getItem('hourtv_admin_catalog');
-  if(local){try{catalog=normalize(JSON.parse(local))}catch(e){}}
+  if(local){try{const stored=JSON.parse(local);catalog=normalize(stored&&stored.cacheVersion===2?stored.catalog:stored)}catch(e){}}
   // The workspace controller initializes after the optional legacy modules.
   // Do not mount the old unbounded card grid first.
   if(!document.getElementById('workspace-tabs')){refreshStatus();render();}
@@ -2729,15 +2744,21 @@ document.addEventListener('click', function (event) {
   window.refreshStatus=()=>workspace.refreshConnection();
   window.addEventListener('hourtv:catalog-base-changed',()=>workspace.render());
   window.addEventListener('hourtv:github-operation',event=>workspace.refreshConnection(event.detail));
-  (async()=>{
+  window.catalogReady=(async()=>{
     try{
-      const hasCatalog=['movies','series','sources'].some(key=>(catalog[key]||[]).length);
+      const revision=JSON.stringify(catalog),context=catalogContext(cfg);
+      let local=null;
+      try{local=JSON.parse(localStorage.getItem('hourtv_admin_catalog')||'null')}catch(e){}
       const cached=window.HourTvCatalogBaselineStore&&HourTvCatalogBaselineStore.getCatalog?await HourTvCatalogBaselineStore.getCatalog():null;
-      if(!hasCatalog&&cached&&typeof cached==='object'){
-        catalog=normalize(cached);
+      if(JSON.stringify(catalog)!==revision||catalogContext(cfg)!==context)return;
+      const restored=window.HourTvCatalogBaselineStore&&HourTvCatalogBaselineStore.selectCatalogSnapshot?HourTvCatalogBaselineStore.selectCatalogSnapshot(local,cached,context):null;
+      if(restored){
+        catalog=normalize(restored);
+        await save();
         workspace.render();
         return;
       }
+      const hasCatalog=['movies','series','sources'].some(key=>(catalog[key]||[]).length);
       if(!hasCatalog){
         const owner=(cfg&&cfg.owner)||'KlenchoxD';
         const repo=(cfg&&cfg.repo)||'hourtv-adming';
@@ -2746,8 +2767,10 @@ document.addEventListener('click', function (event) {
         const rawUrl='https://raw.githubusercontent.com/'+encodeURIComponent(owner)+'/'+encodeURIComponent(repo)+'/'+encodeURIComponent(branch)+'/'+path.replace(/^\/+/, '')+'?_='+Date.now();
         const res=await fetch(rawUrl,{cache:'no-store'});
         if(res.ok){
-          catalog=normalize(await res.json());
-          save();workspace.render();
+          const remote=await res.json();
+          if(JSON.stringify(catalog)!==revision||catalogContext(cfg)!==context)return;
+          catalog=normalize(remote);
+          await save();workspace.render();
         }
       }
     }catch(e){console.warn('No se pudo restaurar el catálogo guardado en IndexedDB.',e)}

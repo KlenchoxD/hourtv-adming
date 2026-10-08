@@ -4,6 +4,17 @@ const fs=require('node:fs');
 const vm=require('node:vm');
 const CatalogSync=require('./catalog-sync');
 
+test('restoring the comparison base never saves the stale current catalog',async()=>{
+  let saves=0;
+  const value={movies:[],series:[{id:'baseline'}],sources:[]};
+  const context={window:{HourTvCatalogBaselineStore:{get:async()=>value}},cfg:{},
+    localStorage:{getItem:()=>null,removeItem(){}},CatalogSync,console,save(){saves++}};
+  vm.createContext(context);
+  vm.runInContext(fs.readFileSync(require.resolve('./catalog-publish.js'),'utf8'),context);
+  await vm.runInContext('catalogBaseReady',context);
+  assert.equal(saves,0);
+});
+
 test('successful GitHub publish is not reported as failed by a full localStorage',async()=>{
   const remote={version:2,movies:[{id:'movie-1',title:'Published'}],series:[],sources:[],liveChannels:[]};
   let savedBaseline;

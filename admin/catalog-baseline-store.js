@@ -6,6 +6,29 @@
   const BASELINE_KEY='catalog-baseline-v1';
   const CATALOG_KEY='catalog-current-v1';
 
+  function validCatalog(value){
+    return value&&typeof value==='object'&&!Array.isArray(value)
+      &&['movies','series','sources'].some(key=>Array.isArray(value[key]))
+      &&['movies','series','sources'].every(key=>value[key]===undefined||Array.isArray(value[key]));
+  }
+
+  function makeCatalogSnapshot(value,context,savedAt=Date.now()){
+    return {cacheVersion:2,context,savedAt,catalog:JSON.parse(JSON.stringify(value))};
+  }
+
+  function selectCatalogSnapshot(local,indexed,context){
+    function candidate(value){
+      const wrapped=value&&value.cacheVersion===2;
+      const catalog=wrapped?value.catalog:value;
+      if(!validCatalog(catalog)||wrapped&&value.context!==context)return null;
+      return {catalog,savedAt:wrapped&&Number.isFinite(value.savedAt)?value.savedAt:0};
+    }
+    const a=candidate(local),b=candidate(indexed);
+    // Legacy IndexedDB was the large-catalog fallback. On equal unknown ages,
+    // prefer it over the localStorage value left behind by a quota failure.
+    return b&&(!a||b.savedAt>=a.savedAt)?b.catalog:a?a.catalog:null;
+  }
+
   function createCatalogBaselineStore(indexedDBApi,key=BASELINE_KEY){
     const api=indexedDBApi===undefined?root.indexedDB:indexedDBApi;
 
@@ -50,6 +73,8 @@
   const current=createCatalogBaselineStore(undefined,CATALOG_KEY);
   const api={
     createCatalogBaselineStore,
+    makeCatalogSnapshot,
+    selectCatalogSnapshot,
     ...baseline,
     getCatalog:current.get,
     setCatalog:current.set,

@@ -26,7 +26,6 @@ async function restoreCatalogBase(){
       catalogBaseContext=context;
       catalogBaseGeneration++;
       try{localStorage.removeItem(catalogBaselineKey)}catch(e){}
-      if(typeof save==='function')save();
       notifyCatalogEvent('hourtv:catalog-base-changed',{});
       return;
     }
@@ -47,7 +46,6 @@ async function restoreCatalogBase(){
       try{
         await catalogBaselineStore.set(legacy);
         localStorage.removeItem(catalogBaselineKey);
-        if(typeof save==='function')save();
       }catch(e){console.warn('La base se mantiene en memoria; no se pudo migrar a IndexedDB.',e)}
     }
     notifyCatalogEvent('hourtv:catalog-base-changed',{});
@@ -143,7 +141,7 @@ async function publish(options){
     if(catalogContext(cfg)!==operationContext||catalogBaseGeneration!==expectedGeneration||catalogBaseContext!==operationContext){toast('Publicado en GitHub. El contexto local cambió durante el guardado; se conservaron los datos actuales sin sincronizaciones adicionales.','warn');return true;}
     catalog=CatalogSync.merge(pending,catalog,outcome.catalog);
     for(const id of deleting)deletedIds.delete(id);
-    saveDeletedIds();save();render();
+    saveDeletedIds();await save();render();
     toast('¡Publicado! Se conservaron los cambios remotos y tus servidores.','ok');
     await syncCatalogSnapshotToSupabase(JSON.stringify(catalogBase));
     if(!options.skipReplacementFinalize&&typeof finalizePendingReplacementPublish==='function')await finalizePendingReplacementPublish(true);

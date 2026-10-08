@@ -56,3 +56,34 @@ test('reports IndexedDB unavailable without corrupting caller state',async()=>{
   await assert.rejects(store.get(),/IndexedDB no está disponible/);
   await assert.rejects(store.set({movies:[]}),/IndexedDB no está disponible/);
 });
+
+test('restores the newer large catalog instead of stale localStorage',()=>{
+  const {makeCatalogSnapshot,selectCatalogSnapshot}=require('./catalog-baseline-store');
+  const old={movies:[],series:Array.from({length:72},(_,id)=>({id})),sources:[]};
+  const current={...old,series:Array.from({length:320},(_,id)=>({id}))};
+  assert.deepEqual(selectCatalogSnapshot(old,current,'repo'),current);
+  assert.deepEqual(selectCatalogSnapshot(makeCatalogSnapshot(old,'repo',10),makeCatalogSnapshot(current,'repo',20),'repo'),current);
+});
+
+test('does not prefer a larger cache over newer local edits',()=>{
+  const {makeCatalogSnapshot,selectCatalogSnapshot}=require('./catalog-baseline-store');
+  const local={movies:[],series:[{id:'edited'}],sources:[]};
+  const cached={movies:[],series:[{id:'old'},{id:'old2'}],sources:[]};
+  assert.deepEqual(selectCatalogSnapshot(makeCatalogSnapshot(local,'repo',30),makeCatalogSnapshot(cached,'repo',20),'repo'),local);
+});
+
+test('ignores another repository cache and invalid snapshots',()=>{
+  const {makeCatalogSnapshot,selectCatalogSnapshot}=require('./catalog-baseline-store');
+  const value={movies:[],series:[{id:'keep'}],sources:[]};
+  assert.deepEqual(selectCatalogSnapshot(value,makeCatalogSnapshot(value,'other',50),'repo'),value);
+  assert.equal(selectCatalogSnapshot({broken:true},{cacheVersion:2,catalog:{series:'invalid'}},'repo'),null);
+});
+
+test('creates detached snapshots and preserves valid empty catalogs',()=>{
+  const {makeCatalogSnapshot,selectCatalogSnapshot}=require('./catalog-baseline-store');
+  const value={movies:[],series:[],sources:[]};
+  const snapshot=makeCatalogSnapshot(value,'repo',12);
+  value.series.push({id:'later'});
+  assert.equal(snapshot.catalog.series.length,0);
+  assert.deepEqual(selectCatalogSnapshot(null,snapshot,'repo'),{movies:[],series:[],sources:[]});
+});
