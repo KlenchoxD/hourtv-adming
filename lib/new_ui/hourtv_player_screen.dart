@@ -31,6 +31,7 @@ import 'hourtv_web_player.dart';
 import 'hourtv_focusable.dart';
 import 'hourtv_cast_controls_screen.dart';
 import 'hourtv_cast_sheet.dart';
+import 'hourtv_playback_center.dart';
 
 const _hourRed = Color(0xFF00C781);
 const _hourSurface = Color(0xFF101412);
@@ -150,7 +151,6 @@ class _PlayerScreenState extends State<PlayerScreen>
   final ValueNotifier<int?> _nextEpisodeCountdown = ValueNotifier(null);
   final ValueNotifier<bool> _creditsMode = ValueNotifier(false);
   final ValueNotifier<bool> _playbackEnded = ValueNotifier(false);
-  final ValueNotifier<bool> _bufferingNotifier = ValueNotifier(false);
   final GithubSubtitleRepository _githubSubtitles = GithubSubtitleRepository();
   final OpenSubtitlesRepository _openSubtitles = OpenSubtitlesRepository();
 
@@ -382,7 +382,6 @@ class _PlayerScreenState extends State<PlayerScreen>
     final isBuffering = value.isBuffering;
     if (isBuffering != _wasBuffering) {
       _wasBuffering = isBuffering;
-      _bufferingNotifier.value = isBuffering;
       if (isBuffering) {
         _bufferingStartTime = DateTime.now();
         debugPrint('[PLAYER] buffering_start');
@@ -540,7 +539,6 @@ class _PlayerScreenState extends State<PlayerScreen>
     if (_vc != null) {
       debugPrint('[PLAYER] controller_replaced');
     }
-    _bufferingNotifier.value = false;
     _wasBuffering = false;
     _vc?.removeListener(_onVideoProgress);
     _cc?.dispose();
@@ -2130,35 +2128,6 @@ class _PlayerScreenState extends State<PlayerScreen>
                           ),
                           child: Stack(
                             children: [
-                              ValueListenableBuilder<bool>(
-                                valueListenable: _bufferingNotifier,
-                                builder: (context, isBuffering, _) {
-                                  if (!isBuffering) {
-                                    return const SizedBox.shrink();
-                                  }
-                                  return Center(
-                                    child: DecoratedBox(
-                                      decoration: BoxDecoration(
-                                        color: Colors.black.withValues(
-                                          alpha: 0.6,
-                                        ),
-                                        shape: BoxShape.circle,
-                                      ),
-                                      child: const Padding(
-                                        padding: EdgeInsets.all(16),
-                                        child: SizedBox(
-                                          width: 36,
-                                          height: 36,
-                                          child: CircularProgressIndicator(
-                                            color: _hourRed,
-                                            strokeWidth: 3.2,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                },
-                              ),
                               if (_screenDim > 0)
                                 Positioned.fill(
                                   child: IgnorePointer(
@@ -2192,6 +2161,9 @@ class _PlayerScreenState extends State<PlayerScreen>
                                     ),
                                   ),
                                 ),
+                              // This layer owns the one central playback state.
+                              // Buffering does not show/reset the chrome timer.
+                              Positioned.fill(child: _playbackCenter()),
                               if (_chromeVisible)
                                 Positioned(
                                   top: 0,
@@ -2212,7 +2184,6 @@ class _PlayerScreenState extends State<PlayerScreen>
                                   !DeviceProfile.isDesktop(context) &&
                                   !DeviceProfile.isTv(context) &&
                                   !_showList) ...[
-                                Positioned.fill(child: _touchCenterControls()),
                                 Positioned(
                                   left: 16,
                                   right: 16,
@@ -2311,7 +2282,8 @@ class _PlayerScreenState extends State<PlayerScreen>
       right: 24,
       // Keep captions near the lower edge during playback, lifting them only
       // while transport controls are visible so neither layer obscures the other.
-      bottom: MediaQuery.paddingOf(context).bottom +
+      bottom:
+          MediaQuery.paddingOf(context).bottom +
           (_chromeVisible
               ? (DeviceProfile.isTv(context) ? 120.0 : 88.0)
               : (DeviceProfile.isTv(context) ? 32.0 : 20.0)),
@@ -2522,82 +2494,41 @@ class _PlayerScreenState extends State<PlayerScreen>
     return 1 - (smaller / larger) <= .25;
   }
 
-  /// Controles centrales como Netflix: -10 s, play/pausa grande y +10 s.
-  /// En vivo no hay pausa ni saltos: los controles son de sintonización.
-  Widget _touchCenterControls() {
+  /// One central status, independent of the chrome's tap/auto-hide policy.
+  /// TV, desktop and live streams only use its buffering indicator; their
+  /// existing transport controls remain unchanged (live has no pause/seek).
+  Widget _playbackCenter() {
     final controller = _vc;
-    if (_isLive || controller == null || _loading || _err != null) {
+    if (controller == null || _loading || _err != null) {
       return const SizedBox.shrink();
     }
-    return Center(
-      child: _VideoSelector(
-        controller: controller,
-        select: (v) => v.isPlaying,
-        builder: (context, value) => Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (!_isLive) ...[
-              _roundControl(
-                icon: Icons.replay_10_rounded,
-                tooltip: 'Retroceder 10 segundos',
-                size: 52,
-                onTap: () => unawaited(_seekBy(const Duration(seconds: -10))),
-              ),
-              const SizedBox(width: 36),
-            ],
-            _roundControl(
-              icon: value.isPlaying
-                  ? Icons.pause_rounded
-                  : Icons.play_arrow_rounded,
-              tooltip: value.isPlaying ? 'Pausar' : 'Reproducir',
-              size: 76,
-              filled: true,
-              onTap: () {
-                _togglePlayPause();
-                _showChromeControls();
-              },
-            ),
-            if (!_isLive) ...[
-              const SizedBox(width: 36),
-              _roundControl(
-                icon: Icons.forward_10_rounded,
-                tooltip: 'Adelantar 10 segundos',
-                size: 52,
-                onTap: () => unawaited(_seekBy(const Duration(seconds: 10))),
-              ),
-            ],
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _roundControl({
-    required IconData icon,
-    required String tooltip,
-    required double size,
-    required VoidCallback onTap,
-    bool filled = false,
-  }) {
-    return Tooltip(
-      message: tooltip,
-      child: Material(
-        color: filled ? const Color(0x33FFFFFF) : Colors.transparent,
-        shape: CircleBorder(
-          side: filled
-              ? const BorderSide(color: Color(0x55FFFFFF))
-              : BorderSide.none,
-        ),
-        child: InkWell(
-          customBorder: const CircleBorder(),
-          onTap: onTap,
-          child: SizedBox(
-            width: size,
-            height: size,
-            child: Icon(icon, color: Colors.white, size: size * .56),
-          ),
-        ),
-      ),
+    final touchControlsVisible =
+        _chromeVisible &&
+        !_showList &&
+        !_isLive &&
+        !DeviceProfile.isTv(context) &&
+        !DeviceProfile.isDesktop(context);
+    return _VideoSelector(
+      controller: controller,
+      // Position/buffer-range ticks must not rebuild the central controls.
+      select: (v) => (v.isPlaying, v.isBuffering, v.isInitialized, v.hasError),
+      builder: (context, value) {
+        if (!value.isInitialized || value.hasError) {
+          return const SizedBox.shrink();
+        }
+        return HourTvPlaybackCenter(
+          controlsVisible: touchControlsVisible,
+          isBuffering: value.isBuffering,
+          isPlaying: value.isPlaying,
+          onTogglePlayback: () {
+            _togglePlayPause();
+            _showChromeControls();
+          },
+          onSeekBackward: () =>
+              unawaited(_seekBy(const Duration(seconds: -10))),
+          onSeekForward: () => unawaited(_seekBy(const Duration(seconds: 10))),
+        );
+      },
     );
   }
 
@@ -3908,11 +3839,14 @@ class _VideoSelector<T> extends StatefulWidget {
 }
 
 class _VideoSelectorState<T> extends State<_VideoSelector<T>> {
-  late T _selected = widget.select(widget.controller.value);
+  late T _selected;
 
   @override
   void initState() {
     super.initState();
+    // Eager baseline: a lazy initializer here would first run inside _changed
+    // and swallow the very first state transition (including bufferingStart).
+    _selected = widget.select(widget.controller.value);
     widget.controller.addListener(_changed);
   }
 
@@ -3922,8 +3856,9 @@ class _VideoSelectorState<T> extends State<_VideoSelector<T>> {
     if (!identical(old.controller, widget.controller)) {
       old.controller.removeListener(_changed);
       widget.controller.addListener(_changed);
-      _selected = widget.select(widget.controller.value);
     }
+    // The selector may capture updated widget inputs even with the same player.
+    _selected = widget.select(widget.controller.value);
   }
 
   @override
