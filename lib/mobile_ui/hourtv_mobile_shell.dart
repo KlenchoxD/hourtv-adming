@@ -708,7 +708,7 @@ class _HourTvMobileHomeState extends State<HourTvMobileHome> {
 
   @override
   Widget build(BuildContext context) {
-    final continueWatching = widget.store.continueWatching;
+    final continueWatching = widget.store.continueWatchingEntries;
     final activeProfile = StorageService.getSetting(
       'activeProfile',
       defaultValue: 'Invitado',
@@ -773,14 +773,7 @@ class _HourTvMobileHomeState extends State<HourTvMobileHome> {
                 onAvatarTap: widget.onProfile,
                 profileName: activeProfile,
                 avatarSeed: StorageService.activeProfileAvatarId,
-                trailing: IconButton(
-                  tooltip: 'Buscar',
-                  onPressed: widget.onSearch,
-                  icon: const Icon(
-                    Icons.search_rounded,
-                    color: HourTvMobileTokens.textSecondary,
-                  ),
-                ),
+                trailing: HourTvHeaderSearchButton(onPressed: widget.onSearch),
               ),
             ),
           if (hasError)
@@ -887,10 +880,12 @@ class _HourTvMobileHomeState extends State<HourTvMobileHome> {
                   storageKey: 'hourtv-home-continue-watching',
                   itemCount: continueWatching.length,
                   itemBuilder: (_, index, width) {
-                    final item = continueWatching[index];
+                    final entry = continueWatching[index];
+                    final item = entry.channel;
                     return HourTvPosterCard(
                       key: ValueKey('continue-${item.url}'),
                       channel: item,
+                      artworkUrl: entry.posterUrl,
                       width: width,
                       progress: item.progressFraction,
                       secondaryProgressLabel: remainingLabel(item),
@@ -2916,7 +2911,7 @@ class _HourTvMobileLibraryState extends State<HourTvMobileLibrary> {
   @override
   Widget build(BuildContext context) {
     final items = _items;
-    if (kIsWeb)
+    if (kIsWeb) {
       return HourTvWebLibrary(
         items: _tabItems,
         tab: tab,
@@ -2927,6 +2922,7 @@ class _HourTvMobileLibraryState extends State<HourTvMobileLibrary> {
         onOpen: widget.onOpen,
         onRemove: (c) => unawaited(widget.store.toggleFavorite(c)),
       );
+    }
     final wide = hourTvWideLayout(context);
     final pad = wide ? hourTvDesktopPadding(context) : 16.0;
     return CustomScrollView(

@@ -6,6 +6,7 @@ import 'package:flutter/rendering.dart'
 
 import '../models/channel.dart';
 import '../new_ui/hourtv_profile_avatar.dart';
+import '../services/artwork_image_provider.dart';
 import '../services/catalog/hero_tag_helper.dart';
 import '../services/device_type.dart';
 import '../services/image_resolution_service.dart';
@@ -186,20 +187,53 @@ class HourTvMobileHeader extends StatelessWidget {
           Semantics(
             button: true,
             label: 'Perfil',
-            child: InkWell(
-              borderRadius: BorderRadius.circular(20),
-              onTap: onAvatarTap,
-              child: HourTvProfileAvatar(
-                profileName: profileName,
-                avatarSeed: avatarSeed,
-                radius: 18,
-                backgroundColor: HourTvMobileTokens.emerald,
+            child: Tooltip(
+              message: 'Perfil',
+              excludeFromSemantics: true,
+              child: InkWell(
+                customBorder: const CircleBorder(),
+                onTap: onAvatarTap,
+                child: Container(
+                  width: HourTvMobileTokens.minimumTouchTarget,
+                  height: HourTvMobileTokens.minimumTouchTarget,
+                  padding: const EdgeInsets.all(3),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: HourTvMobileTokens.surfaceControl,
+                    border: Border.all(color: HourTvMobileTokens.borderSubtle),
+                  ),
+                  child: HourTvProfileAvatar(
+                    profileName: profileName,
+                    avatarSeed: avatarSeed,
+                    radius: 21,
+                    backgroundColor: HourTvMobileTokens.emerald,
+                  ),
+                ),
               ),
             ),
           ),
         ],
       ),
     ),
+  );
+}
+
+class HourTvHeaderSearchButton extends StatelessWidget {
+  const HourTvHeaderSearchButton({super.key, required this.onPressed});
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) => IconButton(
+    tooltip: 'Buscar',
+    onPressed: onPressed,
+    style: IconButton.styleFrom(
+      fixedSize: const Size.square(HourTvMobileTokens.minimumTouchTarget),
+      backgroundColor: HourTvMobileTokens.surfaceControl,
+      foregroundColor: HourTvMobileTokens.textPrimary,
+      side: const BorderSide(color: HourTvMobileTokens.borderSubtle),
+      shape: const CircleBorder(),
+    ),
+    icon: const Icon(Icons.search_rounded, size: 28),
   );
 }
 
@@ -740,37 +774,9 @@ class HourTvArtwork extends StatelessWidget {
     final image = cleanUrl != null && cleanUrl.isNotEmpty && kIsWeb
         ? _webImage(cleanUrl)
         : cleanUrl != null && cleanUrl.isNotEmpty
-        ? CachedNetworkImage(
-            imageUrl: cleanUrl,
-            fit: fit,
-            alignment: alignment,
-            memCacheWidth: memCacheWidth,
-            memCacheHeight: memCacheHeight,
-            fadeInDuration: Duration.zero,
-            fadeOutDuration: Duration.zero,
-            imageBuilder: onShown == null
-                ? null
-                : (_, provider) {
-                    onShown!();
-                    return Image(
-                      image: provider,
-                      fit: fit,
-                      alignment: alignment,
-                    );
-                  },
-            placeholder: (_, _) =>
-                const ColoredBox(color: HourTvMobileTokens.surfacePrimary),
-            errorWidget: (_, _, _) => _fallback(),
-          )
+        ? _nativeImage(CachedNetworkImageProvider(cleanUrl))
         : asset != null
-        ? Image.asset(
-            asset!,
-            fit: fit,
-            alignment: alignment,
-            cacheWidth: memCacheWidth,
-            cacheHeight: memCacheHeight,
-            errorBuilder: (_, _, _) => _fallback(),
-          )
+        ? _nativeImage(AssetImage(asset!))
         : _fallback();
     if (borderRadius != null && borderRadius != BorderRadius.zero) {
       return ClipRRect(
@@ -780,6 +786,28 @@ class HourTvArtwork extends StatelessWidget {
     }
     return SizedBox.expand(child: image);
   }
+
+  // One bounded provider for both the first network frame and cached frames.
+  // Passing width+height to the old widget used an exact resize; the hero's
+  // custom imageBuilder then loaded a second, unbounded provider. Both paths
+  // now preserve proportions and use the same decode/memory budget.
+  Widget _nativeImage(ImageProvider provider) => Image(
+    image: hourTvArtworkProvider(
+      provider,
+      cacheWidth: memCacheWidth,
+      cacheHeight: memCacheHeight,
+    ),
+    fit: fit,
+    alignment: alignment,
+    frameBuilder: (_, child, frame, _) {
+      if (frame == null) {
+        return const ColoredBox(color: HourTvMobileTokens.surfacePrimary);
+      }
+      onShown?.call();
+      return child;
+    },
+    errorBuilder: (_, _, _) => _fallback(),
+  );
 
   // En navegador varios sitios (blogdepelis, pinimg) no mandan CORS y Flutter
   // no puede leer sus imágenes: fallback las muestra como <img> normal.
@@ -868,6 +896,7 @@ class HourTvPosterCard extends StatefulWidget {
     this.progress,
     this.secondaryProgressLabel,
     this.heroScope,
+    this.artworkUrl,
   });
 
   final Channel channel;
@@ -877,6 +906,9 @@ class HourTvPosterCard extends StatefulWidget {
   final double? progress;
   final String? secondaryProgressLabel;
   final String? heroScope;
+
+  /// Optional catalog artwork without replacing the playable episode identity.
+  final String? artworkUrl;
 
   @override
   State<HourTvPosterCard> createState() => _HourTvPosterCardState();
@@ -896,12 +928,15 @@ class _HourTvPosterCardState extends State<HourTvPosterCard> {
     final sized = widget.width.isFinite;
     Widget artwork() => sized
         ? HourTvArtwork(
-            url: widget.channel.logo,
+            url: widget.artworkUrl ?? widget.channel.logo,
             asset: widget.assetFallback,
             memCacheWidth: (widget.width * dpr).round(),
             memCacheHeight: (widget.width * 178 / 120 * dpr).round(),
           )
-        : HourTvArtwork(url: widget.channel.logo, asset: widget.assetFallback);
+        : HourTvArtwork(
+            url: widget.artworkUrl ?? widget.channel.logo,
+            asset: widget.assetFallback,
+          );
     return MouseRegion(
       cursor: SystemMouseCursors.click,
       child: RepaintBoundary(
@@ -967,9 +1002,9 @@ class _HourTvPosterCardState extends State<HourTvPosterCard> {
                     maxLines: kIsWeb ? 2 : 1,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                      height: 15 / 12,
+                      fontSize: kIsWeb ? 12 : 14,
+                      fontWeight: kIsWeb ? FontWeight.w600 : FontWeight.w700,
+                      height: 1.25,
                     ),
                   ),
                   const SizedBox(height: 2),

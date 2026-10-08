@@ -42,6 +42,13 @@ enum CatalogLoadPhase {
   failed,
 }
 
+/// A resume tile's artwork is independent of its playable episode identity.
+class ContinueWatchingEntry {
+  const ContinueWatchingEntry({required this.channel, required this.posterUrl});
+  final Channel channel;
+  final String? posterUrl;
+}
+
 class CatalogReadiness {
   const CatalogReadiness(this.phase, {this.message, this.canRetry = false});
   final CatalogLoadPhase phase;
@@ -1565,22 +1572,31 @@ class ContentStore extends ChangeNotifier {
 
   /// VOD empezado pero no terminado, para la fila "Continuar viendo". En Vivo
   /// no aplica: no tiene sentido "continuar" un canal en directo.
-  List<Channel> get continueWatching {
+  List<Channel> get continueWatching => [
+    for (final entry in continueWatchingEntries) entry.channel,
+  ];
+
+  List<ContinueWatchingEntry> get continueWatchingEntries {
     final seen = <String>{};
-    final result = <Channel>[];
+    final result = <ContinueWatchingEntry>[];
     // History is newest first. Claim the series before filtering progress:
     // finishing its latest episode must not revive an older unfinished one.
     for (final item in history) {
       if (item.type == MediaType.live) continue;
       var key = 'video:${item.url}';
+      String? seriesPoster;
       if (item.type == MediaType.series) {
-        final id = item.tvgId ?? '';
+        final id = item.stableTitleId ?? '';
         for (final parent in series) {
-          if ((id.isNotEmpty && id.startsWith('${parent.seriesId}:')) ||
+          if ((id.isNotEmpty &&
+                  (id == parent.seriesId ||
+                      id.startsWith('${parent.seriesId}:'))) ||
               (parent.episodes ?? const <Channel>[]).any(
                 (episode) => item.url.isNotEmpty && episode.url == item.url,
               )) {
             key = 'series:${parent.seriesId}';
+            final cover = parent.cover?.trim();
+            if (cover != null && cover.isNotEmpty) seriesPoster = cover;
             break;
           }
         }
@@ -1592,7 +1608,12 @@ class ContentStore extends ChangeNotifier {
       if (!seen.add(key)) continue;
       final fraction = item.progressFraction;
       if (fraction != null && fraction > 0.02 && fraction < 0.95) {
-        result.add(item);
+        result.add(
+          ContinueWatchingEntry(
+            channel: item,
+            posterUrl: seriesPoster ?? item.logo,
+          ),
+        );
       }
     }
     return result;
