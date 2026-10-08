@@ -1,25 +1,25 @@
 {
-  "generatedAt": "2026-10-08T09:46:37.523Z",
-  "durationMs": 665,
+  "generatedAt": "2026-10-08T17:05:43.887Z",
+  "durationMs": 2336,
   "dryRun": false,
-  "moviesFound": 33,
-  "moviesDiscarded": 20,
+  "moviesFound": 34,
+  "moviesDiscarded": 22,
   "moviesAdded": 0,
   "moviesEnriched": 0,
-  "duplicates": 13,
+  "duplicates": 12,
   "tmdbErrors": 0,
   "providerErrors": 0,
   "invalidSources": 0,
   "addedTitles": [],
   "skipped": [
     {
-      "tmdbId": 969681,
-      "title": "Spider-Man: Brand New Day",
+      "tmdbId": 1423191,
+      "title": "Resident Evil",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1423191,
-      "title": "Resident Evil",
+      "tmdbId": 969681,
+      "title": "Spider-Man: Brand New Day",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
@@ -43,13 +43,13 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1288445,
-      "title": "El motín",
+      "tmdbId": 1283515,
+      "title": "Verity. La sombra de un engaño",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1283515,
-      "title": "Verity. La sombra de un engaño",
+      "tmdbId": 1288445,
+      "title": "El motín",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
@@ -63,13 +63,13 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1400837,
-      "title": "La otra madre",
+      "tmdbId": 1280300,
+      "title": "The Whistler",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1599191,
-      "title": "仙逆剧场版：弑仙之战",
+      "tmdbId": 1400837,
+      "title": "La otra madre",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
@@ -83,6 +83,11 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
+      "tmdbId": 1599191,
+      "title": "仙逆剧场版：弑仙之战",
+      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+    },
+    {
       "tmdbId": 1377237,
       "title": "Entrega al límite",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
@@ -93,18 +98,23 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1294189,
-      "title": "The Mongoose",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
-    },
-    {
       "tmdbId": 30723,
       "title": "Cavegirl: La chica de las cavernas (Cavernícola 2)",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
+      "tmdbId": 1294189,
+      "title": "The Mongoose",
+      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+    },
+    {
       "tmdbId": 1032863,
       "title": "La hipótesis del amor",
+      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+    },
+    {
+      "tmdbId": 1712451,
+      "title": "Dead Residents Evil",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {

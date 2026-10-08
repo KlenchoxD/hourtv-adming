@@ -1,36 +1,37 @@
 {
-  "lastRunAt": "2026-10-08T09:46:38.182Z",
+  "lastRunAt": "2026-10-08T17:05:46.218Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
-    969681,
     1423191,
+    969681,
     1291595,
     1101412,
     1204680,
-    1101383,
     1248832,
+    1101383,
     1084244,
-    1288445,
     1283515,
+    1288445,
     1263337,
-    1477712,
-    1108427,
     299534,
+    1108427,
+    1477712,
     1315772,
     1275779,
     980431,
+    1280300,
     1400837,
     1185806,
-    671,
-    1599191,
     1368337,
     1228834,
+    1599191,
     1377237,
     1751701,
     460458,
-    1294189,
     30723,
+    1294189,
     1032863,
+    1712451,
     1339713,
     1232569,
     1335666,
@@ -41,13 +42,13 @@
   "errorsSummary": [],
   "skipped": [
     {
-      "tmdbId": 969681,
-      "title": "Spider-Man: Brand New Day",
+      "tmdbId": 1423191,
+      "title": "Resident Evil",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1423191,
-      "title": "Resident Evil",
+      "tmdbId": 969681,
+      "title": "Spider-Man: Brand New Day",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
@@ -71,13 +72,13 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1288445,
-      "title": "El motín",
+      "tmdbId": 1283515,
+      "title": "Verity. La sombra de un engaño",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1283515,
-      "title": "Verity. La sombra de un engaño",
+      "tmdbId": 1288445,
+      "title": "El motín",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
@@ -91,13 +92,13 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1400837,
-      "title": "La otra madre",
+      "tmdbId": 1280300,
+      "title": "The Whistler",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1599191,
-      "title": "仙逆剧场版：弑仙之战",
+      "tmdbId": 1400837,
+      "title": "La otra madre",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
@@ -111,6 +112,11 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
+      "tmdbId": 1599191,
+      "title": "仙逆剧场版：弑仙之战",
+      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+    },
+    {
       "tmdbId": 1377237,
       "title": "Entrega al límite",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
@@ -121,18 +127,23 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1294189,
-      "title": "The Mongoose",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
-    },
-    {
       "tmdbId": 30723,
       "title": "Cavegirl: La chica de las cavernas (Cavernícola 2)",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
+      "tmdbId": 1294189,
+      "title": "The Mongoose",
+      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+    },
+    {
       "tmdbId": 1032863,
       "title": "La hipótesis del amor",
+      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+    },
+    {
+      "tmdbId": 1712451,
+      "title": "Dead Residents Evil",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
