@@ -73,13 +73,13 @@ test('individual rejects missing high confidence, unsafe URL, or declined confir
   let rpc=0; const callRpc=async()=>{rpc++;};
   await assert.rejects(applyConfirmedReplacement({candidate:{...fresh,confidence:'medium'},confirm:()=>true,callRpc}),/confianza alta/i);
   await assert.rejects(applyConfirmedReplacement({candidate:{...fresh,confidence:'high',url:'http://127.0.0.1/x'},confirm:()=>true,callRpc}),/URL segura/i);
-  const declined=await applyConfirmedReplacement({candidate:{...fresh,confidence:'high'},confirm:()=>false,callRpc});
+  const declined=await applyConfirmedReplacement({candidate:{...fresh,confidence:'high'},now:new Date('2026-09-22T02:00:00Z'),confirm:()=>false,callRpc});
   assert.equal(declined.cancelled,true); assert.equal(rpc,0);
 });
 
 test('apply and discard use one atomic RPC each', async () => {
   const calls=[]; const callRpc=async(name,args)=>(calls.push([name,args]),{ok:true});
-  await applyConfirmedReplacement({candidate:{...fresh,id:'c1',confidence:'high'},notificationId:'n1',confirm:()=>true,callRpc});
+  await applyConfirmedReplacement({candidate:{...fresh,id:'c1',confidence:'high'},now:new Date('2026-09-22T02:00:00Z'),notificationId:'n1',confirm:()=>true,callRpc});
   await discardAtomically({candidateId:'c1',notificationId:'n1',callRpc});
   assert.deepEqual(calls.map(c=>c[0]),['admin_apply_replacement','admin_discard_replacement']);
 });

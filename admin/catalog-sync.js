@@ -61,9 +61,10 @@
           }
           const response=await options.write(merged,snapshot.sha);
           if(response.ok)return {catalog:merged,response};
-          if(response.status!==409&&response.status!==422){
+          if(response.status!==409){
             const error=await response.json().catch(()=>({}));
-            throw new Error(error.message||'No se pudo publicar ('+response.status+').');
+            const details=Array.isArray(error.errors)?error.errors.map(item=>typeof item==='string'?item:(item.message||item.code||'')).filter(Boolean):[];
+            throw new Error([error.message||'No se pudo publicar ('+response.status+').',...details].join(' — '));
           }
         }
         throw new Error('El catálogo sigue cambiando. Tus cambios siguen guardados localmente; vuelve a publicar cuando termine la otra subida.');

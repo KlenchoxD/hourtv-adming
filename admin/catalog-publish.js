@@ -79,6 +79,17 @@ async function persistCatalogBase(value,context=catalogContext(cfg)){
 const publishCatalogSafely=CatalogSync.createPublisher();
 let publishing=false;
 
+async function catalogNetworkRequest(phase,operation){
+  try{return await operation();}
+  catch(error){
+    const messages={metadata:'No se pudieron leer los metadatos de GitHub.',blob:'No se pudo descargar el catálogo remoto de GitHub.',write:'No se pudo enviar el catálogo a GitHub.'};
+    const message=(messages[phase]||'No se pudo conectar con GitHub.')+' La conexión falló antes de recibir una respuesta. Tus datos locales se conservaron.';
+    const failure=new Error(message,{cause:error});
+    failure.phase=phase;
+    throw failure;
+  }
+}
+
 // catalog.json se sirve por raw.githubusercontent.com, cuya CDN puede
 // tardar minutos en propagar un cambio y de forma desigual por región.
 // Esta copia en Supabase (lectura directa a Postgres, sin CDN) es lo que
@@ -112,7 +123,7 @@ async function publish(options){
     const deleting=new Set(deletedIds);
     const outcome=await publishCatalogSafely({base:(catalogBaseContext||catalogBaseOrigin)===operationContext?catalogBase:null,local:pending,deleted:deleting,
       read:async()=>{
-        const res=await ghApi('GET',undefined,operationConfig);
+        const res=await catalogNetworkRequest('metadata',()=>ghApi('GET',undefined,operationConfig));
         if(res.status===404)return {catalog:{},sha:undefined};
         if(!res.ok)throw new Error('No se pudo leer el catálogo actual ('+res.status+'). No se sobrescribió.');
         const data=await res.json();
@@ -121,17 +132,21 @@ async function publish(options){
         if(typeof data.content==='string'&&data.content.length>0){
           contentStr=data.content;
         }else{
-          const bRes=await fetch(`https://api.github.com/repos/${operationConfig.owner}/${operationConfig.repo}/git/blobs/${data.sha}`,{
+          const bRes=await catalogNetworkRequest('blob',()=>fetch(`https://api.github.com/repos/${operationConfig.owner}/${operationConfig.repo}/git/blobs/${data.sha}`,{
             headers:{Authorization:`Bearer ${operationConfig.token}`,Accept:'application/vnd.github+json'}
-          });
+          }));
           if(!bRes.ok)throw new Error('Error al leer catálogo extenso ('+bRes.status+').');
           const bData=await bRes.json();
           contentStr=bData.content;
         }
         return {sha:data.sha,catalog:JSON.parse(decodeURIComponent(escape(atob(contentStr.replace(/\n/g,'')))))};
       },
-      write:(merged,sha)=>{if(catalogContext(cfg)!==operationContext)throw new Error('La configuración cambió. No se escribió el catálogo.');return ghApi('PUT',{body:JSON.stringify({message:'Actualizar catálogo desde el panel HourTV',
-        branch:operationConfig.branch,content:btoa(unescape(encodeURIComponent(JSON.stringify(merged,null,2)))),...(sha?{sha}:{})})},operationConfig);}
+      write:(merged,sha)=>{
+        if(catalogContext(cfg)!==operationContext)throw new Error('La configuración cambió. No se escribió el catálogo.');
+        const body=JSON.stringify({message:'Actualizar catálogo desde el panel HourTV',branch:operationConfig.branch,
+          content:btoa(unescape(encodeURIComponent(JSON.stringify(merged)))),...(sha?{sha}:{})});
+        return catalogNetworkRequest('write',()=>ghApi('PUT',{body},operationConfig));
+      }
     });
     notifyCatalogEvent('hourtv:github-operation',{context:operationContext,state:'success'});
     if(catalogContext(cfg)!==operationContext){toast('Publicado en el repositorio anterior. Se conservaron los datos locales actuales.','warn');return true;}

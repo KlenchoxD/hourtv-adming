@@ -4,6 +4,42 @@ const fs=require('node:fs');
 const vm=require('node:vm');
 const CatalogSync=require('./catalog-sync');
 
+test('publishes within the request budget without changing Unicode or catalog data',async()=>{
+  const remote={version:2,movies:Array.from({length:10},(_,i)=>({id:'id-'+i,title:'東京 🌟 ñ',servers:[{name:'A',url:'https://media.example/video'}]})),series:[],sources:[]};
+  let uploaded;
+  const context={window:{HourTvCatalogBaselineStore:{get:async()=>remote,set:async()=>{}}},localStorage:{getItem:()=>null,removeItem(){},setItem(){}},CatalogSync,
+    cfg:{token:'synthetic',owner:'owner',repo:'repo',branch:'main'},catalog:remote,deletedIds:new Set(),supabase:{},sbSession:null,
+    toast(){},openConfig(){},saveDeletedIds(){},save(){},render(){},console,atob,btoa,escape,unescape,encodeURIComponent,
+    ghApi:async(method,extra)=>{
+      if(method==='GET')return {ok:true,status:200,json:async()=>({sha:'a',content:btoa(unescape(encodeURIComponent(JSON.stringify(remote))))})};
+      const bytes=Buffer.from(JSON.parse(extra.body).content,'base64');
+      uploaded=JSON.parse(bytes.toString('utf8'));
+      return {ok:bytes.length<=1500,status:bytes.length<=1500?200:422,json:async()=>({message:'File too large'})};
+    }};
+  vm.runInNewContext(fs.readFileSync(require.resolve('./catalog-publish.js'),'utf8'),context);
+  assert.equal(await context.publish(),true);
+  assert.deepEqual(uploaded,remote);
+});
+
+for(const phase of ['metadata','blob','write'])test(`network failure identifies ${phase} without losing the local catalog`,async()=>{
+  const remote={version:2,movies:[{id:'a',title:'Preserved'}],series:[],sources:[]};
+  const toasts=[];
+  const context={window:{},localStorage:{getItem:()=>null,removeItem(){},setItem(){}},CatalogSync,
+    cfg:{token:'synthetic',owner:'owner',repo:'repo',branch:'main'},catalog:remote,deletedIds:new Set(),supabase:{},sbSession:null,
+    toast:(message,type)=>toasts.push({message,type}),openConfig(){},saveDeletedIds(){},save(){},render(){},console,
+    atob,btoa,escape,unescape,encodeURIComponent,
+    ghApi:async method=>{
+      if((phase==='metadata'&&method==='GET')||(phase==='write'&&method==='PUT'))throw new TypeError('Failed to fetch');
+      return {ok:true,status:200,json:async()=>({sha:'a',content:phase==='blob'?'':btoa(JSON.stringify(remote))})};
+    },fetch:async()=>{throw new TypeError('Failed to fetch')}};
+  vm.runInNewContext(fs.readFileSync(require.resolve('./catalog-publish.js'),'utf8'),context);
+  assert.equal(await context.publish(),false);
+  assert.deepEqual(context.catalog,remote);
+  const error=toasts.find(item=>item.type==='err');
+  assert.match(error.message,new RegExp({metadata:'metadatos',blob:'catálogo remoto',write:'enviar'}[phase]));
+  assert.ok(!error.message.includes('synthetic'));
+});
+
 test('restoring the comparison base never saves the stale current catalog',async()=>{
   let saves=0;
   const value={movies:[],series:[{id:'baseline'}],sources:[]};

@@ -1,6 +1,15 @@
 const {test}=require('node:test');
 const assert=require('node:assert/strict');
 const {merge,createPublisher}=require('./catalog-sync');
+
+test('validation rejection is reported immediately rather than retried as a conflict',async()=>{
+ let writes=0;
+ await assert.rejects(createPublisher()({base:{movies:[]},local:{movies:[]},deleted:new Set(),
+   read:async()=>({sha:'unchanged',catalog:{movies:[]}}),
+   write:async()=>{writes++;return {ok:false,status:422,json:async()=>({message:'Validation Failed',errors:[{message:'File is too large'}]})};}
+ }),/File is too large/);
+ assert.equal(writes,1);
+});
 test('preserves remote servers and local metadata in existing movie',()=>{
  const health={status:'down',consecutiveFailures:3};
  const base={movies:[{id:'a',title:'Old',servers:[{id:'source-a',url:'a',health,replacementForId:'older',replacedById:'newer'}]}]};
