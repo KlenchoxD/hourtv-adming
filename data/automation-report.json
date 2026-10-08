@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-10-08T17:05:43.887Z",
-  "durationMs": 2336,
+  "generatedAt": "2026-10-08T22:03:03.709Z",
+  "durationMs": 2827,
   "dryRun": false,
   "moviesFound": 34,
-  "moviesDiscarded": 22,
+  "moviesDiscarded": 17,
   "moviesAdded": 0,
   "moviesEnriched": 0,
-  "duplicates": 12,
+  "duplicates": 17,
   "tmdbErrors": 0,
   "providerErrors": 0,
   "invalidSources": 0,
@@ -18,11 +18,6 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 969681,
-      "title": "Spider-Man: Brand New Day",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
-    },
-    {
       "tmdbId": 1291595,
       "title": "Insidious: Fuera del más allá",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
@@ -30,16 +25,6 @@
     {
       "tmdbId": 1101412,
       "title": "Vértigo 2: Punto muerto",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
-    },
-    {
-      "tmdbId": 1204680,
-      "title": "Coyote vs. Acme",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
-    },
-    {
-      "tmdbId": 1248832,
-      "title": "Digger",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
@@ -73,11 +58,6 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1368337,
-      "title": "La Odisea",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
-    },
-    {
       "tmdbId": 1228834,
       "title": "Operación Teherán",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
@@ -105,11 +85,6 @@
     {
       "tmdbId": 1294189,
       "title": "The Mongoose",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
-    },
-    {
-      "tmdbId": 1032863,
-      "title": "La hipótesis del amor",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
