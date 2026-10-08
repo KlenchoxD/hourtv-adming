@@ -28,6 +28,8 @@ class XtreamSeries {
   final String? backdrop;
   final List<String> categories;
   final bool isFeatured;
+  final String? sourceUrl;
+  final int? anilistId;
   XtreamSeries({
     required this.seriesId,
     required this.name,
@@ -49,6 +51,8 @@ class XtreamSeries {
     this.backdrop,
     this.categories = const [],
     this.isFeatured = false,
+    this.sourceUrl,
+    this.anilistId,
   });
 
   Map<String, dynamic> toJson() => {
@@ -72,6 +76,8 @@ class XtreamSeries {
     'backdrop': backdrop,
     'categories': categories,
     'isFeatured': isFeatured,
+    'sourceUrl': sourceUrl,
+    'anilistId': anilistId,
   };
 
   factory XtreamSeries.fromJson(Map<String, dynamic> json) => XtreamSeries(
@@ -105,6 +111,8 @@ class XtreamSeries {
         .where((category) => category.isNotEmpty)
         .toList(),
     isFeatured: json['isFeatured'] == true || json['featured'] == true,
+    sourceUrl: json['sourceUrl']?.toString(),
+    anilistId: int.tryParse('${json['anilistId'] ?? ''}'),
   );
 }
 

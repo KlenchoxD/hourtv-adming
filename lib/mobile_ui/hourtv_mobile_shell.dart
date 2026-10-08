@@ -36,6 +36,7 @@ import 'hourtv_compact_filter_selector.dart';
 import 'hourtv_genre_service.dart';
 import 'hourtv_mobile_components.dart';
 import 'hourtv_mobile_theme.dart';
+import 'hourtv_anime_calendar_page.dart';
 import '../services/recommendations/recommendation_engine.dart';
 import '../services/catalog/catalog_dtos.dart';
 import '../services/catalog/catalog_repository.dart';
@@ -330,6 +331,10 @@ class _HourTvMobileShellState extends State<HourTvMobileShell>
       return;
     }
     final page = switch (label) {
+      'Calendario de anime' => HourTvAnimeCalendarPage(
+        store: store,
+        onOpenAnime: (series) => _openDetails(hourTvSeriesChannel(series)),
+      ),
       'Reproducción y calidad' => const HourTvPlaybackSettingsPage(),
       'Idioma y subtítulos' => const HourTvLanguageSettingsPage(),
       'Control parental' => const HourTvParentalSettingsPage(),
@@ -3088,6 +3093,11 @@ class HourTvMobileProfile extends StatelessWidget {
           email ?? 'Iniciar sesión o crear cuenta',
         ),
       (Icons.history_rounded, 'Historial', 'Películas y episodios que viste'),
+      (
+        Icons.calendar_month_rounded,
+        'Calendario de anime',
+        'Emisiones y próximos episodios',
+      ),
       (
         Icons.high_quality_outlined,
         'Reproducción y calidad',

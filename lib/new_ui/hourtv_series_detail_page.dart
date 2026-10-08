@@ -26,6 +26,8 @@ import 'hourtv_web_detail_overview.dart';
 import 'hourtv_play_button.dart';
 import 'hourtv_episode_tiles.dart';
 import 'hourtv_focusable.dart';
+import 'hourtv_anime_status_badge.dart';
+import '../services/anime_schedule_service.dart';
 import 'hourtv_parental_gate.dart';
 import 'hourtv_player_screen.dart';
 import '../services/catalog/series_title_sanitizer.dart';
@@ -1622,6 +1624,8 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
           if (i > 0) const Text('•', style: TextStyle(color: _muted)),
           parts[i],
         ],
+        if (isCalendarAnime(widget.series))
+          HourTvAnimeStatusBadge(series: widget.series),
       ],
     );
   }

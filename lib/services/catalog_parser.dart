@@ -296,6 +296,8 @@ class CatalogParser {
           backdrop: _text(item['backdrop']),
           categories: categories,
           isFeatured: _truthy(item['featured']),
+          sourceUrl: _text(item['sourceUrl']),
+          anilistId: int.tryParse(_text(item['anilistId']) ?? ''),
         ),
       );
     }

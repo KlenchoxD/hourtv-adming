@@ -32,6 +32,7 @@ import 'hourtv_focusable.dart';
 import 'hourtv_cast_controls_screen.dart';
 import 'hourtv_cast_sheet.dart';
 import 'hourtv_playback_center.dart';
+import 'hourtv_server_selector.dart';
 
 const _hourRed = Color(0xFF00C781);
 const _hourSurface = Color(0xFF101412);
@@ -1805,50 +1806,10 @@ class _PlayerScreenState extends State<PlayerScreen>
     final channel = widget.allChannels[_idx];
     final servers = channel.servers;
     if (servers.length < 2) return;
-    final byLanguage = <String, List<ChannelServer>>{};
-    for (final server in servers) {
-      final language = server.language?.trim();
-      final label = language == null || language.isEmpty
-          ? 'Idioma no especificado'
-          : language;
-      byLanguage.putIfAbsent(label, () => []).add(server);
-    }
     final selected = await showDialog<ChannelServer>(
       context: context,
-      builder: (dialogContext) => SimpleDialog(
-        title: const Text('Cambiar servidor'),
-        children: [
-          for (final entry in byLanguage.entries) ...[
-            Padding(
-              padding: const EdgeInsets.fromLTRB(24, 12, 24, 4),
-              child: Text(
-                entry.key,
-                style: const TextStyle(
-                  color: _hourRed,
-                  fontWeight: FontWeight.w800,
-                ),
-              ),
-            ),
-            for (final server in entry.value)
-              SimpleDialogOption(
-                onPressed: () => Navigator.pop(dialogContext, server),
-                child: ListTile(
-                  contentPadding: EdgeInsets.zero,
-                  leading: Icon(
-                    _activeServerUrl == server.url
-                        ? Icons.radio_button_checked
-                        : Icons.radio_button_off,
-                  ),
-                  title: Text(
-                    server.name.trim().isEmpty
-                        ? 'Servidor ${servers.indexOf(server) + 1}'
-                        : server.name,
-                  ),
-                ),
-              ),
-          ],
-        ],
-      ),
+      builder: (_) =>
+          HourTvServerSelector(servers: servers, activeUrl: _activeServerUrl),
     );
     if (!mounted || selected == null) return;
     _persistFinalProgress();

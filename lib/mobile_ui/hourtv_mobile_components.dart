@@ -496,11 +496,14 @@ class HourTvPosterGridDelegate extends SliverGridDelegate {
   @override
   SliverGridLayout getLayout(SliverConstraints constraints) {
     final width = constraints.crossAxisExtent;
+    final columns = width < 600 ? 3 : (width / 170).floor().clamp(4, 10);
+    final cardWidth = (width - (columns - 1) * 10) / columns;
     return SliverGridDelegateWithFixedCrossAxisCount(
-      crossAxisCount: width < 600 ? 3 : (width / 170).floor().clamp(4, 10),
+      crossAxisCount: columns,
       mainAxisSpacing: 16,
       crossAxisSpacing: 10,
-      childAspectRatio: 120 / 218,
+      // Text does not shrink with the poster on narrow screens.
+      mainAxisExtent: cardWidth * 178 / 120 + (kIsWeb ? 56 : 44),
     ).getLayout(constraints);
   }
 
