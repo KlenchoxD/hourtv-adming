@@ -18,8 +18,9 @@ class HourTvStartupCover extends StatefulWidget {
   /// El hero de Inicio avisa `pending` al empezar a cargar su imagen y
   /// `shown` cuando ya está en pantalla; si nadie avisa (TV, sin
   /// destacados) no se espera nada.
-  static final ValueNotifier<HeroImageState> heroImage =
-      ValueNotifier(HeroImageState.none);
+  static final ValueNotifier<HeroImageState> heroImage = ValueNotifier(
+    HeroImageState.none,
+  );
 
   static void markHeroPending() {
     if (heroImage.value == HeroImageState.none) {
@@ -35,12 +36,24 @@ class HourTvStartupCover extends StatefulWidget {
     );
   }
 
+  /// Inicio ya dibujó el hero o su placeholder; el arranque no espera la red.
+  static void markHeroFrameVisible() {
+    if (heroImage.value == HeroImageState.shown) return;
+    heroImage.value = HeroImageState.shown;
+  }
+
   const HourTvStartupCover({
     super.key,
     required this.child,
     this.store,
     this.catalogRepository,
   });
+
+  @visibleForTesting
+  static bool canRevealHome({
+    required CatalogReadiness readiness,
+    required bool repositoryUsable,
+  }) => readiness.canEnterApp && repositoryUsable;
 
   final Widget child;
   final ContentStore? store;
@@ -66,7 +79,6 @@ class _HourTvStartupCoverState extends State<HourTvStartupCover> {
   // mientras el usuario ya deslizaba. Así se ve como Xuper: aparece completo.
   bool _childMounted = false;
   bool _revealed = false;
-  bool _warmingRows = false;
 
   @override
   void initState() {
@@ -137,19 +149,10 @@ class _HourTvStartupCoverState extends State<HourTvStartupCover> {
       if (mounted) setState(() {});
       return;
     }
-    if (_store.readiness.canEnterApp && _repoUsable) {
-      // Las filas Anime/K-Drama/Tendencia se calculan aquí, tapadas, para
-      // que Inicio no las inserte después mientras se desliza.
-      if (!_store.homeGenreRowsReady) {
-        if (!_warmingRows) {
-          _warmingRows = true;
-          _store.warmHomeGenreRows().whenComplete(() {
-            _warmingRows = false;
-            if (mounted) _checkReadiness();
-          });
-        }
-        return;
-      }
+    if (HourTvStartupCover.canRevealHome(
+      readiness: _store.readiness,
+      repositoryUsable: _repoUsable,
+    )) {
       debugPrint(
         '[PERF_TTI] CatalogReadiness.canEnterApp: phase=${_store.readiness.phase} time=${DateTime.now().millisecondsSinceEpoch}',
       );
@@ -181,9 +184,8 @@ class _HourTvStartupCoverState extends State<HourTvStartupCover> {
     void mountNow() {
       if (!mounted) return;
       setState(() => _childMounted = true);
-      // Deja que Inicio dibuje un par de frames tapado (primer frame pesado
-      // + primeras imágenes) y recién entonces se quita esta pantalla. Si el
-      // hero está cargando su imagen, se espera a que aparezca (máx. 2 s).
+      // Deja que Inicio dibuje el primer frame antes de quitar esta pantalla.
+      // El hero marca su frame visible aunque la red siga cargando la imagen.
       WidgetsBinding.instance.addPostFrameCallback((_) {
         _revealTimer = Timer(const Duration(milliseconds: 350), () {
           if (!mounted) return;

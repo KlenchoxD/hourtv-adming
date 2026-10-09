@@ -526,6 +526,19 @@ class _HourTvMobileHomeState extends State<HourTvMobileHome> {
   List<(String, int)> _topLiked = const [];
   Object? _mostLikedSource;
   List<Channel> _mostLikedCache = const [];
+  Object? _publishedSeriesSource;
+  List<Channel> _publishedSeriesCache = const [];
+
+  List<Channel> _publishedSeriesFor(List<Channel> allContent) {
+    if (identical(_publishedSeriesSource, allContent)) {
+      return _publishedSeriesCache;
+    }
+    _publishedSeriesSource = allContent;
+    _publishedSeriesCache = List<Channel>.unmodifiable(
+      allContent.where((item) => item.type == MediaType.series),
+    );
+    return _publishedSeriesCache;
+  }
 
   Future<void> _loadTopLiked() async {
     final top = await LikesService.topLiked();
@@ -725,9 +738,10 @@ class _HourTvMobileHomeState extends State<HourTvMobileHome> {
     final effectiveMovies = publishedMovies.isNotEmpty
         ? publishedMovies
         : driftMovies;
-    final publishedSeries = widget.allContent
-        .where((item) => item.type == MediaType.series)
-        .toList(growable: false);
+    // Mantén la identidad mientras no cambie el catálogo: _mostLiked usa
+    // esta referencia para no volver a rankear miles de títulos en cada
+    // rebuild de Inicio (por ejemplo, cuando el store notifica paginación).
+    final publishedSeries = _publishedSeriesFor(widget.allContent);
     final effectiveSeries = publishedSeries.isNotEmpty
         ? publishedSeries
         : driftSeries;
@@ -1128,6 +1142,7 @@ class _HeroCarouselState extends State<_HeroCarousel> {
   final _controller = PageController();
   Timer? _timer;
   var _page = 0;
+  var _markedFirstHeroFrame = false;
 
   @override
   void initState() {
@@ -1199,6 +1214,12 @@ class _HeroCarouselState extends State<_HeroCarousel> {
   @override
   Widget build(BuildContext context) {
     if (widget.channels.isEmpty) return const SizedBox.shrink();
+    if (!_markedFirstHeroFrame) {
+      _markedFirstHeroFrame = true;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) HourTvStartupCover.markHeroFrameVisible();
+      });
+    }
     if (hourTvWideLayout(context)) return _desktop(context);
     // Antes 430px fijos en _HourTvHero: en pantallas cortas (celulares de
     // gama media/baja) ocupaba demasiado del alto visible y el titulo/
@@ -1709,6 +1730,15 @@ class _HourTvHero extends StatelessWidget {
         HourTvArtwork(
           url: channel.backdrop ?? channel.logo,
           asset: 'assets/figma/phase-3-1/hero-el-ultimo-amanecer.png',
+          placeholder: const DecoratedBox(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [Color(0xFF18211D), Color(0xFF080A09)],
+              ),
+            ),
+          ),
           alignment: Alignment.topCenter,
           variant: ImageResolutionVariant.heroBackdrop,
           memCacheWidth: 780,

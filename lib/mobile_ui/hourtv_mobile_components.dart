@@ -705,6 +705,7 @@ class HourTvArtwork extends StatelessWidget {
     super.key,
     this.url,
     this.asset,
+    this.placeholder,
     this.fit = BoxFit.cover,
     // El centro por defecto sirve para backdrops horizontales reales, pero
     // cuando no hay backdrop y se usa el poster (vertical) como respaldo en
@@ -723,6 +724,7 @@ class HourTvArtwork extends StatelessWidget {
 
   final String? url;
   final String? asset;
+  final Widget? placeholder;
   final BoxFit fit;
   final Alignment alignment;
   final BorderRadius? borderRadius;
@@ -759,6 +761,7 @@ class HourTvArtwork extends StatelessWidget {
                     );
                   },
             placeholder: (_, _) =>
+                placeholder ??
                 const ColoredBox(color: HourTvMobileTokens.surfacePrimary),
             errorWidget: (_, _, _) => _fallback(),
           )
@@ -790,7 +793,8 @@ class HourTvArtwork extends StatelessWidget {
     webHtmlElementStrategy: WebHtmlElementStrategy.fallback,
     frameBuilder: (_, child, frame, _) {
       if (frame == null) {
-        return const ColoredBox(color: HourTvMobileTokens.surfacePrimary);
+        return placeholder ??
+            const ColoredBox(color: HourTvMobileTokens.surfacePrimary);
       }
       onShown?.call();
       return child;
