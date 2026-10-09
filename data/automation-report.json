@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-09T08:58:28.285Z",
-  "durationMs": 2416,
+  "generatedAt": "2026-10-09T15:51:36.889Z",
+  "durationMs": 2100,
   "dryRun": false,
   "moviesFound": 34,
   "moviesDiscarded": 17,
@@ -28,13 +28,13 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1283515,
-      "title": "Verity. La sombra de un engaño",
+      "tmdbId": 1288445,
+      "title": "El motín",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1288445,
-      "title": "El motín",
+      "tmdbId": 1283515,
+      "title": "Verity. La sombra de un engaño",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
@@ -48,23 +48,18 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1280300,
-      "title": "The Whistler",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
-    },
-    {
       "tmdbId": 1400837,
       "title": "La otra madre",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1228834,
-      "title": "Operación Teherán",
+      "tmdbId": 1280300,
+      "title": "The Whistler",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1599191,
-      "title": "仙逆剧场版：弑仙之战",
+      "tmdbId": 1228834,
+      "title": "Operación Teherán",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
@@ -90,6 +85,11 @@
     {
       "tmdbId": 1712451,
       "title": "Dead Residents Evil",
+      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+    },
+    {
+      "tmdbId": 1599191,
+      "title": "仙逆剧场版：弑仙之战",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {

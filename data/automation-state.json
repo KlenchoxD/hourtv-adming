@@ -1,39 +1,39 @@
 {
-  "lastRunAt": "2026-10-09T08:58:30.695Z",
+  "lastRunAt": "2026-10-09T15:51:38.984Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
-    1423191,
     969681,
+    1423191,
     1291595,
     1101412,
     1204680,
-    1248832,
     1101383,
+    1248832,
     1084244,
-    1283515,
     1288445,
+    1283515,
     1263337,
     299534,
     1108427,
     1477712,
+    1400837,
     1315772,
     1275779,
-    980431,
     1280300,
-    1400837,
+    980431,
     671,
     1368337,
     1228834,
-    1599191,
     1377237,
     1751701,
-    460458,
     30723,
+    460458,
     1294189,
-    1032863,
     1712451,
-    1339713,
+    1599191,
     1232569,
+    1339713,
+    1032863,
     1335666,
     1083381
   ],
@@ -57,13 +57,13 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1283515,
-      "title": "Verity. La sombra de un engaño",
+      "tmdbId": 1288445,
+      "title": "El motín",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1288445,
-      "title": "El motín",
+      "tmdbId": 1283515,
+      "title": "Verity. La sombra de un engaño",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
@@ -77,23 +77,18 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1280300,
-      "title": "The Whistler",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
-    },
-    {
       "tmdbId": 1400837,
       "title": "La otra madre",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1228834,
-      "title": "Operación Teherán",
+      "tmdbId": 1280300,
+      "title": "The Whistler",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1599191,
-      "title": "仙逆剧场版：弑仙之战",
+      "tmdbId": 1228834,
+      "title": "Operación Teherán",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
@@ -119,6 +114,11 @@
     {
       "tmdbId": 1712451,
       "title": "Dead Residents Evil",
+      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+    },
+    {
+      "tmdbId": 1599191,
+      "title": "仙逆剧场版：弑仙之战",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
