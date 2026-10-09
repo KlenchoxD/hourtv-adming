@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:drift/drift.dart' hide isNull, isNotNull;
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:streamtv/mobile_ui/hourtv_mobile_components.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:streamtv/database/catalog_database.dart';
 import 'package:streamtv/database/daos/catalog_dao.dart';
@@ -118,9 +119,11 @@ void main() {
         // Sincronización completa con éxito
         repository.setStatusForTesting(CatalogRepositoryStatus.ready);
         await tester.pump();
+        await tester.pump(const Duration(milliseconds: 400));
 
         // El cover se retira y se revela el contenido
         expect(find.text('APP_CONTENT_REVEALED'), findsOneWidget);
+        expect(find.byType(HourTvBootLoading), findsNothing);
       },
     );
 
@@ -143,10 +146,27 @@ void main() {
         );
 
         await tester.pump();
+        await tester.pump(const Duration(milliseconds: 400));
 
         // El contenido se revela de inmediato sin esperar sync remoto
         expect(find.text('APP_CONTENT_REVEALED'), findsOneWidget);
+        expect(find.byType(HourTvBootLoading), findsNothing);
         expect(find.text('Sincronizando catálogo inicial'), findsNothing);
+      },
+    );
+
+    testWidgets(
+      'Inicio se revela sin esperar el cálculo de las filas secundarias',
+      (tester) async {
+        repository.setStatusForTesting(CatalogRepositoryStatus.ready);
+        expect(ContentStore.instance.homeGenreRowsReady, isFalse);
+        expect(
+          HourTvStartupCover.canRevealHome(
+            readiness: ContentStore.instance.readiness,
+            repositoryUsable: true,
+          ),
+          isTrue,
+        );
       },
     );
 
