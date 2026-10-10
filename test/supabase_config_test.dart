@@ -3,15 +3,21 @@ import 'package:streamtv/services/supabase_config.dart';
 
 void main() {
   group('SupabaseConfig', () {
-    test('empty url and key produce unconfigured instance without throwing', () {
-      final config = SupabaseConfig.parse(url: '', publishableKey: '');
-      expect(config.isConfigured, isFalse);
-      expect(config.projectUrl, isEmpty);
-      expect(config.publishableKey, isEmpty);
-    });
+    test(
+      'empty url and key produce unconfigured instance without throwing',
+      () {
+        final config = SupabaseConfig.parse(url: '', publishableKey: '');
+        expect(config.isConfigured, isFalse);
+        expect(config.projectUrl, isEmpty);
+        expect(config.publishableKey, isEmpty);
+      },
+    );
 
     test('configured requires an https URL and publishable key', () {
-      expect(SupabaseConfig.parse(url: '', publishableKey: '').isConfigured, isFalse);
+      expect(
+        SupabaseConfig.parse(url: '', publishableKey: '').isConfigured,
+        isFalse,
+      );
       final config = SupabaseConfig.parse(
         url: 'https://project.supabase.co',
         publishableKey: 'sb_publishable_test',
@@ -38,33 +44,42 @@ void main() {
       );
     });
 
-    test('non-https scheme or invalid URL throws ArgumentError when not both empty', () {
-      expect(
-        () => SupabaseConfig.parse(
-          url: 'http://project.supabase.co',
-          publishableKey: 'sb_publishable_test',
-        ),
-        throwsArgumentError,
-      );
-      expect(
-        () => SupabaseConfig.parse(
-          url: 'not-a-url',
-          publishableKey: 'sb_publishable_test',
-        ),
-        throwsArgumentError,
-      );
-      expect(
-        () => SupabaseConfig.parse(
-          url: 'https://project.supabase.co',
-          publishableKey: '',
-        ),
-        throwsArgumentError,
-      );
-    });
+    test(
+      'non-https scheme or invalid URL throws ArgumentError when not both empty',
+      () {
+        expect(
+          () => SupabaseConfig.parse(
+            url: 'http://project.supabase.co',
+            publishableKey: 'sb_publishable_test',
+          ),
+          throwsArgumentError,
+        );
+        expect(
+          () => SupabaseConfig.parse(
+            url: 'not-a-url',
+            publishableKey: 'sb_publishable_test',
+          ),
+          throwsArgumentError,
+        );
+        expect(
+          () => SupabaseConfig.parse(
+            url: 'https://project.supabase.co',
+            publishableKey: '',
+          ),
+          throwsArgumentError,
+        );
+      },
+    );
 
-    test('fromEnvironment produces safe defaults or parses environment', () {
+    test('fromEnvironment has a client-safe project default', () {
       final config = SupabaseConfig.fromEnvironment();
-      expect(config, isA<SupabaseConfig>());
+      expect(config.isConfigured, isTrue);
+      expect(config.projectUrl, startsWith('https://'));
+      expect(config.publishableKey, isNotEmpty);
+      expect(
+        SupabaseConfig.defaultPublishableKey,
+        startsWith('sb_publishable_'),
+      );
     });
   });
 }

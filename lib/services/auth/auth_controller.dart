@@ -73,10 +73,7 @@ class AuthController extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<bool> signIn({
-    required String email,
-    required String password,
-  }) async {
+  Future<bool> signIn({required String email, required String password}) async {
     final cleanEmail = email.trim();
     final cleanPassword = password.trim();
 
@@ -108,7 +105,11 @@ class AuthController extends ChangeNotifier {
       sw.stop();
       AuthTelemetry.instance.recordNetworkRequest(
         sw.elapsedMilliseconds,
-        metadata: {'action': 'signIn', 'success': false, 'error_type': e.runtimeType.toString()},
+        metadata: {
+          'action': 'signIn',
+          'success': false,
+          'error_type': e.runtimeType.toString(),
+        },
       );
       _errorMessage = _mapAuthError(e);
       _setLoading(false);
@@ -134,7 +135,11 @@ class AuthController extends ChangeNotifier {
       sw.stop();
       AuthTelemetry.instance.recordNetworkRequest(
         sw.elapsedMilliseconds,
-        metadata: {'action': 'signInWithGoogle', 'success': false, 'error_type': e.runtimeType.toString()},
+        metadata: {
+          'action': 'signInWithGoogle',
+          'success': false,
+          'error_type': e.runtimeType.toString(),
+        },
       );
       if (e is GoogleAuthNotConfiguredException) {
         _errorMessage = e.message;
@@ -146,10 +151,7 @@ class AuthController extends ChangeNotifier {
     }
   }
 
-  Future<bool> signUp({
-    required String email,
-    required String password,
-  }) async {
+  Future<bool> signUp({required String email, required String password}) async {
     final cleanEmail = email.trim();
     final cleanPassword = password.trim();
 
@@ -181,7 +183,11 @@ class AuthController extends ChangeNotifier {
       sw.stop();
       AuthTelemetry.instance.recordNetworkRequest(
         sw.elapsedMilliseconds,
-        metadata: {'action': 'signUp', 'success': false, 'error_type': e.runtimeType.toString()},
+        metadata: {
+          'action': 'signUp',
+          'success': false,
+          'error_type': e.runtimeType.toString(),
+        },
       );
       _errorMessage = _mapAuthError(e);
       _setLoading(false);
@@ -295,17 +301,24 @@ class AuthController extends ChangeNotifier {
   }
 
   bool _isValidEmail(String email) {
-    return email.contains('@') && email.contains('.') && email.indexOf('@') < email.lastIndexOf('.');
+    return email.contains('@') &&
+        email.contains('.') &&
+        email.indexOf('@') < email.lastIndexOf('.');
   }
 
   String _mapAuthError(Object error) {
+    if (error is AuthUnavailableException) {
+      return 'El servicio de cuentas no está disponible ahora mismo. '
+          'Revisa la conexión y vuelve a intentarlo.';
+    }
     final msg = error.toString().toLowerCase();
     if (msg.contains('invalid login credentials') ||
         msg.contains('invalid_grant') ||
         msg.contains('user not found')) {
       return 'Credenciales incorrectas o usuario no registrado.';
     }
-    if (msg.contains('user already registered') || msg.contains('already exists')) {
+    if (msg.contains('user already registered') ||
+        msg.contains('already exists')) {
       return 'Ya existe una cuenta con este correo electrónico.';
     }
     if (msg.contains('same_password') ||
@@ -318,7 +331,9 @@ class AuthController extends ChangeNotifier {
     if (msg.contains('rate limit') || msg.contains('too many requests')) {
       return 'Demasiados intentos. Espera unos momentos antes de reintentar.';
     }
-    if (msg.contains('network') || msg.contains('socket') || msg.contains('connection')) {
+    if (msg.contains('network') ||
+        msg.contains('socket') ||
+        msg.contains('connection')) {
       return 'Error de conexión. Verifica tu conexión a internet.';
     }
     if (msg.contains('email not confirmed')) {

@@ -33,7 +33,9 @@ class _HourTvAuthGateState extends State<HourTvAuthGate> {
     if (widget.controller != null) {
       _controller = widget.controller!;
     } else {
-      _controller = AuthController(gateway: SupabaseBootstrap.instance.authGateway);
+      _controller = AuthController(
+        gateway: SupabaseBootstrap.instance.authGateway,
+      );
       _createdOwnController = true;
     }
     HourTvAuthScope.current = _controller;
@@ -52,10 +54,6 @@ class _HourTvAuthGateState extends State<HourTvAuthGate> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.controller == null && !SupabaseBootstrap.instance.isAvailable) {
-      return widget.guestChild;
-    }
-
     return AnimatedBuilder(
       animation: _controller,
       builder: (context, _) {

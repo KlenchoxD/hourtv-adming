@@ -1,9 +1,12 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:streamtv/new_ui/hourtv_auth_gate.dart';
+import 'package:streamtv/new_ui/hourtv_auth_page.dart';
 import 'package:streamtv/services/auth/auth_controller.dart';
 import 'package:streamtv/services/auth/auth_gateway.dart';
+import 'package:streamtv/services/supabase_bootstrap.dart';
 
 class FakeAuthGateway implements AuthGateway {
   FakeAuthGateway(this._state);
@@ -11,17 +14,19 @@ class FakeAuthGateway implements AuthGateway {
   factory FakeAuthGateway.signedOut() =>
       FakeAuthGateway(const AuthSessionState(AuthSessionPhase.signedOut));
 
-  factory FakeAuthGateway.verificationRequired(String email) =>
-      FakeAuthGateway(AuthSessionState(
-        AuthSessionPhase.verificationRequired,
-        user: AuthUser(id: 'u-1', email: email, emailVerified: false),
-      ));
+  factory FakeAuthGateway.verificationRequired(String email) => FakeAuthGateway(
+    AuthSessionState(
+      AuthSessionPhase.verificationRequired,
+      user: AuthUser(id: 'u-1', email: email, emailVerified: false),
+    ),
+  );
 
-  factory FakeAuthGateway.authenticated(String email) =>
-      FakeAuthGateway(AuthSessionState(
-        AuthSessionPhase.authenticated,
-        user: AuthUser(id: 'u-1', email: email, emailVerified: true),
-      ));
+  factory FakeAuthGateway.authenticated(String email) => FakeAuthGateway(
+    AuthSessionState(
+      AuthSessionPhase.authenticated,
+      user: AuthUser(id: 'u-1', email: email, emailVerified: true),
+    ),
+  );
 
   AuthSessionState _state;
   final StreamController<AuthSessionState> _controller =
@@ -108,22 +113,46 @@ class FakeAuthGateway implements AuthGateway {
 }
 
 Widget testApp(Widget child) {
-  return MaterialApp(
-    home: Scaffold(body: child),
-  );
+  return MaterialApp(home: Scaffold(body: child));
 }
 
 void main() {
   group('HourTvAuthGate', () {
+    testWidgets('unavailable backend does not silently skip sign-in screen', (
+      tester,
+    ) async {
+      SupabaseBootstrap.setInstanceForTest(
+        SupabaseBootstrap.forTest(authGateway: FakeAuthGateway.signedOut()),
+      );
+
+      await tester.pumpWidget(
+        testApp(
+          const HourTvAuthGate(
+            guestChild: Text('GUEST_APP'),
+            authenticatedChild: Text('CLOUD_PROFILES'),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.byType(HourTvAuthPage), findsOneWidget);
+      expect(find.text('GUEST_APP'), findsNothing);
+      expect(find.text('CLOUD_PROFILES'), findsNothing);
+    });
+
     testWidgets('access screen preserves explicit Guest entry', (tester) async {
       final gateway = FakeAuthGateway.signedOut();
       final controller = AuthController(gateway: gateway);
 
-      await tester.pumpWidget(testApp(HourTvAuthGate(
-        controller: controller,
-        guestChild: const Text('GUEST_APP'),
-        authenticatedChild: const Text('CLOUD_PROFILES'),
-      )));
+      await tester.pumpWidget(
+        testApp(
+          HourTvAuthGate(
+            controller: controller,
+            guestChild: const Text('GUEST_APP'),
+            authenticatedChild: const Text('CLOUD_PROFILES'),
+          ),
+        ),
+      );
       await tester.pumpAndSettle();
 
       expect(find.text('Continuar sin cuenta'), findsOneWidget);
@@ -142,11 +171,15 @@ void main() {
         final controller = AuthController(gateway: gateway);
         controller.continueAsGuest();
 
-        await tester.pumpWidget(testApp(HourTvAuthGate(
-          controller: controller,
-          guestChild: const Text('GUEST_APP'),
-          authenticatedChild: const Text('CLOUD_PROFILES'),
-        )));
+        await tester.pumpWidget(
+          testApp(
+            HourTvAuthGate(
+              controller: controller,
+              guestChild: const Text('GUEST_APP'),
+              authenticatedChild: const Text('CLOUD_PROFILES'),
+            ),
+          ),
+        );
         await tester.pumpAndSettle();
         expect(find.text('GUEST_APP'), findsOneWidget);
 
@@ -156,18 +189,16 @@ void main() {
           email: 'olvide@example.com',
           emailVerified: true,
         );
-        gateway.emit(const AuthSessionState(
-          AuthSessionPhase.passwordRecovery,
-          user: user,
-        ));
+        gateway.emit(
+          const AuthSessionState(AuthSessionPhase.passwordRecovery, user: user),
+        );
         await tester.pumpAndSettle();
         expect(find.text('Elige una contraseña nueva'), findsOneWidget);
 
         // Mientras la sesión sigue activa, no entra a la app sin cambiarla.
-        gateway.emit(const AuthSessionState(
-          AuthSessionPhase.authenticated,
-          user: user,
-        ));
+        gateway.emit(
+          const AuthSessionState(AuthSessionPhase.authenticated, user: user),
+        );
         await tester.pumpAndSettle();
         expect(find.text('CLOUD_PROFILES'), findsNothing);
 
@@ -181,11 +212,15 @@ void main() {
       final gateway = FakeAuthGateway.verificationRequired('user@example.com');
       final controller = AuthController(gateway: gateway);
 
-      await tester.pumpWidget(testApp(HourTvAuthGate(
-        controller: controller,
-        guestChild: const Text('GUEST_APP'),
-        authenticatedChild: const Text('CLOUD_PROFILES'),
-      )));
+      await tester.pumpWidget(
+        testApp(
+          HourTvAuthGate(
+            controller: controller,
+            guestChild: const Text('GUEST_APP'),
+            authenticatedChild: const Text('CLOUD_PROFILES'),
+          ),
+        ),
+      );
       await tester.pumpAndSettle();
 
       expect(find.text('VERIFICA TU CORREO'), findsOneWidget);
@@ -193,30 +228,42 @@ void main() {
       expect(find.text('CLOUD_PROFILES'), findsNothing);
     });
 
-    testWidgets('authenticated state displays cloud profiles directly', (tester) async {
+    testWidgets('authenticated state displays cloud profiles directly', (
+      tester,
+    ) async {
       final gateway = FakeAuthGateway.authenticated('user@example.com');
       final controller = AuthController(gateway: gateway);
 
-      await tester.pumpWidget(testApp(HourTvAuthGate(
-        controller: controller,
-        guestChild: const Text('GUEST_APP'),
-        authenticatedChild: const Text('CLOUD_PROFILES'),
-      )));
+      await tester.pumpWidget(
+        testApp(
+          HourTvAuthGate(
+            controller: controller,
+            guestChild: const Text('GUEST_APP'),
+            authenticatedChild: const Text('CLOUD_PROFILES'),
+          ),
+        ),
+      );
       await tester.pumpAndSettle();
 
       expect(find.text('CLOUD_PROFILES'), findsOneWidget);
       expect(find.text('GUEST_APP'), findsNothing);
     });
 
-    testWidgets('unverified email user can use guest mode from verify screen', (tester) async {
+    testWidgets('unverified email user can use guest mode from verify screen', (
+      tester,
+    ) async {
       final gateway = FakeAuthGateway.verificationRequired('user@example.com');
       final controller = AuthController(gateway: gateway);
 
-      await tester.pumpWidget(testApp(HourTvAuthGate(
-        controller: controller,
-        guestChild: const Text('GUEST_APP'),
-        authenticatedChild: const Text('CLOUD_PROFILES'),
-      )));
+      await tester.pumpWidget(
+        testApp(
+          HourTvAuthGate(
+            controller: controller,
+            guestChild: const Text('GUEST_APP'),
+            authenticatedChild: const Text('CLOUD_PROFILES'),
+          ),
+        ),
+      );
       await tester.pumpAndSettle();
 
       expect(find.text('Usar modo invitado'), findsOneWidget);
@@ -227,23 +274,32 @@ void main() {
       expect(find.text('CLOUD_PROFILES'), findsNothing);
     });
 
-    testWidgets('verify email refresh transitions to authenticated child when confirmed', (tester) async {
-      final gateway = FakeAuthGateway.verificationRequired('user@example.com');
-      gateway.refreshWillVerify = true;
-      final controller = AuthController(gateway: gateway);
+    testWidgets(
+      'verify email refresh transitions to authenticated child when confirmed',
+      (tester) async {
+        final gateway = FakeAuthGateway.verificationRequired(
+          'user@example.com',
+        );
+        gateway.refreshWillVerify = true;
+        final controller = AuthController(gateway: gateway);
 
-      await tester.pumpWidget(testApp(HourTvAuthGate(
-        controller: controller,
-        guestChild: const Text('GUEST_APP'),
-        authenticatedChild: const Text('CLOUD_PROFILES'),
-      )));
-      await tester.pumpAndSettle();
+        await tester.pumpWidget(
+          testApp(
+            HourTvAuthGate(
+              controller: controller,
+              guestChild: const Text('GUEST_APP'),
+              authenticatedChild: const Text('CLOUD_PROFILES'),
+            ),
+          ),
+        );
+        await tester.pumpAndSettle();
 
-      expect(find.text('Ya verifiqué mi correo'), findsOneWidget);
-      await tester.tap(find.text('Ya verifiqué mi correo'));
-      await tester.pumpAndSettle();
+        expect(find.text('Ya verifiqué mi correo'), findsOneWidget);
+        await tester.tap(find.text('Ya verifiqué mi correo'));
+        await tester.pumpAndSettle();
 
-      expect(find.text('CLOUD_PROFILES'), findsOneWidget);
-    });
+        expect(find.text('CLOUD_PROFILES'), findsOneWidget);
+      },
+    );
   });
 }

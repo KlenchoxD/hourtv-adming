@@ -12,6 +12,11 @@ final class SupabaseConfig {
   static const String defaultProjectUrl =
       'https://$defaultProjectRef.supabase.co';
 
+  /// Clave publica del cliente. La proteccion de datos depende de RLS;
+  /// nunca colocar aqui una clave secret/service_role.
+  static const String defaultPublishableKey =
+      'sb_publishable_91lPSQVU5LQy4i2ManHrug_7JvJa1Ra';
+
   /// URL de callback de Google hacia Supabase (para configuración en Google Cloud Console)
   static const String googleOAuthCallbackUrl =
       'https://$defaultProjectRef.supabase.co/auth/v1/callback';
@@ -36,8 +41,14 @@ final class SupabaseConfig {
   );
 
   factory SupabaseConfig.fromEnvironment() => SupabaseConfig.parse(
-    url: const String.fromEnvironment('SUPABASE_URL'),
-    publishableKey: const String.fromEnvironment('SUPABASE_PUBLISHABLE_KEY'),
+    url: const String.fromEnvironment(
+      'SUPABASE_URL',
+      defaultValue: defaultProjectUrl,
+    ),
+    publishableKey: const String.fromEnvironment(
+      'SUPABASE_PUBLISHABLE_KEY',
+      defaultValue: defaultPublishableKey,
+    ),
   );
 
   factory SupabaseConfig.parse({
