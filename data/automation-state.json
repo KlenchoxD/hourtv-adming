@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-10-10T05:46:40.385Z",
+  "lastRunAt": "2026-10-10T11:39:53.620Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -8,15 +8,15 @@
     1101412,
     1204680,
     1101383,
-    1248832,
     1084244,
+    1248832,
     1288445,
     1283515,
+    1400837,
     1263337,
     299534,
     1108427,
     1477712,
-    1400837,
     1315772,
     1280300,
     980431,
@@ -66,6 +66,11 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
+      "tmdbId": 1400837,
+      "title": "La otra madre",
+      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+    },
+    {
       "tmdbId": 1263337,
       "title": "En el corazón de la bestia",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
@@ -73,11 +78,6 @@
     {
       "tmdbId": 1477712,
       "title": "Dulce sabor a muerte",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
-    },
-    {
-      "tmdbId": 1400837,
-      "title": "La otra madre",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
