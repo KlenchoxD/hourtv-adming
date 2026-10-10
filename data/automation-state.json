@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-10-10T11:39:53.620Z",
+  "lastRunAt": "2026-10-10T16:22:57.488Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -8,28 +8,27 @@
     1101412,
     1204680,
     1101383,
+    1148365,
     1084244,
     1248832,
+    1236045,
     1288445,
-    1283515,
     1400837,
+    1283515,
+    1108427,
     1263337,
     299534,
-    1108427,
-    1477712,
     1315772,
+    1477712,
     1280300,
     980431,
-    671,
-    1185806,
     1368337,
     1228834,
     1377237,
     1751701,
+    1712451,
     460458,
     1294189,
-    1712451,
-    1599191,
     1232569,
     1339713,
     1032863,
@@ -56,18 +55,28 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
+      "tmdbId": 1148365,
+      "title": "Matchbox: La película",
+      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+    },
+    {
+      "tmdbId": 1236045,
+      "title": "Animales",
+      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+    },
+    {
       "tmdbId": 1288445,
       "title": "El motín",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1283515,
-      "title": "Verity. La sombra de un engaño",
+      "tmdbId": 1400837,
+      "title": "La otra madre",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1400837,
-      "title": "La otra madre",
+      "tmdbId": 1283515,
+      "title": "Verity. La sombra de un engaño",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
@@ -101,18 +110,13 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1294189,
-      "title": "The Mongoose",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
-    },
-    {
       "tmdbId": 1712451,
       "title": "Dead Residents Evil",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1599191,
-      "title": "仙逆剧场版：弑仙之战",
+      "tmdbId": 1294189,
+      "title": "The Mongoose",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {

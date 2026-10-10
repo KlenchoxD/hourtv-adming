@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-10-10T11:39:46.949Z",
-  "durationMs": 6675,
+  "generatedAt": "2026-10-10T16:22:55.081Z",
+  "durationMs": 2411,
   "dryRun": false,
-  "moviesFound": 33,
-  "moviesDiscarded": 16,
+  "moviesFound": 32,
+  "moviesDiscarded": 17,
   "moviesAdded": 0,
   "moviesEnriched": 0,
-  "duplicates": 17,
+  "duplicates": 15,
   "tmdbErrors": 0,
   "providerErrors": 0,
   "invalidSources": 0,
@@ -28,18 +28,28 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
+      "tmdbId": 1148365,
+      "title": "Matchbox: La película",
+      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+    },
+    {
+      "tmdbId": 1236045,
+      "title": "Animales",
+      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+    },
+    {
       "tmdbId": 1288445,
       "title": "El motín",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1283515,
-      "title": "Verity. La sombra de un engaño",
+      "tmdbId": 1400837,
+      "title": "La otra madre",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1400837,
-      "title": "La otra madre",
+      "tmdbId": 1283515,
+      "title": "Verity. La sombra de un engaño",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
@@ -73,18 +83,13 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1294189,
-      "title": "The Mongoose",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
-    },
-    {
       "tmdbId": 1712451,
       "title": "Dead Residents Evil",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1599191,
-      "title": "仙逆剧场版：弑仙之战",
+      "tmdbId": 1294189,
+      "title": "The Mongoose",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
