@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-10-09T20:25:08.564Z",
-  "durationMs": 2268,
+  "generatedAt": "2026-10-10T00:09:05.476Z",
+  "durationMs": 2315,
   "dryRun": false,
-  "moviesFound": 34,
-  "moviesDiscarded": 17,
+  "moviesFound": 33,
+  "moviesDiscarded": 16,
   "moviesAdded": 0,
   "moviesEnriched": 0,
   "duplicates": 17,
@@ -70,11 +70,6 @@
     {
       "tmdbId": 1751701,
       "title": "After Impact",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
-    },
-    {
-      "tmdbId": 30723,
-      "title": "Cavegirl: La chica de las cavernas (Cavernícola 2)",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {

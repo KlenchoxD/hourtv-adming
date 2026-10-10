@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-10-09T20:25:10.827Z",
+  "lastRunAt": "2026-10-10T00:09:07.786Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -18,15 +18,14 @@
     1477712,
     1400837,
     1315772,
-    1275779,
     1280300,
     980431,
     671,
+    1185806,
     1368337,
     1228834,
     1377237,
     1751701,
-    30723,
     460458,
     1294189,
     1712451,
@@ -99,11 +98,6 @@
     {
       "tmdbId": 1751701,
       "title": "After Impact",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
-    },
-    {
-      "tmdbId": 30723,
-      "title": "Cavegirl: La chica de las cavernas (Cavernícola 2)",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
