@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-11T02:10:54.886Z",
-  "durationMs": 2624,
+  "generatedAt": "2026-10-11T08:46:17.695Z",
+  "durationMs": 2191,
   "dryRun": false,
   "moviesFound": 32,
   "moviesDiscarded": 17,
@@ -28,13 +28,13 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1148365,
-      "title": "Matchbox: La película",
+      "tmdbId": 1236045,
+      "title": "Animales",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1236045,
-      "title": "Animales",
+      "tmdbId": 1148365,
+      "title": "Matchbox: La película",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {

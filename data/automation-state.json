@@ -1,17 +1,17 @@
 {
-  "lastRunAt": "2026-10-11T02:10:57.505Z",
+  "lastRunAt": "2026-10-11T08:46:19.882Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
     1423191,
     1291595,
     1101412,
+    1236045,
     1204680,
     1101383,
     1148365,
     1084244,
     1248832,
-    1236045,
     1288445,
     1400837,
     1283515,
@@ -55,13 +55,13 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1148365,
-      "title": "Matchbox: La película",
+      "tmdbId": 1236045,
+      "title": "Animales",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1236045,
-      "title": "Animales",
+      "tmdbId": 1148365,
+      "title": "Matchbox: La película",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
