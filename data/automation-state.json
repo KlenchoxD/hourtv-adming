@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-10-11T15:13:11.542Z",
+  "lastRunAt": "2026-10-11T19:33:42.018Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -25,13 +25,13 @@
     1368337,
     1228834,
     1377237,
-    1751701,
     1712451,
     460458,
     1294189,
+    1751701,
+    1339274,
     1232569,
     1339713,
-    1032863,
     1335666,
     1083381
   ],
@@ -105,11 +105,6 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1751701,
-      "title": "After Impact",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
-    },
-    {
       "tmdbId": 1712451,
       "title": "Dead Residents Evil",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
@@ -117,6 +112,16 @@
     {
       "tmdbId": 1294189,
       "title": "The Mongoose",
+      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+    },
+    {
+      "tmdbId": 1751701,
+      "title": "After Impact",
+      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+    },
+    {
+      "tmdbId": 1339274,
+      "title": "No dejes a los niños solos",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
