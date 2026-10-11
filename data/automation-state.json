@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-10-11T08:46:19.882Z",
+  "lastRunAt": "2026-10-11T15:13:11.542Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -16,11 +16,11 @@
     1400837,
     1283515,
     1108427,
-    1263337,
-    299534,
-    1315772,
-    1477712,
     1280300,
+    1263337,
+    1315772,
+    299534,
+    1477712,
     980431,
     1368337,
     1228834,
@@ -80,6 +80,11 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
+      "tmdbId": 1280300,
+      "title": "The Whistler",
+      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+    },
+    {
       "tmdbId": 1263337,
       "title": "En el corazón de la bestia",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
@@ -87,11 +92,6 @@
     {
       "tmdbId": 1477712,
       "title": "Dulce sabor a muerte",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
-    },
-    {
-      "tmdbId": 1280300,
-      "title": "The Whistler",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
