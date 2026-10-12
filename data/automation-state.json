@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-10-12T09:31:12.466Z",
+  "lastRunAt": "2026-10-12T19:18:53.543Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -12,25 +12,26 @@
     1101383,
     1084244,
     1400837,
-    1248832,
     1288445,
-    1283515,
-    1108427,
+    1248832,
     1280300,
-    1315772,
-    1263337,
+    1108427,
     299534,
+    1315772,
+    1283515,
+    1263337,
     1477712,
     980431,
     1368337,
     1228834,
     1377237,
     1712451,
+    1751701,
     460458,
     1294189,
-    1751701,
     1339274,
     1232569,
+    1339713,
     1335666,
     1083381
   ],
@@ -74,13 +75,13 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1283515,
-      "title": "Verity. La sombra de un engaño",
+      "tmdbId": 1280300,
+      "title": "The Whistler",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1280300,
-      "title": "The Whistler",
+      "tmdbId": 1283515,
+      "title": "Verity. La sombra de un engaño",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
@@ -109,13 +110,13 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1294189,
-      "title": "The Mongoose",
+      "tmdbId": 1751701,
+      "title": "After Impact",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1751701,
-      "title": "After Impact",
+      "tmdbId": 1294189,
+      "title": "The Mongoose",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {

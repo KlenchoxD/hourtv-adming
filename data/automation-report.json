@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-10-12T09:31:10.759Z",
-  "durationMs": 1710,
+  "generatedAt": "2026-10-12T19:18:51.653Z",
+  "durationMs": 1895,
   "dryRun": false,
-  "moviesFound": 31,
+  "moviesFound": 32,
   "moviesDiscarded": 18,
   "moviesAdded": 0,
   "moviesEnriched": 0,
-  "duplicates": 13,
+  "duplicates": 14,
   "tmdbErrors": 0,
   "providerErrors": 0,
   "invalidSources": 0,
@@ -48,13 +48,13 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1283515,
-      "title": "Verity. La sombra de un engaño",
+      "tmdbId": 1280300,
+      "title": "The Whistler",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1280300,
-      "title": "The Whistler",
+      "tmdbId": 1283515,
+      "title": "Verity. La sombra de un engaño",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
@@ -83,13 +83,13 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1294189,
-      "title": "The Mongoose",
+      "tmdbId": 1751701,
+      "title": "After Impact",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1751701,
-      "title": "After Impact",
+      "tmdbId": 1294189,
+      "title": "The Mongoose",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
