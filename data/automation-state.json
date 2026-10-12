@@ -1,24 +1,24 @@
 {
-  "lastRunAt": "2026-10-12T02:21:33.670Z",
+  "lastRunAt": "2026-10-12T09:31:12.466Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
     1423191,
     1291595,
+    1148365,
     1101412,
     1236045,
     1204680,
     1101383,
-    1148365,
     1084244,
+    1400837,
     1248832,
     1288445,
-    1400837,
     1283515,
     1108427,
     1280300,
-    1263337,
     1315772,
+    1263337,
     299534,
     1477712,
     980431,
@@ -31,7 +31,6 @@
     1751701,
     1339274,
     1232569,
-    1339713,
     1335666,
     1083381
   ],
@@ -50,6 +49,11 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
+      "tmdbId": 1148365,
+      "title": "Matchbox: La película",
+      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+    },
+    {
       "tmdbId": 1101412,
       "title": "Fall 2: Deadpoint",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
@@ -60,18 +64,13 @@
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
-      "tmdbId": 1148365,
-      "title": "Matchbox: La película",
+      "tmdbId": 1400837,
+      "title": "La otra madre",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
       "tmdbId": 1288445,
       "title": "El motín",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
-    },
-    {
-      "tmdbId": 1400837,
-      "title": "La otra madre",
       "reason": "Catálogo alcanzó el tamaño máximo configurado"
     },
     {
