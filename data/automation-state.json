@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-10-13T16:11:59.731Z",
+  "lastRunAt": "2026-10-13T21:13:52.400Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -23,15 +23,15 @@
     1263337,
     980431,
     1368337,
-    1228834,
     1377237,
+    1228834,
     1712451,
     1751701,
-    460458,
     1294189,
     1339274,
+    460458,
     1232569,
-    1339713,
+    1284046,
     1335666,
     1083381
   ],
@@ -145,13 +145,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1228834,
-      "title": "Operación Teherán",
+      "tmdbId": 1377237,
+      "title": "Entrega al límite",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1377237,
-      "title": "Entrega al límite",
+      "tmdbId": 1228834,
+      "title": "Operación Teherán",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -165,11 +165,6 @@
       "reason": "Votos 26 por debajo del mínimo (50)"
     },
     {
-      "tmdbId": 460458,
-      "title": "Resident Evil. Bienvenidos a Raccoon City",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1294189,
       "title": "The Mongoose",
       "reason": "Rating 0 por debajo del mínimo (5.5)"
@@ -180,13 +175,18 @@
       "reason": "Sin sinopsis"
     },
     {
+      "tmdbId": 460458,
+      "title": "Resident Evil. Bienvenidos a Raccoon City",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1232569,
       "title": "Pinocho: Desatado",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1339713,
-      "title": "Obsession",
+      "tmdbId": 1284046,
+      "title": "Aniquilación",
       "reason": "Sin fuente autorizada configurada"
     }
   ]
