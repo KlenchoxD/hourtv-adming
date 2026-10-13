@@ -1,19 +1,16 @@
 {
-  "generatedAt": "2026-10-13T08:17:26.044Z",
-  "durationMs": 6032,
+  "generatedAt": "2026-10-13T16:11:56.571Z",
+  "durationMs": 3166,
   "dryRun": false,
   "moviesFound": 32,
   "moviesDiscarded": 30,
-  "moviesAdded": 2,
+  "moviesAdded": 0,
   "moviesEnriched": 0,
-  "duplicates": 0,
+  "duplicates": 2,
   "tmdbErrors": 0,
   "providerErrors": 0,
-  "invalidSources": 8,
-  "addedTitles": [
-    "La familia Glenrothan",
-    "Backrooms"
-  ],
+  "invalidSources": 0,
+  "addedTitles": [],
   "skipped": [
     {
       "tmdbId": 969681,
@@ -46,13 +43,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1204680,
-      "title": "Coyote vs. Acme",
+      "tmdbId": 1101383,
+      "title": "El final de Oak Street",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1101383,
-      "title": "El final de Oak Street",
+      "tmdbId": 1204680,
+      "title": "Coyote vs. Acme",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -71,18 +68,23 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1248832,
-      "title": "Digger",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1280300,
       "title": "The Whistler",
       "reason": "Rating 5 por debajo del mínimo (5.5)"
     },
     {
+      "tmdbId": 1248832,
+      "title": "Digger",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1108427,
       "title": "Vaiana",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 299534,
+      "title": "Vengadores: Endgame",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -91,8 +93,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 299534,
-      "title": "Vengadores: Endgame",
+      "tmdbId": 1302904,
+      "title": "Prácticamente magia 2",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -106,14 +108,9 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1302904,
-      "title": "Prácticamente magia 2",
+      "tmdbId": 980431,
+      "title": "Avatar Aang: El último maestro del aire",
       "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1477712,
-      "title": "Dulce sabor a muerte",
-      "reason": "Rating 4.8 por debajo del mínimo (5.5)"
     },
     {
       "tmdbId": 1368337,
