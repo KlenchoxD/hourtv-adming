@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-10-13T01:30:10.556Z",
+  "lastRunAt": "2026-10-13T08:17:32.071Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -35,104 +35,162 @@
     1335666,
     1083381
   ],
-  "tmdbIdsPublished": [],
-  "totalMoviesInCatalog": 9027,
+  "tmdbIdsPublished": [
+    1335666,
+    1083381
+  ],
+  "totalMoviesInCatalog": 3,
   "errorsSummary": [],
   "skipped": [
     {
+      "tmdbId": 969681,
+      "title": "Spider-Man: Brand New Day",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1423191,
       "title": "Resident Evil",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1291595,
       "title": "Insidious: Fuera del más allá",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1148365,
       "title": "Matchbox: La película",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1101412,
       "title": "Fall 2: Deadpoint",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1236045,
       "title": "Animales",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1204680,
+      "title": "Coyote vs. Acme",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1101383,
+      "title": "El final de Oak Street",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1084244,
+      "title": "Toy Story 5",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1400837,
       "title": "La otra madre",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1288445,
       "title": "El motín",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1248832,
+      "title": "Digger",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1280300,
       "title": "The Whistler",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+      "reason": "Rating 5 por debajo del mínimo (5.5)"
+    },
+    {
+      "tmdbId": 1108427,
+      "title": "Vaiana",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1315772,
+      "title": "Minions & Monsters",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 299534,
+      "title": "Vengadores: Endgame",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1283515,
       "title": "Verity. La sombra de un engaño",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1263337,
       "title": "En el corazón de la bestia",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1302904,
       "title": "Prácticamente magia 2",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1477712,
       "title": "Dulce sabor a muerte",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+      "reason": "Rating 4.8 por debajo del mínimo (5.5)"
+    },
+    {
+      "tmdbId": 1368337,
+      "title": "La Odisea",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1228834,
       "title": "Operación Teherán",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1377237,
       "title": "Entrega al límite",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1712451,
       "title": "Dead Residents Evil",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+      "reason": "Votos 8 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1751701,
       "title": "After Impact",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+      "reason": "Votos 26 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 460458,
+      "title": "Resident Evil. Bienvenidos a Raccoon City",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1294189,
       "title": "The Mongoose",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+      "reason": "Rating 0 por debajo del mínimo (5.5)"
     },
     {
       "tmdbId": 1339274,
       "title": "No dejes a los niños solos",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+      "reason": "Sin sinopsis"
     },
     {
       "tmdbId": 1232569,
       "title": "Pinocho: Desatado",
-      "reason": "Catálogo alcanzó el tamaño máximo configurado"
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1339713,
+      "title": "Obsession",
+      "reason": "Sin fuente autorizada configurada"
     }
   ]
 }
