@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-10-14T15:06:19.346Z",
+  "lastRunAt": "2026-10-14T19:20:27.982Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -26,12 +26,12 @@
     1377237,
     1228834,
     1712451,
-    1751701,
     1294189,
     1339274,
+    1751701,
     460458,
+    1058424,
     1232569,
-    1284046,
     1335666,
     1083381
   ],
@@ -160,11 +160,6 @@
       "reason": "Votos 8 por debajo del mínimo (50)"
     },
     {
-      "tmdbId": 1751701,
-      "title": "After Impact",
-      "reason": "Votos 26 por debajo del mínimo (50)"
-    },
-    {
       "tmdbId": 1294189,
       "title": "The Mongoose",
       "reason": "Rating 0 por debajo del mínimo (5.5)"
@@ -175,18 +170,23 @@
       "reason": "Sin sinopsis"
     },
     {
+      "tmdbId": 1751701,
+      "title": "After Impact",
+      "reason": "Votos 26 por debajo del mínimo (50)"
+    },
+    {
       "tmdbId": 460458,
       "title": "Resident Evil. Bienvenidos a Raccoon City",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1232569,
-      "title": "Pinocho: Desatado",
+      "tmdbId": 1058424,
+      "title": "Hope",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1284046,
-      "title": "Aniquilación",
+      "tmdbId": 1232569,
+      "title": "Pinocho: Desatado",
       "reason": "Sin fuente autorizada configurada"
     }
   ]
