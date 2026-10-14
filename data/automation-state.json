@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-10-14T05:08:30.093Z",
+  "lastRunAt": "2026-10-14T10:09:06.046Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -14,13 +14,13 @@
     1400837,
     1288445,
     1280300,
+    1302904,
     1248832,
-    1108427,
     299534,
     1315772,
-    1302904,
-    1283515,
+    1108427,
     1263337,
+    1283515,
     980431,
     1368337,
     1377237,
@@ -100,13 +100,13 @@
       "reason": "Rating 5 por debajo del mínimo (5.5)"
     },
     {
-      "tmdbId": 1248832,
-      "title": "Digger",
+      "tmdbId": 1302904,
+      "title": "Prácticamente magia 2",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1108427,
-      "title": "Vaiana",
+      "tmdbId": 1248832,
+      "title": "Digger",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -120,18 +120,18 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1302904,
-      "title": "Prácticamente magia 2",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1283515,
-      "title": "Verity. La sombra de un engaño",
+      "tmdbId": 1108427,
+      "title": "Vaiana",
       "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1263337,
       "title": "En el corazón de la bestia",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1283515,
+      "title": "Verity. La sombra de un engaño",
       "reason": "Sin fuente autorizada configurada"
     },
     {
