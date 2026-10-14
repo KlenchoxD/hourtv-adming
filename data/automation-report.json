@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-14T10:09:03.489Z",
-  "durationMs": 2562,
+  "generatedAt": "2026-10-14T15:06:16.063Z",
+  "durationMs": 3287,
   "dryRun": false,
   "moviesFound": 32,
   "moviesDiscarded": 30,
@@ -48,11 +48,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1204680,
-      "title": "Coyote vs. Acme",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1084244,
       "title": "Toy Story 5",
       "reason": "Sin fuente autorizada configurada"
@@ -60,6 +55,16 @@
     {
       "tmdbId": 1400837,
       "title": "La otra madre",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1204680,
+      "title": "Coyote vs. Acme",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1302904,
+      "title": "Prácticamente magia 2",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -73,13 +78,18 @@
       "reason": "Rating 5 por debajo del mínimo (5.5)"
     },
     {
-      "tmdbId": 1302904,
-      "title": "Prácticamente magia 2",
+      "tmdbId": 1248832,
+      "title": "Digger",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1248832,
-      "title": "Digger",
+      "tmdbId": 671,
+      "title": "Harry Potter y la piedra filosofal",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1108427,
+      "title": "Vaiana",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -93,23 +103,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1108427,
-      "title": "Vaiana",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1263337,
-      "title": "En el corazón de la bestia",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1283515,
       "title": "Verity. La sombra de un engaño",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 980431,
-      "title": "Avatar Aang: El último maestro del aire",
+      "tmdbId": 1263337,
+      "title": "En el corazón de la bestia",
       "reason": "Sin fuente autorizada configurada"
     },
     {
