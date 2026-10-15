@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-10-15T09:56:36.407Z",
+  "lastRunAt": "2026-10-15T14:37:48.146Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -26,11 +26,12 @@
     1377237,
     1228834,
     1712451,
+    1339713,
     1294189,
     1751701,
     460458,
     1339274,
-    1232569,
+    299536,
     1335666,
     1083381
   ],
@@ -149,6 +150,11 @@
       "reason": "Votos 9 por debajo del mínimo (50)"
     },
     {
+      "tmdbId": 1339713,
+      "title": "Obsession",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1294189,
       "title": "The Mongoose",
       "reason": "Rating 0 por debajo del mínimo (5.5)"
@@ -169,8 +175,8 @@
       "reason": "Sin sinopsis"
     },
     {
-      "tmdbId": 1232569,
-      "title": "Pinocho: Desatado",
+      "tmdbId": 299536,
+      "title": "Vengadores: Infinity War",
       "reason": "Sin fuente autorizada configurada"
     }
   ]
