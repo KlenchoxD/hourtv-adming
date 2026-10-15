@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-15T21:46:06.816Z",
-  "durationMs": 1266,
+  "generatedAt": "2026-10-15T23:59:15.717Z",
+  "durationMs": 2829,
   "dryRun": false,
   "moviesFound": 32,
   "moviesDiscarded": 25,
@@ -113,19 +113,14 @@
       "reason": "Votos 9 por debajo del mínimo (50)"
     },
     {
-      "tmdbId": 1294189,
-      "title": "The Mongoose",
-      "reason": "Rating 0 por debajo del mínimo (5.5)"
-    },
-    {
-      "tmdbId": 1751701,
-      "title": "After Impact",
-      "reason": "Votos 27 por debajo del mínimo (50)"
-    },
-    {
       "tmdbId": 460458,
       "title": "Resident Evil. Bienvenidos a Raccoon City",
       "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1294189,
+      "title": "The Mongoose",
+      "reason": "Rating 0 por debajo del mínimo (5.5)"
     },
     {
       "tmdbId": 1339274,
@@ -133,8 +128,13 @@
       "reason": "Sin sinopsis"
     },
     {
-      "tmdbId": 299536,
-      "title": "Vengadores: Infinity War",
+      "tmdbId": 1751701,
+      "title": "After Impact",
+      "reason": "Votos 27 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 1022789,
+      "title": "Del revés 2 (Inside Out 2)",
       "reason": "Sin fuente autorizada configurada"
     }
   ]
