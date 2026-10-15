@@ -34,6 +34,7 @@ class CatalogRepository extends ChangeNotifier {
     }
     return _instance!;
   }
+
   static bool get hasInstance => _instance != null;
   static void configureInstance(CatalogRepository repo) {
     _instance = repo;
@@ -150,7 +151,9 @@ class CatalogRepository extends ChangeNotifier {
       } catch (_) {}
     }
 
-    _status = hasLocalData ? CatalogRepositoryStatus.offlineReady : CatalogRepositoryStatus.failed;
+    _status = hasLocalData
+        ? CatalogRepositoryStatus.offlineReady
+        : CatalogRepositoryStatus.failed;
     notifyListeners();
     return _status;
   }
@@ -159,9 +162,15 @@ class CatalogRepository extends ChangeNotifier {
   Future<SyncResult> sync() async {
     if (syncEngine == null) {
       final hasLocal = (await dao.getPage(limit: 1)).isNotEmpty;
-      _status = hasLocal ? CatalogRepositoryStatus.offlineReady : CatalogRepositoryStatus.idle;
+      _status = hasLocal
+          ? CatalogRepositoryStatus.offlineReady
+          : CatalogRepositoryStatus.idle;
       notifyListeners();
-      return const SyncResult(initialRevision: 0, finalRevision: 0, appliedChangesCount: 0);
+      return const SyncResult(
+        initialRevision: 0,
+        finalRevision: 0,
+        appliedChangesCount: 0,
+      );
     }
     _status = CatalogRepositoryStatus.syncing;
     notifyListeners();
@@ -170,12 +179,16 @@ class CatalogRepository extends ChangeNotifier {
         onBatchApplied: (_) => notifyListeners(),
       );
       final hasLocal = (await dao.getPage(limit: 1)).isNotEmpty;
-      _status = hasLocal ? CatalogRepositoryStatus.ready : CatalogRepositoryStatus.offlineReady;
+      _status = hasLocal
+          ? CatalogRepositoryStatus.ready
+          : CatalogRepositoryStatus.offlineReady;
       notifyListeners();
       return result;
     } catch (e) {
       final hasLocal = (await dao.getPage(limit: 1)).isNotEmpty;
-      _status = hasLocal ? CatalogRepositoryStatus.offlineReady : CatalogRepositoryStatus.failed;
+      _status = hasLocal
+          ? CatalogRepositoryStatus.offlineReady
+          : CatalogRepositoryStatus.failed;
       notifyListeners();
       rethrow;
     }
@@ -197,11 +210,14 @@ class CatalogRepository extends ChangeNotifier {
   }
 
   /// Carga el archivo sources.json desde el sistema de archivos o desde el bundle de assets.
-  static Future<CatalogPayload> loadAssetSources({String path = 'assets/data/sources.json'}) async {
+  static Future<CatalogPayload> loadAssetSources({
+    String path = 'assets/data/sources.json',
+  }) async {
     String? raw;
     try {
       final file = File(path);
-      final isTestEnv = !kIsWeb && Platform.environment.containsKey('FLUTTER_TEST');
+      final isTestEnv =
+          !kIsWeb && Platform.environment.containsKey('FLUTTER_TEST');
       if (isTestEnv) {
         if (file.existsSync()) {
           raw = file.readAsStringSync();
@@ -218,12 +234,15 @@ class CatalogRepository extends ChangeNotifier {
       } catch (_) {}
     }
     if (raw == null) return const CatalogPayload();
-    final isTestEnv = !kIsWeb && Platform.environment.containsKey('FLUTTER_TEST');
-    return isTestEnv ? _parsePayloadInIsolate(raw) : compute(_parsePayloadInIsolate, raw);
+    final isTestEnv =
+        !kIsWeb && Platform.environment.containsKey('FLUTTER_TEST');
+    return isTestEnv
+        ? _parseAssetFallbackPayloadInIsolate(raw)
+        : compute(_parseAssetFallbackPayloadInIsolate, raw);
   }
 
-  static CatalogPayload _parsePayloadInIsolate(String raw) {
-    return CatalogParser.parse(jsonDecode(raw));
+  static CatalogPayload _parseAssetFallbackPayloadInIsolate(String raw) {
+    return CatalogParser.parse(jsonDecode(raw), includeVod: false);
   }
 
   /// Puebla la base de datos Drift a partir de un CatalogPayload completo (películas + series + temporadas + episodios + fuentes).
@@ -233,7 +252,9 @@ class CatalogRepository extends ChangeNotifier {
 
       // 1. Películas y sus fuentes
       for (final ch in payload.channels) {
-        if (ch.forcedType != 'movie' && !ch.url.endsWith('.mp4') && !ch.url.endsWith('.mkv')) {
+        if (ch.forcedType != 'movie' &&
+            !ch.url.endsWith('.mp4') &&
+            !ch.url.endsWith('.mkv')) {
           continue;
         }
         final titleId = ch.tvgId?.isNotEmpty == true ? ch.tvgId! : ch.name;
@@ -262,7 +283,12 @@ class CatalogRepository extends ChangeNotifier {
           var order = 0;
           for (final server in ch.servers) {
             await dao.upsertSource(
-              _sourceCompanionFromServer(server: server, fallbackId: '${titleId}_server_$order', titleId: titleId, orderIndex: order++),
+              _sourceCompanionFromServer(
+                server: server,
+                fallbackId: '${titleId}_server_$order',
+                titleId: titleId,
+                orderIndex: order++,
+              ),
             );
           }
         } else if (ch.url.isNotEmpty) {
@@ -330,7 +356,9 @@ class CatalogRepository extends ChangeNotifier {
           var epIndex = 1;
           for (final ep in entry.value) {
             final epNumMatch = RegExp(r'(\d+)').firstMatch(ep.name);
-            final episodeNumber = epNumMatch != null ? int.tryParse(epNumMatch.group(1)!) ?? epIndex : epIndex;
+            final episodeNumber = epNumMatch != null
+                ? int.tryParse(epNumMatch.group(1)!) ?? epIndex
+                : epIndex;
             final episodeId = '${seasonId}_ep$episodeNumber';
 
             await dao.upsertEpisode(
@@ -349,7 +377,12 @@ class CatalogRepository extends ChangeNotifier {
               var sOrder = 0;
               for (final server in ep.servers) {
                 await dao.upsertSource(
-                  _sourceCompanionFromServer(server: server, fallbackId: '${episodeId}_server_$sOrder', episodeId: episodeId, orderIndex: sOrder++),
+                  _sourceCompanionFromServer(
+                    server: server,
+                    fallbackId: '${episodeId}_server_$sOrder',
+                    episodeId: episodeId,
+                    orderIndex: sOrder++,
+                  ),
                 );
               }
             } else if (ep.url.isNotEmpty) {
@@ -374,7 +407,10 @@ class CatalogRepository extends ChangeNotifier {
     await dao.transaction(() async {
       for (final ch in channels) {
         final titleId = ch.tvgId?.isNotEmpty == true ? ch.tvgId! : ch.name;
-        final isMovie = ch.forcedType == 'movie' || ch.url.endsWith('.mp4') || ch.url.endsWith('.mkv');
+        final isMovie =
+            ch.forcedType == 'movie' ||
+            ch.url.endsWith('.mp4') ||
+            ch.url.endsWith('.mkv');
         final mediaType = isMovie ? 'movie' : 'series';
 
         await dao.upsertTitle(
@@ -397,7 +433,12 @@ class CatalogRepository extends ChangeNotifier {
           var order = 0;
           for (final server in ch.servers) {
             await dao.upsertSource(
-              _sourceCompanionFromServer(server: server, fallbackId: '${titleId}_server_$order', titleId: titleId, orderIndex: order++),
+              _sourceCompanionFromServer(
+                server: server,
+                fallbackId: '${titleId}_server_$order',
+                titleId: titleId,
+                orderIndex: order++,
+              ),
             );
           }
         } else if (ch.url.isNotEmpty) {
@@ -431,10 +472,13 @@ class CatalogRepository extends ChangeNotifier {
     );
   }
 
-  Future<List<LocalTitle>> getTitlesByIds(List<String> ids) => dao.getTitlesByIds(ids);
+  Future<List<LocalTitle>> getTitlesByIds(List<String> ids) =>
+      dao.getTitlesByIds(ids);
 
-  Future<List<LocalTitle>> searchTitles({required String query, int limit = 20}) =>
-      dao.searchTitlesFts(rawQuery: query, limit: limit);
+  Future<List<LocalTitle>> searchTitles({
+    required String query,
+    int limit = 20,
+  }) => dao.searchTitlesFts(rawQuery: query, limit: limit);
 
   Future<int> countMovies() => dao.countTitles(mediaType: 'movie');
   Future<int> countSeries() => dao.countTitles(mediaType: 'series');
@@ -447,9 +491,7 @@ class CatalogRepository extends ChangeNotifier {
     if (title == null) return null;
 
     final sources = await dao.getSourcesForTitle(titleId);
-    final servers = sources
-        .map(_serverFromLocalSource)
-        .toList();
+    final servers = sources.map(_serverFromLocalSource).toList();
 
     return Channel(
       name: title.title,
@@ -540,9 +582,16 @@ class CatalogRepository extends ChangeNotifier {
     );
   }
 
-  LocalSourcesCompanion _sourceCompanionFromServer({required ChannelServer server, required String fallbackId, String? titleId, String? episodeId, required int orderIndex}) {
+  LocalSourcesCompanion _sourceCompanionFromServer({
+    required ChannelServer server,
+    required String fallbackId,
+    String? titleId,
+    String? episodeId,
+    required int orderIndex,
+  }) {
     final health = server.health;
-    DateTime? parseDate(String? value) => value == null ? null : DateTime.tryParse(value);
+    DateTime? parseDate(String? value) =>
+        value == null ? null : DateTime.tryParse(value);
     return LocalSourcesCompanion.insert(
       id: server.id ?? fallbackId,
       titleId: Value(titleId),

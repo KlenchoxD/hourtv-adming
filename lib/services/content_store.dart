@@ -125,6 +125,7 @@ class ContentStore extends ChangeNotifier {
     _refreshing = false;
     _networkLoadRunning = false;
     _refreshAgain = false;
+    _hasAuthoritativeAdminSnapshot = false;
     _legacyLoading = false;
     _webLiveLoading = false;
     error = null;
@@ -140,6 +141,8 @@ class ContentStore extends ChangeNotifier {
   bool _refreshing = false;
   bool _networkLoadRunning = false;
   bool _refreshAgain = false;
+  bool _hasAuthoritativeAdminSnapshot = false;
+  bool get hasAuthoritativeAdminSnapshot => _hasAuthoritativeAdminSnapshot;
   DateTime? _lastLoad;
   Set<String> _trendingTitles = {};
 
@@ -205,6 +208,11 @@ class ContentStore extends ChangeNotifier {
     _started = true;
     _lastLoad = DateTime.now();
     _setReadiness(const CatalogReadiness(CatalogLoadPhase.openingCache));
+    final storedPipelineVersion = int.tryParse(
+      '${StorageService.getSetting(_catalogPipelineVersionKey) ?? ''}',
+    );
+    final needsCatalogMigration =
+        storedPipelineVersion != _catalogPipelineVersion;
 
     // Stale-while-revalidate: restaura primero el último resultado parseado.
     // Ninguna petición HTTP forma parte de la ruta del primer render.
@@ -219,19 +227,30 @@ class ContentStore extends ChangeNotifier {
           : StorageService.loadSeries();
       final cachedChannels = await cachedChannelsFuture;
       final cachedSeries = await cachedSeriesFuture;
+      final cachedVodIsCurrent = !needsCatalogMigration;
+      final cachedLiveChannels = cachedChannels
+          .where((channel) => channel.type == MediaType.live)
+          .toList(growable: false);
       if (cachedChannels.isNotEmpty || cachedSeries.isNotEmpty) {
         final favorites = StorageService.loadFavorites()
             .map((channel) => channel.url)
             .toSet();
-        for (final channel in cachedChannels) {
+        final restoredChannels = cachedVodIsCurrent
+            ? cachedChannels
+            : cachedLiveChannels;
+        for (final channel in restoredChannels) {
           channel.isFavorite = favorites.contains(channel.url);
         }
-        all = _withoutArchiveMovies(cachedChannels);
-        series = cachedSeries;
-        _catalogFromSnapshot = cacheLoader == null && seriesCacheLoader == null;
+        all = _withoutArchiveMovies(restoredChannels);
+        series = cachedVodIsCurrent ? cachedSeries : const [];
+        _catalogFromSnapshot =
+            cachedVodIsCurrent &&
+            cacheLoader == null &&
+            seriesCacheLoader == null;
         _snapshotFingerprint = int.tryParse(
           '${StorageService.getSetting(_snapshotFingerprintKey) ?? ''}',
         );
+        if (!cachedVodIsCurrent) _snapshotFingerprint = null;
         _recomputeCountries();
       }
     }
@@ -241,8 +260,25 @@ class ContentStore extends ChangeNotifier {
         (cacheLoader != null &&
             (remoteLoader != null || startupSnapshotLoader != null))
         ? const _AssetSources([], [], [], [])
-        : await _loadAssetSources();
-    if (all.isEmpty && localSources.channels.isNotEmpty) {
+        : await _loadAssetSources(ignoreRemoteCache: needsCatalogMigration);
+    if (localSources.isAuthoritativeSnapshot) {
+      _hasAuthoritativeAdminSnapshot = true;
+      final cachedLive = all
+          .where((channel) => channel.type == MediaType.live)
+          .toList(growable: false);
+      final snapshotLiveUrls = localSources.channels
+          .where((channel) => channel.type == MediaType.live)
+          .map((channel) => channel.url)
+          .toSet();
+      all = _withoutArchiveMovies([
+        ...localSources.channels,
+        ...cachedLive.where(
+          (channel) => !snapshotLiveUrls.contains(channel.url),
+        ),
+      ]);
+      series = localSources.series;
+      _catalogFromSnapshot = false;
+    } else if (all.isEmpty && localSources.channels.isNotEmpty) {
       all = _withoutArchiveMovies(localSources.channels);
       _catalogFromSnapshot = false;
     }
@@ -262,6 +298,8 @@ class ContentStore extends ChangeNotifier {
       try {
         final remoteChannels = await remoteLoader().timeout(remoteTimeout);
         all = _withoutArchiveMovies(remoteChannels);
+        series = const [];
+        _hasAuthoritativeAdminSnapshot = true;
         _catalogFromSnapshot = false;
         _recomputeCountries();
         _setReadiness(const CatalogReadiness(CatalogLoadPhase.buildingHome));
@@ -295,15 +333,23 @@ class ContentStore extends ChangeNotifier {
       return;
     }
 
-    // Cold native launch settles the published catalog before opening Home.
-    // Cache is kept only when revalidation fails; a valid snapshot replaces it,
-    // including when the admin deliberately publishes an empty catalog.
-    var startupSnapshotLoaded = false;
+    // On the first launch after a catalog-pipeline upgrade, settle against
+    // the published admin snapshot before opening Home. Old local VOD caches
+    // were intentionally ignored above; an authoritative empty snapshot is a
+    // successful result and must clear any remaining old VOD.
     final isNativeTest =
         !kIsWeb && Platform.environment.containsKey('FLUTTER_TEST');
+    if (needsCatalogMigration) {
+      // A pre-migration Drift database may contain prototype titles. Until
+      // this build validates the panel snapshot, do not surface those rows as
+      // an offline fallback; retry the remote catalog instead.
+      _hasAuthoritativeAdminSnapshot = true;
+    }
+    var startupSnapshotLoaded = false;
     if (!kIsWeb &&
         !isInitialReady &&
-        (startupSnapshotLoader != null || !isNativeTest)) {
+        (startupSnapshotLoader != null ||
+            (!isNativeTest && needsCatalogMigration))) {
       try {
         final refreshed =
             await (startupSnapshotLoader != null
@@ -324,8 +370,9 @@ class ContentStore extends ChangeNotifier {
           localSources = refreshed;
           final live = all
               .where((channel) => channel.type == MediaType.live)
-              .toList();
+              .toList(growable: false);
           final liveUrls = refreshed.channels
+              .where((channel) => channel.type == MediaType.live)
               .map((channel) => channel.url)
               .toSet();
           all = _withoutArchiveMovies([
@@ -340,19 +387,23 @@ class ContentStore extends ChangeNotifier {
             channel.isFavorite = favorites.contains(channel.url);
           }
           _catalogFromSnapshot = false;
+          _snapshotFingerprint = null;
           _recomputeCountries();
-          startupSnapshotLoaded =
-              refreshed.isAuthoritativeSnapshot ||
-              refreshed.channels.isNotEmpty ||
-              refreshed.series.isNotEmpty;
-          unawaited(_persistSnapshot());
+          startupSnapshotLoaded = refreshed.isAuthoritativeSnapshot;
+          _hasAuthoritativeAdminSnapshot = refreshed.isAuthoritativeSnapshot;
+          await _persistSnapshot();
         }
-      } catch (_) {
-        // Opening offline must still work with the last complete snapshot.
+      } catch (exception) {
+        debugPrint(
+          '[CatalogFetch] No se pudo validar el snapshot al iniciar: $exception',
+        );
+        // Offline remains usable with the last published snapshot/cache.
       }
     }
 
-    // Catalog is settled; slow IPTV/metadata work remains in the background.
+    // Con snapshot local válido, Home aparece de inmediato y la revalidación
+    // remota empieza sin la antigua espera de 20 s que dejaba visibles títulos
+    // ya borrados del panel durante demasiado tiempo.
     if (all.isNotEmpty || series.isNotEmpty) {
       _setReadiness(const CatalogReadiness(CatalogLoadPhase.buildingHome));
       _setReadiness(const CatalogReadiness(CatalogLoadPhase.ready));
@@ -365,9 +416,9 @@ class ContentStore extends ChangeNotifier {
           !kIsWeb && Platform.environment.containsKey('FLUTTER_TEST');
       if (!isTestEnv) {
         unawaited(() async {
-          // En web la primera visita no trae canales guardados: esperar 20 s
-          // dejaba TV en vivo vacía todo ese rato.
-          await Future<void>.delayed(Duration(seconds: kIsWeb ? 3 : 20));
+          if (kIsWeb) {
+            await Future<void>.delayed(const Duration(seconds: 3));
+          }
           await _waitForTouchIdle();
           await _refreshContent(
             localSources,
@@ -376,19 +427,11 @@ class ContentStore extends ChangeNotifier {
         }());
       }
     } else if (startupSnapshotLoaded) {
-      // Una instantánea publicada vacía es un resultado válido, no un error.
-      // No conservar el VOD local antiguo ni bloquear Inicio por estar vacía.
-      _setReadiness(const CatalogReadiness(CatalogLoadPhase.buildingHome));
-      _setReadiness(const CatalogReadiness(CatalogLoadPhase.ready));
+      // Empty-but-authoritative is not a network error: keep the published
+      // empty state and persist the deletion of stale cached titles.
+      _setReadiness(const CatalogReadiness(CatalogLoadPhase.readyEmpty));
       _legacyLoading = false;
       notifyListeners();
-      if (!isNativeTest) {
-        unawaited(() async {
-          await Future<void>.delayed(Duration(seconds: kIsWeb ? 3 : 20));
-          await _waitForTouchIdle();
-          await _refreshContent(localSources, refreshSources: false);
-        }());
-      }
     } else {
       // Primera instalación sin fuentes previas: espera la sincronización inicial
       try {
@@ -490,6 +533,7 @@ class ContentStore extends ChangeNotifier {
   }
 
   static const _snapshotFingerprintKey = 'catalogSnapshotFingerprint';
+  static const _catalogPipelineVersionKey = 'catalogSnapshotPipelineVersion';
 
   /// Subir al cambiar cómo se interpreta el catálogo (parser, dedupe,
   /// filtros de `all`): fuerza reconstruir aunque las fuentes no cambien.
@@ -566,6 +610,9 @@ class ContentStore extends ChangeNotifier {
           : refreshedSources.isEmpty
           ? fallbackSources
           : refreshedSources;
+      if (assetSources.isAuthoritativeSnapshot) {
+        _hasAuthoritativeAdminSnapshot = true;
+      }
       final byUrl = <String, M3UList>{};
       for (final list in [...lists, ...assetSources.lists]) {
         byUrl[list.isStalker ? '${list.url}|${list.username}' : list.url] =
@@ -668,7 +715,11 @@ class ContentStore extends ChangeNotifier {
         }
         final sourceChannels = result.success
             ? result.channels
-            : all.where((channel) => channel.category == result.list.name);
+            : all.where(
+                (channel) =>
+                    channel.category == result.list.name &&
+                    channel.type == MediaType.live,
+              );
         for (final channel in sourceChannels) {
           if (kIsWeb && !HourTvWebLivePolicy.instance.retain(channel)) continue;
           final titleKey = vodTitleKey(channel);
@@ -761,6 +812,10 @@ class ContentStore extends ChangeNotifier {
       StorageService.saveChannels(List<Channel>.from(all)),
       StorageService.saveSeries(List<XtreamSeries>.from(series)),
     ]);
+    await StorageService.saveSetting(
+      _catalogPipelineVersionKey,
+      _catalogPipelineVersion.toString(),
+    );
   }
 
   Future<void> _loadVod(
@@ -1068,14 +1123,17 @@ class ContentStore extends ChangeNotifier {
 
   /// Lee primero caché/asset. Solo consulta la red cuando [refreshRemote] es
   /// true, y esa llamada se hace exclusivamente desde la revalidación de fondo.
-  Future<_AssetSources> _loadAssetSources({bool refreshRemote = false}) async {
+  Future<_AssetSources> _loadAssetSources({
+    bool refreshRemote = false,
+    bool ignoreRemoteCache = false,
+  }) async {
     try {
       String? raw;
       if (refreshRemote) {
         raw = await _fetchRemoteSourcesFromNetwork();
       }
       var isAuthoritativeSnapshot = raw != null;
-      if (raw == null) {
+      if (raw == null && !ignoreRemoteCache) {
         raw = await _cachedRemoteSources();
         isAuthoritativeSnapshot = raw != null;
       }
@@ -1105,22 +1163,13 @@ class ContentStore extends ChangeNotifier {
       var fingerprint = isTestEnv
           ? fingerprintString(rawForHash)
           : await compute(fingerprintString, rawForHash);
-      var parsed = isTestEnv
-          ? _parseSourcesInIsolate(raw)
-          : await compute(_parseSourcesInIsolate, raw);
-      // `assets/data/sources.json` contiene VOD del prototipo. No completar
-      // un snapshot publicado sin series con ese catálogo obsoleto. El asset
-      // queda solo como respaldo de canales lineales/listas auxiliares.
-      if (!isAuthoritativeSnapshot) {
-        parsed = CatalogPayload(
-          lists: parsed.lists,
-          epgUrls: parsed.epgUrls,
-          channels: parsed.channels
-              .where((channel) => channel.type == MediaType.live)
-              .toList(growable: false),
-          series: const [],
-        );
-      }
+      // Bundled sources.json belongs to the old prototype and is not the
+      // admin catalog. It may provide linear channels/EPG only; never merge
+      // its VOD into a published or cached admin snapshot.
+      final parse = isAuthoritativeSnapshot
+          ? _parseSourcesInIsolate
+          : _parseBundledSourcesInIsolate;
+      final parsed = isTestEnv ? parse(raw) : await compute(parse, raw);
       return _AssetSources(
         parsed.lists,
         parsed.epgUrls,
@@ -1139,6 +1188,14 @@ class ContentStore extends ChangeNotifier {
 
   static CatalogPayload _parseSourcesInIsolate(String raw) {
     final payload = CatalogParser.parse(jsonDecode(raw));
+    for (final channel in payload.channels) {
+      channel.warmDerivedFields();
+    }
+    return payload;
+  }
+
+  static CatalogPayload _parseBundledSourcesInIsolate(String raw) {
+    final payload = CatalogParser.parse(jsonDecode(raw), includeVod: false);
     for (final channel in payload.channels) {
       channel.warmDerivedFields();
     }
@@ -1593,11 +1650,40 @@ class ContentStore extends ChangeNotifier {
   List<Channel> liveByCountry(String code) => visibleAll
       .where((c) => c.type == MediaType.live && (c.countryCode ?? 'zz') == code)
       .toList();
+
+  Set<String> _publishedCatalogReferences() {
+    final references = <String>{};
+    void add(Channel channel) {
+      if (channel.url.isNotEmpty) references.add('url:${channel.url}');
+      final id = channel.tvgId;
+      if (id != null && id.isNotEmpty) references.add('id:$id');
+    }
+
+    for (final channel in all) {
+      if (channel.type != MediaType.live) add(channel);
+    }
+    for (final item in series) {
+      references.add('id:${item.seriesId}');
+      for (final episode in item.episodes ?? const <Channel>[]) {
+        add(episode);
+      }
+    }
+    return references;
+  }
+
+  bool _matchesPublishedCatalog(Channel item, Set<String> references) =>
+      (item.url.isNotEmpty && references.contains('url:${item.url}')) ||
+      ((item.tvgId?.isNotEmpty ?? false) &&
+          references.contains('id:${item.tvgId}'));
+
   List<Channel> get favorites {
     // Las series del catálogo no son streams hasta que se elige un episodio,
     // así que se guardan como entradas VOD sintéticas. Se conservan aquí para
     // que "Mi Lista" pueda abrir su ficha igual que una película.
     final saved = StorageService.loadFavorites();
+    final publishedReferences = _hasAuthoritativeAdminSnapshot
+        ? _publishedCatalogReferences()
+        : null;
     final activeByUrl = {
       for (final channel in all.where((channel) => channel.isFavorite))
         channel.url: channel,
@@ -1605,6 +1691,10 @@ class ContentStore extends ChangeNotifier {
     final result = <Channel>[];
     final seen = <String>{};
     for (final favorite in saved) {
+      if (publishedReferences != null &&
+          !_matchesPublishedCatalog(favorite, publishedReferences)) {
+        continue;
+      }
       final active = activeByUrl[favorite.url];
       final item = active ?? favorite;
       item.isFavorite = true;
@@ -1626,6 +1716,9 @@ class ContentStore extends ChangeNotifier {
   /// Películas y episodios reproducidos, más nuevos primero (sin TV en vivo).
   List<Channel> get history {
     final saved = StorageService.loadRecent();
+    final publishedReferences = _hasAuthoritativeAdminSnapshot
+        ? _publishedCatalogReferences()
+        : null;
     // Solo hacen falta los pocos títulos vistos: antes se armaba un mapa con
     // todo `all` (miles de canales en vivo) en cada build de Inicio.
     final wanted = {for (final item in saved) item.url};
@@ -1638,6 +1731,11 @@ class ContentStore extends ChangeNotifier {
     final seen = <String>{};
     final result = <Channel>[];
     for (final item in saved) {
+      if (publishedReferences != null &&
+          item.type != MediaType.live &&
+          !_matchesPublishedCatalog(item, publishedReferences)) {
+        continue;
+      }
       final active = activeByUrl[item.url];
       final merged = active ?? item;
       if (merged.type == MediaType.live) continue;
@@ -1657,10 +1755,17 @@ class ContentStore extends ChangeNotifier {
   List<ContinueWatchingEntry> get continueWatchingEntries {
     final seen = <String>{};
     final result = <ContinueWatchingEntry>[];
+    final publishedReferences = _hasAuthoritativeAdminSnapshot
+        ? _publishedCatalogReferences()
+        : null;
     // History is newest first. Claim the series before filtering progress:
     // finishing its latest episode must not revive an older unfinished one.
     for (final item in history) {
       if (item.type == MediaType.live) continue;
+      if (publishedReferences != null &&
+          !_matchesPublishedCatalog(item, publishedReferences)) {
+        continue;
+      }
       var key = 'video:${item.url}';
       String? seriesPoster;
       if (item.type == MediaType.series) {

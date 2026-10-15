@@ -19,7 +19,7 @@ class CatalogPayload {
 }
 
 class CatalogParser {
-  static CatalogPayload parse(dynamic data) {
+  static CatalogPayload parse(dynamic data, {bool includeVod = true}) {
     final root = data is Map ? Map<dynamic, dynamic>.from(data) : null;
     final sourceItems = data is List
         ? data
@@ -27,7 +27,7 @@ class CatalogParser {
 
     final lists = <M3UList>[];
     final epgUrls = <String>[];
-    _parseSources(sourceItems, lists, epgUrls);
+    _parseSources(sourceItems, lists, epgUrls, includeVod: includeVod);
 
     if (root == null) {
       return CatalogPayload(lists: lists, epgUrls: epgUrls);
@@ -37,18 +37,19 @@ class CatalogParser {
       lists: lists,
       epgUrls: epgUrls,
       channels: [
-        ..._parseMovies(root['movies']),
+        if (includeVod) ..._parseMovies(root['movies']),
         ..._parseLiveChannels(root['liveChannels']),
       ],
-      series: _parseSeries(root['series']),
+      series: includeVod ? _parseSeries(root['series']) : const [],
     );
   }
 
   static void _parseSources(
     dynamic raw,
     List<M3UList> lists,
-    List<String> epgUrls,
-  ) {
+    List<String> epgUrls, {
+    required bool includeVod,
+  }) {
     if (raw is! List) return;
     for (final item in raw) {
       final source = _map(item);
@@ -56,6 +57,19 @@ class CatalogParser {
       final name = _text(source['name']) ?? 'Fuente';
       final type = (_text(source['type']) ?? 'live').toLowerCase();
       final userAgent = _text(source['userAgent'] ?? source['user_agent']);
+
+      // The bundled sources.json is a legacy prototype catalog. When it is
+      // loaded only as an offline fallback, never reintroduce VOD or IPTV
+      // account sources from that asset; published snapshots keep full support.
+      if (!includeVod &&
+          (type == 'stalker' ||
+              type == 'xtream' ||
+              type == 'movie' ||
+              type == 'movies' ||
+              type == 'peliculas' ||
+              type == 'series')) {
+        continue;
+      }
 
       if (type == 'stalker') {
         final host = _text(source['host'] ?? source['url']);

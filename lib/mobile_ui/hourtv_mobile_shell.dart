@@ -406,6 +406,7 @@ class _HourTvMobileShellState extends State<HourTvMobileShell>
           onOpen: _openDetails,
           catalogRepository: widget.catalogRepository,
           catalogPageSource: widget.catalogPageSource,
+          authoritativeCatalog: store.hasAuthoritativeAdminSnapshot,
         ),
       ),
       HourTvMobileDestination.library => ListenableBuilder(
@@ -719,21 +720,26 @@ class _HourTvMobileHomeState extends State<HourTvMobileHome> {
       defaultValue: 'Invitado',
     ).toString();
 
-    final driftMovies = _cachedDriftMovies;
-    final driftSeries = _cachedDriftSeries;
+    final canUseDriftFallback = !widget.store.hasAuthoritativeAdminSnapshot;
+    final driftMovies = canUseDriftFallback
+        ? _cachedDriftMovies
+        : const <Channel>[];
+    final driftSeries = canUseDriftFallback
+        ? _cachedDriftSeries
+        : const <Channel>[];
 
     // Las tablas Drift se sincronizan desde Supabase; el panel publica en el
     // catálogo JSON. Prioriza el catálogo publicado cuando ya está cargado y
     // conserva Drift como fallback de arranque/offline para no ocultar títulos
     // nuevos que todavía no existan en las tablas relacionales.
     final publishedMovies = widget.store.movies;
-    final effectiveMovies = publishedMovies.isNotEmpty
+    final effectiveMovies = publishedMovies.isNotEmpty || !canUseDriftFallback
         ? publishedMovies
         : driftMovies;
     final publishedSeries = widget.allContent
         .where((item) => item.type == MediaType.series)
         .toList(growable: false);
-    final effectiveSeries = publishedSeries.isNotEmpty
+    final effectiveSeries = publishedSeries.isNotEmpty || !canUseDriftFallback
         ? publishedSeries
         : driftSeries;
 
@@ -1754,6 +1760,7 @@ class HourTvMobileSearch extends StatefulWidget {
     this.historyStore,
     this.catalogRepository,
     this.catalogPageSource,
+    this.authoritativeCatalog = false,
   });
   final List<Channel> content;
   final ValueChanged<Channel> onOpen;
@@ -1762,6 +1769,7 @@ class HourTvMobileSearch extends StatefulWidget {
   final HourTvSearchHistoryStore? historyStore;
   final CatalogRepository? catalogRepository;
   final CatalogPageSource? catalogPageSource;
+  final bool authoritativeCatalog;
 
   @override
   State<HourTvMobileSearch> createState() => _HourTvMobileSearchState();
@@ -2100,6 +2108,7 @@ class _HourTvMobileSearchState extends State<HourTvMobileSearch> {
 
   bool get _useDriftForVisibleResults =>
       _driftUsable &&
+      !widget.authoritativeCatalog &&
       _query.isEmpty &&
       !_usesCatalogIndexFilters &&
       (_hasActiveFilters || _cachedDriftResults.isNotEmpty);

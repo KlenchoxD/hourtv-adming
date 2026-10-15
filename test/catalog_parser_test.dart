@@ -162,6 +162,51 @@ void main() {
       expect(payload.epgUrls, ['https://list.test/guide.xml']);
     });
 
+    test('excludes legacy VOD when parsing a bundled fallback', () {
+      final payload = CatalogParser.parse({
+        'movies': [
+          {
+            'id': 'prototype-movie',
+            'title': 'Prototype movie',
+            'servers': [
+              {'url': 'https://video.test/prototype.mp4'},
+            ],
+          },
+        ],
+        'series': [
+          {'id': 'prototype-series', 'title': 'Prototype series'},
+        ],
+        'liveChannels': [
+          {'name': 'Live', 'url': 'https://tv.test/live.m3u8'},
+        ],
+        'sources': [
+          {
+            'name': 'Old movies',
+            'url': 'https://list.test/movies.m3u',
+            'type': 'movie',
+          },
+          {
+            'name': 'Linear channels',
+            'url': 'https://list.test/live.m3u',
+            'type': 'live',
+          },
+          {
+            'name': 'Guide',
+            'url': 'https://list.test/guide.xml',
+            'type': 'epg',
+          },
+        ],
+      }, includeVod: false);
+
+      expect(payload.channels, hasLength(1));
+      expect(payload.channels.single.type, MediaType.live);
+      expect(payload.series, isEmpty);
+      expect(payload.lists, hasLength(1));
+      expect(payload.lists.single.name, 'Linear channels');
+      expect(payload.lists.single.mediaType, isNull);
+      expect(payload.epgUrls, ['https://list.test/guide.xml']);
+    });
+
     test('persists alternate servers in Channel JSON', () {
       final channel = Channel(
         name: 'Movie',
