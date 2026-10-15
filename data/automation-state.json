@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-10-15T05:14:13.265Z",
+  "lastRunAt": "2026-10-15T09:56:36.407Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -8,28 +8,28 @@
     1148365,
     1101412,
     1236045,
-    1101383,
+    1058424,
     1084244,
+    1101383,
     1400837,
     1204680,
-    1058424,
     1284046,
     1302904,
     1288445,
     1280300,
     1248832,
+    1108427,
     1375646,
     671,
-    1108427,
     299534,
     1368337,
     1377237,
     1228834,
     1712451,
     1294189,
-    1339274,
     1751701,
     460458,
+    1339274,
     1232569,
     1335666,
     1083381
@@ -64,8 +64,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1101383,
-      "title": "El final de Oak Street",
+      "tmdbId": 1058424,
+      "title": "Hope",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -74,13 +74,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1400837,
-      "title": "La otra madre",
+      "tmdbId": 1101383,
+      "title": "El final de Oak Street",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1058424,
-      "title": "Hope",
+      "tmdbId": 1400837,
+      "title": "La otra madre",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -109,6 +109,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1108427,
+      "title": "Vaiana",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1375646,
       "title": "Colony",
       "reason": "Sin fuente autorizada configurada"
@@ -116,11 +121,6 @@
     {
       "tmdbId": 671,
       "title": "Harry Potter y la piedra filosofal",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1108427,
-      "title": "Vaiana",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -154,19 +154,19 @@
       "reason": "Rating 0 por debajo del mínimo (5.5)"
     },
     {
-      "tmdbId": 1339274,
-      "title": "No dejes a los niños solos",
-      "reason": "Sin sinopsis"
-    },
-    {
       "tmdbId": 1751701,
       "title": "After Impact",
-      "reason": "Votos 26 por debajo del mínimo (50)"
+      "reason": "Votos 27 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 460458,
       "title": "Resident Evil. Bienvenidos a Raccoon City",
       "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1339274,
+      "title": "No dejes a los niños solos",
+      "reason": "Sin sinopsis"
     },
     {
       "tmdbId": 1232569,

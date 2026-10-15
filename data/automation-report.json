@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-15T05:14:09.440Z",
-  "durationMs": 3830,
+  "generatedAt": "2026-10-15T09:56:34.621Z",
+  "durationMs": 1791,
   "dryRun": false,
   "moviesFound": 31,
   "moviesDiscarded": 27,
@@ -38,8 +38,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1101383,
-      "title": "El final de Oak Street",
+      "tmdbId": 1058424,
+      "title": "Hope",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -48,13 +48,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1400837,
-      "title": "La otra madre",
+      "tmdbId": 1101383,
+      "title": "El final de Oak Street",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1058424,
-      "title": "Hope",
+      "tmdbId": 1400837,
+      "title": "La otra madre",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -83,6 +83,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1108427,
+      "title": "Vaiana",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1375646,
       "title": "Colony",
       "reason": "Sin fuente autorizada configurada"
@@ -90,11 +95,6 @@
     {
       "tmdbId": 671,
       "title": "Harry Potter y la piedra filosofal",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1108427,
-      "title": "Vaiana",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -128,19 +128,19 @@
       "reason": "Rating 0 por debajo del mínimo (5.5)"
     },
     {
-      "tmdbId": 1339274,
-      "title": "No dejes a los niños solos",
-      "reason": "Sin sinopsis"
-    },
-    {
       "tmdbId": 1751701,
       "title": "After Impact",
-      "reason": "Votos 26 por debajo del mínimo (50)"
+      "reason": "Votos 27 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 460458,
       "title": "Resident Evil. Bienvenidos a Raccoon City",
       "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1339274,
+      "title": "No dejes a los niños solos",
+      "reason": "Sin sinopsis"
     },
     {
       "tmdbId": 1232569,
