@@ -1,22 +1,17 @@
 {
-  "generatedAt": "2026-10-15T00:42:39.482Z",
-  "durationMs": 2461,
+  "generatedAt": "2026-10-15T05:14:09.440Z",
+  "durationMs": 3830,
   "dryRun": false,
   "moviesFound": 31,
-  "moviesDiscarded": 28,
+  "moviesDiscarded": 27,
   "moviesAdded": 0,
   "moviesEnriched": 0,
-  "duplicates": 3,
+  "duplicates": 4,
   "tmdbErrors": 0,
   "providerErrors": 0,
   "invalidSources": 0,
   "addedTitles": [],
   "skipped": [
-    {
-      "tmdbId": 969681,
-      "title": "Spider-Man: Brand New Day",
-      "reason": "Sin fuente autorizada configurada"
-    },
     {
       "tmdbId": 1423191,
       "title": "Resident Evil",
@@ -125,7 +120,7 @@
     {
       "tmdbId": 1712451,
       "title": "Dead Residents Evil",
-      "reason": "Votos 8 por debajo del mínimo (50)"
+      "reason": "Votos 9 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1294189,
