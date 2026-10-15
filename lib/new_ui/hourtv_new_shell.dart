@@ -100,7 +100,8 @@ class _HourTvNewShellState extends State<HourTvNewShell> {
   }
 
   void _initPageSources() {
-    final repo = widget.catalogRepository ??
+    final repo =
+        widget.catalogRepository ??
         (CatalogRepository.hasInstance ? CatalogRepository.instance : null);
 
     if (widget.moviesPageSource != null) {
@@ -131,8 +132,10 @@ class _HourTvNewShellState extends State<HourTvNewShell> {
 
   /// Aun cargando el catalogo real y todavia sin contenido: mostrar loading.
   bool get _booting {
-    final hasDrift = (_moviesPageSource != null && _moviesPageSource!.items.isNotEmpty) ||
-        (_seriesPageSource != null && _seriesPageSource!.items.isNotEmpty);
+    final hasDrift =
+        !store.hasAuthoritativeAdminSnapshot &&
+        ((_moviesPageSource != null && _moviesPageSource!.items.isNotEmpty) ||
+            (_seriesPageSource != null && _seriesPageSource!.items.isNotEmpty));
     if (hasDrift) return false;
     return !_loaded && store.movies.isEmpty && store.visibleAll.isEmpty;
   }
@@ -179,22 +182,28 @@ class _HourTvNewShellState extends State<HourTvNewShell> {
 
   List<Channel> get movies {
     // Drift no trae géneros: con perfil infantil/parental no se puede filtrar.
-    final drift = _moviesPageSource != null &&
+    final drift =
+        _moviesPageSource != null &&
             _moviesPageSource!.items.isNotEmpty &&
             ParentalControlService.filterMode == 0
-        ? _moviesPageSource!.items.map(CatalogRepository.titleToChannel).toList()
+        ? _moviesPageSource!.items
+              .map(CatalogRepository.titleToChannel)
+              .toList()
         : const <Channel>[];
-    if (drift.isNotEmpty) return drift;
+    if (!store.hasAuthoritativeAdminSnapshot && drift.isNotEmpty) return drift;
     return store.movies;
   }
 
   List<Channel> get series {
-    final drift = _seriesPageSource != null &&
+    final drift =
+        _seriesPageSource != null &&
             _seriesPageSource!.items.isNotEmpty &&
             ParentalControlService.filterMode == 0
-        ? _seriesPageSource!.items.map(CatalogRepository.titleToChannel).toList()
+        ? _seriesPageSource!.items
+              .map(CatalogRepository.titleToChannel)
+              .toList()
         : const <Channel>[];
-    if (drift.isNotEmpty) return drift;
+    if (!store.hasAuthoritativeAdminSnapshot && drift.isNotEmpty) return drift;
 
     final direct = store.visibleAll
         .where((item) => item.type == MediaType.series)
@@ -214,8 +223,10 @@ class _HourTvNewShellState extends State<HourTvNewShell> {
   }
 
   bool get showingSeriesPreview {
-    if (_seriesPageSource != null && _seriesPageSource!.items.isNotEmpty) return false;
-    return store.visibleSeries.isEmpty &&
+    if (_seriesPageSource != null && _seriesPageSource!.items.isNotEmpty)
+      return false;
+    return !store.hasAuthoritativeAdminSnapshot &&
+        store.visibleSeries.isEmpty &&
         store.visibleAll.where((item) => item.type == MediaType.series).isEmpty;
   }
 
@@ -227,8 +238,9 @@ class _HourTvNewShellState extends State<HourTvNewShell> {
   }
 
   bool get showingPreview {
-    if (_moviesPageSource != null && _moviesPageSource!.items.isNotEmpty) return false;
-    return store.movies.isEmpty;
+    if (_moviesPageSource != null && _moviesPageSource!.items.isNotEmpty)
+      return false;
+    return !store.hasAuthoritativeAdminSnapshot && store.movies.isEmpty;
   }
 
   /// Back por capas: deshace una cosa a la vez y solo sale de la app cuando ya
@@ -304,7 +316,8 @@ class _HourTvNewShellState extends State<HourTvNewShell> {
     required bool tablet,
     required bool tv,
   }) {
-    final repo = widget.catalogRepository ??
+    final repo =
+        widget.catalogRepository ??
         (CatalogRepository.hasInstance ? CatalogRepository.instance : null);
 
     // Sin catálogo (cargando o sin conexión): un estado honesto en lugar de
@@ -891,9 +904,7 @@ class _LoadErrorBanner extends StatelessWidget {
     decoration: BoxDecoration(
       color: const Color(0xFFFF4D4F).withValues(alpha: .12),
       borderRadius: BorderRadius.circular(12),
-      border: Border.all(
-        color: const Color(0xFFFF4D4F).withValues(alpha: .4),
-      ),
+      border: Border.all(color: const Color(0xFFFF4D4F).withValues(alpha: .4)),
     ),
     child: Row(
       children: [
@@ -1033,8 +1044,13 @@ class _Hero extends StatelessWidget {
                           child: _PrimaryButton(
                             label: 'Reproducir',
                             icon: Icons.play_arrow_rounded,
-                            onTap: () =>
-                                _open(context, channel, store, preview, repository: catalogRepository),
+                            onTap: () => _open(
+                              context,
+                              channel,
+                              store,
+                              preview,
+                              repository: catalogRepository,
+                            ),
                           ),
                         ),
                         const SizedBox(width: 10),
@@ -1152,7 +1168,13 @@ class _MediaRow extends StatelessWidget {
                   width: width,
                   imageHeight: imageHeight,
                   landscape: !portrait,
-                  onTap: () => _open(context, item, store, preview, repository: catalogRepository),
+                  onTap: () => _open(
+                    context,
+                    item,
+                    store,
+                    preview,
+                    repository: catalogRepository,
+                  ),
                 );
               },
             ),
@@ -1524,8 +1546,13 @@ class _CatalogPageState extends State<_CatalogPage> {
                   width: double.infinity,
                   imageHeight: cardImageHeight,
                   landscape: !portrait,
-                  onTap: () =>
-                      _open(context, item, widget.store, widget.preview, repository: widget.catalogRepository),
+                  onTap: () => _open(
+                    context,
+                    item,
+                    widget.store,
+                    widget.preview,
+                    repository: widget.catalogRepository,
+                  ),
                 );
               },
             ),
@@ -1852,4 +1879,3 @@ void _open(
     preview: preview,
   );
 }
-
