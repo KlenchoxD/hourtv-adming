@@ -1,27 +1,27 @@
 {
-  "lastRunAt": "2026-10-15T14:37:48.146Z",
+  "lastRunAt": "2026-10-15T18:39:12.566Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
-    1423191,
     1291595,
     1148365,
-    1101412,
+    1423191,
     1236045,
+    1101412,
     1058424,
     1084244,
-    1101383,
     1400837,
-    1204680,
-    1284046,
-    1302904,
-    1288445,
-    1280300,
-    1248832,
-    1108427,
-    1375646,
+    1101383,
     671,
-    299534,
+    1204680,
+    1302904,
+    1284046,
+    1248832,
+    1288445,
+    1315772,
+    1280300,
+    1108427,
+    1153576,
     1368337,
     1377237,
     1228834,
@@ -40,11 +40,6 @@
   "errorsSummary": [],
   "skipped": [
     {
-      "tmdbId": 1423191,
-      "title": "Resident Evil",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1291595,
       "title": "Insidious: Fuera del más allá",
       "reason": "Sin fuente autorizada configurada"
@@ -55,13 +50,18 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1101412,
-      "title": "Fall 2: Deadpoint",
+      "tmdbId": 1423191,
+      "title": "Resident Evil",
       "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1236045,
       "title": "Animales",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1101412,
+      "title": "Fall 2: Deadpoint",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -75,48 +75,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1101383,
-      "title": "El final de Oak Street",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1400837,
       "title": "La otra madre",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1284046,
-      "title": "Aniquilación",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1302904,
-      "title": "Prácticamente magia 2",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1288445,
-      "title": "El motín",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1280300,
-      "title": "The Whistler",
-      "reason": "Rating 5 por debajo del mínimo (5.5)"
-    },
-    {
-      "tmdbId": 1248832,
-      "title": "Digger",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1108427,
-      "title": "Vaiana",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1375646,
-      "title": "Colony",
+      "tmdbId": 1101383,
+      "title": "El final de Oak Street",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -125,9 +90,44 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 299534,
-      "title": "Vengadores: Endgame",
+      "tmdbId": 1302904,
+      "title": "Prácticamente magia 2",
       "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1284046,
+      "title": "Aniquilación",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1248832,
+      "title": "Digger",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1288445,
+      "title": "El motín",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1315772,
+      "title": "Minions & Monsters",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1280300,
+      "title": "The Whistler",
+      "reason": "Rating 5 por debajo del mínimo (5.5)"
+    },
+    {
+      "tmdbId": 1108427,
+      "title": "Vaiana",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1153576,
+      "title": "Street Fighter",
+      "reason": "Votos 15 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1368337,
