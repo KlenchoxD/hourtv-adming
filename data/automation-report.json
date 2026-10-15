@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-10-15T18:39:11.465Z",
-  "durationMs": 1106,
+  "generatedAt": "2026-10-15T21:46:06.816Z",
+  "durationMs": 1266,
   "dryRun": false,
   "moviesFound": 32,
-  "moviesDiscarded": 28,
+  "moviesDiscarded": 25,
   "moviesAdded": 0,
   "moviesEnriched": 0,
-  "duplicates": 4,
+  "duplicates": 7,
   "tmdbErrors": 0,
   "providerErrors": 0,
   "invalidSources": 0,
@@ -83,11 +83,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1315772,
-      "title": "Minions & Monsters",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1280300,
       "title": "The Whistler",
       "reason": "Rating 5 por debajo del mínimo (5.5)"
@@ -100,12 +95,7 @@
     {
       "tmdbId": 1153576,
       "title": "Street Fighter",
-      "reason": "Votos 15 por debajo del mínimo (50)"
-    },
-    {
-      "tmdbId": 1368337,
-      "title": "La Odisea",
-      "reason": "Sin fuente autorizada configurada"
+      "reason": "Votos 21 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1377237,
@@ -121,11 +111,6 @@
       "tmdbId": 1712451,
       "title": "Dead Residents Evil",
       "reason": "Votos 9 por debajo del mínimo (50)"
-    },
-    {
-      "tmdbId": 1339713,
-      "title": "Obsession",
-      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1294189,
