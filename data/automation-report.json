@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-16T13:31:35.980Z",
-  "durationMs": 2610,
+  "generatedAt": "2026-10-16T17:41:33.159Z",
+  "durationMs": 2719,
   "dryRun": false,
   "moviesFound": 32,
   "moviesDiscarded": 25,
@@ -75,7 +75,7 @@
     {
       "tmdbId": 1153576,
       "title": "Street Fighter",
-      "reason": "Votos 32 por debajo del mínimo (50)"
+      "reason": "Votos 35 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1248832,

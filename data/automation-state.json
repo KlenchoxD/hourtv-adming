@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-10-16T13:31:38.585Z",
+  "lastRunAt": "2026-10-16T17:41:35.874Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -36,7 +36,7 @@
     1083381
   ],
   "tmdbIdsPublished": [],
-  "totalMoviesInCatalog": 51,
+  "totalMoviesInCatalog": 52,
   "errorsSummary": [],
   "skipped": [
     {
@@ -102,7 +102,7 @@
     {
       "tmdbId": 1153576,
       "title": "Street Fighter",
-      "reason": "Votos 32 por debajo del mínimo (50)"
+      "reason": "Votos 35 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1248832,
