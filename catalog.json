@@ -2863,6 +2863,154 @@
           "language": "Español"
         }
       ]
+    },
+    {
+      "title": "La saga Crepúsculo: Luna nueva",
+      "plot": "Edward Cullen decide abandonar a Bella Swan para mantenerla alejada de los peligros del mundo vampírico. Con la ayuda de Jacob Black, su amigo de la infancia y miembro de la misteriosa tribu quileute, Bella intentará superar el abandono de Edward, que la ha dejado sumida en el mayor de los desconsuelos. Pero los peligros siguen acechando a la joven; nuevas y asombrosas criaturas sobrenaturales se cruzarán en su camino, y Bella sólo contará con el apoyo del cada vez más cercano e irresistible Jacob. Repentinamente, Bella se encuentra inmersa en el mundo de los hombres lobo, ancestrales enemigos de los vampiros, y su lealtad es puesta a prueba...",
+      "cast": "Kristen Stewart, Robert Pattinson, Taylor Lautner, Dakota Fanning, Michael Sheen, Ashley Greene, Rachelle Lefevre, Billy Burke, Peter Facinelli, Elizabeth Reaser, Jackson Rathbone, Kellan Lutz, Nikki Reed, Edi Gathegi, Graham Greene, Gil Birmingham, Anna Kendrick, Michael Welch, Justin Chon, Christian Serratos, Jamie Campbell Bower, Christina Jastrzembska, Russell Roberts, Cam Gigandet, Christopher Heyerdahl, Curtis Caravaggio, Daniel Cudmore, Charlie Bewley, Chaske Spencer, Adrien Dorval",
+      "castPhotos": {
+        "Kristen Stewart": "https://image.tmdb.org/t/p/w185/xldswdQ1VnpcOf2wZMPguZ3avgO.jpg",
+        "Robert Pattinson": "https://image.tmdb.org/t/p/w185/3qZ09UE7lN6AtorfXFRYpEtSY93.jpg",
+        "Taylor Lautner": "https://image.tmdb.org/t/p/w185/xyRXoKM7UQdijwmjpiCcLGPzcc7.jpg",
+        "Dakota Fanning": "https://image.tmdb.org/t/p/w185/hwcO08SVWkelfvgfIa5HsTMxsK8.jpg",
+        "Michael Sheen": "https://image.tmdb.org/t/p/w185/nGxIcIcfJjdPN3k8zFabtA1gRqL.jpg",
+        "Ashley Greene": "https://image.tmdb.org/t/p/w185/7crsfr0klw5iaYvZ3n9ps6RCIhp.jpg"
+      },
+      "director": "Chris Weitz",
+      "writer": "Melissa Rosenberg",
+      "releaseDate": "2009-11-18",
+      "year": 2009,
+      "genre": null,
+      "rating": 6,
+      "duration": "131 min",
+      "poster": "https://image.tmdb.org/t/p/w500/l5lF8VHTO5QKObAKE3Wp2QQfGZJ.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/dF2c20sRDgySZLaLS2OUerL07sz.jpg",
+      "tmdbId": 18239,
+      "tmdbType": "movie",
+      "id": "tmdb-18239",
+      "categories": [
+        "aventura",
+        "fantasía",
+        "drama",
+        "romance"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/pjhxweihhmq3",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "Culpa mía: Londres",
+      "plot": "Noah, de 18 años, se traslada de Estados Unidos a Londres con su madre, que se ha enamorado recientemente de William, un adinerado hombre de negocios británico. Noah conoce al hijo de William, el malote Nick. Pese a los esfuerzos de ambos por evitarlo, se sienten atraídos. Mientras Noah pasa el verano adaptándose a su nueva vida, su doloroso pasado la irá atrapando a la vez que se va enamorando.",
+      "cast": "Asha Banks, Matthew Broome, Eve Macklin, Ray Fearon, Enva Lewis, Jason Flemyng, Kerim Hassan, Sam Buchanan, Amelia Kenworthy, Harry Gilby, Christina Cole, Sekou Diaby, Tommy Belshaw, Harvey Almond, George Robinson, Tallulah Evans, Seosaimhin Hennelly, Fiona Marr, Gerard Monaco, Emma Kershaw, Victoria Wyant, Payal Mistry, Kamira Samuel, Isla Bowles, Neil Cole, Charlotte Bloomsbury, George Harris",
+      "castPhotos": {
+        "Asha Banks": "https://image.tmdb.org/t/p/w185/vZi45Xn17QMaOXmAOvkCEjB3QFr.jpg",
+        "Matthew Broome": "https://image.tmdb.org/t/p/w185/nSjPuDG5IVQfyMU8TkZl0ZQkLu6.jpg",
+        "Eve Macklin": "https://image.tmdb.org/t/p/w185/7e1bpd3iTst0PvCk4A7LVfUgNut.jpg",
+        "Ray Fearon": "https://image.tmdb.org/t/p/w185/ou2cqhqdhfQoKVEBpIh0P3sKZti.jpg",
+        "Enva Lewis": "https://image.tmdb.org/t/p/w185/hFBuqi7NFiFgHho2J2IM43nZcrG.jpg",
+        "Jason Flemyng": "https://image.tmdb.org/t/p/w185/nYl0180ACnLzVlGbaAfuPtdGr9K.jpg"
+      },
+      "director": "Dani Girdwood",
+      "writer": "Melissa Osborne",
+      "releaseDate": "2025-02-12",
+      "year": 2025,
+      "genre": null,
+      "rating": 7.4,
+      "duration": "119 min",
+      "poster": "https://image.tmdb.org/t/p/w500/q0HxfkF9eoa6wSVnzwMhuDSK7ba.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/uJK0jjJ8QDOQw5lcNBwu059ht4D.jpg",
+      "tmdbId": 1294203,
+      "tmdbType": "movie",
+      "id": "tmdb-1294203",
+      "categories": [
+        "drama",
+        "romance"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/a0fz0klvocow",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "“Cumbres Borrascosas”",
+      "plot": "Una apasionada y tumultuosa historia de amor con los páramos de Yorkshire como telón de fondo, que explora la intensa y destructiva relación entre Heathcliff y Catherine Earnshaw.",
+      "cast": "Margot Robbie, Jacob Elordi, Hong Chau, Shazad Latif, Alison Oliver, Martin Clunes, Ewan Mitchell, Amy Morgan, Jessica Knappett, Charlotte Mellington, Owen Cooper, Vy Nguyen, Millie Kent, Vicki Pepperdine, Paul Rhys, Robert Cawsey, Gabriel Bisset-Smith, Louie Benjamin Potts, Treyston Braine, Jaydon Eastman, Matt Green, Ian Mitchell, Erin Barker-Jones, Claire Ashton, Kevin Vose",
+      "castPhotos": {
+        "Margot Robbie": "https://image.tmdb.org/t/p/w185/euDPyqLnuwaWMHajcU3oZ9uZezR.jpg",
+        "Jacob Elordi": "https://image.tmdb.org/t/p/w185/qZNRPWCP2c5d0YaYLTzHXU9Rdoe.jpg",
+        "Hong Chau": "https://image.tmdb.org/t/p/w185/yGEw6uiSUBo838HkiCARs4BR40y.jpg",
+        "Shazad Latif": "https://image.tmdb.org/t/p/w185/n8vJ1AHhv294hGqZxhjM95OvpxT.jpg",
+        "Alison Oliver": "https://image.tmdb.org/t/p/w185/2KYZWAdI6wGDyhD0sDEpj1d7wJC.jpg",
+        "Martin Clunes": "https://image.tmdb.org/t/p/w185/xoCgVr1h3uhES9MnKCoyd05bW1v.jpg"
+      },
+      "director": "Emerald Fennell",
+      "writer": "Emerald Fennell",
+      "releaseDate": "2026-02-11",
+      "year": 2026,
+      "genre": null,
+      "rating": 6.6,
+      "duration": "136 min",
+      "poster": "https://image.tmdb.org/t/p/w500/afGUJcMBJloAUp9uC27MQiqkD7X.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/nHKscpZcAPkh97OsJJjyE5yaVE0.jpg",
+      "tmdbId": 1316092,
+      "tmdbType": "movie",
+      "id": "tmdb-1316092",
+      "categories": [
+        "romance",
+        "drama"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/ohk1wgkw0cen",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "Red One",
+      "plot": "Tras el secuestro de Papá Noel (nombre en clave: RED ONE), el Jefe de Seguridad del Polo Norte (Dwayne Johnson) debe formar equipo con el cazarrecompensas más infame del mundo (Chris Evans) en una misión trotamundos llena de acción para salvar la Navidad.",
+      "cast": "Dwayne Johnson, Chris Evans, Lucy Liu, J.K. Simmons, Bonnie Hunt, Kristofer Hivju, Kiernan Shipka, Mary Elizabeth Ellis, Wesley Kimmel, Nick Kroll, Wyatt Hunt, Clayton Cooper, Lanz Duffy, Marc Evan Jackson, Makana David, Samantha Benson, Ashleigh Domangue, Cody Easterbrook, Nikki Garza, Abel Arias, Eric Jermaine Lavette Jr., Pilot Bunch, Juan Alexander, Megan Hayes, Beau Kasdan, Lorelei Kasdan, Otis Kasdan, Jon Rudnitsky, Greg Clarkson, Hannah Aslesen",
+      "castPhotos": {
+        "Dwayne Johnson": "https://image.tmdb.org/t/p/w185/5QApZVV8FUFlVxQpIK3Ew6cqotq.jpg",
+        "Chris Evans": "https://image.tmdb.org/t/p/w185/3bOGNsHlrswhyW79uvIHH1V43JI.jpg",
+        "Lucy Liu": "https://image.tmdb.org/t/p/w185/9nbtjqsx3De7hO2XDtrBQ7M9VCH.jpg",
+        "J.K. Simmons": "https://image.tmdb.org/t/p/w185/ScmKoJ9eiSUOthAt1PDNLi8Fkw.jpg",
+        "Bonnie Hunt": "https://image.tmdb.org/t/p/w185/tT9C6uLztgN8OxJULq6F9iEzqlA.jpg",
+        "Kristofer Hivju": "https://image.tmdb.org/t/p/w185/bACL39GihNmBnFRay78rS3PUHsH.jpg"
+      },
+      "director": "Jake Kasdan",
+      "writer": "Chris Morgan",
+      "releaseDate": "2024-10-31",
+      "year": 2024,
+      "genre": null,
+      "rating": 6.9,
+      "duration": "124 min",
+      "poster": "https://image.tmdb.org/t/p/w500/dpskAcm71w5v8zQ8RmPmJiP31Om.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/rOmUuQEZfPXglwFs5ELLLUDKodL.jpg",
+      "tmdbId": 845781,
+      "tmdbType": "movie",
+      "id": "tmdb-845781",
+      "categories": [
+        "acción",
+        "aventura",
+        "comedia",
+        "fantasía"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/dxseaeg8a7ka",
+          "language": "Español"
+        }
+      ]
     }
   ],
   "series": [
