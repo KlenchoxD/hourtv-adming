@@ -6715,6 +6715,176 @@
           "language": "Español"
         }
       ]
+    },
+    {
+      "title": "TRON: Ares",
+      "plot": "La historia de Ares, un programa muy sofisticado que se envía desde el mundo digital al mundo real en una misión peligrosa y que va a representar el primer encuentro de la humanidad con seres creados por la IA.",
+      "cast": "Jared Leto, Greta Lee, Evan Peters, Gillian Anderson, Jodie Turner-Smith, Jeff Bridges, Hasan Minhaj, Arturo Castro, Cameron Monaghan, Sarah Desjardins, Aaron Paul Stewart, Roger Cross, Roark Critchlow, Katharine Isabelle, Gary Vaynerchuk, Kwesi Ameyaw, Robin Roberts, Kara Swisher, Sandy Robson, Tal Shulman, Donald Heng, Tiffany Alycia Tong, Sakura Sykes, Trent Reznor, Atticus Ross, Shannon Leto, Selene Yun, Catherine Haena Kim, Bella Poarch, Fei-Fei Li",
+      "castPhotos": {
+        "Jared Leto": "https://image.tmdb.org/t/p/w185/ca3x0OfIKbJppZh8S1Alx3GfUZO.jpg",
+        "Greta Lee": "https://image.tmdb.org/t/p/w185/6SydTis4XUcovlwIGskT59JowLX.jpg",
+        "Evan Peters": "https://image.tmdb.org/t/p/w185/m9okq20ca2Md38i2ekJeKs3vTwa.jpg",
+        "Gillian Anderson": "https://image.tmdb.org/t/p/w185/3Ny8ZYahb33vpqNEPNCE2IOXPew.jpg",
+        "Jodie Turner-Smith": "https://image.tmdb.org/t/p/w185/801hOIFSiYfakVDkX0U3vEAHAMt.jpg",
+        "Jeff Bridges": "https://image.tmdb.org/t/p/w185/xms1RAY6q7Lzp7wNeRCB0kzhucn.jpg"
+      },
+      "director": "Joachim Rønning",
+      "writer": "Jesse Wigutow",
+      "releaseDate": "2025-10-08",
+      "year": 2025,
+      "genre": null,
+      "rating": 6.5,
+      "duration": "119 min",
+      "poster": "https://image.tmdb.org/t/p/w500/qShQABLVRMZKnv5mWOPXWniBeB3.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/pUNfHmVqfwRdILhCkU8TdysVOXo.jpg",
+      "tmdbId": 533533,
+      "tmdbType": "movie",
+      "id": "tmdb-533533",
+      "categories": [
+        "ciencia ficción",
+        "aventura",
+        "acción"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/7vii9ynmuwed",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "El viaje de Arlo",
+      "plot": "¿Qué hubiera pasado si el asteroide que cambió para siempre la vida en la Tierra no hubiese impactado en nuestro planeta? ¿Qué pasaría si los dinosaurios gigantes nunca se hubiesen extinguido? El viaje de Arlo nos traslada a un mundo donde el asteroide que terminó de forma dramática con los dinosaurios, pasa de largo. La consecuencia de este colosal cambio es que ahora los dinosaurios y los humanos tienen que vivir juntos en la Tierra.",
+      "cast": "Raymond Ochoa, Frances McDormand, Jeffrey Wright, Steve Zahn, Sam Elliott, Anna Paquin, John Ratzenberger, A.J. Buckley, Marcus Scribner, Peter Sohn, Maleah Nipay-Padilla, Jack Bright, Ryan Teeple, Jack McGraw, Mandy Freund, Steven Clay Hunter, David Boat, Carrie Paff, Calum Grant",
+      "castPhotos": {
+        "Raymond Ochoa": "https://image.tmdb.org/t/p/w185/bsX4yaqlI7am1dhKkJ0eeRj0ugx.jpg",
+        "Frances McDormand": "https://image.tmdb.org/t/p/w185/gBkoteKZshmQXEyEoyT6WE7N0tF.jpg",
+        "Jeffrey Wright": "https://image.tmdb.org/t/p/w185/yGcuHGW4glqRpOPxgiCvjcren7F.jpg",
+        "Steve Zahn": "https://image.tmdb.org/t/p/w185/rwrPdKGwXnByxUVMxMf8Y7oswi3.jpg",
+        "Sam Elliott": "https://image.tmdb.org/t/p/w185/zE1fpXlIUo7fcujlVlGvHdDiCv6.jpg",
+        "Anna Paquin": "https://image.tmdb.org/t/p/w185/5FjBCsn3kujldP8LizoCrc3hsHp.jpg"
+      },
+      "director": "Peter Sohn",
+      "writer": "Meg LeFauve",
+      "releaseDate": "2015-11-14",
+      "year": 2015,
+      "genre": null,
+      "rating": 6.8,
+      "duration": "100 min",
+      "poster": "https://image.tmdb.org/t/p/w500/1WKI6PM79XjK2LVS1B4yoG3wNHw.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/cF3H9pyUF6dsvqlYUcH0TyBAMTG.jpg",
+      "tmdbId": 105864,
+      "tmdbType": "movie",
+      "id": "tmdb-105864",
+      "categories": [
+        "aventura",
+        "animación"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/ce5jyfstguho",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "Un sueño posible",
+      "plot": "Basada en hechos reales, narra la historia de Michael Oher, un joven afroamericano sin hogar que encuentra ayuda y cobijo en una familia blanca, dispuesta a prestarle el apoyo necesario para que pueda desarrollar todo su potencial, tanto para triunfar como jugador de fútbol americano como en la vida. Por su parte Oher también influirá en la vida de los miembros de la familia Touhy, que atravesarán también por experiencias de descubrimiento personal. El cambio de ambiente significa también nuevos desafíos que el joven habrá de vencer, esforzándose por dar lo máximo de sí mismo como deportista y como persona.",
+      "cast": "Sandra Bullock, Tim McGraw, Quinton Aaron, Jae Head, Lily Collins, Ray McKinnon, Kim Dickens, Adriane Lenox, Kathy Bates, Catherine Dyer, Andy Stahl, Tom Nowicki, Libby Whittemore, Brian Hollan, Melody Weintraub, Sharon Conley, Omar J. Dorsey, Paul Amadi, Irone Singleton, Hampton Fluker, Rhoda Griffis, Eaddy Mays, Ashley LeConte Campbell, Stacey Turner, Elizabeth Omilami, Afemo Omilami, Maria Howell, Patrick G. Keenan, Eric Benson, David Dwyer",
+      "castPhotos": {
+        "Sandra Bullock": "https://image.tmdb.org/t/p/w185/4rfjISL3Flx16jfiusXoHbpt87X.jpg",
+        "Tim McGraw": "https://image.tmdb.org/t/p/w185/gJdDFQHnsptnjI1bepJ2nxzBPkv.jpg",
+        "Quinton Aaron": "https://image.tmdb.org/t/p/w185/yoK8q52hZ0oTEpRHtZfByIA7sEd.jpg",
+        "Jae Head": "https://image.tmdb.org/t/p/w185/nNh2DiYXZneyeiYDitKT6s1AwEy.jpg",
+        "Lily Collins": "https://image.tmdb.org/t/p/w185/5bhcp0CyTdHgfW8x45ZKewDnjMc.jpg",
+        "Ray McKinnon": "https://image.tmdb.org/t/p/w185/nZSmJVTSq2eEcE4FeEoKVNYUGM9.jpg"
+      },
+      "director": "John Lee Hancock",
+      "writer": "John Lee Hancock",
+      "releaseDate": "2009-11-20",
+      "year": 2009,
+      "genre": null,
+      "rating": 7.7,
+      "duration": "129 min",
+      "poster": "https://image.tmdb.org/t/p/w500/uDZJph23idOLBmImnuaZBlF3TgP.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/5P6hWD4zxAMntRuRnB4MmPLijNw.jpg",
+      "tmdbId": 22881,
+      "tmdbType": "movie",
+      "id": "tmdb-22881",
+      "categories": [
+        "drama"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/jo6ebnplyqeo",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "Uncharted",
+      "plot": "Descubre la primera aventura de Nathan Drake, un joven, astuto y carismático cazatesoros, con su ingenioso compañero Victor “Sully” Sullivan. En una aventura de acción que se extiende por todo el mundo, ambos se embarcan en una peligrosa búsqueda de “el mayor tesoro nunca antes encontrado” al tiempo que rastrean las claves que les podrían conducir al hermano de Nathan, perdido hace ya mucho tiempo.",
+      "cast": "Tom Holland, Mark Wahlberg, Sophia Ali, Tati Gabrielle, Antonio Banderas, Steven Waddington, Rudy Pankow, Tiernan Jones, Pingi Moli, Jesús Evita, Georgia Goodman, Diarmaid Murtagh, Joseph Balderrama, Serena Posadino, Alana Boden, Jonathan Failla, Anthony Thomas, Peter Seaton-Clark, Robert Maaser, Eskindir Tesfay, Manuel de Blas, Carme Capdet, Julia Schunevitsch, Alois Knapps, Patricia Meeden, Nolan North, Matt Barkley, Jimmy Hart, Brett Praed, Carlo Kitzlinger",
+      "castPhotos": {
+        "Tom Holland": "https://image.tmdb.org/t/p/w185/adwEBb2sCSzqwnpVgNEG7irl1Ne.jpg",
+        "Mark Wahlberg": "https://image.tmdb.org/t/p/w185/1Oc3XSLyb8hxmjmlgFENu582Kqw.jpg",
+        "Sophia Ali": "https://image.tmdb.org/t/p/w185/45B39NY2LEYewNUiWtvFb7LrDct.jpg",
+        "Tati Gabrielle": "https://image.tmdb.org/t/p/w185/txZTL1HkPVxliTilbjlwR51VIt6.jpg",
+        "Antonio Banderas": "https://image.tmdb.org/t/p/w185/n8YlGookYzgD3cmpMP45BYRNIoh.jpg",
+        "Steven Waddington": "https://image.tmdb.org/t/p/w185/hTsS9lg5Qi8KeWXmnMn45LfnIAx.jpg"
+      },
+      "director": "Ruben Fleischer",
+      "writer": "Rafe Judkins",
+      "releaseDate": "2022-02-10",
+      "year": 2022,
+      "genre": null,
+      "rating": 6.9,
+      "duration": "115 min",
+      "poster": "https://image.tmdb.org/t/p/w500/8FiWi61YRbkN95xmH668iq5sCo1.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/fwrqW8Lp5VQuppFrODd4iJ8LySE.jpg",
+      "tmdbId": 335787,
+      "tmdbType": "movie",
+      "id": "tmdb-335787",
+      "categories": [
+        "acción",
+        "aventura"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/c54e72dmdzkv",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "Venom:Carnage Liberado",
+      "plot": "",
+      "cast": "",
+      "castPhotos": {},
+      "director": null,
+      "writer": null,
+      "releaseDate": null,
+      "year": null,
+      "genre": null,
+      "rating": null,
+      "duration": "97 min",
+      "poster": null,
+      "backdrop": null,
+      "tmdbId": 887250,
+      "tmdbType": "movie",
+      "id": "tmdb-887250",
+      "categories": [],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/fbrygwh6skf4",
+          "language": "Español"
+        }
+      ]
     }
   ],
   "series": [
