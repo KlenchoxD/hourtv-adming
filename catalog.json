@@ -675,6 +675,11 @@
           "name": "Servidor 1",
           "url": "https://voe.sx/e/9jep0vt7lwgs",
           "language": "Español"
+        },
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/nzstm77hrahz",
+          "language": "Español"
         }
       ]
     },
@@ -5593,6 +5598,149 @@
         {
           "name": "Voe",
           "url": "https://voe.sx/e/y37fmvkttgsk",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "Misión: Imposible - Sentencia final",
+      "plot": "El agente Ethan Hunt continúa su misión de impedir que Gabriel controle el tecnológicamente omnipotente programa de IA conocido como La Entidad.",
+      "cast": "Tom Cruise, Hayley Atwell, Ving Rhames, Simon Pegg, Esai Morales, Pom Klementieff, Henry Czerny, Holt McCallany, Janet McTeer, Nick Offerman, Hannah Waddingham, Tramell Tillman, Angela Bassett, Shea Whigham, Greg Tarzan Davis, Charles Parnell, Mark Gatiss, Rolf Saxon, Lucy Tulugarjuk, Cary Elwes, Katy O'Brian, Stephen Oyoung, Tomás Paredes, Paul Bullion, Павел Лычников, Kwabena Ansah, Ryn Alleyne, Ned Campbell, Charlie Carter, Chantelle Roman",
+      "castPhotos": {
+        "Tom Cruise": "https://image.tmdb.org/t/p/w185/maf8PhSvDCdEwjEMbYfGpojR5RP.jpg",
+        "Hayley Atwell": "https://image.tmdb.org/t/p/w185/x57wXHexIjD2ywly9cRA4rov7cu.jpg",
+        "Ving Rhames": "https://image.tmdb.org/t/p/w185/tOVDvu1EQP78AwaUw6uh1wN818E.jpg",
+        "Simon Pegg": "https://image.tmdb.org/t/p/w185/jw8bEEoTOithyNf0qxu4Zt1yaKp.jpg",
+        "Esai Morales": "https://image.tmdb.org/t/p/w185/cNYciYzUzxraGlw0BPql1QePi5H.jpg",
+        "Pom Klementieff": "https://image.tmdb.org/t/p/w185/hfUKAI2kXTMMWjno0i4sLPJud5N.jpg"
+      },
+      "director": "Christopher McQuarrie",
+      "writer": "Christopher McQuarrie",
+      "releaseDate": "2025-05-17",
+      "year": 2025,
+      "genre": null,
+      "rating": 7.2,
+      "duration": "169 min",
+      "poster": "https://image.tmdb.org/t/p/w500/mKK7cVNg4mQmKl0Qry9fvr5AqP7.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/xPNDRM50a58uvv1il2GVZrtWjkZ.jpg",
+      "tmdbId": 575265,
+      "tmdbType": "movie",
+      "id": "tmdb-575265",
+      "categories": [
+        "acción",
+        "aventura"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/g0ldxguphxdo",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "Misión: Imposible - Sentencia mortal parte uno",
+      "plot": "Ethan Hunt y la IMF emprenden la misión más peligrosa a la que nunca se han enfrentado: rastrear una nueva y aterradora arma que amenaza a toda la humanidad antes de que caiga en las manos de un enemigo todopoderoso y misterioso.",
+      "cast": "Tom Cruise, Hayley Atwell, Ving Rhames, Simon Pegg, Rebecca Ferguson, Vanessa Kirby, Esai Morales, Pom Klementieff, Henry Czerny, Shea Whigham, Greg Tarzan Davis, Frederick Schmidt, Mariela Garriga, Cary Elwes, Charles Parnell, Mark Gatiss, Indira Varma, Rob Delaney, Marcello Walton, Brian Law, Lincoln Conway, Alex James-Phelps, Marcin Dorociński, Иван Ивашкин, Zahari Baharov, Adrian Bouchet, Sam Barrett, Louis Vaughan, Jean Kartal, Os Leanse",
+      "castPhotos": {
+        "Tom Cruise": "https://image.tmdb.org/t/p/w185/maf8PhSvDCdEwjEMbYfGpojR5RP.jpg",
+        "Hayley Atwell": "https://image.tmdb.org/t/p/w185/x57wXHexIjD2ywly9cRA4rov7cu.jpg",
+        "Ving Rhames": "https://image.tmdb.org/t/p/w185/tOVDvu1EQP78AwaUw6uh1wN818E.jpg",
+        "Simon Pegg": "https://image.tmdb.org/t/p/w185/jw8bEEoTOithyNf0qxu4Zt1yaKp.jpg",
+        "Rebecca Ferguson": "https://image.tmdb.org/t/p/w185/ra53cM1aNmdH0aFhj8yBqPOj2fb.jpg",
+        "Vanessa Kirby": "https://image.tmdb.org/t/p/w185/a8a9U00KL2JJkkekzhNnueIGKKF.jpg"
+      },
+      "director": "Christopher McQuarrie",
+      "writer": "Christopher McQuarrie",
+      "releaseDate": "2023-07-08",
+      "year": 2023,
+      "genre": null,
+      "rating": 7.5,
+      "duration": "163 min",
+      "poster": "https://image.tmdb.org/t/p/w500/83sGKvCv2T2CulYbd40Aeduc7n2.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/628Dep6AxEtDxjZoGP78TsOxYbK.jpg",
+      "tmdbId": 575264,
+      "tmdbType": "movie",
+      "id": "tmdb-575264",
+      "categories": [
+        "acción",
+        "aventura"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/n3alcbrxmjlm",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "Normal",
+      "plot": "Ulysses es un sheriff sustituto que llega al tranquilo y apartado pueblo de Normal, Minnesota, huyendo de un pasado turbulento. Sin embargo, cuando el banco local es asaltado, su investigación desencadena una serie de eventos que revelan que el pueblo esconde una oscura y profunda red criminal.",
+      "cast": "Bob Odenkirk, Henry Winkler, Lena Headey, Billy MacLellan, Ryan Allen, Reena Jolly, Brendan Fletcher, Peter Shinkoda, Jess McLeod, Alex MacMillan, Dan De Jaeger, John C. MacDonald, David Lawrence Brown, Derek Barnes, Megan MacArton, Carson Nattrass, Chad Bruce, Harry Nelken, Bradley Sawatzky, Lauren Cochrane, Takahiro Inoue, Brian Kawakami, Yosuke Mino, Aaron Merke, Alan Castanga, Shannon Guile, Robert Borges, Shota Tsuji, Yuhito Adachi, Sarah Constible",
+      "castPhotos": {
+        "Bob Odenkirk": "https://image.tmdb.org/t/p/w185/rF0Lb6SBhGSTvjRffmlKRSeI3jE.jpg",
+        "Henry Winkler": "https://image.tmdb.org/t/p/w185/mGlSRA5RDswEDmY8oWEizXliShp.jpg",
+        "Lena Headey": "https://image.tmdb.org/t/p/w185/cDyZLf8ddz0EgoUjpv4jjzy7qxA.jpg",
+        "Billy MacLellan": "https://image.tmdb.org/t/p/w185/9ObnhjbbeVEhk8g941FrLq4W0r7.jpg",
+        "Ryan Allen": "https://image.tmdb.org/t/p/w185/99O5NjoOmO4uCmTYaQhipj1qMNx.jpg",
+        "Reena Jolly": "https://image.tmdb.org/t/p/w185/zd29cqltwMWnRVPJ08vsV02CYYQ.jpg"
+      },
+      "director": "Ben Wheatley",
+      "writer": "Derek Kolstad",
+      "releaseDate": "2026-04-16",
+      "year": 2026,
+      "genre": null,
+      "rating": 7.3,
+      "duration": "91 min",
+      "poster": "https://image.tmdb.org/t/p/w500/vEv0XaKUajU6Z8LiMLmgTDGmNBM.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/1YU6Hy3x7fUh7dfOzSfjifTp20g.jpg",
+      "tmdbId": 1242332,
+      "tmdbType": "movie",
+      "id": "tmdb-1242332",
+      "categories": [
+        "acción"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/vohkula5tdtw",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "Panda Plan",
+      "plot": "Poco después de que la legendaria estrella del kung fu Jackie Chan sea invitada a adoptar a un querido panda del zoo llamado Hu Hu, un famoso sindicato del crimen internacional pone sus ojos en el famoso oso y ofrece una enorme recompensa por su captura. Ante esta repentina crisis, Jackie Chan recurre a la ayuda de su agente y del feroz cuidador de Hu Hu, y el trío se embarca en una aventura en la que intentarán ser más listos que los malos en todo momento.",
+      "cast": "Jackie Chan, Shi Ce, 魏翔, 韩彦博, 许君聪, Danny Ray, Temur Mamisashvili, Andy Friend, 黄允桐, Ivan Ponomarenko, 贾冰, Александра Смирнова-Кошелева, 许君聪, 刚胤轩, Sean Kohnke",
+      "castPhotos": {
+        "Jackie Chan": "https://image.tmdb.org/t/p/w185/nraZoTzwJQPHspAVsKfgl3RXKKa.jpg",
+        "Shi Ce": "https://image.tmdb.org/t/p/w185/yRBXOk6GMuzDCrIK85AjZn48o1y.jpg",
+        "魏翔": "https://image.tmdb.org/t/p/w185/j1XqYkSGoRHfBOH59nTOnv7DcRn.jpg",
+        "韩彦博": "https://image.tmdb.org/t/p/w185/anfEMOmBSFXuZJ5jPCdcPIrObSl.jpg",
+        "许君聪": "https://image.tmdb.org/t/p/w185/nZYcU98OsKJeOyEdHFZwrrPqlaE.jpg",
+        "Danny Ray": "https://image.tmdb.org/t/p/w185/ruWEqayx8GsA7AerHAG2wL05fUz.jpg"
+      },
+      "director": "張欒",
+      "writer": "Wei Xu",
+      "releaseDate": "2024-10-01",
+      "year": 2024,
+      "genre": null,
+      "rating": 6.9,
+      "duration": "99 min",
+      "poster": "https://image.tmdb.org/t/p/w500/mrV3ii7hOjt0g4qquTzUrJK2im3.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/8cc4AypHsnqcCQeIIpNoh6Wrc5B.jpg",
+      "tmdbId": 1160956,
+      "tmdbType": "movie",
+      "id": "tmdb-1160956",
+      "categories": [
+        "acción",
+        "comedia"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/sdmpvjvm75d3",
           "language": "Español"
         }
       ]
