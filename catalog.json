@@ -4228,6 +4228,41 @@
           "language": "Español"
         }
       ]
+    },
+    {
+      "title": "American History X",
+      "plot": "Derek (Edward Norton) es un joven californiano que se convierte en el líder de una banda de neonazis tras el asesinato de su padre. Su hermano pequeño, Danny, le admira y sigue sus pasos de odio y violencia. Cuando Derek mata a dos ladrones negros, es condenado a tres años de cárcel, donde cambia su forma de pensar al conocer a otros presos. Al salir, intenta alejar a Danny del racismo y la delincuencia, pero se encuentra con la resistencia de sus antiguos compañeros y las consecuencias de su pasado.",
+      "cast": "Edward Norton, Edward Furlong, Beverly D'Angelo, Jennifer Lien, Ethan Suplee, Fairuza Balk, Avery Brooks, Elliott Gould, Stacy Keach, William Russ, Guy Torry, Joe Cortese, Jason Bose Smith, Antonio David Lyons, Alex Sol, Keram Malicki-Sánchez, Giuseppe Andrews, Michelle Christine White, Jonathan Fowler Jr., Christopher Masterson, Nicholas R. Oleson, Jordan Marder, Paul Le Mat, Thomas L. Bellissimo, Cherish Lee, Sam Vlahos, Tara Blanchard, Anne Lambton, Steve Wolford, Richard Noyce",
+      "castPhotos": {
+        "Edward Norton": "https://image.tmdb.org/t/p/w185/8nytsqL59SFJTVYVrN72k6qkGgJ.jpg",
+        "Edward Furlong": "https://image.tmdb.org/t/p/w185/e221dMIBgb6Lk092GIkHB9ohQF1.jpg",
+        "Beverly D'Angelo": "https://image.tmdb.org/t/p/w185/8fYQIA8dAaA4GOTxOFSKIvTqzi.jpg",
+        "Jennifer Lien": "https://image.tmdb.org/t/p/w185/5wafpjORY55TY5OC6d9Cyb36O2r.jpg",
+        "Ethan Suplee": "https://image.tmdb.org/t/p/w185/gGSb8P9nQdDNu0JC65zyAyMUFhS.jpg",
+        "Fairuza Balk": "https://image.tmdb.org/t/p/w185/jJGfElPOapRPRm99eovc3EUgLxp.jpg"
+      },
+      "director": "Tony Kaye",
+      "writer": "David McKenna",
+      "releaseDate": "1998-07-01",
+      "year": 1998,
+      "genre": null,
+      "rating": 8.3,
+      "duration": "119 min",
+      "poster": "https://image.tmdb.org/t/p/w500/h2cDqHvnZkycBJKoF7WhcQ2MX1V.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/6qHI1IYj7QlLSCwHRzkL62X175s.jpg",
+      "tmdbId": 73,
+      "tmdbType": "movie",
+      "id": "tmdb-73",
+      "categories": [
+        "drama"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/lhqwiuv7ygay",
+          "language": "Español"
+        }
+      ]
     }
   ],
   "series": [
