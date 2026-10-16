@@ -18,6 +18,10 @@ eliminan los fallbacks VOD antiguos y respetan el panel publicado vacío.
   y timeout, recuperación de motores, ContentStore, parser y fallback del catálogo.
 - Análisis de los diez archivos integrados: sin errores ni warnings; dos avisos
   informativos de llaves de estilo en hourtv_new_shell.dart (exit 0).
+- APK release compilado correctamente: 198083846 bytes, versionName 1.1.52,
+  versionCode 55. Firma SHA256 del certificado: 
+  eda69c3ec3f2fd473be097b75d86a9fc76bdc265f59985260138ffc167ba7d2d.
+  SHA256 del APK: BA91D54722636EA9161E79CB701499E431E04CB8721799447A9F39D9C2E717D5.
 - Suite completa: 755 pasaron, 3 omitidas, 18 fallaron. No se declara verde.
 - El Infinix estaba conectado al comenzar (1.1.51, build 54), pero se desconectó
   antes de la instalación de esta actualización. La comprobación física queda
