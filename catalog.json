@@ -5012,6 +5012,115 @@
           "language": "Español"
         }
       ]
+    },
+    {
+      "title": "La momia de Lee Cronin",
+      "plot": "Nueva versión del clásico 'La momia'. La joven hija de un periodista desaparece en el desierto sin dejar rastro. Ocho años más tarde, la familia rota se conmociona cuando ella es devuelta a ellos, y lo que debiera haber sido una reunión jubilosa se convierte en una auténtica pesadilla.",
+      "cast": "Jack Reynor, Laia Costa, May Calamawy, Natalie Grace, Shylo Molina, Billie Roy, Veronica Falcón, Hayat Kamille, مي الغيطي, Emily Mitchell, Husam Chadat, Tim Seyfi, Mark Mitchinson, Gideon Emery, Dean Allen Williams, Gerald Papasian, Hanna Khogali, Jamie Doyle, Amr Atia, Jonny Everett, Lily Sullivan, Montserrat Alcoverro, Catalina Botello, Juan Carlos Montes-Roldán, Kian Nagel, Robin Windvogel, Jonathan Gunning, Omar El-Saeidi, Aisha Laouini, Arkin Cureklibatir",
+      "castPhotos": {
+        "Jack Reynor": "https://image.tmdb.org/t/p/w185/vbPewOkSGGQl93wgshDlczMqiOk.jpg",
+        "Laia Costa": "https://image.tmdb.org/t/p/w185/kSbdpHWLlfzvOfZKJ0dgP0ieVL6.jpg",
+        "May Calamawy": "https://image.tmdb.org/t/p/w185/i1yy5xxPE0bsvdJ3BgyLHGfk1c1.jpg",
+        "Natalie Grace": "https://image.tmdb.org/t/p/w185/qnjgunIujTZpBSrMRjTJvgb2pNS.jpg",
+        "Shylo Molina": "https://image.tmdb.org/t/p/w185/rIhBsRY6c7B4ClLOJbc4qEWter1.jpg",
+        "Billie Roy": "https://image.tmdb.org/t/p/w185/criWuHntMq5c6Duv505NApONwUu.jpg"
+      },
+      "director": "Lee Cronin",
+      "writer": "Lee Cronin",
+      "releaseDate": "2026-04-15",
+      "year": 2026,
+      "genre": null,
+      "rating": 7.8,
+      "duration": "133 min",
+      "poster": "https://image.tmdb.org/t/p/w500/btXGqRlctQdbML6ifPmacZuykcC.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/xugEpZk9YQ0DIz1aFvH5HGkqpZK.jpg",
+      "tmdbId": 1304313,
+      "tmdbType": "movie",
+      "id": "tmdb-1304313",
+      "categories": [
+        "terror"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/aucffqu8jxis",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "Mascotas 2",
+      "plot": "Los perros Duque y Max se acostumbran al nuevo miembro de la familia y a la vida en el campo mientras sus amigos sortean varias crisis en la ciudad.",
+      "cast": "Patton Oswalt, Kevin Hart, Eric Stonestreet, Jenny Slate, Tiffany Haddish, Lake Bell, Nick Kroll, Dana Carvey, Ellie Kemper, Harrison Ford, Chris Renaud, Bobby Moynihan, Hannibal Buress, Pete Holmes, Henry Lynch, Tara Strong, Sean Giambrone, Meredith Salenger, Michael Beattie, Kiely Renaud, Jessica DiCicco, Garth Jennings, David Acord, Jaime Camil, Antonio Raul Garcia, Brian T. Delaney, Terri Douglas, Sandra Echeverría, Kylie Hart, JP Karliak",
+      "castPhotos": {
+        "Patton Oswalt": "https://image.tmdb.org/t/p/w185/ljQvjbPmcIAl205Lb2Mu4CW8WO7.jpg",
+        "Kevin Hart": "https://image.tmdb.org/t/p/w185/byiNydUlM6oP8diA7WMvYbNM7a1.jpg",
+        "Eric Stonestreet": "https://image.tmdb.org/t/p/w185/lz0m88IjLZ8OcEHU2jhPvubcr7k.jpg",
+        "Jenny Slate": "https://image.tmdb.org/t/p/w185/mMxsNO6r966ut0sordYzj2iDOb6.jpg",
+        "Tiffany Haddish": "https://image.tmdb.org/t/p/w185/8Db5Q34nvTlaTLnRlwXOiealCbE.jpg",
+        "Lake Bell": "https://image.tmdb.org/t/p/w185/sITVdq39jtR1l3VohWYDyxorx1v.jpg"
+      },
+      "director": "Chris Renaud",
+      "writer": "Brian Lynch",
+      "releaseDate": "2019-05-24",
+      "year": 2019,
+      "genre": null,
+      "rating": 7,
+      "duration": "95 min",
+      "poster": "https://image.tmdb.org/t/p/w500/dqGsG2uNV9JGgrfODbTafPUukci.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/zDIievPXqjfjLogXFqnnopU0OkK.jpg",
+      "tmdbId": 412117,
+      "tmdbType": "movie",
+      "id": "tmdb-412117",
+      "categories": [
+        "animación",
+        "comedia",
+        "aventura"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/bzwivhlmgigj",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "Libre",
+      "plot": "Inspirada en los hechos reales de uno de los atracadores no violentos más famosos de Francia, Bruno Sulak, en la década de 1980. Autor de múltiples atracos, acaparó después la atención pública por sus audaces fugas de la custodia policial, siempre para reunirse con su querida amante y cómplice Annie, convirtiéndose a la vez en el enemigo público n.º 1 de Francia y en un icono de la libertad.",
+      "cast": "Lucas Bravo, Yvan Attal, Léa Luce Busato, Steve Tientcheu, David Ayala, Léo Chalié, Slimane Dazi, David Murgia, Радивоје Буквић, Mélanie Laurent, Christophe Kourotchkine, Jesse Guttridge",
+      "castPhotos": {
+        "Lucas Bravo": "https://image.tmdb.org/t/p/w185/uO6vMlJBMASyOQMisvnPehjsfJB.jpg",
+        "Yvan Attal": "https://image.tmdb.org/t/p/w185/ry7ncjRwREdzfNd1kFsrBVSS9NA.jpg",
+        "Léa Luce Busato": "https://image.tmdb.org/t/p/w185/TeeCdnPoSWH4ZihjXh71v4tLTw.jpg",
+        "Steve Tientcheu": "https://image.tmdb.org/t/p/w185/zhKrlGuSLuRPg8Jev18k5z7SHwE.jpg",
+        "David Ayala": "https://image.tmdb.org/t/p/w185/g1FlhpnXANAvr80osb0rpazI5V6.jpg",
+        "Léo Chalié": "https://image.tmdb.org/t/p/w185/vmuNIVYP9lbuMcxNa4i3CgXLWuU.jpg"
+      },
+      "director": "Mélanie Laurent",
+      "writer": "Mélanie Laurent",
+      "releaseDate": "2024-11-01",
+      "year": 2024,
+      "genre": null,
+      "rating": 6.3,
+      "duration": "110 min",
+      "poster": "https://image.tmdb.org/t/p/w500/thW4P7HLSxpb0JiEqfIJKT67Tew.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/n9Do4rv1Hl3QvQLMmT5w6pBadqq.jpg",
+      "tmdbId": 1142518,
+      "tmdbType": "movie",
+      "id": "tmdb-1142518",
+      "categories": [
+        "acción",
+        "romance",
+        "drama"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/pzkfvzk3f909",
+          "language": "Español"
+        }
+      ]
     }
   ],
   "series": [
