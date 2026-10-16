@@ -3719,6 +3719,185 @@
           "language": "Español"
         }
       ]
+    },
+    {
+      "title": "El último samurái",
+      "plot": "1870. El capitán Nathan Algren es un hombre a la deriva. Las batallas que libró en otro tiempo parecen ahora lejanas e inútiles. Una vez arriesgó su vida por el honor y por la patria, pero, en los años transcurridos desde la Guerra de Secesión estadounidense, el mundo ha cambiado. El pragmatismo ha reemplazado al valor, el interés personal ha ocupado el lugar del sacrificio y el honor no se encuentra en ninguna parte, especialmente en el Oeste, donde su papel en las campañas contra los indios acabó en desilusión y tristeza. En algún lugar de las implacables llanuras junto a la ribera del río Washita, Algren perdió su alma. En un mundo completamente distinto, otro soldado ve como su modo de vida está a punto de desintegrarse.",
+      "cast": "Tom Cruise, Ken Watanabe, Timothy Spall, Tony Goldwyn, Hiroyuki Sanada, Koyuki, Shin Koyamada, Billy Connolly, 伊川東吾, Shichinosuke Nakamura, Masato Harada, William Atherton, Chad Lindberg, Scott Wilson, Ray Godshall Sr., Masashi Odate, John Koyama, Satoshi Nikaido, Shintaro Wada, Shun Sugata, 池松壮亮, Aoi Minato, 福本清三, Shoji Yoshihara, Kosaburo Nomura IV, 野口貴史, Noguchi Takayuki, Sven Toorvald, 松崎悠希, Mitsuyuki Oishi",
+      "castPhotos": {
+        "Tom Cruise": "https://image.tmdb.org/t/p/w185/maf8PhSvDCdEwjEMbYfGpojR5RP.jpg",
+        "Ken Watanabe": "https://image.tmdb.org/t/p/w185/psAXOYp9SBOXvg6AXzARDedNQ9P.jpg",
+        "Timothy Spall": "https://image.tmdb.org/t/p/w185/pcR6t8kpAgGwIUo4UjlP5gyKkNA.jpg",
+        "Tony Goldwyn": "https://image.tmdb.org/t/p/w185/A3hXimbzDtFxQ1PXNo8gG7RZeN4.jpg",
+        "Hiroyuki Sanada": "https://image.tmdb.org/t/p/w185/SOwDxhGnRccP2lAtssQ7TxCzOe.jpg",
+        "Koyuki": "https://image.tmdb.org/t/p/w185/dh9Z8WG6EIkblLW0k289cj0thGJ.jpg"
+      },
+      "director": "Edward Zwick",
+      "writer": "John Logan",
+      "releaseDate": "2003-12-05",
+      "year": 2003,
+      "genre": null,
+      "rating": 7.6,
+      "duration": "154 min",
+      "poster": "https://image.tmdb.org/t/p/w500/DfwutbQodAsYxdqJu7Cme5jifC.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/z354BaTVzKj7E60WLzDoSmUuO4u.jpg",
+      "tmdbId": 616,
+      "tmdbType": "movie",
+      "id": "tmdb-616",
+      "categories": [
+        "drama",
+        "acción"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/ognbkne9cyq7",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "En busca de la felicidad",
+      "plot": "Chris Gardner es un vendedor brillante y con talento, pero su empleo no le permite cubrir sus necesidades más básicas. Tanto es así que acaban echándolo, junto a su hijo de cinco años, de su piso de San Francisco y no tienen ningún lugar al que ir. Cuando Gardner consigue hacer unas prácticas en una prestigiosa correduría de bolsa, los dos protagonistas tendrán que afrontar muchas adversidades parar hacer realidad su sueño de una vida mejor. Basada en hechos reales.",
+      "cast": "Will Smith, Jaden Smith, Thandiwe Newton, Brian Howe, James Karen, Dan Castellaneta, Kurt Fuller, Takayo Fischer, Kevin West, 張佐治, David Michael Silverman, Domenic Bove, Geoff Callan, Joyful Raven, Scott Klace, Rashida Clendening, Eric Schniewind, Peter Fitzsimmons, Maurice Sherbanee, Zuhair Haddad, Victor Raider-Wexler, Mark Christopher Lawrence, Darryl Fong, George Maguire, Joe Nuñez, Adam Del Rio, Rocky LaRochelle, Erin Beers, Rueben Grundy, Ming Lo",
+      "castPhotos": {
+        "Will Smith": "https://image.tmdb.org/t/p/w185/8TlKqbXYgHmmaEoPBJ7djJ8Rxxa.jpg",
+        "Jaden Smith": "https://image.tmdb.org/t/p/w185/aXCn1kRjs4sZS55xSrdmjbht7SM.jpg",
+        "Thandiwe Newton": "https://image.tmdb.org/t/p/w185/hZQLvxj7nV7pBrRyWTvWVz1CDi8.jpg",
+        "Brian Howe": "https://image.tmdb.org/t/p/w185/6JpzCLWbKG6Hp44r09ro0ZkJDSH.jpg",
+        "James Karen": "https://image.tmdb.org/t/p/w185/kW947hrR36DTHcm9mxes5nWkgVX.jpg",
+        "Dan Castellaneta": "https://image.tmdb.org/t/p/w185/AmeqWhP4A46AWkM4kVphg6jOTQX.jpg"
+      },
+      "director": "Gabriele Muccino",
+      "writer": "Steven Conrad",
+      "releaseDate": "2006-12-14",
+      "year": 2006,
+      "genre": null,
+      "rating": 7.9,
+      "duration": "115 min",
+      "poster": "https://image.tmdb.org/t/p/w500/qF6JFr6IdfNep0x6yw3i7S8avAb.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/5jhG1lTgV0MS6tDkBMQSSitttTT.jpg",
+      "tmdbId": 1402,
+      "tmdbType": "movie",
+      "id": "tmdb-1402",
+      "categories": [
+        "drama"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/kseg4evzdffl",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "Five Nights at Freddy's 2",
+      "plot": "Un año después de la pesadilla sobrenatural en Freddy Fazbear's Pizza, las historias sobre lo ocurrido allí se han convertido en una leyenda local extravagante, inspirando el primer Fazfest del pueblo. Con la verdad oculta, Abby se escapa para reencontrarse con Freddy, Bonnie, Chica y Foxy, desencadenando una serie de eventos aterradores que revelarán oscuros secretos sobre el verdadero origen de Freddy's y desatarán un horror oculto durante décadas.",
+      "cast": "Josh Hutcherson, Piper Rubio, Elizabeth Lail, Matthew Lillard, Freddy Carter, Wayne Knight, Mckenna Grace, David Andrew Calvillo, Teo Briones, Audrey Lynn-Marie, Miriam Spumpkin, Han Soto, Grant Feely, Gavin Borders, Bentley Cooper, Carl Palmer, Ann Mahoney, Vivian Atencio, Cindy Pol, Theodus Crane, Skeet Ulrich, Cory Kenshin, Michael P. Sullivan, Noah Brand, Evan Soto, Jalia Martin, Keon Motakhaveri, Joshua Sienkiewicz, Trazi Lashawn, Ellison Booker",
+      "castPhotos": {
+        "Josh Hutcherson": "https://image.tmdb.org/t/p/w185/f0eosZ1Fx0VBUyspq8K2f8sUSBn.jpg",
+        "Piper Rubio": "https://image.tmdb.org/t/p/w185/kIg9VvVBi1H8Bl9B697f2GE9rPo.jpg",
+        "Elizabeth Lail": "https://image.tmdb.org/t/p/w185/guu5KjmRBjAWr4JkRdPHeyqXJPX.jpg",
+        "Matthew Lillard": "https://image.tmdb.org/t/p/w185/mIEKAfe0iC41RDXibbTy48LtNOi.jpg",
+        "Freddy Carter": "https://image.tmdb.org/t/p/w185/u4Ibhf8LnRzfuR2IUx6ZQWdWaVv.jpg",
+        "Wayne Knight": "https://image.tmdb.org/t/p/w185/yS3k7HZ8gSWyXrvvsX7V7oEmdHY.jpg"
+      },
+      "director": "Emma Tammi",
+      "writer": "Scott Cawthon",
+      "releaseDate": "2025-12-03",
+      "year": 2025,
+      "genre": null,
+      "rating": 6.6,
+      "duration": "104 min",
+      "poster": "https://image.tmdb.org/t/p/w500/egHOFSRXrAaugFUD7VMEnXlTnzJ.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/54BOXpX2ieTXMDzHymdDMnUIzYG.jpg",
+      "tmdbId": 1228246,
+      "tmdbType": "movie",
+      "id": "tmdb-1228246",
+      "categories": [
+        "terror"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/savkdeyygh83",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "WWE: OMG! The Top 50 Incidents in WWE History",
+      "plot": "",
+      "cast": "John Cena, Bryan Danielson, Jim Ross, Jerry Lawler, David Otunga, Brian Myers, Steve Austin, Kofi Sarkodie-Mensah, Gene Snitsky, Mark Calaway, Vince McMahon, Randy Orton, Paul Levesque, Sean Morley, Michael Hickenbottom, Bret Hart, Earl Hebner, Dave Hebner, Robert Howard, Mark Henry, Johnnie Mae Young, Mark LoMonaco, Devon Hughes, Barney Irwin, Chris Benoit, Dwayne Johnson, Eddie Guerrero, Matt Hyson, Mike Lockwood, Brian Myers",
+      "castPhotos": {
+        "John Cena": "https://image.tmdb.org/t/p/w185/rgB2eIOt7WyQjdgJCOuESdDlrjg.jpg",
+        "Bryan Danielson": "https://image.tmdb.org/t/p/w185/2JXVDZNDeyPRnxFaPaJ4DykVMHY.jpg",
+        "Jim Ross": "https://image.tmdb.org/t/p/w185/ufuTblMtz0xBknpRIQm1k0U6Qf5.jpg",
+        "Jerry Lawler": "https://image.tmdb.org/t/p/w185/jSjWooyleMmGu6hDslohMGyy0IQ.jpg",
+        "David Otunga": "https://image.tmdb.org/t/p/w185/nwZLDhCCnq0rMPKSfwZTT7eD794.jpg",
+        "Brian Myers": "https://image.tmdb.org/t/p/w185/eAuNlwWfk08qXx6PGKh8jPU1Bsh.jpg"
+      },
+      "director": "Kevin Dunn",
+      "writer": "Vince McMahon",
+      "releaseDate": "2011-08-23",
+      "year": 2011,
+      "genre": null,
+      "rating": 8,
+      "duration": "540 min",
+      "poster": "https://image.tmdb.org/t/p/w500/23CAuXohnj6cw6u6p4OANDhFVyc.jpg",
+      "backdrop": null,
+      "tmdbId": 80240,
+      "tmdbType": "movie",
+      "id": "tmdb-80240",
+      "categories": [
+        "acción",
+        "drama"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/kzqujpgi3kor",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "Forrest Gump",
+      "plot": "Forrest Gump es un chico con deficiencias mentales no muy profundas y con alguna incapacidad motora que, a pesar de todo, llegará a convertirse, entre otras cosas, en un héroe durante la Guerra del Vietnam. Su persistencia y bondad le llevarán a conseguir una gran fortuna, ser objeto del clamor popular y a codearse con las más altas esferas sociales y políticas del país. Siempre sin olvidar a Jenny, su gran amor desde que era niño.",
+      "cast": "Tom Hanks, Robin Wright, Gary Sinise, Sally Field, Mykelti Williamson, Michael Conner Humphreys, Hanna Hall, Haley Joel Osment, Siobhan Fallon Hogan, Rebecca Williams, Bob Penny, Harold G. Herthum, George Kelly, John Randall, Sam Anderson, Margo Moorer, Ione M. Telech, Christine Seabrook, John Worsham, Peter Dobson, Alexander Zemeckis, Logan Livingston Gomez, Ben Waddel, Elizabeth Hanks, Tyler Long, Christopher Jones, Grady Bowman, Kevin Mangan, Fay Genens, Frank Geyer",
+      "castPhotos": {
+        "Tom Hanks": "https://image.tmdb.org/t/p/w185/oFvZoKI6lvU03n4YoNGAll9rkas.jpg",
+        "Robin Wright": "https://image.tmdb.org/t/p/w185/d3rIv0y2p0jMsQ7ViR7O1606NZa.jpg",
+        "Gary Sinise": "https://image.tmdb.org/t/p/w185/olRjiV8ZhBixQiTvrGwXhpVXxsV.jpg",
+        "Sally Field": "https://image.tmdb.org/t/p/w185/iMeq1j9Xwvaf6PbTJ0FQz69fpuA.jpg",
+        "Mykelti Williamson": "https://image.tmdb.org/t/p/w185/dR16zD9AjnHWbeN5OVmJWE0vSax.jpg",
+        "Michael Conner Humphreys": "https://image.tmdb.org/t/p/w185/irYRs3COggVHg91jL3CrlCIWmnx.jpg"
+      },
+      "director": "Robert Zemeckis",
+      "writer": "Eric Roth",
+      "releaseDate": "1994-06-23",
+      "year": 1994,
+      "genre": null,
+      "rating": 8.5,
+      "duration": "142 min",
+      "poster": "https://image.tmdb.org/t/p/w500/oiqKEhEfxl9knzWXvWecJKN3aj6.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/66Kn4XWhkuPkJxOJyPEx4U2CUfN.jpg",
+      "tmdbId": 13,
+      "tmdbType": "movie",
+      "id": "tmdb-13",
+      "categories": [
+        "comedia",
+        "drama",
+        "romance"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/0cc5ffx6aino",
+          "language": "Español"
+        }
+      ]
     }
   ],
   "series": [
