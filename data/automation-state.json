@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-10-15T23:59:18.541Z",
+  "lastRunAt": "2026-10-16T03:43:36.309Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -10,11 +10,11 @@
     1101412,
     1058424,
     1084244,
-    1400837,
     1101383,
     671,
     1204680,
     1302904,
+    1400837,
     1284046,
     1248832,
     1288445,
@@ -36,7 +36,7 @@
     1083381
   ],
   "tmdbIdsPublished": [],
-  "totalMoviesInCatalog": 34,
+  "totalMoviesInCatalog": 37,
   "errorsSummary": [],
   "skipped": [
     {
@@ -75,11 +75,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1400837,
-      "title": "La otra madre",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1101383,
       "title": "El final de Oak Street",
       "reason": "Sin fuente autorizada configurada"
@@ -92,6 +87,11 @@
     {
       "tmdbId": 1302904,
       "title": "Prácticamente magia 2",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1400837,
+      "title": "La otra madre",
       "reason": "Sin fuente autorizada configurada"
     },
     {

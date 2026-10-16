@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-15T23:59:15.717Z",
-  "durationMs": 2829,
+  "generatedAt": "2026-10-16T03:43:35.463Z",
+  "durationMs": 851,
   "dryRun": false,
   "moviesFound": 32,
   "moviesDiscarded": 25,
@@ -48,11 +48,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1400837,
-      "title": "La otra madre",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1101383,
       "title": "El final de Oak Street",
       "reason": "Sin fuente autorizada configurada"
@@ -65,6 +60,11 @@
     {
       "tmdbId": 1302904,
       "title": "Prácticamente magia 2",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1400837,
+      "title": "La otra madre",
       "reason": "Sin fuente autorizada configurada"
     },
     {
