@@ -6276,6 +6276,115 @@
           "language": "Español"
         }
       ]
+    },
+    {
+      "title": "Sin tiempo para morir",
+      "plot": "James Bond se encuentra disfrutando de unas merecidas vacaciones en Jamaica. Sin embargo, su paz termina cuando su amigo de la CIA, Felix Leiter, lo busca para una nueva misión que implica rescatar a un importante científico que ha sido secuestrado.",
+      "cast": "Daniel Craig, Léa Seydoux, Rami Malek, Lashana Lynch, Ralph Fiennes, Ben Whishaw, Naomie Harris, Rory Kinnear, Jeffrey Wright, Billy Magnussen, Christoph Waltz, David Dencik, Ana de Armas, Dali Benssalah, Lisa-Dorah Sonnet, Coline Defaud, Mathilde Bourbin, Hugh Dennis, Priyanga Burford, Joe Grossi, Nicola Olivieri, Pio Amato, Javone Prince, Davina Moon, Mattia Lacovone, Giansalvatore Duca, Amy Morgan, Lizzie Winkler, Andrei Nova, Ernest Gromov",
+      "castPhotos": {
+        "Daniel Craig": "https://image.tmdb.org/t/p/w185/iFerDZUmC5Fu26i4qI8xnUVEHc7.jpg",
+        "Léa Seydoux": "https://image.tmdb.org/t/p/w185/4q6xqqWLLleQrFjeqeYYV8B0fwE.jpg",
+        "Rami Malek": "https://image.tmdb.org/t/p/w185/drLMI978uj3Rpc1TcIJarKf3Jfi.jpg",
+        "Lashana Lynch": "https://image.tmdb.org/t/p/w185/ypNxRag9uJ5nzPAN2um3amQK340.jpg",
+        "Ralph Fiennes": "https://image.tmdb.org/t/p/w185/tJr9GcmGNHhLVVEH3i7QYbj6hBi.jpg",
+        "Ben Whishaw": "https://image.tmdb.org/t/p/w185/6iEdnDBCjuhJgATBMoieIr8p4oA.jpg"
+      },
+      "director": "Cary Joji Fukunaga",
+      "writer": "Cary Joji Fukunaga",
+      "releaseDate": "2021-09-29",
+      "year": 2021,
+      "genre": null,
+      "rating": 7.3,
+      "duration": "163 min",
+      "poster": "https://image.tmdb.org/t/p/w500/4yk2270JA6QpnN8xkuRsnPVXgdP.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/x9td0NQha0t44K2qgcMipLOGjVi.jpg",
+      "tmdbId": 370172,
+      "tmdbType": "movie",
+      "id": "tmdb-370172",
+      "categories": [
+        "acción",
+        "aventura"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/os0p2kqmfit3",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "¡Canta! 2",
+      "plot": "Buster Moon y sus amigos deben persuadir a la estrella del rock Clay Calloway para que se una a ellos en el estreno de un nuevo espectáculo.",
+      "cast": "Matthew McConaughey, Reese Witherspoon, Scarlett Johansson, Taron Egerton, Bobby Cannavale, Tori Kelly, Nick Kroll, Halsey, Nick Offerman, Letitia Wright, Eric Andre, Pharrell Williams, Chelsea Peretti, Bono, Garth Jennings, Adam Buxton, Jennifer Saunders, Julia Davis, Peter Serafinowicz, Wes Anderson, Jason Broad, Doug Burch, Cathy Cavadini, Will Collyer, Hudson D'Andrea, Brian T. Delaney, Remy Edgerly, Aaron Fors, Julianna Gamiz, George Griffiths",
+      "castPhotos": {
+        "Matthew McConaughey": "https://image.tmdb.org/t/p/w185/lCySuYjhXix3FzQdS4oceDDrXKI.jpg",
+        "Reese Witherspoon": "https://image.tmdb.org/t/p/w185/mfjunuTHrd0wnh8UG1ImMN9FSws.jpg",
+        "Scarlett Johansson": "https://image.tmdb.org/t/p/w185/tgxYh3jMs5bY2Ub4d2dcp9iaz1R.jpg",
+        "Taron Egerton": "https://image.tmdb.org/t/p/w185/uCaPhyKAQIfEzAWWCYIrO2004CB.jpg",
+        "Bobby Cannavale": "https://image.tmdb.org/t/p/w185/wlp20ggyNI7x0xGUtTjC2Xl2XmD.jpg",
+        "Tori Kelly": "https://image.tmdb.org/t/p/w185/jNKEWJf4FMac3yCK6jsM6TfFJG5.jpg"
+      },
+      "director": "Garth Jennings",
+      "writer": "Garth Jennings",
+      "releaseDate": "2021-12-01",
+      "year": 2021,
+      "genre": null,
+      "rating": 7.8,
+      "duration": "110 min",
+      "poster": "https://image.tmdb.org/t/p/w500/9iIDsw7RJHYU94z7k4mbYP5IlYT.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/ztiFxuG0gC6wQ8y7JZFYbCQyN4Y.jpg",
+      "tmdbId": 438695,
+      "tmdbType": "movie",
+      "id": "tmdb-438695",
+      "categories": [
+        "animación",
+        "comedia"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/rat5wwyc21ty",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "Sonic 3: La película",
+      "plot": "Sonic, Knuckles y Tails se reúnen para enfrentarse a un nuevo y poderoso adversario, Shadow, un misterioso villano cuyos poderes no se parecen a nada de lo que nuestros héroes han conocido hasta ahora. Con sus facultades superadas en todos los sentidos, el Equipo Sonic tendrá que establecer una insólita alianza con la esperanza de detener a Shadow y proteger el planeta.",
+      "cast": "Ben Schwartz, Jim Carrey, Keanu Reeves, Idris Elba, Colleen O'Shaughnessey, James Marsden, Tika Sumpter, Lee Majdoub, Krysten Ritter, Adam Pally, Natasha Rothwell, Shemar Moore, Alyla Browne, Tom Butler, Jorma Taccone, Sofia Pernas, Cristo Fernández, James Wolk, Brett Tutor, Richard Sutton, Will Austin, Bola Okun, Reggie Banigo, Barry Calvert, Brendan Murphy, Toru Nakahara, Mariko Nishino, Jimmy Moneta",
+      "castPhotos": {
+        "Ben Schwartz": "https://image.tmdb.org/t/p/w185/hWEQe66jXUAGVhbU5dy8s0IrrAQ.jpg",
+        "Jim Carrey": "https://image.tmdb.org/t/p/w185/y3U9QfPN6sJaGl6l68xjwWj28ig.jpg",
+        "Keanu Reeves": "https://image.tmdb.org/t/p/w185/8RZLOyYGsoRe9p44q3xin9QkMHv.jpg",
+        "Idris Elba": "https://image.tmdb.org/t/p/w185/be1bVF7qGX91a6c5WeRPs5pKXln.jpg",
+        "Colleen O'Shaughnessey": "https://image.tmdb.org/t/p/w185/y3Kl5tCX1XD6uyL9wefTRbEXTwj.jpg",
+        "James Marsden": "https://image.tmdb.org/t/p/w185/lf7OnfKZnMgNh9b98764tqSocGK.jpg"
+      },
+      "director": "Jeff Fowler",
+      "writer": "John Whittington",
+      "releaseDate": "2024-12-19",
+      "year": 2024,
+      "genre": null,
+      "rating": 7.6,
+      "duration": "110 min",
+      "poster": "https://image.tmdb.org/t/p/w500/3aDWCRXLYOCuxjrjiPfLd79tcI6.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/zOpe0eHsq0A2NvNyBbtT6sj53qV.jpg",
+      "tmdbId": 939243,
+      "tmdbType": "movie",
+      "id": "tmdb-939243",
+      "categories": [
+        "acción",
+        "ciencia ficción",
+        "comedia"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/r3zb1btmx8wl",
+          "language": "Español"
+        }
+      ]
     }
   ],
   "series": [
