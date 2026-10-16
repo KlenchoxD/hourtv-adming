@@ -4691,6 +4691,147 @@
           "language": "Español"
         }
       ]
+    },
+    {
+      "title": "Kingsman: El círculo de oro",
+      "plot": "Cuando se produce un ataque contra el cuartel general de Kingsman y un nuevo villano se levanta, Eggsy y Merlin se ven obligados a trabajar junto con la agencia americana conocida como el Statesman para salvar al mundo.",
+      "cast": "Taron Egerton, Colin Firth, Julianne Moore, Mark Strong, Hanna Alström, Halle Berry, Pedro Pascal, Channing Tatum, Edward Holcroft, Jeff Bridges, Emily Watson, Sophie Cookson, Michael Gambon, Elton John, Bruce Greenwood, Thomas Turgoose, Calvin Demba, Tobi Bakare, Gordon Alexander, Keith Allen, Tom Benedict Knight, Björn Granath, Lena Endre, Samantha Coughlan, Martyn Ford, Poppy Delevingne, Grant Gillespie, Tara Hugo, Nicholas Colicos, Jordan Mifsud",
+      "castPhotos": {
+        "Taron Egerton": "https://image.tmdb.org/t/p/w185/uCaPhyKAQIfEzAWWCYIrO2004CB.jpg",
+        "Colin Firth": "https://image.tmdb.org/t/p/w185/z6wxnkqSTnzO1tcBui0ss7ehdm9.jpg",
+        "Julianne Moore": "https://image.tmdb.org/t/p/w185/3YF19rWusxWfEI59ZM33dFhasRq.jpg",
+        "Mark Strong": "https://image.tmdb.org/t/p/w185/3cNmatYsoifytg7TfQhI1EHow3v.jpg",
+        "Hanna Alström": "https://image.tmdb.org/t/p/w185/7c9tjRFDQfxP37U5BgfoMdpu5Dw.jpg",
+        "Halle Berry": "https://image.tmdb.org/t/p/w185/84HRDZodRCuBSpYGSc3ow8WucI4.jpg"
+      },
+      "director": "Matthew Vaughn",
+      "writer": "Matthew Vaughn",
+      "releaseDate": "2017-09-20",
+      "year": 2017,
+      "genre": null,
+      "rating": 6.9,
+      "duration": "135 min",
+      "poster": "https://image.tmdb.org/t/p/w500/d0tCSswCeMBzaDsyXc82qfDDvPD.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/eVHVwP71el20fofkCHo78ebQv7Q.jpg",
+      "tmdbId": 343668,
+      "tmdbType": "movie",
+      "id": "tmdb-343668",
+      "categories": [
+        "comedia",
+        "acción"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/a0cqf2nnnlvw",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "Black Hawk derribado",
+      "plot": "Octubre de 1993. Soldados americanos de élite son enviados a Mogadiscio (Somalia) en una misión de paz de las Naciones Unidas. El fin se supone que es salvar vidas, no segarlas. Pero resulta que el principal objetivo de la misión es capturar al caudillo Aidid y acabar de raíz con la guerra. Al principio, todo parece ir bien, hasta que dos helicópteros Black Hawk, aparentemente invencibles, son derribados. Entonces la misión se convierte en una desesperada carrera para rescatar a la tripulación y a los soldados de tierra que han quedado atrapados o han resultado heridos en el accidente.",
+      "cast": "Josh Hartnett, Ewan McGregor, Tom Sizemore, Eric Bana, William Fichtner, Ewen Bremner, Sam Shepard, Gabriel Casseus, Kim Coates, Hugh Dancy, Ron Eldard, Ioan Gruffudd, Tom Guiry, Charlie Hofheimer, Danny Hoch, Jason Isaacs, Željko Ivanek, Glenn Morshower, Jeremy Piven, Brendan Sexton III, Johnny Strong, Richard Tyson, Brian Van Holt, Nikolaj Coster-Waldau, Steven Ford, Ian Virgo, Tom Hardy, Gregory Sporleder, Carmine Giovinazzo, Chris Beetem",
+      "castPhotos": {
+        "Josh Hartnett": "https://image.tmdb.org/t/p/w185/5eMo8D7h1XrSu6ZN4UXhPcS6YNG.jpg",
+        "Ewan McGregor": "https://image.tmdb.org/t/p/w185/q2UDxfwWnmXTB7khOUF3J9puBVP.jpg",
+        "Tom Sizemore": "https://image.tmdb.org/t/p/w185/soINOuacuiThRb2LyPD4tTWve7C.jpg",
+        "Eric Bana": "https://image.tmdb.org/t/p/w185/l9yoDgw3YFC2gMD1HTo5djGOwSY.jpg",
+        "William Fichtner": "https://image.tmdb.org/t/p/w185/wWtJOoaNAwPparpzMNuRBjvxwEf.jpg",
+        "Ewen Bremner": "https://image.tmdb.org/t/p/w185/u80rtfJRqCg4qKcdEPmYv8IkCvu.jpg"
+      },
+      "director": "Ridley Scott",
+      "writer": "Ken Nolan",
+      "releaseDate": "2001-12-28",
+      "year": 2001,
+      "genre": null,
+      "rating": 7.4,
+      "duration": "145 min",
+      "poster": "https://image.tmdb.org/t/p/w500/5chWdaHyaHWd5KaVxK94lbTDCdC.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/7jaNOECZG8uS1tlq69HsY5xY8P9.jpg",
+      "tmdbId": 855,
+      "tmdbType": "movie",
+      "id": "tmdb-855",
+      "categories": [
+        "acción"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/qogu1g1hmzvs",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "La empleada del mes",
+      "plot": "Una empleada de una empresa de productos de limpieza comete accidentalmente un crimen desordenado y sangriento, por lo que debe descubrir cómo cubrir sus huellas con la ayuda de su joven aprendiz.",
+      "cast": "Jasmina Douieb, Laetitia Mampaka, Peter van den Begin, Alex Vizorek, Laurence Bibot, Philippe Résimont, Thomas Ancora, Ingrid Heiderscheidt, Achille Ridolfi, Christophe Bourdon",
+      "castPhotos": {
+        "Jasmina Douieb": "https://image.tmdb.org/t/p/w185/saoWa1f7ouJJrahtr6fMUhpHKL5.jpg",
+        "Laetitia Mampaka": "https://image.tmdb.org/t/p/w185/qsx9q1qKG4lCeY1ZQUlCKFs8ra3.jpg",
+        "Peter van den Begin": "https://image.tmdb.org/t/p/w185/1ZSa7cVDCKrMCUZ2tRXKJG81IhP.jpg",
+        "Alex Vizorek": "https://image.tmdb.org/t/p/w185/olDIANOqPuFcZhAfhaC3NbKu7bz.jpg",
+        "Laurence Bibot": "https://image.tmdb.org/t/p/w185/7QwySSXGqf7Z1WIkoStAFvXHeOw.jpg",
+        "Philippe Résimont": "https://image.tmdb.org/t/p/w185/aPtKQWC0sNUIBpsKvlKjSCFuUIG.jpg"
+      },
+      "director": "Véronique Jadin",
+      "writer": "Véronique Jadin",
+      "releaseDate": "2022-06-10",
+      "year": 2022,
+      "genre": null,
+      "rating": 4.7,
+      "duration": "78 min",
+      "poster": "https://image.tmdb.org/t/p/w500/rda7py7rMHDKQW0pVb79qB3jeMB.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/rkkqXev1hWjwhLWFYRPKwYSaXXO.jpg",
+      "tmdbId": 965024,
+      "tmdbType": "movie",
+      "id": "tmdb-965024",
+      "categories": [
+        "comedia"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/91z4fkgt8wpg",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "La guerra de los mundos",
+      "plot": "Will Radford, un destacado analista de ciberseguridad, pasa sus días rastreando posibles amenazas a la seguridad nacional a través de un programa de vigilancia masiva. Un ataque de una entidad desconocida le lleva a cuestionarse si el gobierno le está ocultando algo a él... y al resto del mundo.",
+      "cast": "Ice Cube, Eva Longoria, Clark Gregg, Iman Benson, Henry Hunter Hall, Devon Bostick, Andrea Savage, Nicole Pulliam, Michael O'Neill, Jim Meskimen",
+      "castPhotos": {
+        "Ice Cube": "https://image.tmdb.org/t/p/w185/9EghwabQ1wIQT4oN69qtPlzqGn4.jpg",
+        "Eva Longoria": "https://image.tmdb.org/t/p/w185/1u26GLWK1DE7gBugyI9P3OMFq4A.jpg",
+        "Clark Gregg": "https://image.tmdb.org/t/p/w185/7t2uHG5m4CN2lyYnGfZO54Hn3O0.jpg",
+        "Iman Benson": "https://image.tmdb.org/t/p/w185/6s8Cyc4rxDRpX1vYnczU52RM4IM.jpg",
+        "Henry Hunter Hall": "https://image.tmdb.org/t/p/w185/qZEv8RIGC9yLwY29Vo4KQzpO9Dt.jpg",
+        "Devon Bostick": "https://image.tmdb.org/t/p/w185/fO1LaBwXX0AIy5JOCdvA1DAJfnK.jpg"
+      },
+      "director": "Rich Lee",
+      "writer": "Marc Hyman",
+      "releaseDate": "2025-07-29",
+      "year": 2025,
+      "genre": null,
+      "rating": 4,
+      "duration": "90 min",
+      "poster": "https://image.tmdb.org/t/p/w500/fjgSlNGECNgVeMJaOdDAXmGh7ZM.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/iZLqwEwUViJdSkGVjePGhxYzbDb.jpg",
+      "tmdbId": 755898,
+      "tmdbType": "movie",
+      "id": "tmdb-755898",
+      "categories": [
+        "ciencia ficción"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/ifiv5av9newx",
+          "language": "Español"
+        }
+      ]
     }
   ],
   "series": [
