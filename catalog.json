@@ -5451,6 +5451,151 @@
           "language": "Español"
         }
       ]
+    },
+    {
+      "title": "Matilda de Roald Dahl: El musical",
+      "plot": "Una joven extraordinaria descubre su superpoder y reúne el coraje extraordinario, contra viento y marea, para ayudar a otros a cambiar sus historias, al mismo tiempo que se hace cargo de su propio destino. Al defender lo que es correcto, se encuentra con resultados milagrosos.",
+      "cast": "Alisha Weir, Emma Thompson, Lashana Lynch, Stephen Graham, Andrea Riseborough, Sindhu Vee, Carl Spencer, Lauren Alexandra, Winter Jarrett Glasspool, Andrei Shen, Ashton Robertson, Meesha Garbett, Charlie Hodson-Prior, Rei Yamauchi Fulker, Katherine Kingsley, Amber Adeyinka, James Laurenson, Ann Firbank, Amanda Lawrence, Thomas Arnold, James Dryden, Matt Henry, Karen Mavundukure, Tia Isaac, Ella Chadwick, Erin Rushidi, Rudy Gibson, Isa Islam, Joshua Moabi, Poppy Caton",
+      "castPhotos": {
+        "Alisha Weir": "https://image.tmdb.org/t/p/w185/dU4YWHZjWtGTkoWluKdzQHBobS0.jpg",
+        "Emma Thompson": "https://image.tmdb.org/t/p/w185/zQ0hWHh3tzaOOziPbABQI8s9WCu.jpg",
+        "Lashana Lynch": "https://image.tmdb.org/t/p/w185/ypNxRag9uJ5nzPAN2um3amQK340.jpg",
+        "Stephen Graham": "https://image.tmdb.org/t/p/w185/yguEO9zFvuccq87kOJpFLsmUgvs.jpg",
+        "Andrea Riseborough": "https://image.tmdb.org/t/p/w185/dQzAXj6R8cTRqTwGzxUgegXbV13.jpg",
+        "Sindhu Vee": "https://image.tmdb.org/t/p/w185/xDSGdKJ7UMZhcpau7TJgc0UpGDA.jpg"
+      },
+      "director": "Matthew Warchus",
+      "writer": "Dennis Kelly",
+      "releaseDate": "2022-11-25",
+      "year": 2022,
+      "genre": null,
+      "rating": 6.8,
+      "duration": "117 min",
+      "poster": "https://image.tmdb.org/t/p/w500/7iUkSvlCnYdyl9tSKexwHK9Mo8p.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/jG52tsazn04F1fe8hPZfVv7ICKt.jpg",
+      "tmdbId": 668482,
+      "tmdbType": "movie",
+      "id": "tmdb-668482",
+      "categories": [
+        "comedia",
+        "fantasía"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/phbhcs08ykhu",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "Megalodón",
+      "plot": "Un sumergible de aguas profundas que forma parte de un programa internacional de vigilancia submarina, ha sido atacado por una enorme criatura que se creía extinta. Ahora está averiado en el fondo de la fosa oceánica más profunda del Pacífico con su tripulación atrapada en el interior. El tiempo se acaba y, en contra de los deseos de su hija Suyin (Li Bingbing), un visionario oceanógrafo chino (Winston Chao) contrata a Jonas Taylor (Jason Statham), un especialista en rescate en aguas profundas. Su misión será salvar a la tripulación y también al océano de una amenaza imparable: un tiburón prehistórico de 23 metros conocido con el nombre de Megalodón.",
+      "cast": "Jason Statham, Li Bingbing, Rainn Wilson, Cliff Curtis, Ruby Rose, Jessica McNamee, Masi Oka, 趙文瑄, Shuya Sophia Cai, Page Kennedy, Robert Taylor, Ólafur Darri Ólafsson, Mai Hongmei, Wei Yi, วิทยา ปานศรีงาม, Rob Kipa-Williams, Tawanda Manyimo, Mark Trotter, James Gaylyn, Andrew Grainger, Steven A. Davis, Glen Levy, Edwin Wright, Ivy Tsui, Jeremy Tan, Tim Wong, Yoson An, Yao Yao, Leand Macadaan, Boaz Magege",
+      "castPhotos": {
+        "Jason Statham": "https://image.tmdb.org/t/p/w185/8l6lmrmKFDvhDjMJPj6tBpJdhaA.jpg",
+        "Li Bingbing": "https://image.tmdb.org/t/p/w185/gBDRToPG0smAFSUpWT5pmJv2fJr.jpg",
+        "Rainn Wilson": "https://image.tmdb.org/t/p/w185/yRTElSeC3q9nBqBuleI6OODlDMS.jpg",
+        "Cliff Curtis": "https://image.tmdb.org/t/p/w185/dfaElGoyJWseFWxXwEMLL9WTi7V.jpg",
+        "Ruby Rose": "https://image.tmdb.org/t/p/w185/djhT0A2hZxpYKPnCeRtim8qUdPi.jpg",
+        "Jessica McNamee": "https://image.tmdb.org/t/p/w185/xX1WxRZyJqVAx24Q3ziziGq2T8A.jpg"
+      },
+      "director": "Jon Turteltaub",
+      "writer": "Dean Georgaris",
+      "releaseDate": "2018-08-08",
+      "year": 2018,
+      "genre": null,
+      "rating": 6.3,
+      "duration": "113 min",
+      "poster": "https://image.tmdb.org/t/p/w500/kBl4wXkKVZep4AVVxju67uh6uVV.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/ibKeXahq4JD63z6uWQphqoJLvNw.jpg",
+      "tmdbId": 345940,
+      "tmdbType": "movie",
+      "id": "tmdb-345940",
+      "categories": [
+        "acción",
+        "ciencia ficción",
+        "terror"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/7cq61gp8vglt",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "Mi vecino Totoro",
+      "plot": "Dos chicas jóvenes, Mei y Satsuki, se mudan a una nueva casa cerca del hospital en el que se encuentra su madre. En el patio junto a la casa, existe un gran árbol que es el hogar de tres Totoros, dioses de la selva. Poco después, reciben noticias desde el hospital de que su madre no puede venir a casa como había prometido, por lo que Mei (la más joven) se escapa para ir a visitarla. Satsuki tiene que recurrir a un Totoro para ayudar a encontrarla.",
+      "cast": "Noriko Hidaka, 坂本千夏, 高木均, 糸井重里, Sumi Shimamoto, Tanie Kitabayashi, 雨笠利幸, 丸山優子, 広瀬正志, Reiko Suzuki, 鷲尾真知子, Naoki Tatsuta, 西村朋紘, 神代知衣, 水谷優子, Shigeru Chiba, TARAKO, 石田光子, 中村大樹, 平松晶子, Ikue Otani",
+      "castPhotos": {
+        "Noriko Hidaka": "https://image.tmdb.org/t/p/w185/43OuwsjqGf7JxpFpUvB75OdDDXQ.jpg",
+        "坂本千夏": "https://image.tmdb.org/t/p/w185/lIIwnLmcgGpifpRflBq0kLW9EpK.jpg",
+        "高木均": "https://image.tmdb.org/t/p/w185/lQWkgAGIdJ3Q93xI95ke6LZfzHW.jpg",
+        "糸井重里": "https://image.tmdb.org/t/p/w185/2V17CMIcxb6JEHT5Qp3FKdlHUoE.jpg",
+        "Sumi Shimamoto": "https://image.tmdb.org/t/p/w185/iKIDv2VFpAgzJ0uMQi7pzcMHB9i.jpg",
+        "Tanie Kitabayashi": "https://image.tmdb.org/t/p/w185/vGG6ErgXfrZuRsVfDP3Po3XReST.jpg"
+      },
+      "director": "Hayao Miyazaki",
+      "writer": "Hayao Miyazaki",
+      "releaseDate": "1988-04-16",
+      "year": 1988,
+      "genre": null,
+      "rating": 8.1,
+      "duration": "86 min",
+      "poster": "https://image.tmdb.org/t/p/w500/uu6RaEAfkIQaolf20axWaRU4h3w.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/zkThiZAaAie8Lw7RAc5yPTOewBV.jpg",
+      "tmdbId": 8392,
+      "tmdbType": "movie",
+      "id": "tmdb-8392",
+      "categories": [
+        "fantasía",
+        "animación"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/d5yjo3qrxek3",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "Midsommar",
+      "plot": "Una pareja estadounidense que no está pasando por su mejor momento acude con unos amigos a un festival de verano que se celebra cada noventa años en una aldea remota de Suecia. Lo que comienza como unas vacaciones de ensueño en un lugar en el que el sol no se pone nunca, poco a poco se convierte en una oscura pesadilla cuando los misteriosos aldeanos les invitan a participar en sus perturbadoras actividades festivas.",
+      "cast": "Florence Pugh, Jack Reynor, William Jackson Harper, Will Poulter, Vilhelm Blomgren, Isabelle Grill, Gunnel Fred, Ellora Torchia, Archie Madekwe, Henrik Norlén, Agnes Westerlund Rase, Julia Ragnarsson, Mats Blomgren, Lars Väringer, Anna Åström, Hampus Hallberg, Liv Mjönes, Louise Peterhoff, Katarina Weidhagen, Björn Andrésen, Tomas Engström, Dag Andersson, Lennart R. Svensson, Anders Beckman, Rebecka Johnston, Tove Skeidsvoll, Anders Back, Anki Larsson, Levente Puczkó-Smith, Frans Cavallin Rosengarten",
+      "castPhotos": {
+        "Florence Pugh": "https://image.tmdb.org/t/p/w185/1QfiLnofJFlOJOLCWaxyDpIN03v.jpg",
+        "Jack Reynor": "https://image.tmdb.org/t/p/w185/vbPewOkSGGQl93wgshDlczMqiOk.jpg",
+        "William Jackson Harper": "https://image.tmdb.org/t/p/w185/5Oy037YttIweiqNGaErkalNmH0G.jpg",
+        "Will Poulter": "https://image.tmdb.org/t/p/w185/9blYMaj79VGC6BHTLmJp3V5S8r3.jpg",
+        "Vilhelm Blomgren": "https://image.tmdb.org/t/p/w185/uxfGg0gwEJS6CvY0PMNk90yoO71.jpg",
+        "Isabelle Grill": "https://image.tmdb.org/t/p/w185/5g2ytU0fLCRHM20PHwjAAW3IYz2.jpg"
+      },
+      "director": "Ari Aster",
+      "writer": "Ari Aster",
+      "releaseDate": "2019-07-03",
+      "year": 2019,
+      "genre": null,
+      "rating": 7.1,
+      "duration": "148 min",
+      "poster": "https://image.tmdb.org/t/p/w500/a4Uwb4vnep76r1HRNduFgT9MRez.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/aAM3cQmYGjjLQ24m0F0RWfjKQ57.jpg",
+      "tmdbId": 530385,
+      "tmdbType": "movie",
+      "id": "tmdb-530385",
+      "categories": [
+        "terror",
+        "drama"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/y37fmvkttgsk",
+          "language": "Español"
+        }
+      ]
     }
   ],
   "series": [
