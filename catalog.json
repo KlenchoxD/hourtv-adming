@@ -5744,6 +5744,79 @@
           "language": "Español"
         }
       ]
+    },
+    {
+      "title": "Oppenheimer",
+      "plot": "Película sobre el físico J. Robert Oppenheimer y su papel como desarrollador de la bomba atómica. Basada en el libro 'American Prometheus: The Triumph and Tragedy of J. Robert Oppenheimer' de Kai Bird y Martin J. Sherwin.",
+      "cast": "Cillian Murphy, Emily Blunt, Matt Damon, Robert Downey Jr., Florence Pugh, Josh Hartnett, Casey Affleck, Rami Malek, Kenneth Branagh, Benny Safdie, Jason Clarke, Dylan Arnold, Tom Conti, James D'Arcy, David Dastmalchian, Dane DeHaan, Alden Ehrenreich, Tony Goldwyn, Jefferson Hall, David Krumholtz, Matthew Modine, Scott Grimes, Kurt Koehler, John Gowans, Macon Blair, Harry Groener, Gregory Jbara, Ted King, Tim DeKay, Steven Houska",
+      "castPhotos": {
+        "Cillian Murphy": "https://image.tmdb.org/t/p/w185/2lKs67r7FI4bPu0AXxMUJZxmUXn.jpg",
+        "Emily Blunt": "https://image.tmdb.org/t/p/w185/5nCSG5TL1bP1geD8aaBfaLnLLCD.jpg",
+        "Matt Damon": "https://image.tmdb.org/t/p/w185/aCvBXTAR9B1qRjIRzMBYhhbm1fR.jpg",
+        "Robert Downey Jr.": "https://image.tmdb.org/t/p/w185/5qHNjhtjMD4YWH3UP0rm4tKwxCL.jpg",
+        "Florence Pugh": "https://image.tmdb.org/t/p/w185/1QfiLnofJFlOJOLCWaxyDpIN03v.jpg",
+        "Josh Hartnett": "https://image.tmdb.org/t/p/w185/5eMo8D7h1XrSu6ZN4UXhPcS6YNG.jpg"
+      },
+      "director": "Christopher Nolan",
+      "writer": "Christopher Nolan",
+      "releaseDate": "2023-07-19",
+      "year": 2023,
+      "genre": null,
+      "rating": 8,
+      "duration": "181 min",
+      "poster": "https://image.tmdb.org/t/p/w500/mJRUREPjTqqMEKwEiM2sdmIGngz.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/neeNHeXjMF5fXoCJRsOmkNGC7q.jpg",
+      "tmdbId": 872585,
+      "tmdbType": "movie",
+      "id": "tmdb-872585",
+      "categories": [
+        "drama"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/pcqx49wmb697",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "La Patrulla Canina: La superpelícula",
+      "plot": "Cuando un meteorito mágico se estrella en Ciudad Aventura, los cachorros de la Patrulla Canina consiguen unos superpoderes que los transforman en ¡Los PODEROSOS CACHORROS! Para Skye, la más pequeña del equipo, sus nuevos poderes son un sueño hecho realidad. Pero las cosas se complican cuando Humdinger, el archienemigo de los cachorros que acaba de fugarse de la cárcel, se une a Victoria Vance, una desquiciada científica obsesionada con los meteoritos, y forman una alianza para robar los superpoderes y convertirse en supervillanos. Con el destino de Ciudad Aventura al filo del abismo, los Poderosos Cachorros tendrán que detener a los supervillanos antes de que sea demasiado tarde, y Skye descubrirá que hasta la más pequeña del equipo puede ser la que determine el resultado.",
+      "cast": "Mckenna Grace, Taraji P. Henson, Marsai Martin, Iain Armitage, Christian Convery, Will Brisbin, Finn Lee-Epp, Ron Pardo, Lil Rel Howery, Chris Rock, Kim Kardashian, Serena Williams, Alan Kim, Brice González, North West, Saint West, James Marsden, Kristen Bell, Luxton Handspiker, Christian Corrao, Nylan Parthipan, Callum Shoniker, Dan Duran, Kim Roberts, Joshua Graham, Sugith Varughese, Monique Alvarez, Neil Crone, Stephane Belong, Shauna Black",
+      "castPhotos": {
+        "Mckenna Grace": "https://image.tmdb.org/t/p/w185/mbY7ngjgYcrUPDVNBikB9sMdaIk.jpg",
+        "Taraji P. Henson": "https://image.tmdb.org/t/p/w185/jUU2X9mDwJaAniEmJOfvImBS9qb.jpg",
+        "Marsai Martin": "https://image.tmdb.org/t/p/w185/hYErUiiesrm9jmiY1JTbwlxcN7l.jpg",
+        "Iain Armitage": "https://image.tmdb.org/t/p/w185/d16P91j8fhw7ngR727M84rCrj4r.jpg",
+        "Christian Convery": "https://image.tmdb.org/t/p/w185/tOR2tSrvHPVDltE4jBDEva3GNqY.jpg",
+        "Will Brisbin": "https://image.tmdb.org/t/p/w185/nm3Odfo47PcZvF1kEupMwgYJe6m.jpg"
+      },
+      "director": "Cal Brunker",
+      "writer": "Cal Brunker",
+      "releaseDate": "2023-09-21",
+      "year": 2023,
+      "genre": null,
+      "rating": 7,
+      "duration": "87 min",
+      "poster": "https://image.tmdb.org/t/p/w500/74UljzdgFuYo0BqzuEO2s2azObe.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/zgQQF04u3OgNBJqClRNby1FPz9s.jpg",
+      "tmdbId": 893723,
+      "tmdbType": "movie",
+      "id": "tmdb-893723",
+      "categories": [
+        "aventura",
+        "animación",
+        "comedia",
+        "ciencia ficción"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/hklaskbzmgqa",
+          "language": "Español"
+        }
+      ]
     }
   ],
   "series": [
