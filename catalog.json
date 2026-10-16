@@ -821,6 +821,11 @@
           "name": "Servidor 1",
           "url": "https://voe.sx/e/fed8d8ytqyyo",
           "language": "Español"
+        },
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/x7xjquehi70z",
+          "language": "Español"
         }
       ]
     },
@@ -2674,6 +2679,116 @@
         {
           "name": "Voe",
           "url": "https://voe.sx/e/eevtmzrjmio8",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "Buscando a Nemo",
+      "plot": "Nemo, un pececillo, hijo único muy querido y protegido por su padre, ha sido capturado en un arrecife australiano y ahora vive en una pecera en la oficina de un dentista de Sidney. El tímido padre de Nemo se embarcará en una peligrosa aventura para rescatar a su hijo. Pero Nemo y sus nuevos amigos tienen también un astuto plan para escapar de la pecera y volver al mar.",
+      "cast": "Albert Brooks, Ellen DeGeneres, Alexander Gould, Willem Dafoe, Geoffrey Rush, Brad Garrett, Allison Janney, Austin Pendleton, Stephen Root, Vicki Lewis, Joe Ranft, Andrew Stanton, Elizabeth Perkins, Nicholas Bird, Bob Peterson, Barry Humphries, Eric Bana, Bruce Spence, Bill Hunter, LuLu Ebeling, Jordan Ranft, Erica Beck, Erik Per Sullivan, John Ratzenberger, Carlos Alazraqui, Alec Medlock, Bob Bergen, Nicole Miller, Geoff Brooks, Lisa Peers",
+      "castPhotos": {
+        "Albert Brooks": "https://image.tmdb.org/t/p/w185/8iDSGu5l93N7benjf6b3AysBore.jpg",
+        "Ellen DeGeneres": "https://image.tmdb.org/t/p/w185/z8IEEid4z63CBlJtxrTKEfsW7NA.jpg",
+        "Alexander Gould": "https://image.tmdb.org/t/p/w185/zzfj8LHhSiRntnyThvOBirEEmII.jpg",
+        "Willem Dafoe": "https://image.tmdb.org/t/p/w185/ui8e4sgZAwMPi3hzEO53jyBJF9B.jpg",
+        "Geoffrey Rush": "https://image.tmdb.org/t/p/w185/npXFjaFQzBNroCEPllGPTZ5IisA.jpg",
+        "Brad Garrett": "https://image.tmdb.org/t/p/w185/813ffbpoaoaJRdoe1yrbivboWKp.jpg"
+      },
+      "director": "Andrew Stanton",
+      "writer": "David Reynolds",
+      "releaseDate": "2003-05-30",
+      "year": 2003,
+      "genre": null,
+      "rating": 7.8,
+      "duration": "100 min",
+      "poster": "https://image.tmdb.org/t/p/w500/jPhak722pNGxQIXSEfeWIUqBrO5.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/eCynaAOgYYiw5yN5lBwz3IxqvaW.jpg",
+      "tmdbId": 12,
+      "tmdbType": "movie",
+      "id": "tmdb-12",
+      "categories": [
+        "animación",
+        "aventura"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/gllw8cxxt6rh",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "Capitán América: Civil War",
+      "plot": "Steve Rogers lidera un nuevo equipo de Vengadores en su esfuerzo por proteger a la humanidad. Tras otro incidente internacional relacionado con los Vengadores que ocasiona daños colaterales, la presión política fuerza a crear un sistema de registro y un cuerpo gubernamental para determinar cuándo se requiere los servicios del equipo. El nuevo status quo divide a los Vengadores mientras intentan salvar al mundo de un nuevo y perverso villano.",
+      "cast": "Chris Evans, Robert Downey Jr., Scarlett Johansson, Sebastian Stan, Anthony Mackie, Don Cheadle, Jeremy Renner, Chadwick Boseman, Paul Bettany, Elizabeth Olsen, Paul Rudd, Emily VanCamp, Tom Holland, Daniel Brühl, Frank Grillo, William Hurt, Martin Freeman, Marisa Tomei, John Kani, John Slattery, Hope Davis, Alfre Woodard, Michael A. Cook, Laughton Parchment, Jackson Spidell, Yi Long, Heidi Moneymaker, Aaron Toney, Cale Schultz, Ann Russo",
+      "castPhotos": {
+        "Chris Evans": "https://image.tmdb.org/t/p/w185/3bOGNsHlrswhyW79uvIHH1V43JI.jpg",
+        "Robert Downey Jr.": "https://image.tmdb.org/t/p/w185/5qHNjhtjMD4YWH3UP0rm4tKwxCL.jpg",
+        "Scarlett Johansson": "https://image.tmdb.org/t/p/w185/tgxYh3jMs5bY2Ub4d2dcp9iaz1R.jpg",
+        "Sebastian Stan": "https://image.tmdb.org/t/p/w185/v20RLWst39klatsqUgSrwHxhwee.jpg",
+        "Anthony Mackie": "https://image.tmdb.org/t/p/w185/vecvTm7SimizluJkyIwBxeLbvRm.jpg",
+        "Don Cheadle": "https://image.tmdb.org/t/p/w185/umhTmcVF26qZKEpSfG1ZNpcbs9D.jpg"
+      },
+      "director": "Joe Russo",
+      "writer": "Christopher Markus",
+      "releaseDate": "2016-04-27",
+      "year": 2016,
+      "genre": null,
+      "rating": 7.5,
+      "duration": "147 min",
+      "poster": "https://image.tmdb.org/t/p/w500/jPPy7tCfglppQo6J9nGwU6UmJ8X.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/7FWlcZq3r6525LWOcvO9kNWurN1.jpg",
+      "tmdbId": 271110,
+      "tmdbType": "movie",
+      "id": "tmdb-271110",
+      "categories": [
+        "aventura",
+        "acción",
+        "ciencia ficción"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/ixnh7bt3fd6u",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "Capitán América: El Soldado de Invierno",
+      "plot": "Capitán América, Viuda Negra y un nuevo aliado, Falcon, se enfrentan a un enemigo inesperado mientras intentan sacar a la luz una conspiración que pone en riesgo al mundo.",
+      "cast": "Chris Evans, Samuel L. Jackson, Scarlett Johansson, Robert Redford, Sebastian Stan, Anthony Mackie, Cobie Smulders, Frank Grillo, Maximiliano Hernández, Emily VanCamp, Hayley Atwell, Toby Jones, Stan Lee, Callan Mulvey, Jenny Agutter, Bernard White, Alan Dale, Chin Han, Garry Shandling, Georges St-Pierre, Salvator Xuereb, Brian Duffy, Zack Duhame, Adetokumboh M'Cormack, Christopher George Sarris, Aaron Himelstein, Allan Chanes, Joe Russo, Christopher Markus, Stephen McFeely",
+      "castPhotos": {
+        "Chris Evans": "https://image.tmdb.org/t/p/w185/3bOGNsHlrswhyW79uvIHH1V43JI.jpg",
+        "Samuel L. Jackson": "https://image.tmdb.org/t/p/w185/AiAYAqwpM5xmiFrAIeQvUXDCVvo.jpg",
+        "Scarlett Johansson": "https://image.tmdb.org/t/p/w185/tgxYh3jMs5bY2Ub4d2dcp9iaz1R.jpg",
+        "Robert Redford": "https://image.tmdb.org/t/p/w185/m5ayL8ASLdaaFYzqJZNYvrKRuhD.jpg",
+        "Sebastian Stan": "https://image.tmdb.org/t/p/w185/v20RLWst39klatsqUgSrwHxhwee.jpg",
+        "Anthony Mackie": "https://image.tmdb.org/t/p/w185/vecvTm7SimizluJkyIwBxeLbvRm.jpg"
+      },
+      "director": "Joe Russo",
+      "writer": "Stephen McFeely",
+      "releaseDate": "2014-03-20",
+      "year": 2014,
+      "genre": null,
+      "rating": 7.7,
+      "duration": "136 min",
+      "poster": "https://image.tmdb.org/t/p/w500/wP7JcCzpWlX5XeROpf4ox9ZVFT6.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/1RWLMyC9KcFfcaoViMiJGSSZzzr.jpg",
+      "tmdbId": 100402,
+      "tmdbType": "movie",
+      "id": "tmdb-100402",
+      "categories": [
+        "acción",
+        "aventura",
+        "ciencia ficción"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/sh95hbkmrkof",
           "language": "Español"
         }
       ]
