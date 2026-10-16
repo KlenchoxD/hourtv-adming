@@ -3649,6 +3649,76 @@
           "language": "Español"
         }
       ]
+    },
+    {
+      "title": "El amanecer del planeta de los simios",
+      "plot": "Un grupo de simios con grandes cualidades para la supervivencia toma las calles, liderado por César, un simio dotado de una inteligencia y unos instintos superiores para cualquier primate. Ante la necesidad de libertad, esta raza animal decide no doblegarse ante los humanos. Tendrá que luchar contra un grupo de humanos que han sobrevivido a una fuerte epidemia, desatada en la década anterior. Ambas partes han establecido una tregua, pero se verá interrumpida.",
+      "cast": "Andy Serkis, Jason Clarke, Toby Kebbell, Gary Oldman, Keri Russell, Kodi Smit-McPhee, Nick Thurston, Karin Konoval, Terry Notary, Doc Shaw, Judy Greer, Lee Ross, Richard King, Scott Lang, Kirk Acevedo, Jon Eyez, Enrique Murciano, Keir O'Donnell, Kevin Rankin, Jocko Sims, Al Vicente, Matthew James, Deneen Tyler, Mustafa Harris, Lombardo Boyar, Mike Seal, J.D. Evermore, Chase Boltin, Michael Papajohn, Thomas Rosales Jr.",
+      "castPhotos": {
+        "Andy Serkis": "https://image.tmdb.org/t/p/w185/eNGqhebQ4cDssjVeNFrKtUvweV5.jpg",
+        "Jason Clarke": "https://image.tmdb.org/t/p/w185/quH4y2dto3UAgZOfaM0QriyRLPN.jpg",
+        "Toby Kebbell": "https://image.tmdb.org/t/p/w185/mlYytYJvoEHmhDH2enLtES1098Q.jpg",
+        "Gary Oldman": "https://image.tmdb.org/t/p/w185/yhaSM5habNNI1Tf4ALRwRk3VvSZ.jpg",
+        "Keri Russell": "https://image.tmdb.org/t/p/w185/4bLtisDjmCOemk3uC65NAlmdIjz.jpg",
+        "Kodi Smit-McPhee": "https://image.tmdb.org/t/p/w185/sesCWba9NwPDYDZzbVLs7OgLOti.jpg"
+      },
+      "director": "Matt Reeves",
+      "writer": "Amanda Silver",
+      "releaseDate": "2014-07-08",
+      "year": 2014,
+      "genre": null,
+      "rating": 7.3,
+      "duration": "130 min",
+      "poster": "https://image.tmdb.org/t/p/w500/mP5Wr0YkO3EDqc6vkvtdifi7KKI.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/3SozaNPOYUadcmTPgndDibMyDNC.jpg",
+      "tmdbId": 119450,
+      "tmdbType": "movie",
+      "id": "tmdb-119450",
+      "categories": [
+        "ciencia ficción",
+        "acción",
+        "drama"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/ywuw3d7e4q6f",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "El Rey León en el Hollywood Bowl",
+      "plot": "Con motivo del trigésimo aniversario de El rey león, el Hollywood Bowl se transforma en las Tierras del Orgullo para ofrecer un concierto inmersivo. Este evento musical celebra la evolución de la franquicia, desde la película de animación de 1994 hasta el musical ganador de un premio Tony y las películas de live action de 2019 y 2024. El recital rinde homenaje a la música y los personajes que la convirtieron en un fenómeno mundial.",
+      "cast": "Jennifer Hudson, Nathan Lane, Jeremy Irons, Ernie Sabella, Billy Eichner, Jason Weaver, Bradley Gibson, North West, Heather Headley, Lebo M., Elton John, Sarah Hicks, Kris Jenner, Julie Taymor, Hans Zimmer",
+      "castPhotos": {
+        "Jennifer Hudson": "https://image.tmdb.org/t/p/w185/4wpTUqEjHYjDMj0Fv6BvfjeIS1H.jpg",
+        "Nathan Lane": "https://image.tmdb.org/t/p/w185/jLPp3RoDhwOpLimKj3NhhBofPfT.jpg",
+        "Jeremy Irons": "https://image.tmdb.org/t/p/w185/w8Ct1q02Ht3sWdOSqfp3B85TzT.jpg",
+        "Ernie Sabella": "https://image.tmdb.org/t/p/w185/rALAxs5zUfQS3bZrEcns86gCHwI.jpg",
+        "Billy Eichner": "https://image.tmdb.org/t/p/w185/kScO4moqNlDbyCTZuIoBqyaml4l.jpg",
+        "Jason Weaver": "https://image.tmdb.org/t/p/w185/bDmEXma1HQDPrqZCUOaRoJuT6A9.jpg"
+      },
+      "director": "Paul Dugdale",
+      "writer": null,
+      "releaseDate": "2025-02-06",
+      "year": 2025,
+      "genre": null,
+      "rating": 7.3,
+      "duration": "68 min",
+      "poster": "https://image.tmdb.org/t/p/w500/bHpRvgdR2Z3pxHPNwihmiR7KYzX.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/i8zu91n7foXyw4iMpQ90xKk5yvF.jpg",
+      "tmdbId": 1304800,
+      "tmdbType": "movie",
+      "id": "tmdb-1304800",
+      "categories": [],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/dj2ppua5ifat",
+          "language": "Español"
+        }
+      ]
     }
   ],
   "series": [
