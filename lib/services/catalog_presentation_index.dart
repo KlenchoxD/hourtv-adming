@@ -55,7 +55,8 @@ class _IndexedChannel {
   bool matchesType(ContentTypeFilter typeFilter) => switch (typeFilter) {
     ContentTypeFilter.all => true,
     ContentTypeFilter.movies => isMovie,
-    ContentTypeFilter.series => isSeries,
+    // Anime has its own section even though its playback type is series.
+    ContentTypeFilter.series => isSeries && !isAnime,
     ContentTypeFilter.anime => isAnime,
     ContentTypeFilter.novels => isNovel,
   };
@@ -67,10 +68,7 @@ class _IndexedChannel {
 /// que las consultas en la interfaz no realicen normalizaciones ni escaneos
 /// repetitivos en cada build().
 class CatalogPresentationIndex {
-  CatalogPresentationIndex._(
-    this._records,
-    this._genresByType,
-  );
+  CatalogPresentationIndex._(this._records, this._genresByType);
 
   final List<_IndexedChannel> _records;
   final Map<ContentTypeFilter, List<String>> _genresByType;
@@ -114,21 +112,25 @@ class CatalogPresentationIndex {
           .toSet();
 
       final metadataNormalized = HourTvGenreService.normalize(
-        [channel.genre, channel.group, ...channel.categories]
-            .whereType<String>()
-            .join(' '),
+        [
+          channel.genre,
+          channel.group,
+          ...channel.categories,
+        ].whereType<String>().join(' '),
       );
 
-      final isMovie = channel.type == MediaType.movie ||
-          channel.forcedType == 'movie';
-      final isSeries = channel.type == MediaType.series ||
-          channel.forcedType == 'series';
-      final isAnime = metadataNormalized.contains('anime');
-      final isNovel = metadataNormalized.contains('novela') ||
+      final isMovie =
+          channel.type == MediaType.movie || channel.forcedType == 'movie';
+      final isSeries =
+          channel.type == MediaType.series || channel.forcedType == 'series';
+      final isAnime = metadataNormalized.split(' ').contains('anime');
+      final isNovel =
+          metadataNormalized.contains('novela') ||
           metadataNormalized.contains('telenovela');
 
       final isValidArtwork = (channel.backdrop ?? '').trim().isNotEmpty;
-      final isPlayableSource = channel.url.trim().isNotEmpty ||
+      final isPlayableSource =
+          channel.url.trim().isNotEmpty ||
           channel.servers.any((s) => s.url.trim().isNotEmpty);
 
       final parsedYear = int.tryParse(channel.year ?? '') ?? 0;
@@ -192,7 +194,8 @@ class CatalogPresentationIndex {
     // dentro de los anteriores: se filtran esos pocos en vez de recorrer
     // todo el catálogo, y aparecen en el acto.
     final previous = _lastSliceSearch;
-    final narrowing = previous != null &&
+    final narrowing =
+        previous != null &&
         previous.type == query.type &&
         previous.genre == query.genre &&
         query.text.startsWith(previous.text) &&
@@ -301,10 +304,7 @@ class CatalogPresentationIndex {
 
     final qualifiedFeatured = _records
         .where(
-          (r) =>
-              r.channel.isFeatured &&
-              r.isValidArtwork &&
-              r.isPlayableSource,
+          (r) => r.channel.isFeatured && r.isValidArtwork && r.isPlayableSource,
         )
         .toList();
 

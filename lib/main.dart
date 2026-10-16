@@ -30,6 +30,7 @@ import 'services/catalog/catalog_infrastructure.dart';
 import 'services/supabase_bootstrap.dart';
 import 'services/supabase_config.dart';
 import 'services/update_service.dart';
+import 'services/playback_engine_platform_router.dart';
 
 void main() {
   final tBoot = DateTime.now().millisecondsSinceEpoch;
@@ -37,6 +38,9 @@ void main() {
   runZonedGuarded(
     () async {
       WidgetsFlutterBinding.ensureInitialized();
+      // Instala el router por ID sin cargar mpv en frío; el motor secundario
+      // se crea solo si Media3 confirma una incompatibilidad de formato/codec.
+      await PlaybackEnginePlatformRouter.installForAndroid();
       ErrorWidget.builder = (details) =>
           _FatalError(details.exceptionAsString());
 

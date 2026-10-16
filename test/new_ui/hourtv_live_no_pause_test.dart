@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:streamtv/models/channel.dart';
 import 'package:streamtv/new_ui/hourtv_player_screen.dart';
 import 'package:streamtv/services/storage_service.dart';
+import 'package:streamtv/services/ads/ad_config.dart';
 import 'package:video_player_platform_interface/video_player_platform_interface.dart';
 
 import 'hourtv_player_view_type_test.dart' show MockVideoPlayerPlatform;
@@ -28,12 +29,18 @@ void main() {
   setUp(() async {
     SharedPreferences.setMockInitialValues(<String, Object>{});
     await StorageService.init();
+    AdConfig.current = const AdConfig(
+      levelPlay: false,
+      levelPlayAppKey: '',
+      levelPlayInterstitialId: '',
+    );
     originalPlatform = VideoPlayerPlatform.instance;
     platform = _PlaybackPlatform();
     VideoPlayerPlatform.instance = platform;
   });
 
   tearDown(() {
+    AdConfig.current = AdConfig.defaults;
     debugDefaultTargetPlatformOverride = null;
     VideoPlayerPlatform.instance = originalPlatform;
   });

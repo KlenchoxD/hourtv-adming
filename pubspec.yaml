@@ -1,7 +1,7 @@
 name: streamtv
 description: HourTV - App IPTV personal para Android, TV y PC
 publish_to: none
-version: 1.1.44+46
+version: 1.1.47+49
 
 environment:
   sdk: ^3.12.2
@@ -14,6 +14,9 @@ dependencies:
   # Web-only adapter uses the same already-resolved implementation versions.
   video_player_web: 2.4.0
   video_player_platform_interface: 6.8.0
+  media_kit: 1.2.6
+  media_kit_video: 2.0.1
+  media_kit_libs_android_video: 1.3.8
   chewie: ^1.10.0
   http: ^1.4.0
   html: ^0.15.6
@@ -26,6 +29,7 @@ dependencies:
   url_launcher: ^6.3.1
   connectivity_plus: ^6.1.4
   webview_flutter: 4.14.1
+  flutter_inappwebview: 6.1.5
   # Para el iframe del reproductor en la versión web.
   web: ^1.1.1
   flutter_chrome_cast: 1.4.6
@@ -40,10 +44,17 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  integration_test:
+    sdk: flutter
   flutter_lints: ^6.0.0
   drift_dev: 2.35.0
   build_runner: 2.15.1
   postgres: ^3.2.1
+
+dependency_overrides:
+  # Stable 1.1.3, with the two AGP 9 ProGuard defaults updated locally.
+  flutter_inappwebview_android:
+    path: third_party/flutter_inappwebview_android
 
 flutter:
   uses-material-design: true

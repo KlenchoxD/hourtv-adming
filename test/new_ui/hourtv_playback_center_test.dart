@@ -54,6 +54,15 @@ void main() {
     expect(playbackTaps, 0);
   });
 
+  testWidgets(
+    'primary control uses a dark icon on the approved ivory surface',
+    (tester) async {
+      await tester.pumpWidget(screen());
+      final icon = tester.widget<Icon>(find.byIcon(Icons.pause_rounded));
+      expect(icon.color, const Color(0xFF101412));
+    },
+  );
+
   testWidgets('buffering does not force hidden controls to appear', (
     tester,
   ) async {
@@ -72,6 +81,11 @@ void main() {
     await tester.pumpWidget(screen(isBuffering: true));
     expect(find.byIcon(Icons.replay_10_rounded), findsOneWidget);
     await tester.pumpWidget(screen(controlsVisible: false, isBuffering: true));
+    await tester.pump(const Duration(milliseconds: 160));
+    // Still present during the fade, with only one independent spinner.
+    expect(find.byIcon(Icons.replay_10_rounded), findsOneWidget);
+    expect(find.byType(CircularProgressIndicator), findsOneWidget);
+    await tester.pump(const Duration(milliseconds: 200));
     expect(find.byIcon(Icons.replay_10_rounded), findsNothing);
     expect(find.byType(CircularProgressIndicator), findsOneWidget);
     await tester.pumpWidget(screen(isBuffering: true));

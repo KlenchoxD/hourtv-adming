@@ -2,6 +2,7 @@ import java.util.Properties
 
 plugins {
     id("com.android.application")
+    id("com.chaquo.python")
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
 }
@@ -66,6 +67,13 @@ android {
 
     buildTypes {
         release {
+            // Rhino exposes optional JavaBeans converters that Android does
+            // not provide. Suppress only those absent desktop-only classes
+            // so R8 can finish the release build without weakening shrinking.
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro",
+            )
             signingConfig = if (hasReleaseKeystore) {
                 signingConfigs.getByName("release")
             } else {
@@ -82,6 +90,13 @@ kotlin {
 }
 
 dependencies {
+    // Host-specific direct-stream extraction. Kept behind HourTV's own bridge
+    // so provider-library changes do not alter the native player contract.
+    implementation("io.github.darkryh.moongetter:moongetter-core:2.0.0-alpha02")
+    implementation("io.github.darkryh.moongetter:moongetter-server-bundle:2.0.0-alpha02")
+    implementation("io.github.darkryh.moongetter:moongetter-client-ktor:2.0.0-alpha02")
+    implementation("io.ktor:ktor-client-okhttp:3.2.1")
+    implementation("androidx.webkit:webkit:1.15.0")
     implementation("androidx.appcompat:appcompat:1.7.1")
     implementation("androidx.mediarouter:mediarouter:1.8.1")
     implementation("com.google.android.gms:play-services-cast-framework:21.5.0")
@@ -95,4 +110,21 @@ dependencies {
 
 flutter {
     source = "../.."
+}
+
+chaquopy {
+    defaultConfig {
+        version = "3.11"
+        val configuredPython = providers.environmentVariable("HOURTV_BUILD_PYTHON").orNull
+        if (configuredPython != null) {
+            buildPython(configuredPython)
+        } else if (System.getProperty("os.name").startsWith("Windows")) {
+            buildPython("py", "-3.11")
+        } else {
+            buildPython("python3.11")
+        }
+        pip {
+            install("yt-dlp==2026.8.19")
+        }
+    }
 }

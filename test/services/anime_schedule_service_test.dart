@@ -36,6 +36,47 @@ XtreamSeries series({
 void main() {
   setUp(() => SharedPreferences.setMockInitialValues({}));
   test(
+    'calendar links an explicitly related anime season to its catalog series',
+    () {
+      final item = series(name: 'Black Clover');
+      final payload = media(195604, name: 'Black Clover 2nd Season');
+      payload['relations'] = {
+        'edges': [
+          {
+            'relationType': 'PREQUEL',
+            'node': {
+              'id': 97940,
+              'type': 'ANIME',
+              'title': {'romaji': 'Black Clover'},
+              'synonyms': [],
+            },
+          },
+        ],
+      };
+      expect(
+        AnimeCatalogIndex([item]).match(AnimeAiringMedia.fromJson(payload)),
+        same(item),
+      );
+      payload['relations'] = {
+        'edges': [
+          {
+            'relationType': 'ALTERNATIVE',
+            'node': {
+              'id': 97940,
+              'type': 'ANIME',
+              'title': {'romaji': 'Black Clover'},
+              'synonyms': [],
+            },
+          },
+        ],
+      };
+      expect(
+        AnimeCatalogIndex([item]).match(AnimeAiringMedia.fromJson(payload)),
+        isNull,
+      );
+    },
+  );
+  test(
     'explicit different AniList id cannot be overridden by a similar title',
     () {
       final index = AnimeCatalogIndex([series(id: 999)]);

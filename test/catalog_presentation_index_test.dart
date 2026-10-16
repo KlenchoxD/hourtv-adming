@@ -61,55 +61,101 @@ void main() {
 
   test('search combines text type genre and sort', () {
     final index = CatalogPresentationIndex.build(sampleCatalog);
-    final result = index.search(const CatalogQuery(
-      text: 'misterio',
-      type: ContentTypeFilter.series,
-      genre: 'Drama',
-      sort: CatalogSort.titleAscending,
-    ));
-    expect(result.map((e) => e.name), orderedEquals(['Caso Alfa', 'Caso Beta']));
+    final result = index.search(
+      const CatalogQuery(
+        text: 'misterio',
+        type: ContentTypeFilter.series,
+        genre: 'Drama',
+        sort: CatalogSort.titleAscending,
+      ),
+    );
+    expect(
+      result.map((e) => e.name),
+      orderedEquals(['Caso Alfa', 'Caso Beta']),
+    );
+  });
+
+  test('anime tagged as series appears only in the Anime filter', () {
+    final anime = Channel(
+      name: 'Black Clover',
+      url: 'https://anime.example/black-clover/episode-1',
+      category: 'series',
+      categories: const ['Anime'],
+      forcedType: 'series',
+    );
+    final regularSeries = Channel(
+      name: 'Caso Alfa',
+      url: 'https://example.com/series/caso-alfa',
+      forcedType: 'series',
+      categories: const ['Drama'],
+    );
+    final index = CatalogPresentationIndex.build([anime, regularSeries]);
+
+    expect(
+      index
+          .search(const CatalogQuery(type: ContentTypeFilter.series))
+          .map((channel) => channel.name),
+      ['Caso Alfa'],
+    );
+    expect(
+      index
+          .search(const CatalogQuery(type: ContentTypeFilter.anime))
+          .map((channel) => channel.name),
+      ['Black Clover'],
+    );
+    expect(index.genresFor(ContentTypeFilter.series), isNot(contains('Anime')));
   });
 
   test('featured requires flag artwork and playable source', () {
     final result = CatalogPresentationIndex.build(sampleCatalog).featured();
     expect(result.isNotEmpty, isTrue);
     expect(
-      result.every((item) =>
-          item.isFeatured &&
-          (item.backdrop ?? '').trim().isNotEmpty &&
-          item.url.trim().isNotEmpty),
+      result.every(
+        (item) =>
+            item.isFeatured &&
+            (item.backdrop ?? '').trim().isNotEmpty &&
+            item.url.trim().isNotEmpty,
+      ),
       isTrue,
     );
-    expect(result.any((item) => item.name == 'Destacado Sin Backdrop'), isFalse);
+    expect(
+      result.any((item) => item.name == 'Destacado Sin Backdrop'),
+      isFalse,
+    );
     expect(result.any((item) => item.name == 'Destacado Sin URL'), isFalse);
   });
 
-  test('featured returns empty when nothing is marked Destacado (no silent fallback)', () {
-    final catalogWithoutFeatured = [
-      Channel(
-        name: 'Incompleto 1',
-        url: '',
-        backdrop: 'https://example.com/bg1.jpg',
-        isFeatured: false,
-      ),
-      Channel(
-        name: 'Completo B',
-        url: 'https://example.com/b.mp4',
-        backdrop: 'https://example.com/b.jpg',
-        year: '2022',
-        isFeatured: false,
-      ),
-      Channel(
-        name: 'Completo A',
-        url: 'https://example.com/a.mp4',
-        backdrop: 'https://example.com/a.jpg',
-        year: '2024',
-        isFeatured: false,
-      ),
-    ];
-    final result = CatalogPresentationIndex.build(catalogWithoutFeatured).featured(limit: 2);
-    expect(result, isEmpty);
-  });
+  test(
+    'featured returns empty when nothing is marked Destacado (no silent fallback)',
+    () {
+      final catalogWithoutFeatured = [
+        Channel(
+          name: 'Incompleto 1',
+          url: '',
+          backdrop: 'https://example.com/bg1.jpg',
+          isFeatured: false,
+        ),
+        Channel(
+          name: 'Completo B',
+          url: 'https://example.com/b.mp4',
+          backdrop: 'https://example.com/b.jpg',
+          year: '2022',
+          isFeatured: false,
+        ),
+        Channel(
+          name: 'Completo A',
+          url: 'https://example.com/a.mp4',
+          backdrop: 'https://example.com/a.jpg',
+          year: '2024',
+          isFeatured: false,
+        ),
+      ];
+      final result = CatalogPresentationIndex.build(
+        catalogWithoutFeatured,
+      ).featured(limit: 2);
+      expect(result, isEmpty);
+    },
+  );
 
   test('genresFor returns sorted genres with defaultGenre first', () {
     final index = CatalogPresentationIndex.build(sampleCatalog);
@@ -119,48 +165,74 @@ void main() {
     expect(seriesGenres.contains('Terror'), isTrue);
   });
 
-  test('normalizationCountForTest does not increase after index construction', () {
-    final largeCatalog = List.generate(
-      10000,
-      (i) => Channel(
-        name: 'Título $i',
-        url: 'https://example.com/video/$i.mp4',
-        genre: i % 2 == 0 ? 'Acción' : 'Comedia',
-        year: '${2000 + (i % 25)}',
-        forcedType: i % 2 == 0 ? 'movie' : 'series',
-      ),
-    );
+  test(
+    'normalizationCountForTest does not increase after index construction',
+    () {
+      final largeCatalog = List.generate(
+        10000,
+        (i) => Channel(
+          name: 'Título $i',
+          url: 'https://example.com/video/$i.mp4',
+          genre: i % 2 == 0 ? 'Acción' : 'Comedia',
+          year: '${2000 + (i % 25)}',
+          forcedType: i % 2 == 0 ? 'movie' : 'series',
+        ),
+      );
 
-    final index = CatalogPresentationIndex.build(largeCatalog);
-    final countAfterBuild = HourTvGenreService.normalizationCountForTest;
+      final index = CatalogPresentationIndex.build(largeCatalog);
+      final countAfterBuild = HourTvGenreService.normalizationCountForTest;
 
-    for (var i = 0; i < 20; i++) {
-      index.search(const CatalogQuery(
-        type: ContentTypeFilter.movies,
-        sort: CatalogSort.titleAscending,
-      ));
-    }
+      for (var i = 0; i < 20; i++) {
+        index.search(
+          const CatalogQuery(
+            type: ContentTypeFilter.movies,
+            sort: CatalogSort.titleAscending,
+          ),
+        );
+      }
 
-    expect(HourTvGenreService.normalizationCountForTest, equals(countAfterBuild));
-  });
+      expect(
+        HourTvGenreService.normalizationCountForTest,
+        equals(countAfterBuild),
+      );
+    },
+  );
 
-  test('buscar por tandas al seguir escribiendo da lo mismo que buscar desde cero', () async {
-    TestWidgetsFlutterBinding.ensureInitialized();
-    final channels = [
-      for (final n in ['Batman', 'Batman Begins', 'Batalla final', 'Robin', 'La Liga Batman'])
-        Channel(name: n, url: 'https://x.test/$n', forcedType: 'movie'),
-    ];
-    final index = CatalogPresentationIndex.build(channels);
-    List<String> names(List<Channel>? l) => l!.map((c) => c.name).toList();
-    Future<List<String>> sliced(String text) async => names(
-      await index.searchInSlices(CatalogQuery(text: text), isStale: () => false),
-    );
+  test(
+    'buscar por tandas al seguir escribiendo da lo mismo que buscar desde cero',
+    () async {
+      TestWidgetsFlutterBinding.ensureInitialized();
+      final channels = [
+        for (final n in [
+          'Batman',
+          'Batman Begins',
+          'Batalla final',
+          'Robin',
+          'La Liga Batman',
+        ])
+          Channel(name: n, url: 'https://x.test/$n', forcedType: 'movie'),
+      ];
+      final index = CatalogPresentationIndex.build(channels);
+      List<String> names(List<Channel>? l) => l!.map((c) => c.name).toList();
+      Future<List<String>> sliced(String text) async => names(
+        await index.searchInSlices(
+          CatalogQuery(text: text),
+          isStale: () => false,
+        ),
+      );
 
-    await sliced('bat');
-    await sliced('batm');
-    expect(await sliced('batman'), names(index.search(const CatalogQuery(text: 'batman'))));
-    // Borrar letras vuelve a buscar en todo el catálogo.
-    expect(await sliced('bat'), names(index.search(const CatalogQuery(text: 'bat'))));
-    expect(await sliced('bat'), contains('Batalla final'));
-  });
+      await sliced('bat');
+      await sliced('batm');
+      expect(
+        await sliced('batman'),
+        names(index.search(const CatalogQuery(text: 'batman'))),
+      );
+      // Borrar letras vuelve a buscar en todo el catálogo.
+      expect(
+        await sliced('bat'),
+        names(index.search(const CatalogQuery(text: 'bat'))),
+      );
+      expect(await sliced('bat'), contains('Batalla final'));
+    },
+  );
 }

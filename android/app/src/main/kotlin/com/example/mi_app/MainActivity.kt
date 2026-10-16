@@ -17,6 +17,9 @@ class MainActivity : FlutterActivity() {
     private val channel = "hourtv/device"
     private var multicastLock: android.net.wifi.WifiManager.MulticastLock? = null
     private var deviceChannel: MethodChannel? = null
+    private var providerResolver: ProviderStreamResolver? = null
+    private var ytDlpResolver: YtDlpResolver? = null
+    private var moonGetterResolver: MoonGetterResolver? = null
     // Mientras se transmite a un TV, los botones de volumen lo controlan.
     private var remoteVolumeKeys = false
 
@@ -43,6 +46,61 @@ class MainActivity : FlutterActivity() {
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
+        providerResolver = ProviderStreamResolver(this)
+        ytDlpResolver = YtDlpResolver(this)
+        moonGetterResolver = MoonGetterResolver()
+        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "hourtv/moongetter")
+            .setMethodCallHandler { call, result ->
+                when (call.method) {
+                    "resolve" -> moonGetterResolver?.resolve(
+                        call.argument<String>("url").orEmpty(),
+                        call.argument<Number>("requestId")?.toLong() ?: 0L,
+                        result,
+                    ) ?: result.success(mapOf("status" to "failed"))
+                    "cancel" -> {
+                        moonGetterResolver?.cancel(
+                            call.argument<Number>("requestId")?.toLong() ?: 0L,
+                        )
+                        result.success(null)
+                    }
+                    else -> result.notImplemented()
+                }
+            }
+        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "hourtv/yt_dlp")
+            .setMethodCallHandler { call, result ->
+                when (call.method) {
+                    "resolve" -> ytDlpResolver?.resolve(
+                        call.argument<String>("url").orEmpty(),
+                        call.argument<Number>("requestId")?.toLong() ?: 0L,
+                        result,
+                    )
+                        ?: result.success(null)
+                    "cancel" -> {
+                        ytDlpResolver?.cancel(
+                            call.argument<Number>("requestId")?.toLong() ?: 0L,
+                        )
+                        result.success(null)
+                    }
+                    else -> result.notImplemented()
+                }
+            }
+        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "hourtv/provider_stream")
+            .setMethodCallHandler { call, result ->
+                when (call.method) {
+                    "resolve" -> providerResolver?.resolve(
+                        call.argument<String>("url").orEmpty(),
+                        call.argument<Number>("requestId")?.toLong() ?: 0L,
+                        result,
+                    ) ?: result.success(null)
+                    "cancel" -> {
+                        providerResolver?.cancel(
+                            call.argument<Number>("requestId")?.toLong() ?: 0L,
+                        )
+                        result.success(null)
+                    }
+                    else -> result.notImplemented()
+                }
+            }
         val methods = MethodChannel(flutterEngine.dartExecutor.binaryMessenger, channel)
         deviceChannel = methods
         methods.setMethodCallHandler { call, result ->
@@ -150,5 +208,15 @@ class MainActivity : FlutterActivity() {
     private fun isTelevision(): Boolean {
         val uiModeManager = getSystemService(Context.UI_MODE_SERVICE) as? UiModeManager
         return uiModeManager?.currentModeType == Configuration.UI_MODE_TYPE_TELEVISION
+    }
+
+    override fun onDestroy() {
+        ytDlpResolver?.dispose()
+        ytDlpResolver = null
+        moonGetterResolver?.dispose()
+        moonGetterResolver = null
+        providerResolver?.dispose()
+        providerResolver = null
+        super.onDestroy()
     }
 }

@@ -42,6 +42,8 @@ class AnimeAiringMedia {
     required this.status,
     this.poster,
     this.adult = false,
+    this.prequelAliases = const {},
+    this.prequelIds = const {},
   });
   final int id;
   final String title;
@@ -49,6 +51,8 @@ class AnimeAiringMedia {
   final String status;
   final String? poster;
   final bool adult;
+  final Set<String> prequelAliases;
+  final Set<int> prequelIds;
 
   String? get statusLabel => switch (status) {
     'RELEASING' => 'En emisión',
@@ -67,6 +71,13 @@ class AnimeAiringMedia {
       names['native'],
       ...?json['synonyms'] as List?,
     ].whereType<String>().where((s) => s.trim().isNotEmpty).toList();
+    final prequels =
+        ((json['relations'] as Map?)?['edges'] as List? ?? const [])
+            .whereType<Map>()
+            .where((edge) => edge['relationType'] == 'PREQUEL')
+            .map((edge) => edge['node'])
+            .whereType<Map>()
+            .where((node) => node['type'] == 'ANIME');
     return AnimeAiringMedia(
       id: (json['id'] as num).toInt(),
       title: allNames.firstOrNull ?? 'Anime',
@@ -74,6 +85,19 @@ class AnimeAiringMedia {
       status: json['status']?.toString() ?? '',
       poster: (json['coverImage'] as Map?)?['large']?.toString(),
       adult: json['isAdult'] == true,
+      prequelIds: prequels
+          .map((node) => node['id'])
+          .whereType<num>()
+          .map((id) => id.toInt())
+          .toSet(),
+      prequelAliases: {
+        for (final node in prequels)
+          for (final name in [
+            ...(node['title'] as Map? ?? const {}).values,
+            ...?node['synonyms'] as List?,
+          ].whereType<String>())
+            normalizeAnimeTitle(name),
+      }..remove(''),
     );
   }
 }
@@ -123,7 +147,16 @@ class AnimeCatalogIndex {
     final candidates = <XtreamSeries>{
       for (final alias in media.aliases) ...?_aliases[alias],
     };
-    return candidates.length == 1 ? candidates.single : null;
+    if (candidates.isNotEmpty) {
+      return candidates.length == 1 ? candidates.single : null;
+    }
+    // A catalog can group multiple seasons under the original series title.
+    // Only provider-confirmed PREQUEL relationships can link that identity.
+    final related = <XtreamSeries>{
+      for (final id in media.prequelIds) ...?_ids[id],
+      for (final alias in media.prequelAliases) ...?_aliases[alias],
+    };
+    return related.length == 1 ? related.single : null;
   }
 }
 
@@ -147,9 +180,10 @@ class AnimeScheduleService {
   final DateTime Function() _now;
   final _pending = <String, Future<AnimeScheduleResult>>{};
   final _lookups = <String, ({DateTime at, Future<AnimeAiringMedia?> value})>{};
-  static const _prefix = 'hourtv.anime-calendar.v1.';
+  static const _prefix = 'hourtv.anime-calendar.v2.';
   static const _fields = '''id status title { romaji english native }
-    synonyms isAdult coverImage { large }''';
+    synonyms isAdult coverImage { large }
+    relations { edges { relationType node { id type title { romaji english native } synonyms } } }''';
 
   static DateTime weekStart(DateTime date) {
     final local = date.toLocal();

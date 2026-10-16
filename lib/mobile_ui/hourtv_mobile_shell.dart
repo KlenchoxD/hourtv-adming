@@ -578,7 +578,7 @@ class _HourTvMobileHomeState extends State<HourTvMobileHome> {
       return _memoizedFallbackFeatured!;
     }
     _lastAllContentRef = allContent;
-    _memoizedFallbackFeatured = const [];
+    // Keep the last complete hero until its replacement index is ready.
     compute(CatalogPresentationIndex.build, allContent)
         .then((index) {
           if (!mounted || !identical(_lastAllContentRef, allContent)) return;
@@ -587,7 +587,7 @@ class _HourTvMobileHomeState extends State<HourTvMobileHome> {
         .catchError((Object error) {
           debugPrint('Featured index failed: ${error.runtimeType}');
         });
-    return const [];
+    return _memoizedFallbackFeatured ?? const [];
   }
 
   @override

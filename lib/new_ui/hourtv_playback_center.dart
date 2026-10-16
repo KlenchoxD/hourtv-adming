@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'hourtv_mobile_player_chrome.dart';
 
 /// Presentation only: buffering never changes playback or control visibility.
 /// The caller owns the tap-to-show/auto-hide policy and the video controller.
@@ -22,12 +23,7 @@ class HourTvPlaybackCenter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (!controlsVisible) {
-      return isBuffering
-          ? const Center(child: _BufferingIndicator())
-          : const SizedBox.shrink();
-    }
-    return Center(
+    final controls = Center(
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -36,10 +32,10 @@ class HourTvPlaybackCenter extends StatelessWidget {
             label: 'Retroceder 10 segundos',
             onTap: onSeekBackward,
           ),
-          const SizedBox(width: 36),
+          const SizedBox(width: 28),
           // Same footprint in both states; no layered pause icon and spinner.
           if (isBuffering)
-            const _BufferingIndicator()
+            const SizedBox.square(dimension: 76)
           else
             _Control(
               icon: isPlaying ? Icons.pause_rounded : Icons.play_arrow_rounded,
@@ -48,7 +44,7 @@ class HourTvPlaybackCenter extends StatelessWidget {
               filled: true,
               onTap: onTogglePlayback,
             ),
-          const SizedBox(width: 36),
+          const SizedBox(width: 28),
           _Control(
             icon: Icons.forward_10_rounded,
             label: 'Adelantar 10 segundos',
@@ -56,6 +52,21 @@ class HourTvPlaybackCenter extends StatelessWidget {
           ),
         ],
       ),
+    );
+    // The spinner has its own lifecycle: hiding the chrome fades seek buttons
+    // without fading, duplicating or recreating the buffering indicator.
+    // Replacing the primary button with a spacer is synchronous, so pause can
+    // never remain underneath a spinner during a transition.
+    return Stack(
+      children: [
+        Positioned.fill(
+          child: PlayerChromeVisibility(
+            visible: controlsVisible,
+            child: controls,
+          ),
+        ),
+        if (isBuffering) const Center(child: _BufferingIndicator()),
+      ],
     );
   }
 }
@@ -112,18 +123,28 @@ class _Control extends StatelessWidget {
   Widget build(BuildContext context) => Tooltip(
     message: label,
     child: Material(
-      color: filled ? const Color(0x33FFFFFF) : Colors.transparent,
-      shape: CircleBorder(
-        side: filled
-            ? const BorderSide(color: Color(0x55FFFFFF))
-            : BorderSide.none,
-      ),
+      color: Colors.transparent,
+      shape: const CircleBorder(),
       child: InkWell(
         customBorder: const CircleBorder(),
         onTap: onTap,
         child: SizedBox.square(
           dimension: size,
-          child: Icon(icon, color: Colors.white, size: size * .56),
+          child: Center(
+            child: Container(
+              width: filled ? size - 10 : size,
+              height: filled ? size - 10 : size,
+              decoration: BoxDecoration(
+                color: filled ? const Color(0xFFF6F4EF) : Colors.transparent,
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                icon,
+                color: filled ? const Color(0xFF101412) : Colors.white,
+                size: filled ? 34 : 30,
+              ),
+            ),
+          ),
         ),
       ),
     ),

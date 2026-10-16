@@ -1,24 +1,49 @@
+import 'dart:async' show TimeoutException;
 import 'dart:convert';
+import 'dart:io' show HandshakeException, HttpException, SocketException;
 
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:html/parser.dart' as html_parser;
+import 'package:video_player/video_player.dart';
+import 'provider_stream_bridge.dart';
+import 'extraction_engine.dart';
+import 'subtitles/hourtv_subtitle_track.dart';
+import 'webflux_stream_resolver.dart';
 
 /// Stream directo extraído de una página embed, con las cabeceras que su CDN
 /// exige (Referer/User-Agent), para reproducirlo nativo en ExoPlayer.
 class ResolvedStream {
   final String url;
   final Map<String, String> headers;
-  const ResolvedStream(this.url, this.headers);
+  final VideoFormat? formatHint;
+  final List<HourTvSubtitleTrack> subtitleTracks;
+
+  /// Releases playback-scoped resources after the native decoder is closed.
+  final Future<void> Function()? release;
+  const ResolvedStream(
+    this.url,
+    this.headers, {
+    this.formatHint,
+    this.subtitleTracks = const [],
+    this.release,
+  });
 }
 
 /// Resultado de inspeccionar un embed: puede ser un stream reproducible de
-/// forma nativa o un destino web verificado que debe abrirse en el WebView.
+/// forma nativa o un destino verificado pendiente de resolución.
 class EmbedResolution {
   final ResolvedStream? stream;
   final String? safeWebUrl;
+  final bool terminalFailure;
+  final bool retryableFailure;
 
-  const EmbedResolution({this.stream, this.safeWebUrl});
+  const EmbedResolution({
+    this.stream,
+    this.safeWebUrl,
+    this.terminalFailure = false,
+    this.retryableFailure = false,
+  });
 }
 
 /// Resuelve enlaces embed (streamwish, vidhide, filemoon, dood y clones de
@@ -26,7 +51,7 @@ class EmbedResolution {
 /// descarga la página, desempaqueta el JS "p,a,c,k,e,d" y extrae la fuente.
 ///
 /// No ejecuta JavaScript: el packer es una sustitución determinista de texto.
-/// Si no logra resolver, devuelve null y el reproductor usa el WebView.
+/// Si no logra resolver, devuelve null para probar el siguiente servidor.
 class EmbedResolver {
   EmbedResolver._();
 
@@ -46,26 +71,246 @@ class EmbedResolver {
     return (await resolveForPlayback(embedUrl)).stream;
   }
 
-  static Future<EmbedResolution> resolveForPlayback(String embedUrl) async {
+  static Future<EmbedResolution> resolveForPlayback(
+    String embedUrl, {
+    http.Client? client,
+    ExtractionRequest? request,
+    WebfluxStreamResolver? webfluxResolver,
+  }) async {
+    embedUrl = _normalizeVoePlaybackUrl(embedUrl);
+    final resolverRequestId = ProviderStreamBridge.newResolverRequestId();
+    EmbedResolution? unresolvedFailure;
+    WebfluxStreamResolver? activeWebfluxResolver;
+    final engine = ExtractionEngine<EmbedResolution>([
+      ExtractorAdapter(
+        id: 'webflux-local-hls',
+        supports: (uri) =>
+            !kIsWeb &&
+            defaultTargetPlatform == TargetPlatform.android &&
+            WebfluxStreamResolver.supports(uri),
+        timeout: const Duration(seconds: 25),
+        cancel: () => activeWebfluxResolver?.disposeAll(),
+        extract: (uri) async {
+          final resolver = webfluxResolver ?? WebfluxStreamResolver();
+          activeWebfluxResolver = resolver;
+          try {
+            final url = await resolver.resolveToLocalM3u8(
+              uri.toString(),
+              request: request,
+            );
+            return EmbedResolution(
+              stream: ResolvedStream(
+                url,
+                const {},
+                formatHint: VideoFormat.hls,
+                release: resolver.disposeAll,
+              ),
+            );
+          } on WebfluxResolutionCancelled {
+            return const EmbedResolution();
+          } on WebfluxResolutionException catch (error) {
+            return EmbedResolution(
+              terminalFailure: !error.retryable,
+              retryableFailure: error.retryable,
+            );
+          } catch (_) {
+            await resolver.disposeAll();
+            // This provider is handled here; a temporary capture/CDN failure
+            // must not send its SPA through unrelated generic extractors.
+            return const EmbedResolution(retryableFailure: true);
+          }
+        },
+      ),
+      ExtractorAdapter(
+        id: 'moongetter-native',
+        supports: (uri) => uri.scheme == 'https',
+        timeout: const Duration(seconds: 10),
+        cancel: () => ProviderStreamBridge.cancelMoonGetter(resolverRequestId),
+        extract: (uri) async {
+          final result = await ProviderStreamBridge.resolveMoonGetter(
+            uri.toString(),
+            requestId: resolverRequestId,
+          );
+          if (result == null || !result.recognized) {
+            throw const UnsupportedExtractionException();
+          }
+          final source = result.stream;
+          if (source == null) {
+            final failure = EmbedResolution(
+              terminalFailure: !result.retryableFailure,
+              retryableFailure: result.retryableFailure,
+            );
+            if (uri.host == 'voe.sx') {
+              // The pinned native extractor recognizes VOE but can return no
+              // variant. Our independent VOE parser must still get a chance;
+              // a recognized host is not itself a resolved playback source.
+              unresolvedFailure = failure;
+              debugPrint('[PLAYER] voe_native_miss trying=static-embed');
+              return null;
+            }
+            return failure;
+          }
+          return EmbedResolution(
+            stream: ResolvedStream(
+              source.url,
+              source.headers,
+              formatHint: source.formatHint,
+              subtitleTracks: source.subtitleTracks,
+            ),
+          );
+        },
+      ),
+      ExtractorAdapter(
+        id: 'byse-session',
+        supports: (uri) =>
+            uri.scheme == 'https' &&
+            uri.host == 'byseraguci.com' &&
+            uri.path.startsWith('/e/'),
+        // The provider's normal page is inspected only for this known host.
+        // Do this before generic resolvers so it does not pay their timeouts.
+        // Playback itself remains in the native player.
+        timeout: const Duration(seconds: 145),
+        cancel: () => ProviderStreamBridge.cancelResolver(resolverRequestId),
+        extract: (uri) async {
+          final source = await ProviderStreamBridge.resolve(
+            uri.toString(),
+            requestId: resolverRequestId,
+          );
+          return source == null
+              ? EmbedResolution(safeWebUrl: uri.toString())
+              : EmbedResolution(
+                  stream: ResolvedStream(
+                    source.url,
+                    source.headers,
+                    formatHint: source.formatHint,
+                    subtitleTracks: source.subtitleTracks,
+                  ),
+                );
+        },
+      ),
+      ExtractorAdapter(
+        id: 'static-embed',
+        // A root-page fragment is client-side state: HTTP never receives it.
+        // Only a host-specific adapter can use such an ID, so avoid fetching
+        // the same generic shell and then handing it to yt-dlp.
+        supports: (uri) => !_isRootFragmentReference(uri),
+        timeout: const Duration(seconds: 210),
+        extract: (uri) async {
+          final result = await _resolveStatic(
+            uri.toString(),
+            client: client,
+            request: request,
+          );
+          final hasDestination =
+              result.stream != null || result.safeWebUrl != null;
+          if (!hasDestination &&
+              (result.terminalFailure || result.retryableFailure)) {
+            unresolvedFailure = result;
+          }
+          // A failure value is not an extracted destination. Returning it as
+          // non-null makes ExtractionEngine stop before yt-dlp can try the
+          // same HTTPS page with its independent extractor.
+          return hasDestination ? result : null;
+        },
+      ),
+      ExtractorAdapter(
+        id: 'yt-dlp-local',
+        supports: (uri) =>
+            uri.scheme == 'https' && !_isRootFragmentReference(uri),
+        timeout: const Duration(seconds: 35),
+        cancel: () => ProviderStreamBridge.cancelYtDlp(resolverRequestId),
+        extract: (uri) async {
+          final source = await ProviderStreamBridge.resolveYtDlp(
+            uri.toString(),
+            requestId: resolverRequestId,
+          );
+          return source == null
+              ? null
+              : EmbedResolution(
+                  stream: ResolvedStream(
+                    source.url,
+                    source.headers,
+                    formatHint: source.formatHint,
+                    subtitleTracks: source.subtitleTracks,
+                  ),
+                );
+        },
+      ),
+    ]);
+    final result = await engine.resolve(embedUrl, request: request);
+    final stream = result.value?.stream;
+    if (stream != null) {
+      final host = Uri.tryParse(stream.url)?.host ?? 'unknown';
+      debugPrint(
+        '[PLAYER] embed_resolved extractor=${result.extractorId ?? 'unknown'} '
+        'host=$host',
+      );
+    } else if (result.value?.terminalFailure == true ||
+        unresolvedFailure?.terminalFailure == true) {
+      debugPrint(
+        '[PLAYER] embed_terminal_failure extractor=${result.extractorId ?? 'unknown'}',
+      );
+    } else if (result.value?.retryableFailure == true ||
+        unresolvedFailure?.retryableFailure == true ||
+        result.status == ExtractionStatus.timedOut) {
+      debugPrint(
+        '[PLAYER] embed_retryable_failure extractor=${result.extractorId ?? 'unknown'}',
+      );
+    } else {
+      debugPrint(
+        '[PLAYER] embed_unresolved status=${result.status.name} '
+        'extractor=${result.extractorId ?? 'none'}',
+      );
+    }
+    if (result.value != null) return result.value!;
+    if (result.status == ExtractionStatus.cancelled) {
+      return const EmbedResolution();
+    }
+    if (result.status == ExtractionStatus.timedOut) {
+      return const EmbedResolution(retryableFailure: true);
+    }
+    return unresolvedFailure ??
+        EmbedResolution(
+          terminalFailure:
+              result.status == ExtractionStatus.unsupported ||
+              result.status == ExtractionStatus.failed,
+        );
+  }
+
+  static Future<EmbedResolution> _resolveStatic(
+    String embedUrl, {
+    http.Client? client,
+    ExtractionRequest? request,
+  }) async {
     final origin = _origin(embedUrl);
     try {
-      final res = await http
-          .get(
-            Uri.parse(embedUrl),
-            headers: {
-              'User-Agent': _ua,
-              'Referer': origin,
-              'Accept': 'text/html,application/xhtml+xml,*/*',
-            },
-          )
-          .timeout(const Duration(seconds: 15));
+      final res = await (client?.get ?? http.get)(
+        Uri.parse(embedUrl),
+        headers: {
+          'User-Agent': _ua,
+          'Referer': origin,
+          'Accept': 'text/html,application/xhtml+xml,*/*',
+        },
+      ).timeout(const Duration(seconds: 15));
       if (res.statusCode != 200 || res.body.isEmpty) {
+        final retryable = _isRetryableHttpStatus(res.statusCode);
         debugPrint(
           '[PLAYER] embed_http ${res.statusCode} host=${Uri.parse(embedUrl).host}',
         );
-        return const EmbedResolution();
+        return EmbedResolution(
+          terminalFailure: !retryable,
+          retryableFailure: retryable,
+        );
       }
       final html = res.body;
+      if (Uri.parse(embedUrl).host == 'mp4.nu') {
+        return _resolveMp4Wrapper(
+          embedUrl,
+          html,
+          client: client,
+          request: request,
+        );
+      }
       if (_isOkRu(embedUrl)) {
         return EmbedResolution(stream: _okRuSource(html, embedUrl));
       }
@@ -106,7 +351,112 @@ class EmbedResolver {
       );
     } catch (e) {
       debugPrint('[PLAYER] embed_error ${e.runtimeType}');
+      final retryable =
+          request?.isCancelled != true && _isTransientNetworkFailure(e);
+      return EmbedResolution(
+        terminalFailure: !retryable && request?.isCancelled != true,
+        retryableFailure: retryable,
+      );
+    }
+  }
+
+  static bool _isRootFragmentReference(Uri uri) =>
+      uri.fragment.isNotEmpty &&
+      (uri.path.isEmpty || uri.path == '/') &&
+      uri.query.isEmpty;
+
+  /// VOE's public file URL and embed URL share an ID, but their redirect pages
+  /// are not interchangeable. Normalize only the exact HTTPS file route;
+  /// signed/query URLs, aliases and other providers must remain untouched.
+  static String _normalizeVoePlaybackUrl(String url) {
+    final uri = Uri.tryParse(url);
+    if (uri == null ||
+        uri.scheme != 'https' ||
+        uri.host != 'voe.sx' ||
+        uri.userInfo.isNotEmpty ||
+        uri.hasPort ||
+        uri.hasQuery ||
+        uri.hasFragment ||
+        !RegExp(r'^/[a-zA-Z0-9]{8,}$').hasMatch(uri.path)) {
+      return url;
+    }
+    return uri.replace(path: '/e${uri.path}').toString();
+  }
+
+  static bool _isRetryableHttpStatus(int status) =>
+      status == 408 || status == 425 || status == 429 || status >= 500;
+
+  static bool _isTransientNetworkFailure(Object error) =>
+      error is TimeoutException ||
+      error is SocketException ||
+      error is HttpException ||
+      error is HandshakeException ||
+      error is http.ClientException;
+
+  /// Follow only the observed mp4.nu handoff, never arbitrary page scripts.
+  static Future<EmbedResolution> _resolveMp4Wrapper(
+    String source,
+    String html, {
+    http.Client? client,
+    ExtractionRequest? request,
+  }) async {
+    final match = RegExp(
+      r'''window\.location\.replace\(\s*["']([^"']+)["']\s*\)''',
+    ).firstMatch(html);
+    if (match == null) return const EmbedResolution();
+    final origin = Uri.parse(source);
+    var next = origin.resolve(match.group(1)!);
+    if (next.scheme != 'https' ||
+        next.host != 'mp4.nu' ||
+        next.userInfo.isNotEmpty ||
+        next.path != '/r.php' ||
+        !next.queryParameters.containsKey('h')) {
       return const EmbedResolution();
+    }
+    final transport = client ?? http.Client();
+    try {
+      final visited = <String>{};
+      for (var hop = 0; hop < 4; hop++) {
+        if (request?.isCancelled == true) return const EmbedResolution();
+        if (!visited.add(next.toString())) break;
+        final httpRequest = http.Request('GET', next)
+          ..followRedirects = false
+          ..headers.addAll({'User-Agent': _ua, 'Referer': source});
+        final response = await transport
+            .send(httpRequest)
+            .timeout(const Duration(seconds: 15));
+        final location = response.headers['location'];
+        await response.stream.drain<void>().timeout(
+          const Duration(seconds: 15),
+        );
+        if (![301, 302, 303, 307, 308].contains(response.statusCode) ||
+            location == null) {
+          break;
+        }
+        next = next.resolve(location);
+        if (next.scheme != 'https' ||
+            next.userInfo.isNotEmpty ||
+            next.hasPort && next.port != 443) {
+          break;
+        }
+        if (next.host == 'byseraguci.com' && next.path.startsWith('/e/')) {
+          return await resolveForPlayback(
+            next.toString(),
+            client: transport,
+            request: request,
+          );
+        }
+        if (next.host != 'mp4.nu') break;
+      }
+      return const EmbedResolution();
+    } catch (error) {
+      final retryable = _isTransientNetworkFailure(error);
+      return EmbedResolution(
+        terminalFailure: !retryable,
+        retryableFailure: retryable,
+      );
+    } finally {
+      if (client == null) transport.close();
     }
   }
 

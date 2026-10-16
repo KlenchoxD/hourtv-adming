@@ -11,6 +11,7 @@ import '../services/cast_service.dart';
 import '../services/dlna_service.dart';
 import '../services/remote_playback.dart';
 import '../services/subtitles/hourtv_subtitle_track.dart';
+import 'hourtv_player_surfaces.dart';
 
 const _accent = Color(0xFF00C781);
 const _bg = Color(0xFF0B0D0C);
@@ -45,15 +46,20 @@ Future<RemotePlayback?> showCastSheet(
     context: context,
     backgroundColor: Colors.transparent,
     isScrollControlled: true,
-    builder: (_) => _CastSheet(
-      title: title,
-      media: media,
-      posterUrl: posterUrl,
-      position: position,
-      mediaType: mediaType,
-      blockedReason: blockedReason,
-      subtitle: subtitle,
-      subtitleOn: subtitleOn,
+    useSafeArea: true,
+    constraints: const BoxConstraints(maxWidth: 560),
+    builder: (sheetContext) => Theme(
+      data: hourTvPlayerTheme(Theme.of(sheetContext)),
+      child: _CastSheet(
+        title: title,
+        media: media,
+        posterUrl: posterUrl,
+        position: position,
+        mediaType: mediaType,
+        blockedReason: blockedReason,
+        subtitle: subtitle,
+        subtitleOn: subtitleOn,
+      ),
     ),
   );
 }
@@ -306,9 +312,10 @@ class _CastSheetState extends State<_CastSheet> {
     return Container(
       decoration: const BoxDecoration(
         color: _bg,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(26)),
+        border: Border(top: BorderSide(color: _line)),
       ),
-      padding: const EdgeInsets.fromLTRB(18, 10, 18, 16),
+      padding: const EdgeInsets.fromLTRB(24, 10, 24, 22),
       child: SafeArea(
         top: false,
         child: SingleChildScrollView(
@@ -354,7 +361,15 @@ class _CastSheetState extends State<_CastSheet> {
 
   Widget _header() => Row(
     children: [
-      const Icon(Icons.cast_rounded, color: _accent, size: 24),
+      Container(
+        width: 44,
+        height: 44,
+        decoration: BoxDecoration(
+          color: _surface,
+          borderRadius: BorderRadius.circular(14),
+        ),
+        child: const Icon(Icons.cast_rounded, color: _accent, size: 22),
+      ),
       const SizedBox(width: 12),
       Expanded(
         child: Column(
@@ -364,8 +379,9 @@ class _CastSheetState extends State<_CastSheet> {
               'Transmitir a TV',
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 18,
-                fontWeight: FontWeight.w800,
+                fontFamily: 'Roboto',
+                fontSize: 20,
+                fontWeight: FontWeight.w600,
               ),
             ),
             const SizedBox(height: 2),
@@ -377,6 +393,11 @@ class _CastSheetState extends State<_CastSheet> {
             ),
           ],
         ),
+      ),
+      IconButton(
+        tooltip: 'Cerrar transmisión',
+        onPressed: () => Navigator.pop(context),
+        icon: const Icon(Icons.close_rounded, color: _muted),
       ),
     ],
   );

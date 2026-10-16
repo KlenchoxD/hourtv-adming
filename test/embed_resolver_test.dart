@@ -1,7 +1,12 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:http/http.dart' as http;
+import 'package:http/testing.dart';
 import 'package:streamtv/services/embed_resolver.dart';
+import 'package:video_player/video_player.dart';
 
 /// Cifra un payload con el esquema inverso de VOE, para generar fixtures:
 /// b64(json) -> reverse -> shift(+3) -> b64 -> secuencias especiales -> rot13.
@@ -27,6 +32,195 @@ String _voeScriptTag(String encrypted) =>
     '<script type="application/json">["$encrypted"]</script>';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
+  group('resolveForPlayback adapter chain', () {
+    const moonGetter = MethodChannel('hourtv/moongetter');
+    const ytDlp = MethodChannel('hourtv/yt_dlp');
+    final messenger =
+        TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger;
+
+    setUp(() {
+      debugDefaultTargetPlatformOverride = TargetPlatform.android;
+      messenger.setMockMethodCallHandler(moonGetter, (call) async {
+        if (call.method == 'resolve') return {'status': 'unsupported'};
+        if (call.method == 'cancel') return null;
+        throw StateError('Unexpected MoonGetter method: ${call.method}');
+      });
+    });
+
+    tearDown(() {
+      messenger.setMockMethodCallHandler(moonGetter, null);
+      messenger.setMockMethodCallHandler(ytDlp, null);
+      debugDefaultTargetPlatformOverride = null;
+    });
+
+    test(
+      'VOE file link is normalized before native and static adapters',
+      () async {
+        final nativeUrls = <String>[];
+        messenger.setMockMethodCallHandler(moonGetter, (call) async {
+          if (call.method == 'resolve') {
+            nativeUrls.add((call.arguments as Map)['url'] as String);
+            return {'status': 'unsupported'};
+          }
+          return null;
+        });
+        final requestedUrls = <String>[];
+        final client = MockClient((request) async {
+          requestedUrls.add(request.url.toString());
+          return http.Response(
+            'jwplayer().setup({file:"https://cdn.example.test/video.m3u8"});',
+            200,
+          );
+        });
+        addTearDown(client.close);
+
+        final result = await EmbedResolver.resolveForPlayback(
+          'https://voe.sx/gfztfrlh7t1h',
+          client: client,
+        );
+
+        expect(nativeUrls, ['https://voe.sx/e/gfztfrlh7t1h']);
+        expect(requestedUrls, ['https://voe.sx/e/gfztfrlh7t1h']);
+        expect(result.stream?.url, 'https://cdn.example.test/video.m3u8');
+        expect(result.stream?.headers['Referer'], 'https://voe.sx/');
+      },
+    );
+
+    test(
+      'VOE normalization preserves embeds and unrelated or signed routes',
+      () async {
+        final nativeUrls = <String>[];
+        messenger.setMockMethodCallHandler(moonGetter, (call) async {
+          if (call.method == 'resolve') {
+            nativeUrls.add((call.arguments as Map)['url'] as String);
+            return {'status': 'unsupported'};
+          }
+          return null;
+        });
+        final urls = [
+          'https://voe.sx/e/gfztfrlh7t1h',
+          'https://voe.sx/gfztfrlh7t1h?token=preserve',
+          'https://voe.sx/gfztfrlh7t1h#preserve',
+          'https://voe.sx:8443/gfztfrlh7t1h',
+          'https://voe.sx.attacker.test/gfztfrlh7t1h',
+          'https://other-provider.test/gfztfrlh7t1h',
+        ];
+        final requestedUrls = <String>[];
+        final client = MockClient((request) async {
+          requestedUrls.add(request.url.toString());
+          return http.Response(
+            'jwplayer().setup({file:"https://cdn.example.test/video.m3u8"});',
+            200,
+          );
+        });
+        addTearDown(client.close);
+        for (final url in urls) {
+          final result = await EmbedResolver.resolveForPlayback(
+            url,
+            client: client,
+          );
+          expect(result.stream, isNotNull);
+        }
+        expect(nativeUrls, urls);
+        // HTTP requests do not transmit fragments, but the resolver input does.
+        expect(requestedUrls, urls);
+      },
+    );
+
+    test(
+      'VOE native miss continues to its independent static resolver',
+      () async {
+        messenger.setMockMethodCallHandler(moonGetter, (call) async {
+          if (call.method == 'resolve') return {'status': 'failed'};
+          return null;
+        });
+        final client = MockClient(
+          (_) async => http.Response(
+            'jwplayer().setup({file:"https://cdn.example.test/video.m3u8"});',
+            200,
+          ),
+        );
+        addTearDown(client.close);
+        final result = await EmbedResolver.resolveForPlayback(
+          'https://voe.sx/gfztfrlh7t1h',
+          client: client,
+        );
+        expect(result.stream?.url, 'https://cdn.example.test/video.m3u8');
+        expect(result.terminalFailure, isFalse);
+      },
+    );
+
+    test('HTTP 403 from static parser advances to yt-dlp', () async {
+      var ytDlpCalls = 0;
+      messenger.setMockMethodCallHandler(ytDlp, (call) async {
+        if (call.method == 'cancel') return null;
+        if (call.method != 'resolve') {
+          throw StateError('Unexpected yt-dlp method: ${call.method}');
+        }
+        ytDlpCalls++;
+        return {
+          'url': 'https://cdn.example.test/episode/master.m3u8',
+          'headers': {'Referer': 'https://source.example.test/watch/1'},
+          'formatHint': 'hls',
+        };
+      });
+      final requestedPages = <Uri>[];
+      final client = MockClient((request) async {
+        requestedPages.add(request.url);
+        return http.Response('', 403);
+      });
+      addTearDown(client.close);
+
+      final result = await EmbedResolver.resolveForPlayback(
+        'https://source.example.test/watch/1',
+        client: client,
+      );
+
+      expect(requestedPages, [
+        Uri.parse('https://source.example.test/watch/1'),
+      ]);
+      expect(ytDlpCalls, 1);
+      expect(
+        result.stream?.url,
+        'https://cdn.example.test/episode/master.m3u8',
+      );
+      expect(result.stream?.formatHint, VideoFormat.hls);
+      expect(
+        result.stream?.headers['Referer'],
+        'https://source.example.test/watch/1',
+      );
+      expect(result.terminalFailure, isFalse);
+    });
+
+    test(
+      'transient static HTTP failure remains retryable after fallthrough',
+      () async {
+        var ytDlpCalls = 0;
+        messenger.setMockMethodCallHandler(ytDlp, (call) async {
+          if (call.method == 'cancel') return null;
+          if (call.method != 'resolve') {
+            throw StateError('Unexpected yt-dlp method: ${call.method}');
+          }
+          ytDlpCalls++;
+          return null;
+        });
+        final client = MockClient((_) async => http.Response('', 503));
+        addTearDown(client.close);
+
+        final result = await EmbedResolver.resolveForPlayback(
+          'https://source.example.test/watch/2',
+          client: client,
+        );
+
+        expect(ytDlpCalls, 1);
+        expect(result.retryableFailure, isTrue);
+        expect(result.terminalFailure, isFalse);
+      },
+    );
+  });
+
   test('VOE rota a un dominio nuevo conservando el mismo ID del vídeo', () {
     const id = 'abcdefgh1234';
     const origin = 'https://voe.sx/e/$id';

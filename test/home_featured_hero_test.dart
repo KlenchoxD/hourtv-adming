@@ -24,6 +24,58 @@ void main() {
   });
 
   testWidgets(
+    'hero stays visible while replacement catalog index is building',
+    (tester) async {
+      final initial = [
+        Channel(
+          name: 'Existing hero',
+          url: 'https://test/one.mp4',
+          forcedType: 'movie',
+          backdrop: 'https://test/one.jpg',
+          isFeatured: true,
+        ),
+      ];
+      ContentStore.instance.all = initial;
+      Widget home(List<Channel> content) => MaterialApp(
+        home: Scaffold(
+          body: HourTvMobileHome(
+            movies: content,
+            allContent: content,
+            store: ContentStore.instance,
+            onOpen: (_) {},
+            onSearch: () {},
+            onProfile: () {},
+          ),
+        ),
+      );
+      await tester.pumpWidget(home(initial));
+      await tester.runAsync(
+        () => Future<void>.delayed(const Duration(milliseconds: 100)),
+      );
+      await tester.pump();
+      expect(
+        find.byKey(const ValueKey('hourtv-hero-carousel')),
+        findsOneWidget,
+      );
+      final refreshed = [
+        ...initial,
+        Channel(
+          name: 'New film',
+          url: 'https://test/two.mp4',
+          forcedType: 'movie',
+        ),
+      ];
+      ContentStore.instance.all = refreshed;
+      await tester.pumpWidget(home(refreshed));
+      expect(
+        find.byKey(const ValueKey('hourtv-hero-carousel')),
+        findsOneWidget,
+      );
+      await tester.pumpWidget(const SizedBox());
+    },
+  );
+
+  testWidgets(
     'hero prioriza destacados editoriales reales y no las primeras peliculas',
     (tester) async {
       await tester.binding.setSurfaceSize(const Size(400, 900));

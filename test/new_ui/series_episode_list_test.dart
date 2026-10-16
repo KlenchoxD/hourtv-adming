@@ -9,6 +9,7 @@ import 'package:streamtv/services/content_store.dart';
 import 'package:streamtv/services/device_type.dart';
 import 'package:streamtv/services/playback_progress.dart';
 import 'package:streamtv/services/storage_service.dart';
+import 'package:streamtv/services/ads/ad_config.dart';
 import 'package:streamtv/services/xtream_service.dart';
 import 'package:video_player_platform_interface/video_player_platform_interface.dart';
 
@@ -32,6 +33,14 @@ class _EpisodePlaybackPlatform extends MockVideoPlayerPlatform {
 }
 
 void main() {
+  setUp(() {
+    AdConfig.current = const AdConfig(
+      levelPlay: false,
+      levelPlayAppKey: '',
+      levelPlayInterstitialId: '',
+    );
+  });
+  tearDown(() => AdConfig.current = AdConfig.defaults);
   final episodes = [
     Channel(
       name: 'La llegada',

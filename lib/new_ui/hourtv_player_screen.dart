@@ -5,19 +5,24 @@ import 'package:flutter/services.dart';
 import 'package:video_player/video_player.dart';
 import 'package:chewie/chewie.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 import '../models/channel.dart';
 import '../services/storage_service.dart';
 import '../services/ad_service.dart';
 import '../services/archive_service.dart';
 import '../services/stalker_service.dart';
+import '../services/video_format_hint.dart';
 import '../services/device_type.dart';
 import '../services/cast_service.dart';
 import '../services/content_store.dart';
 import '../services/embed_resolver.dart';
+import '../services/temporary_playback_links.dart';
+import '../services/extraction_engine.dart';
 import '../services/hls_variants.dart';
 import '../services/playback_progress.dart';
 import '../services/playback_source_fallback.dart';
+import '../services/playback_startup_watchdog.dart';
+import '../services/playback_engine_fallback_policy.dart';
+import '../services/playback_engine_platform_router.dart';
 import '../services/remote_playback.dart';
 import '../services/sync/profile_sync_engine.dart';
 import '../services/subtitles/hourtv_subtitle_track.dart';
@@ -33,6 +38,9 @@ import 'hourtv_cast_controls_screen.dart';
 import 'hourtv_cast_sheet.dart';
 import 'hourtv_playback_center.dart';
 import 'hourtv_server_selector.dart';
+import 'hourtv_server_handoff.dart';
+import 'hourtv_mobile_player_chrome.dart';
+import 'hourtv_player_surfaces.dart';
 
 const _hourRed = Color(0xFF00C781);
 const _hourSurface = Color(0xFF101412);
@@ -69,6 +77,11 @@ class PlayerScreen extends StatefulWidget {
   /// Entrada desde la fila "Continuar viendo": reanuda la posicion guardada
   /// directamente, sin mostrar el dialogo de decision.
   final bool resumePlayback;
+
+  /// Optional playback-scoped provider resolver. The normal route uses the
+  /// shared extraction registry; callers can supply another registered source.
+  final Future<EmbedResolution> Function(String, ExtractionRequest)?
+  resolveEmbed;
   const PlayerScreen({
     super.key,
     required this.channel,
@@ -77,6 +90,7 @@ class PlayerScreen extends StatefulWidget {
     this.initialUrl,
     this.forceLandscape = false,
     this.resumePlayback = false,
+    this.resolveEmbed,
   });
   @override
   // En el navegador el reproductor es el iframe del servidor (ver
@@ -93,10 +107,15 @@ class _PlayerScreenState extends State<PlayerScreen>
   ChewieController? _cc;
   double _videoAr = 0;
   bool _loading = true;
+  bool _handoffStarted = false;
+  int _playbackGeneration = 0;
+  final _handoffReady = ValueNotifier(false);
+  Duration _handoffStartPosition = Duration.zero;
+  bool get _useServerHandoff =>
+      !_isLive &&
+      !DeviceProfile.isTv(context) &&
+      !DeviceProfile.isDesktop(context);
   String? _err;
-  // Texto crudo del error, para quien administra sus propias fuentes IPTV y
-  // necesita el detalle tecnico. Se muestra chico y apagado bajo el mensaje.
-  String? _errDetail;
   bool _showList = false;
   int _idx = 0;
   final _screenFocus = FocusNode();
@@ -109,6 +128,10 @@ class _PlayerScreenState extends State<PlayerScreen>
   static const _platform = MethodChannel('hourtv/device');
   Timer? _chromeTimer;
   Timer? _gestureTimer;
+  Timer? _recoveryTimer;
+  final PlaybackStartupWatchdog _startupProgressWatchdog =
+      PlaybackStartupWatchdog();
+  int _recoveryAttempt = 0;
   bool _chromeVisible = true;
   double _volume = 1;
   double _screenDim = 0;
@@ -117,6 +140,7 @@ class _PlayerScreenState extends State<PlayerScreen>
   String? _gestureLabel;
   String? _activeServerUrl;
   String? _resolvedPlaybackUrl;
+  Future<void> Function()? _releaseResolvedStream;
   // Cabeceras (Referer/User-Agent) que exige el video actual; tambien se
   // usan al transmitirlo al TV.
   Map<String, String> _playHeaders = const {};
@@ -129,6 +153,10 @@ class _PlayerScreenState extends State<PlayerScreen>
   // llamada "fresca" a _init (cambio de canal, seleccion manual de servidor,
   // botón Reintentar) y se recorre sola cuando un mirror falla en caliente.
   PlaybackSourcePlan? _sourcePlan;
+  PlaybackEngineBackend _activePlaybackEngine = PlaybackEngineBackend.media3;
+  Duration _lastStablePosition = Duration.zero;
+  Duration _lastStableDuration = Duration.zero;
+  double _lastStableSpeed = 1;
   bool _recoveringFromPlaybackError = false;
   // Estilo de subtitulos elegido en Perfil > Idioma y subtitulos. Chewie solo
   // pinta subtitulos dentro de sus controles (y aqui van desactivados), asi
@@ -140,11 +168,6 @@ class _PlayerScreenState extends State<PlayerScreen>
   List<HourTvSubtitleTrack> _availableSubtitles = const [];
   HourTvSubtitleTrack _selectedSubtitle = HourTvSubtitleTrack.off;
   int _subtitleDiscoveryGeneration = 0;
-  // Ultimo recurso cuando ni el servidor actual ni ningun mirror se pudo
-  // resolver a un stream directo: se reproduce la pagina embed dentro de un
-  // WebView contenido en vez de dejar la pelicula sin reproducir.
-  String? _embedUrl;
-  WebViewController? _embedController;
   // Solo se guarda si hay transmision activa, para pintar el boton. La lista
   // de TVs y la conexion las lleva el panel (`showCastSheet`).
   bool _castConnected = RemotePlayback.active.value != null;
@@ -275,7 +298,7 @@ class _PlayerScreenState extends State<PlayerScreen>
       return;
     }
     if (!mounted) return;
-    final position = await showDialog<int>(
+    final position = await showHourTvPlayerDialog<int>(
       context: context,
       barrierDismissible: false,
       builder: (dialogContext) => AlertDialog(
@@ -336,6 +359,10 @@ class _PlayerScreenState extends State<PlayerScreen>
         : positionMs;
     _resumePositionMs = target;
     await controller.seekTo(Duration(milliseconds: target));
+    // Conservar el seek aplicado aunque el backend emita después un tick
+    // atrasado en cero; un cambio de motor debe reanudar en este punto.
+    _lastStablePosition = Duration(milliseconds: target);
+    _lastStableDuration = duration;
     _resumeApplied = true;
     _showChromeControls();
   }
@@ -355,6 +382,34 @@ class _PlayerScreenState extends State<PlayerScreen>
   void _onVideoProgress() {
     final controller = _vc;
     if (controller == null) return;
+    final playback = controller.value;
+    if (!_handoffReady.value &&
+        !_loading &&
+        _resumeApplied &&
+        playback.isInitialized &&
+        playback.isPlaying &&
+        !playback.isBuffering &&
+        !playback.hasError &&
+        playback.position > _handoffStartPosition) {
+      _handoffReady.value = true;
+      _recoveryTimer?.cancel();
+      _recoveryTimer = null;
+      _recoveryAttempt = 0;
+      final activeSource = _activeServerUrl;
+      if (activeSource != null) {
+        unawaited(
+          PlaybackServerPreference.rememberSuccess(
+            _currentChannel,
+            activeSource,
+          ),
+        );
+      }
+      final plan = _sourcePlan;
+      final sourcePosition = plan == null
+          ? ''
+          : ' server=${plan.currentIndex + 1}/${plan.sources.length}';
+      debugPrint('[PLAYER] handoff_playback_ready$sourcePosition');
+    }
     // HLS adaptativo arranca en la calidad baja (p. ej. 480x360, 4:3) y
     // luego sube (1280x720, 16:9): la caja del video debe seguir la
     // proporción real o la imagen queda estirada.
@@ -368,9 +423,22 @@ class _PlayerScreenState extends State<PlayerScreen>
       if (mounted) setState(() {});
     }
     if (controller.value.hasError) {
-      debugPrint('[PLAYER] playback_error');
+      debugPrint(
+        '[PLAYER] playback_error detail='
+        '${_safePlaybackDiagnostic(controller.value.errorDescription)}',
+      );
       _handlePlaybackError(controller);
       return;
+    }
+    final stableValue = controller.value;
+    final staleResumeTick =
+        _resumePositionMs > 0 &&
+        stableValue.position < Duration(milliseconds: _resumePositionMs - 3000);
+    if (stableValue.isInitialized &&
+        stableValue.duration > Duration.zero &&
+        !staleResumeTick) {
+      _lastStablePosition = stableValue.position;
+      _lastStableDuration = stableValue.duration;
     }
     if (!controller.value.isInitialized || _isLive || !_resumeApplied) {
       return;
@@ -507,46 +575,152 @@ class _PlayerScreenState extends State<PlayerScreen>
     _showChromeControls();
   }
 
+  ExtractionRequest? _extractionRequest;
+  Future<void>? _pendingNativeTeardown;
+  ({VideoPlayerController controller, Future<void> operation})?
+  _pendingAutoplay;
+
+  Future<void> _closeNativeSession(
+    VideoPlayerController? controller,
+    Future<void> Function()? release,
+  ) {
+    final autoplay = _pendingAutoplay;
+    final pendingPlay = identical(autoplay?.controller, controller)
+        ? autoplay?.operation
+        : null;
+    Future<void> closeNow() async {
+      try {
+        // video_player starts its progress timer after its platform play call
+        // returns. Wait for that call before dispose cancels the timer, or a
+        // late play completion can recreate it after the screen has closed.
+        try {
+          await pendingPlay;
+        } catch (_) {
+          // An unsuccessful play still needs decoder and session cleanup.
+        }
+        await controller?.dispose();
+      } catch (_) {
+        debugPrint('[PLAYER] native_session_close_failed');
+      } finally {
+        try {
+          await release?.call();
+        } catch (_) {
+          debugPrint('[PLAYER] stream_session_close_failed');
+        }
+      }
+    }
+
+    final pending = _pendingNativeTeardown;
+    final closing = pending == null
+        ? closeNow()
+        : pending.then((_) => closeNow());
+    _pendingNativeTeardown = closing;
+    unawaited(
+      closing.then((_) {
+        if (identical(_pendingNativeTeardown, closing)) {
+          _pendingNativeTeardown = null;
+        }
+      }),
+    );
+    return closing;
+  }
+
   Future<void> _init(
     Channel ch, {
     String? streamUrl,
     bool isFallbackAttempt = false,
+    PlaybackEngineBackend engine = PlaybackEngineBackend.media3,
+    Duration? resumePosition,
+    double? resumeSpeed,
     // Cambio de calidad: URL ya resuelta, sin volver a extraer el embed.
     ({String url, Map<String, String> headers})? direct,
   }) async {
-    final targetUrl = streamUrl ?? ch.url;
-    debugPrint('[PLAYER] init host=${Uri.tryParse(targetUrl)?.host}');
+    final requestedUrl = streamUrl ?? ch.url;
+    _startupProgressWatchdog.cancel();
+    _recoveryTimer?.cancel();
+    _recoveryTimer = null;
+    final generation = ++_playbackGeneration;
+    _extractionRequest?.cancel();
+    final extractionRequest = ExtractionRequest();
+    _extractionRequest = extractionRequest;
+    _handoffReady.value = false;
+    _handoffStartPosition = Duration.zero;
+    bool current() => mounted && generation == _playbackGeneration;
+    if (!isFallbackAttempt) {
+      _sourcePlan = PlaybackSourcePlan.forChannel(
+        ch,
+        preferredUrl: direct == null ? streamUrl : _activeServerUrl,
+        preferredServerKey: PlaybackServerPreference.preferredServerKey(ch),
+      );
+    }
+    // Once a server has worked for a series, start there instead of replaying
+    // the whole mirror list on every episode. Manual/fallback calls already
+    // carry their exact target URL and must not be reordered.
+    final targetUrl = direct != null
+        ? (_activeServerUrl ?? requestedUrl)
+        : isFallbackAttempt
+        ? requestedUrl
+        : (_sourcePlan?.current ?? requestedUrl);
+    final sourcePosition = _sourcePlan == null
+        ? ''
+        : ' server=${_sourcePlan!.currentIndex + 1}/${_sourcePlan!.sources.length}';
+    debugPrint(
+      '[PLAYER] init$sourcePosition host=${Uri.tryParse(targetUrl)?.host}',
+    );
     if (targetUrl.startsWith('catalog://') || ch.url.startsWith('catalog://')) {
       setState(() {
         _loading = false;
         _err =
             'Error de catálogo: el canal no fue hidratado antes de reproducir.';
-        _errDetail = 'URL no reproducible: $targetUrl';
       });
       return;
     }
-    if (!isFallbackAttempt) {
-      _sourcePlan = PlaybackSourcePlan.forChannel(ch, preferredUrl: streamUrl);
-    }
     _recoveringFromPlaybackError = false;
+    _activePlaybackEngine = engine;
+    _lastStablePosition = resumePosition ?? Duration.zero;
+    _lastStableDuration = Duration.zero;
+    _lastStableSpeed = resumeSpeed ?? 1;
     _resetEpisodeUi();
+    if (resumePosition != null) {
+      _resumePositionMs = resumePosition.inMilliseconds;
+      _resumeApplied = false;
+    }
     setState(() {
+      _handoffStarted = true;
       _loading = true;
       _err = null;
-      _errDetail = null;
       _activeServerUrl = targetUrl;
-      _embedUrl = null;
     });
     if (_vc != null) {
       debugPrint('[PLAYER] controller_replaced');
     }
     _wasBuffering = false;
+    final previousController = _vc;
+    final previousRelease = direct == null ? _releaseResolvedStream : null;
+    if (direct == null) _releaseResolvedStream = null;
     _vc?.removeListener(_onVideoProgress);
     _cc?.dispose();
-    _vc?.dispose();
     _cc = null;
     _vc = null;
-    _embedController = null;
+    // A local HLS bridge must outlive decoder teardown. Quality changes and
+    // Media3 -> mpv fallback reuse the same resolved session.
+    final pendingTeardown = _pendingNativeTeardown;
+    if (previousController != null ||
+        previousRelease != null ||
+        _releaseResolvedStream != null ||
+        pendingTeardown != null) {
+      final closing = previousController != null || previousRelease != null
+          ? _closeNativeSession(previousController, previousRelease)
+          : (pendingTeardown ?? Future<void>.value());
+      if (previousRelease != null ||
+          _releaseResolvedStream != null ||
+          pendingTeardown != null) {
+        await closing;
+      } else {
+        unawaited(closing);
+      }
+    }
+    if (!current()) return;
     // D.E: avanzar epoch para invalidar descargas en vuelo del vídeo anterior
     _subtitleController.advanceEpoch();
     final subtitleGeneration = ++_subtitleDiscoveryGeneration;
@@ -559,6 +733,8 @@ class _PlayerScreenState extends State<PlayerScreen>
     }
     try {
       var playUrl = direct?.url ?? targetUrl;
+      VideoFormat? resolvedFormatHint;
+      var resolvedSubtitleTracks = const <HourTvSubtitleTrack>[];
       Map<String, String> playHeaders =
           direct?.headers ??
           (ch.userAgent?.isNotEmpty == true
@@ -568,59 +744,69 @@ class _PlayerScreenState extends State<PlayerScreen>
       // como Xuper, se intenta extraer el .m3u8/.mp4 directo y reproducirlo
       // nativo en ExoPlayer con su Referer. En Vivo nunca entra aqui.
       if (direct == null &&
+          TemporaryPlaybackLinks.instance.manages(targetUrl)) {
+        final ticket = await TemporaryPlaybackLinks.instance.resolve(targetUrl);
+        if (!current()) return;
+        playUrl = ticket.url;
+        playHeaders = ticket.headers;
+        resolvedFormatHint = ticket.format == 'hls' ? VideoFormat.hls : null;
+      } else if (direct == null &&
           ch.type != MediaType.live &&
           isEmbedStreamUrl(targetUrl)) {
-        var resolution = await EmbedResolver.resolveForPlayback(targetUrl);
-        // Un fallo de red puntual mandaba directo a la página web del
-        // servidor (video diminuto, sin controles): se reintenta una vez.
-        if (resolution.stream == null && resolution.safeWebUrl == null) {
-          if (!mounted) return;
-          resolution = await EmbedResolver.resolveForPlayback(targetUrl);
-        }
+        final resolution =
+            await (widget.resolveEmbed?.call(targetUrl, extractionRequest) ??
+                EmbedResolver.resolveForPlayback(
+                  targetUrl,
+                  request: extractionRequest,
+                ));
         final resolved = resolution.stream;
-        if (!mounted) return;
+        if (!current()) {
+          await resolved?.release?.call();
+          return;
+        }
         if (resolved != null) {
+          _releaseResolvedStream = resolved.release;
           playUrl = resolved.url;
           playHeaders = resolved.headers;
+          resolvedFormatHint = resolved.formatHint;
+          resolvedSubtitleTracks = resolved.subtitleTracks;
         } else {
-          // Primero se prueba el siguiente mirror (si hay otro servidor
-          // cargado para este titulo, se prefiere resolverlo nativo antes
-          // que caer al WebView). Solo cuando YA NO queda ningun mirror por
-          // probar se usa el WebView como ultimo recurso, para que la
-          // pelicula reproduzca algo en vez de quedar en un error sin salida
-          // (un solo servidor manual que la extraccion no logra resolver).
+          // Preserve automatic mirror fallback, always with native playback.
           if (await _tryFallback(ch, targetUrl)) return;
-          // Sin mirrors: si el embed tiene una redireccion verificada a un
-          // alias propio (ej. voe.sx -> eugenemakedraw.com) se abre esa, no
-          // la original, porque el WebView del alias ya bloquea el salto.
-          final webUrl = resolution.safeWebUrl ?? targetUrl;
-          _resolvedPlaybackUrl = webUrl;
-          _createEmbedController(webUrl);
-          setState(() => _loading = false);
+          // A transient resolver/network failure may recover automatically.
+          // A recognized provider with no native stream is terminal for this
+          // source: don't poll the same embed forever while the network is up.
+          _resolvedPlaybackUrl = null;
+          if (resolution.retryableFailure) {
+            _schedulePlaybackRecovery(ch);
+          } else {
+            debugPrint('[PLAYER] source_unavailable reason=embed_unresolved');
+            _recoveringFromPlaybackError = false;
+            setState(() {
+              _loading = false;
+              _err = 'No se pudo iniciar esta fuente. Prueba otro servidor.';
+            });
+          }
           return;
         }
       }
       if (playUrl.startsWith('archive:')) {
         final resolved = await ArchiveService.resolveStream(playUrl);
+        if (!current()) return;
         if (resolved == null) {
           if (!mounted) return;
           if (await _tryFallback(ch, targetUrl)) return;
-          setState(() {
-            _err = 'No se pudo obtener el vídeo de esta película.';
-            _loading = false;
-          });
+          _schedulePlaybackRecovery(ch);
           return;
         }
         playUrl = resolved;
       } else if (playUrl.startsWith('stalker:')) {
         final resolved = await StalkerService.resolveStream(playUrl);
+        if (!current()) return;
         if (resolved == null) {
           if (!mounted) return;
           if (await _tryFallback(ch, targetUrl)) return;
-          setState(() {
-            _err = 'No se pudo crear el enlace temporal de este canal.';
-            _loading = false;
-          });
+          _schedulePlaybackRecovery(ch);
           return;
         }
         playUrl = resolved;
@@ -629,14 +815,34 @@ class _PlayerScreenState extends State<PlayerScreen>
       _playHeaders = playHeaders;
       if (direct == null) _hlsMasterUrl = playUrl;
       debugPrint('[PLAYER] initialize_start');
-      _vc = VideoPlayerController.networkUrl(
+      if (!current()) return;
+      final initializingController = VideoPlayerController.networkUrl(
         Uri.parse(playUrl),
+        formatHint:
+            resolvedFormatHint ?? videoFormatHintFor(Uri.parse(playUrl)),
         httpHeaders: playHeaders,
         viewType: defaultTargetPlatform == TargetPlatform.android
             ? VideoViewType.platformView
             : VideoViewType.textureView,
       );
-      await _vc!.initialize().timeout(const Duration(seconds: 25));
+      _vc = initializingController;
+      if (engine == PlaybackEngineBackend.mpv &&
+          defaultTargetPlatform == TargetPlatform.android &&
+          mounted) {
+        // libmpv requires its Android video output before opening a source.
+        // Mount VideoPlayer behind the loading surface first; otherwise
+        // initialize() waits for metadata while the app waits for initialize()
+        // before mounting the output.
+        setState(() {});
+        await WidgetsBinding.instance.endOfFrame;
+        if (!current()) return;
+      }
+      await PlaybackEnginePlatformRouter.initializeController(
+        engine,
+        initializingController.initialize,
+        isLive: ch.type == MediaType.live,
+      ).timeout(const Duration(seconds: 12));
+      if (!current()) return;
       debugPrint('[PLAYER] initialize_done');
       unawaited(
         _discoverSubtitles(
@@ -645,6 +851,7 @@ class _PlayerScreenState extends State<PlayerScreen>
           activeUrl: Uri.parse(_hlsMasterUrl ?? playUrl),
           selectedServerUrl: targetUrl,
           headers: playHeaders,
+          initialTracks: resolvedSubtitleTracks,
           generation: subtitleGeneration,
           controller: _vc!,
         ),
@@ -676,7 +883,10 @@ class _PlayerScreenState extends State<PlayerScreen>
       );
       final activeController = _vc!;
       activeController.addListener(_onVideoProgress);
-      setState(() => _loading = false);
+      setState(() {
+        _loading = false;
+        _err = null;
+      });
 
       // Reanudacion estilo Netflix: tras inicializar (la duracion real ya
       // es conocida), se recupera la posicion guardada y se aplica seekTo ANTES
@@ -684,11 +894,17 @@ class _PlayerScreenState extends State<PlayerScreen>
       // para peliculas se pregunta. El cambio de episodio (_chg) o mirror reanuda
       // directo sin repetir dialogo.
       final changingEpisode = !identical(ch, _currentChannel);
-      await _maybeResume(
-        ch,
-        controller: activeController,
-        autoResume: changingEpisode || isFallbackAttempt || _isSeriesEpisode,
-      );
+      if (resumePosition != null && !_isLive) {
+        await _applyResume(resumePosition.inMilliseconds);
+      } else {
+        await _maybeResume(
+          ch,
+          controller: activeController,
+          autoResume: changingEpisode || isFallbackAttempt || _isSeriesEpisode,
+        );
+      }
+      if (!current()) return;
+      _handoffStartPosition = activeController.value.position;
 
       // Los canales se sintonizan siempre: no ofrecen pausa ni inicio manual.
       // La preferencia de reproducción automática se conserva para VOD.
@@ -696,20 +912,88 @@ class _PlayerScreenState extends State<PlayerScreen>
           _isLive ||
           StorageService.getSetting('autoPlay', defaultValue: true) == true;
       if (autoPlay && mounted && identical(_vc, activeController)) {
-        await activeController.play();
+        if (ch.type != MediaType.live) {
+          _armStartupProgressWatchdog(
+            ch: ch,
+            sourceUrl: targetUrl,
+            controller: activeController,
+            generation: generation,
+          );
+        }
+        final playOperation = activeController.play();
+        _pendingAutoplay = (
+          controller: activeController,
+          operation: playOperation,
+        );
+        try {
+          await playOperation;
+        } finally {
+          if (identical(_pendingAutoplay?.operation, playOperation)) {
+            _pendingAutoplay = null;
+          }
+        }
       }
       // Arranca el auto-ocultado: sin esto, la barra de arriba y las flechas
       // laterales se quedaban visibles para siempre al entrar a una peli.
+      if (!current()) return;
       _showChromeControls();
     } catch (e) {
+      if (!current()) return;
       debugPrint('[PLAYER] playback_error');
+      if (await _tryMpvFallback(ch, targetUrl, e)) return;
       if (await _tryFallback(ch, targetUrl)) return;
-      setState(() {
-        _err = playbackErrorMessage(e.toString());
-        _errDetail = e.toString();
-        _loading = false;
-      });
+      debugPrint('[PLAYER] source_cycle_exhausted');
+      _schedulePlaybackRecovery(ch);
     }
+  }
+
+  void _armStartupProgressWatchdog({
+    required Channel ch,
+    required String sourceUrl,
+    required VideoPlayerController controller,
+    required int generation,
+  }) {
+    final startPosition = _handoffStartPosition;
+    _startupProgressWatchdog.arm(
+      timeout: const Duration(seconds: 10),
+      shouldFallback: () {
+        if (!mounted ||
+            generation != _playbackGeneration ||
+            !identical(_vc, controller)) {
+          return false;
+        }
+        final value = controller.value;
+        if (!value.isInitialized || !value.isPlaying || value.hasError) {
+          return false;
+        }
+        final requiredProgress =
+            value.duration > Duration.zero &&
+                value.duration < const Duration(seconds: 4)
+            ? Duration(milliseconds: value.duration.inMilliseconds ~/ 2)
+            : const Duration(seconds: 2);
+        return value.position - startPosition < requiredProgress;
+      },
+      onTimeout: () {
+        if (!mounted ||
+            generation != _playbackGeneration ||
+            !identical(_vc, controller) ||
+            _recoveringFromPlaybackError) {
+          return;
+        }
+        final index = _sourcePlan?.currentIndex;
+        final count = _sourcePlan?.sources.length;
+        final sourcePosition = index == null || count == null
+            ? ''
+            : ' server=${index + 1}/$count';
+        debugPrint('[PLAYER] startup_progress_timeout$sourcePosition');
+        _recoveringFromPlaybackError = true;
+        unawaited(() async {
+          if (await _tryFallback(ch, sourceUrl)) return;
+          if (!mounted || generation != _playbackGeneration) return;
+          _schedulePlaybackRecovery(ch);
+        }());
+      },
+    );
   }
 
   Future<void> _discoverSubtitles(
@@ -717,6 +1001,7 @@ class _PlayerScreenState extends State<PlayerScreen>
     required Uri activeUrl,
     required String selectedServerUrl,
     required Map<String, String> headers,
+    List<HourTvSubtitleTrack> initialTracks = const [],
     required int generation,
     required VideoPlayerController controller,
   }) async {
@@ -736,7 +1021,12 @@ class _PlayerScreenState extends State<PlayerScreen>
         !identical(_vc, controller)) {
       return;
     }
-    final combinedTracks = <HourTvSubtitleTrack>[...tracks];
+    final combinedTracks = <HourTvSubtitleTrack>[];
+    final seenTrackKeys = <String>{};
+    for (final track in [...initialTracks, ...tracks]) {
+      final key = track.url?.trim().toLowerCase() ?? track.id;
+      if (key.isNotEmpty && seenTrackKeys.add(key)) combinedTracks.add(track);
+    }
     setState(() => _availableSubtitles = combinedTracks);
 
     // Repositorio hourtv-subtitles: español por TMDB id (películas) o por
@@ -888,6 +1178,74 @@ class _PlayerScreenState extends State<PlayerScreen>
     return true;
   }
 
+  /// Cambia de motor únicamente ante una incompatibilidad recuperable. Los
+  /// fallos HTTP/red siguen por el plan de mirrors; mpv no puede arreglar un
+  /// stream rechazado ni convertir una página embed en una fuente multimedia.
+  Future<bool> _tryMpvFallback(
+    Channel ch,
+    String failedUrl,
+    Object? error,
+  ) async {
+    final reason = PlaybackEngineFallbackPolicy.reasonFor(error);
+    final resolvedUrl = _resolvedPlaybackUrl;
+    if (!mounted ||
+        _activePlaybackEngine != PlaybackEngineBackend.media3 ||
+        !PlaybackEnginePlatformRouter.canUseMpv ||
+        _activeServerUrl != failedUrl ||
+        resolvedUrl == null ||
+        reason == null) {
+      return false;
+    }
+
+    final headers = Map<String, String>.of(_playHeaders);
+    final position = _lastStableDuration > Duration.zero
+        ? _lastStablePosition
+        : null;
+    final speed = _lastStableSpeed;
+    debugPrint('[PLAYER] native_engine_fallback reason=${reason.name}');
+    _persistFinalProgress();
+    await _init(
+      ch,
+      streamUrl: failedUrl,
+      isFallbackAttempt: true,
+      engine: PlaybackEngineBackend.mpv,
+      resumePosition: position,
+      resumeSpeed: speed,
+      direct: (url: resolvedUrl, headers: headers),
+    );
+    return true;
+  }
+
+  /// Keeps the playback surface in its branded loading state after every
+  /// known source has failed. Retries use bounded exponential backoff so a
+  /// temporary Wi-Fi outage does not leak ExoPlayer errors or hammer servers.
+  void _schedulePlaybackRecovery(Channel ch) {
+    if (!mounted) return;
+    _recoveryTimer?.cancel();
+    _recoveryAttempt++;
+    final seconds = switch (_recoveryAttempt) {
+      1 => 2,
+      2 => 4,
+      3 => 8,
+      4 => 16,
+      _ => 30,
+    };
+    _recoveringFromPlaybackError = false;
+    _handoffReady.value = false;
+    setState(() {
+      _loading = true;
+      _err = null;
+    });
+    debugPrint(
+      '[PLAYER] recovery_scheduled attempt=$_recoveryAttempt delay=${seconds}s',
+    );
+    _recoveryTimer = Timer(Duration(seconds: seconds), () {
+      _recoveryTimer = null;
+      if (!mounted) return;
+      unawaited(_init(ch));
+    });
+  }
+
   /// Fuente ya reproduciendose que falla en caliente (stream caido, red
   /// interrumpida): intenta el siguiente mirror antes de rendirse.
   void _handlePlaybackError(VideoPlayerController controller) {
@@ -896,14 +1254,21 @@ class _PlayerScreenState extends State<PlayerScreen>
     if (failedUrl == null) return;
     _recoveringFromPlaybackError = true;
     unawaited(() async {
+      if (await _tryMpvFallback(
+        _currentChannel,
+        failedUrl,
+        controller.value.errorDescription,
+      )) {
+        return;
+      }
       final handled = await _tryFallback(_currentChannel, failedUrl);
       if (!handled && mounted) {
         final detail = controller.value.errorDescription;
-        setState(() {
-          _err = playbackErrorMessage(detail);
-          _errDetail = detail;
-          _loading = false;
-        });
+        debugPrint(
+          '[PLAYER] source_cycle_exhausted detail='
+          '${_safePlaybackDiagnostic(detail)}',
+        );
+        _schedulePlaybackRecovery(_currentChannel);
       }
     }());
   }
@@ -929,147 +1294,6 @@ class _PlayerScreenState extends State<PlayerScreen>
     ),
   );
 
-  // Mismo sitio = mismo dominio registrable (ignora subdominios), para permitir
-  // que el player salte a un subdominio propio sin dejar pasar otras marcas.
-  static bool _sameSite(String a, String b) {
-    String reg(String h) {
-      final p = h.toLowerCase().split('.').where((x) => x.isNotEmpty).toList();
-      return p.length <= 2
-          ? h.toLowerCase()
-          : p.sublist(p.length - 2).join('.');
-    }
-
-    return b.isNotEmpty && reg(a) == reg(b);
-  }
-
-  void _createEmbedController(String url) {
-    final host = Uri.tryParse(url)?.host;
-    _embedController = WebViewController()
-      ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      // UA de Chrome real (sin la marca "wv"): muchos hosts embed bloquean el
-      // WebView y se quedan en "Loading..." si detectan el User-Agent nativo.
-      ..setUserAgent(
-        'Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 '
-        '(KHTML, like Gecko) Chrome/124.0.0.0 Mobile Safari/537.36',
-      )
-      ..setBackgroundColor(Colors.black)
-      ..setNavigationDelegate(
-        NavigationDelegate(
-          onWebResourceError: (error) {
-            if (!mounted || _embedUrl != url || error.isForMainFrame != true) {
-              return;
-            }
-            setState(
-              () => _err =
-                  'El servidor no pudo cargar el vídeo. Reintenta o elige otro servidor.',
-            );
-          },
-          // Permite el host del embed y sus subdominios/redirecciones internas
-          // (algunos players saltan a otro dominio propio para cargar). Solo
-          // bloquea saltos claramente externos (popups de otra marca).
-          onNavigationRequest: (request) {
-            final target = Uri.tryParse(request.url)?.host ?? '';
-            if (host == null || _sameSite(host, target)) {
-              return NavigationDecision.navigate;
-            }
-            return NavigationDecision.prevent;
-          },
-        ),
-      )
-      ..loadRequest(Uri.parse(url));
-    _embedUrl = url;
-  }
-
-  /// Cuerpo del reproductor cuando ya no queda ningun mirror por probar y el
-  /// ultimo recurso es la pagina embed: el WebView ocupa la pantalla y una
-  /// barra minima permite volver o cambiar de servidor.
-  Widget _embedBody() {
-    final ch = widget.allChannels[_idx];
-    return Stack(
-      children: [
-        Positioned.fill(child: WebViewWidget(controller: _embedController!)),
-        if (_err != null)
-          Positioned.fill(
-            child: ColoredBox(
-              color: Colors.black,
-              child: Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(24),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        _err!,
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                      const SizedBox(height: 16),
-                      TextButton(
-                        onPressed: () {
-                          setState(() => _err = null);
-                          _embedController?.reload();
-                        },
-                        child: const Text('Reintentar'),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ),
-        Positioned(
-          top: 0,
-          left: 0,
-          right: 0,
-          child: DecoratedBox(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [Colors.black87, Colors.transparent],
-              ),
-            ),
-            child: SafeArea(
-              bottom: false,
-              child: Row(
-                children: [
-                  IconButton(
-                    tooltip: 'Volver',
-                    icon: const Icon(
-                      Icons.arrow_back_rounded,
-                      color: Colors.white,
-                    ),
-                    onPressed: () => Navigator.of(context).maybePop(),
-                  ),
-                  Expanded(
-                    child: Text(
-                      ch.displayName,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                  if (ch.servers.length > 1)
-                    IconButton(
-                      tooltip: 'Cambiar servidor',
-                      icon: const Icon(
-                        Icons.playlist_play_rounded,
-                        color: Colors.white,
-                      ),
-                      onPressed: () => unawaited(_showServerSelector()),
-                    ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
   Future<void> _chg(int direction) async {
     final nextIndex = _idx + direction;
     if (nextIndex < 0 || nextIndex >= widget.allChannels.length) return;
@@ -1084,6 +1308,15 @@ class _PlayerScreenState extends State<PlayerScreen>
     if (_isLive) return;
     final v = _vc;
     if (v == null || !v.value.isInitialized) return;
+    final activeSource = _activeServerUrl;
+    if (!v.value.isPlaying && !_isLive && activeSource != null) {
+      _armStartupProgressWatchdog(
+        ch: _currentChannel,
+        sourceUrl: activeSource,
+        controller: v,
+        generation: _playbackGeneration,
+      );
+    }
     v.value.isPlaying ? v.pause() : v.play();
     // Pausar es un buen momento para persistir: la posicion mostrada ya no
     // va a cambiar hasta que el usuario retome.
@@ -1329,10 +1562,6 @@ class _PlayerScreenState extends State<PlayerScreen>
       posterUrl: channel.backdrop ?? channel.logo,
       position: () => _vc?.value.position ?? Duration.zero,
       mediaType: channel.type,
-      blockedReason: _embedController != null
-          ? 'Este servidor solo se abre en el visor web y no se puede enviar '
-                'al TV. Cambia de servidor o usa Duplicar pantalla.'
-          : null,
       // El subtítulo que se ve aquí (o el primero descargable) va al TV,
       // visible si aquí estaba activado.
       subtitle: () async {
@@ -1364,7 +1593,7 @@ class _PlayerScreenState extends State<PlayerScreen>
   }
 
   Future<void> _showMessage(String title, String message) async {
-    await showDialog<void>(
+    await showHourTvPlayerDialog<void>(
       context: context,
       builder: (dialogContext) => AlertDialog(
         title: Text(title),
@@ -1431,7 +1660,7 @@ class _PlayerScreenState extends State<PlayerScreen>
         );
         return;
       }
-      await showDialog<void>(
+      await showHourTvPlayerDialog<void>(
         context: context,
         builder: (dialogContext) => SimpleDialog(
           title: const Text('Pista de audio'),
@@ -1541,7 +1770,7 @@ class _PlayerScreenState extends State<PlayerScreen>
       return;
     }
 
-    await showDialog<void>(
+    await showHourTvPlayerDialog<void>(
       context: context,
       builder: (dialogContext) => SimpleDialog(
         title: const Text('Subtítulos'),
@@ -1630,7 +1859,7 @@ class _PlayerScreenState extends State<PlayerScreen>
     if (vc == null || _selectedSubtitle.id == 'off') return;
     final key = _subtitleTimingKey(_selectedSubtitle);
     var delay = -vc.value.captionOffset.inMilliseconds;
-    await showDialog<void>(
+    await showHourTvPlayerDialog<void>(
       context: context,
       builder: (context) => StatefulBuilder(
         builder: (context, update) {
@@ -1687,6 +1916,8 @@ class _PlayerScreenState extends State<PlayerScreen>
   }
 
   Future<void> _showQualitySelector() async {
+    final generation = _playbackGeneration;
+    final controller = _vc;
     final variants = _hlsVariants;
     final master = _hlsMasterUrl;
     if (variants.length < 2 || master == null) {
@@ -1701,7 +1932,7 @@ class _PlayerScreenState extends State<PlayerScreen>
       return;
     }
     // -1 = automática.
-    final picked = await showDialog<int>(
+    final picked = await showHourTvPlayerDialog<int>(
       context: context,
       builder: (dialogContext) {
         Widget option(int height, String label, String? subtitle) =>
@@ -1725,7 +1956,11 @@ class _PlayerScreenState extends State<PlayerScreen>
         );
       },
     );
-    if (!mounted || picked == null || picked == (_qualityHeight ?? -1)) {
+    if (!mounted ||
+        generation != _playbackGeneration ||
+        !identical(controller, _vc) ||
+        picked == null ||
+        picked == (_qualityHeight ?? -1)) {
       if (mounted) _screenFocus.requestFocus();
       return;
     }
@@ -1744,7 +1979,7 @@ class _PlayerScreenState extends State<PlayerScreen>
   }
 
   Future<void> _showAspectSelector() async {
-    await showDialog<void>(
+    await showHourTvPlayerDialog<void>(
       context: context,
       builder: (dialogContext) => SimpleDialog(
         title: const Text('Relación de aspecto'),
@@ -1806,23 +2041,152 @@ class _PlayerScreenState extends State<PlayerScreen>
     final channel = widget.allChannels[_idx];
     final servers = channel.servers;
     if (servers.length < 2) return;
-    final selected = await showDialog<ChannelServer>(
+    final selected = await showHourTvPlayerDialog<ChannelServer>(
       context: context,
       builder: (_) =>
           HourTvServerSelector(servers: servers, activeUrl: _activeServerUrl),
     );
-    if (!mounted || selected == null) return;
+    if (!mounted || selected == null || selected.url == _activeServerUrl) {
+      return;
+    }
     _persistFinalProgress();
+    if (!(_sourcePlan?.select(selected.url) ?? false)) {
+      _sourcePlan = PlaybackSourcePlan.forChannel(
+        channel,
+        preferredUrl: selected.url,
+      );
+    }
     await _init(channel, streamUrl: selected.url, isFallbackAttempt: true);
     if (mounted) _screenFocus.requestFocus();
   }
 
   Future<void> _showPlayerOptions() async {
-    await showDialog<void>(
+    if (!DeviceProfile.isTv(context) && !DeviceProfile.isDesktop(context)) {
+      final channel = widget.allChannels[_idx];
+      await showModalBottomSheet<void>(
+        context: context,
+        backgroundColor: Colors.transparent,
+        isScrollControlled: true,
+        useSafeArea: true,
+        constraints: const BoxConstraints(maxWidth: 560),
+        builder: (sheetContext) {
+          void open(Future<void> Function() action) {
+            Navigator.pop(sheetContext);
+            unawaited(action());
+          }
+
+          return HourTvPlayerOptionsSheet(
+            title: 'Opciones de reproducción',
+            subtitle: channel.displayName,
+            actions: [
+              PlayerSheetAction(
+                icon: channel.isFavorite
+                    ? Icons.bookmark_rounded
+                    : Icons.bookmark_outline_rounded,
+                label: channel.isFavorite
+                    ? 'En Mi lista'
+                    : 'Guardar en Mi lista',
+                selected: channel.isFavorite,
+                subtitle: channel.isFavorite
+                    ? 'Toca para quitar este título'
+                    : 'Encuéntralo después en tu biblioteca',
+                onTap: () => open(() async {
+                  final saved = await StorageService.toggleFavorite(channel);
+                  if (!mounted) return;
+                  setState(() {});
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        saved
+                            ? 'Guardado en Mi lista'
+                            : 'Eliminado de Mi lista',
+                      ),
+                      duration: const Duration(seconds: 1),
+                    ),
+                  );
+                }),
+              ),
+              if (channel.servers.length > 1)
+                PlayerSheetAction(
+                  icon: Icons.dns_outlined,
+                  label: 'Servidor',
+                  onTap: () => open(_showServerSelector),
+                ),
+              PlayerSheetAction(
+                icon: Icons.audiotrack_rounded,
+                label: 'Audio',
+                onTap: () => open(_showAudioSelector),
+              ),
+              PlayerSheetAction(
+                icon: Icons.subtitles_outlined,
+                label: 'Subtítulos',
+                onTap: () => open(_showSubtitleSelector),
+              ),
+              PlayerSheetAction(
+                icon: Icons.high_quality_outlined,
+                label: 'Calidad',
+                onTap: () => open(_showQualitySelector),
+              ),
+              if (!_isLive)
+                PlayerSheetAction(
+                  icon: Icons.speed_rounded,
+                  label: 'Velocidad',
+                  onTap: () => open(_showSpeedSelector),
+                ),
+              PlayerSheetAction(
+                icon: Icons.aspect_ratio_rounded,
+                label: 'Ajuste de imagen',
+                onTap: () => open(_showAspectSelector),
+              ),
+              if (CastService.isScreenMirroringSupported(context))
+                PlayerSheetAction(
+                  icon: Icons.screen_share_outlined,
+                  label: 'Duplicar pantalla',
+                  subtitle: 'Abre la conexión de pantalla de Android',
+                  onTap: () => open(_openCastSettings),
+                ),
+            ],
+          );
+        },
+      );
+      if (mounted) _screenFocus.requestFocus();
+      return;
+    }
+    await showHourTvPlayerDialog<void>(
       context: context,
       builder: (dialogContext) => SimpleDialog(
         title: const Text('Opciones de reproducción'),
         children: [
+          SimpleDialogOption(
+            onPressed: () async {
+              Navigator.pop(dialogContext);
+              final channel = widget.allChannels[_idx];
+              final favorite = await StorageService.toggleFavorite(channel);
+              if (!mounted) return;
+              setState(() {});
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    favorite ? 'Guardado en Mi lista' : 'Eliminado de Mi lista',
+                  ),
+                  duration: const Duration(seconds: 1),
+                ),
+              );
+            },
+            child: ListTile(
+              contentPadding: EdgeInsets.zero,
+              leading: Icon(
+                widget.allChannels[_idx].isFavorite
+                    ? Icons.bookmark_rounded
+                    : Icons.bookmark_outline_rounded,
+              ),
+              title: Text(
+                widget.allChannels[_idx].isFavorite
+                    ? 'Quitar de Mi lista'
+                    : 'Guardar en Mi lista',
+              ),
+            ),
+          ),
           if (CastService.isScreenMirroringSupported(context))
             SimpleDialogOption(
               onPressed: () {
@@ -1899,6 +2263,103 @@ class _PlayerScreenState extends State<PlayerScreen>
     );
     if (mounted) _screenFocus.requestFocus();
   }
+
+  Future<void> _showAudioAndSubtitles() async {
+    final selection = await showModalBottomSheet<String>(
+      context: context,
+      backgroundColor: _hourSurface,
+      showDragHandle: true,
+      useSafeArea: true,
+      constraints: const BoxConstraints(maxWidth: 520),
+      builder: (sheetContext) => Padding(
+        padding: const EdgeInsets.only(bottom: 16),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Padding(
+              padding: EdgeInsets.fromLTRB(24, 0, 24, 12),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'Audio y subtítulos',
+                  style: TextStyle(
+                    fontFamily: 'Roboto',
+                    fontSize: 20,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ),
+            ListTile(
+              leading: const Icon(
+                Icons.audiotrack_rounded,
+                color: Colors.white,
+              ),
+              title: const Text(
+                'Audio',
+                style: TextStyle(fontFamily: 'Roboto', color: Colors.white),
+              ),
+              onTap: () => Navigator.pop(sheetContext, 'audio'),
+            ),
+            ListTile(
+              leading: const Icon(
+                Icons.subtitles_outlined,
+                color: Colors.white,
+              ),
+              title: const Text(
+                'Subtítulos',
+                style: TextStyle(fontFamily: 'Roboto', color: Colors.white),
+              ),
+              onTap: () => Navigator.pop(sheetContext, 'subtitles'),
+            ),
+          ],
+        ),
+      ),
+    );
+    if (!mounted) return;
+    if (selection == 'audio') await _showAudioSelector();
+    if (selection == 'subtitles') await _showSubtitleSelector();
+    if (mounted) _screenFocus.requestFocus();
+  }
+
+  Future<void> _showSpeedSelector() async {
+    final controller = _vc;
+    if (controller == null || !controller.value.isInitialized || _isLive) {
+      return;
+    }
+    final selected = await showHourTvPlayerDialog<double>(
+      context: context,
+      builder: (dialogContext) => SimpleDialog(
+        title: const Text(
+          'Velocidad de reproducción',
+          style: TextStyle(fontFamily: 'Roboto'),
+        ),
+        children: [
+          for (final speed in [.5, .75, 1.0, 1.25, 1.5, 1.75, 2.0])
+            SimpleDialogOption(
+              onPressed: () => Navigator.pop(dialogContext, speed),
+              child: ListTile(
+                contentPadding: EdgeInsets.zero,
+                title: Text(
+                  _speedLabel(speed),
+                  style: const TextStyle(fontFamily: 'Roboto'),
+                ),
+                trailing: controller.value.playbackSpeed == speed
+                    ? const Icon(Icons.check_rounded, color: _hourRed)
+                    : null,
+              ),
+            ),
+        ],
+      ),
+    );
+    if (!mounted || !identical(controller, _vc) || selected == null) return;
+    await controller.setPlaybackSpeed(selected);
+    if (mounted && identical(controller, _vc)) _showChromeControls();
+  }
+
+  static String _speedLabel(double speed) =>
+      '${speed == speed.roundToDouble() ? speed.toInt() : speed}×';
 
   KeyEventResult _onKey(FocusNode node, KeyEvent event) {
     if (event is! KeyDownEvent) return KeyEventResult.ignored;
@@ -2024,211 +2485,200 @@ class _PlayerScreenState extends State<PlayerScreen>
       onKeyEvent: _onKey,
       child: Scaffold(
         backgroundColor: Colors.black,
-        body: (!_loading && _embedUrl != null && _embedController != null)
-            ? _embedBody()
-            : GestureDetector(
-                behavior: HitTestBehavior.opaque,
-                onTap: _toggleChrome,
-                onDoubleTapDown: _onDoubleTapDown,
-                onDoubleTap: _onDoubleTapSeek,
-                onHorizontalDragEnd: _onHorizontalDragEnd,
-                onVerticalDragStart: _onVerticalDragStart,
-                onVerticalDragUpdate: _onVerticalDragUpdate,
-                child: Stack(
-                  children: [
-                    // El video va FUERA del SafeArea, a sangre: dentro, el
-                    // inset del recorte de camara le dejaba franjas negras a
-                    // los lados en horizontal. Los controles si respetan el
-                    // SafeArea, para no quedar debajo del notch.
-                    //
-                    // OJO: en Android el video va dentro de un `Center` con
-                    // restricciones SUELTAS. Se intento unificarlo con el
-                    // resto de plataformas usando Positioned.fill +
-                    // SizedBox.expand (restricciones ajustadas) y la pantalla
-                    // volvio a quedarse en negro con el audio sonando: el
-                    // decodificador seguia entregando fotogramas (logcat:
-                    // queueBuffer fps=30) pero la textura externa no se
-                    // componia. Verificado en el Infinix. No cambiar sin
-                    // probar en dispositivo.
-                    if (defaultTargetPlatform == TargetPlatform.android)
-                      Positioned.fill(
-                        child: RepaintBoundary(
-                          child: Center(
-                            child: _loading
-                                ? _lw()
-                                : _err != null
-                                ? _ew()
-                                : _cc != null
-                                ? _androidVideoStage()
-                                : const SizedBox(),
-                          ),
-                        ),
-                      )
-                    else
-                      Positioned.fill(
-                        child: RepaintBoundary(
-                          child: _loading
-                              ? Center(child: _lw())
-                              : _err != null
-                              ? Center(child: _ew())
-                              : _vc != null
-                              ? _videoStage()
-                              : const SizedBox(),
-                        ),
-                      ),
-                    // Positioned.fill obligatorio: como hijo sin posicionar,
-                    // este SafeArea se dimensionaba a su contenido, y el Stack
-                    // de dentro solo tiene hijos Positioned, asi que colapsaba
-                    // a 0x0 y arrastraba al Stack exterior. Resultado: pantalla
-                    // completamente negra, sin video y sin controles.
-                    Positioned.fill(
-                      child: RepaintBoundary(
-                        child: SafeArea(
-                          minimum: EdgeInsets.symmetric(
-                            horizontal: DeviceProfile.isTv(context) ? 12 : 0,
-                          ),
-                          child: Stack(
-                            children: [
-                              if (_screenDim > 0)
-                                Positioned.fill(
-                                  child: IgnorePointer(
-                                    child: ColoredBox(
-                                      color: Colors.black.withValues(
-                                        alpha: _screenDim,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              if (_vc != null) _subtitleOverlay(_vc!),
-                              if (_chromeVisible &&
-                                  !DeviceProfile.isTv(context) &&
-                                  !DeviceProfile.isDesktop(context))
-                                const Positioned.fill(
-                                  child: IgnorePointer(
-                                    child: DecoratedBox(
-                                      decoration: BoxDecoration(
-                                        gradient: LinearGradient(
-                                          begin: Alignment.topCenter,
-                                          end: Alignment.bottomCenter,
-                                          colors: [
-                                            Color(0xB3000000),
-                                            Color(0x33000000),
-                                            Color(0x33000000),
-                                            Color(0xCC000000),
-                                          ],
-                                          stops: [0, .22, .7, 1],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              // This layer owns the one central playback state.
-                              // Buffering does not show/reset the chrome timer.
-                              Positioned.fill(child: _playbackCenter()),
-                              if (_chromeVisible)
-                                Positioned(
-                                  top: 0,
-                                  left: 0,
-                                  right: 0,
-                                  child: _tb(),
-                                ),
-                              if (_chromeVisible &&
-                                  DeviceProfile.isTv(context) &&
-                                  !_showList)
-                                Positioned(
-                                  left: 46,
-                                  right: 46,
-                                  bottom: 34,
-                                  child: _tvTransport(),
-                                ),
-                              if (_chromeVisible &&
-                                  !DeviceProfile.isDesktop(context) &&
-                                  !DeviceProfile.isTv(context) &&
-                                  !_showList) ...[
-                                Positioned(
-                                  left: 16,
-                                  right: 16,
-                                  bottom: 8,
-                                  child: _touchTransport(),
-                                ),
-                              ],
-                              if (_chromeVisible &&
-                                  DeviceProfile.isDesktop(context) &&
-                                  !_showList)
-                                Positioned.fill(
-                                  child: IgnorePointer(
-                                    child: Center(
-                                      child: _desktopShortcutHint(),
-                                    ),
-                                  ),
-                                ),
-                              if (_gestureLabel != null)
-                                Positioned.fill(
-                                  child: IgnorePointer(
-                                    child: Center(
-                                      child: Container(
-                                        padding: const EdgeInsets.symmetric(
-                                          horizontal: 18,
-                                          vertical: 10,
-                                        ),
-                                        decoration: BoxDecoration(
-                                          color: Colors.black87,
-                                          borderRadius: BorderRadius.circular(
-                                            12,
-                                          ),
-                                        ),
-                                        child: Text(
-                                          _gestureLabel!,
-                                          style: const TextStyle(
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              if (_vc != null) _introPrompt(),
-                              _nextEpisodePrompt(),
-                              _endOfPlaybackOverlay(),
-                              if (_showList && _isLive) _ov(),
-                              if (_chromeVisible &&
-                                  !_showList &&
-                                  _isLive &&
-                                  !DeviceProfile.isDesktop(context) &&
-                                  !DeviceProfile.isTv(context)) ...[
-                                Positioned(
-                                  left: 8,
-                                  top: 0,
-                                  bottom: 0,
-                                  child: Center(
-                                    child: _nb(
-                                      Icons.chevron_left,
-                                      () => _chg(-1),
-                                      label: 'Canal anterior',
-                                    ),
-                                  ),
-                                ),
-                                Positioned(
-                                  right: 8,
-                                  top: 0,
-                                  bottom: 0,
-                                  child: Center(
-                                    child: _nb(
-                                      Icons.chevron_right,
-                                      () => _chg(1),
-                                      label: 'Canal siguiente',
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ],
-                          ),
-                        ),
-                      ),
+        body: GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTap: _toggleChrome,
+          onDoubleTapDown: _onDoubleTapDown,
+          onDoubleTap: _onDoubleTapSeek,
+          onHorizontalDragEnd: _onHorizontalDragEnd,
+          onVerticalDragStart: _onVerticalDragStart,
+          onVerticalDragUpdate: _onVerticalDragUpdate,
+          child: Stack(
+            children: [
+              // El video va FUERA del SafeArea, a sangre: dentro, el
+              // inset del recorte de camara le dejaba franjas negras a
+              // los lados en horizontal. Los controles si respetan el
+              // SafeArea, para no quedar debajo del notch.
+              //
+              // OJO: en Android el video va dentro de un `Center` con
+              // restricciones SUELTAS. Se intento unificarlo con el
+              // resto de plataformas usando Positioned.fill +
+              // SizedBox.expand (restricciones ajustadas) y la pantalla
+              // volvio a quedarse en negro con el audio sonando: el
+              // decodificador seguia entregando fotogramas (logcat:
+              // queueBuffer fps=30) pero la textura externa no se
+              // componia. Verificado en el Infinix. No cambiar sin
+              // probar en dispositivo.
+              if (defaultTargetPlatform == TargetPlatform.android)
+                Positioned.fill(
+                  child: RepaintBoundary(
+                    child: Center(
+                      child: _loading
+                          ? _androidLoadingSurface()
+                          : _err != null
+                          ? _ew()
+                          : _cc != null
+                          ? _androidVideoStage()
+                          : const SizedBox(),
                     ),
-                  ],
+                  ),
+                )
+              else
+                Positioned.fill(
+                  child: RepaintBoundary(
+                    child: _loading
+                        ? Center(child: _lw())
+                        : _err != null
+                        ? Center(child: _ew())
+                        : _vc != null
+                        ? _videoStage()
+                        : const SizedBox(),
+                  ),
+                ),
+              if (!DeviceProfile.isTv(context) &&
+                  !DeviceProfile.isDesktop(context))
+                Positioned.fill(
+                  child: HourTvPlayerScrim(visible: _chromeVisible),
+                ),
+              // Positioned.fill obligatorio: como hijo sin posicionar,
+              // este SafeArea se dimensionaba a su contenido, y el Stack
+              // de dentro solo tiene hijos Positioned, asi que colapsaba
+              // a 0x0 y arrastraba al Stack exterior. Resultado: pantalla
+              // completamente negra, sin video y sin controles.
+              Positioned.fill(
+                child: RepaintBoundary(
+                  child: SafeArea(
+                    minimum: EdgeInsets.symmetric(
+                      horizontal: DeviceProfile.isTv(context) ? 12 : 0,
+                    ),
+                    child: Stack(
+                      children: [
+                        if (_screenDim > 0)
+                          Positioned.fill(
+                            child: IgnorePointer(
+                              child: ColoredBox(
+                                color: Colors.black.withValues(
+                                  alpha: _screenDim,
+                                ),
+                              ),
+                            ),
+                          ),
+                        if (_vc != null) _subtitleOverlay(_vc!),
+                        // One fullscreen handoff surface owns the artwork,
+                        // source wheel and the single fade after playback is
+                        // really advancing. Never cross-fade duplicate layers.
+                        if (_useServerHandoff &&
+                            _handoffStarted &&
+                            _err == null)
+                          Positioned.fill(
+                            child: ValueListenableBuilder<bool>(
+                              valueListenable: _handoffReady,
+                              builder: (_, ready, _) => _serverHandoff(ready),
+                            ),
+                          ),
+                        Positioned.fill(child: _playbackCenter()),
+                        Positioned(
+                          top: 0,
+                          left: 0,
+                          right: 0,
+                          child: PlayerChromeVisibility(
+                            visible: _chromeVisible,
+                            child: _tb(),
+                          ),
+                        ),
+                        if (_chromeVisible &&
+                            DeviceProfile.isTv(context) &&
+                            !_showList)
+                          Positioned(
+                            left: 46,
+                            right: 46,
+                            bottom: 34,
+                            child: _tvTransport(),
+                          ),
+                        if (!DeviceProfile.isDesktop(context) &&
+                            !DeviceProfile.isTv(context) &&
+                            !_showList) ...[
+                          Positioned(
+                            left: 16,
+                            right: 16,
+                            bottom: 8,
+                            child: PlayerChromeVisibility(
+                              visible: _chromeVisible,
+                              child: _touchTransport(),
+                            ),
+                          ),
+                        ],
+                        if (_chromeVisible &&
+                            DeviceProfile.isDesktop(context) &&
+                            !_showList)
+                          Positioned.fill(
+                            child: IgnorePointer(
+                              child: Center(child: _desktopShortcutHint()),
+                            ),
+                          ),
+                        if (_gestureLabel != null)
+                          Positioned.fill(
+                            child: IgnorePointer(
+                              child: Center(
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 18,
+                                    vertical: 10,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: Colors.black87,
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child: Text(
+                                    _gestureLabel!,
+                                    style: const TextStyle(color: Colors.white),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        if (_vc != null) _introPrompt(),
+                        _nextEpisodePrompt(),
+                        _endOfPlaybackOverlay(),
+                        if (_showList && _isLive) _ov(),
+                        if (_chromeVisible &&
+                            !_showList &&
+                            _isLive &&
+                            !DeviceProfile.isDesktop(context) &&
+                            !DeviceProfile.isTv(context)) ...[
+                          Positioned(
+                            left: 8,
+                            top: 0,
+                            bottom: 0,
+                            child: Center(
+                              child: _nb(
+                                Icons.chevron_left,
+                                () => _chg(-1),
+                                label: 'Canal anterior',
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            right: 8,
+                            top: 0,
+                            bottom: 0,
+                            child: Center(
+                              child: _nb(
+                                Icons.chevron_right,
+                                () => _chg(1),
+                                label: 'Canal siguiente',
+                              ),
+                            ),
+                          ),
+                        ],
+                      ],
+                    ),
+                  ),
                 ),
               ),
+            ],
+          ),
+        ),
       ),
     ),
   );
@@ -2479,7 +2929,8 @@ class _PlayerScreenState extends State<PlayerScreen>
         }
         return HourTvPlaybackCenter(
           controlsVisible: touchControlsVisible,
-          isBuffering: value.isBuffering,
+          isBuffering:
+              value.isBuffering && (!_useServerHandoff || _handoffReady.value),
           isPlaying: value.isPlaying,
           onTogglePlayback: () {
             _togglePlayPause();
@@ -2490,6 +2941,63 @@ class _PlayerScreenState extends State<PlayerScreen>
           onSeekForward: () => unawaited(_seekBy(const Duration(seconds: 10))),
         );
       },
+    );
+  }
+
+  Widget _handoffArtwork() {
+    final image = _currentChannel.backdrop ?? _currentChannel.logo;
+    if (image == null || image.isEmpty) return const SizedBox.expand();
+    return SizedBox.expand(
+      child: CachedNetworkImage(
+        imageUrl: image,
+        fit: BoxFit.cover,
+        memCacheWidth: 1280,
+        fadeInDuration: Duration.zero,
+        fadeOutDuration: Duration.zero,
+        errorWidget: (_, _, _) => const SizedBox.shrink(),
+      ),
+    );
+  }
+
+  Widget _androidLoadingSurface() {
+    final controller = _vc;
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        if (_activePlaybackEngine == PlaybackEngineBackend.mpv &&
+            controller != null)
+          IgnorePointer(child: RepaintBoundary(child: VideoPlayer(controller))),
+        Center(child: _useServerHandoff ? _handoffArtwork() : _lw()),
+      ],
+    );
+  }
+
+  Widget _serverHandoff(bool ready) {
+    final servers = _currentChannel.servers;
+    final plan = _sourcePlan;
+    final urls = plan?.sources ?? servers.map((server) => server.url).toList();
+    final names = <String>[];
+    for (var index = 0; index < urls.length; index++) {
+      String? label;
+      for (final server in servers) {
+        if (server.url == urls[index] && server.name.trim().isNotEmpty) {
+          label = server.name.trim();
+          break;
+        }
+      }
+      names.add(
+        label ?? (index == 0 ? 'Fuente principal' : 'Alternativa $index'),
+      );
+    }
+    if (names.isEmpty) names.add('Servidor');
+    final selected =
+        plan?.currentIndex ??
+        servers.indexWhere((server) => server.url == _activeServerUrl);
+    return HourTvServerHandoff(
+      names: names,
+      activeIndex: selected < 0 ? 0 : selected,
+      ready: ready,
+      artwork: _handoffArtwork(),
     );
   }
 
@@ -2515,6 +3023,7 @@ class _PlayerScreenState extends State<PlayerScreen>
         v.duration,
         v.position.inSeconds,
         v.buffered.isEmpty ? 0 : v.buffered.last.end.inSeconds,
+        v.playbackSpeed,
       ),
       builder: (context, value) {
         final durationMs = value.duration.inMilliseconds.toDouble();
@@ -2522,7 +3031,7 @@ class _PlayerScreenState extends State<PlayerScreen>
           return ValueListenableBuilder<double?>(
             valueListenable: _scrubMs,
             builder: (context, scrub, _) =>
-                _timeline(controller, value, durationMs, scrub, rotate),
+                _timeline(controller, value, durationMs, scrub),
           );
         }
         return Row(
@@ -2568,7 +3077,6 @@ class _PlayerScreenState extends State<PlayerScreen>
     VideoPlayerValue value,
     double durationMs,
     double? scrub,
-    Widget trailing,
   ) {
     final buffered = value.buffered.isEmpty
         ? 0.0
@@ -2578,50 +3086,69 @@ class _PlayerScreenState extends State<PlayerScreen>
       durationMs,
     );
     const timeStyle = TextStyle(
+      fontFamily: 'Roboto',
       color: Colors.white,
       fontSize: 12.5,
       fontWeight: FontWeight.w600,
       fontFeatures: [FontFeature.tabularFigures()],
     );
-    return Row(
+    return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
-        Text(
-          _formatPlaybackTime(Duration(milliseconds: shown.round())),
-          style: timeStyle,
-        ),
-        Expanded(
-          child: SliderTheme(
-            data: SliderTheme.of(context).copyWith(
-              trackHeight: 4,
-              activeTrackColor: _hourRed,
-              inactiveTrackColor: Colors.white24,
-              secondaryActiveTrackColor: Colors.white54,
-              thumbColor: _hourRed,
-              overlayColor: _hourRed.withValues(alpha: .2),
-              thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 7),
-            ),
-            child: Slider(
-              value: shown,
-              max: durationMs,
-              secondaryTrackValue: buffered.clamp(0.0, durationMs),
-              onChangeStart: (_) => _chromeTimer?.cancel(),
-              onChanged: (v) => _scrubMs.value = v,
-              onChangeEnd: (v) async {
-                await controller.seekTo(Duration(milliseconds: v.round()));
-                _scrubMs.value = null;
-                _showChromeControls();
-              },
-            ),
+        SliderTheme(
+          data: SliderTheme.of(context).copyWith(
+            trackHeight: 3,
+            activeTrackColor: _hourRed,
+            inactiveTrackColor: Colors.white24,
+            secondaryActiveTrackColor: Colors.white54,
+            thumbColor: _hourRed,
+            overlayColor: _hourRed.withValues(alpha: .2),
+            thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 5),
+          ),
+          child: Slider(
+            value: shown,
+            max: durationMs,
+            secondaryTrackValue: buffered.clamp(0.0, durationMs),
+            onChangeStart: (_) => _chromeTimer?.cancel(),
+            onChanged: (v) => _scrubMs.value = v,
+            onChangeEnd: (v) async {
+              await controller.seekTo(Duration(milliseconds: v.round()));
+              _scrubMs.value = null;
+              _showChromeControls();
+            },
           ),
         ),
-        Text(
-          '-${_formatPlaybackTime(value.duration - Duration(milliseconds: shown.round()))}',
-          style: timeStyle.copyWith(
-            color: Colors.white70,
-            fontWeight: FontWeight.w500,
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          child: Row(
+            children: [
+              Text(
+                _formatPlaybackTime(Duration(milliseconds: shown.round())),
+                style: timeStyle,
+              ),
+              const Spacer(),
+              Text(
+                '-${_formatPlaybackTime(value.duration - Duration(milliseconds: shown.round()))}',
+                style: timeStyle.copyWith(
+                  color: Colors.white70,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
           ),
         ),
-        trailing,
+        const SizedBox(height: 8),
+        HourTvMobilePlayerToolbar(
+          qualityLabel: _qualityHeight == null ? 'Auto' : '${_qualityHeight}p',
+          speedLabel: _speedLabel(value.playbackSpeed),
+          landscape: _landscape,
+          onAudio: () => unawaited(_showAudioAndSubtitles()),
+          onQuality: () => unawaited(_showQualitySelector()),
+          onSpeed: () => unawaited(_showSpeedSelector()),
+          onPip: () => unawaited(_enterPictureInPicture()),
+          onSettings: () => unawaited(_showPlayerOptions()),
+          onFullscreen: _toggleOrientation,
+        ),
       ],
     );
   }
@@ -2954,7 +3481,7 @@ class _PlayerScreenState extends State<PlayerScreen>
   Widget _lw() => Column(
     mainAxisSize: MainAxisSize.min,
     children: [
-      const CircularProgressIndicator(color: _hourRed),
+      const RepaintBoundary(child: CircularProgressIndicator(color: _hourRed)),
       const SizedBox(height: 16),
       const Text('Cargando...', style: TextStyle(color: Colors.white70)),
     ],
@@ -2972,19 +3499,6 @@ class _PlayerScreenState extends State<PlayerScreen>
           textAlign: TextAlign.center,
         ),
       ),
-      if (_errDetail != null && _errDetail!.trim().isNotEmpty) ...[
-        const SizedBox(height: 10),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 32),
-          child: Text(
-            _errDetail!,
-            maxLines: 3,
-            overflow: TextOverflow.ellipsis,
-            textAlign: TextAlign.center,
-            style: const TextStyle(color: Colors.white30, fontSize: 11),
-          ),
-        ),
-      ],
       const SizedBox(height: 24),
       ElevatedButton.icon(
         onPressed: () =>
@@ -3205,6 +3719,42 @@ class _PlayerScreenState extends State<PlayerScreen>
 
   Widget _tb() {
     final ch = widget.allChannels[_idx];
+    if (!_isLive &&
+        !DeviceProfile.isTv(context) &&
+        !DeviceProfile.isDesktop(context)) {
+      final index = ch.servers.indexWhere(
+        (server) => server.url == _activeServerUrl,
+      );
+      final server = ch.servers.isEmpty
+          ? null
+          : ch.servers[index < 0 ? 0 : index];
+      final host = Uri.tryParse(server?.url ?? ch.url)?.host;
+      final name = host == 'voe.sx'
+          ? 'VOE'
+          : (server?.name.trim().isNotEmpty == true
+                ? server!.name.trim()
+                : 'Fuente directa');
+      final language = server?.language?.trim();
+      final metadata = <String>[
+        if (ch.year?.isNotEmpty == true) ch.year!,
+        if (ch.genre?.isNotEmpty == true)
+          ch.genre!.split(RegExp(r'[,|]')).first.trim()
+        else
+          ch.type == MediaType.movie ? 'Película' : 'Episodio',
+      ];
+      return HourTvMobilePlayerHeader(
+        title: ch.displayName,
+        subtitle: metadata.join(' · '),
+        serverLabel: language?.isNotEmpty == true ? '$name · $language' : name,
+        castConnected: _castConnected,
+        sourceReady: _vc?.value.isInitialized == true && _err == null,
+        onBack: () => Navigator.pop(context),
+        onCast: () => unawaited(_openRealCast()),
+        onServer: ch.servers.length > 1
+            ? () => unawaited(_showServerSelector())
+            : null,
+      );
+    }
     if (DeviceProfile.isTv(context)) {
       return SafeArea(
         bottom: false,
@@ -3392,9 +3942,13 @@ class _PlayerScreenState extends State<PlayerScreen>
                 onPressed: () => setState(() => _showList = !_showList),
               ),
             IconButton(
-              tooltip: ch.isFavorite ? 'Quitar de favoritos' : 'Favorito',
+              tooltip: ch.isFavorite
+                  ? 'Quitar de Mi lista'
+                  : 'Guardar en Mi lista',
               icon: Icon(
-                ch.isFavorite ? Icons.favorite : Icons.favorite_border,
+                ch.isFavorite
+                    ? Icons.bookmark_rounded
+                    : Icons.bookmark_outline_rounded,
                 color: _hourRed,
               ),
               onPressed: () async {
@@ -3404,7 +3958,7 @@ class _PlayerScreenState extends State<PlayerScreen>
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text(
-                      fav ? 'Aniadido a favoritos' : 'Eliminado de favoritos',
+                      fav ? 'Guardado en Mi lista' : 'Eliminado de Mi lista',
                     ),
                     duration: const Duration(seconds: 1),
                   ),
@@ -3555,6 +4109,11 @@ class _PlayerScreenState extends State<PlayerScreen>
 
   @override
   void dispose() {
+    _playbackGeneration++;
+    _extractionRequest?.cancel();
+    _startupProgressWatchdog.dispose();
+    _recoveryTimer?.cancel();
+    _handoffReady.dispose();
     WidgetsBinding.instance.removeObserver(this);
     _persistFinalProgress();
     _chromeTimer?.cancel();
@@ -3564,7 +4123,9 @@ class _PlayerScreenState extends State<PlayerScreen>
     unawaited(CastService.instance.stopDiscovery());
     _vc?.removeListener(_onVideoProgress);
     _cc?.dispose();
-    _vc?.dispose();
+    final release = _releaseResolvedStream;
+    _releaseResolvedStream = null;
+    unawaited(_closeNativeSession(_vc, release));
     _nextEpisodeCountdown.dispose();
     _creditsMode.dispose();
     _playbackEnded.dispose();
@@ -3700,6 +4261,19 @@ String formatResumeClock(int ms) {
   final s = total % 60;
   String two(int n) => n.toString().padLeft(2, '0');
   return h > 0 ? '$h:${two(m)}:${two(s)}' : '${two(m)}:${two(s)}';
+}
+
+/// Logs enough native-player detail to tell a source error from a resolver
+/// failure without leaking signed media URLs or their query tokens.
+String _safePlaybackDiagnostic(String? raw) {
+  if (raw == null || raw.trim().isEmpty) return 'unknown';
+  final sanitized = raw
+      .replaceAll(RegExp(r'https?://[^\s)\]]+'), '[url]')
+      .replaceAll(RegExp(r'\s+'), ' ')
+      .trim();
+  return sanitized.length <= 180
+      ? sanitized
+      : '${sanitized.substring(0, 180)}…';
 }
 
 /// Traduce el error crudo de ExoPlayer/Dart a algo que el usuario pueda

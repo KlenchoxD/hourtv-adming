@@ -24,7 +24,27 @@ void main() {
         url: 'archive:some-old-id',
         forcedType: 'movie',
       );
-      await StorageService.saveChannels([fromPanel, fromArchive]);
+      final curatedResidentEvil = Channel(
+        name: 'Resident Evil III. Extinción',
+        url: 'https://catalog.test/resident-evil-3',
+        logo: 'https://image.tmdb.org/t/p/w500/resident-evil.jpg',
+        year: '2007',
+        tmdbId: 7737,
+        forcedType: 'movie',
+      );
+      final legacyResidentEvil = Channel(
+        name: 'Resident Evil 3: Extinción',
+        url: 'https://mp4.nu/resident-evil-3',
+        category: 'peliculas',
+        year: '2007',
+        forcedType: 'movie',
+      );
+      await StorageService.saveChannels([
+        fromPanel,
+        fromArchive,
+        curatedResidentEvil,
+        legacyResidentEvil,
+      ]);
 
       final store = ContentStore.instance;
       final previous = store.all;
@@ -40,6 +60,14 @@ void main() {
       expect(
         store.all.map((c) => c.url),
         contains('https://cdn.test/panel-movie.mp4'),
+      );
+      expect(
+        store.all.map((c) => c.url),
+        contains('https://catalog.test/resident-evil-3'),
+      );
+      expect(
+        store.all.map((c) => c.url),
+        isNot(contains('https://mp4.nu/resident-evil-3')),
       );
     },
   );

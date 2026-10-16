@@ -13,6 +13,9 @@ class LevelPlayAds
 
   LevelPlayInterstitialAd? _ad;
   bool _started = false;
+  bool _initialized = false;
+  bool _initFailed = false;
+  bool _loadInFlight = false;
   bool _loaded = false;
   Completer<bool>? _showing;
   Completer<void>? _loadedSignal;
@@ -30,6 +33,8 @@ class LevelPlayAds
         initRequest: LevelPlayInitRequest(appKey: appKey),
         initListener: this,
       ).catchError((Object e) {
+        _initFailed = true;
+        _completeLoadWaiters();
         debugPrint('[ADS] levelplay_init_error ${e.runtimeType}');
       }),
     );
@@ -38,18 +43,38 @@ class LevelPlayAds
   bool get isLoaded => _loaded;
 
   /// Espera a que haya un video listo (como máximo [limit]).
-  Future<bool> waitUntilLoaded(Duration limit) async {
+  Future<bool> waitUntilLoaded(
+    Duration limit, {
+    Future<void>? cancelSignal,
+  }) async {
     if (_loaded) return true;
-    if (_ad == null) return false;
-    // Se pide uno ya, sin esperar al reintento programado.
-    if (_loadedSignal == null) _load();
-    final signal = _loadedSignal ??= Completer<void>();
-    try {
-      await signal.future.timeout(limit);
-    } on TimeoutException {
+    if (_ad == null || !_started || _initFailed || limit <= Duration.zero) {
       return false;
     }
-    return _loaded;
+    // Register before requesting the ad: a fast SDK callback must not be lost.
+    final signal = _loadedSignal ??= Completer<void>();
+    // onInitSuccess also starts the first load. This covers the case where
+    // initialization completed before playback was requested.
+    if (_initialized) _load();
+    final timeout = Completer<void>();
+    final timer = Timer(limit, () {
+      if (!timeout.isCompleted) timeout.complete();
+    });
+    var cancelled = false;
+    try {
+      final waits = <Future<void>>[signal.future, timeout.future];
+      if (cancelSignal != null) {
+        waits.add(
+          cancelSignal.then((_) {
+            cancelled = true;
+          }),
+        );
+      }
+      await Future.any(waits);
+    } finally {
+      timer.cancel();
+    }
+    return !cancelled && _loaded;
   }
 
   /// Muestra el video si ya está cargado; true si el usuario lo vio.
@@ -77,8 +102,20 @@ class LevelPlayAds
 
   void _load() {
     final ad = _ad;
-    if (ad == null) return;
-    unawaited(ad.loadAd().catchError((Object _) {}));
+    if (ad == null || !_initialized || _loadInFlight || _loaded) return;
+    _loadInFlight = true;
+    unawaited(
+      ad.loadAd().catchError((Object error) {
+        _loadInFlight = false;
+        debugPrint('[ADS] levelplay_load_error ${error.runtimeType}');
+      }),
+    );
+  }
+
+  void _completeLoadWaiters() {
+    final signal = _loadedSignal;
+    _loadedSignal = null;
+    if (signal != null && !signal.isCompleted) signal.complete();
   }
 
   void _finish(bool shown) {
@@ -88,27 +125,30 @@ class LevelPlayAds
 
   @override
   void onInitSuccess(LevelPlayConfiguration configuration) {
+    _initialized = true;
     debugPrint('[ADS] levelplay_ready');
     _load();
   }
 
   @override
   void onInitFailed(LevelPlayInitError error) {
+    _initFailed = true;
+    _completeLoadWaiters();
     debugPrint('[ADS] levelplay_init_failed ${error.errorCode}');
   }
 
   @override
   void onAdLoaded(LevelPlayAdInfo adInfo) {
+    _loadInFlight = false;
     _loaded = true;
-    final signal = _loadedSignal;
-    _loadedSignal = null;
-    if (signal != null && !signal.isCompleted) signal.complete();
+    _completeLoadWaiters();
     _retry = const Duration(seconds: 30);
     debugPrint('[ADS] levelplay_loaded');
   }
 
   @override
   void onAdLoadFailed(LevelPlayAdError error) {
+    _loadInFlight = false;
     _loaded = false;
     debugPrint('[ADS] levelplay_no_fill ${error.errorCode}');
     // Sin anuncio disponible: reintentar cada vez más espaciado (máx. 5 min).
