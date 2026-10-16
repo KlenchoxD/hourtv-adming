@@ -4407,6 +4407,113 @@
           "language": "Español"
         }
       ]
+    },
+    {
+      "title": "Instinto protector",
+      "plot": "La vida pacífica de Nikki, una exheroína de guerra, se ve destrozada cuando su hija es secuestrada. Inmersa en el submundo criminal mientras es perseguida por policías y militares, debe luchar para rescatar a su hija.",
+      "cast": "Milla Jovovich, Matthew Modine, Isabel Myers, D. B. Sweeney, Don Harvey, Michael Stahl-David, Lydia Hull, Chase Kim, Brooklyn Sudano, Gabriel Sloyer, Manny Montana, Texas Battle, Yoko Hamamura, Arica Himmel, Shane Williams, John D. Hickman, Anthony Xzavier Estrada",
+      "castPhotos": {
+        "Milla Jovovich": "https://image.tmdb.org/t/p/w185/usWnHCzbADijULREZYSJ0qfM00y.jpg",
+        "Matthew Modine": "https://image.tmdb.org/t/p/w185/z974QEHL12qUvLyk6hlWGAmDgom.jpg",
+        "Isabel Myers": "https://image.tmdb.org/t/p/w185/z2HXGhtvnlyrqb0gf77v8bBaS2U.jpg",
+        "D. B. Sweeney": "https://image.tmdb.org/t/p/w185/enY28APVRWfyHjGAkh6VCkYCWOA.jpg",
+        "Don Harvey": "https://image.tmdb.org/t/p/w185/dc10W0hRNxrO0IcwgKOcsUajtOG.jpg",
+        "Michael Stahl-David": "https://image.tmdb.org/t/p/w185/97a0cwKFuAHXh8X0NlxSGDvBvxn.jpg"
+      },
+      "director": "Adrian Grünberg",
+      "writer": "Mun Bong-seub",
+      "releaseDate": "2026-02-20",
+      "year": 2026,
+      "genre": null,
+      "rating": 8.4,
+      "duration": "90 min",
+      "poster": "https://image.tmdb.org/t/p/w500/xfyBQzFOixFzzOHHGr8HFnHR8Hm.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/vpuPY4UziUCxv7gYYoaZQ3LX7to.jpg",
+      "tmdbId": 1383731,
+      "tmdbType": "movie",
+      "id": "tmdb-1383731",
+      "categories": [
+        "acción"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/7xv3ipdgnvdq",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "It: Capítulo 2",
+      "plot": "Han pasado casi 30 años desde que el \"Club de los Perdedores\", formado por Bill, Beverly, Richie, Ben, Eddie, Mike y Stanley, se enfrentaran al macabro y despiadado Pennywise (Bill Skarsgård). En cuanto tuvieron oportunidad, abandonaron el pueblo de Derry, en el estado de Maine, que tantos problemas les había ocasionado. Sin embargo, ahora, siendo adultos, parece que no pueden escapar de su pasado. Todos deberán enfrentarse de nuevo al temible payaso para descubrir si de verdad están preparados para superar sus traumas de la infancia.",
+      "cast": "Jessica Chastain, James McAvoy, Bill Hader, Isaiah Mustafa, Jay Ryan, James Ransone, Andy Bean, Bill Skarsgård, Jaeden Martell, Wyatt Oleff, Jack Dylan Grazer, Finn Wolfhard, Sophia Lillis, Chosen Jacobs, Jeremy Ray Taylor, Teach Grant, Nicholas Hamilton, Javier Botet, Xavier Dolan, Taylor Frey, Molly Atkinson, Joan Gregson, Stephen Bogaert, Luke Roessler, Stephen King, Peter Bogdanovich, Will Beinbrink, Jess Weixler, Martha Girvin, Ryan Kiera Armstrong",
+      "castPhotos": {
+        "Jessica Chastain": "https://image.tmdb.org/t/p/w185/eQKnihReJeB9vQEa5gySzAlKfZt.jpg",
+        "James McAvoy": "https://image.tmdb.org/t/p/w185/u4REKbm3zhFI2J5tVyqRovGRYUJ.jpg",
+        "Bill Hader": "https://image.tmdb.org/t/p/w185/qyT50vQ9PQIEctE1IxDTEsBKstU.jpg",
+        "Isaiah Mustafa": "https://image.tmdb.org/t/p/w185/cdXLqmG0nZWjfwfduZk22eBDsmP.jpg",
+        "Jay Ryan": "https://image.tmdb.org/t/p/w185/oNRYS1mKrAorHJAhOqdW0RYQ9Gu.jpg",
+        "James Ransone": "https://image.tmdb.org/t/p/w185/n1O0RnxKPfxvVJUh13Gr0pPGlvd.jpg"
+      },
+      "director": "Andy Muschietti",
+      "writer": "Gary Dauberman",
+      "releaseDate": "2019-09-04",
+      "year": 2019,
+      "genre": null,
+      "rating": 6.8,
+      "duration": "169 min",
+      "poster": "https://image.tmdb.org/t/p/w500/9oERKIVyTWpHNum3STVsAGD4ojz.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/6LVSrgm83UYWlrLTCVGmWhFKYO0.jpg",
+      "tmdbId": 474350,
+      "tmdbType": "movie",
+      "id": "tmdb-474350",
+      "categories": [
+        "terror",
+        "drama"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/gfzrzbrhh0ly",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "Jack Reacher",
+      "plot": "Jack Reacher (Tom Cruise), un antiguo policía militar que vive semiescondido como un vagabundo y que trabaja por su cuenta, decide investigar el caso de un francotirador que ha sido acusado de matar, por puro azar, a cinco personas en un tiroteo. Al ser interrogado, el francotirador se declara inocente y, además, exige la presencia de Jack Reacher.",
+      "cast": "Tom Cruise, Rosamund Pike, Richard Jenkins, David Oyelowo, Werner Herzog, Jai Courtney, Robert Duvall, Vladimir Sizov, Joseph Sikora, Nicole Forester, Michael Raymond-James, Alexia Fast, Josh Helman, James Martin Kelly, Dylan Kussman, Denver Milord, Susan Angelo, Julia Yorks, Delilah Picart, Joe Coyle, Alicia Murton, Peter Gannon, David Whalen, Tristan Elma, Sophie Guest, Michael Minor, Scott A. Martin, CJ Ramirez, Teri Clark, Jarid Faubel",
+      "castPhotos": {
+        "Tom Cruise": "https://image.tmdb.org/t/p/w185/maf8PhSvDCdEwjEMbYfGpojR5RP.jpg",
+        "Rosamund Pike": "https://image.tmdb.org/t/p/w185/8ObNklHDi2hjdz0ayzJFB9jtqzm.jpg",
+        "Richard Jenkins": "https://image.tmdb.org/t/p/w185/muT3RZG9hiKaKojD751RcQ5tGEy.jpg",
+        "David Oyelowo": "https://image.tmdb.org/t/p/w185/7UZHRwOKe2cYxj8SeNUklyPYkns.jpg",
+        "Werner Herzog": "https://image.tmdb.org/t/p/w185/qKlz1oM482Xf0jTPfLiR6qXlLYK.jpg",
+        "Jai Courtney": "https://image.tmdb.org/t/p/w185/6vEaNwbOKov6yzQx15CdtrqfK3L.jpg"
+      },
+      "director": "Christopher McQuarrie",
+      "writer": "Christopher McQuarrie",
+      "releaseDate": "2012-12-20",
+      "year": 2012,
+      "genre": null,
+      "rating": 6.7,
+      "duration": "130 min",
+      "poster": "https://image.tmdb.org/t/p/w500/14AUhr2kryo1NZiFQ2HPkT2tKvg.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/iwvP8XVpYVmJ3xfF9xdBi5uAOWl.jpg",
+      "tmdbId": 75780,
+      "tmdbType": "movie",
+      "id": "tmdb-75780",
+      "categories": [
+        "drama",
+        "acción"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/anakr9xnpkif",
+          "language": "Español"
+        }
+      ]
     }
   ],
   "series": [
