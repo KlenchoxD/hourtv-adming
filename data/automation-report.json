@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-16T03:43:35.463Z",
-  "durationMs": 851,
+  "generatedAt": "2026-10-16T08:30:38.860Z",
+  "durationMs": 2561,
   "dryRun": false,
   "moviesFound": 32,
   "moviesDiscarded": 25,
@@ -95,7 +95,7 @@
     {
       "tmdbId": 1153576,
       "title": "Street Fighter",
-      "reason": "Votos 21 por debajo del mínimo (50)"
+      "reason": "Votos 29 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1377237,
@@ -128,13 +128,13 @@
       "reason": "Sin sinopsis"
     },
     {
-      "tmdbId": 1751701,
-      "title": "After Impact",
-      "reason": "Votos 27 por debajo del mínimo (50)"
-    },
-    {
       "tmdbId": 1022789,
       "title": "Del revés 2 (Inside Out 2)",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 299536,
+      "title": "Vengadores: Infinity War",
       "reason": "Sin fuente autorizada configurada"
     }
   ]
