@@ -3366,6 +3366,146 @@
           "language": "Español"
         }
       ]
+    },
+    {
+      "title": "Tiempo de victoria",
+      "plot": "Quedan 72 horas para el Día D y todo está listo salvo un elemento clave: el tiempo. El capitán James Stagg, jefe del servicio meteorológico británico, recibe el encargo de elaborar el pronóstico más trascendental de la historia. Unas condiciones climáticas adversas podrían arruinar la mayor invasión marítima de la historia, mientras que cualquier retraso podría suponer que los servicios de inteligencia alemanes descubran sus intenciones. El general Dwight D. Eisenhower deberá tomar la decisión que determine el destino de la Segunda Guerra Mundial.",
+      "cast": "Andrew Scott, Brendan Fraser, Kerry Condon, Chris Messina, Damian Lewis, Tamsin Topolski, Jojo Macari, Con O'Neill, Alexander Hanson, Robert Portal, Joshua Hill, Toby Williams, Richard Clothier, Michael Benz, Crispin Letts, Harrison Osterfield, Sebastian Orozco, Pedro Leandro, Wil Coban, Max Croes, Taylor Uttley, Aidan Cheng, Daniel Quinn-Toye, Charles Camrose, Patrick Flannery, Joshua Reid, John Schwab, Orlando Seale, Paul Bailey, Roseanna Brown",
+      "castPhotos": {
+        "Andrew Scott": "https://image.tmdb.org/t/p/w185/4F8XpjyQCvtuu21WFm5d8RF5Rl.jpg",
+        "Brendan Fraser": "https://image.tmdb.org/t/p/w185/tFj5PaWWQbb8rHBBhu1EHklznph.jpg",
+        "Kerry Condon": "https://image.tmdb.org/t/p/w185/bLP627Ar30kSqy5ZIYVJioCprOH.jpg",
+        "Chris Messina": "https://image.tmdb.org/t/p/w185/l9DbQTK5pI6SOGpmfbADGLhdOYS.jpg",
+        "Damian Lewis": "https://image.tmdb.org/t/p/w185/puOXtVatFnAxoOmsFO8z7KTfyJW.jpg",
+        "Tamsin Topolski": "https://image.tmdb.org/t/p/w185/fsOY0Fe3KX8zseeaYjzOy5htLUl.jpg"
+      },
+      "director": "Anthony Maras",
+      "writer": "David Haig",
+      "releaseDate": "2026-05-28",
+      "year": 2026,
+      "genre": null,
+      "rating": 7.7,
+      "duration": "101 min",
+      "poster": "https://image.tmdb.org/t/p/w500/byKFPj2xvKkqMKQ4i0Ayq6N7Z9E.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/apfyLCPVFttB8oXcsLJ7q0NSFLx.jpg",
+      "tmdbId": 1318413,
+      "tmdbType": "movie",
+      "id": "tmdb-1318413",
+      "categories": [],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/18rcxycvlf2x",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "La trama fenicia",
+      "plot": "El magnate Zsa-zsa Korda es un rico empresario europeo que se ve envuelto en una trama de espionaje junto a su hija Liesl, una monja con la que mantiene una relación difícil y a la quiere dejar el negocio familiar.",
+      "cast": "Benicio del Toro, Mia Threapleton, Michael Cera, Riz Ahmed, Tom Hanks, Bryan Cranston, Mathieu Amalric, Richard Ayoade, Benedict Cumberbatch, Jeffrey Wright, Scarlett Johansson, Rupert Friend, Hope Davis, Bill Murray, Willem Dafoe, Alex Jennings, Charlotte Gainsbourg, F. Murray Abraham, Steve Park, Scott Shepherd, Donald Sumpter, Jason Watkins, Stéphane Bak, Antonia Desplat, Tonio Arango, Aysha Joy Samuel, Mohamed Chahrour, Imke Büchel, Anna Bardorf, Imad Mardnli",
+      "castPhotos": {
+        "Benicio del Toro": "https://image.tmdb.org/t/p/w185/aYomJWx0B2B8ra6Rmgt8lr0XCrw.jpg",
+        "Mia Threapleton": "https://image.tmdb.org/t/p/w185/e7nskqaIMmSk6Zx9QADZ0EliwxE.jpg",
+        "Michael Cera": "https://image.tmdb.org/t/p/w185/qjhNKsw0OLyZQgK4srhelBafcCf.jpg",
+        "Riz Ahmed": "https://image.tmdb.org/t/p/w185/1uP9RaX7BGVx7XGTEmwObBJJzsC.jpg",
+        "Tom Hanks": "https://image.tmdb.org/t/p/w185/oFvZoKI6lvU03n4YoNGAll9rkas.jpg",
+        "Bryan Cranston": "https://image.tmdb.org/t/p/w185/7Jahy5LZX2Fo8fGJltMreAI49hC.jpg"
+      },
+      "director": "Wes Anderson",
+      "writer": "Wes Anderson",
+      "releaseDate": "2025-05-23",
+      "year": 2025,
+      "genre": null,
+      "rating": 6.5,
+      "duration": "102 min",
+      "poster": "https://image.tmdb.org/t/p/w500/ts8IjoVDPH4wTlhZOm8owNlPhs4.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/bajke0ThKJ2V2iHE9DDYOJGdS7a.jpg",
+      "tmdbId": 1137350,
+      "tmdbType": "movie",
+      "id": "tmdb-1137350",
+      "categories": [
+        "comedia",
+        "aventura"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/dfjgryjjpctv",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "El exorcista: Creyente",
+      "plot": "Cuando su hija Angela y su amiga Katherine muestran signos de posesión demoníaca, se desata una cadena de acontecimientos que obligan al padre soltero Victor Fielding a afrontar el punto más bajo del mal. Aterrorizado y desesperado, busca a Chris MacNeil, la única persona viva que ha presenciado algo así antes.",
+      "cast": "Leslie Odom Jr., Lidya Jewett, Olivia O'Neill, Ann Dowd, Jennifer Nettles, Norbert Leo Butz, Okwui Okpokwasili, Raphael Sbarge, E.J. Bonilla, Ellen Burstyn, Linda Blair, Danny McCarthy, Tracey Graves, Celeste Oliva, Antoni Corone, Norah Murphy, Chloe Traicos, Chandu Kanuri, Richard Carr III, Malena Cunningham Anderson, Emily Rachel Gordon, Linda Boston, Nick Benas, Justin Paul Warren, Seth Loven, Dylan Probert, Amanda Beth, Lariah Alexandria, Cecil Chatman, Rory Gross",
+      "castPhotos": {
+        "Leslie Odom Jr.": "https://image.tmdb.org/t/p/w185/pDA11JMNAGQGJo7nRpZHp7pdp9N.jpg",
+        "Lidya Jewett": "https://image.tmdb.org/t/p/w185/6jZdx71jIvAwpMVVHxtGkvEkfv6.jpg",
+        "Olivia O'Neill": "https://image.tmdb.org/t/p/w185/2P0zYSgd3vSsYPYD1x47Ftig8Du.jpg",
+        "Ann Dowd": "https://image.tmdb.org/t/p/w185/zo44U71uiMNVW1HSiOa5F9MpqIq.jpg",
+        "Jennifer Nettles": "https://image.tmdb.org/t/p/w185/s6IDogtE93cMaMe4EYBjUeXVOV4.jpg",
+        "Norbert Leo Butz": "https://image.tmdb.org/t/p/w185/2SMyLebGOemP26yL9pp7IFKfqG5.jpg"
+      },
+      "director": "David Gordon Green",
+      "writer": "David Gordon Green",
+      "releaseDate": "2023-10-04",
+      "year": 2023,
+      "genre": null,
+      "rating": 5.8,
+      "duration": "121 min",
+      "poster": "https://image.tmdb.org/t/p/w500/f0N4Cx0XMbQIHnyAMByLLC0xovm.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/d7zDEW6AkRCvEOT2Cela4h0F3Nb.jpg",
+      "tmdbId": 807172,
+      "tmdbType": "movie",
+      "id": "tmdb-807172",
+      "categories": [
+        "terror"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/8txkgznrintp",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "El gran hotel Budapest",
+      "plot": "El Sr. Gustave H., un legendario conserje de un famoso hotel europeo de entreguerras, entabla amistad con Zero Moustafa, un joven empleado al que convierte en su protegido. La historia trata sobre el robo y la recuperación de una pintura renacentista de valor incalculable y sobre la batalla que enfrenta a los miembros de una familia por una inmensa fortuna. Como telón de fondo, los levantamientos que transformaron Europa durante la primera mitad del siglo XX.",
+      "cast": "Ralph Fiennes, F. Murray Abraham, Tony Revolori, Adrien Brody, Willem Dafoe, Mathieu Amalric, Jeff Goldblum, Harvey Keitel, Jude Law, Bill Murray, Edward Norton, Saoirse Ronan, Jason Schwartzman, Léa Seydoux, Tilda Swinton, Tom Wilkinson, Owen Wilson, Larry Pine, Giselda Volodi, Florian Lukas, Karl Markovics, Volker Michalowski, Neal Huff, Bob Balaban, Fisher Stevens, Wallace Wolodarsky, Waris Ahluwalia, Jella Niemann, Marcel Mazur, Robert Bienas",
+      "castPhotos": {
+        "Ralph Fiennes": "https://image.tmdb.org/t/p/w185/tJr9GcmGNHhLVVEH3i7QYbj6hBi.jpg",
+        "F. Murray Abraham": "https://image.tmdb.org/t/p/w185/p2RYVGdrcP0m70BkkiKcwyrDeim.jpg",
+        "Tony Revolori": "https://image.tmdb.org/t/p/w185/tSF6XmXDikrKZbFUeoDnafXxKjT.jpg",
+        "Adrien Brody": "https://image.tmdb.org/t/p/w185/qBc7ahQrpVpcllaZ5hkivsOEb3C.jpg",
+        "Willem Dafoe": "https://image.tmdb.org/t/p/w185/ui8e4sgZAwMPi3hzEO53jyBJF9B.jpg",
+        "Mathieu Amalric": "https://image.tmdb.org/t/p/w185/fMhfoTbjlXQy2Iojp7oYx49hLQl.jpg"
+      },
+      "director": "Wes Anderson",
+      "writer": "Wes Anderson",
+      "releaseDate": "2014-02-26",
+      "year": 2014,
+      "genre": null,
+      "rating": 8,
+      "duration": "99 min",
+      "poster": "https://image.tmdb.org/t/p/w500/1wk0vpNCX5T40KsGQKjfoDAhmJw.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/jK65srQczOKTpW62wPxwwKztGgE.jpg",
+      "tmdbId": 120467,
+      "tmdbType": "movie",
+      "id": "tmdb-120467",
+      "categories": [
+        "comedia",
+        "drama"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/4ap6mah5ezei",
+          "language": "Español"
+        }
+      ]
     }
   ],
   "series": [
