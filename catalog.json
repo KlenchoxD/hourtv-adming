@@ -902,6 +902,11 @@
           "name": "Servidor 1",
           "url": "https://voe.sx/e/fozxbutnhabd",
           "language": "Español"
+        },
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/duzzqiqdb2oz",
+          "language": "Español"
         }
       ]
     },
@@ -4260,6 +4265,145 @@
         {
           "name": "Voe",
           "url": "https://voe.sx/e/lhqwiuv7ygay",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "Hokum",
+      "plot": "Un escritor especializado en historias de terror decide viajar a una posada de Irlanda con la intención de esparcir en la zona las cenizas de sus difuntos padres. Lo que no sabe es que la posada es un lugar maldito habitado por una bruja. O eso cuentan los lugareños que viven cerca del lugar...",
+      "cast": "Adam Scott, Peter Coonan, David Wilmot, Florence Ordesh, Michael Patric, Will O'Connell, Brendan Conroy, Ezra Carlisle, Austin Amelio, Mallory Adams, Sioux Carroll, Brian Bowler, Rose Creagh, Ali Draper, Emer Dunne, Conor Dwane, Hadrian Famisitt, Ciara Ferguson, Euan Ferguson, Karl Fortune, Ana Galiano, Finn Hook, Rory Hook, Mikhail Ivannikov, Gerald Kavanagh, Austin Lawlor, Leticia Lopez Ramos, Eileen McCarthy, Henriette McCarthy, Joseph McCarthy",
+      "castPhotos": {
+        "Adam Scott": "https://image.tmdb.org/t/p/w185/b82C29R6fGiPoqIglQ4lzS6q2YX.jpg",
+        "Peter Coonan": "https://image.tmdb.org/t/p/w185/4CIPj53v871Gwwyean91BhXesfW.jpg",
+        "David Wilmot": "https://image.tmdb.org/t/p/w185/epb46N0iJyAmSOguMdFn6qQGSsy.jpg",
+        "Florence Ordesh": "https://image.tmdb.org/t/p/w185/vOSd53O4QOjZUl9U8LIP84lrvGk.jpg",
+        "Michael Patric": "https://image.tmdb.org/t/p/w185/mHbEIuUbc9wuqDRhVgLn4hnxVvn.jpg",
+        "Will O'Connell": "https://image.tmdb.org/t/p/w185/9aQlrstSFoKQdsCigFWQibyfZhW.jpg"
+      },
+      "director": "Damian McCarthy",
+      "writer": "Damian McCarthy",
+      "releaseDate": "2026-04-29",
+      "year": 2026,
+      "genre": null,
+      "rating": 6.8,
+      "duration": "108 min",
+      "poster": "https://image.tmdb.org/t/p/w500/hzOJEzqrOtwXbPw1U5nZMvTaljQ.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/qY7zVZ7liULhfRoXg4c9Xl83LcR.jpg",
+      "tmdbId": 1430077,
+      "tmdbType": "movie",
+      "id": "tmdb-1430077",
+      "categories": [
+        "terror"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/qh5wpee4w4dq",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "Huye, conejo, huye",
+      "plot": "Una doctora de una clínica de fertilidad descubre que su hermana pequeña se comporta de una manera extraña, lo que pondrá a prueba sus valores y le obligará a afrontar los fantasmas de su pasado.",
+      "cast": "Sarah Snook, Lily LaTorre, Damon Herriman, Greta Scacchi, Sunny Whelan, Naomi Rukavina, Shabana Azeez, Trevor Jamieson, Georgina Naidu, Neil Melville, Katherine Slattery, Hugo Soysa, Maurial Spearim, Julia Davis, Poppy Skerry, Jen Salisbury, Rosie Mitchell, D'Arcy Carty, Michala Banas, Heather Burridge",
+      "castPhotos": {
+        "Sarah Snook": "https://image.tmdb.org/t/p/w185/w9xv72oaTISLgeT381fU4Jor9GV.jpg",
+        "Lily LaTorre": "https://image.tmdb.org/t/p/w185/2iCyGADwD94XQaMG1gMQWCLasbl.jpg",
+        "Damon Herriman": "https://image.tmdb.org/t/p/w185/hzh9i0BlAEQDAhJxEgkEcBxMlJv.jpg",
+        "Greta Scacchi": "https://image.tmdb.org/t/p/w185/kgWjsnt0SWrypL6vkGQijJNkgS0.jpg",
+        "Naomi Rukavina": "https://image.tmdb.org/t/p/w185/x7uck5TSF1osIomwBdn6jzzmJu.jpg"
+      },
+      "director": "Daina Reid",
+      "writer": "Hannah Kent",
+      "releaseDate": "2024-07-18",
+      "year": 2024,
+      "genre": null,
+      "rating": 5.5,
+      "duration": "100 min",
+      "poster": "https://image.tmdb.org/t/p/w500/9lmyxRJtf9LR8gsKOeVnZiPRNXh.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/sFwkgsMOjQb8zuXKXozSoSetQqo.jpg",
+      "tmdbId": 714669,
+      "tmdbType": "movie",
+      "id": "tmdb-714669",
+      "categories": [
+        "terror"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/miyisrptnmgp",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "Incontrolable (I Swear)",
+      "plot": "La historia real de John Davidson. Diagnosticado con Tourette a los 15 años, señalado como loco por sus compañeros, luchó con una condición que pocos habían presenciado. Ya adulto, hizo campaña en favor del síndrome de Tourette .",
+      "cast": "Robert Aramayo, Maxine Peake, Peter Mullan, Shirley Henderson, Scott Ellis Watson, David Carlyle, Francesco Piacentini-Smith, Somerled Campbell, Michael Dylan, Christina Ashford, Sanjeev Kohli, Steven Cree, Ethan Stewart, Isla Mercer, Catriona McArthur, Paul Donnelly, Ron Donachie, Jamie McAllister, Abigail Noon, Ella Victoria Robb, Sam Felderhof, Isaac Chan Adams, Leah MacRae, Taqi Nazeer, Liam Campbell, Douglas Rankine, Anna-Jorge Somerville, Connor Parkin, Holly Howden Gilchrist, Calum Cormack",
+      "castPhotos": {
+        "Robert Aramayo": "https://image.tmdb.org/t/p/w185/1wqSZVvB018H2mZbemMSn6gH4zq.jpg",
+        "Maxine Peake": "https://image.tmdb.org/t/p/w185/uChlrL5WyeXhvGFaNvbzw1KqMgP.jpg",
+        "Peter Mullan": "https://image.tmdb.org/t/p/w185/dvu5PWJK6Vv4xnYyMzdMvH73Laj.jpg",
+        "Shirley Henderson": "https://image.tmdb.org/t/p/w185/ufyhBJUrG3h4BrLNN8gMuYGhJd6.jpg",
+        "Scott Ellis Watson": "https://image.tmdb.org/t/p/w185/rRDFMBujtG0pZXpozYiIqUxM9Hh.jpg",
+        "David Carlyle": "https://image.tmdb.org/t/p/w185/mqHwE8bLoPGIG7iQPfQj1NHOFDs.jpg"
+      },
+      "director": "Kirk Jones",
+      "writer": "Kirk Jones",
+      "releaseDate": "2025-09-22",
+      "year": 2025,
+      "genre": null,
+      "rating": 8.3,
+      "duration": "120 min",
+      "poster": "https://image.tmdb.org/t/p/w500/zKv4nZRFg84yuBtnaY8MdNf67Zr.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/4mKczHAW4XPDXGk7V5k7Ui3dgUk.jpg",
+      "tmdbId": 1317149,
+      "tmdbType": "movie",
+      "id": "tmdb-1317149",
+      "categories": [
+        "drama"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/0f7iezi1a1za",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "The Bourne Identity: El caso Bourne",
+      "plot": "Un hombre amnésico es rescatado por la tripulación de un barco pesquero italiano cuando flota a la deriva en el mar. Carece de identidad y de pasado, pero posee unas serie de talentos extraordinarios en artes lingüísticas, marciales y de autodefensa que sugieren una profesión de riesgo. Confuso y desorientado, emprende una frenética búsqueda para descubrir quién es y por qué su vida ha tomado un giro tan peligroso.",
+      "cast": "Matt Damon, Franka Potente, Chris Cooper, Clive Owen, Brian Cox, Adewale Akinnuoye-Agbaje, Gabriel Mann, Julia Stiles, Walton Goggins, Josh Hamilton, Orso Maria Guerrini, Tim Dutton, Denis Braccini, Nicky Naudé, David Selburg, Demetri Goritsas, Russell Levy, Anthony Green, Hubert Saint-Macary, David Bamber, Gwenaël Clause, Emanuel Booz, Philippe Durand, Vincent Franklin, Paulette Frantz, Thierry René, Roger Frost, David Gasman, Harry Gilbert, Delphine Lanson",
+      "castPhotos": {
+        "Matt Damon": "https://image.tmdb.org/t/p/w185/aCvBXTAR9B1qRjIRzMBYhhbm1fR.jpg",
+        "Franka Potente": "https://image.tmdb.org/t/p/w185/aU6f9UemZsTkqKEG4l77zf6masg.jpg",
+        "Chris Cooper": "https://image.tmdb.org/t/p/w185/sJKghcu9wRDIvKM0cI7kqNXYRfS.jpg",
+        "Clive Owen": "https://image.tmdb.org/t/p/w185/xlWpuLgwxMnZEVgV9OID1TkUNtP.jpg",
+        "Brian Cox": "https://image.tmdb.org/t/p/w185/scSjbFCTRngXlkJRoKptM5kQGw7.jpg",
+        "Adewale Akinnuoye-Agbaje": "https://image.tmdb.org/t/p/w185/zdtwVtVmmm7VzYfu8xH7mbuTvrH.jpg"
+      },
+      "director": "Doug Liman",
+      "writer": "Tony Gilroy",
+      "releaseDate": "2002-06-14",
+      "year": 2002,
+      "genre": null,
+      "rating": 7.5,
+      "duration": "119 min",
+      "poster": "https://image.tmdb.org/t/p/w500/yYH7sqMQ1NJNd6scW44D1WjBmAw.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/kJaRWmy1BGq3pHyE94LOTteiHer.jpg",
+      "tmdbId": 2501,
+      "tmdbType": "movie",
+      "id": "tmdb-2501",
+      "categories": [
+        "acción"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/rpiehasxvjya",
           "language": "Español"
         }
       ]
