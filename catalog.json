@@ -4514,6 +4514,183 @@
           "language": "Español"
         }
       ]
+    },
+    {
+      "title": "John Wick: Pacto de sangre",
+      "plot": "El legendario asesino John Wick se ve obligado a salir del retiro por un ex-asociado que planea obtener el control de un misterioso grupo internacional de asesinos. Obligado a ayudarlo por un juramento de sangre, John emprende un viaje a Roma lleno de adrenalina estremecedora para pelear contra los asesinos más peligrosos del mundo.",
+      "cast": "Keanu Reeves, Common, Laurence Fishburne, Riccardo Scamarcio, Ruby Rose, Lance Reddick, Peter Stormare, Bridget Moynahan, Franco Nero, John Leguizamo, Ian McShane, Claudia Gerini, Wass Stevens, Tobias Segal, Thomas Sadoski, Erik Frandsen, David Patrick Kelly, Perry Yung, Youma Diakite, Peter Serafinowicz, Luca Mosca, Midori Nakamura, Mario Donatone, Giorgio Carminati, Elli, Thaddeus Daniels, Margaret Daly, Christine Hollingsworth, Ciscandra Nostalghia, Chukwudi Iwuji",
+      "castPhotos": {
+        "Keanu Reeves": "https://image.tmdb.org/t/p/w185/8RZLOyYGsoRe9p44q3xin9QkMHv.jpg",
+        "Common": "https://image.tmdb.org/t/p/w185/eggJAnJxpn8wYraX7ea5svETB54.jpg",
+        "Laurence Fishburne": "https://image.tmdb.org/t/p/w185/2GbXERENPpl5MmlqOLlPVaVtifD.jpg",
+        "Riccardo Scamarcio": "https://image.tmdb.org/t/p/w185/s3ZAW6QA6yZaOx9wmAZfGZ1Z8BP.jpg",
+        "Ruby Rose": "https://image.tmdb.org/t/p/w185/djhT0A2hZxpYKPnCeRtim8qUdPi.jpg",
+        "Lance Reddick": "https://image.tmdb.org/t/p/w185/22mVtEXZbpt0J7S0LhIhdkfRrZV.jpg"
+      },
+      "director": "Chad Stahelski",
+      "writer": "Derek Kolstad",
+      "releaseDate": "2017-02-08",
+      "year": 2017,
+      "genre": null,
+      "rating": 7.3,
+      "duration": "122 min",
+      "poster": "https://image.tmdb.org/t/p/w500/yIa04BbZMO4pIZ1cvnYB4cZVakd.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/Aa9Lx6gotP0szl9tlt5SPCN08oF.jpg",
+      "tmdbId": 324552,
+      "tmdbType": "movie",
+      "id": "tmdb-324552",
+      "categories": [
+        "acción"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/k51f9gjoraya",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "John Wick: Capítulo 3 - Parabellum",
+      "plot": "John Wick regresa a la acción, solo que esta vez con una recompensa de 14 millones de dólares sobre su cabeza y con un ejército de mercenarios intentando darle caza. Tras asesinar a uno de los miembros del gremio de asesinos al que pertenecía, Wick es expulsado de la organización, pasando a convertirse en el centro de atención de multitud de asesinos a sueldo que esperan detrás de cada esquina para tratar de deshacerse de él.",
+      "cast": "Keanu Reeves, Halle Berry, Ian McShane, Laurence Fishburne, Mark Dacascos, Asia Kate Dillon, Lance Reddick, Anjelica Huston, Saïd Taghmaoui, Jerome Flynn, Randall Duk Kim, Margaret Daly, Robin Lord Taylor, Susan Blommaert, Unity Phelan, Jason Mantzoukas, Andrea Sooch, Sergio Delavicci, Cecep Arif Rahman, Yayan Ruhian, Tiler Peck, Baily Jones, India Bradley, Olivia MacKinnon, Sarah Villwock, Eliza Blutt, Harrison Coll, Boban Marjanović, Maxim Beloserkovsky, Charles Askegard",
+      "castPhotos": {
+        "Keanu Reeves": "https://image.tmdb.org/t/p/w185/8RZLOyYGsoRe9p44q3xin9QkMHv.jpg",
+        "Halle Berry": "https://image.tmdb.org/t/p/w185/84HRDZodRCuBSpYGSc3ow8WucI4.jpg",
+        "Ian McShane": "https://image.tmdb.org/t/p/w185/rteBJYNgD1yGsHg2HGZAIrYHz1t.jpg",
+        "Laurence Fishburne": "https://image.tmdb.org/t/p/w185/2GbXERENPpl5MmlqOLlPVaVtifD.jpg",
+        "Mark Dacascos": "https://image.tmdb.org/t/p/w185/trOACuJz1KzhB51qe6asaxRuxrh.jpg",
+        "Asia Kate Dillon": "https://image.tmdb.org/t/p/w185/hroRQpsMb4fe4VS4nC1hwoRCO1B.jpg"
+      },
+      "director": "Chad Stahelski",
+      "writer": "Chris Collins",
+      "releaseDate": "2019-05-15",
+      "year": 2019,
+      "genre": null,
+      "rating": 7.4,
+      "duration": "131 min",
+      "poster": "https://image.tmdb.org/t/p/w500/aKw7oqYdfn4pkKYvp18Gd1YhK6m.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/vVpEOvdxVBP2aV166j5Xlvb5Cdc.jpg",
+      "tmdbId": 458156,
+      "tmdbType": "movie",
+      "id": "tmdb-458156",
+      "categories": [
+        "acción"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/hhde0nxfa70b",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "John Wick 4",
+      "plot": "John Wick descubre un camino para derrotar a la Alta Mesa. Pero para poder ganar su libertad, Wick deberá enfrentarse a un nuevo rival con poderosas alianzas en todo el mundo, capaz de convertir a viejos amigos en enemigos.",
+      "cast": "Keanu Reeves, Donnie Yen, Bill Skarsgård, Ian McShane, Laurence Fishburne, Lance Reddick, Clancy Brown, Hiroyuki Sanada, リナ・サワヤマ, Scott Adkins, Aimée Kwan, Marko Zaror, Natalia Tena, Shamier Anderson, George Georgiou, Yoshinori Tashiro, Hishofuji Hiroki, Daiki Suzuki, Julia Asuka Riedl, Milena Rendón, Ivy Quainoo, Irina Trifanov, Iryna Fedorova, Andrej Kaminsky, Sven Marquardt, Raicho Vasilev, Lous and the Yakuza, Christoph Hofmann, Vhelma Richardson, Jimmy Moneta",
+      "castPhotos": {
+        "Keanu Reeves": "https://image.tmdb.org/t/p/w185/8RZLOyYGsoRe9p44q3xin9QkMHv.jpg",
+        "Donnie Yen": "https://image.tmdb.org/t/p/w185/hTlhrrZMj8hZVvD17j4KyAFWBHc.jpg",
+        "Bill Skarsgård": "https://image.tmdb.org/t/p/w185/xBXLx1m0uzhXIbY3wN8lmPGeUHl.jpg",
+        "Ian McShane": "https://image.tmdb.org/t/p/w185/rteBJYNgD1yGsHg2HGZAIrYHz1t.jpg",
+        "Laurence Fishburne": "https://image.tmdb.org/t/p/w185/2GbXERENPpl5MmlqOLlPVaVtifD.jpg",
+        "Lance Reddick": "https://image.tmdb.org/t/p/w185/22mVtEXZbpt0J7S0LhIhdkfRrZV.jpg"
+      },
+      "director": "Chad Stahelski",
+      "writer": "Michael Finch",
+      "releaseDate": "2023-03-21",
+      "year": 2023,
+      "genre": null,
+      "rating": 7.7,
+      "duration": "170 min",
+      "poster": "https://image.tmdb.org/t/p/w500/mj2Z9HnRSIEk3n7yVPoOY4Uzzfh.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/7I6VUdPj6tQECNHdviJkUHD2u89.jpg",
+      "tmdbId": 603692,
+      "tmdbType": "movie",
+      "id": "tmdb-603692",
+      "categories": [
+        "acción"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/d2jpiczpbixy",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "Jurassic World: El reino caído",
+      "plot": "Tras cuatro años de abandono del complejo turístico Jurassic World, la isla Nublar sólo está habitada por los dinosaurios supervivientes. Cuando el volcán inactivo de la isla comienza a cobrar vida, Owen y Claire montan una campaña para rescatar a los dinosaurios restantes en la isla.",
+      "cast": "Chris Pratt, Bryce Dallas Howard, Rafe Spall, Justice Smith, Daniella Pineda, James Cromwell, Toby Jones, Ted Levine, Jeff Goldblum, BD Wong, Geraldine Chaplin, Isabella Sermon, Robert Emms, Peter Jason, Kevin Layne, John Schwab, Sam Redford, Charlie Rawes, Patrick Crowley, Alex Dower, Honey Holmes, Neil Bishop, Philippa Thomas, Ronan Summers, Cory Peterson, Jeremy Gilbert, Victor Gardener, Daryl Kwan, Eric Kofi Abrefa, Ben Peel",
+      "castPhotos": {
+        "Chris Pratt": "https://image.tmdb.org/t/p/w185/cRH6HPAQ98PlOwwEvhYO4CM9lwu.jpg",
+        "Bryce Dallas Howard": "https://image.tmdb.org/t/p/w185/fmXhf4rJOrzc3QWwxVbNd7kP8wy.jpg",
+        "Rafe Spall": "https://image.tmdb.org/t/p/w185/zcqUqAvO7RQnitcCNNfTVPaiQtS.jpg",
+        "Justice Smith": "https://image.tmdb.org/t/p/w185/htJrcOzYkLVcnF4ExT4O1bDN5e5.jpg",
+        "Daniella Pineda": "https://image.tmdb.org/t/p/w185/o8h5qbyy8A0zKTRN57YOlQOafyQ.jpg",
+        "James Cromwell": "https://image.tmdb.org/t/p/w185/vpNQQbM5PtxsYmVm4oh79SGFyUK.jpg"
+      },
+      "director": "J. A. Bayona",
+      "writer": "Derek Connolly",
+      "releaseDate": "2018-06-06",
+      "year": 2018,
+      "genre": null,
+      "rating": 6.5,
+      "duration": "128 min",
+      "poster": "https://image.tmdb.org/t/p/w500/yHa2I7qxZvZUASLHrIR8vQLmZ4B.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/gBmrsugfWpiXRh13Vo3j0WW55qD.jpg",
+      "tmdbId": 351286,
+      "tmdbType": "movie",
+      "id": "tmdb-351286",
+      "categories": [
+        "aventura",
+        "ciencia ficción"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/bqqs0k6orjgp",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "Nicky, la aprendiz de bruja",
+      "plot": "Nicky no es una niña como otra cualquiera porque es aprendiz de bruja. Con solo 13 años y por tradición del oficio que está aprendiendo, la niña tiene que abandonar la casa de sus padres y buscar algún sitio donde sean necesarios sus servicios de bruja. Para emprender el viaje, Nicky se acompaña de su amigo Jiji y también de su gato; juntos, y sobre una escoba voladora, los amigos se instalan en un pueblecito que da al mar, donde la niña empezará a conocerse verdaderamente a sí misma.",
+      "cast": "Minami Takayama, Rei Sakuma, Kappei Yamaguchi, Keiko Toda, 信澤三惠子, Koichi Miura, 加藤治子, 関弘子, Yuriko Fuchizaki, Koichi Yamadera, Kikuko Inoue, 小林優子, Mika Doi, Takaya Hashi, 坂本千夏, 浅井淑子, 丸山裕子, Shinpachi Tsuji, 丸山優子, 斉藤昌, Tomomichi Nishimura, Akio Otsuka, 津賀有子, 亀井芳子, 鍵本景子, 田口昻, Michihiro Ikemizu",
+      "castPhotos": {
+        "Minami Takayama": "https://image.tmdb.org/t/p/w185/4Gunxt2UWnAX74ZoXKtqK2rI0e.jpg",
+        "Rei Sakuma": "https://image.tmdb.org/t/p/w185/6M6zQtO0reIv97oKUrVT084FUKv.jpg",
+        "Kappei Yamaguchi": "https://image.tmdb.org/t/p/w185/mJyxKRZxLv9D7LH5KcNSkjSKYOB.jpg",
+        "Keiko Toda": "https://image.tmdb.org/t/p/w185/jRJIfQLmMyHaNnvlBnnNp3kPx6I.jpg",
+        "信澤三惠子": "https://image.tmdb.org/t/p/w185/znTqIdwtD6EyRMgMOVN67sKzFZa.jpg",
+        "Koichi Miura": "https://image.tmdb.org/t/p/w185/8dUuWI8nhlG5ckrtP9FWOXO6gwB.jpg"
+      },
+      "director": "Hayao Miyazaki",
+      "writer": "Hayao Miyazaki",
+      "releaseDate": "1989-07-29",
+      "year": 1989,
+      "genre": null,
+      "rating": 7.8,
+      "duration": "102 min",
+      "poster": "https://image.tmdb.org/t/p/w500/psw0tp25DNBkdEAfwjZYcgbpgme.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/ooGaNXI2OYszAajCFdIXLr73E1S.jpg",
+      "tmdbId": 16859,
+      "tmdbType": "movie",
+      "id": "tmdb-16859",
+      "categories": [
+        "animación",
+        "fantasía"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/h626r9pvdlfa",
+          "language": "Español"
+        }
+      ]
     }
   ],
   "series": [
