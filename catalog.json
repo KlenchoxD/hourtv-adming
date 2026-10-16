@@ -5121,6 +5121,188 @@
           "language": "Español"
         }
       ]
+    },
+    {
+      "title": "En algún lugar de la memoria",
+      "plot": "Charlie Fineman es un dentista de Manhattan que perdió a su familia en el 11-S, y con ella perdió también las ganas de vivir y la capacidad para superar la tragedia. Un buen día, se encuentra con Alan Johnson, un antiguo compañero de la universidad. La recuperación de esa amistad le servirá en parte para aliviar el dolor.",
+      "cast": "Adam Sandler, Don Cheadle, Jada Pinkett Smith, Liv Tyler, Saffron Burrows, Donald Sutherland, Robert Klein, Melinda Dillon, Mike Binder, Jonathan Banks, Rae Allen, Paula Newsome, John de Lancie, Paul Butler, Camille LaChe Smith, Imani Hakim, Denise Dowse, Anthony Chisholm, B.J. Novak, Jessica Golden, Ted Raimi, Harris Peet, Molly Binder, Tommy Nohilly, Robert Harvey, Nick Taylor, M.D. Walton, Chad Brigockas, Elizabeth Andrews, Neal Young",
+      "castPhotos": {
+        "Adam Sandler": "https://image.tmdb.org/t/p/w185/iTMnXrPfC1rmom6a9q4hy6YSJWG.jpg",
+        "Don Cheadle": "https://image.tmdb.org/t/p/w185/umhTmcVF26qZKEpSfG1ZNpcbs9D.jpg",
+        "Jada Pinkett Smith": "https://image.tmdb.org/t/p/w185/3RyvVVSlgRbZANDFkYiAsRMaHW.jpg",
+        "Liv Tyler": "https://image.tmdb.org/t/p/w185/rC6f9NoDN9l2tMgiEocIvnJi2tW.jpg",
+        "Saffron Burrows": "https://image.tmdb.org/t/p/w185/2qMLZh9XWquBt7TZF9wmDiOtJdm.jpg",
+        "Donald Sutherland": "https://image.tmdb.org/t/p/w185/t9rN5Vni7GYmqqNi9nANCZbmewx.jpg"
+      },
+      "director": "Mike Binder",
+      "writer": "Mike Binder",
+      "releaseDate": "2007-03-22",
+      "year": 2007,
+      "genre": null,
+      "rating": 7.2,
+      "duration": "124 min",
+      "poster": "https://image.tmdb.org/t/p/w500/jXI7NP3iSoVBiU1ADLrqnwE8gVy.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/inPupECvfe7cHuAwaEVBkDJjXZO.jpg",
+      "tmdbId": 2355,
+      "tmdbType": "movie",
+      "id": "tmdb-2355",
+      "categories": [
+        "drama"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/mnyxypbkyhvv",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "Lindas y letales",
+      "plot": "Un grupo de bailarinas lucha por sobrevivir mientras intentan escapar de una remota posada después de que su autobús se averíe de camino a una competición.",
+      "cast": "Maddie Ziegler, Lana Condor, Iris Apatow, Millicent Simmonds, Avantika, Michael Culkin, Lydia Leonard, Uma Thurman, Tamás Hagyó, Julian Krenn, Miklós Béres, Péter Végh, Adam Boncz, Krisztián Csákvári, Kate Freund, Tamás Szabó Sipos, Béla Orsányi, David Benko, Balázs Megyeri, Gary Cothenet, Teddy Masson, Nagypál Gábor, Klára Spilák, Shahaub Roudbari, Francis McBurney",
+      "castPhotos": {
+        "Maddie Ziegler": "https://image.tmdb.org/t/p/w185/uYMtRyQS78el5XRLLnGBfMhVhif.jpg",
+        "Lana Condor": "https://image.tmdb.org/t/p/w185/vWn27Fk2GLwH7o9fBG9hBWZI6OR.jpg",
+        "Iris Apatow": "https://image.tmdb.org/t/p/w185/6ymE5Pb02fqt7CWpslxG3br97yz.jpg",
+        "Millicent Simmonds": "https://image.tmdb.org/t/p/w185/clNmG7JlsI5qZTVjYoXiGZ3Pvbq.jpg",
+        "Avantika": "https://image.tmdb.org/t/p/w185/4kASmotHYtrwkIMGmyArKLvaQOz.jpg",
+        "Michael Culkin": "https://image.tmdb.org/t/p/w185/eUTAyHEEKE3ZVVqKuEiPG8APU14.jpg"
+      },
+      "director": "Vicky Jewson",
+      "writer": "Kate Freund",
+      "releaseDate": "2026-03-13",
+      "year": 2026,
+      "genre": null,
+      "rating": 6.8,
+      "duration": "89 min",
+      "poster": "https://image.tmdb.org/t/p/w500/cmZqxJQ9MdNQEoD49HYghOXsiwH.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/z3bzhmC0CPikWeerUkLO73YvGrC.jpg",
+      "tmdbId": 1084187,
+      "tmdbType": "movie",
+      "id": "tmdb-1084187",
+      "categories": [
+        "acción",
+        "terror"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/9zqgbzkp8err",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "Linterna Verde: Caballeros Esmeralda",
+      "plot": "Película original animada del Universo DC que explora el mito de Linterna Verde a través de seis episodios entrelazados, con historias de los aclamados guionistas Geoff Johns, Alan Burnett y Dave Gibbsons entre otros.",
+      "cast": "Nathan Fillion, Jason Isaacs, Elisabeth Moss, Henry Rollins, Arnold Vosloo, Tony Amendola, Steve Blum, Grey DeLisle, Kelly Hu, Michael Jackson, Peter Jessop, David Kaufman, Sunil Malhotra, Roddy Piper, Andrea Romano, Jane Singer, James Arnold Taylor, Bruce Thomas, Mitchell Whitfield, Wade Williams, Gwendoline Yeo, Bruce Timm",
+      "castPhotos": {
+        "Nathan Fillion": "https://image.tmdb.org/t/p/w185/aW6vCxkUZtwb6iH2Wf88Uq0XNVv.jpg",
+        "Jason Isaacs": "https://image.tmdb.org/t/p/w185/s6XRFjqUsrDJfDQuXPOoExAYPmb.jpg",
+        "Elisabeth Moss": "https://image.tmdb.org/t/p/w185/vZDe22EtLtcHvPr28l4ZM0b7qjG.jpg",
+        "Henry Rollins": "https://image.tmdb.org/t/p/w185/2E0cZdoJsdt1Lv4waG3s6fsfJeU.jpg",
+        "Arnold Vosloo": "https://image.tmdb.org/t/p/w185/o23Z1EvWEYR7PArq2w5UpreVipV.jpg",
+        "Tony Amendola": "https://image.tmdb.org/t/p/w185/eGgQGEwO2vCqhFcmDfyyjctmWcl.jpg"
+      },
+      "director": "Lauren Montgomery",
+      "writer": "Alan Burnett",
+      "releaseDate": "2011-06-07",
+      "year": 2011,
+      "genre": null,
+      "rating": 6.7,
+      "duration": "84 min",
+      "poster": "https://image.tmdb.org/t/p/w500/pqKF9xBXPRxwyHK7dyagnsIBcPT.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/5XQobwJuqx0UFCHVDooWUBraeID.jpg",
+      "tmdbId": 65291,
+      "tmdbType": "movie",
+      "id": "tmdb-65291",
+      "categories": [
+        "acción",
+        "aventura",
+        "animación",
+        "ciencia ficción",
+        "drama",
+        "fantasía"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/9itdflzj1hiz",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "Los asesinos de la luna",
+      "plot": "Miembros de la tribu Osage de los Estados Unidos, son asesinados bajo misteriosas circunstancias en la década de 1920 provocando una importante investigación por el FBI involucrando a J. Edgar Hoover.",
+      "cast": "Leonardo DiCaprio, Robert De Niro, Lily Gladstone, Jesse Plemons, Tantoo Cardinal, John Lithgow, Brendan Fraser, Cara Jade Myers, JaNae Collins, Jillian Dion, Jason Isbell, William Belleau, Louis Cancelmi, Scott Shepherd, Everett Waller, Tahlee Redcorn, Yancey Red Corn, Tatanka Means, Tommy Schultz, Sturgill Simpson, Ty Mitchell, Gary Basaraba, Charlie Musselwhite, Pat Healy, Steve Witting, Steve Routman, Gene Jones, Michael Abbott Jr., J.C. MacKenzie, Jack White",
+      "castPhotos": {
+        "Leonardo DiCaprio": "https://image.tmdb.org/t/p/w185/wo2hJpn04vbtmh0B9utCFdsQhxM.jpg",
+        "Robert De Niro": "https://image.tmdb.org/t/p/w185/cT8htcckIuyI1Lqwt1CvD02ynTh.jpg",
+        "Lily Gladstone": "https://image.tmdb.org/t/p/w185/zYAN84WqZv2sbVE2JDkcWoXGoF7.jpg",
+        "Jesse Plemons": "https://image.tmdb.org/t/p/w185/og4I51GsuwohdPgoELOHVMMqMre.jpg",
+        "Tantoo Cardinal": "https://image.tmdb.org/t/p/w185/rxhjfygJlPwztf36iRI7UDn5dr7.jpg",
+        "John Lithgow": "https://image.tmdb.org/t/p/w185/ajfuBSm1HuVqFJlbTmAlza62Xxr.jpg"
+      },
+      "director": "Martin Scorsese",
+      "writer": "Martin Scorsese",
+      "releaseDate": "2023-10-18",
+      "year": 2023,
+      "genre": null,
+      "rating": 7.4,
+      "duration": "206 min",
+      "poster": "https://image.tmdb.org/t/p/w500/731ydMfVJaIyR1bhFEeX7rubqGH.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/acvE3RWjDLgvbL2RtcyzkrsAyNV.jpg",
+      "tmdbId": 466420,
+      "tmdbType": "movie",
+      "id": "tmdb-466420",
+      "categories": [
+        "drama"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/fxjwtn7l1wge",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "En busca del arca perdida",
+      "plot": "Año 1936, Indiana Jones es un profesor de arqueología, dispuesto a correr peligrosas aventuras con tal de conseguir valiosas reliquias históricas. Después de una infructuosa misión en Sudamérica, el gobierno estadounidense le encarga la búsqueda del Arca de la Alianza, donde se conservan las Tablas de la Ley que Dios entregó a Moisés. Según la leyenda, quien las posea tendrá un poder absoluto, razón por la cual también la buscan los nazis.",
+      "cast": "Harrison Ford, Karen Allen, Paul Freeman, John Rhys-Davies, Ronald Lacey, Wolf Kahler, Anthony Higgins, Denholm Elliott, Alfred Molina, Vic Tablian, Don Fellows, William Hootkins, George Harris, Fred Sorenson, Anthony Chinn, Eddie Tagoe, Bill Reimbold, Patrick Durkin, Matthew Scurfield, Malcolm Weaver, Sonny Caldinez, Pat Roach, Christopher Frederick, Tutte Lemkow, Ishaq Bux, Kiran Shah, Souad Messaoudi, Terry Richards, Steve Hanson, Frank Marshall",
+      "castPhotos": {
+        "Harrison Ford": "https://image.tmdb.org/t/p/w185/pjBMJVPpcZK23Vt1nzr1zEBTWrP.jpg",
+        "Karen Allen": "https://image.tmdb.org/t/p/w185/75yyZZyinCUcuK8pOSXnggmuiRp.jpg",
+        "Paul Freeman": "https://image.tmdb.org/t/p/w185/qrjgLfuNdXektuBwNL6onZBkbHw.jpg",
+        "John Rhys-Davies": "https://image.tmdb.org/t/p/w185/qpXl1YnqQsUKYEDm3BB2zK5wbhe.jpg",
+        "Ronald Lacey": "https://image.tmdb.org/t/p/w185/wrFU5EkxKIq0TpEBuKXzcRAld73.jpg",
+        "Wolf Kahler": "https://image.tmdb.org/t/p/w185/znWaz8pJjV6iIPj4SuWNPt0PVn1.jpg"
+      },
+      "director": "Steven Spielberg",
+      "writer": "Lawrence Kasdan",
+      "releaseDate": "1981-06-12",
+      "year": 1981,
+      "genre": null,
+      "rating": 7.9,
+      "duration": "115 min",
+      "poster": "https://image.tmdb.org/t/p/w500/tECLVwLCMexSkls33RTCwedRZ6d.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/zPACwR32amTNvzId9qyapCWXYDJ.jpg",
+      "tmdbId": 85,
+      "tmdbType": "movie",
+      "id": "tmdb-85",
+      "categories": [
+        "aventura",
+        "acción"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/c2lb3lztai24",
+          "language": "Español"
+        }
+      ]
     }
   ],
   "series": [
