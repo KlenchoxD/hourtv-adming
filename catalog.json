@@ -788,6 +788,11 @@
           "name": "Servidor 1",
           "url": "https://voe.sx/e/ns2rpmfv9fw2",
           "language": "Español"
+        },
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/nizaaz5s1cwd",
+          "language": "Español"
         }
       ]
     },
@@ -7099,6 +7104,652 @@
         {
           "name": "Voe",
           "url": "https://voe.sx/e/htavmvhhnyfw",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "Chicas malas",
+      "plot": "Una joven adolescente, Cady, acostumbrada a vivir en África con sus padres, zoólogos, se encuentra una nueva jungla cuando se muda a Illinois. Allí acude a la escuela pública, donde se enamorará del ex-novio de la chica más popular del colegio. Las chicas comenzarán a hacer la vida imposible a Cady, y ésta no tendrá otro remedio que usar sus mismas tácticas para mantenerse a flote.",
+      "cast": "Lindsay Lohan, Rachel McAdams, Lizzy Caplan, Lacey Chabert, Amanda Seyfried, Daniel Franzese, Jonathan Bennett, Rajiv Surendra, Tina Fey, Tim Meadows, Ana Gasteyer, Neil Flynn, Amy Poehler, Dwayne Hill, Diego Klattenhoff, Molly Shanahan, Elana Shilling, Graham Kartna, Ely Henry, David Aherne, Ayo Agbonkpolo, Jonathan Malen, Jeff Moser, Miranda Edwards, Les Porter, Eve Crawford, Jack Newman, Michelyn Emelle, Bathsheba Garnett, Ky Pham",
+      "castPhotos": {
+        "Lindsay Lohan": "https://image.tmdb.org/t/p/w185/hwgyUEM7UuKTVhFcFoorx72pn1j.jpg",
+        "Rachel McAdams": "https://image.tmdb.org/t/p/w185/2DPh6KoNg0p57vvGc6N468zr3ct.jpg",
+        "Lizzy Caplan": "https://image.tmdb.org/t/p/w185/cHs9pPpjcEMpWrGmrAYAn0QOE78.jpg",
+        "Lacey Chabert": "https://image.tmdb.org/t/p/w185/1q9Xe7QVi5oayhPMEiRPgd6FFKG.jpg",
+        "Amanda Seyfried": "https://image.tmdb.org/t/p/w185/gtBUIpZ3dvLpOMIVORxE6sHSyZj.jpg",
+        "Daniel Franzese": "https://image.tmdb.org/t/p/w185/1eSMg903Pr8PGSdMKGrLOOJ6Zjo.jpg"
+      },
+      "director": "Mark Waters",
+      "writer": "Tina Fey",
+      "releaseDate": "2004-04-30",
+      "year": 2004,
+      "genre": null,
+      "rating": 7.2,
+      "duration": "97 min",
+      "poster": "https://image.tmdb.org/t/p/w500/fVHCoj809sonJJDvOF9hqCVZPRx.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/nP3y0TkR6XniFs9J53qQkg4Bnnk.jpg",
+      "tmdbId": 10625,
+      "tmdbType": "movie",
+      "id": "tmdb-10625",
+      "categories": [
+        "drama",
+        "comedia"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/pnx6sn5qqvp9",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "Ooh la la! ¿Quién lo hubiera pensado?",
+      "plot": "",
+      "cast": "Christian Clavier, Didier Bourdon, Marianne Denicourt, Sylvie Testud, Chloé Coulloud, Julien Pestel, Patrick Préjean, Fred Testot, Albert Goldberg, Philippe Lefebvre, Johann Dionnet, Hamed Souna",
+      "castPhotos": {
+        "Christian Clavier": "https://image.tmdb.org/t/p/w185/9WsvKjheeizXCcZrFjZCrCoItqO.jpg",
+        "Didier Bourdon": "https://image.tmdb.org/t/p/w185/llffnXLuelL2gCu6LFH7aPiva4f.jpg",
+        "Marianne Denicourt": "https://image.tmdb.org/t/p/w185/6Acy9xruMlUgamP5R9kcCicm8Qw.jpg",
+        "Sylvie Testud": "https://image.tmdb.org/t/p/w185/yafOAmaZkJ8BOEWLoQcWJVx2EYT.jpg",
+        "Chloé Coulloud": "https://image.tmdb.org/t/p/w185/twduoDzYdcbkPoxXJ6J4YEw0Nky.jpg",
+        "Julien Pestel": "https://image.tmdb.org/t/p/w185/bi88jlmxqWB3TRg9f89vG1wIPYH.jpg"
+      },
+      "director": "Julien Hervé",
+      "writer": "Julien Hervé",
+      "releaseDate": "2026-04-08",
+      "year": 2026,
+      "genre": null,
+      "rating": 5.2,
+      "duration": "91 min",
+      "poster": "https://image.tmdb.org/t/p/w500/3eZwrYd90t5kHLHfS0zxPWH1tWl.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/4dN9kXTNqvssrbF81viFoPnW2pt.jpg",
+      "tmdbId": 1437939,
+      "tmdbType": "movie",
+      "id": "tmdb-1437939",
+      "categories": [
+        "comedia"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/fhur87e61fgo",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "Le Mans '66",
+      "plot": "Se centra en un excéntrico y decidido equipo americano de ingenieros y diseñadores liderados por el visionario automovilístico Carroll Shelby y su conductor británico Ken Miles. Henry Ford II y Lee Iacocca les dan la misión de construir desde cero un nuevo automóvil con el fin de derrocar el dominio de Ferrari en el Campeonato del Mundo de Le Mans de 1966.",
+      "cast": "Matt Damon, Christian Bale, Jon Bernthal, Caitríona Balfe, Josh Lucas, Noah Jupe, Tracy Letts, Remo Girone, Ray McKinnon, JJ Feild, Jack McMullen, Corrado Invernizzi, Joe Williamson, Ian Harding, Christopher Darga, Shawn Law, Emil Beheshti, Darrin Prescott, Alex Gurney, Benjamin Rigby, Ben Collins, Francesco Bauco, Guido Cocomello, Adam Mayfield, Sean Carrigan, Lachlan Buchanan, Giles Matthey, Rudolf Martin, Evan Arnold, Darin Cooper",
+      "castPhotos": {
+        "Matt Damon": "https://image.tmdb.org/t/p/w185/aCvBXTAR9B1qRjIRzMBYhhbm1fR.jpg",
+        "Christian Bale": "https://image.tmdb.org/t/p/w185/7Pxez9J8fuPd2Mn9kex13YALrCQ.jpg",
+        "Jon Bernthal": "https://image.tmdb.org/t/p/w185/bjcglF1IpDcZNs1HwFxakGpzBo6.jpg",
+        "Caitríona Balfe": "https://image.tmdb.org/t/p/w185/lerCNTjO6FQIam2lF5SXHA4dY7H.jpg",
+        "Josh Lucas": "https://image.tmdb.org/t/p/w185/ueR4CH32f22DGjFxuhnW1o3YKB3.jpg",
+        "Noah Jupe": "https://image.tmdb.org/t/p/w185/cBhJisZrIsZzamiUCVjOZODcqOK.jpg"
+      },
+      "director": "James Mangold",
+      "writer": "Jez Butterworth",
+      "releaseDate": "2019-11-13",
+      "year": 2019,
+      "genre": null,
+      "rating": 8,
+      "duration": "153 min",
+      "poster": "https://image.tmdb.org/t/p/w500/kFkZFPBU7vnDDu4m9eOgk7w9W7O.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/2vq5GTJOahE03mNYZGxIynlHcWr.jpg",
+      "tmdbId": 359724,
+      "tmdbType": "movie",
+      "id": "tmdb-359724",
+      "categories": [
+        "drama",
+        "acción"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/othhc2k31mpm",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "El Duro",
+      "plot": "",
+      "cast": "Alberto Hidalgo",
+      "castPhotos": {
+        "Alberto Hidalgo": "https://image.tmdb.org/t/p/w185/yQyHxwEWuv4jHoDP73E7CKFYD14.jpg"
+      },
+      "director": "Nacho Serapio",
+      "writer": "Alberto Hidalgo",
+      "releaseDate": "2024-10-09",
+      "year": 2024,
+      "genre": null,
+      "rating": 5.5,
+      "duration": "87 min",
+      "poster": "https://image.tmdb.org/t/p/w500/oQmxxuPaKaqGVHDRL9XzgOyje0j.jpg",
+      "backdrop": null,
+      "tmdbId": 1300489,
+      "tmdbType": "movie",
+      "id": "tmdb-1300489",
+      "categories": [
+        "terror"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/3wc2dqrotnhd",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "In Time",
+      "plot": "Ambientada en una sociedad futura. El hallazgo de una fórmula contra el envejecimiento trae consigo no solo superpoblación, sino también la transformación del tiempo en moneda de cambio, que permite sufragar tanto lujos como necesidades. Los ricos pueden vivir para siempre, pero los demás tendrán que negociar cada minuto de vida, y los pobres mueren jóvenes. Después de conseguir, por casualidad, una inmensa cantidad de tiempo, Will Salas, un joven obrero, será perseguido por unos policías corruptos conocidos como \"los guardianes del tiempo\". En su huida, Will tomará como rehén a una joven de familia adinerada.",
+      "cast": "Amanda Seyfried, Justin Timberlake, Cillian Murphy, Vincent Kartheiser, Olivia Wilde, Matt Bomer, Johnny Galecki, Collins Pennie, Toby Hemingway, Brendan Miller, Yaya DaCosta, Alex Pettyfer, Shyloh Oostwald, Colin McGurk, Will Harris, Michael William Freeman, Jesse Lee Soffer, Aaron Perilo, Nick Lashaway, Will Peltz, Ray Santiago, Zuleyka Silver, Laura Ashley Samuels, La Monde Byrd, Paul David Story, Maximilian Osinski, Blake Sheldon, Melissa Ordway, Abhi Sinha, Ethan Peck",
+      "castPhotos": {
+        "Amanda Seyfried": "https://image.tmdb.org/t/p/w185/gtBUIpZ3dvLpOMIVORxE6sHSyZj.jpg",
+        "Justin Timberlake": "https://image.tmdb.org/t/p/w185/6Yk5t9RwkdkAT8Qv45934Eez2CA.jpg",
+        "Cillian Murphy": "https://image.tmdb.org/t/p/w185/2lKs67r7FI4bPu0AXxMUJZxmUXn.jpg",
+        "Vincent Kartheiser": "https://image.tmdb.org/t/p/w185/h6rT6R3Zys2acrOunX7Hep1XQIZ.jpg",
+        "Olivia Wilde": "https://image.tmdb.org/t/p/w185/eODi1QKamyVa41eSK2SjU20VAZS.jpg",
+        "Matt Bomer": "https://image.tmdb.org/t/p/w185/oxL27Z3XtjoABaOynKazZeg7qKM.jpg"
+      },
+      "director": "Andrew Niccol",
+      "writer": "Andrew Niccol",
+      "releaseDate": "2011-10-27",
+      "year": 2011,
+      "genre": null,
+      "rating": 7,
+      "duration": "109 min",
+      "poster": "https://image.tmdb.org/t/p/w500/2cX5gY6FFsJW6ZXi6PLB3zm0vHr.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/pxL08w7Eq0vKrQ3mJzYp0VHGaKG.jpg",
+      "tmdbId": 49530,
+      "tmdbType": "movie",
+      "id": "tmdb-49530",
+      "categories": [
+        "acción",
+        "ciencia ficción"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/arqjdky3za0g",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "The Amazing Spider-Man",
+      "plot": "Como la mayoría de los adolescentes de su edad, Peter está intentando descubrir quién es y cómo ha llegado a ser lo que es. En su viaje para atar los cabos de su pasado descubre un secreto que guardaba su padre, un secreto que finalmente dará forma a su destino como Spiderman.",
+      "cast": "Andrew Garfield, Emma Stone, Rhys Ifans, Denis Leary, Martin Sheen, Sally Field, Irrfan Khan, Campbell Scott, Embeth Davidtz, Chris Zylka, Max Charles, C. Thomas Howell, Jake Keiffer, Kari Coleman, Michael Barra, Leif Gantvoort, Andy Pessoa, Hannah Marks, Kelsey Asbille, Kevin McCorkle, Andy Gladbach, Ring Hendricks-Tellefsen, Barbara Eve Harris, Stan Lee, Danielle Burgio, Tom Waite, Keith Campbell, Steve DeCastro, Jill Flint, Mark Daugherty",
+      "castPhotos": {
+        "Andrew Garfield": "https://image.tmdb.org/t/p/w185/5ydZ6TluPtxlz5G8nlWMB7SGmow.jpg",
+        "Emma Stone": "https://image.tmdb.org/t/p/w185/mstXxlDqhoK0s0molsNpskJ1wLH.jpg",
+        "Rhys Ifans": "https://image.tmdb.org/t/p/w185/5X8XcIqCDxsQYyHdx7mBwPVkSTs.jpg",
+        "Denis Leary": "https://image.tmdb.org/t/p/w185/tAOziVWQBnrW9eR442M6g9SQkmA.jpg",
+        "Martin Sheen": "https://image.tmdb.org/t/p/w185/m2Y3Q0uyuW6htrn2W9UWCWMkpZu.jpg",
+        "Sally Field": "https://image.tmdb.org/t/p/w185/iMeq1j9Xwvaf6PbTJ0FQz69fpuA.jpg"
+      },
+      "director": "Marc Webb",
+      "writer": "James Vanderbilt",
+      "releaseDate": "2012-06-23",
+      "year": 2012,
+      "genre": null,
+      "rating": 6.8,
+      "duration": "136 min",
+      "poster": "https://image.tmdb.org/t/p/w500/swjygVNvJ84ztpgfFX9gRr2MPBZ.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/a92L1Zm4vGlXOD0f2CEsfqnNDhc.jpg",
+      "tmdbId": 1930,
+      "tmdbType": "movie",
+      "id": "tmdb-1930",
+      "categories": [
+        "acción",
+        "aventura",
+        "ciencia ficción"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/4s2k6pa1rlfd",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "Joker",
+      "plot": "Arthur Fleck es un hombre ignorado por la sociedad, cuya motivación en la vida es hacer reír. Pero una serie de trágicos acontecimientos le llevarán a ver el mundo de otra forma. Película basada en Joker, el popular personaje de DC Comics y archivillano de Batman, pero que en este film toma un cariz más realista y oscuro.",
+      "cast": "Joaquin Phoenix, Robert De Niro, Zazie Beetz, Frances Conroy, Brett Cullen, Shea Whigham, Bill Camp, Glenn Fleshler, Leigh Gill, Josh Pais, Rocco Luna, Marc Maron, Sondra James, Murphy Guyer, Douglas Hodge, Dante Pereira-Olson, Carrie Louise Putrello, Sharon Washington, Hannah Gross, Frank Wood, Brian Tyree Henry, April Grace, Mick Szal, Carl Lundstedt, Michael Benz, Ben Warheit, Gary Gulman, Sam Morril, Chris Redd, Mandela Bellamy",
+      "castPhotos": {
+        "Joaquin Phoenix": "https://image.tmdb.org/t/p/w185/u38k3hQBDwNX0VA22aQceDp9Iyv.jpg",
+        "Robert De Niro": "https://image.tmdb.org/t/p/w185/cT8htcckIuyI1Lqwt1CvD02ynTh.jpg",
+        "Zazie Beetz": "https://image.tmdb.org/t/p/w185/ijrT4pvALvxU0gphea4YxDnDh6e.jpg",
+        "Frances Conroy": "https://image.tmdb.org/t/p/w185/aJRQAkO24L6bH8qkkE5Iv1nA3gf.jpg",
+        "Brett Cullen": "https://image.tmdb.org/t/p/w185/4P6TsRcnr9MRbXlCdHitulGM5LT.jpg",
+        "Shea Whigham": "https://image.tmdb.org/t/p/w185/d3caK3l4UfbnzOxv95wLoFLZzMO.jpg"
+      },
+      "director": "Todd Phillips",
+      "writer": "Scott Silver",
+      "releaseDate": "2019-10-01",
+      "year": 2019,
+      "genre": null,
+      "rating": 8.1,
+      "duration": "122 min",
+      "poster": "https://image.tmdb.org/t/p/w500/v0eQLbzT6sWelfApuYsEkYpzufl.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/rlay2M5QYvi6igbGcFjq8jxeusY.jpg",
+      "tmdbId": 475557,
+      "tmdbType": "movie",
+      "id": "tmdb-475557",
+      "categories": [
+        "drama"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/f1jozg6d3xzk",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "Harry Potter y las Reliquias de la Muerte - Parte 1",
+      "plot": "Una tarea casi imposible cae sobre los hombros de Harry: deberá encontrar y destruir los horrocruxes restantes para dar fin al reinado de Lord Voldemort. En el episodio final de la saga, el hechicero de 17 años parte junto con sus amigos Hermione Granger y Ron Weasley en un peligroso viaje por Inglaterra para encontrar los objetos que contienen los fragmentos del alma del Señor Tenebroso, los cuales garantizan su longevidad. Pero el camino no será fácil pues el lado oscuro adquiere más poder con cada minuto que pasa y las lealtades serán puestas a prueba. Harry deberá usar todos los conocimientos que gracias a Dumbledore ha adquirido sobre su enemigo para poder encontrar la forma de sobrevivir a esta última aventura.",
+      "cast": "Daniel Radcliffe, Emma Watson, Rupert Grint, Toby Jones, Helena Bonham Carter, Alan Rickman, Ralph Fiennes, Bill Nighy, Simon McBurney, Rhys Ifans, Evanna Lynch, Andy Linden, Guy Henry, Jason Isaacs, Brendan Gleeson, John Hurt, Robbie Coltrane, David Thewlis, Richard Griffiths, Julie Walters, Michael Gambon, Warwick Davis, Imelda Staunton, Tom Felton, Timothy Spall, Fiona Shaw, Dave Legeno, Helen McCrory, Nick Moran, Peter Mullan",
+      "castPhotos": {
+        "Daniel Radcliffe": "https://image.tmdb.org/t/p/w185/uUFfo8RANo7tuckB6AZAnESne55.jpg",
+        "Emma Watson": "https://image.tmdb.org/t/p/w185/mf0OANvWYSzU1d8yggrhyw8IbIz.jpg",
+        "Rupert Grint": "https://image.tmdb.org/t/p/w185/iFlkpTaOF6fGLqxz8b0PhI0i0zN.jpg",
+        "Toby Jones": "https://image.tmdb.org/t/p/w185/1qNisdp4f1KstdfvAgYXMdrhwfk.jpg",
+        "Helena Bonham Carter": "https://image.tmdb.org/t/p/w185/hJMbNSPJ2PCahsP3rNEU39C8GWU.jpg",
+        "Alan Rickman": "https://image.tmdb.org/t/p/w185/1EearzPgXkmYFKvECfWNrctIFT9.jpg"
+      },
+      "director": "David Yates",
+      "writer": "Steve Kloves",
+      "releaseDate": "2010-11-17",
+      "year": 2010,
+      "genre": null,
+      "rating": 7.7,
+      "duration": "146 min",
+      "poster": "https://image.tmdb.org/t/p/w500/w6wsYKdXERaXRdByPsI2O9rn20b.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/5i2QAYnbN5vOZUUolLPYHTb9spe.jpg",
+      "tmdbId": 12444,
+      "tmdbType": "movie",
+      "id": "tmdb-12444",
+      "categories": [
+        "aventura",
+        "fantasía"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/l1g9ybwajdqv",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "Amenaza en la sombra",
+      "plot": "Para intentar superar la reciente y trágica pérdida de su hija, el arquitecto John Baxter y su mujer Laura se trasladan a Venecia con el encargo de restaurar una vieja iglesia. Durante su estancia conocerán a un par de ancianas que dicen haber entrado en comunicación con su difunta hija y que les advierten de un peligro inminente.",
+      "cast": "Donald Sutherland, Julie Christie, Hilary Mason, Massimo Serato, Clelia Matania, Renato Scarpa, Giorgio Trestini, Leopoldo Trieste, David Tree, Ann Rye, Nicholas Salter, Sharon Williams, Bruno Cattaneo, Adelina Poerio",
+      "castPhotos": {
+        "Donald Sutherland": "https://image.tmdb.org/t/p/w185/t9rN5Vni7GYmqqNi9nANCZbmewx.jpg",
+        "Julie Christie": "https://image.tmdb.org/t/p/w185/siAi4XZhDPP8LRgbByzwLqVaLIQ.jpg",
+        "Hilary Mason": "https://image.tmdb.org/t/p/w185/v37LBYy4JWZfw30kMVOcycJf393.jpg",
+        "Massimo Serato": "https://image.tmdb.org/t/p/w185/7tGVXIILOC1w8TsjjkVVNqmYWaf.jpg",
+        "Clelia Matania": "https://image.tmdb.org/t/p/w185/p365ABRonRfxadOpHpgEVorYrVP.jpg",
+        "Renato Scarpa": "https://image.tmdb.org/t/p/w185/wVWEERHioQVxnB4jFeDDZIzdSPX.jpg"
+      },
+      "director": "Nicolas Roeg",
+      "writer": "Chris Bryant",
+      "releaseDate": "1973-10-11",
+      "year": 1973,
+      "genre": null,
+      "rating": 6.9,
+      "duration": "110 min",
+      "poster": "https://image.tmdb.org/t/p/w500/iQF9xwvo5uNK7QTtge8TBlHySqk.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/8qi3gplNf48uLZnne09iiL4OvFG.jpg",
+      "tmdbId": 931,
+      "tmdbType": "movie",
+      "id": "tmdb-931",
+      "categories": [
+        "drama",
+        "terror"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/5lxvghadtuc5",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "Criadas y Señoras",
+      "plot": "Mississippi, años 60. Skeeter es una joven sureña que regresa de la universidad decidida a convertirse en escritora. Su llegada altera la vida de la ciudad e incluso la de sus amigos porque se ha propuesto entrevistar a las mujeres negras que se han pasado la vida al servicio de las grandes familias sufriendo todas las formas de discriminación racial.",
+      "cast": "Emma Stone, Viola Davis, Bryce Dallas Howard, Octavia Spencer, Jessica Chastain, Ahna O'Reilly, Allison Janney, Anna Camp, Eleanor Henry, Emma Henry, Chris Lowell, Cicely Tyson, Mike Vogel, Sissy Spacek, Brian Kerwin, Wes Chatham, Aunjanue Ellis-Taylor, Ted Welch, Shane McRae, Roslyn Ruff, Tarra Riggs, Leslie Jordan, Mary Steenburgen, Tiffany Brouwer, Carol Lee, Carol Sutton, Millicent Bolton, Ashley Johnson, Ritchie Montgomery, Don Brock",
+      "castPhotos": {
+        "Emma Stone": "https://image.tmdb.org/t/p/w185/mstXxlDqhoK0s0molsNpskJ1wLH.jpg",
+        "Viola Davis": "https://image.tmdb.org/t/p/w185/xDssw6vpYNRjsybvMPRE30e0dPN.jpg",
+        "Bryce Dallas Howard": "https://image.tmdb.org/t/p/w185/fmXhf4rJOrzc3QWwxVbNd7kP8wy.jpg",
+        "Octavia Spencer": "https://image.tmdb.org/t/p/w185/zDGydyM1fmvNWzQlTAns9IZjNxT.jpg",
+        "Jessica Chastain": "https://image.tmdb.org/t/p/w185/eQKnihReJeB9vQEa5gySzAlKfZt.jpg",
+        "Ahna O'Reilly": "https://image.tmdb.org/t/p/w185/9FvuLLjjHUqzbzhjX8ougHBrBjM.jpg"
+      },
+      "director": "Tate Taylor",
+      "writer": "Tate Taylor",
+      "releaseDate": "2011-08-09",
+      "year": 2011,
+      "genre": null,
+      "rating": 8.2,
+      "duration": "146 min",
+      "poster": "https://image.tmdb.org/t/p/w500/jki2RrXEE4x6RT2qyQzOVIXYlsn.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/wyvUmyzqGOBDyqLHRSukGDjI7bH.jpg",
+      "tmdbId": 50014,
+      "tmdbType": "movie",
+      "id": "tmdb-50014",
+      "categories": [
+        "drama"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/7ivfhowpnls2",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "Del revés (Inside Out)",
+      "plot": "Riley es una chica que disfruta o padece toda clase de sentimientos. Aunque su vida ha estado marcada por la Alegría, también se ve afectada por otro tipo de emociones. Lo que Riley no entiende muy bien es por qué motivo tiene que existir la Tristeza en su vida. Una serie de acontecimientos hacen que Alegría y Tristeza se mezclen en una peligrosa aventura que dará un vuelco al mundo de Riley.",
+      "cast": "Amy Poehler, Phyllis Smith, Richard Kind, Bill Hader, Lewis Black, Mindy Kaling, Kaitlyn Dias, Diane Lane, Kyle MacLachlan, Paula Poundstone, Bobby Moynihan, Paula Pell, Dave Goelz, Frank Oz, Josh Cooley, Flea, John Ratzenberger, Carlos Alazraqui, Peter Sagal, Rashida Jones, Lori Alan, Gregg Berger, Veronika Bonell, John Cygan, Andrea Datzman, Pete Docter, Tony Fucile, Randy Hahn, Jacob Hopkins, Evan Hudak",
+      "castPhotos": {
+        "Amy Poehler": "https://image.tmdb.org/t/p/w185/rwmvRonpluV6dCPiQissYrchvSD.jpg",
+        "Phyllis Smith": "https://image.tmdb.org/t/p/w185/h9w9pQbiderRWAC2mi7spjzuIGz.jpg",
+        "Richard Kind": "https://image.tmdb.org/t/p/w185/yWmuVQeQUzb5OSMVDoWkR0IylCK.jpg",
+        "Bill Hader": "https://image.tmdb.org/t/p/w185/qyT50vQ9PQIEctE1IxDTEsBKstU.jpg",
+        "Lewis Black": "https://image.tmdb.org/t/p/w185/f6660RU8eG10Rrk0Fnfih90b0ME.jpg",
+        "Mindy Kaling": "https://image.tmdb.org/t/p/w185/m4veWEp9TEDallTZRobb7MLkd9K.jpg"
+      },
+      "director": "Pete Docter",
+      "writer": "Meg LeFauve",
+      "releaseDate": "2015-06-17",
+      "year": 2015,
+      "genre": null,
+      "rating": 7.9,
+      "duration": "95 min",
+      "poster": "https://image.tmdb.org/t/p/w500/sG3bHZWCMOZwhUq71WbPG9Vrrwc.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/jJKZaTBNenlFclQyjrnvzkRmvWE.jpg",
+      "tmdbId": 150540,
+      "tmdbType": "movie",
+      "id": "tmdb-150540",
+      "categories": [
+        "animación",
+        "aventura",
+        "drama",
+        "comedia"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/iqgon7zadqem",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "Iron Man",
+      "plot": "El multimillonario fabricante de armas Tony Stark debe enfrentarse a su turbio pasado después de sufrir un accidente con una de sus armas. Equipado con una armadura de última generación tecnológica, se convierte en 'El hombre de hierro' para combatir el mal a escala global.",
+      "cast": "Robert Downey Jr., Terrence Howard, Jeff Bridges, Gwyneth Paltrow, Leslie Bibb, Shaun Toub, Faran Tahir, Clark Gregg, Bill Smitrovich, Sayed Badreya, Paul Bettany, Jon Favreau, Peter Billingsley, Tim Guinee, Will Lyman, Tom Morello, Marco Khan, Daston Kalili, Ido Mor, Kevin Foster, Garret Noël, Eileen Weisinger, Ahmed Ahmed, Fahim Fazli, Gerard Sanders, Tim Rigby, Russell Richardson, نازنین بنیادی, Thomas Craig Plumer, Robert Berkman",
+      "castPhotos": {
+        "Robert Downey Jr.": "https://image.tmdb.org/t/p/w185/5qHNjhtjMD4YWH3UP0rm4tKwxCL.jpg",
+        "Terrence Howard": "https://image.tmdb.org/t/p/w185/wXWt2NSY23v7DHe2yZQ1C8TikBp.jpg",
+        "Jeff Bridges": "https://image.tmdb.org/t/p/w185/xms1RAY6q7Lzp7wNeRCB0kzhucn.jpg",
+        "Gwyneth Paltrow": "https://image.tmdb.org/t/p/w185/ylN4A7fnnNXvHURENl5sQI8Jbib.jpg",
+        "Leslie Bibb": "https://image.tmdb.org/t/p/w185/g3a1O9lOTZvrwQupUtg4Fc3CdTd.jpg",
+        "Shaun Toub": "https://image.tmdb.org/t/p/w185/6fuJ9D50bYuMAhrlEgVqzgqF0LU.jpg"
+      },
+      "director": "Jon Favreau",
+      "writer": "Hawk Ostby",
+      "releaseDate": "2008-04-30",
+      "year": 2008,
+      "genre": null,
+      "rating": 7.7,
+      "duration": "126 min",
+      "poster": "https://image.tmdb.org/t/p/w500/tFCTNx7foAsUQpgu2x1KjAJD1wT.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/cKvDv2LpwVEqbdXWoQl4XgGN6le.jpg",
+      "tmdbId": 1726,
+      "tmdbType": "movie",
+      "id": "tmdb-1726",
+      "categories": [
+        "acción",
+        "ciencia ficción",
+        "aventura"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/x7ljh3suhax4",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "Kill Bill: Volumen 1",
+      "plot": "Uma Thurman es una asesina que, el día de su boda, es atacada por los miembros de la banda de su jefe, Bill (David Carradine). Logra sobrevivir al ataque, aunque queda en coma. Cinco años después despierta con un trozo de metal en la cabeza y un gran deseo de venganza en su corazón.",
+      "cast": "Uma Thurman, Lucy Liu, Vivica A. Fox, Daryl Hannah, David Carradine, Michael Søren Madsen, Julie Dreyfus, Chiaki Kuriyama, Sonny Chiba, Gordon Liu Chia-Hui, Michael Parks, Michael Bowen, Jun Kunimura, Kenji Ohba, Yuki Kazamatsuri, James Parks, Sakichi Sato, Jonathan Loughran, Yoshiyuki Morishita, Tetsuro Shimaguchi, Kazuki Kitamura, 田中要次, Issey Takahashi, 山中聡, 真瀬樹里, Akaji Maro, Goro Daimon, Shun Sugata, 张进战, Hu Xiaohui",
+      "castPhotos": {
+        "Uma Thurman": "https://image.tmdb.org/t/p/w185/sBgAZWi3o4FsnaTvnTNtK6jpQcF.jpg",
+        "Lucy Liu": "https://image.tmdb.org/t/p/w185/9nbtjqsx3De7hO2XDtrBQ7M9VCH.jpg",
+        "Vivica A. Fox": "https://image.tmdb.org/t/p/w185/oIzevp0dqjIxqRQ2VoSzjiDCBt.jpg",
+        "Daryl Hannah": "https://image.tmdb.org/t/p/w185/5FllFmoiaru7tjXJ6Orc11OpQcw.jpg",
+        "David Carradine": "https://image.tmdb.org/t/p/w185/1X2GlkMKS9FIG1kGou7o6LRqAjz.jpg",
+        "Michael Søren Madsen": "https://image.tmdb.org/t/p/w185/fvr2EXEPrVwsF2JlfRp0Olbj4g8.jpg"
+      },
+      "director": "Quentin Tarantino",
+      "writer": "Quentin Tarantino",
+      "releaseDate": "2003-10-10",
+      "year": 2003,
+      "genre": null,
+      "rating": 8,
+      "duration": "111 min",
+      "poster": "https://image.tmdb.org/t/p/w500/lfj709InbmljVqAXgUk2qjnujNN.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/iffzIhuLAO38Po6sh1s6ZEVwlNL.jpg",
+      "tmdbId": 24,
+      "tmdbType": "movie",
+      "id": "tmdb-24",
+      "categories": [
+        "acción"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/ukkmdskx4v2k",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "Milky☆Subway: The Galactic Limited Express - La película",
+      "plot": "Seis delincuentes juveniles deben limpiar un tren como parte de un programa de servicios comunitarios, hasta que este emprende la marcha inesperadamente con ellos dentro.",
+      "cast": "Momoka Terasawa, Anna Nagase, Mikako Komatsu, Hisako Kanemoto, Makoto Koichi, Koki Uchiyama, 山谷祥生, 藤原由林, Kensho Ono, ロバートウォーターマン",
+      "castPhotos": {
+        "Momoka Terasawa": "https://image.tmdb.org/t/p/w185/lLS7b6k1653tiVwbi6pq9JXzMBW.jpg",
+        "Anna Nagase": "https://image.tmdb.org/t/p/w185/gFKRUlUlqTD7jGdysg5IWIvgoCH.jpg",
+        "Mikako Komatsu": "https://image.tmdb.org/t/p/w185/13tQEZ1tLdOmi7oGoRJ4xep1ODQ.jpg",
+        "Hisako Kanemoto": "https://image.tmdb.org/t/p/w185/yosLId8iiPcvDZpeoLuGkDKlorU.jpg",
+        "Makoto Koichi": "https://image.tmdb.org/t/p/w185/gpslQDgkGoL3Ap9QsK1nljeGPKJ.jpg",
+        "Koki Uchiyama": "https://image.tmdb.org/t/p/w185/sllSm3iZZWVLTBrDZQRtWrZUfEj.jpg"
+      },
+      "director": "亀山陽平",
+      "writer": "亀山陽平",
+      "releaseDate": "2026-02-06",
+      "year": 2026,
+      "genre": null,
+      "rating": 8.6,
+      "duration": "46 min",
+      "poster": "https://image.tmdb.org/t/p/w500/p2wClSPUcs0NidsNBueaTBmGkJd.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/wG2VyZvBjXwuZUvqK00UcUNIpCG.jpg",
+      "tmdbId": 1598785,
+      "tmdbType": "movie",
+      "id": "tmdb-1598785",
+      "categories": [
+        "animación",
+        "acción",
+        "aventura",
+        "comedia",
+        "ciencia ficción"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/ucqnjvu9lmed",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "Black Panther: Wakanda Forever",
+      "plot": "La reina Ramonda, Shuri, M’Baku, Okoye y las Dora Milaje, luchan para proteger su nación de la injerencia de potencias mundiales a raíz de la muerte del rey T’Challa. Mientras los wakandianos se esfuerzan por adaptarse a su nueva etapa, los héroes deben actuar unidos, con la ayuda del Perro de la Guerra Nakia y Everett Ross, y forzar un nuevo destino para el reino de Wakanda.",
+      "cast": "Letitia Wright, Tenoch Huerta Mejía, Lupita Nyong'o, Danai Gurira, Winston Duke, Angela Bassett, Martin Freeman, Julia Louis-Dreyfus, Dominique Thorne, Florence Kasumba, Michaela Coel, Alex Livinalli, Mabel Cadena, Michael B. Jordan, Isaach de Bankolé, Danny Sapani, Dorothy Steel, Zainab Jah, Sope Aluko, Connie Chiume, Trevor Noah, Shawn Roberts, Zola Williams, Janeshia Adams-Ginyard, Jemini Powell, Marija Abney, Keisha Tucker, Ivy Haralson, Maya Macatumpag, Baaba Maal",
+      "castPhotos": {
+        "Letitia Wright": "https://image.tmdb.org/t/p/w185/f7PevpEeBqwzACPhoZ8K3ktrKvE.jpg",
+        "Tenoch Huerta Mejía": "https://image.tmdb.org/t/p/w185/x0Wy85CZu887ZQMWrjj4vVulczM.jpg",
+        "Lupita Nyong'o": "https://image.tmdb.org/t/p/w185/y40Wu1T742kynOqtwXASc5Qgm49.jpg",
+        "Danai Gurira": "https://image.tmdb.org/t/p/w185/z7H7QeQvr24vskGlANQhG43vozQ.jpg",
+        "Winston Duke": "https://image.tmdb.org/t/p/w185/MhBiZbryibwuoEtPL9Ns8pYHC1.jpg",
+        "Angela Bassett": "https://image.tmdb.org/t/p/w185/tKnuviliyeKNGlo26IU5gIrJAtd.jpg"
+      },
+      "director": "Ryan Coogler",
+      "writer": "Ryan Coogler",
+      "releaseDate": "2022-11-09",
+      "year": 2022,
+      "genre": null,
+      "rating": 7,
+      "duration": "162 min",
+      "poster": "https://image.tmdb.org/t/p/w500/mYpT2R7639KvKZ668uoQGS2QNFp.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/83H0C66AcvkwpG2738VCTHMY9uv.jpg",
+      "tmdbId": 505642,
+      "tmdbType": "movie",
+      "id": "tmdb-505642",
+      "categories": [
+        "acción",
+        "aventura",
+        "ciencia ficción"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/ahfrachnzpuf",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "El renacido",
+      "plot": "Durante una expedición en las tierras salvajes americanas, el legendario explorador Hugh Glass es brutalmente atacado por un oso y dado por muerto por los miembros de su propia partida de caza. En su cruzada por sobrevivir, Glass supera inimaginables tribulaciones, además de la traición de su confidente John Fitzgerald. Guiado por la pura determinación y el amor de su familia, Glass deberá superar un duro invierno mientras busca sin descanso un motivo para seguir adelante y encontrar la redención.",
+      "cast": "Leonardo DiCaprio, Tom Hardy, Domhnall Gleeson, Will Poulter, Forrest Goodluck, Duane Howard, Arthur Redcloud, Melaw Nakehk'o, Grace Dove, Lukas Haas, Paul Anderson, Kristoffer Joner, Joshua Burge, Fabrice Adde, Christopher Rosamond, Robert Moloney, Brendan Fletcher, Tyson Wood, McCaleb Burnett, Vincent Leclerc, Stephane Legault, Emmanuel Bilodeau, Cole Vandale, Tom Guiry, Scott Olynek, Amelia Crow Show, Peter Strand Rumpel, Timothy Lyle, Kory Grim, Anthony Starlight",
+      "castPhotos": {
+        "Leonardo DiCaprio": "https://image.tmdb.org/t/p/w185/wo2hJpn04vbtmh0B9utCFdsQhxM.jpg",
+        "Tom Hardy": "https://image.tmdb.org/t/p/w185/d81K0RH8UX7tZj49tZaQhZ9ewH.jpg",
+        "Domhnall Gleeson": "https://image.tmdb.org/t/p/w185/a63BgOBKzJ9XPaLFyu7u5Ge3REG.jpg",
+        "Will Poulter": "https://image.tmdb.org/t/p/w185/9blYMaj79VGC6BHTLmJp3V5S8r3.jpg",
+        "Forrest Goodluck": "https://image.tmdb.org/t/p/w185/4xjRFmyJqYZRtLODw22baOla2Ub.jpg",
+        "Duane Howard": "https://image.tmdb.org/t/p/w185/cjtGNOnvid0baPAYY6RUKIWI753.jpg"
+      },
+      "director": "Alejandro González Iñárritu",
+      "writer": "Alejandro González Iñárritu",
+      "releaseDate": "2015-12-25",
+      "year": 2015,
+      "genre": null,
+      "rating": 7.5,
+      "duration": "156 min",
+      "poster": "https://image.tmdb.org/t/p/w500/k3Jh7J5GGMx1lmr7qmynRxOvOK5.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/hEQYZq2CDB2LSJVxxlazdBOKeyW.jpg",
+      "tmdbId": 281957,
+      "tmdbType": "movie",
+      "id": "tmdb-281957",
+      "categories": [
+        "drama",
+        "aventura"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/eibgnuqiqriw",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "喰女 ―クイメ―",
+      "plot": "",
+      "cast": "十三代目 市川團十郎, 柴咲コウ, 伊藤英明, 中西美帆, マイコ, Toshie Negishi, 勝野洋, 古谷一行, 片山瞳, 萩原健一, 佐藤浩市, 唐沢寿明",
+      "castPhotos": {
+        "十三代目 市川團十郎": "https://image.tmdb.org/t/p/w185/vjGX7Y2DxJ0YchRWdIkApaVRJCk.jpg",
+        "柴咲コウ": "https://image.tmdb.org/t/p/w185/eEBNceN1MsDFibWVV3VIcEHygUW.jpg",
+        "伊藤英明": "https://image.tmdb.org/t/p/w185/rAUBx8rz1UKy2ZI1oBDXwNuPJZg.jpg",
+        "中西美帆": "https://image.tmdb.org/t/p/w185/lIrgAIx0U76RF5sFJXPHMODYiSp.jpg",
+        "マイコ": "https://image.tmdb.org/t/p/w185/3eEodq7dvmOphNftD46rk1xtnoz.jpg",
+        "Toshie Negishi": "https://image.tmdb.org/t/p/w185/wPm2LVQ8bQml329ocOXbmFG2Rff.jpg"
+      },
+      "director": "Takashi Miike",
+      "writer": "山岸きくみ",
+      "releaseDate": "2014-08-23",
+      "year": 2014,
+      "genre": null,
+      "rating": 6,
+      "duration": "111 min",
+      "poster": "https://image.tmdb.org/t/p/w500/w7rvo7VTGMAjz7mClgh1bJx555o.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/sLxme3gyXHqBCkp2JTAtfmlB9WA.jpg",
+      "tmdbId": 199925,
+      "tmdbType": "movie",
+      "id": "tmdb-199925",
+      "categories": [
+        "terror"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/ufdoxada5g8k",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "Los ángeles de Charlie",
+      "plot": "Los ángeles de Charlie siempre han proporcionado servicios de seguridad e investigación a clientes privados, y ahora la agencia Townsend se ha expandido internacionalmente con las mujeres más inteligentes, valientes y mejor entrenadas a lo largo y ancho del planeta – varios equipos de ángeles guiados por otros tantos Bosleys llevando a cabo los trabajos más duros por todo el mundo. Cuando un joven ingeniero de sistemas llama la atención sobre una peligrosa tecnología, los ángeles son llamados a la acción, arriesgando sus vidas por protegernos a todos.",
+      "cast": "Kristen Stewart, Naomi Scott, Ella Balinska, Elizabeth Banks, Patrick Stewart, Djimon Hounsou, Sam Claflin, Jonathan Tucker, Nat Faxon, Chris Pang, Luis Gerardo Méndez, Noah Centineo, David Schütter, Hannah Hoekstra, Jane Chirwa, Emre Kentmenoğlu, Murali Perumal, Sebastian Kroehnert, Franz Xaver Zach, Andreas Schröders, Marie-Lou Sellem, Batur Belirdi, Anna Drexler, Tanem Çalbayram, Michael Strahan, Neil Malik Abdullah, Nick Dong-Sik, Dennenesch Zoudé, Peter Sikorski, Frederic Böhle",
+      "castPhotos": {
+        "Kristen Stewart": "https://image.tmdb.org/t/p/w185/xldswdQ1VnpcOf2wZMPguZ3avgO.jpg",
+        "Naomi Scott": "https://image.tmdb.org/t/p/w185/knSGMaEaH6CZaYw7GQpvxyJcsz7.jpg",
+        "Ella Balinska": "https://image.tmdb.org/t/p/w185/tDki8HCmX5gl1e31IsP9p8a8Kg1.jpg",
+        "Elizabeth Banks": "https://image.tmdb.org/t/p/w185/wMDFt9PUdxJWBzTwixiBfNpeN89.jpg",
+        "Patrick Stewart": "https://image.tmdb.org/t/p/w185/ufqtnLh3JJjPbEgxEag3MM5nZyv.jpg",
+        "Djimon Hounsou": "https://image.tmdb.org/t/p/w185/tpvtxxvCx2Mb5DV632hmuYlHoiY.jpg"
+      },
+      "director": "Elizabeth Banks",
+      "writer": "Elizabeth Banks",
+      "releaseDate": "2019-11-14",
+      "year": 2019,
+      "genre": null,
+      "rating": 6.3,
+      "duration": "125 min",
+      "poster": "https://image.tmdb.org/t/p/w500/2vISsOjLk8HGQAK1HgajNSBGQWy.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/a0xTB1vBxMGt6LGG4N7k1wO9lfL.jpg",
+      "tmdbId": 458897,
+      "tmdbType": "movie",
+      "id": "tmdb-458897",
+      "categories": [
+        "acción",
+        "aventura",
+        "comedia"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/1hpiidu0ob8p",
           "language": "Español"
         }
       ]
