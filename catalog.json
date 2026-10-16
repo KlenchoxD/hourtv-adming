@@ -5817,6 +5817,185 @@
           "language": "Español"
         }
       ]
+    },
+    {
+      "title": "Peligrosa obsesión",
+      "plot": "En el verano de 1969, el coronel Kim Jin-pyeong, atrapado en un matrimonio sin amor con Lee Suk-jin, y Jong Ga-heun, la esposa chino-coreana del capitán Kyung Woo-jin, mantienen un apasionado romance secreto.",
+      "cast": "송승헌, Im Ji‑yeon, Cho Yeo-jeong, 온주완, Yoo Hai-jin, 박혁권, 전혜진, 엄태구, 예수정, 손지나, 정상철, 김혜나, 장윤실, Han Ha-yoo, 이승준, 배성우, 연제욱, 오순태, 정원중, 김두봉, 송지인, 설유진, 우연서, 오희준, 김빈, 방지혁",
+      "castPhotos": {
+        "송승헌": "https://image.tmdb.org/t/p/w185/bARhZL4jvwAMHCsYzzbUvLD6Pj7.jpg",
+        "Im Ji‑yeon": "https://image.tmdb.org/t/p/w185/gAwwi5fBxCKLnrP9bjOQFtMUs6j.jpg",
+        "Cho Yeo-jeong": "https://image.tmdb.org/t/p/w185/5MgWM8pkUiYkj9MEaEpO0Ir1FD9.jpg",
+        "온주완": "https://image.tmdb.org/t/p/w185/7G6a0LvFFZiBIcvu2inREPFwRje.jpg",
+        "Yoo Hai-jin": "https://image.tmdb.org/t/p/w185/sJzKaBnDaIEirEDJF6ZWVvZU8kG.jpg",
+        "박혁권": "https://image.tmdb.org/t/p/w185/d4p9iRGNkZUZrFenD0gj0nQN3gR.jpg"
+      },
+      "director": "김대우",
+      "writer": "Oh Tae-kyung",
+      "releaseDate": "2014-05-14",
+      "year": 2014,
+      "genre": null,
+      "rating": 6.7,
+      "duration": "90 min",
+      "poster": "https://image.tmdb.org/t/p/w500/fYrFH2WlCEUNuR85JturV77uOBU.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/aQzXICKh3oaJanWSsSRJ2epB9Z5.jpg",
+      "tmdbId": 269955,
+      "tmdbType": "movie",
+      "id": "tmdb-269955",
+      "categories": [
+        "drama",
+        "romance"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/glvw4aveflpk",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "Perfect Blue",
+      "plot": "Tras años siendo una ídolo juvenil que forma parte del exitoso trío musical CHAM!, Mima Kirigoe decide abandonar el grupo para perseguir su sueño de convertirse en actriz. Alentada por su entorno, decide romper con su imagen de niña buena y acepta un papel en una serie policíaca subida de tono, lo que provoca la ira de muchos de sus fans. Pronto descubre que alguien está escribiendo un blog en internet en el que explica detalles íntimos sobre su vida y además su misterioso acosador pasa a la acción amenazando a sus seres queridos. Mientras los cadáveres comienzan a acumularse a su alrededor, la realidad y las alucinaciones se mezclan en un mundo terrorífico en el que no hay lugar para la inocencia y los sueños se convierten en pesadillas.",
+      "cast": "岩男潤子, 松本梨香, Shinpachi Tsuji, Masaaki Okura, Yosuke Akimoto, 塩屋翼, 堀秀行, 篠原恵美, Masashi Ebara, 梁田清之, 古澤融, 新山志保, Emiko Furukawa, 一龍斎貞弥, Shin-ichiro Miki, Megumi Tano, Emi Motoi, 陶山章央, 細井治, Koichi Tochika, 保志総一朗, Kisho Taniyama, 小野翔加, Rofuto Purasu Wan Burazâzu, 北野誠, Kaori Minami, Jin Yamanoi, Takashi Nagasako",
+      "castPhotos": {
+        "岩男潤子": "https://image.tmdb.org/t/p/w185/bKyMLT1MgDTnXafsq2ur32VMwY5.jpg",
+        "松本梨香": "https://image.tmdb.org/t/p/w185/8kGjV2Ke6MVaR2UGtO9YpFkvuTu.jpg",
+        "Shinpachi Tsuji": "https://image.tmdb.org/t/p/w185/af5ILJbixauO84bsuLOr8XSU9yd.jpg",
+        "Masaaki Okura": "https://image.tmdb.org/t/p/w185/lQmV0Nzww7i3cmbr2ToqGJ5q6qr.jpg",
+        "Yosuke Akimoto": "https://image.tmdb.org/t/p/w185/uzBTKym7osTko49r5odq86nPKT5.jpg",
+        "塩屋翼": "https://image.tmdb.org/t/p/w185/zJCaOJWub2g8ZlXuH8vE9yaBVy1.jpg"
+      },
+      "director": "今敏",
+      "writer": "Sadayuki Murai",
+      "releaseDate": "1998-02-28",
+      "year": 1998,
+      "genre": null,
+      "rating": 8.3,
+      "duration": "81 min",
+      "poster": "https://image.tmdb.org/t/p/w500/kk8p22JheV6MB0fBXOOUgZK9UWQ.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/mHG7dpLb0ZScSY3LpP443IHRmjy.jpg",
+      "tmdbId": 10494,
+      "tmdbType": "movie",
+      "id": "tmdb-10494",
+      "categories": [
+        "animación"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/xqzfsxm3e1ct",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "Pesadilla en Elm Street 5: El niño de los sueños",
+      "plot": "Alice y Dan viven felices tras haber acabado con Freddy. Las pesadillas han terminado y Alice espera plácidamente que nazca su bebé. Ssin embargo, Freddy planea apoderarse del alma del hijo que espera Alice.",
+      "cast": "Lisa Wilcox, Robert Englund, Erika Anderson, Valorie Armstrong, Michael Ashton, Kelly Jo Minter, Danny Hassel, Nicholas Mele, Joe Seely, Burr DeBenning, Clarence Felder, Beatrice Boepple, Matt Borlenghi, Noble Craig, E.R. Davies, Beth DePatie, Will Egan, Stacey Elliott, Steven Grives, Whit Hertford, Jennifer Honneus, Jake Jacobs, Annie Lamaje, Gerry Loew, Kara Marie, Roxanne Mayweather, Don Maxwell, John R. Murray, Marnette Patterson, Cameron Perry",
+      "castPhotos": {
+        "Lisa Wilcox": "https://image.tmdb.org/t/p/w185/hmYgN7mygzXMwO0cxOGsst4oSLB.jpg",
+        "Robert Englund": "https://image.tmdb.org/t/p/w185/cjGEkiavinHa1dnetDvnEhlD2Wm.jpg",
+        "Erika Anderson": "https://image.tmdb.org/t/p/w185/nMczWkfooECK0dCAhvMoej4Vjmy.jpg",
+        "Valorie Armstrong": "https://image.tmdb.org/t/p/w185/pJVLvI3jcerCHIx9QDsSEqIlR2p.jpg",
+        "Kelly Jo Minter": "https://image.tmdb.org/t/p/w185/zVRys4W5kzkWefva3LvkF2bHMV3.jpg"
+      },
+      "director": "Stephen Hopkins",
+      "writer": "Leslie Bohem",
+      "releaseDate": "1989-08-11",
+      "year": 1989,
+      "genre": null,
+      "rating": 5.4,
+      "duration": "89 min",
+      "poster": "https://image.tmdb.org/t/p/w500/vUEPnN7ZkW3buaTDmosFubwC7ZH.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/48eGqD1OvrCPC7zqCEaD6GDiqoT.jpg",
+      "tmdbId": 10160,
+      "tmdbType": "movie",
+      "id": "tmdb-10160",
+      "categories": [
+        "terror"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/xag00hpzaois",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "Piratas del Caribe: El cofre del hombre muerto",
+      "plot": "Will Turner y Elizabeth Swann se van a casar, pero ambos son hechos prisioneros por Lord Cutler Beckett y acusados de haber liberado al capitán Jack Sparrow. Para salvar su vida, Will tendrá que encontrar a Jack y conseguir su misteriosa brújula. Esta esconde un gran poder, además de la clave de una deuda de sangre del pirata con un temible y siniestro Davy Jones, el legendario capitán del barco fantasma Holandés Errante.",
+      "cast": "Johnny Depp, Orlando Bloom, Keira Knightley, Jack Davenport, Bill Nighy, Jonathan Pryce, Lee Arenberg, Mackenzie Crook, Kevin McNally, David Bailie, Stellan Skarsgård, Tom Hollander, Naomie Harris, Martin Klebba, David Schofield, Alex Norton, Lauren Maher, Nej Adamson, Jimmy Roussounis, Moray Treadwell, San Shella, Jim Cody Williams, Michael Miranda, Luke de Woolfson, Derrick O'Connor, Georges Trillat, Israel Aduramo, Gerry O'Brien, Dermot Keaney, Clive Ashborn",
+      "castPhotos": {
+        "Johnny Depp": "https://image.tmdb.org/t/p/w185/k2xt6EUxQDwYRKIyI4IBdZxfs8n.jpg",
+        "Orlando Bloom": "https://image.tmdb.org/t/p/w185/lwQoA0qJTCZ6l2FH6PjmhRQjiaB.jpg",
+        "Keira Knightley": "https://image.tmdb.org/t/p/w185/bRC1B2VwV0wK3ElciFAK6QZf2wD.jpg",
+        "Jack Davenport": "https://image.tmdb.org/t/p/w185/shGH0YWJBfiJznidS0f2ZfN056c.jpg",
+        "Bill Nighy": "https://image.tmdb.org/t/p/w185/ixFI2YCGNGJfwlpI8iyhvVZRg8C.jpg",
+        "Jonathan Pryce": "https://image.tmdb.org/t/p/w185/3nQ01F9WPNPzzLblY7XyaihT9JT.jpg"
+      },
+      "director": "Gore Verbinski",
+      "writer": "Terry Rossio",
+      "releaseDate": "2006-07-06",
+      "year": 2006,
+      "genre": null,
+      "rating": 7.4,
+      "duration": "151 min",
+      "poster": "https://image.tmdb.org/t/p/w500/7L7H6sHAt48EfwsqFaa0dw2NJhz.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/vr6n6ZFUZvedvIlhfYcbCWcaKyW.jpg",
+      "tmdbId": 58,
+      "tmdbType": "movie",
+      "id": "tmdb-58",
+      "categories": [
+        "aventura",
+        "fantasía",
+        "acción"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/wgqbctkloo07",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "Piratas del Caribe: En el fin del mundo",
+      "plot": "Siguiendo la estela de lo sucedido en “Piratas del caribe: el cofre del hombre muerto”, encontramos a nuestros héroes Will Turner y Elizabeth Swann aliados con el capitán Barbossa, en una búsqueda desesperada para liberar al capitán Jack Sparrow de las manos de Davy Jones. Mientras, el terrorífico barco fantasma, el Holandés Errante, bajo el control de la Compañía de las Indias Orientales, causa estragos a lo largo de los Siete Mares. Will y Elizabeth, navegando en medio de la traición, la felonía y mares salvajes, deben seguir adelante rumbo a Singapur y enfrentarse al astuto pirata chino Sao Feng. Ahora, en los mismísimos confines de la tierra, todos ellos deben elegir un bando en la batalla final, ya que no sólo sus vidas y fortunas, sino también el futuro de la piratería clásica, pende de un hilo...",
+      "cast": "Johnny Depp, Geoffrey Rush, Orlando Bloom, Keira Knightley, Jack Davenport, Bill Nighy, Jonathan Pryce, Lee Arenberg, Mackenzie Crook, Kevin McNally, David Bailie, Stellan Skarsgård, Tom Hollander, Naomie Harris, Martin Klebba, David Schofield, Lauren Maher, Dermot Keaney, Clive Ashborn, Winston Ellis, Christopher Adamson, Andy Beckwith, Jonathan Linsley, Chow Yun-fat, Keith Richards, غسان مسعود, Hakeem Kae-Kazim, Dominic Scott Kay, Vanessa Branch, Reggie Lee",
+      "castPhotos": {
+        "Johnny Depp": "https://image.tmdb.org/t/p/w185/k2xt6EUxQDwYRKIyI4IBdZxfs8n.jpg",
+        "Geoffrey Rush": "https://image.tmdb.org/t/p/w185/npXFjaFQzBNroCEPllGPTZ5IisA.jpg",
+        "Orlando Bloom": "https://image.tmdb.org/t/p/w185/lwQoA0qJTCZ6l2FH6PjmhRQjiaB.jpg",
+        "Keira Knightley": "https://image.tmdb.org/t/p/w185/bRC1B2VwV0wK3ElciFAK6QZf2wD.jpg",
+        "Jack Davenport": "https://image.tmdb.org/t/p/w185/shGH0YWJBfiJznidS0f2ZfN056c.jpg",
+        "Bill Nighy": "https://image.tmdb.org/t/p/w185/ixFI2YCGNGJfwlpI8iyhvVZRg8C.jpg"
+      },
+      "director": "Gore Verbinski",
+      "writer": "Terry Rossio",
+      "releaseDate": "2007-05-19",
+      "year": 2007,
+      "genre": null,
+      "rating": 7.3,
+      "duration": "168 min",
+      "poster": "https://image.tmdb.org/t/p/w500/xHcUMez2b1QiMGQYCuQTAlqwDEe.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/1jHxkVXMI5s3vRiyiZooUy1shB5.jpg",
+      "tmdbId": 285,
+      "tmdbType": "movie",
+      "id": "tmdb-285",
+      "categories": [
+        "aventura",
+        "fantasía",
+        "acción"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/trytauyvctko",
+          "language": "Español"
+        }
+      ]
     }
   ],
   "series": [
