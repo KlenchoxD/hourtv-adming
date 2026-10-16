@@ -7725,6 +7725,39 @@
           "language": "Español"
         }
       ]
+    },
+    {
+      "title": "Migración. Un viaje patas arriba",
+      "plot": "La familia Mallard se ha quedado 'estancada'. Mientras papá Mack se siente realizado cuidando de su familia en su estanque de Nueva Inglaterra, mamá Pam se muere de ganas de vivir la vida y hacer descubrir a sus hijos –el adolescente Dax y la patita Gwen– el mundo en toda su amplitud. Después de que una familia de patos migratorios llegue a su estanque con maravillosas historias de lugares lejanos, Pam consigue convencer a Mack de que deben viajar a la tropical Jamaica pasando por Nueva York. Los Mallard emprenden el viaje hacia el sur para pasar el invierno, pero nada sale como estaba previsto. La experiencia les ayudará a descubrir horizontes desconocidos, a hacer nuevos amigos, a vivir experiencias que jamás imaginaron, y de paso, a conocerse mejor.",
+      "cast": "Kumail Nanjiani, Elizabeth Banks, Caspar Jennings, Tresi Gazal, Awkwafina, Carol Kane, Keegan-Michael Key, Danny DeVito, David Mitchell, Isabela Merced, Carlos Alazraqui, Ozioma Akagha, Jozanne Marie, Carlos Alazraqui, Sarah Musnitsky, Valenzia Algarin, Laraine Newman, Will Collyer, Levi Nunez, Abby Craden, Eric Osmond, Django Craig, Jason Pace, John DeMita, Joy Poirel, Luca Diaz, Noreen Reardon, Christian Gazal, Boris Rehlinger, Willow Geer",
+      "castPhotos": {
+        "Kumail Nanjiani": "https://image.tmdb.org/t/p/w185/9EyrK1Cv7ey1h1GgmsVAOn45w6G.jpg",
+        "Elizabeth Banks": "https://image.tmdb.org/t/p/w185/wMDFt9PUdxJWBzTwixiBfNpeN89.jpg",
+        "Caspar Jennings": "https://image.tmdb.org/t/p/w185/zix2OOBwMtqiVYobDDxPAaKU664.jpg",
+        "Tresi Gazal": "https://image.tmdb.org/t/p/w185/jKcfUfx8m7jZMaGwjDrmfC5yYgs.jpg",
+        "Awkwafina": "https://image.tmdb.org/t/p/w185/l5AKkg3H1QhMuXmTTmq1EyjyiRb.jpg",
+        "Carol Kane": "https://image.tmdb.org/t/p/w185/dm3Ci8XuVYZBqqlYtaLgth94VUe.jpg"
+      },
+      "director": "Benjamin Renner",
+      "writer": "Mike White",
+      "releaseDate": "2023-12-06",
+      "year": 2023,
+      "rating": 7.4,
+      "duration": "83 min",
+      "poster": "https://image.tmdb.org/t/p/w500/diEeiB2DmZZadHISkg24RO2n0rT.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/d1ECsrOqB17DamTMPtiUTd6HdXd.jpg",
+      "tmdbId": 940551,
+      "tmdbType": "movie",
+      "id": "tmdb-940551",
+      "genre": "Familia, Comedia, Aventura, Animación",
+      "categories": [],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/rg9ymhhkxgem",
+          "language": "Español"
+        }
+      ]
     }
   ],
   "series": [
