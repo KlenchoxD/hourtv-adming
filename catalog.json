@@ -3898,6 +3898,191 @@
           "language": "Español"
         }
       ]
+    },
+    {
+      "title": "Frankenstein",
+      "plot": "Un científico brillante y obsesivo, Victor Frankenstein, en su ambición por desafiar a la muerte, da vida a una criatura ensamblada con partes de cadáveres. Pese a tratarse de una proeza científica, Frankenstein considera que la criatura carece de inteligencia y la rechaza. Dolida, esta se rebela contra su creador.",
+      "cast": "Oscar Isaac, Jacob Elordi, Christoph Waltz, Mia Goth, Felix Kammerer, Charles Dance, David Bradley, Lars Mikkelsen, Christian Convery, Nikolaj Lie Kaas, Kyle Gatehouse, Lauren Collins, Sofia Galasso, Joachim Fjelstrup, Ralph Ineson, Peter Millard, Peter MacNeill, Burn Gorman, Sean Sullivan, Stuart Hughes, Gord Rand, Kenton Craig, Val Ovtcharov, Anders Yates, Adam Brown, Santiago Segura, Dexter Stokes-Mellor, Shian Denovan, Mark Steger, Rafe Harwood",
+      "castPhotos": {
+        "Oscar Isaac": "https://image.tmdb.org/t/p/w185/dW5U5yrIIPmMjRThR9KT2xH6nTz.jpg",
+        "Jacob Elordi": "https://image.tmdb.org/t/p/w185/qZNRPWCP2c5d0YaYLTzHXU9Rdoe.jpg",
+        "Christoph Waltz": "https://image.tmdb.org/t/p/w185/jMvLGCVXLaBqjRLf5olyvEucZob.jpg",
+        "Mia Goth": "https://image.tmdb.org/t/p/w185/rwko7XVaKFcJH1dtAIIsrgLMzHb.jpg",
+        "Felix Kammerer": "https://image.tmdb.org/t/p/w185/T12faHW0QXunSZbv6YNmDWG7bC.jpg",
+        "Charles Dance": "https://image.tmdb.org/t/p/w185/28ElvRC5ftOSzZBFM0cn4XrwH36.jpg"
+      },
+      "director": "Guillermo del Toro",
+      "writer": "Guillermo del Toro",
+      "releaseDate": "2025-10-17",
+      "year": 2025,
+      "genre": null,
+      "rating": 7.6,
+      "duration": "150 min",
+      "poster": "https://image.tmdb.org/t/p/w500/hTj8x0ElKldJyAjTYvaqxkQNxxN.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/hpXBJxLD2SEf8l2CspmSeiHrBKX.jpg",
+      "tmdbId": 1062722,
+      "tmdbType": "movie",
+      "id": "tmdb-1062722",
+      "categories": [
+        "drama",
+        "fantasía",
+        "terror"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/movha3hiqheu",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "Garfield: La película",
+      "plot": "El mundialmente famoso Garfield, el gato casero que odia los lunes y que adora la lasaña, está a punto de vivir una aventura ¡en el salvaje mundo exterior! Tras una inesperada reunión con su largamente perdido padre – el desaliñado gato callejero Vic – Garfield y su amigo canino Odie se ven forzados a abandonar sus perfectas y consentidas vidas al unirse a Vic en un hilarante y muy arriesgado atraco.",
+      "cast": "Chris Pratt, Samuel L. Jackson, Hannah Waddingham, Ving Rhames, Nicholas Hoult, Cecily Strong, Harvey Guillén, Brett Goldstein, Bowen Yang, Snoop Dogg, Janelle James, Angus Cloud, Jeff Foxworthy, Eugenia Caruso, Luke Cinque-White, Dev Joshi, Chana Keefer, Mark Keefer, Edward Montgomery, Mark Dindal, Cameron Bernard Jones, Darren Foreman, Timothy Quinlan, Matt Rippy, Alicia Grace Turrell, Eric Loren, Melli Bond, Lynsey Murrell, Amelia Sciandra, Jennifer Woodward",
+      "castPhotos": {
+        "Chris Pratt": "https://image.tmdb.org/t/p/w185/cRH6HPAQ98PlOwwEvhYO4CM9lwu.jpg",
+        "Samuel L. Jackson": "https://image.tmdb.org/t/p/w185/AiAYAqwpM5xmiFrAIeQvUXDCVvo.jpg",
+        "Hannah Waddingham": "https://image.tmdb.org/t/p/w185/eHAICyhvjiRZCgzKyJCk9hWnnjr.jpg",
+        "Ving Rhames": "https://image.tmdb.org/t/p/w185/tOVDvu1EQP78AwaUw6uh1wN818E.jpg",
+        "Nicholas Hoult": "https://image.tmdb.org/t/p/w185/pXm8GWTm9eIA8pUGOjvmYjlxamu.jpg",
+        "Cecily Strong": "https://image.tmdb.org/t/p/w185/g1WbsojbgQAB72UfUJnNWPaB4b5.jpg"
+      },
+      "director": "Mark Dindal",
+      "writer": "Mark Torgove",
+      "releaseDate": "2024-04-30",
+      "year": 2024,
+      "genre": null,
+      "rating": 6.9,
+      "duration": "101 min",
+      "poster": "https://image.tmdb.org/t/p/w500/tkdc73JiPVvzngSpbLEIfFNjll1.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/P82NAcEsLIYgQtrtn36tYsj41m.jpg",
+      "tmdbId": 748783,
+      "tmdbType": "movie",
+      "id": "tmdb-748783",
+      "categories": [
+        "aventura",
+        "animación",
+        "comedia"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/xk7lgyp9m5xj",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "Cazafantasmas: Imperio helado",
+      "plot": "Después de los eventos de Oklahoma, el equipo de Cazafantasmas regresa a donde comenzó todo: ¡Nueva York! La historia de la familia Spengler continúa con un nuevo grupo de Cazafantasmas.",
+      "cast": "Mckenna Grace, Paul Rudd, Carrie Coon, Finn Wolfhard, Dan Aykroyd, Kumail Nanjiani, Patton Oswalt, Celeste O'Connor, Logan Kim, Emily Alyn Lind, James Acaster, Bill Murray, Ernie Hudson, Annie Potts, William Atherton, Shelley Williams, Chris Tummings, John Rothman, Stephen Whitfield, Samuel Greco, Chris Ginesi, Brandon Burke, Karack Osborn, Kevin Mangold, Ian Whyte, Natalie Cousteau, Allison McKay, Adam Speers, Claire Titelman, Kalisha A. Johnson",
+      "castPhotos": {
+        "Mckenna Grace": "https://image.tmdb.org/t/p/w185/mbY7ngjgYcrUPDVNBikB9sMdaIk.jpg",
+        "Paul Rudd": "https://image.tmdb.org/t/p/w185/6jtwNOLKy0LdsRAKwZqgYMAfd5n.jpg",
+        "Carrie Coon": "https://image.tmdb.org/t/p/w185/vWChiHhXFjZVKC6HbACyyRFmdW4.jpg",
+        "Finn Wolfhard": "https://image.tmdb.org/t/p/w185/vgjd34eWfVL6GsLHwiwcAsjWLmo.jpg",
+        "Dan Aykroyd": "https://image.tmdb.org/t/p/w185/iVMmeVJx8IpCEjlGBZWzIWvX5Qo.jpg",
+        "Kumail Nanjiani": "https://image.tmdb.org/t/p/w185/9EyrK1Cv7ey1h1GgmsVAOn45w6G.jpg"
+      },
+      "director": "Gil Kenan",
+      "writer": "Jason Reitman",
+      "releaseDate": "2024-03-20",
+      "year": 2024,
+      "genre": null,
+      "rating": 6.4,
+      "duration": "115 min",
+      "poster": "https://image.tmdb.org/t/p/w500/fIUqk6Pjo3uf5RiOGT19KQ53ekq.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/5cCfqeUH2f5Gnu7Lh9xepY9TB6x.jpg",
+      "tmdbId": 967847,
+      "tmdbType": "movie",
+      "id": "tmdb-967847",
+      "categories": [
+        "fantasía",
+        "aventura",
+        "comedia"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/d6jblxub43rm",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "Cazafantasmas: Más allá",
+      "plot": "Al quedarse sin opciones y dinero, Callie, madre soltera, pone un pie en la pequeña ciudad de Summerville, Oklahoma, con sus dos hijos adolescentes, Phoebe y Trevor. Y ahora ya no hay vuelta atrás. Mientras la familia intenta establecerse en la destartalada casa del excéntrico difunto padre de Callie, secretos inesperados escondidos a plena vista, equipos misteriosos y un extraño vehículo pudriéndose en el granero parecen estar relacionados con la desconcertante actividad sísmica de la zona, y algo aún más impactante: el olvidado incidente del Hombre Malvavisco Stay-Puft en la ciudad de Nueva York de los años 80. Pero no ha habido ni un solo avistamiento de fantasmas desde los extraños acontecimientos de Los Cazafantasmas II (1989). ¿Se está repitiendo la historia? ¿Phoebe conectará los puntos, le dará voz a su abuelo y descubrirá la conexión de la familia con los Cazafantasmas originales (1984)?",
+      "cast": "Mckenna Grace, Finn Wolfhard, Carrie Coon, Paul Rudd, Logan Kim, Celeste O'Connor, Bill Murray, Dan Aykroyd, Ernie Hudson, Annie Potts, Sigourney Weaver, Bob Gunton, J.K. Simmons, Shawn Seward, Billy Bryk, Sydney Mae Díaz, Hannah Duke, Bokeem Woodbine, Paulina Alexis, Marlon Kazadi, Chiara Petersen, Danielle Kennedy, Artoun Nazareth, Crystal Roseborough, Dušan Rokvić, Emma Portner, Stella Aykroyd, Kim Faires, Josh Gad, Shohreh Aghdashloo",
+      "castPhotos": {
+        "Mckenna Grace": "https://image.tmdb.org/t/p/w185/mbY7ngjgYcrUPDVNBikB9sMdaIk.jpg",
+        "Finn Wolfhard": "https://image.tmdb.org/t/p/w185/vgjd34eWfVL6GsLHwiwcAsjWLmo.jpg",
+        "Carrie Coon": "https://image.tmdb.org/t/p/w185/vWChiHhXFjZVKC6HbACyyRFmdW4.jpg",
+        "Paul Rudd": "https://image.tmdb.org/t/p/w185/6jtwNOLKy0LdsRAKwZqgYMAfd5n.jpg",
+        "Logan Kim": "https://image.tmdb.org/t/p/w185/enI1CJeXSKOSTvC4mp945xxGU9X.jpg",
+        "Celeste O'Connor": "https://image.tmdb.org/t/p/w185/jI3pNOhj9Gr7ym9cUcv8vsI0lCF.jpg"
+      },
+      "director": "Jason Reitman",
+      "writer": "Gil Kenan",
+      "releaseDate": "2021-11-18",
+      "year": 2021,
+      "genre": null,
+      "rating": 7.3,
+      "duration": "124 min",
+      "poster": "https://image.tmdb.org/t/p/w500/1jy2R4irQMZEaHvGkKoyuaKJPJO.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/EnDlndEvw6Ptpp8HIwmRcSSNKQ.jpg",
+      "tmdbId": 425909,
+      "tmdbType": "movie",
+      "id": "tmdb-425909",
+      "categories": [
+        "fantasía",
+        "comedia",
+        "aventura"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/qt0fqr5casmu",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "Gremlins",
+      "plot": "Rand es un viajante que un día regala a su hijo Billy una tierna y extraña criatura, un mogwai. El inocente regalo, sin embargo, será el origen de toda una ola de gamberradas y fechorías en un pequeño pueblo de Estados Unidos. Todo empieza cuando son infringidas, una tras otra, las tres reglas básicas que deben seguirse para cuidar a un mogwai: no darle de comer después de medianoche, no mojarlo y evitar que le dé la luz del Sol.",
+      "cast": "Zach Galligan, Phoebe Cates, Hoyt Axton, Frances Lee McCain, Corey Feldman, Keye Luke, John Louie, Dick Miller, Jackie Joseph, Polly Holliday, Judge Reinhold, Edward Andrews, Belinda Balaski, Scott Brady, Susan Burgess, Harry Carey Jr., Donald Elson, Jonathan Banks, Glynn Turman, Chuck Jones, Arnie Moore, Danny Llewelyn, Lois Foraker, Kenny Davis, Nicky Katt, Tracy Wells, John C. Becher, Gwen Willson, Joe Brooks, Jim McKrell",
+      "castPhotos": {
+        "Zach Galligan": "https://image.tmdb.org/t/p/w185/mIqahCZcPw63km6dFnm1B1coAiY.jpg",
+        "Phoebe Cates": "https://image.tmdb.org/t/p/w185/nh2jiRCFa7TQdGB87k557LG0PtY.jpg",
+        "Hoyt Axton": "https://image.tmdb.org/t/p/w185/ko67ZaIC0rd6uaSOM619RjapQvO.jpg",
+        "Frances Lee McCain": "https://image.tmdb.org/t/p/w185/8KL73kRxsLDdrXPuMfiPET1EqH6.jpg",
+        "Corey Feldman": "https://image.tmdb.org/t/p/w185/9n5xDsrBFY0AFESmXOJEzEj4ezx.jpg",
+        "Keye Luke": "https://image.tmdb.org/t/p/w185/fh9RufZ6VQjKGFVtXFr3wv2MYCd.jpg"
+      },
+      "director": "Joe Dante",
+      "writer": "Chris Columbus",
+      "releaseDate": "1984-06-08",
+      "year": 1984,
+      "genre": null,
+      "rating": 7.1,
+      "duration": "106 min",
+      "poster": "https://image.tmdb.org/t/p/w500/73Lf0JYHyWyZQGu04wvzzM3hh0l.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/5UX6M0aEphiW6Xmy5rpYX75glbo.jpg",
+      "tmdbId": 927,
+      "tmdbType": "movie",
+      "id": "tmdb-927",
+      "categories": [
+        "fantasía",
+        "terror",
+        "comedia"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/czugzk8w4gu9",
+          "language": "Español"
+        }
+      ]
     }
   ],
   "series": [
