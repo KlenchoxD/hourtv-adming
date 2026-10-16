@@ -2502,6 +2502,146 @@
           "language": "Español"
         }
       ]
+    },
+    {
+      "title": "Bichos, una aventura en miniatura",
+      "plot": "Un grupo de saltamontes liderados por el malvado Hopper y su estúpido hermano Molt asedian la colonia de hormigas todos los veranos para hacerse con la comida almacenada para pasar el invierno. Flik, una hormiga cansada de seguir las reglas del grupo, decide abandonar la colonia en busca de un grupo de mercenarios que los defiendan. Por equivocación, Flik reclutará a una pandilla de artistas de circo.",
+      "cast": "Dave Foley, Kevin Spacey, Julia Louis-Dreyfus, Hayden Panettiere, Phyllis Diller, Richard Kind, David Hyde Pierce, Joe Ranft, Denis Leary, Jonathan Harris, Madeline Kahn, Bonnie Hunt, Michael McShane, John Ratzenberger, Brad Garrett, Roddy McDowall, Edie McClurg, Alex Rocco, David Ossman, Carlos Alazraqui, Jack Angel, Bob Bergen, Kimberly J. Brown, Rodger Bumpass, Anthony Burch, Jennifer Darling, Rachel Davey, Debi Derryberry, Paul Eiding, Jessica Evans",
+      "castPhotos": {
+        "Dave Foley": "https://image.tmdb.org/t/p/w185/muHRRGDTE7ZWk3guqDAk9L4DqVX.jpg",
+        "Kevin Spacey": "https://image.tmdb.org/t/p/w185/nPrUZDEbGQe6jwpVbHKJCXsMd7r.jpg",
+        "Julia Louis-Dreyfus": "https://image.tmdb.org/t/p/w185/iEfHQNrVbVFesDPjdySom9nqsFg.jpg",
+        "Hayden Panettiere": "https://image.tmdb.org/t/p/w185/beFQeFN0KcF2MsM5DRFE8YTMDjQ.jpg",
+        "Phyllis Diller": "https://image.tmdb.org/t/p/w185/teELYDRWmPGAVCzH4n4lX17Wa4J.jpg",
+        "Richard Kind": "https://image.tmdb.org/t/p/w185/yWmuVQeQUzb5OSMVDoWkR0IylCK.jpg"
+      },
+      "director": "John Lasseter",
+      "writer": "Bob Shaw",
+      "releaseDate": "1998-11-25",
+      "year": 1998,
+      "genre": null,
+      "rating": 7,
+      "duration": "91 min",
+      "poster": "https://image.tmdb.org/t/p/w500/3zc9gBzw0egrp7lMrE0zqFkNMms.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/hwwFyowfcbLRVmRBOkvnABBNIOs.jpg",
+      "tmdbId": 9487,
+      "tmdbType": "movie",
+      "id": "tmdb-9487",
+      "categories": [
+        "aventura",
+        "animación",
+        "comedia"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/7gazdx71ooiy",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "Black Adam",
+      "plot": "Casi 5000 años después de que los dioses antiguos le concediesen sus poderes y tras ser encarcelado, Black Adam queda liberado de su tumba terrenal y está listo para hacer justicia a su manera en el mundo moderno.",
+      "cast": "Dwayne Johnson, Aldis Hodge, Noah Centineo, Sarah Shahi, Quintessa Swindell, Marwan Kenzari, Mo Amer, Bodhi Sabongui, Pierce Brosnan, James Cusati-Moyer, Jalon Christian, Benjamin Patterson, Odelya Halevi, Uli Latukefu, Jennifer Holland, Henry Winkler, Chaim Jeraffi, Sharon Gee, Stephan Jones, A. Manuel Miranda, Djimon Hounsou, Raj Kala, E. Lloyd Napier, Kiara Rashawn, Onye Eme-Akwari, Sanna Erica, Vince Canlas, Tonea Stewart, Meghna Nagarajan, Patrick Sabongui",
+      "castPhotos": {
+        "Dwayne Johnson": "https://image.tmdb.org/t/p/w185/5QApZVV8FUFlVxQpIK3Ew6cqotq.jpg",
+        "Aldis Hodge": "https://image.tmdb.org/t/p/w185/enDU0pemco1mFxxdLKUzWakC6sk.jpg",
+        "Noah Centineo": "https://image.tmdb.org/t/p/w185/p1bcst401RyxfDGykx2iQLI7CV5.jpg",
+        "Sarah Shahi": "https://image.tmdb.org/t/p/w185/shiLCJNyvi9xlUZw4bTuRkhrKpm.jpg",
+        "Quintessa Swindell": "https://image.tmdb.org/t/p/w185/3rWuQThPernDgpluR1Q8xDgg3Tu.jpg",
+        "Marwan Kenzari": "https://image.tmdb.org/t/p/w185/66903sgNtyzHN0Mi3D88UYgbH86.jpg"
+      },
+      "director": "Jaume Collet Serra",
+      "writer": "Adam Sztykiel",
+      "releaseDate": "2022-10-19",
+      "year": 2022,
+      "genre": null,
+      "rating": 6.8,
+      "duration": "124 min",
+      "poster": "https://image.tmdb.org/t/p/w500/moDLTCdLx38kMhN53KOTw0LdWMh.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/bQXAqRx2Fgc46uCVWgoPz5L5Dtr.jpg",
+      "tmdbId": 436270,
+      "tmdbType": "movie",
+      "id": "tmdb-436270",
+      "categories": [
+        "acción",
+        "aventura",
+        "ciencia ficción"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/xpn2xakyyoql",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "Borderline",
+      "plot": "Ex militares estadounidenses se alían con operadores políticos para infiltrar ciudades con pandilleros mexicanos secuestrados, esperando caos criminal para ganar apoyo a agendas políticas radicales.",
+      "cast": "Marissa Arguijo, Michael-Eoin Stanney, Marcus Jean Pirae, Dominic Hernandez, Nigel Vonas, Oscar Alejandro, Mary Salafia",
+      "castPhotos": {
+        "Michael-Eoin Stanney": "https://image.tmdb.org/t/p/w185/ybgdmLiPWu0P9RH1lgGBR49d0Rt.jpg",
+        "Marcus Jean Pirae": "https://image.tmdb.org/t/p/w185/4XD78iRQJpx0uTQRg98Dfzgyb69.jpg",
+        "Nigel Vonas": "https://image.tmdb.org/t/p/w185/hhFFUHGXU8kSDjvJZPEVFCVsagz.jpg"
+      },
+      "director": "Ryan Jordan",
+      "writer": "Jeff Cohen",
+      "releaseDate": "2026-07-17",
+      "year": 2026,
+      "genre": null,
+      "rating": 6,
+      "duration": "94 min",
+      "poster": "https://image.tmdb.org/t/p/w500/sAA2mjpYJFAKydtzG4P4aHC4mZk.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/wPSOPYy2fV62GjeXpVdKyweZGZu.jpg",
+      "tmdbId": 1727780,
+      "tmdbType": "movie",
+      "id": "tmdb-1727780",
+      "categories": [],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/df1wdsiattlv",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "El ultimátum de Bourne",
+      "plot": "Jason Bourne sigue investigando quién es y qué hay realmente detrás del programa secreto de la CIA llamado Treadstone. Ahora un reportero británico de The Guardian le pone sobre una nueva pista con el nombre de Blackbriar. Bourne dará con él en Londres, en un intento de encajar las últimas piezas de ese pasado que él aún intenta recuperar.",
+      "cast": "Matt Damon, Julia Stiles, David Strathairn, Scott Glenn, Paddy Considine, Edgar Ramírez, Albert Finney, Joan Allen, Tom Gallop, Corey Johnson, Daniel Brühl, Joey Ansah, Colin Stinton, Dan Fredenburgh, Lucy Liemann, Bryan Reents, Arkie Reece, John Roberson, Russ Huards, Mark Bazeley, Sinead O'Keeffe, Charles Venn, Scott Adkins, Branko Tomović, Laurentiu Possa, Trevor St. John, Albert Jones, Jeffrey Lee Gibson, Uriel Emil Pollack, Omar Hernandez",
+      "castPhotos": {
+        "Matt Damon": "https://image.tmdb.org/t/p/w185/aCvBXTAR9B1qRjIRzMBYhhbm1fR.jpg",
+        "Julia Stiles": "https://image.tmdb.org/t/p/w185/okcblz7pqeapHorLvxtxd3iNNic.jpg",
+        "David Strathairn": "https://image.tmdb.org/t/p/w185/w5YM2cGefPnkoyIXCi2UrCQW53r.jpg",
+        "Scott Glenn": "https://image.tmdb.org/t/p/w185/8DHORod2l6ZFS9KR0gNAAM3WZfI.jpg",
+        "Paddy Considine": "https://image.tmdb.org/t/p/w185/yFDFSlF4J1m9P0kVwBTKIHB8LYk.jpg",
+        "Edgar Ramírez": "https://image.tmdb.org/t/p/w185/o9xJcedad1BwpMcgDGtW5dVgzH.jpg"
+      },
+      "director": "Paul Greengrass",
+      "writer": "George Nolfi",
+      "releaseDate": "2007-08-03",
+      "year": 2007,
+      "genre": null,
+      "rating": 7.4,
+      "duration": "115 min",
+      "poster": "https://image.tmdb.org/t/p/w500/ifuhCKw2DZ3ROlz7oSFxtJnznR7.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/qiBILuWhv7ipF0pxiEqIJdkQzj8.jpg",
+      "tmdbId": 2503,
+      "tmdbType": "movie",
+      "id": "tmdb-2503",
+      "categories": [
+        "acción",
+        "drama"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/z0gn4utt0m59",
+          "language": "Español"
+        }
+      ]
     }
   ],
   "series": [
