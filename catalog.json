@@ -3506,6 +3506,149 @@
           "language": "Español"
         }
       ]
+    },
+    {
+      "title": "Shelter: El Protector",
+      "plot": "En una remota isla, un hombre que vive en el exilio rescata a una niña de una peligrosa tempestad, lo que desencadena una serie de eventos que los ponen a ambos en grave peligro. A medida que sus destinos se entrelazan, su misión será protegerla a toda costa, mientras se enfrenta a los enemigos de su pasado, en una trepidante odisea por sobrevivir.",
+      "cast": "Jason Statham, Bodhi Rae Breathnach, Naomi Ackie, Daniel Mays, Harriet Walter, Bill Nighy, Michael Shaeffer, Anna Crilly, Eugenia Caruso, Celine Buckens, Bally Gill, Bronson Webb, Laurent Buson, Bryan Vigier, Rodaidh Findlay, Ryan Fletcher, Tomi May, Ansko Pitkänen, Sofian Francis, Kai Martin, Tom Wu, Billy Clements, Gordon Alexander, Adam Collins, Jon Slayer, Harriet Barrow, Tara Hoyos-Martinez, Steven Blades, Tom Delahunty, Damien Donnelly",
+      "castPhotos": {
+        "Jason Statham": "https://image.tmdb.org/t/p/w185/8l6lmrmKFDvhDjMJPj6tBpJdhaA.jpg",
+        "Bodhi Rae Breathnach": "https://image.tmdb.org/t/p/w185/v4PXpYOKUQtcUCp85KAW2bIiS51.jpg",
+        "Naomi Ackie": "https://image.tmdb.org/t/p/w185/dijwuTAEZUzQtoJfK49S4X80fQw.jpg",
+        "Daniel Mays": "https://image.tmdb.org/t/p/w185/2qmA5mXnhA7Nelu2BTbJTvzq35u.jpg",
+        "Harriet Walter": "https://image.tmdb.org/t/p/w185/vH8JrqdHaoFeGos44XeKTNuQMKE.jpg",
+        "Bill Nighy": "https://image.tmdb.org/t/p/w185/ixFI2YCGNGJfwlpI8iyhvVZRg8C.jpg"
+      },
+      "director": "Ric Roman Waugh",
+      "writer": "Ward Parry",
+      "releaseDate": "2026-01-28",
+      "year": 2026,
+      "genre": null,
+      "rating": 7.7,
+      "duration": "107 min",
+      "poster": "https://image.tmdb.org/t/p/w500/kOsqd5jFZ0p3O8Z0k0VQvBW2neW.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/nHxWyy18SvAZ8jJeemtS8k1UNjM.jpg",
+      "tmdbId": 1290821,
+      "tmdbType": "movie",
+      "id": "tmdb-1290821",
+      "categories": [
+        "acción"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/sxbrebghn6ow",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "El hombre de acero",
+      "plot": "Un niño descubre que posee poderes extraordinarios y que no pertenece a este planeta. En su juventud, viaja para descubrir sus orígenes y las razones por las cuales ha sido enviado a la Tierra. Pero el héroe que lleva dentro tiene que emerger para que pueda salvar al mundo de la aniquilación y convertirse en el símbolo de esperanza para la humanidad.",
+      "cast": "Henry Cavill, Amy Adams, Michael Shannon, Diane Lane, Russell Crowe, Antje Traue, Harry Lennix, Richard Schiff, Christopher Meloni, Kevin Costner, Ayelet Zurer, Laurence Fishburne, Jadin Gould, Dylan Sprayberry, Cooper Timberline, Richard Cetrone, Mackenzie Gray, Julian Richings, Mary Black, Samantha Win, Michael Kelly, Rebecca Buller, Christina Wren, David James Lewis, Tahmoh Penikett, Doug Abrahams, Brad Kelly, David Paetkau, Elizabeth Thai, Ian Rozylo",
+      "castPhotos": {
+        "Henry Cavill": "https://image.tmdb.org/t/p/w185/kN3A5oLgtKYAxa9lAkpsIGYKYVo.jpg",
+        "Amy Adams": "https://image.tmdb.org/t/p/w185/gn0K6c6d1L6qQrRc86iL8uyIqiF.jpg",
+        "Michael Shannon": "https://image.tmdb.org/t/p/w185/6mMczfjM8CiS1WuBOgo5Xom1TcR.jpg",
+        "Diane Lane": "https://image.tmdb.org/t/p/w185/6OfP3vFMuCL51zamFKgb8aS74hs.jpg",
+        "Russell Crowe": "https://image.tmdb.org/t/p/w185/3IBZF0qCZMZ7zJYlgrH0sQzNZV.jpg",
+        "Antje Traue": "https://image.tmdb.org/t/p/w185/enfmTZlaXBoaVL1T5XVNe55WbOp.jpg"
+      },
+      "director": "Zack Snyder",
+      "writer": "David S. Goyer",
+      "releaseDate": "2013-06-12",
+      "year": 2013,
+      "genre": null,
+      "rating": 6.7,
+      "duration": "148 min",
+      "poster": "https://image.tmdb.org/t/p/w500/5JW44QGgpEWx4aWXM0uVSi2xtrI.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/69EFgWWPFWbRNHmQgYdSnyJ94Ge.jpg",
+      "tmdbId": 49521,
+      "tmdbType": "movie",
+      "id": "tmdb-49521",
+      "categories": [
+        "acción",
+        "aventura",
+        "ciencia ficción"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/k3nejuspts3w",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "El menú",
+      "plot": "Una joven pareja viaja a uno de los destinos más exclusivos del mundo para cenar en un restaurante que ofrece una experiencia culinaria única. Sin embargo, el chef ha preparado un ingrediente secreto que tendrá un resultado sorprendente en los dos enamorados.",
+      "cast": "Anya Taylor-Joy, Ralph Fiennes, Nicholas Hoult, Janet McTeer, Paul Adelstein, Rob Yang, Aimee Carrero, John Leguizamo, Arturo Castro, Reed Birney, Hong Chau, Judith Light, Mark St. Cyr, Rebecca Koon, Peter Grosz, Christina Brucato, Adam Aalderks, Jon Paul Allyn, Mel Fair, Cristian Gonzalez, Matthew Cornwell, John Wilkins III, John Cola, Michael A. Dean, Marcus Aveons Duncan, Alexander Goldstein, Grant Henley, Rachel Trautmann, Victor Zheng, Michael Neal",
+      "castPhotos": {
+        "Anya Taylor-Joy": "https://image.tmdb.org/t/p/w185/qYNofOjlRke2MlJVihmJmEdQI4v.jpg",
+        "Ralph Fiennes": "https://image.tmdb.org/t/p/w185/tJr9GcmGNHhLVVEH3i7QYbj6hBi.jpg",
+        "Nicholas Hoult": "https://image.tmdb.org/t/p/w185/pXm8GWTm9eIA8pUGOjvmYjlxamu.jpg",
+        "Janet McTeer": "https://image.tmdb.org/t/p/w185/qOKAI6aunD4J5MXiwwomAhI3jI2.jpg",
+        "Paul Adelstein": "https://image.tmdb.org/t/p/w185/9qkGnEWPzGayZg9gaB4xbP8UL4g.jpg",
+        "Rob Yang": "https://image.tmdb.org/t/p/w185/rijNHjy45mhXw6TIhLesuDs4BY4.jpg"
+      },
+      "director": "Mark Mylod",
+      "writer": "Seth Reiss",
+      "releaseDate": "2022-11-17",
+      "year": 2022,
+      "genre": null,
+      "rating": 7.2,
+      "duration": "107 min",
+      "poster": "https://image.tmdb.org/t/p/w500/eNcfCScUUyHQyjP84P25a8ColWp.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/4vSBj7BYsyuKCx96EJzGyp20WfY.jpg",
+      "tmdbId": 593643,
+      "tmdbType": "movie",
+      "id": "tmdb-593643",
+      "categories": [
+        "comedia",
+        "terror"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/9onyptm0af2y",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "El pasajero nocturno",
+      "plot": "Después de presenciar un brutal accidente nocturno en la carretera, una joven pareja comprende que algo los ha seguido. Una presencia demoníaca, conocida como El Pasajero Nocturno, se ha unido a ellos y no se detendrá hasta reclamarlos a ambos, convirtiendo su viaje en una auténtica pesadilla.",
+      "cast": "Lou Llobell, Jacob Scipio, Joseph Lopez, Melissa Leo, Miles Fowler, Alan Trong, Devielle Johnson, James William Clark, Tony Doupe, Charles Leggett, June Clemons, Bonni Dichone, William Lin-Yee, Joey Freitas, Michael Hilow, Norman Lesperance, Bernhard Eichholz, Sam Polin",
+      "castPhotos": {
+        "Lou Llobell": "https://image.tmdb.org/t/p/w185/vjCaa2EhEFgkraE6l2Vypzb93fz.jpg",
+        "Jacob Scipio": "https://image.tmdb.org/t/p/w185/gcZSJy9LZ8DUDP480Q2K1OhL1Ct.jpg",
+        "Joseph Lopez": "https://image.tmdb.org/t/p/w185/tmhwEUByCT6iXlxmJvpTsX97Css.jpg",
+        "Melissa Leo": "https://image.tmdb.org/t/p/w185/ueAIX0MH68xCei3N8vFLS0EUEjY.jpg",
+        "Miles Fowler": "https://image.tmdb.org/t/p/w185/kDIkqRupU6ma4fNAvganW5cJgCq.jpg",
+        "Alan Trong": "https://image.tmdb.org/t/p/w185/qdi0reLvACza2dQQO0AUITlW9Lv.jpg"
+      },
+      "director": "André Øvredal",
+      "writer": "T.W. Burgess",
+      "releaseDate": "2026-05-20",
+      "year": 2026,
+      "genre": null,
+      "rating": 7.3,
+      "duration": "94 min",
+      "poster": "https://image.tmdb.org/t/p/w500/iX8D97TG8gVvHZ8S4clcdpCX7Uv.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/3pDfu71mrzSuFYyIfnKEjt8z4BC.jpg",
+      "tmdbId": 1368314,
+      "tmdbType": "movie",
+      "id": "tmdb-1368314",
+      "categories": [
+        "terror"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/hoehf9o2zmn2",
+          "language": "Español"
+        }
+      ]
     }
   ],
   "series": [
