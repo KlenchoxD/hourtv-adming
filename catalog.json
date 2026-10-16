@@ -4832,6 +4832,186 @@
           "language": "Español"
         }
       ]
+    },
+    {
+      "title": "La guerra del mañana",
+      "plot": "Unos viajeros llegan desde el año 2051 para dar un mensaje: 30 años en el futuro, la humanidad estará perdiendo la guerra contra unos alienígenas. La única esperanza para sobrevivir es que los soldados y civiles vayan al futuro y se sumen a la batalla. Decidido a salvar el mundo por su hija, Dan Forester se une a una científica brillante y a su distante padre para reescribir el destino del planeta.",
+      "cast": "Chris Pratt, Yvonne Strahovski, J.K. Simmons, Betty Gilpin, Sam Richardson, Edwin Hodge, Jasmine Mathews, Ryan Kiera Armstrong, Keith Powers, Mary Lynn Rajskub, Mike Mitchell, Jared Shaw, Alexis Louder, Rose Bianco, Seychelle Gabriel, Alan Trong, Chibuikem Uche, Dave Maldonado, Kasandra Bandfield, Gregory Weeks, Keith Brooks, Rad Daly, Jim Palmer, Dean Feldman, Desiree Supernaugh, Dave Parra, Michelle Rivera Huckaby, Kiley Casciano, Barb Willis, April Knox",
+      "castPhotos": {
+        "Chris Pratt": "https://image.tmdb.org/t/p/w185/cRH6HPAQ98PlOwwEvhYO4CM9lwu.jpg",
+        "Yvonne Strahovski": "https://image.tmdb.org/t/p/w185/2IQEjn5T8urx6ikXM87QGs5MrWg.jpg",
+        "J.K. Simmons": "https://image.tmdb.org/t/p/w185/ScmKoJ9eiSUOthAt1PDNLi8Fkw.jpg",
+        "Betty Gilpin": "https://image.tmdb.org/t/p/w185/bNY6pwoztA95dzFCcvDQCs7TbbF.jpg",
+        "Sam Richardson": "https://image.tmdb.org/t/p/w185/hUN7IIbegvL7aSqQI5KRWoqqJLm.jpg",
+        "Edwin Hodge": "https://image.tmdb.org/t/p/w185/lkouUtGzfgUPUj1LP8cEk8yvKXo.jpg"
+      },
+      "director": "Chris McKay",
+      "writer": "Zach Dean",
+      "releaseDate": "2021-09-03",
+      "year": 2021,
+      "genre": null,
+      "rating": 7.5,
+      "duration": "138 min",
+      "poster": "https://image.tmdb.org/t/p/w500/tzp6VzED2TBc02bkYoYnQa6r2OK.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/yizL4cEKsVvl17Wc1mGEIrQtM2F.jpg",
+      "tmdbId": 588228,
+      "tmdbType": "movie",
+      "id": "tmdb-588228",
+      "categories": [
+        "acción",
+        "ciencia ficción",
+        "aventura"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/zjhzmkvkd7tv",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "Weapons",
+      "plot": "Cuando todos los alumnos de una misma clase, salvo uno, desaparecen misteriosamente la misma noche y exactamente a la misma hora, la pequeña ciudad donde viven se pregunta quién o qué está detrás de su desaparición.",
+      "cast": "Julia Garner, Josh Brolin, Alden Ehrenreich, Austin Abrams, Benedict Wong, Amy Madigan, Cary Christopher, Toby Huss, Whitmer Thomas, Callie Schuttera, June Diane Raphael, Scarlett Sher, Jason Turner, Anny Jules, Ali Burch, Michael Gene Conti, Eric Jepson, Ronny Mathew, Melissa Ponzio, Luke Speakman, Aaron Quick Nelson, Sara Paxton, Justin Long, Mohammed Fahmy, Clayton Farris, Carrie Gibson, Ashley Ames, Fidelus Singleton, Sarah Kopkin, Arya Posey",
+      "castPhotos": {
+        "Julia Garner": "https://image.tmdb.org/t/p/w185/gpLpOBoHz5VF1IZhfWQNqJvDTWp.jpg",
+        "Josh Brolin": "https://image.tmdb.org/t/p/w185/sX2etBbIkxRaCsATyw5ZpOVMPTD.jpg",
+        "Alden Ehrenreich": "https://image.tmdb.org/t/p/w185/vOLiUSDT8rubu0J2YKwBkOL0K6V.jpg",
+        "Austin Abrams": "https://image.tmdb.org/t/p/w185/nvbJNwyhIICUFcS4lhxj9mGvL5z.jpg",
+        "Benedict Wong": "https://image.tmdb.org/t/p/w185/yYfLyrC2CE6vBWSJfkpuVKL2POM.jpg",
+        "Amy Madigan": "https://image.tmdb.org/t/p/w185/h2jErDWMDFFJth4Y9GiVNmwZf65.jpg"
+      },
+      "director": "Zach Cregger",
+      "writer": "Zach Cregger",
+      "releaseDate": "2025-08-04",
+      "year": 2025,
+      "genre": null,
+      "rating": 7.3,
+      "duration": "129 min",
+      "poster": "https://image.tmdb.org/t/p/w500/nYqEQ3ltw0hHc1kBaNWr7Rb8WNZ.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/8VyTWJrNEyV2MTWvniDVp0MpOAe.jpg",
+      "tmdbId": 1078605,
+      "tmdbType": "movie",
+      "id": "tmdb-1078605",
+      "categories": [
+        "terror"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/g0pkdy39dmbl",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "La invitación",
+      "plot": "Una pareja invita a los vecinos a su casa, lo que desencadena una velada llena de giros inesperados, revelando emociones profundamente reprimidas y una sexualidad inexplorada en esta historia que explora las complejidades de las relaciones de hoy en día.",
+      "cast": "Olivia Wilde, Seth Rogen, Penélope Cruz, Edward Norton",
+      "castPhotos": {
+        "Olivia Wilde": "https://image.tmdb.org/t/p/w185/eODi1QKamyVa41eSK2SjU20VAZS.jpg",
+        "Seth Rogen": "https://image.tmdb.org/t/p/w185/nYl9bvQzaPQLzlf0wf75clLN6Hi.jpg",
+        "Penélope Cruz": "https://image.tmdb.org/t/p/w185/n5SFgmvJSENQt8poE4qYacUnKOi.jpg",
+        "Edward Norton": "https://image.tmdb.org/t/p/w185/8nytsqL59SFJTVYVrN72k6qkGgJ.jpg"
+      },
+      "director": "Olivia Wilde",
+      "writer": "Rashida Jones",
+      "releaseDate": "2026-06-25",
+      "year": 2026,
+      "genre": null,
+      "rating": 7.2,
+      "duration": "107 min",
+      "poster": "https://image.tmdb.org/t/p/w500/21JnfyCARiRkms9AZHtTXiZKbIj.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/lEwqBGNR65KZv6Ej5ufcmhZu2y2.jpg",
+      "tmdbId": 950028,
+      "tmdbType": "movie",
+      "id": "tmdb-950028",
+      "categories": [
+        "comedia",
+        "drama",
+        "romance"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/o3ijsaxgsgbg",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "La ciudad de las estrellas (La La Land)",
+      "plot": "Mia, una joven aspirante a actriz que compagina los castings con su trabajo de camarera, y Sebastian, un pianista de jazz que se gana la vida tocando en sórdidos tugurios, se enamoran. Pero la gran ambición por llegar a la cima en sus carreras artísticas amenaza con separarlos.",
+      "cast": "Ryan Gosling, Emma Stone, John Legend, Rosemarie DeWitt, Finn Wittrock, Callie Hernandez, Sonoya Mizuno, Jessica Rothe, Tom Everett Scott, Josh Pence, J.K. Simmons, Amiée Conn, Terry Walters, Thom Shelton, Cinda Adams, Claudine Claudio, Jason Fuchs, D.A. Wallach, Trevor Lissauer, Olivia Hamilton, Anna Chazelle, Marius de Vries, Nicole Coulon, Damon Gupton, Christopher Michael Stevens, Keith Harris, Kaveh Rastegar, Shaylah J. Stevens, Natalie Imani, Briana Lee",
+      "castPhotos": {
+        "Ryan Gosling": "https://image.tmdb.org/t/p/w185/lyUyVARQKhGxaxy0FbPJCQRpiaW.jpg",
+        "Emma Stone": "https://image.tmdb.org/t/p/w185/mstXxlDqhoK0s0molsNpskJ1wLH.jpg",
+        "John Legend": "https://image.tmdb.org/t/p/w185/cCv0YBy2YFFWp9h3kvNPmwWwrCD.jpg",
+        "Rosemarie DeWitt": "https://image.tmdb.org/t/p/w185/44sxIdGtYN24R14OmnZbCpcd8J8.jpg",
+        "Finn Wittrock": "https://image.tmdb.org/t/p/w185/gwGMGTmli0uBF7eAhhXePWhYNFJ.jpg",
+        "Callie Hernandez": "https://image.tmdb.org/t/p/w185/doMXlhTAYCy8gH43yYA6m9ymxhd.jpg"
+      },
+      "director": "Damien Chazelle",
+      "writer": "Damien Chazelle",
+      "releaseDate": "2016-12-01",
+      "year": 2016,
+      "genre": null,
+      "rating": 7.9,
+      "duration": "128 min",
+      "poster": "https://image.tmdb.org/t/p/w500/7pFsAaJmiOppVHcldBzg8JKBHwe.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/nlPCdZlHtRNcF6C9hzUH4ebmV1w.jpg",
+      "tmdbId": 313369,
+      "tmdbType": "movie",
+      "id": "tmdb-313369",
+      "categories": [
+        "comedia",
+        "drama",
+        "romance"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/mbqo0rhqfmga",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "La legión del águila",
+      "plot": "Siglo II d.C. Adaptación de una novela juvenil de Rosemary Sutcliff (1954). Un legionario romano (Channing Tatum) y su esclavo celta Esca (Jamie Bell) emprenden la búsqueda de la Legión Novena, que desapareció veinte años antes en alguna parte del norte de Escocia y a cuyo frente se encontraba un general que resulta ser el padre del legionario en cuestión.",
+      "cast": "Channing Tatum, Mark Strong, Jamie Bell, Donald Sutherland, Denis O'Hare, Tahar Rahim, Dakin Matthews, Douglas Henshall, Paul Ritter, Pip Carter, Ned Dennehy, Gőz István, Bence Gerö, László Zsolt, Julian Lewis Jones, Brian Gleeson, Jon Campling, Aladár Laklóth, Granville Saxton",
+      "castPhotos": {
+        "Channing Tatum": "https://image.tmdb.org/t/p/w185/4TpgnS6l8YUXSne9Av9nda6mjxY.jpg",
+        "Mark Strong": "https://image.tmdb.org/t/p/w185/3cNmatYsoifytg7TfQhI1EHow3v.jpg",
+        "Jamie Bell": "https://image.tmdb.org/t/p/w185/xAfNYOJYOy5ee9PHbBF8Y6xzZ9I.jpg",
+        "Donald Sutherland": "https://image.tmdb.org/t/p/w185/t9rN5Vni7GYmqqNi9nANCZbmewx.jpg",
+        "Denis O'Hare": "https://image.tmdb.org/t/p/w185/zMim5sdMnyd2GFfPd9Jh59Vcog3.jpg",
+        "Tahar Rahim": "https://image.tmdb.org/t/p/w185/r1SJ9nkG9q4JbPHbtcvcVxmRcHw.jpg"
+      },
+      "director": "Kevin Macdonald",
+      "writer": "Jeremy Brock",
+      "releaseDate": "2011-02-08",
+      "year": 2011,
+      "genre": null,
+      "rating": 6.2,
+      "duration": "114 min",
+      "poster": "https://image.tmdb.org/t/p/w500/2YiuJ1XEaVC1PCXwgvOXs64vrPC.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/vSQd7eW6fMrmI1vUFi0QoQ783a5.jpg",
+      "tmdbId": 49494,
+      "tmdbType": "movie",
+      "id": "tmdb-49494",
+      "categories": [
+        "aventura",
+        "drama"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/k8kl9pawwfkl",
+          "language": "Español"
+        }
+      ]
     }
   ],
   "series": [
