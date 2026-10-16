@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-10-16T08:30:41.416Z",
+  "lastRunAt": "2026-10-16T13:31:38.585Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -16,12 +16,12 @@
     1302904,
     1400837,
     1284046,
+    1153576,
     1248832,
     1288445,
     1315772,
     1280300,
     1108427,
-    1153576,
     1368337,
     1377237,
     1228834,
@@ -100,6 +100,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1153576,
+      "title": "Street Fighter",
+      "reason": "Votos 32 por debajo del mínimo (50)"
+    },
+    {
       "tmdbId": 1248832,
       "title": "Digger",
       "reason": "Sin fuente autorizada configurada"
@@ -118,11 +123,6 @@
       "tmdbId": 1108427,
       "title": "Vaiana",
       "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1153576,
-      "title": "Street Fighter",
-      "reason": "Votos 29 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1377237,
