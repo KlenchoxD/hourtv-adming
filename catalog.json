@@ -7758,6 +7758,39 @@
           "language": "Español"
         }
       ]
+    },
+    {
+      "id": "manual-apex-2026",
+      "title": "Apex",
+      "plot": "Una alpinista afligida se aventura sola en la naturaleza australiana, pero queda atrapada en un juego mortal de persecución con un asesino que la considera su presa.",
+      "cast": [
+        "Charlize Theron",
+        "Taron Egerton",
+        "Eric Bana"
+      ],
+      "castPhotos": [],
+      "director": "Baltasar Kormákur",
+      "writer": "Jón Óttar Björgvinsson",
+      "releaseDate": "2026-04-24",
+      "year": 2026,
+      "genre": "Acción, Suspense, Thriller",
+      "rating": 6.9,
+      "duration": "98 min",
+      "poster": "",
+      "backdrop": "",
+      "tmdbId": null,
+      "tmdbType": "movie",
+      "categories": [
+        "Acción",
+        "Suspense"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/ymxwfee8axgc",
+          "language": "Español"
+        }
+      ]
     }
   ],
   "series": [
