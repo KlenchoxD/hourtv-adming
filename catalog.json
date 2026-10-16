@@ -6539,6 +6539,182 @@
           "language": "Español"
         }
       ]
+    },
+    {
+      "title": "Ted 2",
+      "plot": "Se trata de una secuela de la exitosa comedia escrita y dirigida por el cómico Seth MacFarlane. Recién casados Ted y Tami-Lynn deciden tener un bebé. John se ofrece en donar su esperma para que su mejor amigo pueda cumplir su sueño de tener un hijo, pero inesperadamente reciben una carta legal que dice que el estado no le permite ser padre ya que no está demostrado que sea una persona. Todos juntos tendrán que unir fuerzas para luchar por sus derechos en un tribunal de justicia.",
+      "cast": "Mark Wahlberg, Seth MacFarlane, Amanda Seyfried, Jessica Barth, Giovanni Ribisi, Morgan Freeman, Sam J. Jones, Patrick Warburton, Michael Dorn, Bill Smitrovich, John Slattery, Cocoa Brown, John Carroll Lynch, Ron Canada, Liam Neeson, Dennis Haysbert, Patrick Stewart, Tom Brady, Jay Leno, Jimmy Kimmel, Kate McKinnon, Bobby Moynihan, Taran Killam, Sebastian Arcelus, Jay Patterson, Steve Callaghan, Nana Visitor, Maggie Geha, Jessica Szohr, Craig Ricci Shaynak",
+      "castPhotos": {
+        "Mark Wahlberg": "https://image.tmdb.org/t/p/w185/1Oc3XSLyb8hxmjmlgFENu582Kqw.jpg",
+        "Seth MacFarlane": "https://image.tmdb.org/t/p/w185/8oQJqM51Z0Qtdb7sE6ZfX1peNCB.jpg",
+        "Amanda Seyfried": "https://image.tmdb.org/t/p/w185/gtBUIpZ3dvLpOMIVORxE6sHSyZj.jpg",
+        "Jessica Barth": "https://image.tmdb.org/t/p/w185/vQBxmLtlGqT8CuOnBwtzIWdwnNH.jpg",
+        "Giovanni Ribisi": "https://image.tmdb.org/t/p/w185/8EAiS9D3YtGOrwNM0OrwmDpWK7s.jpg",
+        "Morgan Freeman": "https://image.tmdb.org/t/p/w185/905k0RFzH0Kd6gx8oSxRdnr6FL.jpg"
+      },
+      "director": "Seth MacFarlane",
+      "writer": "Seth MacFarlane",
+      "releaseDate": "2015-06-25",
+      "year": 2015,
+      "genre": null,
+      "rating": 6.3,
+      "duration": "115 min",
+      "poster": "https://image.tmdb.org/t/p/w500/bO59Vn36fQauTDQpKNlHxvcK9Nw.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/xtHonIIIQXverDQM08TMQXjn9Fe.jpg",
+      "tmdbId": 214756,
+      "tmdbType": "movie",
+      "id": "tmdb-214756",
+      "categories": [
+        "comedia",
+        "fantasía"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/pdlel4ektzro",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "Led Zeppelin: The Song Remains the Same",
+      "plot": "The Song Remains the Same compila filmaciones de conciertos de la banda británica de hard rock Led Zeppelin que tuvieron lugar las noches del 27, 28 y 29 de julio de 1973 en el Madison Square Garden de Nueva York. De esta compilación, se publicó un álbum el 21 de septiembre de 1976 por Swan Song Records. La película incluye la pieza \"Black Dog\" pero no  \"Celebration Day\", a la inversa que en el disco. Además la película incluye \"Since I've Been Loving You\", la introducción de \"Heartbreaker\", y una pieza de zanfona llamada \"Autumn Lake\". Otras piezas grabadas y que fueron descartadas tanto de la película como del disco fueron \"Over the Hills and Far Away\", \"The Ocean\" y \"Misty Mountain Hop\". Los vídeos de los temas descartados fueron publicados como extras a la película en la edición en Blu-ray de 2007.",
+      "cast": "Robert Plant, Jimmy Page, John Bonham, John Paul Jones, Peter Grant, Charlotte Martin, Maureen Jones, Roy Harper",
+      "castPhotos": {
+        "Robert Plant": "https://image.tmdb.org/t/p/w185/4TcTkSEXE09MoZ8oeM8a5ExiM0T.jpg",
+        "Jimmy Page": "https://image.tmdb.org/t/p/w185/1xxzTj4HrCBBoyCP8eJimFpo6BK.jpg",
+        "John Bonham": "https://image.tmdb.org/t/p/w185/4TTNncdvgMsFCJv9at0kOodE99y.jpg",
+        "John Paul Jones": "https://image.tmdb.org/t/p/w185/i4AwTlN8MVJPvsvDzdSiBxMbXxO.jpg",
+        "Charlotte Martin": "https://image.tmdb.org/t/p/w185/jtWEKvYy1xBi2izg3TQvF0BUMlp.jpg"
+      },
+      "director": "Peter Clifton",
+      "writer": "Peter Clifton",
+      "releaseDate": "1976-10-20",
+      "year": 1976,
+      "genre": null,
+      "rating": 7.9,
+      "duration": "137 min",
+      "poster": "https://image.tmdb.org/t/p/w500/tQzNsYcg4rVXVGw45ue7nkdMOgs.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/cQZrNORK4JHi0ljkHQgU9fO36cU.jpg",
+      "tmdbId": 40440,
+      "tmdbType": "movie",
+      "id": "tmdb-40440",
+      "categories": [],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/dgwtrmtalkyp",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "The Furious",
+      "plot": "Rainy, hija del experto en artes marciales Wang Wei, es secuestrada por una red de tráfico de menores. En un frenético intento de recuperarla, el padre se lanza a la guerra, enfrentándose a numerosos obstáculos mientras lucha contra criminales y policías corruptos. En el camino conoce a Navin, un periodista en busca de su esposa desaparecida. Ambos despliegan sus habilidades de combate mientras aprenden las virtudes de la confianza mutua.",
+      "cast": "谢苗, Joe Taslim, Yang Enyou, Yayan Ruhian, ฉันทธนิสา ตัง, Brian Le, 岩永ジョーイ, สหจักร บุญธนกิจ, มนัสนันท์ พันเลิศวงศ์สกุล, วินัย เวียงย่างกุ้ง, สหัสชัย ชุมรุม, มารุต เจริญทรัพย์, ศรชัย ฉัตรวิริยะชัย, Chayanith Riddhimat, ธนพล จุกสีดา, Kittiphoom Wongpentak, 朱咪咪, Guo Junqing, Shan Tam, Jidapa Suwat-Ekkul, ปิยพงษ์ วงษ์คําเหลา, Panchai Kantakit, Ghanda Suriyamane, Patcharaporn Saelim, Napat Promwongsa, อรัชพร สาเทศ, Pathomthat Threenork, พิไลวรรณ เหล่าพาณิชย์, Tanyatorn Kraikitithanawath, Thanpisit Tangwongsiri",
+      "castPhotos": {
+        "谢苗": "https://image.tmdb.org/t/p/w185/naouuajtSe2GzxQfobcOd0GW9JW.jpg",
+        "Joe Taslim": "https://image.tmdb.org/t/p/w185/bk2j6Oa8T02KtvpD4qOXXGJe4Vy.jpg",
+        "Yayan Ruhian": "https://image.tmdb.org/t/p/w185/y8ZLh6FZMuLFw8PhqDxcEsyozjJ.jpg",
+        "ฉันทธนิสา ตัง": "https://image.tmdb.org/t/p/w185/73xhAKFbeNSlJTwUCsQCAtryLYS.jpg",
+        "Brian Le": "https://image.tmdb.org/t/p/w185/cdtKmPpmBrnVAiqFQVE4urxu0ko.jpg"
+      },
+      "director": "谷垣健治",
+      "writer": "岑君茜",
+      "releaseDate": "2026-06-10",
+      "year": 2026,
+      "genre": null,
+      "rating": 8.2,
+      "duration": "113 min",
+      "poster": "https://image.tmdb.org/t/p/w500/zP19YO60jwEsfKd5Qf1UvA5uJu8.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/i0eR9O1FnCgBm1cH8WwqxGbAXMS.jpg",
+      "tmdbId": 1280738,
+      "tmdbType": "movie",
+      "id": "tmdb-1280738",
+      "categories": [
+        "acción"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/72lhih94hyuf",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "Thor: el mundo oscuro",
+      "plot": "Thor lucha por restablecer el orden en el cosmos, pero una antigua raza liderada por el vengativo Malekith regresa con el propósito de volver a sumir el universo en la oscuridad. Se trata de un villano con el que ni siquiera Odín y Asgard se atreven a enfrentarse; por esa razón, Thor tendrá que emprender un viaje muy peligroso, durante el cual se reunirá con Jane Foster y la obligará a sacrificarlo todo para salvar el mundo.",
+      "cast": "Chris Hemsworth, Natalie Portman, Tom Hiddleston, Christopher Eccleston, Anthony Hopkins, Jaimie Alexander, Zachary Levi, Ray Stevenson, Tadanobu Asano, Idris Elba, Rene Russo, Adewale Akinnuoye-Agbaje, Kat Dennings, Stellan Skarsgård, Alice Krige, Clive Russell, Jonathan Howard, Ramone Morgan, Obada Alassadi, Imaan Chentouf, Claire Brown, Henry Calcutt, Ava Caton, Abbie McCann, Thomas Arnold, Sam Swainsbury, Connor Donaghey, Royce Pierreson, Annabel Norbury, Sophie Cosson",
+      "castPhotos": {
+        "Chris Hemsworth": "https://image.tmdb.org/t/p/w185/piQGdoIQOF3C1EI5cbYZLAW1gfj.jpg",
+        "Natalie Portman": "https://image.tmdb.org/t/p/w185/edPU5HxncLWa1YkgRPNkSd68ONG.jpg",
+        "Tom Hiddleston": "https://image.tmdb.org/t/p/w185/mclHxMm8aPlCPKptP67257F5GPo.jpg",
+        "Christopher Eccleston": "https://image.tmdb.org/t/p/w185/v6ezjezzDo6xP2wlONO5ZzBciwl.jpg",
+        "Anthony Hopkins": "https://image.tmdb.org/t/p/w185/iaf7SHSkGDpnyrDh1Jolilwk2TD.jpg",
+        "Jaimie Alexander": "https://image.tmdb.org/t/p/w185/21IQHPAXNUHiqPrpIYr4X8h2wmf.jpg"
+      },
+      "director": "Alan Taylor",
+      "writer": "Christopher Markus",
+      "releaseDate": "2013-10-30",
+      "year": 2013,
+      "genre": null,
+      "rating": 6.5,
+      "duration": "112 min",
+      "poster": "https://image.tmdb.org/t/p/w500/gPAmH41VpK5UPaNhAiNJePzrL8z.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/5o88bbqcV5STn56jqOeovaaWbAE.jpg",
+      "tmdbId": 76338,
+      "tmdbType": "movie",
+      "id": "tmdb-76338",
+      "categories": [
+        "acción",
+        "aventura",
+        "fantasía"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/5yci3phirrcf",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "Toy Story 4",
+      "plot": "Woody siempre ha tenido claro cuál es su labor en el mundo y cuál es su prioridad: cuidar a su dueño, ya sea Andy o Bonnie. Sin embargo, Woody descubrirá lo grande que puede ser el mundo para un juguete cuando Forky se convierta en su nuevo compañero de habitación. Los juguetes se embarcarán en una aventura de la que no se olvidarán jamás.",
+      "cast": "Tom Hanks, Tim Allen, Annie Potts, Tony Hale, Keegan-Michael Key, Madeleine McGraw, Christina Hendricks, Jordan Peele, Keanu Reeves, Ally Maki, Jay Hernandez, Lori Alan, Joan Cusack, Bonnie Hunt, Kristen Schaal, Emily Davis, Wallace Shawn, John Ratzenberger, Blake Clark, June Squibb, Carl Weathers, Lila Sage Bromley, Don Rickles, Jeff Garlin, Maliah Bargas-Good, Jack McGraw, Juliana Hansen, Estelle Harris, Laurie Metcalf, Steve Purcell",
+      "castPhotos": {
+        "Tom Hanks": "https://image.tmdb.org/t/p/w185/oFvZoKI6lvU03n4YoNGAll9rkas.jpg",
+        "Tim Allen": "https://image.tmdb.org/t/p/w185/k8XPNHBO459FaqkqqM4tfX5GMKk.jpg",
+        "Annie Potts": "https://image.tmdb.org/t/p/w185/nugPVN28qOhOIoHawrDJ6fIfrxR.jpg",
+        "Tony Hale": "https://image.tmdb.org/t/p/w185/3dEyZgTye0Ec17VGKp0mJ3aU6ty.jpg",
+        "Keegan-Michael Key": "https://image.tmdb.org/t/p/w185/xmdzYXP9j87a43FSiL138nLesuS.jpg",
+        "Madeleine McGraw": "https://image.tmdb.org/t/p/w185/8LXcAdo1TYsbrBnMxh50SzZkMLc.jpg"
+      },
+      "director": "Josh Cooley",
+      "writer": "Stephany Folsom",
+      "releaseDate": "2019-06-19",
+      "year": 2019,
+      "genre": null,
+      "rating": 7.5,
+      "duration": "90 min",
+      "poster": "https://image.tmdb.org/t/p/w500/yF1vPDuHVrAUMX5dy1tVMbAjkEL.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/q62bpQ67qaXY0u6b2wFEnQYIbPd.jpg",
+      "tmdbId": 301528,
+      "tmdbType": "movie",
+      "id": "tmdb-301528",
+      "categories": [
+        "comedia",
+        "animación",
+        "aventura"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/xrfcouufizao",
+          "language": "Español"
+        }
+      ]
     }
   ],
   "series": [
