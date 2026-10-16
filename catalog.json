@@ -3190,6 +3190,182 @@
           "language": "Español"
         }
       ]
+    },
+    {
+      "title": "La jungla de cristal V. Un buen día para morir",
+      "plot": "Conservando la destreza y la actitud perseverante características de las anteriores entregas, que le han convertido en el mayor rival de todos los criminales que atentan contra la libertad de la humanidad y que han permitiendo la salvación de ésta en distintas situaciones y circunstancias, John McClane deberá viajar a Rusia para rescatar a su hijo que se encuentra encerrado en una prisión bajo las órdenes de un déspota líder ruso.  Padre e hijo tendrán que unir fuerzas para luchar contra su adversario, conseguir liberarse y mantenerse con vida. Así, los protagonistas se verán envueltos en una sucesión de extrema hostilidad que no solo pondrá su vida en peligro, también la del resto de ciudadanos. Su deber será hacer todo lo posible por conservar algo tan esencial en la sociedad actual como es la democracia, una libertad de la que el perverso y autoritario líder antagonista querrá apoderarse.",
+      "cast": "Bruce Willis, Jai Courtney, Sebastian Koch, Юлия Снигирь, Радивоје Буквић, Cole Hauser, Сергей Колесников, Amaury Nolasco, Mary Elizabeth Winstead, Roman Luknár, Ganxsta Zolee, Takátsy Péter, Павел Лычников, Megalyn Echikunwoke, Melissa Tang, Rico Simonini, Catherine Kresge, April Grace, Cooper Thornton, Ján Gallovič, Péter Kertész, Patrik Vrbovský, Zhe 'Josie' Lin, Elek Ferenc, János Finfera, Boris Vodokov, Alekszandr Komarov, Fenyő Iván, Edit Balázsovits, Nadejda Savcova",
+      "castPhotos": {
+        "Bruce Willis": "https://image.tmdb.org/t/p/w185/w3aXr1e7gQCn8MSp1vW4sXHn99P.jpg",
+        "Jai Courtney": "https://image.tmdb.org/t/p/w185/6vEaNwbOKov6yzQx15CdtrqfK3L.jpg",
+        "Sebastian Koch": "https://image.tmdb.org/t/p/w185/3n3BP3FmuFinFokeGx0cHhM4XBH.jpg",
+        "Юлия Снигирь": "https://image.tmdb.org/t/p/w185/doOsxPl6VPJaLnXJoz4VIfADrVC.jpg",
+        "Радивоје Буквић": "https://image.tmdb.org/t/p/w185/64B4gbIM5RsoPDBhKcMa0AmN8xQ.jpg",
+        "Cole Hauser": "https://image.tmdb.org/t/p/w185/1SNoIDILoXtAUJu4f7nDCPVQH5j.jpg"
+      },
+      "director": "John Moore",
+      "writer": "Skip Woods",
+      "releaseDate": "2013-02-06",
+      "year": 2013,
+      "genre": null,
+      "rating": 5.3,
+      "duration": "97 min",
+      "poster": "https://image.tmdb.org/t/p/w500/1WQ3EWu8P3mML3pV9D3PKbvfwxb.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/wFUkS5cnMf3I8ysIPWzIXpTsuR7.jpg",
+      "tmdbId": 47964,
+      "tmdbType": "movie",
+      "id": "tmdb-47964",
+      "categories": [
+        "acción"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/b2q7hzrofdgc",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "Días perfectos",
+      "plot": "Hirayama parece totalmente satisfecho con su sencilla vida de limpiador de retretes en Tokio. Fuera de su estructurada rutina diaria, disfruta de su pasión por la música y los libros. Le encantan los árboles y les hace fotos. Una serie de encuentros inesperados revelan poco a poco más de su pasado.",
+      "cast": "役所広司, 柄本時生, Arisa Nakano, 山田 葵, 麻生祐未, 石川さゆり, Tomokazu Miura, 田中泯, Miyako Tanaka, 水間ロン, Soraji Shibuya, Aoi Iwasaki, Kisuke Shimazaki, Yuriko Kawasaki, Aki Kobayashi, 原田文明, Reina, Shunsuke Miura, 古川がん, 深沢敦, 田村泰二郎, 甲本雅裕, Makiko Okamoto, 松居大悟, 高橋侃, さいとうなり, 大下ヒロト, 研ナオコ, 長井短, 牧口元美",
+      "castPhotos": {
+        "役所広司": "https://image.tmdb.org/t/p/w185/r2WyVRyl6EJgyPKUJCB7D9cKYPE.jpg",
+        "柄本時生": "https://image.tmdb.org/t/p/w185/3rJvkwGgA4IQWh5kxKEWjungq8m.jpg",
+        "Arisa Nakano": "https://image.tmdb.org/t/p/w185/q5mHmgPUGF3HBWsccog3z3B9y6p.jpg",
+        "山田 葵": "https://image.tmdb.org/t/p/w185/4VJzAyq9gZxUxdzk0u8bNwGkhDS.jpg",
+        "麻生祐未": "https://image.tmdb.org/t/p/w185/d6vyAvyu3RJ0lmZjMTi2fFTnkhD.jpg",
+        "石川さゆり": "https://image.tmdb.org/t/p/w185/biwFKSLsFezvuk1MBoDXt6fY7bp.jpg"
+      },
+      "director": "Wim Wenders",
+      "writer": "Wim Wenders",
+      "releaseDate": "2023-11-10",
+      "year": 2023,
+      "genre": null,
+      "rating": 7.8,
+      "duration": "123 min",
+      "poster": "https://image.tmdb.org/t/p/w500/efnvsuEdkdwiWR7WyQ2QgcGt8mM.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/hjWxngV6tidwDkfJDEgMjHD2KEz.jpg",
+      "tmdbId": 976893,
+      "tmdbType": "movie",
+      "id": "tmdb-976893",
+      "categories": [
+        "drama"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/wqxdslypcve7",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "El afinador de terremotos",
+      "plot": "Ambientada en el siglo XVIII, en un mundo imaginario de atmósferas y paisajes crepusculares, transcurre la historia de la cantante de ópera Malvina van Stille, que es asesinada en el escenario por el nefasto Dr. Emmanuel Droz. Su intención es crear una \"ópera diabólica\", haciendo resucitar a Malvina con la ayuda de un afinador de pianos llamado Felisberto, que deberá reajustar unos autómatas de metal que Droz tiene instalados alrededor de los jardines de su Villa.",
+      "cast": "Amira Casar, Gottfried John, Assumpta Serna, César Saratxu, Ljubisa Gruicic, Marc Bischoff, Henning Peker, Gilles Gavois, Thomas Schmieder, Regine Zimmermann, Petrovics Emil",
+      "castPhotos": {
+        "Amira Casar": "https://image.tmdb.org/t/p/w185/lTvuFkDI67DA68mLEjF8Tvrza6E.jpg",
+        "Gottfried John": "https://image.tmdb.org/t/p/w185/duXWjkperrnUq094bgsYddJeIG0.jpg",
+        "Assumpta Serna": "https://image.tmdb.org/t/p/w185/bSiZG1PQAhdBjF0ucubXvTA7fuV.jpg",
+        "César Saratxu": "https://image.tmdb.org/t/p/w185/g2yWVI7w4aoeZnvZfKYvT39rrhk.jpg",
+        "Marc Bischoff": "https://image.tmdb.org/t/p/w185/gdWWE17SL2h9GFBinCOz3aIyH2I.jpg"
+      },
+      "director": "Stephen Quay",
+      "writer": "Alan Passes",
+      "releaseDate": "2005-09-09",
+      "year": 2005,
+      "genre": null,
+      "rating": 6.3,
+      "duration": "99 min",
+      "poster": "https://image.tmdb.org/t/p/w500/a3vfQ4tsbw6qcw7RJC16RFLwlaX.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/q5Dw0lwoyyPOFzHGqx28TXsYCNc.jpg",
+      "tmdbId": 44502,
+      "tmdbType": "movie",
+      "id": "tmdb-44502",
+      "categories": [
+        "romance",
+        "fantasía",
+        "drama"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/axwpj8jvxdzl",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "El club de la lucha",
+      "plot": "Un hombre consumido por el insomnio y una vida sin sentido conoce a Tyler Durden, un carismático anarquista que lo arrastra a un club secreto donde el dolor despierta algo dormido. Lo que comienza como liberación pronto se convierte en una guerra contra el sistema…",
+      "cast": "Edward Norton, Brad Pitt, Helena Bonham Carter, Meat Loaf, Jared Leto, Zach Grenier, Holt McCallany, Eion Bailey, Richmond Arquette, David Andrews, George Maguire, Eugenie Bondurant, Christina Cabot, Sydney 'Big Dawg' Colston, Rachel Singer, Christie Cronenweth, Tim DeZarn, Ezra Buzzington, Dierdre Downing-Jackson, Bob Stephenson, Charlie Dell, Rob Lanza, David Lee Smith, Joel Bissonnette, Evan Mirand, Robby Robinson, Lou Beatty Jr., Thom Gossom Jr., Valerie Bickford, Peter Iacangelo",
+      "castPhotos": {
+        "Edward Norton": "https://image.tmdb.org/t/p/w185/8nytsqL59SFJTVYVrN72k6qkGgJ.jpg",
+        "Brad Pitt": "https://image.tmdb.org/t/p/w185/ajNaPmXVVMJFg9GWmu6MJzTaXdV.jpg",
+        "Helena Bonham Carter": "https://image.tmdb.org/t/p/w185/hJMbNSPJ2PCahsP3rNEU39C8GWU.jpg",
+        "Meat Loaf": "https://image.tmdb.org/t/p/w185/1zkohpaG3my4qQAZGVgzgPuXwZ6.jpg",
+        "Jared Leto": "https://image.tmdb.org/t/p/w185/ca3x0OfIKbJppZh8S1Alx3GfUZO.jpg",
+        "Zach Grenier": "https://image.tmdb.org/t/p/w185/fSyQKZO39sUsqY283GXiScOg3Hi.jpg"
+      },
+      "director": "David Fincher",
+      "writer": "Jim Uhls",
+      "releaseDate": "1999-10-15",
+      "year": 1999,
+      "genre": null,
+      "rating": 8.4,
+      "duration": "139 min",
+      "poster": "https://image.tmdb.org/t/p/w500/sgTAWJFaB2kBvdQxRGabYFiQqEK.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/c6OLXfKAk5BKeR6broC8pYiCquX.jpg",
+      "tmdbId": 550,
+      "tmdbType": "movie",
+      "id": "tmdb-550",
+      "categories": [
+        "drama"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/8rzaoxcnrym5",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "The Imitation Game (Descifrando Enigma)",
+      "plot": "Durante el invierno de 1952, las autoridades británicas entraron en el hogar del matemático, analista y héroe de guerra Alan Turing, con la intención de investigar la denuncia de un robo. Al final acabaron arrestando a Turing acusándole de indecencia grave, un cargo que le supondría una devastadora condena por una ofensa criminal: ser homosexual. Los oficiales no tenían ni idea de que en realidad estaban incriminando al pionero de la informática actual. Liderando a un heterogéneo grupo de académicos, lingüistas, campeones de ajedrez y oficiales de inteligencia, se le conoce por haber descifrado el código de la inquebrantable máquina Enigma de los alemanes durante la Segunda Guerra Mundial.",
+      "cast": "Benedict Cumberbatch, Keira Knightley, Matthew Goode, Rory Kinnear, Allen Leech, Matthew Beard, Charles Dance, Mark Strong, James Northcote, Tom Goodman-Hill, Steven Waddington, Ilan Goodman, Jack Tarlton, Alex Lawther, Jack Bannon, Tuppence Middleton, Dominic Charman, James G. Nunn, Charlie Manton, David Charkham, Victoria Wicks, Andrew Havill, Laurence Kennedy, Tim van Eyken, Will Bowden, Miranda Bell, Tim Steed, Hayley Joanne Bacon, Nicholas Blatt, Ancuta Breaban",
+      "castPhotos": {
+        "Benedict Cumberbatch": "https://image.tmdb.org/t/p/w185/wz3MRiMmoz6b5X3oSzMRC9nLxY1.jpg",
+        "Keira Knightley": "https://image.tmdb.org/t/p/w185/bRC1B2VwV0wK3ElciFAK6QZf2wD.jpg",
+        "Matthew Goode": "https://image.tmdb.org/t/p/w185/3XaKKl0bKswTWbJ0Lh9nZ4UdAQo.jpg",
+        "Rory Kinnear": "https://image.tmdb.org/t/p/w185/8aEABMeHXOozwE5DrMxUlCM9mpG.jpg",
+        "Allen Leech": "https://image.tmdb.org/t/p/w185/cJZSyKNUKwdNPEgkt2ocXohtUBH.jpg",
+        "Matthew Beard": "https://image.tmdb.org/t/p/w185/qbFEcaQLnE0bU8xutnsmYzKrjn0.jpg"
+      },
+      "director": "Morten Tyldum",
+      "writer": "Graham Moore",
+      "releaseDate": "2014-11-14",
+      "year": 2014,
+      "genre": null,
+      "rating": 8,
+      "duration": "115 min",
+      "poster": "https://image.tmdb.org/t/p/w500/pdd20KgHJec4BM4sfHS8oefaDUI.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/8FCHJ21JBQOgATY2WI8vwYAiXg8.jpg",
+      "tmdbId": 205596,
+      "tmdbType": "movie",
+      "id": "tmdb-205596",
+      "categories": [
+        "drama"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/clt46bl3gbcg",
+          "language": "Español"
+        }
+      ]
     }
   ],
   "series": [
