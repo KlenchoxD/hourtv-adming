@@ -1938,6 +1938,11 @@
           "name": "Servidor 1",
           "url": "https://voe.sx/e/2qcszzek4zly",
           "language": "Español"
+        },
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/fvyprusou80u",
+          "language": "Español"
         }
       ]
     },
@@ -6382,6 +6387,155 @@
         {
           "name": "Voe",
           "url": "https://voe.sx/e/r3zb1btmx8wl",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "Sonic: La película",
+      "plot": "Sonic, el descarado erizo azul basado en la famosa serie de videojuegos de Sega, vivirá aventuras y desventuras cuando conoce a su amigo humano y policía, Tom Wachowski. Sonic y Tom unirán sus fuerzas para tratar de detener los planes del malvado Dr. Robotnik, que intenta atrapar a Sonic con el fin de emplear sus inmensos poderes para dominar el mundo.",
+      "cast": "Ben Schwartz, James Marsden, Tika Sumpter, Jim Carrey, Natasha Rothwell, Adam Pally, Neal McDonough, Lee Majdoub, Tom Butler, Frank C. Turner, Melody Nosipho Niemann, Shannon Chan-Kent, Brad Kelly, Elfina Luk, Garry Chalk, Michael Hogan, Peter Bryant, Jeremy Arnold, Jeanie Cloutier, Emma Oliver, Bailey Skodje, Dean Petriw, Jeff Sanca, Lisa Chandler, Chris Gailus, Bethel Lee, Anthony Santiago, Jeremiah Oh, Charles Heffernan, Terence Kelly",
+      "castPhotos": {
+        "Ben Schwartz": "https://image.tmdb.org/t/p/w185/hWEQe66jXUAGVhbU5dy8s0IrrAQ.jpg",
+        "James Marsden": "https://image.tmdb.org/t/p/w185/lf7OnfKZnMgNh9b98764tqSocGK.jpg",
+        "Tika Sumpter": "https://image.tmdb.org/t/p/w185/1zTXufyuQFPXVthryH7KVoZAfb7.jpg",
+        "Jim Carrey": "https://image.tmdb.org/t/p/w185/y3U9QfPN6sJaGl6l68xjwWj28ig.jpg",
+        "Natasha Rothwell": "https://image.tmdb.org/t/p/w185/x5KdL3QoS4YuozVpfuPsu3MLwwf.jpg",
+        "Adam Pally": "https://image.tmdb.org/t/p/w185/yY13PEaVbPoXT5MkitVxTfdAZnU.jpg"
+      },
+      "director": "Jeff Fowler",
+      "writer": "Josh Miller",
+      "releaseDate": "2020-02-12",
+      "year": 2020,
+      "genre": null,
+      "rating": 7.3,
+      "duration": "99 min",
+      "poster": "https://image.tmdb.org/t/p/w500/rK25c71fYVi0Bv7RrTChK7NAQjC.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/stmYfCUGd8Iy6kAMBr6AmWqx8Bq.jpg",
+      "tmdbId": 454626,
+      "tmdbType": "movie",
+      "id": "tmdb-454626",
+      "categories": [
+        "acción",
+        "ciencia ficción",
+        "comedia"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/y4pil7doozif",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "Sr. y Sra. Smith",
+      "plot": "Jane y John Smith forman una pareja de vida acomodada dentro de un ordinario y monótono matrimonio suburbano. Además ambos ocultan algo por lo que su pareja mataría por saber: los dos son agentes secretos, asesinos increíblemente eficientes que trabajan para organizaciones que compiten entre sí. Además, un día el Sr. y la Sra. Smith descubren una nueva fuente de emoción en su matrimonio cuando se les contrata para asesinarse mutuamente, pues será entonces cuando comienza la verdadera diversión...",
+      "cast": "Angelina Jolie, Brad Pitt, Vince Vaughn, Adam Brody, Kerry Washington, Keith David, Chris Weitz, Rachael Huntley, Michelle Monaghan, Stephanie March, Jennifer Morrison, Theresa Barrera, Perrey Reeves, Melanie Tolbert, Jerry T. Adams, Elijah Alexander, Hans F. Alexander, Lauryn Alvarez, Burke Armstrong, Ron Bottitta, Earl H. Bullock, Miguel Angel Caballero, Victor A. Chapa, Maree Cheatham, Laine Collins, Noah Dahl, Merrilee Dale, Chris Daniels, Patrika Darbo, Jennifer DeMille",
+      "castPhotos": {
+        "Angelina Jolie": "https://image.tmdb.org/t/p/w185/bXNxIKcJ5cNNW8QFrBPWcfTSu9x.jpg",
+        "Brad Pitt": "https://image.tmdb.org/t/p/w185/ajNaPmXVVMJFg9GWmu6MJzTaXdV.jpg",
+        "Vince Vaughn": "https://image.tmdb.org/t/p/w185/qImHvsd7SFJh46Ujx50xUfkeMNz.jpg",
+        "Adam Brody": "https://image.tmdb.org/t/p/w185/qKBWrohBYegm6AAaLrtxEqqouIK.jpg",
+        "Kerry Washington": "https://image.tmdb.org/t/p/w185/zgyjYlxmHG6Ntbg16JcTp8Vu8M3.jpg",
+        "Keith David": "https://image.tmdb.org/t/p/w185/1x0QXavmIy3QmhyrOsV7gMnJaEx.jpg"
+      },
+      "director": "Doug Liman",
+      "writer": "Simon Kinberg",
+      "releaseDate": "2005-06-07",
+      "year": 2005,
+      "genre": null,
+      "rating": 6.7,
+      "duration": "120 min",
+      "poster": "https://image.tmdb.org/t/p/w500/wNi7Axc8U4cI9BgryeuF5tpi0I1.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/tgDSUwWMgypgmcBhRs9u30RLPNC.jpg",
+      "tmdbId": 787,
+      "tmdbType": "movie",
+      "id": "tmdb-787",
+      "categories": [
+        "acción",
+        "comedia",
+        "drama"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/epl55ioh7bev",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "Super Mario Bros: La película",
+      "plot": "Mientras trabajan en una avería subterránea, los fontaneros de Brooklyn, Mario y su hermano Luigi, viajan por una misteriosa tubería hasta un nuevo mundo mágico. Pero, cuando los hermanos se separan, Mario deberá emprender una épica misión para encontrar a Luigi. Con la ayuda del champiñón local Toad y unas cuantas nociones de combate de la guerrera líder del Reino Champiñón, la princesa Peach, Mario descubre todo el poder que alberga en su interior.",
+      "cast": "Chris Pratt, Anya Taylor-Joy, Charlie Day, Jack Black, Keegan-Michael Key, Seth Rogen, Fred Armisen, Sebastian Maniscalco, Charles Martinet, Kevin Michael Richardson, Khary Payton, Rino Romano, John DiMaggio, Jessica DiCicco, Eric Bauza, Juliet Jelenic, Scott Menville, Carlos Alazraqui, Jason Broad, Ashly Burch, Rachel Butera, Cathy Cavadini, Will Collyer, Django Craig, Willow Geer, Aaron Hendry, Andy Hirsch, Barbara Harris, Phil LaMarr, Jeremy Maxwell",
+      "castPhotos": {
+        "Chris Pratt": "https://image.tmdb.org/t/p/w185/cRH6HPAQ98PlOwwEvhYO4CM9lwu.jpg",
+        "Anya Taylor-Joy": "https://image.tmdb.org/t/p/w185/yZpghhtKM2VZHDx6JGAZqAVU4PL.jpg",
+        "Charlie Day": "https://image.tmdb.org/t/p/w185/c0HNhjChGybnHa4eoLyqO4dDu1j.jpg",
+        "Jack Black": "https://image.tmdb.org/t/p/w185/59IhgCtiWI5yTfzPhsjzg7GjCjm.jpg",
+        "Keegan-Michael Key": "https://image.tmdb.org/t/p/w185/xmdzYXP9j87a43FSiL138nLesuS.jpg",
+        "Seth Rogen": "https://image.tmdb.org/t/p/w185/nYl9bvQzaPQLzlf0wf75clLN6Hi.jpg"
+      },
+      "director": "Michael Jelenic",
+      "writer": "Matthew Fogel",
+      "releaseDate": "2023-04-05",
+      "year": 2023,
+      "genre": null,
+      "rating": 7.6,
+      "duration": "93 min",
+      "poster": "https://image.tmdb.org/t/p/w500/4CDkQMpNDTtVKwS0BBZw5RIXDtY.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/9n2tJBplPbgR2ca05hS5CKXwP2c.jpg",
+      "tmdbId": 502356,
+      "tmdbType": "movie",
+      "id": "tmdb-502356",
+      "categories": [
+        "comedia",
+        "aventura",
+        "fantasía",
+        "animación"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/vgatbviloevq",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "Te van a matar",
+      "plot": "Una mujer acepta un trabajo como ama de llaves en un rascacielos de Nueva York, sin conocer el historial de desapariciones del edificio. Pronto se da cuenta de que la comunidad está rodeada de misterio.",
+      "cast": "Zazie Beetz, Patricia Arquette, Myha'la, Paterson Joseph, Tom Felton, Heather Graham, Willie Ludik, David Viviers, Gabe Gabriel, Виктория Короткова, James Remar, Dorothy Ann Gould, Michael Huff, Darron Meyer, Orefile Moloi, Brandon Auret, Angus Sampson, Chris van Rensburg, Neels Junior Clasen, Megan Alexander, Gert Louw, Maite Rakabe, Andrew Morgado, Robin Smith, Trudy van Rooy, Chanté Grainger, Kirstin Boshoff, Kylie Fisher, Hannah Gonera, Lindzay Naidoo",
+      "castPhotos": {
+        "Zazie Beetz": "https://image.tmdb.org/t/p/w185/ijrT4pvALvxU0gphea4YxDnDh6e.jpg",
+        "Patricia Arquette": "https://image.tmdb.org/t/p/w185/jeThSouMatiuRiLkjDvSBLHpmq0.jpg",
+        "Myha'la": "https://image.tmdb.org/t/p/w185/hRc3igngt5dkpM08i0a3z7gkYWa.jpg",
+        "Paterson Joseph": "https://image.tmdb.org/t/p/w185/7CIVAl4HiuWrmp4r8Jk09sqxTBy.jpg",
+        "Tom Felton": "https://image.tmdb.org/t/p/w185/etmtUBzJ1i1XJTLS6MkotJFE1se.jpg",
+        "Heather Graham": "https://image.tmdb.org/t/p/w185/avYdNkeg1oTvmrNJbFDcTlBCkKs.jpg"
+      },
+      "director": "Кирилл Соколов",
+      "writer": "Кирилл Соколов",
+      "releaseDate": "2026-03-25",
+      "year": 2026,
+      "genre": null,
+      "rating": 6.9,
+      "duration": "94 min",
+      "poster": "https://image.tmdb.org/t/p/w500/9dEn8a12dqkQw48zxQhPcpQ7D5W.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/7IwBgIwoHtkQ0lYGbBbqKintSWx.jpg",
+      "tmdbId": 1292695,
+      "tmdbType": "movie",
+      "id": "tmdb-1292695",
+      "categories": [
+        "acción",
+        "comedia",
+        "terror"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/ld55swspjdyc",
           "language": "Español"
         }
       ]
