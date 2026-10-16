@@ -2174,6 +2174,150 @@
           "language": "Español"
         }
       ]
+    },
+    {
+      "title": "Animales fantásticos y dónde encontrarlos",
+      "plot": "Las aventuras del escritor Newt Scamander en la comunidad secreta de brujas y magos de Nueva York setenta años antes de lo acontecido en \"Harry Potter y la Piedra Filosofal\".",
+      "cast": "Eddie Redmayne, Katherine Waterston, Dan Fogler, Alison Sudol, Colin Farrell, Jon Voight, Ron Perlman, Ezra Miller, Samantha Morton, Carmen Ejogo, Josh Cowdery, Johnny Depp, Ronan Raftery, Faith Wood-Blagrove, Jenn Murray, Gemma Chan, Peter Breitmayer, Zoë Kravitz, Kevin Guthrie, Sean Cronin, Sam Redford, Akin Gazi, Todd Boyce, Anne Wittman, Andreea Păduraru, Matthew Sim, Elizabeth Moynihan, Adam Lazarus, Lucie Pohl, Tim Bentinck",
+      "castPhotos": {
+        "Eddie Redmayne": "https://image.tmdb.org/t/p/w185/fSvG7qzoBBnJUmgtIuMgrK3EQPN.jpg",
+        "Katherine Waterston": "https://image.tmdb.org/t/p/w185/zaqbXjr5jE1DnEoyAHokUDoCKOM.jpg",
+        "Dan Fogler": "https://image.tmdb.org/t/p/w185/zJWbLEjfbDthBMucq9M6L4GJXL3.jpg",
+        "Alison Sudol": "https://image.tmdb.org/t/p/w185/BNrfybwhIhN74JMTQL2CHstXkx.jpg",
+        "Colin Farrell": "https://image.tmdb.org/t/p/w185/5FdalJbrbZ5UCsED5rFrXpvbqJa.jpg",
+        "Jon Voight": "https://image.tmdb.org/t/p/w185/bmfwKaLxUt4qck2UJgm2maWVMTR.jpg"
+      },
+      "director": "David Yates",
+      "writer": "J.K. Rowling",
+      "releaseDate": "2016-11-16",
+      "year": 2016,
+      "genre": null,
+      "rating": 7.3,
+      "duration": "133 min",
+      "poster": "https://image.tmdb.org/t/p/w500/wduJFXlHQTIw1TBf6kTO3bHf2VN.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/8Qsr8pvDL3s1jNZQ4HK1d1Xlvnh.jpg",
+      "tmdbId": 259316,
+      "tmdbType": "movie",
+      "id": "tmdb-259316",
+      "categories": [
+        "fantasía",
+        "aventura"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/7y8rut59e2pt",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "Apocalypto",
+      "plot": "Historia ambientada en la época del imperio maya. Cuando la idílica existencia de los mayas es brutalmente interrumpida por el ataque de una fuerza invasora, un hombre emprende un arriesgado viaje a un mundo regido por el miedo y la opresión en el que le espera un incierto final. Debido a un giro del destino y espoleado por el amor a su esposa y a su familia, emprenderá el regreso a su hogar en un desesperado esfuerzo por preservar su forma de vida...",
+      "cast": "Rudy Youngblood, Raoul Max Trujillo, Gerardo Taracena, Iazua Larios, Antonio Monroy, María Isabel Díaz Lago, Dalia Hernández, Jonathan Brewer, Morris Birdyellowhead, Carlos Emilio Báez, Amilcar Ramírez, Israel Contreras, Israel Ríos, Espiridion Acosta Cache, Mayra Sérbulo, Rodolfo Palacios, Lorena Heranandez, Itandehui Gutierrez, Sayuri Gutierrez, Hiram Soto, José Suárez, Ariel Galván, Bernardo Ruiz, Ricardo Diaz Mendoza, Richard Can, Carlos Ramos, Ammel Rodrigo Mendoza, Marco Antonio Argueta, Javier Escobar, Fernando Hernández",
+      "castPhotos": {
+        "Rudy Youngblood": "https://image.tmdb.org/t/p/w185/64HlxkHjgZ8oBxyosonWnSw2e9k.jpg",
+        "Raoul Max Trujillo": "https://image.tmdb.org/t/p/w185/dIfHIt1pgnYW9oCksc0DdoY5Mt5.jpg",
+        "Gerardo Taracena": "https://image.tmdb.org/t/p/w185/wvqDQf71ezlA36ZzhWe1D7cKLLS.jpg",
+        "Iazua Larios": "https://image.tmdb.org/t/p/w185/7xneMbsqSVqPq2NFMpkpAAZr6SG.jpg",
+        "Antonio Monroy": "https://image.tmdb.org/t/p/w185/kV2DMkExJ26SCTap134DTqXwv8c.jpg",
+        "María Isabel Díaz Lago": "https://image.tmdb.org/t/p/w185/wwSEXt9QqMcwI5oDZWzFbj2q6XO.jpg"
+      },
+      "director": "Mel Gibson",
+      "writer": "Mel Gibson",
+      "releaseDate": "2006-12-07",
+      "year": 2006,
+      "genre": null,
+      "rating": 7.7,
+      "duration": "136 min",
+      "poster": "https://image.tmdb.org/t/p/w500/yQ4uC13IYVerbxMMXeSogSQUkOT.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/nnmbJvYyDS1VkMOCbxSpdBi3WbJ.jpg",
+      "tmdbId": 1579,
+      "tmdbType": "movie",
+      "id": "tmdb-1579",
+      "categories": [
+        "acción",
+        "drama"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/jzvhhs33gigu",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "Atrápame si puedes",
+      "plot": "Frank Abagnale Jr. trabajó como médico, abogado y copiloto de una de las grandes líneas aéreas, todo ello antes de cumplir los dieciocho años. También fue un genial falsificador y sus habilidades le otorgaron una plaza en la historia. A la edad de 17 años, Frank Abagnale Jr. se convirtió en el ladrón de bancos de más éxito en la historia de Estados Unidos. El agente del FBI Carl Hanratty dedicó la mayor parte de su tiempo a perseguir a Frank para llevarle ante la justicia, pero Frank siempre estaba un paso por delante, retándole a continuar la caza.",
+      "cast": "Leonardo DiCaprio, Tom Hanks, Christopher Walken, Martin Sheen, Nathalie Baye, Amy Adams, James Brolin, Brian Howe, Frank John Hughes, Steve Eastin, Chris Ellis, John Finn, Jennifer Garner, Nancy Lenehan, Ellen Pompeo, Elizabeth Banks, Guy Thauvette, Candice Azzara, Matthew Kimbrough, Joshua Boyd, Kaitlin Doubleday, Kelly McNair, Jonathan Dankner, Maggie Mellin, Thomas Kopache, Margaret Travolta, Jimmie F. Skaggs, Alex Hyde-White, Lilyan Chauvin, Eugene Fleming",
+      "castPhotos": {
+        "Leonardo DiCaprio": "https://image.tmdb.org/t/p/w185/wo2hJpn04vbtmh0B9utCFdsQhxM.jpg",
+        "Tom Hanks": "https://image.tmdb.org/t/p/w185/oFvZoKI6lvU03n4YoNGAll9rkas.jpg",
+        "Christopher Walken": "https://image.tmdb.org/t/p/w185/ApgDL7nudR9T2GpjCG4vESgymO2.jpg",
+        "Martin Sheen": "https://image.tmdb.org/t/p/w185/m2Y3Q0uyuW6htrn2W9UWCWMkpZu.jpg",
+        "Nathalie Baye": "https://image.tmdb.org/t/p/w185/6q5g9DxtEcQb3EL9VNG6X9lRem7.jpg",
+        "Amy Adams": "https://image.tmdb.org/t/p/w185/gn0K6c6d1L6qQrRc86iL8uyIqiF.jpg"
+      },
+      "director": "Steven Spielberg",
+      "writer": "Jeff Nathanson",
+      "releaseDate": "2002-12-16",
+      "year": 2002,
+      "genre": null,
+      "rating": 8,
+      "duration": "141 min",
+      "poster": "https://image.tmdb.org/t/p/w500/WboEhiMlCsy4l2u2BweerHCLFa.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/ggC3Brchf4RqPitEh7cROFoeAWn.jpg",
+      "tmdbId": 640,
+      "tmdbType": "movie",
+      "id": "tmdb-640",
+      "categories": [
+        "drama"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/5iib5i9jqdgn",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "Avatar: El sentido del agua",
+      "plot": "Más de una década después de los acontecimientos de 'Avatar', los Na'vi Jake Sully, Neytiri y sus hijos viven en paz en los bosques de Pandora hasta que regresan los hombres del cielo. Entonces comienzan los problemas que persiguen sin descanso a la familia Sully, que decide hacer un gran sacrificio para mantener a su pueblo a salvo y seguir ellos con vida.",
+      "cast": "Sam Worthington, Zoe Saldaña, Sigourney Weaver, Stephen Lang, Kate Winslet, Cliff Curtis, Joel David Moore, CCH Pounder, Edie Falco, Jemaine Clement, Giovanni Ribisi, Britain Dalton, Jamie Flatters, Trinity Jo-Li Bliss, Jack Champion, Brendan Cowell, Bailey Bass, Filip Geljo, Duane Evans Jr., Dileep Rao, Matt Gerald, Robert Okumu, Jennifer Stafford, Keston John, Kevin Dorman, Alicia Vela-Bailey, Sean Anthony Moran, Andrew Arrabito, Johnny Alexander, Kim Do",
+      "castPhotos": {
+        "Sam Worthington": "https://image.tmdb.org/t/p/w185/mflBcox36s9ZPbsZPVOuhf6axaJ.jpg",
+        "Zoe Saldaña": "https://image.tmdb.org/t/p/w185/vQBwmsSOAd0JDaEcZ5p43J9xzsY.jpg",
+        "Sigourney Weaver": "https://image.tmdb.org/t/p/w185/wTSnfktNBLd6kwQxgvkqYw6vEon.jpg",
+        "Stephen Lang": "https://image.tmdb.org/t/p/w185/gnO5VfkDgA2fsHweD0622LUY3Hu.jpg",
+        "Kate Winslet": "https://image.tmdb.org/t/p/w185/6qNnMsKtKz9si5rabpUEG85UfHp.jpg",
+        "Cliff Curtis": "https://image.tmdb.org/t/p/w185/dfaElGoyJWseFWxXwEMLL9WTi7V.jpg"
+      },
+      "director": "James Cameron",
+      "writer": "James Cameron",
+      "releaseDate": "2022-12-14",
+      "year": 2022,
+      "genre": null,
+      "rating": 7.6,
+      "duration": "192 min",
+      "poster": "https://image.tmdb.org/t/p/w500/ckeTumMS4G31UQ9NNkmtW2QhfMF.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/kJsPVzdyBrYHLomuNv5SJDXUQ2f.jpg",
+      "tmdbId": 76600,
+      "tmdbType": "movie",
+      "id": "tmdb-76600",
+      "categories": [
+        "acción",
+        "aventura",
+        "ciencia ficción"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/xtqjnqtef5qq",
+          "language": "Español"
+        }
+      ]
     }
   ],
   "series": [
