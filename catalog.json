@@ -5303,6 +5303,154 @@
           "language": "Español"
         }
       ]
+    },
+    {
+      "title": "Cazafantasmas II",
+      "plot": "Han pasado cinco años desde que los Cazafantasmas entraron por última vez en acción. El doctor Peter Venkman, notable parapsicólogo de persuasivos encantos, ha quedado relegado a maestro de ceremonias de un programa de televisión donde se discuten fenómenos psíquicos. Ray Stantz y su colega Winston Zeddemore se ganan la vida entreteniendo a niños en fiestas infantiles, y el mago tecnológico Egon Spengler continúa sus investigaciones sobre los efectos de las emociones humanas en el campo de energía psicomagnética. La relación de Dana Barrett con Venkman se disolvió; ella se casó con otro hombre y tuvo un hijo, pero el matrimonio fracasó. Ahora Dana vive sola en Nueva York, criando a Oscar, su bebé de ocho meses, y trabajando como restauradora de cuadros en el Museo de arte de Manhattan, junto a un excéntrico experto en pinturas del periodo romántico, Janosz Poha. Todo parece normal hasta que el cochecito de Oscar rueda por sí solo y se mete entre el peligroso tráfico de la ciudad.",
+      "cast": "Bill Murray, Dan Aykroyd, Sigourney Weaver, Harold Ramis, Ernie Hudson, Rick Moranis, Annie Potts, Peter MacNicol, Harris Yulin, David Margulies, Kurt Fuller, Janet Margolin, Norbert Grupe, William T. Deutschendorf, Henry J. Deutschendorf II, Michael P. Moran, Olivia Ward, Mordecai Lawner, Susanna Boehm, Mary Ellen Trainor, Christopher Villaseñor, Jason Reitman, Aaron Lustig, Page Leong, Mark Schneider, Valery Pappas, Catherine Reitman, Dave Florek, Richard Foronjy, George P. Wilbur",
+      "castPhotos": {
+        "Bill Murray": "https://image.tmdb.org/t/p/w185/nnCsJc9x3ZiG3AFyiyc3FPehppy.jpg",
+        "Dan Aykroyd": "https://image.tmdb.org/t/p/w185/iVMmeVJx8IpCEjlGBZWzIWvX5Qo.jpg",
+        "Sigourney Weaver": "https://image.tmdb.org/t/p/w185/wTSnfktNBLd6kwQxgvkqYw6vEon.jpg",
+        "Harold Ramis": "https://image.tmdb.org/t/p/w185/kmTMTxthkDAsygk3Am4IUSVYYRi.jpg",
+        "Ernie Hudson": "https://image.tmdb.org/t/p/w185/kgAdQA2ItCDVvKXufeDHc6Omiso.jpg",
+        "Rick Moranis": "https://image.tmdb.org/t/p/w185/nCIh203hALUsQW44x3dzpjSA4yf.jpg"
+      },
+      "director": "Ivan Reitman",
+      "writer": "Dan Aykroyd",
+      "releaseDate": "1989-06-16",
+      "year": 1989,
+      "genre": null,
+      "rating": 6.6,
+      "duration": "102 min",
+      "poster": "https://image.tmdb.org/t/p/w500/tqFgvP61lOFegzsCiJOaeRfkogJ.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/tgHO1DdnaS0xHcRxBHxE4kOQeIm.jpg",
+      "tmdbId": 2978,
+      "tmdbType": "movie",
+      "id": "tmdb-2978",
+      "categories": [
+        "comedia",
+        "fantasía"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/lhxtbultm277",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "Los Croods: Una nueva era",
+      "plot": "Después de salir de su cueva, los Croods se encuentran con su mayor amenaza desde que se fueron: otra familia llamada Betterman, quienes afirman y demuestran ser mejores y evolucionados. Grug empieza a sospechar de los padres de Betterman, Phil y Hope, ya que planean en secreto separar a su hija Eep con su amado novio Guy para asegurarse de que su hija Dawn tenga un compañero amoroso e inteligente que la proteja.",
+      "cast": "Nicolas Cage, Emma Stone, Ryan Reynolds, Catherine Keener, Cloris Leachman, Clark Duke, Leslie Mann, Peter Dinklage, Kelly Marie Tran, Kailey Crawford, Chris Sanders, James Ryan, Gabriel Jack, Melissa Disney, Joel Crawford, Januel Mercado, Ryan Naylor, Artemis Pebdani",
+      "castPhotos": {
+        "Nicolas Cage": "https://image.tmdb.org/t/p/w185/y1RtezurZYveYkVNRht7CwEgSYY.jpg",
+        "Emma Stone": "https://image.tmdb.org/t/p/w185/mstXxlDqhoK0s0molsNpskJ1wLH.jpg",
+        "Ryan Reynolds": "https://image.tmdb.org/t/p/w185/trzgptffGvAlAT6MEu01fz47cLW.jpg",
+        "Catherine Keener": "https://image.tmdb.org/t/p/w185/n4CTwGszs6cwS1wJRlDQ5Mlh7Ex.jpg",
+        "Cloris Leachman": "https://image.tmdb.org/t/p/w185/o8pnV9urjuHZDAR2u4UjPy2CR1u.jpg",
+        "Clark Duke": "https://image.tmdb.org/t/p/w185/qL7x57avA9IupsjtwnpIuJ8p8BD.jpg"
+      },
+      "director": "Joel Crawford",
+      "writer": "Dan Hageman",
+      "releaseDate": "2020-11-25",
+      "year": 2020,
+      "genre": null,
+      "rating": 7.4,
+      "duration": "90 min",
+      "poster": "https://image.tmdb.org/t/p/w500/5uMWKEmegf5aTJnp1u98JF4QerP.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/ytTQoYkdpsgtfDWrNFCei8Mfbxu.jpg",
+      "tmdbId": 529203,
+      "tmdbType": "movie",
+      "id": "tmdb-529203",
+      "categories": [
+        "animación",
+        "aventura",
+        "fantasía",
+        "comedia"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/1p781fmtiryv",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "Los Juegos del Hambre: En llamas",
+      "plot": "Tras vencer en los 74º Juegos del Hambre anuales, la joven Katniss Everdeen y su compañero Peeta Mellark regresan a casa. Atrás dejaron a sus amigos y su familia, teniendo ambos que participar en la 'gira de la victoria' por todos los distritos. Durante ese largo viaje, Katniss se da cuenta de que se está gestando una rebelión, pero en el Capitolio todo sigue igual y bajo estricto control del Presidente Snow, que está organizando los 75º Juegos del Hambre, denominados 'El Vasallaje de los Veinticinco': una competición especial con una inesperada novedad que cambiará Panem para siempre.",
+      "cast": "Jennifer Lawrence, Josh Hutcherson, Liam Hemsworth, Woody Harrelson, Elizabeth Banks, Donald Sutherland, Lenny Kravitz, Philip Seymour Hoffman, Jeffrey Wright, Stanley Tucci, Toby Jones, Willow Shields, Sam Claflin, Lynn Cohen, Jena Malone, Bobby Jordan, Amanda Plummer, Jack Quaid, Taylor St. Clair, Sandra Ellis Lafferty, Paula Malcomson, Brooke Bundy, Nelson Ascencio, Afemo Omilami, Kimberley Drummond, Deena Beasley, Leon Lamar, Mandy Neuhaus, Erika Bierman, Wilbur Fitzgerald",
+      "castPhotos": {
+        "Jennifer Lawrence": "https://image.tmdb.org/t/p/w185/6WTY6HjXMGxnHilJRVC3eLnu43F.jpg",
+        "Josh Hutcherson": "https://image.tmdb.org/t/p/w185/f0eosZ1Fx0VBUyspq8K2f8sUSBn.jpg",
+        "Liam Hemsworth": "https://image.tmdb.org/t/p/w185/As5ujeSSJRQN4TE3odg3kDk0b5o.jpg",
+        "Woody Harrelson": "https://image.tmdb.org/t/p/w185/igxYDQBbTEdAqaJxaW6ffqswmUU.jpg",
+        "Elizabeth Banks": "https://image.tmdb.org/t/p/w185/wMDFt9PUdxJWBzTwixiBfNpeN89.jpg",
+        "Donald Sutherland": "https://image.tmdb.org/t/p/w185/t9rN5Vni7GYmqqNi9nANCZbmewx.jpg"
+      },
+      "director": "Francis Lawrence",
+      "writer": "Simon Beaufoy",
+      "releaseDate": "2013-11-15",
+      "year": 2013,
+      "genre": null,
+      "rating": 7.4,
+      "duration": "146 min",
+      "poster": "https://image.tmdb.org/t/p/w500/oxnKI1qiHz7xC0mNthC7dSqTcot.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/eHaazLxM5LRMh0ySkVy7SK6wUWt.jpg",
+      "tmdbId": 101299,
+      "tmdbType": "movie",
+      "id": "tmdb-101299",
+      "categories": [
+        "aventura",
+        "acción",
+        "ciencia ficción"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/gxlnfaeowu7q",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "Madagascar 3: De marcha por Europa",
+      "plot": "Alex el león, Marty la cebra, Melman la jirafa y Gloria la hipopótamo están decididos a regresar como sea al Zoo de Central Park en Nueva York. Tras abandonar África, toman un desvío y emergen, literalmente, en Europa, persiguiendo a los pingüinos y chimpancés que se las han arreglado para hacer saltar la banca de un casino de Montecarlo. Pronto, los animales son descubiertos por la capitana Chantel DuBois, una testaruda francesa encargada del control de animales, y a la que no le gusta nada que unos animales del zoo anden sueltos por su ciudad.",
+      "cast": "Ben Stiller, Chris Rock, David Schwimmer, Jada Pinkett Smith, Sacha Baron Cohen, Cedric the Entertainer, Andy Richter, Tom McGrath, Frances McDormand, Jessica Chastain, Bryan Cranston, Martin Short, Chris Miller, Christopher Knights, Conrad Vernon, Vinnie Jones, Steve Jones, Nick Fletcher, Paz Vega, Frank Welker, Danny Jacobs, Dan O'Connor, Eric Darnell, Stephen Kearin, Emily Nordwind, Asucena Jimenez",
+      "castPhotos": {
+        "Ben Stiller": "https://image.tmdb.org/t/p/w185/scgpxhI05JpdNXXfmpK6z0rPOWN.jpg",
+        "Chris Rock": "https://image.tmdb.org/t/p/w185/5lILFeBvX3sC0EfbHhrvMEc7bPD.jpg",
+        "David Schwimmer": "https://image.tmdb.org/t/p/w185/XtKzJ9lM5Xwa7vCmE4xNHy6Owf.jpg",
+        "Jada Pinkett Smith": "https://image.tmdb.org/t/p/w185/3RyvVVSlgRbZANDFkYiAsRMaHW.jpg",
+        "Sacha Baron Cohen": "https://image.tmdb.org/t/p/w185/bGzXHu8zwWqUY5gEExSh3deQd2j.jpg",
+        "Cedric the Entertainer": "https://image.tmdb.org/t/p/w185/s6UrY5uofyxXsU5PydWBoLFReK0.jpg"
+      },
+      "director": "Eric Darnell",
+      "writer": "Eric Darnell",
+      "releaseDate": "2012-06-06",
+      "year": 2012,
+      "genre": null,
+      "rating": 6.7,
+      "duration": "100 min",
+      "poster": "https://image.tmdb.org/t/p/w500/8fKTIecTVNURB6CRFjYMypggRL2.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/uDR9UjSuykTL8g3N3bh3siZ4n3C.jpg",
+      "tmdbId": 80321,
+      "tmdbType": "movie",
+      "id": "tmdb-80321",
+      "categories": [
+        "animación",
+        "comedia",
+        "aventura"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/tdmy6rqci1rg",
+          "language": "Español"
+        }
+      ]
     }
   ],
   "series": [
