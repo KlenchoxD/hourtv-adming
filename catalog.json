@@ -2792,6 +2792,77 @@
           "language": "Español"
         }
       ]
+    },
+    {
+      "title": "Cincuenta sombras liberadas",
+      "plot": "Creyendo que han dejado atrás las sombras del pasado, Christian y Anastasia disfrutan de su relación y de su vida llena de lujos. Pero justo cuando Ana empieza a relajarse, aparecen nuevas amenazas que ponen en riesgo su felicidad.",
+      "cast": "Dakota Johnson, Jamie Dornan, Eric Johnson, Eloise Mumford, Rita Ora, Luke Grimes, Victor Rasuk, Max Martini, Jennifer Ehle, Kim Basinger, Marcia Gay Harden, Bruce Altman, Arielle Kebbel, Callum Keith Rennie, Robinne Lee, Brant Daugherty, Andrew Airlie, Amy Price-Francis, Fay Masterson, Ashleigh LaThrop, Tyler Hoechlin, Kirsten Alter, ヒロ・カナガワ, Catherine Lough Haggquist, John Emmet Tracy, Primo Allon, Benita Ha, P. Lynn Johnson, Kwesi Ameyaw, Marci T. House",
+      "castPhotos": {
+        "Dakota Johnson": "https://image.tmdb.org/t/p/w185/qFek0KqpaPV5mVyHHNfAapDE9Tj.jpg",
+        "Jamie Dornan": "https://image.tmdb.org/t/p/w185/qmTiAm3LII5moykSriVkJCeysKC.jpg",
+        "Eric Johnson": "https://image.tmdb.org/t/p/w185/oSwKvCo9duqcOfUAYPLdNHyXnna.jpg",
+        "Eloise Mumford": "https://image.tmdb.org/t/p/w185/qSZvYfSDO6hyecInknWpcyrQ7Hz.jpg",
+        "Rita Ora": "https://image.tmdb.org/t/p/w185/tti3t4tDPt0LgSfY2vBsR5rofn0.jpg",
+        "Luke Grimes": "https://image.tmdb.org/t/p/w185/c547Xiwf9feeDbGfQchfJCkC111.jpg"
+      },
+      "director": "James Foley",
+      "writer": "Niall Leonard",
+      "releaseDate": "2018-01-17",
+      "year": 2018,
+      "genre": null,
+      "rating": 6.7,
+      "duration": "105 min",
+      "poster": "https://image.tmdb.org/t/p/w500/sM8hwgWZlmZf0h4aOkNopb3HBIo.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/9ywA15OAiwjSTvg3cBs9B7kOCBF.jpg",
+      "tmdbId": 337167,
+      "tmdbType": "movie",
+      "id": "tmdb-337167",
+      "categories": [
+        "drama",
+        "romance"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/nvlckqmjfuxn",
+          "language": "Español"
+        }
+      ]
+    },
+    {
+      "title": "Cruising Bar",
+      "plot": "",
+      "cast": "Michel Côté, Louise Marleau, Geneviève Rioux, Véronique Le Flaguais, Diane Jules, Marthe Turgeon, Pauline Lapointe, Jean-Pierre Bergeron, Roger Léger, Tony Nardi, Marcel Gauthier, Annette Garant, Linda Sorgini, Lynne Adams, Louise Richer, Sylvie Boucher, Eric Cabana, Marie-Élaine Berthiaume, Marie-Lise Hétu, Philippe Lefebvre, Alain Chartrand, Liliane Clune, Anne Miller, Danièle Panneton, Marie-Christine Perreault, Charles Côté, Claude Bélanger, Michel Daigle, Merlee Shapiro, Widemir Normil",
+      "castPhotos": {
+        "Michel Côté": "https://image.tmdb.org/t/p/w185/e86pi5r9Lu3ijBJExAlaRzwg2PB.jpg",
+        "Louise Marleau": "https://image.tmdb.org/t/p/w185/l1YuPQBO7u1P3LGxmH1pQzQaso3.jpg",
+        "Geneviève Rioux": "https://image.tmdb.org/t/p/w185/7YPTukjM5ulU02NXoTWzZvA50ug.jpg",
+        "Véronique Le Flaguais": "https://image.tmdb.org/t/p/w185/9eJ5r4uUmEBCCGUGvmB9NwiATEP.jpg",
+        "Diane Jules": "https://image.tmdb.org/t/p/w185/md1W0j7jV9v4YMbkJcCsPFBmr0M.jpg",
+        "Marthe Turgeon": "https://image.tmdb.org/t/p/w185/jl9j7WULwHHnOjUY6aWZ4PyaWOQ.jpg"
+      },
+      "director": "Robert Ménard",
+      "writer": "Claire Wojas",
+      "releaseDate": "1989-07-14",
+      "year": 1989,
+      "genre": null,
+      "rating": 6.3,
+      "duration": "96 min",
+      "poster": "https://image.tmdb.org/t/p/w500/1tH7g51H2FtS728jgNFuoCEuQI8.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/uuPTM2ZG52hwv0QN5tZG3XT6z07.jpg",
+      "tmdbId": 33987,
+      "tmdbType": "movie",
+      "id": "tmdb-33987",
+      "categories": [
+        "comedia"
+      ],
+      "servers": [
+        {
+          "name": "Voe",
+          "url": "https://voe.sx/e/8q9a6yp4plo7",
+          "language": "Español"
+        }
+      ]
     }
   ],
   "series": [
