@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-10-16T22:48:56.302Z",
+  "lastRunAt": "2026-10-17T00:55:28.286Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -9,7 +9,6 @@
     1236045,
     1058424,
     1101412,
-    1084244,
     1302904,
     1400837,
     1204680,
@@ -22,10 +21,12 @@
     1315772,
     1280300,
     1108427,
+    299534,
     1368337,
     1377237,
     1228834,
     1712451,
+    1084244,
     1339274,
     460458,
     1294189,
@@ -69,11 +70,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1084244,
-      "title": "Toy Story 5",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1302904,
       "title": "Prácticamente magia 2",
       "reason": "Sin fuente autorizada configurada"
@@ -91,7 +87,7 @@
     {
       "tmdbId": 1153576,
       "title": "Street Fighter",
-      "reason": "Votos 35 por debajo del mínimo (50)"
+      "reason": "Votos 42 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1284046,
@@ -137,6 +133,11 @@
       "tmdbId": 1712451,
       "title": "Dead Residents Evil",
       "reason": "Votos 9 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 1084244,
+      "title": "Toy Story 5",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1339274,

@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-10-16T22:48:53.383Z",
-  "durationMs": 2924,
+  "generatedAt": "2026-10-17T00:55:26.010Z",
+  "durationMs": 2281,
   "dryRun": false,
-  "moviesFound": 31,
+  "moviesFound": 32,
   "moviesDiscarded": 24,
   "moviesAdded": 0,
   "moviesEnriched": 0,
-  "duplicates": 7,
+  "duplicates": 8,
   "tmdbErrors": 0,
   "providerErrors": 0,
   "invalidSources": 0,
@@ -43,11 +43,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1084244,
-      "title": "Toy Story 5",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1302904,
       "title": "Prácticamente magia 2",
       "reason": "Sin fuente autorizada configurada"
@@ -65,7 +60,7 @@
     {
       "tmdbId": 1153576,
       "title": "Street Fighter",
-      "reason": "Votos 35 por debajo del mínimo (50)"
+      "reason": "Votos 42 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1284046,
@@ -111,6 +106,11 @@
       "tmdbId": 1712451,
       "title": "Dead Residents Evil",
       "reason": "Votos 9 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 1084244,
+      "title": "Toy Story 5",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1339274,
