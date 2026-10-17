@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-10-17T09:22:10.276Z",
-  "durationMs": 1414,
+  "generatedAt": "2026-10-17T13:04:32.562Z",
+  "durationMs": 2906,
   "dryRun": false,
-  "moviesFound": 31,
+  "moviesFound": 30,
   "moviesDiscarded": 23,
   "moviesAdded": 0,
   "moviesEnriched": 0,
-  "duplicates": 8,
+  "duplicates": 7,
   "tmdbErrors": 0,
   "providerErrors": 0,
   "invalidSources": 0,
@@ -93,13 +93,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1377237,
-      "title": "Entrega al límite",
+      "tmdbId": 1228834,
+      "title": "Operación Teherán",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1228834,
-      "title": "Operación Teherán",
+      "tmdbId": 1377237,
+      "title": "Entrega al límite",
       "reason": "Sin fuente autorizada configurada"
     },
     {

@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-10-17T09:22:11.686Z",
+  "lastRunAt": "2026-10-17T13:04:35.463Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -23,14 +23,13 @@
     1108427,
     299534,
     1368337,
-    1377237,
     1228834,
+    1377237,
     1712451,
     1084244,
     1339274,
     460458,
     1294189,
-    1339713,
     1335666,
     1083381
   ],
@@ -119,13 +118,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1377237,
-      "title": "Entrega al límite",
+      "tmdbId": 1228834,
+      "title": "Operación Teherán",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1228834,
-      "title": "Operación Teherán",
+      "tmdbId": 1377237,
+      "title": "Entrega al límite",
       "reason": "Sin fuente autorizada configurada"
     },
     {
