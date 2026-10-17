@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-10-17T18:39:24.042Z",
+  "lastRunAt": "2026-10-17T20:57:39.803Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -71,7 +71,7 @@
     {
       "tmdbId": 1153576,
       "title": "Street Fighter",
-      "reason": "Votos 49 por debajo del mínimo (50)"
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1302904,
