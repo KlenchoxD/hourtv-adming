@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-10-17T05:13:50.332Z",
+  "lastRunAt": "2026-10-17T09:22:11.686Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -9,11 +9,11 @@
     1236045,
     1058424,
     1101412,
+    1153576,
     1302904,
     1400837,
-    1204680,
     1101383,
-    1153576,
+    1204680,
     1284046,
     1288445,
     671,
@@ -69,6 +69,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1153576,
+      "title": "Street Fighter",
+      "reason": "Votos 46 por debajo del mínimo (50)"
+    },
+    {
       "tmdbId": 1302904,
       "title": "Prácticamente magia 2",
       "reason": "Sin fuente autorizada configurada"
@@ -82,11 +87,6 @@
       "tmdbId": 1101383,
       "title": "El final de Oak Street",
       "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1153576,
-      "title": "Street Fighter",
-      "reason": "Votos 42 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1284046,
