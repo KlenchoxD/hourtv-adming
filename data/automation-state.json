@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-10-17T00:55:28.286Z",
+  "lastRunAt": "2026-10-17T05:13:50.332Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -31,7 +31,6 @@
     460458,
     1294189,
     1339713,
-    1751701,
     1335666,
     1083381
   ],
@@ -153,11 +152,6 @@
       "tmdbId": 1294189,
       "title": "The Mongoose",
       "reason": "Rating 0 por debajo del mínimo (5.5)"
-    },
-    {
-      "tmdbId": 1751701,
-      "title": "After Impact",
-      "reason": "Votos 27 por debajo del mínimo (50)"
     }
   ]
 }
