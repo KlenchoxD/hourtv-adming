@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-10-17T16:23:02.682Z",
+  "lastRunAt": "2026-10-17T18:39:24.042Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -11,25 +11,26 @@
     1101412,
     1153576,
     1302904,
-    1400837,
     1101383,
+    1400837,
     1204680,
-    1284046,
     1288445,
-    671,
+    1284046,
     1248832,
+    671,
     1315772,
-    1280300,
     1108427,
-    299534,
+    1263337,
+    1280300,
     1368337,
-    1228834,
     1377237,
+    1228834,
     1712451,
     1084244,
     1339274,
-    460458,
     1294189,
+    460458,
+    1389172,
     1335666,
     1083381
   ],
@@ -78,18 +79,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1400837,
-      "title": "La otra madre",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1101383,
       "title": "El final de Oak Street",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1284046,
-      "title": "Aniquilación",
+      "tmdbId": 1400837,
+      "title": "La otra madre",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -98,8 +94,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 671,
-      "title": "Harry Potter y la piedra filosofal",
+      "tmdbId": 1284046,
+      "title": "Aniquilación",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -108,9 +104,9 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1280300,
-      "title": "The Whistler",
-      "reason": "Rating 5 por debajo del mínimo (5.5)"
+      "tmdbId": 671,
+      "title": "Harry Potter y la piedra filosofal",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1108427,
@@ -118,13 +114,23 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1228834,
-      "title": "Operación Teherán",
+      "tmdbId": 1263337,
+      "title": "En el corazón de la bestia",
       "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1280300,
+      "title": "The Whistler",
+      "reason": "Rating 5.2 por debajo del mínimo (5.5)"
     },
     {
       "tmdbId": 1377237,
       "title": "Entrega al límite",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1228834,
+      "title": "Operación Teherán",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -143,14 +149,19 @@
       "reason": "Sin sinopsis"
     },
     {
+      "tmdbId": 1294189,
+      "title": "The Mongoose",
+      "reason": "Rating 0 por debajo del mínimo (5.5)"
+    },
+    {
       "tmdbId": 460458,
       "title": "Resident Evil. Bienvenidos a Raccoon City",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1294189,
-      "title": "The Mongoose",
-      "reason": "Rating 0 por debajo del mínimo (5.5)"
+      "tmdbId": 1389172,
+      "title": "En directo",
+      "reason": "Votos 5 por debajo del mínimo (50)"
     }
   ]
 }
