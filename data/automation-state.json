@@ -1,15 +1,15 @@
 {
-  "lastRunAt": "2026-10-18T16:53:51.340Z",
+  "lastRunAt": "2026-10-18T19:07:43.711Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
-    1291595,
     1148365,
+    1291595,
+    1058424,
     1423191,
     1236045,
-    1058424,
-    1153576,
     1101412,
+    1153576,
     1302904,
     1101383,
     1400837,
@@ -17,21 +17,21 @@
     1288445,
     1284046,
     1255833,
-    1248832,
-    671,
     1315772,
     1108427,
+    671,
     1263337,
+    1248832,
     1368337,
-    1377237,
     1228834,
+    1377237,
     1712451,
     1561726,
     1084244,
     1339274,
+    1514026,
     1294189,
     460458,
-    1389172,
     1335666,
     1083381
   ],
@@ -40,13 +40,18 @@
   "errorsSummary": [],
   "skipped": [
     {
+      "tmdbId": 1148365,
+      "title": "Matchbox: La película",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1291595,
       "title": "Insidious: Fuera del más allá",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1148365,
-      "title": "Matchbox: La película",
+      "tmdbId": 1058424,
+      "title": "Hope",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -60,18 +65,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1058424,
-      "title": "Hope",
+      "tmdbId": 1101412,
+      "title": "Fall 2: Deadpoint",
       "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1153576,
       "title": "Street Fighter",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1101412,
-      "title": "Fall 2: Deadpoint",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -105,8 +105,8 @@
       "reason": "Votos 42 por debajo del mínimo (50)"
     },
     {
-      "tmdbId": 1248832,
-      "title": "Digger",
+      "tmdbId": 1108427,
+      "title": "Vaiana",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -115,23 +115,23 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1108427,
-      "title": "Vaiana",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1263337,
       "title": "En el corazón de la bestia",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1377237,
-      "title": "Entrega al límite",
+      "tmdbId": 1248832,
+      "title": "Digger",
       "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1228834,
       "title": "Operación Teherán",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1377237,
+      "title": "Entrega al límite",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -155,6 +155,11 @@
       "reason": "Sin sinopsis"
     },
     {
+      "tmdbId": 1514026,
+      "title": "Buddy",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1294189,
       "title": "The Mongoose",
       "reason": "Rating 0 por debajo del mínimo (5.5)"
@@ -163,11 +168,6 @@
       "tmdbId": 460458,
       "title": "Resident Evil. Bienvenidos a Raccoon City",
       "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1389172,
-      "title": "En directo",
-      "reason": "Votos 5 por debajo del mínimo (50)"
     }
   ]
 }
