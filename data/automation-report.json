@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-18T09:32:34.408Z",
-  "durationMs": 3420,
+  "generatedAt": "2026-10-18T13:32:58.164Z",
+  "durationMs": 3566,
   "dryRun": false,
   "moviesFound": 32,
   "moviesDiscarded": 26,
@@ -75,7 +75,7 @@
     {
       "tmdbId": 1255833,
       "title": "Whalefall",
-      "reason": "Votos 41 por debajo del mínimo (50)"
+      "reason": "Votos 42 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1248832,
