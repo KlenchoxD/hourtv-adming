@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-10-18T05:07:39.910Z",
-  "durationMs": 1981,
+  "generatedAt": "2026-10-18T09:32:34.408Z",
+  "durationMs": 3420,
   "dryRun": false,
-  "moviesFound": 31,
-  "moviesDiscarded": 25,
+  "moviesFound": 32,
+  "moviesDiscarded": 26,
   "moviesAdded": 0,
   "moviesEnriched": 0,
   "duplicates": 6,
@@ -38,13 +38,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1101412,
-      "title": "Fall 2: Deadpoint",
+      "tmdbId": 1153576,
+      "title": "Street Fighter",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1153576,
-      "title": "Street Fighter",
+      "tmdbId": 1101412,
+      "title": "Fall 2: Deadpoint",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -73,6 +73,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1255833,
+      "title": "Whalefall",
+      "reason": "Votos 41 por debajo del mínimo (50)"
+    },
+    {
       "tmdbId": 1248832,
       "title": "Digger",
       "reason": "Sin fuente autorizada configurada"
@@ -93,11 +98,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1280300,
-      "title": "The Whistler",
-      "reason": "Rating 5.2 por debajo del mínimo (5.5)"
-    },
-    {
       "tmdbId": 1377237,
       "title": "Entrega al límite",
       "reason": "Sin fuente autorizada configurada"
@@ -111,6 +111,11 @@
       "tmdbId": 1712451,
       "title": "Dead Residents Evil",
       "reason": "Votos 9 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 1561726,
+      "title": "Masterplan",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1084244,

@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-10-18T05:07:41.886Z",
+  "lastRunAt": "2026-10-18T09:32:37.823Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -8,24 +8,25 @@
     1423191,
     1236045,
     1058424,
-    1101412,
     1153576,
+    1101412,
     1302904,
     1101383,
     1400837,
     1204680,
     1288445,
     1284046,
+    1255833,
     1248832,
     671,
     1315772,
     1108427,
     1263337,
-    1280300,
     1368337,
     1377237,
     1228834,
     1712451,
+    1561726,
     1084244,
     1339274,
     1294189,
@@ -64,13 +65,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1101412,
-      "title": "Fall 2: Deadpoint",
+      "tmdbId": 1153576,
+      "title": "Street Fighter",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1153576,
-      "title": "Street Fighter",
+      "tmdbId": 1101412,
+      "title": "Fall 2: Deadpoint",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -99,6 +100,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1255833,
+      "title": "Whalefall",
+      "reason": "Votos 41 por debajo del mínimo (50)"
+    },
+    {
       "tmdbId": 1248832,
       "title": "Digger",
       "reason": "Sin fuente autorizada configurada"
@@ -119,11 +125,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1280300,
-      "title": "The Whistler",
-      "reason": "Rating 5.2 por debajo del mínimo (5.5)"
-    },
-    {
       "tmdbId": 1377237,
       "title": "Entrega al límite",
       "reason": "Sin fuente autorizada configurada"
@@ -137,6 +138,11 @@
       "tmdbId": 1712451,
       "title": "Dead Residents Evil",
       "reason": "Votos 9 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 1561726,
+      "title": "Masterplan",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1084244,
