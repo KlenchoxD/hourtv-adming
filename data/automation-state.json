@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-10-19T14:12:36.668Z",
+  "lastRunAt": "2026-10-19T19:55:44.715Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -27,11 +27,11 @@
     1377237,
     1561726,
     1712451,
+    1514026,
     1084244,
     1375161,
-    1339274,
-    1514026,
     1294189,
+    1339274,
     1335666,
     1083381
   ],
@@ -145,6 +145,11 @@
       "reason": "Votos 11 por debajo del mínimo (50)"
     },
     {
+      "tmdbId": 1514026,
+      "title": "Buddy",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1084244,
       "title": "Toy Story 5",
       "reason": "Sin fuente autorizada configurada"
@@ -152,22 +157,17 @@
     {
       "tmdbId": 1375161,
       "title": "Don't Move",
-      "reason": "Votos 26 por debajo del mínimo (50)"
-    },
-    {
-      "tmdbId": 1339274,
-      "title": "No dejes a los niños solos",
-      "reason": "Sin sinopsis"
-    },
-    {
-      "tmdbId": 1514026,
-      "title": "Buddy",
-      "reason": "Sin fuente autorizada configurada"
+      "reason": "Votos 27 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1294189,
       "title": "The Mongoose",
       "reason": "Rating 0 por debajo del mínimo (5.5)"
+    },
+    {
+      "tmdbId": 1339274,
+      "title": "No dejes a los niños solos",
+      "reason": "Sin sinopsis"
     }
   ]
 }
