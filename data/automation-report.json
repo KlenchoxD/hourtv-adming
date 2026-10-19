@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-19T01:40:48.318Z",
-  "durationMs": 2511,
+  "generatedAt": "2026-10-19T06:49:13.600Z",
+  "durationMs": 2362,
   "dryRun": false,
   "moviesFound": 32,
   "moviesDiscarded": 26,
@@ -110,7 +110,7 @@
     {
       "tmdbId": 1712451,
       "title": "Dead Residents Evil",
-      "reason": "Votos 9 por debajo del mínimo (50)"
+      "reason": "Votos 11 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1561726,
