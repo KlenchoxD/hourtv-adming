@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-19T06:49:13.600Z",
-  "durationMs": 2362,
+  "generatedAt": "2026-10-19T14:12:30.127Z",
+  "durationMs": 6544,
   "dryRun": false,
   "moviesFound": 32,
   "moviesDiscarded": 26,
@@ -13,6 +13,11 @@
   "addedTitles": [],
   "skipped": [
     {
+      "tmdbId": 1058424,
+      "title": "Hope",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1148365,
       "title": "Matchbox: La película",
       "reason": "Sin fuente autorizada configurada"
@@ -23,8 +28,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1058424,
-      "title": "Hope",
+      "tmdbId": 1236045,
+      "title": "Animales",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -33,18 +38,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1236045,
-      "title": "Animales",
+      "tmdbId": 1153576,
+      "title": "Street Fighter",
       "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1101412,
       "title": "Fall 2: Deadpoint",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1153576,
-      "title": "Street Fighter",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -63,6 +63,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1255833,
+      "title": "Whalefall",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1288445,
       "title": "El motín",
       "reason": "Sin fuente autorizada configurada"
@@ -78,23 +83,18 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1255833,
-      "title": "Whalefall",
-      "reason": "Votos 45 por debajo del mínimo (50)"
-    },
-    {
       "tmdbId": 1108427,
       "title": "Vaiana",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 671,
-      "title": "Harry Potter y la piedra filosofal",
+      "tmdbId": 1263337,
+      "title": "En el corazón de la bestia",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1263337,
-      "title": "En el corazón de la bestia",
+      "tmdbId": 1248832,
+      "title": "Digger",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -108,19 +108,24 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1712451,
-      "title": "Dead Residents Evil",
-      "reason": "Votos 11 por debajo del mínimo (50)"
-    },
-    {
       "tmdbId": 1561726,
       "title": "Masterplan",
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1712451,
+      "title": "Dead Residents Evil",
+      "reason": "Votos 11 por debajo del mínimo (50)"
+    },
+    {
       "tmdbId": 1084244,
       "title": "Toy Story 5",
       "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1375161,
+      "title": "Don't Move",
+      "reason": "Votos 26 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1339274,
@@ -136,11 +141,6 @@
       "tmdbId": 1294189,
       "title": "The Mongoose",
       "reason": "Rating 0 por debajo del mínimo (5.5)"
-    },
-    {
-      "tmdbId": 460458,
-      "title": "Resident Evil. Bienvenidos a Raccoon City",
-      "reason": "Sin fuente autorizada configurada"
     }
   ]
 }
