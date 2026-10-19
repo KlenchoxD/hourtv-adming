@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-10-18T23:32:33.655Z",
+  "lastRunAt": "2026-10-19T01:40:50.823Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -15,13 +15,13 @@
     1400837,
     1204680,
     1288445,
+    1288069,
     1284046,
     1255833,
     1315772,
     1108427,
     671,
     1263337,
-    1248832,
     1368337,
     1228834,
     1377237,
@@ -95,6 +95,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1288069,
+      "title": "Tenzing",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1284046,
       "title": "Aniquilación",
       "reason": "Sin fuente autorizada configurada"
@@ -102,7 +107,7 @@
     {
       "tmdbId": 1255833,
       "title": "Whalefall",
-      "reason": "Votos 44 por debajo del mínimo (50)"
+      "reason": "Votos 45 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1108427,
@@ -117,11 +122,6 @@
     {
       "tmdbId": 1263337,
       "title": "En el corazón de la bestia",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1248832,
-      "title": "Digger",
       "reason": "Sin fuente autorizada configurada"
     },
     {

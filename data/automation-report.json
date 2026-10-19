@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-18T23:32:30.214Z",
-  "durationMs": 3444,
+  "generatedAt": "2026-10-19T01:40:48.318Z",
+  "durationMs": 2511,
   "dryRun": false,
   "moviesFound": 32,
   "moviesDiscarded": 26,
@@ -68,6 +68,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1288069,
+      "title": "Tenzing",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1284046,
       "title": "Aniquilación",
       "reason": "Sin fuente autorizada configurada"
@@ -75,7 +80,7 @@
     {
       "tmdbId": 1255833,
       "title": "Whalefall",
-      "reason": "Votos 44 por debajo del mínimo (50)"
+      "reason": "Votos 45 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1108427,
@@ -90,11 +95,6 @@
     {
       "tmdbId": 1263337,
       "title": "En el corazón de la bestia",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1248832,
-      "title": "Digger",
       "reason": "Sin fuente autorizada configurada"
     },
     {
