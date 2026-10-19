@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-19T19:55:43.258Z",
-  "durationMs": 1462,
+  "generatedAt": "2026-10-19T23:14:47.559Z",
+  "durationMs": 2992,
   "dryRun": false,
   "moviesFound": 32,
   "moviesDiscarded": 26,
@@ -28,6 +28,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1101412,
+      "title": "Fall 2: Deadpoint",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1236045,
       "title": "Animales",
       "reason": "Sin fuente autorizada configurada"
@@ -40,11 +45,6 @@
     {
       "tmdbId": 1153576,
       "title": "Street Fighter",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1101412,
-      "title": "Fall 2: Deadpoint",
       "reason": "Sin fuente autorizada configurada"
     },
     {

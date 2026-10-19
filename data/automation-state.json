@@ -1,25 +1,25 @@
 {
-  "lastRunAt": "2026-10-19T19:55:44.715Z",
+  "lastRunAt": "2026-10-19T23:14:50.546Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
     1058424,
     1148365,
     1291595,
+    1101412,
     1236045,
     1423191,
     1153576,
-    1101412,
     1302904,
     1101383,
-    1400837,
     1204680,
+    1400837,
     1255833,
     1288445,
     1288069,
     1284046,
-    1315772,
     1108427,
+    1315772,
     1263337,
     1248832,
     1368337,
@@ -55,6 +55,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1101412,
+      "title": "Fall 2: Deadpoint",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1236045,
       "title": "Animales",
       "reason": "Sin fuente autorizada configurada"
@@ -67,11 +72,6 @@
     {
       "tmdbId": 1153576,
       "title": "Street Fighter",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1101412,
-      "title": "Fall 2: Deadpoint",
       "reason": "Sin fuente autorizada configurada"
     },
     {
