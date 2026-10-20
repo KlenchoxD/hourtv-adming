@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-20T12:27:51.171Z",
-  "durationMs": 2647,
+  "generatedAt": "2026-10-20T17:25:40.594Z",
+  "durationMs": 2649,
   "dryRun": false,
   "moviesFound": 30,
   "moviesDiscarded": 24,
@@ -100,7 +100,7 @@
     {
       "tmdbId": 1284186,
       "title": "Sacrifice",
-      "reason": "Rating 5.2 por debajo del mínimo (5.5)"
+      "reason": "Rating 5 por debajo del mínimo (5.5)"
     },
     {
       "tmdbId": 1228834,

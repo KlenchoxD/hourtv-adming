@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-10-20T12:27:53.813Z",
+  "lastRunAt": "2026-10-20T17:25:43.240Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -125,7 +125,7 @@
     {
       "tmdbId": 1284186,
       "title": "Sacrifice",
-      "reason": "Rating 5.2 por debajo del mínimo (5.5)"
+      "reason": "Rating 5 por debajo del mínimo (5.5)"
     },
     {
       "tmdbId": 1228834,
