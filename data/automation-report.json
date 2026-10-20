@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-10-20T17:25:40.594Z",
-  "durationMs": 2649,
+  "generatedAt": "2026-10-20T20:46:00.333Z",
+  "durationMs": 2900,
   "dryRun": false,
-  "moviesFound": 30,
-  "moviesDiscarded": 24,
+  "moviesFound": 31,
+  "moviesDiscarded": 25,
   "moviesAdded": 0,
   "moviesEnriched": 0,
   "duplicates": 6,
@@ -98,6 +98,11 @@
       "reason": "Rating 5.2 por debajo del mínimo (5.5)"
     },
     {
+      "tmdbId": 1003596,
+      "title": "Vengadores: Doomsday",
+      "reason": "Rating 0 por debajo del mínimo (5.5)"
+    },
+    {
       "tmdbId": 1284186,
       "title": "Sacrifice",
       "reason": "Rating 5 por debajo del mínimo (5.5)"
@@ -108,19 +113,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1377237,
-      "title": "Entrega al límite",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1561726,
       "title": "Masterplan",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1712451,
-      "title": "Dead Residents Evil",
-      "reason": "Votos 11 por debajo del mínimo (50)"
+      "tmdbId": 1377237,
+      "title": "Entrega al límite",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1503762,
@@ -131,6 +131,11 @@
       "tmdbId": 1281331,
       "title": "El Precio de la Red",
       "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1712451,
+      "title": "Dead Residents Evil",
+      "reason": "Votos 11 por debajo del mínimo (50)"
     }
   ]
 }

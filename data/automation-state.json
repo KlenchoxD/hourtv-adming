@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-10-20T17:25:43.240Z",
+  "lastRunAt": "2026-10-20T20:46:03.229Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -22,14 +22,15 @@
     1315772,
     1263337,
     1280300,
+    1003596,
     1368337,
     1284186,
     1228834,
-    1377237,
     1561726,
-    1712451,
+    1377237,
     1503762,
     1281331,
+    1712451,
     1335666,
     1083381
   ],
@@ -123,6 +124,11 @@
       "reason": "Rating 5.2 por debajo del mínimo (5.5)"
     },
     {
+      "tmdbId": 1003596,
+      "title": "Vengadores: Doomsday",
+      "reason": "Rating 0 por debajo del mínimo (5.5)"
+    },
+    {
       "tmdbId": 1284186,
       "title": "Sacrifice",
       "reason": "Rating 5 por debajo del mínimo (5.5)"
@@ -133,19 +139,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1377237,
-      "title": "Entrega al límite",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1561726,
       "title": "Masterplan",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1712451,
-      "title": "Dead Residents Evil",
-      "reason": "Votos 11 por debajo del mínimo (50)"
+      "tmdbId": 1377237,
+      "title": "Entrega al límite",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1503762,
@@ -156,6 +157,11 @@
       "tmdbId": 1281331,
       "title": "El Precio de la Red",
       "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1712451,
+      "title": "Dead Residents Evil",
+      "reason": "Votos 11 por debajo del mínimo (50)"
     }
   ]
 }
