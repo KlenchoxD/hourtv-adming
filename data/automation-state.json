@@ -1,12 +1,12 @@
 {
-  "lastRunAt": "2026-10-20T20:46:03.229Z",
+  "lastRunAt": "2026-10-20T23:33:18.614Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
     1153576,
     1058424,
-    1148365,
     1400837,
+    1148365,
     1255833,
     1291595,
     1101412,
@@ -16,12 +16,12 @@
     1302904,
     1101383,
     1204680,
-    1288445,
     1288069,
-    1108427,
-    1315772,
+    1288445,
     1263337,
-    1280300,
+    1284046,
+    1315772,
+    1108427,
     1003596,
     1368337,
     1284186,
@@ -49,13 +49,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1148365,
-      "title": "Matchbox: La película",
+      "tmdbId": 1400837,
+      "title": "La otra madre",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1400837,
-      "title": "La otra madre",
+      "tmdbId": 1148365,
+      "title": "Matchbox: La película",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -99,18 +99,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1288445,
-      "title": "El motín",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1288069,
       "title": "Tenzing",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1108427,
-      "title": "Vaiana",
+      "tmdbId": 1288445,
+      "title": "El motín",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -119,9 +114,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1280300,
-      "title": "The Whistler",
-      "reason": "Rating 5.2 por debajo del mínimo (5.5)"
+      "tmdbId": 1284046,
+      "title": "Aniquilación",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1108427,
+      "title": "Vaiana",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1003596,

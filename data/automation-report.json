@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-20T20:46:00.333Z",
-  "durationMs": 2900,
+  "generatedAt": "2026-10-20T23:33:17.051Z",
+  "durationMs": 1567,
   "dryRun": false,
   "moviesFound": 31,
   "moviesDiscarded": 25,
@@ -23,13 +23,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1148365,
-      "title": "Matchbox: La película",
+      "tmdbId": 1400837,
+      "title": "La otra madre",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1400837,
-      "title": "La otra madre",
+      "tmdbId": 1148365,
+      "title": "Matchbox: La película",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -73,18 +73,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1288445,
-      "title": "El motín",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1288069,
       "title": "Tenzing",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1108427,
-      "title": "Vaiana",
+      "tmdbId": 1288445,
+      "title": "El motín",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -93,9 +88,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1280300,
-      "title": "The Whistler",
-      "reason": "Rating 5.2 por debajo del mínimo (5.5)"
+      "tmdbId": 1284046,
+      "title": "Aniquilación",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1108427,
+      "title": "Vaiana",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1003596,
