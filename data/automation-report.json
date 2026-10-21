@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-21T07:33:17.601Z",
-  "durationMs": 1885,
+  "generatedAt": "2026-10-21T13:13:16.757Z",
+  "durationMs": 3152,
   "dryRun": false,
   "moviesFound": 31,
   "moviesDiscarded": 25,
@@ -13,18 +13,13 @@
   "addedTitles": [],
   "skipped": [
     {
-      "tmdbId": 1153576,
-      "title": "Street Fighter",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1058424,
       "title": "Hope",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1400837,
-      "title": "La otra madre",
+      "tmdbId": 1153576,
+      "title": "Street Fighter",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -33,18 +28,23 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1255833,
-      "title": "Whalefall",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1291595,
       "title": "Insidious: Fuera del más allá",
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1400837,
+      "title": "La otra madre",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1101412,
       "title": "Fall 2: Deadpoint",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1255833,
+      "title": "Whalefall",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -103,11 +103,6 @@
       "reason": "Rating 0 por debajo del mínimo (5.5)"
     },
     {
-      "tmdbId": 1284186,
-      "title": "Sacrifice",
-      "reason": "Rating 5 por debajo del mínimo (5.5)"
-    },
-    {
       "tmdbId": 1228834,
       "title": "Operación Teherán",
       "reason": "Sin fuente autorizada configurada"
@@ -118,9 +113,9 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1503762,
-      "title": "Sentido y sensibilidad",
-      "reason": "Votos 42 por debajo del mínimo (50)"
+      "tmdbId": 1284186,
+      "title": "Sacrifice",
+      "reason": "Rating 5 por debajo del mínimo (5.5)"
     },
     {
       "tmdbId": 1377237,
@@ -136,6 +131,11 @@
       "tmdbId": 1712451,
       "title": "Dead Residents Evil",
       "reason": "Votos 11 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 1170608,
+      "title": "Dune: Parte tres",
+      "reason": "Rating 0 por debajo del mínimo (5.5)"
     }
   ]
 }
