@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-10-21T02:00:39.149Z",
+  "lastRunAt": "2026-10-21T07:33:19.481Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -27,8 +27,8 @@
     1284186,
     1228834,
     1561726,
-    1377237,
     1503762,
+    1377237,
     1281331,
     1712451,
     1335666,
@@ -144,14 +144,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1377237,
-      "title": "Entrega al límite",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1503762,
       "title": "Sentido y sensibilidad",
       "reason": "Votos 42 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 1377237,
+      "title": "Entrega al límite",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1281331,

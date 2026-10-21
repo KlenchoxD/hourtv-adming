@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-21T02:00:37.110Z",
-  "durationMs": 2044,
+  "generatedAt": "2026-10-21T07:33:17.601Z",
+  "durationMs": 1885,
   "dryRun": false,
   "moviesFound": 31,
   "moviesDiscarded": 25,
@@ -118,14 +118,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1377237,
-      "title": "Entrega al límite",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1503762,
       "title": "Sentido y sensibilidad",
       "reason": "Votos 42 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 1377237,
+      "title": "Entrega al límite",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1281331,
