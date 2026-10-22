@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-22T09:39:03.449Z",
-  "durationMs": 2366,
+  "generatedAt": "2026-10-22T14:39:44.588Z",
+  "durationMs": 2516,
   "dryRun": false,
   "moviesFound": 29,
   "moviesDiscarded": 24,
@@ -28,23 +28,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1291595,
-      "title": "Insidious: Fuera del más allá",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1255833,
-      "title": "Whalefall",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1101412,
       "title": "Fall 2: Deadpoint",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1281331,
-      "title": "El Precio de la Red",
+      "tmdbId": 1291595,
+      "title": "Insidious: Fuera del más allá",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -53,14 +43,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1248832,
-      "title": "Digger",
+      "tmdbId": 1255833,
+      "title": "Whalefall",
       "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1400940,
       "title": "Clayface",
-      "reason": "Votos 35 por debajo del mínimo (50)"
+      "reason": "Votos 41 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1236045,
@@ -78,13 +68,23 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1101383,
-      "title": "El final de Oak Street",
+      "tmdbId": 1248832,
+      "title": "Digger",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1281331,
+      "title": "El Precio de la Red",
       "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1288069,
       "title": "Tenzing",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1101383,
+      "title": "El final de Oak Street",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -103,14 +103,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 687163,
-      "title": "Proyecto Salvación",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1003596,
       "title": "Vengadores: Doomsday",
       "reason": "Rating 0 por debajo del mínimo (5.5)"
+    },
+    {
+      "tmdbId": 687163,
+      "title": "Proyecto Salvación",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1561726,
@@ -123,13 +123,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1284186,
-      "title": "Sacrifice",
-      "reason": "Rating 5.1 por debajo del mínimo (5.5)"
-    },
-    {
       "tmdbId": 1228834,
       "title": "Operación Teherán",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1377237,
+      "title": "Entrega al límite",
       "reason": "Sin fuente autorizada configurada"
     }
   ]
