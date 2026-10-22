@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-10-22T18:48:16.946Z",
-  "durationMs": 2673,
+  "generatedAt": "2026-10-22T22:00:28.229Z",
+  "durationMs": 2577,
   "dryRun": false,
-  "moviesFound": 29,
-  "moviesDiscarded": 24,
+  "moviesFound": 31,
+  "moviesDiscarded": 26,
   "moviesAdded": 0,
   "moviesEnriched": 0,
   "duplicates": 5,
@@ -50,7 +50,7 @@
     {
       "tmdbId": 1400940,
       "title": "Clayface",
-      "reason": "Votos 41 por debajo del mínimo (50)"
+      "reason": "Votos 46 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1236045,
@@ -103,23 +103,18 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1003596,
-      "title": "Vengadores: Doomsday",
-      "reason": "Rating 0 por debajo del mínimo (5.5)"
-    },
-    {
       "tmdbId": 687163,
       "title": "Proyecto Salvación",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1561726,
-      "title": "Masterplan",
-      "reason": "Sin fuente autorizada configurada"
+      "tmdbId": 1003596,
+      "title": "Vengadores: Doomsday",
+      "reason": "Rating 0 por debajo del mínimo (5.5)"
     },
     {
-      "tmdbId": 1440050,
-      "title": "Cambio de roles",
+      "tmdbId": 1561726,
+      "title": "Masterplan",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -131,6 +126,21 @@
       "tmdbId": 1377237,
       "title": "Entrega al límite",
       "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1514026,
+      "title": "Buddy",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1712451,
+      "title": "Dead Residents Evil",
+      "reason": "Votos 11 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 1284186,
+      "title": "Sacrifice",
+      "reason": "Rating 5.1 por debajo del mínimo (5.5)"
     }
   ]
 }

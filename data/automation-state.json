@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-10-22T18:48:19.614Z",
+  "lastRunAt": "2026-10-22T22:00:30.801Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -22,13 +22,15 @@
     1204680,
     1288445,
     1263337,
-    1003596,
     687163,
+    1003596,
     1368337,
     1561726,
-    1440050,
     1228834,
     1377237,
+    1514026,
+    1712451,
+    1284186,
     1335666,
     1083381
   ],
@@ -74,7 +76,7 @@
     {
       "tmdbId": 1400940,
       "title": "Clayface",
-      "reason": "Votos 41 por debajo del mínimo (50)"
+      "reason": "Votos 46 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1236045,
@@ -127,23 +129,18 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1003596,
-      "title": "Vengadores: Doomsday",
-      "reason": "Rating 0 por debajo del mínimo (5.5)"
-    },
-    {
       "tmdbId": 687163,
       "title": "Proyecto Salvación",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1561726,
-      "title": "Masterplan",
-      "reason": "Sin fuente autorizada configurada"
+      "tmdbId": 1003596,
+      "title": "Vengadores: Doomsday",
+      "reason": "Rating 0 por debajo del mínimo (5.5)"
     },
     {
-      "tmdbId": 1440050,
-      "title": "Cambio de roles",
+      "tmdbId": 1561726,
+      "title": "Masterplan",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -155,6 +152,21 @@
       "tmdbId": 1377237,
       "title": "Entrega al límite",
       "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1514026,
+      "title": "Buddy",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1712451,
+      "title": "Dead Residents Evil",
+      "reason": "Votos 11 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 1284186,
+      "title": "Sacrifice",
+      "reason": "Rating 5.1 por debajo del mínimo (5.5)"
     }
   ]
 }
