@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-10-22T00:12:30.900Z",
-  "durationMs": 2234,
+  "generatedAt": "2026-10-22T04:43:21.495Z",
+  "durationMs": 2840,
   "dryRun": false,
-  "moviesFound": 30,
-  "moviesDiscarded": 24,
+  "moviesFound": 29,
+  "moviesDiscarded": 23,
   "moviesAdded": 0,
   "moviesEnriched": 0,
   "duplicates": 6,
@@ -75,7 +75,7 @@
     {
       "tmdbId": 1400940,
       "title": "Clayface",
-      "reason": "Votos 28 por debajo del mínimo (50)"
+      "reason": "Votos 35 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1101383,
@@ -125,11 +125,6 @@
     {
       "tmdbId": 1228834,
       "title": "Operación Teherán",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1377237,
-      "title": "Entrega al límite",
       "reason": "Sin fuente autorizada configurada"
     }
   ]
