@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-10-21T21:38:20.941Z",
+  "lastRunAt": "2026-10-22T00:12:33.131Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -10,23 +10,22 @@
     1291595,
     1255833,
     1101412,
+    1281331,
     1248832,
     1236045,
     1423191,
     1302904,
+    1400940,
     1101383,
     1288069,
     1204680,
     1288445,
     1263337,
     1315772,
-    1108427,
-    299534,
     687163,
     1003596,
     1368337,
     1561726,
-    1281331,
     1440050,
     1284186,
     1228834,
@@ -74,6 +73,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1281331,
+      "title": "El Precio de la Red",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1248832,
       "title": "Digger",
       "reason": "Sin fuente autorizada configurada"
@@ -92,6 +96,11 @@
       "tmdbId": 1302904,
       "title": "Prácticamente magia 2",
       "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1400940,
+      "title": "Clayface",
+      "reason": "Votos 28 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1101383,
@@ -114,11 +123,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1108427,
-      "title": "Vaiana",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 687163,
       "title": "Proyecto Salvación",
       "reason": "Sin fuente autorizada configurada"
@@ -131,11 +135,6 @@
     {
       "tmdbId": 1561726,
       "title": "Masterplan",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1281331,
-      "title": "El Precio de la Red",
       "reason": "Sin fuente autorizada configurada"
     },
     {

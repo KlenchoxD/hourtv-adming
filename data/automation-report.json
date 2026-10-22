@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-10-21T21:38:18.231Z",
-  "durationMs": 2714,
+  "generatedAt": "2026-10-22T00:12:30.900Z",
+  "durationMs": 2234,
   "dryRun": false,
-  "moviesFound": 31,
+  "moviesFound": 30,
   "moviesDiscarded": 24,
   "moviesAdded": 0,
   "moviesEnriched": 0,
-  "duplicates": 7,
+  "duplicates": 6,
   "tmdbErrors": 0,
   "providerErrors": 0,
   "invalidSources": 0,
@@ -48,6 +48,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1281331,
+      "title": "El Precio de la Red",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1248832,
       "title": "Digger",
       "reason": "Sin fuente autorizada configurada"
@@ -66,6 +71,11 @@
       "tmdbId": 1302904,
       "title": "Prácticamente magia 2",
       "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1400940,
+      "title": "Clayface",
+      "reason": "Votos 28 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1101383,
@@ -88,11 +98,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1108427,
-      "title": "Vaiana",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 687163,
       "title": "Proyecto Salvación",
       "reason": "Sin fuente autorizada configurada"
@@ -105,11 +110,6 @@
     {
       "tmdbId": 1561726,
       "title": "Masterplan",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1281331,
-      "title": "El Precio de la Red",
       "reason": "Sin fuente autorizada configurada"
     },
     {
