@@ -1,27 +1,27 @@
 {
-  "lastRunAt": "2026-10-22T04:43:24.332Z",
+  "lastRunAt": "2026-10-22T09:39:05.810Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
     1058424,
     1153576,
-    1400837,
     1148365,
     1291595,
     1255833,
     1101412,
     1281331,
+    1400837,
     1248832,
+    1400940,
     1236045,
     1423191,
     1302904,
-    1400940,
     1101383,
     1288069,
     1204680,
+    1108427,
     1288445,
     1263337,
-    1315772,
     687163,
     1003596,
     1368337,
@@ -44,11 +44,6 @@
     {
       "tmdbId": 1153576,
       "title": "Street Fighter",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1400837,
-      "title": "La otra madre",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -77,9 +72,19 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1400837,
+      "title": "La otra madre",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1248832,
       "title": "Digger",
       "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1400940,
+      "title": "Clayface",
+      "reason": "Votos 35 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1236045,
@@ -97,11 +102,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1400940,
-      "title": "Clayface",
-      "reason": "Votos 35 por debajo del mínimo (50)"
-    },
-    {
       "tmdbId": 1101383,
       "title": "El final de Oak Street",
       "reason": "Sin fuente autorizada configurada"
@@ -109,6 +109,11 @@
     {
       "tmdbId": 1288069,
       "title": "Tenzing",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1108427,
+      "title": "Vaiana",
       "reason": "Sin fuente autorizada configurada"
     },
     {
