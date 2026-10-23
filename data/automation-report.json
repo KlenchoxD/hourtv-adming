@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-23T00:38:12.750Z",
-  "durationMs": 2767,
+  "generatedAt": "2026-10-23T05:21:13.840Z",
+  "durationMs": 2923,
   "dryRun": false,
   "moviesFound": 31,
   "moviesDiscarded": 26,
@@ -50,7 +50,7 @@
     {
       "tmdbId": 1400940,
       "title": "Clayface",
-      "reason": "Votos 46 por debajo del mínimo (50)"
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1236045,
@@ -135,7 +135,7 @@
     {
       "tmdbId": 1712451,
       "title": "Dead Residents Evil",
-      "reason": "Votos 11 por debajo del mínimo (50)"
+      "reason": "Votos 12 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1284186,

@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-10-23T00:38:15.512Z",
+  "lastRunAt": "2026-10-23T05:21:16.760Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -76,7 +76,7 @@
     {
       "tmdbId": 1400940,
       "title": "Clayface",
-      "reason": "Votos 46 por debajo del mínimo (50)"
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1236045,
@@ -161,7 +161,7 @@
     {
       "tmdbId": 1712451,
       "title": "Dead Residents Evil",
-      "reason": "Votos 11 por debajo del mínimo (50)"
+      "reason": "Votos 12 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1284186,
