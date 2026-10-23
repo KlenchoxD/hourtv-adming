@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-23T10:18:39.656Z",
-  "durationMs": 521,
+  "generatedAt": "2026-10-23T15:16:54.771Z",
+  "durationMs": 2613,
   "dryRun": false,
   "moviesFound": 31,
   "moviesDiscarded": 26,
@@ -23,11 +23,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1148365,
-      "title": "Matchbox: La película",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1101412,
       "title": "Fall 2: Deadpoint",
       "reason": "Sin fuente autorizada configurada"
@@ -38,13 +33,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1400837,
-      "title": "La otra madre",
+      "tmdbId": 1148365,
+      "title": "Matchbox: La película",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1255833,
-      "title": "Whalefall",
+      "tmdbId": 1400837,
+      "title": "La otra madre",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -53,8 +48,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1236045,
-      "title": "Animales",
+      "tmdbId": 1255833,
+      "title": "Whalefall",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -63,8 +58,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1302904,
-      "title": "Prácticamente magia 2",
+      "tmdbId": 1236045,
+      "title": "Animales",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -73,18 +68,23 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1302904,
+      "title": "Prácticamente magia 2",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1281331,
       "title": "El Precio de la Red",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1288069,
-      "title": "Tenzing",
+      "tmdbId": 1108427,
+      "title": "Vaiana",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1108427,
-      "title": "Vaiana",
+      "tmdbId": 1288069,
+      "title": "Tenzing",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -123,13 +123,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1377237,
-      "title": "Entrega al límite",
+      "tmdbId": 1514026,
+      "title": "Buddy",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1514026,
-      "title": "Buddy",
+      "tmdbId": 1377237,
+      "title": "Entrega al límite",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -138,9 +138,9 @@
       "reason": "Votos 12 por debajo del mínimo (50)"
     },
     {
-      "tmdbId": 1284186,
-      "title": "Sacrifice",
-      "reason": "Rating 5.1 por debajo del mínimo (5.5)"
+      "tmdbId": 1765072,
+      "title": "You Can See Everything",
+      "reason": "Votos 30 por debajo del mínimo (50)"
     }
   ]
 }
