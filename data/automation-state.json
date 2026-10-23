@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-10-23T05:21:16.760Z",
+  "lastRunAt": "2026-10-23T10:18:40.171Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -17,8 +17,8 @@
     1248832,
     1281331,
     1288069,
-    1101383,
     1108427,
+    1101383,
     1204680,
     1288445,
     1263337,
@@ -109,13 +109,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1101383,
-      "title": "El final de Oak Street",
+      "tmdbId": 1108427,
+      "title": "Vaiana",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1108427,
-      "title": "Vaiana",
+      "tmdbId": 1101383,
+      "title": "El final de Oak Street",
       "reason": "Sin fuente autorizada configurada"
     },
     {

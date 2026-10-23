@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-23T05:21:13.840Z",
-  "durationMs": 2923,
+  "generatedAt": "2026-10-23T10:18:39.656Z",
+  "durationMs": 521,
   "dryRun": false,
   "moviesFound": 31,
   "moviesDiscarded": 26,
@@ -83,13 +83,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1101383,
-      "title": "El final de Oak Street",
+      "tmdbId": 1108427,
+      "title": "Vaiana",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1108427,
-      "title": "Vaiana",
+      "tmdbId": 1101383,
+      "title": "El final de Oak Street",
       "reason": "Sin fuente autorizada configurada"
     },
     {
