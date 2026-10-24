@@ -1,15 +1,15 @@
 {
-  "lastRunAt": "2026-10-24T05:15:36.107Z",
+  "lastRunAt": "2026-10-24T09:40:40.320Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
     1058424,
     1153576,
     1101412,
+    1400940,
     1291595,
     1148365,
     1400837,
-    1400940,
     1255833,
     1423191,
     1236045,
@@ -54,6 +54,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1400940,
+      "title": "Clayface",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1291595,
       "title": "Insidious: Fuera del más allá",
       "reason": "Sin fuente autorizada configurada"
@@ -66,11 +71,6 @@
     {
       "tmdbId": 1400837,
       "title": "La otra madre",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1400940,
-      "title": "Clayface",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -166,7 +166,7 @@
     {
       "tmdbId": 1765072,
       "title": "You Can See Everything",
-      "reason": "Votos 30 por debajo del mínimo (50)"
+      "reason": "Votos 32 por debajo del mínimo (50)"
     }
   ]
 }
