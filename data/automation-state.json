@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-10-24T13:34:51.659Z",
+  "lastRunAt": "2026-10-24T16:57:04.903Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -10,12 +10,12 @@
     1291595,
     1148365,
     1400837,
-    1255833,
     1423191,
+    1255833,
     1236045,
-    1248832,
-    1302904,
     1281331,
+    1302904,
+    1248832,
     1108427,
     1288069,
     1101383,
@@ -73,13 +73,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1255833,
-      "title": "Whalefall",
+      "tmdbId": 1423191,
+      "title": "Resident Evil",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1423191,
-      "title": "Resident Evil",
+      "tmdbId": 1255833,
+      "title": "Whalefall",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -88,8 +88,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1248832,
-      "title": "Digger",
+      "tmdbId": 1281331,
+      "title": "El Precio de la Red",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -98,8 +98,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1281331,
-      "title": "El Precio de la Red",
+      "tmdbId": 1248832,
+      "title": "Digger",
       "reason": "Sin fuente autorizada configurada"
     },
     {

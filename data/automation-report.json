@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-24T13:34:49.484Z",
-  "durationMs": 2179,
+  "generatedAt": "2026-10-24T16:57:02.182Z",
+  "durationMs": 2725,
   "dryRun": false,
   "moviesFound": 30,
   "moviesDiscarded": 25,
@@ -48,13 +48,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1255833,
-      "title": "Whalefall",
+      "tmdbId": 1423191,
+      "title": "Resident Evil",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1423191,
-      "title": "Resident Evil",
+      "tmdbId": 1255833,
+      "title": "Whalefall",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -63,8 +63,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1248832,
-      "title": "Digger",
+      "tmdbId": 1281331,
+      "title": "El Precio de la Red",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -73,8 +73,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1281331,
-      "title": "El Precio de la Red",
+      "tmdbId": 1248832,
+      "title": "Digger",
       "reason": "Sin fuente autorizada configurada"
     },
     {
