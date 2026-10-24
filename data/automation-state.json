@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-10-24T19:13:50.052Z",
+  "lastRunAt": "2026-10-24T21:36:47.044Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -30,6 +30,7 @@
     1514026,
     1377237,
     1712451,
+    1765072,
     1335666,
     1083381
   ],
@@ -160,7 +161,12 @@
     {
       "tmdbId": 1712451,
       "title": "Dead Residents Evil",
-      "reason": "Votos 21 por debajo del mínimo (50)"
+      "reason": "Votos 23 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 1765072,
+      "title": "You Can See Everything",
+      "reason": "Votos 34 por debajo del mínimo (50)"
     }
   ]
 }
