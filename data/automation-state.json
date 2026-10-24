@@ -1,26 +1,26 @@
 {
-  "lastRunAt": "2026-10-24T21:36:47.044Z",
+  "lastRunAt": "2026-10-24T23:42:36.919Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
     1058424,
-    1153576,
     1101412,
+    1153576,
     1400940,
     1291595,
     1148365,
-    1400837,
     1423191,
+    1400837,
     1255833,
     1236045,
-    1281331,
     1302904,
     1248832,
+    1281331,
     1108427,
-    1288069,
     1101383,
-    1204680,
     1288445,
+    1288069,
+    1204680,
     1263337,
     687163,
     1003596,
@@ -44,13 +44,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1153576,
-      "title": "Street Fighter",
+      "tmdbId": 1101412,
+      "title": "Fall 2: Deadpoint",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1101412,
-      "title": "Fall 2: Deadpoint",
+      "tmdbId": 1153576,
+      "title": "Street Fighter",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -69,13 +69,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1400837,
-      "title": "La otra madre",
+      "tmdbId": 1423191,
+      "title": "Resident Evil",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1423191,
-      "title": "Resident Evil",
+      "tmdbId": 1400837,
+      "title": "La otra madre",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -89,11 +89,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1281331,
-      "title": "El Precio de la Red",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1302904,
       "title": "Prácticamente magia 2",
       "reason": "Sin fuente autorizada configurada"
@@ -104,13 +99,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1108427,
-      "title": "Vaiana",
+      "tmdbId": 1281331,
+      "title": "El Precio de la Red",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1288069,
-      "title": "Tenzing",
+      "tmdbId": 1108427,
+      "title": "Vaiana",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -121,6 +116,11 @@
     {
       "tmdbId": 1288445,
       "title": "El motín",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1288069,
+      "title": "Tenzing",
       "reason": "Sin fuente autorizada configurada"
     },
     {

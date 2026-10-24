@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-24T21:36:46.096Z",
-  "durationMs": 951,
+  "generatedAt": "2026-10-24T23:42:33.824Z",
+  "durationMs": 3100,
   "dryRun": false,
   "moviesFound": 31,
   "moviesDiscarded": 26,
@@ -18,13 +18,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1153576,
-      "title": "Street Fighter",
+      "tmdbId": 1101412,
+      "title": "Fall 2: Deadpoint",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1101412,
-      "title": "Fall 2: Deadpoint",
+      "tmdbId": 1153576,
+      "title": "Street Fighter",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -43,13 +43,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1400837,
-      "title": "La otra madre",
+      "tmdbId": 1423191,
+      "title": "Resident Evil",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1423191,
-      "title": "Resident Evil",
+      "tmdbId": 1400837,
+      "title": "La otra madre",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -63,11 +63,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1281331,
-      "title": "El Precio de la Red",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1302904,
       "title": "Prácticamente magia 2",
       "reason": "Sin fuente autorizada configurada"
@@ -78,13 +73,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1108427,
-      "title": "Vaiana",
+      "tmdbId": 1281331,
+      "title": "El Precio de la Red",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1288069,
-      "title": "Tenzing",
+      "tmdbId": 1108427,
+      "title": "Vaiana",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -95,6 +90,11 @@
     {
       "tmdbId": 1288445,
       "title": "El motín",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1288069,
+      "title": "Tenzing",
       "reason": "Sin fuente autorizada configurada"
     },
     {
