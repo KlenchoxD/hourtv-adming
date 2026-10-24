@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-10-24T09:40:37.428Z",
-  "durationMs": 2897,
+  "generatedAt": "2026-10-24T13:34:49.484Z",
+  "durationMs": 2179,
   "dryRun": false,
-  "moviesFound": 31,
-  "moviesDiscarded": 26,
+  "moviesFound": 30,
+  "moviesDiscarded": 25,
   "moviesAdded": 0,
   "moviesEnriched": 0,
   "duplicates": 5,
@@ -135,12 +135,7 @@
     {
       "tmdbId": 1712451,
       "title": "Dead Residents Evil",
-      "reason": "Votos 20 por debajo del mínimo (50)"
-    },
-    {
-      "tmdbId": 1765072,
-      "title": "You Can See Everything",
-      "reason": "Votos 32 por debajo del mínimo (50)"
+      "reason": "Votos 21 por debajo del mínimo (50)"
     }
   ]
 }
