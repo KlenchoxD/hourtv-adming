@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-10-24T23:42:36.919Z",
+  "lastRunAt": "2026-10-25T01:39:41.755Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -9,9 +9,9 @@
     1400940,
     1291595,
     1148365,
-    1423191,
     1400837,
     1255833,
+    1423191,
     1236045,
     1302904,
     1248832,
@@ -69,11 +69,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1423191,
-      "title": "Resident Evil",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1400837,
       "title": "La otra madre",
       "reason": "Sin fuente autorizada configurada"
@@ -81,6 +76,11 @@
     {
       "tmdbId": 1255833,
       "title": "Whalefall",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1423191,
+      "title": "Resident Evil",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -161,12 +161,12 @@
     {
       "tmdbId": 1712451,
       "title": "Dead Residents Evil",
-      "reason": "Votos 23 por debajo del mínimo (50)"
+      "reason": "Rating 5.4 por debajo del mínimo (5.5)"
     },
     {
       "tmdbId": 1765072,
       "title": "You Can See Everything",
-      "reason": "Votos 34 por debajo del mínimo (50)"
+      "reason": "Votos 35 por debajo del mínimo (50)"
     }
   ]
 }
