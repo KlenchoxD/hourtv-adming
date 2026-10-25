@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-25T06:50:45.995Z",
-  "durationMs": 2964,
+  "generatedAt": "2026-10-25T12:14:05.390Z",
+  "durationMs": 2480,
   "dryRun": false,
   "moviesFound": 31,
   "moviesDiscarded": 26,
@@ -18,23 +18,23 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1101412,
-      "title": "Fall 2: Deadpoint",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1153576,
-      "title": "Street Fighter",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1400940,
       "title": "Clayface",
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1101412,
+      "title": "Fall 2: Deadpoint",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1291595,
       "title": "Insidious: Fuera del más allá",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1153576,
+      "title": "Street Fighter",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -48,13 +48,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1255833,
-      "title": "Whalefall",
+      "tmdbId": 1423191,
+      "title": "Resident Evil",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1423191,
-      "title": "Resident Evil",
+      "tmdbId": 1255833,
+      "title": "Whalefall",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -98,8 +98,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1263337,
-      "title": "En el corazón de la bestia",
+      "tmdbId": 1187326,
+      "title": "Tadeo Jones y La Lámpara Maravillosa",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -140,7 +140,7 @@
     {
       "tmdbId": 1712451,
       "title": "Dead Residents Evil",
-      "reason": "Rating 5.4 por debajo del mínimo (5.5)"
+      "reason": "Rating 5.2 por debajo del mínimo (5.5)"
     }
   ]
 }
