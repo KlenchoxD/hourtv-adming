@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-10-25T01:39:41.755Z",
+  "lastRunAt": "2026-10-25T06:50:48.956Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -28,9 +28,9 @@
     1561726,
     1228834,
     1514026,
+    1232569,
     1377237,
     1712451,
-    1765072,
     1335666,
     1083381
   ],
@@ -154,6 +154,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1232569,
+      "title": "Pinocho: Desatado",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1377237,
       "title": "Entrega al límite",
       "reason": "Sin fuente autorizada configurada"
@@ -162,11 +167,6 @@
       "tmdbId": 1712451,
       "title": "Dead Residents Evil",
       "reason": "Rating 5.4 por debajo del mínimo (5.5)"
-    },
-    {
-      "tmdbId": 1765072,
-      "title": "You Can See Everything",
-      "reason": "Votos 35 por debajo del mínimo (50)"
     }
   ]
 }

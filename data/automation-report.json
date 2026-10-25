@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-25T01:39:39.223Z",
-  "durationMs": 2537,
+  "generatedAt": "2026-10-25T06:50:45.995Z",
+  "durationMs": 2964,
   "dryRun": false,
   "moviesFound": 31,
   "moviesDiscarded": 26,
@@ -128,6 +128,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1232569,
+      "title": "Pinocho: Desatado",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1377237,
       "title": "Entrega al límite",
       "reason": "Sin fuente autorizada configurada"
@@ -136,11 +141,6 @@
       "tmdbId": 1712451,
       "title": "Dead Residents Evil",
       "reason": "Rating 5.4 por debajo del mínimo (5.5)"
-    },
-    {
-      "tmdbId": 1765072,
-      "title": "You Can See Everything",
-      "reason": "Votos 35 por debajo del mínimo (50)"
     }
   ]
 }
