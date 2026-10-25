@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-25T19:09:19.680Z",
-  "durationMs": 2070,
+  "generatedAt": "2026-10-25T21:44:05.194Z",
+  "durationMs": 2634,
   "dryRun": false,
   "moviesFound": 31,
   "moviesDiscarded": 25,
@@ -113,13 +113,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1228834,
-      "title": "Operación Teherán",
+      "tmdbId": 1514026,
+      "title": "Buddy",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1514026,
-      "title": "Buddy",
+      "tmdbId": 1228834,
+      "title": "Operación Teherán",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -128,14 +128,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1377237,
-      "title": "Entrega al límite",
-      "reason": "Sin fuente autorizada configurada"
+      "tmdbId": 1765072,
+      "title": "You Can See Everything",
+      "reason": "Votos 38 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1712451,
       "title": "Dead Residents Evil",
-      "reason": "Rating 5 por debajo del mínimo (5.5)"
+      "reason": "Rating 4.9 por debajo del mínimo (5.5)"
     }
   ]
 }

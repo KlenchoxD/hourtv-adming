@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-10-25T19:09:21.746Z",
+  "lastRunAt": "2026-10-25T21:44:07.823Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -26,10 +26,10 @@
     1003596,
     1368337,
     1561726,
-    1228834,
     1514026,
+    1228834,
     1232569,
-    1377237,
+    1765072,
     1712451,
     1335666,
     1083381
@@ -139,13 +139,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1228834,
-      "title": "Operación Teherán",
+      "tmdbId": 1514026,
+      "title": "Buddy",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1514026,
-      "title": "Buddy",
+      "tmdbId": 1228834,
+      "title": "Operación Teherán",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -154,14 +154,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1377237,
-      "title": "Entrega al límite",
-      "reason": "Sin fuente autorizada configurada"
+      "tmdbId": 1765072,
+      "title": "You Can See Everything",
+      "reason": "Votos 38 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1712451,
       "title": "Dead Residents Evil",
-      "reason": "Rating 5 por debajo del mínimo (5.5)"
+      "reason": "Rating 4.9 por debajo del mínimo (5.5)"
     }
   ]
 }
