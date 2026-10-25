@@ -1,13 +1,13 @@
 {
-  "lastRunAt": "2026-10-25T16:22:23.507Z",
+  "lastRunAt": "2026-10-25T19:09:21.746Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
     1058424,
-    1400940,
     1101412,
-    1291595,
+    1400940,
     1153576,
+    1291595,
     1148365,
     1400837,
     1423191,
@@ -17,11 +17,11 @@
     1248832,
     1281331,
     1108427,
-    1101383,
     1288445,
-    1288069,
-    1204680,
     1187326,
+    1315772,
+    1101383,
+    1204680,
     687163,
     1003596,
     1368337,
@@ -44,23 +44,23 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1400940,
-      "title": "Clayface",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1101412,
       "title": "Fall 2: Deadpoint",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1291595,
-      "title": "Insidious: Fuera del más allá",
+      "tmdbId": 1400940,
+      "title": "Clayface",
       "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1153576,
       "title": "Street Fighter",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1291595,
+      "title": "Insidious: Fuera del más allá",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -109,23 +109,18 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1101383,
-      "title": "El final de Oak Street",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1288445,
       "title": "El motín",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1288069,
-      "title": "Tenzing",
+      "tmdbId": 1187326,
+      "title": "Tadeo Jones y La Lámpara Maravillosa",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1187326,
-      "title": "Tadeo Jones y La Lámpara Maravillosa",
+      "tmdbId": 1101383,
+      "title": "El final de Oak Street",
       "reason": "Sin fuente autorizada configurada"
     },
     {
