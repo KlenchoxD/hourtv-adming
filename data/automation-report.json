@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-10-26T06:58:43.803Z",
-  "durationMs": 2846,
+  "generatedAt": "2026-10-26T13:57:52.352Z",
+  "durationMs": 3365,
   "dryRun": false,
-  "moviesFound": 31,
-  "moviesDiscarded": 25,
+  "moviesFound": 30,
+  "moviesDiscarded": 24,
   "moviesAdded": 0,
   "moviesEnriched": 0,
   "duplicates": 6,
@@ -28,11 +28,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1153576,
-      "title": "Street Fighter",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1291595,
       "title": "Insidious: Fuera del más allá",
       "reason": "Sin fuente autorizada configurada"
@@ -43,8 +38,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1400837,
-      "title": "La otra madre",
+      "tmdbId": 1153576,
+      "title": "Street Fighter",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -63,13 +58,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1302904,
-      "title": "Prácticamente magia 2",
+      "tmdbId": 1400837,
+      "title": "La otra madre",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1248832,
-      "title": "Digger",
+      "tmdbId": 1302904,
+      "title": "Prácticamente magia 2",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -78,18 +73,23 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1248832,
+      "title": "Digger",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1108427,
       "title": "Vaiana",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1288445,
-      "title": "El motín",
+      "tmdbId": 1187326,
+      "title": "Tadeo Jones y La Lámpara Maravillosa",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1187326,
-      "title": "Tadeo Jones y La Lámpara Maravillosa",
+      "tmdbId": 1288445,
+      "title": "El motín",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -128,14 +128,9 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1765072,
-      "title": "You Can See Everything",
-      "reason": "Votos 43 por debajo del mínimo (50)"
-    },
-    {
       "tmdbId": 1712451,
       "title": "Dead Residents Evil",
-      "reason": "Rating 5.2 por debajo del mínimo (5.5)"
+      "reason": "Sin fuente autorizada configurada"
     }
   ]
 }
