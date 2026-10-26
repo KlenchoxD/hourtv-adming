@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-10-26T19:45:06.562Z",
+  "lastRunAt": "2026-10-26T23:22:24.128Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -10,18 +10,18 @@
     1148365,
     1153576,
     1423191,
-    1255833,
     1236045,
     1400837,
     1302904,
-    1281331,
+    1255833,
     1248832,
     1108427,
-    1187326,
     1288445,
-    1315772,
+    1187326,
+    1281331,
     1204680,
     1101383,
+    1284046,
     687163,
     1003596,
     1368337,
@@ -74,11 +74,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1255833,
-      "title": "Whalefall",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1236045,
       "title": "Animales",
       "reason": "Sin fuente autorizada configurada"
@@ -94,8 +89,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1281331,
-      "title": "El Precio de la Red",
+      "tmdbId": 1255833,
+      "title": "Whalefall",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -109,18 +104,28 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1187326,
-      "title": "Tadeo Jones y La Lámpara Maravillosa",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1288445,
       "title": "El motín",
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1187326,
+      "title": "Tadeo Jones y La Lámpara Maravillosa",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1281331,
+      "title": "El Precio de la Red",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1101383,
       "title": "El final de Oak Street",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1284046,
+      "title": "Aniquilación",
       "reason": "Sin fuente autorizada configurada"
     },
     {

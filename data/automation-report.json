@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-10-26T19:45:03.737Z",
-  "durationMs": 2830,
+  "generatedAt": "2026-10-26T23:22:21.007Z",
+  "durationMs": 3124,
   "dryRun": false,
   "moviesFound": 31,
-  "moviesDiscarded": 25,
+  "moviesDiscarded": 26,
   "moviesAdded": 0,
   "moviesEnriched": 0,
-  "duplicates": 6,
+  "duplicates": 5,
   "tmdbErrors": 0,
   "providerErrors": 0,
   "invalidSources": 0,
@@ -48,11 +48,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1255833,
-      "title": "Whalefall",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1236045,
       "title": "Animales",
       "reason": "Sin fuente autorizada configurada"
@@ -68,8 +63,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1281331,
-      "title": "El Precio de la Red",
+      "tmdbId": 1255833,
+      "title": "Whalefall",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -83,18 +78,28 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1187326,
-      "title": "Tadeo Jones y La Lámpara Maravillosa",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1288445,
       "title": "El motín",
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1187326,
+      "title": "Tadeo Jones y La Lámpara Maravillosa",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1281331,
+      "title": "El Precio de la Red",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1101383,
       "title": "El final de Oak Street",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1284046,
+      "title": "Aniquilación",
       "reason": "Sin fuente autorizada configurada"
     },
     {
