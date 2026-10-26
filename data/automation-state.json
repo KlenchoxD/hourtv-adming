@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-10-26T13:57:55.713Z",
+  "lastRunAt": "2026-10-26T19:45:06.562Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -25,11 +25,12 @@
     687163,
     1003596,
     1368337,
-    1561726,
     1514026,
-    1228834,
+    1561726,
     1232569,
+    1228834,
     1712451,
+    791523,
     1335666,
     1083381
   ],
@@ -133,18 +134,13 @@
       "reason": "Rating 0 por debajo del mínimo (5.5)"
     },
     {
-      "tmdbId": 1561726,
-      "title": "Masterplan",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1514026,
       "title": "Buddy",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1228834,
-      "title": "Operación Teherán",
+      "tmdbId": 1561726,
+      "title": "Masterplan",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -153,8 +149,18 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1228834,
+      "title": "Operación Teherán",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1712451,
       "title": "Dead Residents Evil",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 791523,
+      "title": "Wildwood: El Bosque Salvaje",
       "reason": "Sin fuente autorizada configurada"
     }
   ]
