@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-10-25T23:34:37.867Z",
+  "lastRunAt": "2026-10-26T01:42:03.692Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -161,7 +161,7 @@
     {
       "tmdbId": 1712451,
       "title": "Dead Residents Evil",
-      "reason": "Rating 4.9 por debajo del mínimo (5.5)"
+      "reason": "Rating 5.2 por debajo del mínimo (5.5)"
     }
   ]
 }
