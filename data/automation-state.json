@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-10-26T23:22:24.128Z",
+  "lastRunAt": "2026-10-27T02:14:21.684Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -11,10 +11,10 @@
     1153576,
     1423191,
     1236045,
-    1400837,
     1302904,
     1255833,
     1248832,
+    1400837,
     1108427,
     1288445,
     1187326,
@@ -79,11 +79,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1400837,
-      "title": "La otra madre",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1302904,
       "title": "Prácticamente magia 2",
       "reason": "Sin fuente autorizada configurada"
@@ -96,6 +91,11 @@
     {
       "tmdbId": 1248832,
       "title": "Digger",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1400837,
+      "title": "La otra madre",
       "reason": "Sin fuente autorizada configurada"
     },
     {
