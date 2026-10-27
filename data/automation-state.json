@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-10-27T19:08:25.550Z",
+  "lastRunAt": "2026-10-27T22:56:13.256Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -10,28 +10,28 @@
     1148365,
     1423191,
     1153576,
-    1302904,
     1236045,
+    1302904,
     1400837,
     1108427,
     1288445,
     1187326,
     1255833,
-    1101383,
-    1284046,
     1375646,
     1248832,
-    1315772,
-    687163,
+    1284046,
+    1101383,
+    1204680,
     1368337,
+    687163,
     1514026,
-    1561726,
     1232569,
-    1712451,
+    1561726,
     1228834,
     791523,
     1003596,
-    1294189,
+    1712451,
+    1657630,
     1335666,
     1083381
   ],
@@ -75,13 +75,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1302904,
-      "title": "Prácticamente magia 2",
+      "tmdbId": 1236045,
+      "title": "Animales",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1236045,
-      "title": "Animales",
+      "tmdbId": 1302904,
+      "title": "Prácticamente magia 2",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -110,8 +110,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1101383,
-      "title": "El final de Oak Street",
+      "tmdbId": 1375646,
+      "title": "Colony",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1248832,
+      "title": "Digger",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -120,13 +125,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1375646,
-      "title": "Colony",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1248832,
-      "title": "Digger",
+      "tmdbId": 1101383,
+      "title": "El final de Oak Street",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -140,18 +140,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1561726,
-      "title": "Masterplan",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1232569,
       "title": "Pinocho: Desatado",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1712451,
-      "title": "Dead Residents Evil",
+      "tmdbId": 1561726,
+      "title": "Masterplan",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -170,9 +165,14 @@
       "reason": "Rating 0 por debajo del mínimo (5.5)"
     },
     {
-      "tmdbId": 1294189,
-      "title": "The Mongoose",
-      "reason": "Votos 4 por debajo del mínimo (50)"
+      "tmdbId": 1712451,
+      "title": "Dead Residents Evil",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1657630,
+      "title": "El despertar",
+      "reason": "Sin sinopsis"
     }
   ]
 }
