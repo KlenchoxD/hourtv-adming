@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-27T02:14:19.496Z",
-  "durationMs": 2191,
+  "generatedAt": "2026-10-27T07:54:01.630Z",
+  "durationMs": 2535,
   "dryRun": false,
   "moviesFound": 31,
   "moviesDiscarded": 26,
@@ -108,11 +108,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1003596,
-      "title": "Vengadores: Doomsday",
-      "reason": "Rating 0 por debajo del mínimo (5.5)"
-    },
-    {
       "tmdbId": 1514026,
       "title": "Buddy",
       "reason": "Sin fuente autorizada configurada"
@@ -141,6 +136,11 @@
       "tmdbId": 791523,
       "title": "Wildwood: El Bosque Salvaje",
       "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1003596,
+      "title": "Vengadores: Doomsday",
+      "reason": "Rating 0 por debajo del mínimo (5.5)"
     }
   ]
 }

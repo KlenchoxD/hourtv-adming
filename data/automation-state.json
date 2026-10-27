@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-10-27T02:14:21.684Z",
+  "lastRunAt": "2026-10-27T07:54:04.162Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -23,7 +23,6 @@
     1101383,
     1284046,
     687163,
-    1003596,
     1368337,
     1514026,
     1561726,
@@ -31,6 +30,7 @@
     1228834,
     1712451,
     791523,
+    1003596,
     1335666,
     1083381
   ],
@@ -134,11 +134,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1003596,
-      "title": "Vengadores: Doomsday",
-      "reason": "Rating 0 por debajo del mínimo (5.5)"
-    },
-    {
       "tmdbId": 1514026,
       "title": "Buddy",
       "reason": "Sin fuente autorizada configurada"
@@ -167,6 +162,11 @@
       "tmdbId": 791523,
       "title": "Wildwood: El Bosque Salvaje",
       "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1003596,
+      "title": "Vengadores: Doomsday",
+      "reason": "Rating 0 por debajo del mínimo (5.5)"
     }
   ]
 }
