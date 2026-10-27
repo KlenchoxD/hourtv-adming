@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-10-27T07:54:01.630Z",
-  "durationMs": 2535,
+  "generatedAt": "2026-10-27T13:49:23.477Z",
+  "durationMs": 3058,
   "dryRun": false,
-  "moviesFound": 31,
-  "moviesDiscarded": 26,
+  "moviesFound": 32,
+  "moviesDiscarded": 27,
   "moviesAdded": 0,
   "moviesEnriched": 0,
   "duplicates": 5,
@@ -38,18 +38,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1153576,
-      "title": "Street Fighter",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1423191,
       "title": "Resident Evil",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1236045,
-      "title": "Animales",
+      "tmdbId": 1153576,
+      "title": "Street Fighter",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -58,13 +53,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1255833,
-      "title": "Whalefall",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1248832,
-      "title": "Digger",
+      "tmdbId": 1236045,
+      "title": "Animales",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -88,8 +78,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1281331,
-      "title": "El Precio de la Red",
+      "tmdbId": 1255833,
+      "title": "Whalefall",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -100,6 +90,16 @@
     {
       "tmdbId": 1284046,
       "title": "Aniquilación",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1375646,
+      "title": "Colony",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1248832,
+      "title": "Digger",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -123,13 +123,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1228834,
-      "title": "Operación Teherán",
+      "tmdbId": 1712451,
+      "title": "Dead Residents Evil",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1712451,
-      "title": "Dead Residents Evil",
+      "tmdbId": 1228834,
+      "title": "Operación Teherán",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -141,6 +141,11 @@
       "tmdbId": 1003596,
       "title": "Vengadores: Doomsday",
       "reason": "Rating 0 por debajo del mínimo (5.5)"
+    },
+    {
+      "tmdbId": 1294189,
+      "title": "The Mongoose",
+      "reason": "Votos 4 por debajo del mínimo (50)"
     }
   ]
 }
