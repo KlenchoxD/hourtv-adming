@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-10-27T22:56:12.308Z",
-  "durationMs": 951,
+  "generatedAt": "2026-10-28T01:58:54.040Z",
+  "durationMs": 2004,
   "dryRun": false,
   "moviesFound": 32,
-  "moviesDiscarded": 27,
+  "moviesDiscarded": 28,
   "moviesAdded": 0,
   "moviesEnriched": 0,
-  "duplicates": 5,
+  "duplicates": 4,
   "tmdbErrors": 0,
   "providerErrors": 0,
   "invalidSources": 0,
@@ -43,8 +43,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1153576,
-      "title": "Street Fighter",
+      "tmdbId": 1283515,
+      "title": "Verity. La sombra de un engaño",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -55,6 +55,11 @@
     {
       "tmdbId": 1302904,
       "title": "Prácticamente magia 2",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1153576,
+      "title": "Street Fighter",
       "reason": "Sin fuente autorizada configurada"
     },
     {
