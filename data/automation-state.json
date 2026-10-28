@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-10-28T15:04:15.702Z",
+  "lastRunAt": "2026-10-28T20:14:58.307Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     1058424,
@@ -23,14 +23,13 @@
     1284046,
     1204680,
     1368337,
-    687163,
     1514026,
     1232569,
-    1561726,
     791523,
-    1228834,
+    1561726,
     1657630,
-    1003596,
+    1228834,
+    1294189,
     1712451,
     1335666,
     1083381
@@ -130,11 +129,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 687163,
-      "title": "Proyecto Salvación",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1514026,
       "title": "Buddy",
       "reason": "Sin fuente autorizada configurada"
@@ -145,18 +139,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1561726,
-      "title": "Masterplan",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 791523,
       "title": "Wildwood: El Bosque Salvaje",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1228834,
-      "title": "Operación Teherán",
+      "tmdbId": 1561726,
+      "title": "Masterplan",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -165,9 +154,14 @@
       "reason": "Sin sinopsis"
     },
     {
-      "tmdbId": 1003596,
-      "title": "Vengadores: Doomsday",
-      "reason": "Rating 0 por debajo del mínimo (5.5)"
+      "tmdbId": 1228834,
+      "title": "Operación Teherán",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1294189,
+      "title": "The Mongoose",
+      "reason": "Votos 6 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1712451,
