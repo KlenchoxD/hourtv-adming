@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-10-28T01:58:56.041Z",
+  "lastRunAt": "2026-10-28T08:00:20.704Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     969681,
@@ -27,8 +27,8 @@
     1514026,
     1232569,
     1561726,
-    1228834,
     791523,
+    1228834,
     1003596,
     1712451,
     1657630,
@@ -155,13 +155,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1228834,
-      "title": "Operación Teherán",
+      "tmdbId": 791523,
+      "title": "Wildwood: El Bosque Salvaje",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 791523,
-      "title": "Wildwood: El Bosque Salvaje",
+      "tmdbId": 1228834,
+      "title": "Operación Teherán",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -172,7 +172,7 @@
     {
       "tmdbId": 1712451,
       "title": "Dead Residents Evil",
-      "reason": "Sin fuente autorizada configurada"
+      "reason": "Rating 5.4 por debajo del mínimo (5.5)"
     },
     {
       "tmdbId": 1657630,
