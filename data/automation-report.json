@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-10-28T08:00:17.852Z",
-  "durationMs": 2857,
+  "generatedAt": "2026-10-28T15:04:13.287Z",
+  "durationMs": 2420,
   "dryRun": false,
   "moviesFound": 32,
-  "moviesDiscarded": 28,
+  "moviesDiscarded": 27,
   "moviesAdded": 0,
   "moviesEnriched": 0,
-  "duplicates": 4,
+  "duplicates": 5,
   "tmdbErrors": 0,
   "providerErrors": 0,
   "invalidSources": 0,
@@ -43,8 +43,18 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1384216,
+      "title": "La constelación del perro",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1283515,
       "title": "Verity. La sombra de un engaño",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1153576,
+      "title": "Street Fighter",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -58,13 +68,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1153576,
-      "title": "Street Fighter",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1400837,
-      "title": "La otra madre",
+      "tmdbId": 1465063,
+      "title": "La Isla Olvidada",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -78,13 +83,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1187326,
-      "title": "Tadeo Jones y La Lámpara Maravillosa",
+      "tmdbId": 1400837,
+      "title": "La otra madre",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1255833,
-      "title": "Whalefall",
+      "tmdbId": 1187326,
+      "title": "Tadeo Jones y La Lámpara Maravillosa",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -93,18 +98,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1248832,
-      "title": "Digger",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1284046,
       "title": "Aniquilación",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1101383,
-      "title": "El final de Oak Street",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -138,6 +133,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1657630,
+      "title": "El despertar",
+      "reason": "Sin sinopsis"
+    },
+    {
       "tmdbId": 1003596,
       "title": "Vengadores: Doomsday",
       "reason": "Rating 0 por debajo del mínimo (5.5)"
@@ -146,11 +146,6 @@
       "tmdbId": 1712451,
       "title": "Dead Residents Evil",
       "reason": "Rating 5.4 por debajo del mínimo (5.5)"
-    },
-    {
-      "tmdbId": 1657630,
-      "title": "El despertar",
-      "reason": "Sin sinopsis"
     }
   ]
 }
