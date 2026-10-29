@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-10-29T05:41:41.903Z",
-  "durationMs": 2333,
+  "generatedAt": "2026-10-29T11:45:35.176Z",
+  "durationMs": 2727,
   "dryRun": false,
-  "moviesFound": 29,
-  "moviesDiscarded": 25,
+  "moviesFound": 30,
+  "moviesDiscarded": 26,
   "moviesAdded": 0,
   "moviesEnriched": 0,
   "duplicates": 4,
@@ -68,11 +68,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1236045,
-      "title": "Animales",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1302904,
       "title": "Prácticamente magia 2",
       "reason": "Sin fuente autorizada configurada"
@@ -80,6 +75,11 @@
     {
       "tmdbId": 1465063,
       "title": "La isla olvidada",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1236045,
+      "title": "Animales",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -108,6 +108,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1596275,
+      "title": "Drive: Los farsantes",
+      "reason": "Votos 17 por debajo del mínimo (50)"
+    },
+    {
       "tmdbId": 1514026,
       "title": "Buddy",
       "reason": "Sin fuente autorizada configurada"
@@ -123,14 +128,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1228834,
-      "title": "Operación Teherán",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1294189,
       "title": "The Mongoose",
       "reason": "Votos 6 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 1228834,
+      "title": "Operación Teherán",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1712451,

@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-10-29T05:41:44.231Z",
+  "lastRunAt": "2026-10-29T11:45:37.900Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     1058424,
@@ -14,20 +14,21 @@
     1657630,
     1283515,
     1153576,
-    1236045,
     1302904,
     1465063,
+    1236045,
     1108427,
     1288445,
     1377237,
     1400837,
     1187326,
     1368337,
+    1596275,
     1514026,
     1232569,
     1561726,
-    1228834,
     1294189,
+    1228834,
     1712451,
     1335666,
     1083381
@@ -92,11 +93,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1236045,
-      "title": "Animales",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1302904,
       "title": "Prácticamente magia 2",
       "reason": "Sin fuente autorizada configurada"
@@ -104,6 +100,11 @@
     {
       "tmdbId": 1465063,
       "title": "La isla olvidada",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1236045,
+      "title": "Animales",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -132,6 +133,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1596275,
+      "title": "Drive: Los farsantes",
+      "reason": "Votos 17 por debajo del mínimo (50)"
+    },
+    {
       "tmdbId": 1514026,
       "title": "Buddy",
       "reason": "Sin fuente autorizada configurada"
@@ -147,14 +153,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1228834,
-      "title": "Operación Teherán",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1294189,
       "title": "The Mongoose",
       "reason": "Votos 6 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 1228834,
+      "title": "Operación Teherán",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1712451,
