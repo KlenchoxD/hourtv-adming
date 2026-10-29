@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-10-28T20:14:55.210Z",
-  "durationMs": 3102,
+  "generatedAt": "2026-10-29T00:00:29.975Z",
+  "durationMs": 1627,
   "dryRun": false,
-  "moviesFound": 31,
-  "moviesDiscarded": 26,
+  "moviesFound": 29,
+  "moviesDiscarded": 25,
   "moviesAdded": 0,
   "moviesEnriched": 0,
-  "duplicates": 5,
+  "duplicates": 4,
   "tmdbErrors": 0,
   "providerErrors": 0,
   "invalidSources": 0,
@@ -48,6 +48,16 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 791523,
+      "title": "Wildwood: El Bosque Salvaje",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1657630,
+      "title": "El despertar",
+      "reason": "Sin sinopsis"
+    },
+    {
       "tmdbId": 1283515,
       "title": "Verity. La sombra de un engaño",
       "reason": "Sin fuente autorizada configurada"
@@ -69,7 +79,7 @@
     },
     {
       "tmdbId": 1465063,
-      "title": "La Isla Olvidada",
+      "title": "La isla olvidada",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -83,6 +93,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1377237,
+      "title": "Entrega al límite",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1400837,
       "title": "La otra madre",
       "reason": "Sin fuente autorizada configurada"
@@ -90,16 +105,6 @@
     {
       "tmdbId": 1187326,
       "title": "Tadeo Jones y La Lámpara Maravillosa",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1375646,
-      "title": "Colony",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1284046,
-      "title": "Aniquilación",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -113,19 +118,9 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 791523,
-      "title": "Wildwood: El Bosque Salvaje",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1561726,
       "title": "Masterplan",
       "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1657630,
-      "title": "El despertar",
-      "reason": "Sin sinopsis"
     },
     {
       "tmdbId": 1228834,

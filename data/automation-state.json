@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-10-28T20:14:58.307Z",
+  "lastRunAt": "2026-10-29T00:00:31.597Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     1058424,
@@ -10,6 +10,8 @@
     1148365,
     1423191,
     1384216,
+    791523,
+    1657630,
     1283515,
     1153576,
     1236045,
@@ -17,17 +19,13 @@
     1465063,
     1108427,
     1288445,
+    1377237,
     1400837,
     1187326,
-    1375646,
-    1284046,
-    1204680,
     1368337,
     1514026,
     1232569,
-    791523,
     1561726,
-    1657630,
     1228834,
     1294189,
     1712451,
@@ -74,6 +72,16 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 791523,
+      "title": "Wildwood: El Bosque Salvaje",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1657630,
+      "title": "El despertar",
+      "reason": "Sin sinopsis"
+    },
+    {
       "tmdbId": 1283515,
       "title": "Verity. La sombra de un engaño",
       "reason": "Sin fuente autorizada configurada"
@@ -95,7 +103,7 @@
     },
     {
       "tmdbId": 1465063,
-      "title": "La Isla Olvidada",
+      "title": "La isla olvidada",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -109,6 +117,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1377237,
+      "title": "Entrega al límite",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1400837,
       "title": "La otra madre",
       "reason": "Sin fuente autorizada configurada"
@@ -116,16 +129,6 @@
     {
       "tmdbId": 1187326,
       "title": "Tadeo Jones y La Lámpara Maravillosa",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1375646,
-      "title": "Colony",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1284046,
-      "title": "Aniquilación",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -139,19 +142,9 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 791523,
-      "title": "Wildwood: El Bosque Salvaje",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1561726,
       "title": "Masterplan",
       "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1657630,
-      "title": "El despertar",
-      "reason": "Sin sinopsis"
     },
     {
       "tmdbId": 1228834,
