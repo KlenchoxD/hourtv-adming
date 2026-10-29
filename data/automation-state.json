@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-10-29T11:45:37.900Z",
+  "lastRunAt": "2026-10-29T17:50:31.278Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     1058424,
@@ -29,7 +29,6 @@
     1561726,
     1294189,
     1228834,
-    1712451,
     1335666,
     1083381
   ],
@@ -135,7 +134,7 @@
     {
       "tmdbId": 1596275,
       "title": "Drive: Los farsantes",
-      "reason": "Votos 17 por debajo del mínimo (50)"
+      "reason": "Votos 18 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1514026,
@@ -161,11 +160,6 @@
       "tmdbId": 1228834,
       "title": "Operación Teherán",
       "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1712451,
-      "title": "Dead Residents Evil",
-      "reason": "Rating 5.4 por debajo del mínimo (5.5)"
     }
   ]
 }
