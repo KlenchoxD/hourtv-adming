@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-10-29T22:14:02.931Z",
+  "lastRunAt": "2026-10-30T01:57:52.143Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     1058424,
@@ -20,8 +20,8 @@
     1377237,
     1108427,
     1288445,
-    1400837,
     1503762,
+    1400837,
     1368337,
     1596275,
     1514026,
@@ -122,13 +122,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1400837,
-      "title": "La otra madre",
+      "tmdbId": 1503762,
+      "title": "Sentido y sensibilidad",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1503762,
-      "title": "Sentido y sensibilidad",
+      "tmdbId": 1400837,
+      "title": "La otra madre",
       "reason": "Sin fuente autorizada configurada"
     },
     {
