@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-30T08:05:15.635Z",
-  "durationMs": 568,
+  "generatedAt": "2026-10-30T15:01:01.642Z",
+  "durationMs": 3149,
   "dryRun": false,
   "moviesFound": 30,
   "moviesDiscarded": 25,
@@ -12,6 +12,11 @@
   "invalidSources": 0,
   "addedTitles": [],
   "skipped": [
+    {
+      "tmdbId": 791523,
+      "title": "Wildwood: El Bosque Salvaje",
+      "reason": "Sin fuente autorizada configurada"
+    },
     {
       "tmdbId": 1058424,
       "title": "Hope",
@@ -33,11 +38,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1291595,
-      "title": "Insidious: Fuera del más allá",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1657630,
       "title": "El despertar",
       "reason": "Sin sinopsis"
@@ -48,8 +48,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 791523,
-      "title": "Wildwood: El Bosque Salvaje",
+      "tmdbId": 1291595,
+      "title": "Insidious: Fuera del más allá",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -63,18 +63,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1153576,
-      "title": "Street Fighter",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1465063,
       "title": "La isla olvidada",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1236045,
-      "title": "Animales",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -83,18 +73,18 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1153576,
+      "title": "Street Fighter",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1236045,
+      "title": "Animales",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1377237,
       "title": "Entrega al límite",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1108427,
-      "title": "Vaiana",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1288445,
-      "title": "El motín",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -108,9 +98,19 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1288445,
+      "title": "El motín",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1108427,
+      "title": "Vaiana",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1596275,
       "title": "Drive: Los farsantes",
-      "reason": "Votos 31 por debajo del mínimo (50)"
+      "reason": "Votos 34 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1514026,
