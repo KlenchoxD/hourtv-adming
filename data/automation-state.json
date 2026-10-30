@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-10-30T01:57:52.143Z",
+  "lastRunAt": "2026-10-30T08:05:16.198Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     1058424,
@@ -22,6 +22,7 @@
     1288445,
     1503762,
     1400837,
+    155,
     1368337,
     1596275,
     1514026,
@@ -134,7 +135,7 @@
     {
       "tmdbId": 1596275,
       "title": "Drive: Los farsantes",
-      "reason": "Votos 26 por debajo del mínimo (50)"
+      "reason": "Votos 31 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1514026,

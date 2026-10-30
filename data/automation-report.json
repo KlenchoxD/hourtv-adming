@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-10-30T01:57:49.876Z",
-  "durationMs": 2272,
+  "generatedAt": "2026-10-30T08:05:15.635Z",
+  "durationMs": 568,
   "dryRun": false,
-  "moviesFound": 29,
+  "moviesFound": 30,
   "moviesDiscarded": 25,
   "moviesAdded": 0,
   "moviesEnriched": 0,
-  "duplicates": 4,
+  "duplicates": 5,
   "tmdbErrors": 0,
   "providerErrors": 0,
   "invalidSources": 0,
@@ -110,7 +110,7 @@
     {
       "tmdbId": 1596275,
       "title": "Drive: Los farsantes",
-      "reason": "Votos 26 por debajo del mínimo (50)"
+      "reason": "Votos 31 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1514026,
