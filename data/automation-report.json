@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-10-31T08:51:38.558Z",
-  "durationMs": 2821,
+  "generatedAt": "2026-10-31T14:55:12.712Z",
+  "durationMs": 2153,
   "dryRun": false,
-  "moviesFound": 30,
-  "moviesDiscarded": 24,
+  "moviesFound": 31,
+  "moviesDiscarded": 25,
   "moviesAdded": 0,
   "moviesEnriched": 0,
   "duplicates": 6,
@@ -33,14 +33,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1400940,
-      "title": "Clayface",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1657630,
       "title": "El despertar",
       "reason": "Sin sinopsis"
+    },
+    {
+      "tmdbId": 1400940,
+      "title": "Clayface",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1384216,
@@ -89,7 +89,12 @@
     },
     {
       "tmdbId": 1503762,
-      "title": "Sentido y sensibilidad",
+      "title": "Sentido y Sensibilidad",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1400837,
+      "title": "La otra madre",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -98,14 +103,9 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1108427,
-      "title": "Vaiana",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1596275,
       "title": "Drive: Los farsantes",
-      "reason": "Votos 42 por debajo del mínimo (50)"
+      "reason": "Votos 48 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1514026,
@@ -121,6 +121,11 @@
       "tmdbId": 1294189,
       "title": "The Mongoose",
       "reason": "Votos 8 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 1507696,
+      "title": "Apocalipsis Z: Nuevo mundo",
+      "reason": "Votos 22 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1228834,
