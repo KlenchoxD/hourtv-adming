@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-10-31T02:35:29.679Z",
+  "lastRunAt": "2026-10-31T08:51:41.375Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     791523,
@@ -12,14 +12,14 @@
     1384216,
     1291595,
     1148365,
-    1423191,
     1465063,
+    1423191,
+    1204680,
     1302904,
     1153576,
     1236045,
     1377237,
     1503762,
-    1400837,
     1288445,
     1108427,
     155,
@@ -69,7 +69,7 @@
     },
     {
       "tmdbId": 1384216,
-      "title": "La constelación del perro",
+      "title": "La constelación del Perro",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -83,13 +83,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1423191,
-      "title": "Resident Evil",
+      "tmdbId": 1465063,
+      "title": "La isla olvidada",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1465063,
-      "title": "La isla olvidada",
+      "tmdbId": 1423191,
+      "title": "Resident Evil",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -118,11 +118,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1400837,
-      "title": "La otra madre",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1288445,
       "title": "El motín",
       "reason": "Sin fuente autorizada configurada"
@@ -135,7 +130,7 @@
     {
       "tmdbId": 1596275,
       "title": "Drive: Los farsantes",
-      "reason": "Votos 35 por debajo del mínimo (50)"
+      "reason": "Votos 42 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1514026,
