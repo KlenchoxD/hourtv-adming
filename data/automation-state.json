@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-10-31T18:57:10.732Z",
+  "lastRunAt": "2026-10-31T22:09:54.306Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     791523,
@@ -29,8 +29,8 @@
     1232569,
     1294189,
     1507696,
+    354912,
     1228834,
-    1561726,
     1335666,
     1083381
   ],
@@ -70,7 +70,7 @@
     },
     {
       "tmdbId": 1384216,
-      "title": "La constelación del Perro",
+      "title": "La constelación del perro",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -154,13 +154,13 @@
       "reason": "Votos 27 por debajo del mínimo (50)"
     },
     {
-      "tmdbId": 1228834,
-      "title": "Operación Teherán",
+      "tmdbId": 354912,
+      "title": "Coco",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1561726,
-      "title": "Masterplan",
+      "tmdbId": 1228834,
+      "title": "Operación Teherán",
       "reason": "Sin fuente autorizada configurada"
     }
   ]

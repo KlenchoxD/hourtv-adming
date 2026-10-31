@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-31T18:57:07.909Z",
-  "durationMs": 2827,
+  "generatedAt": "2026-10-31T22:09:51.709Z",
+  "durationMs": 2601,
   "dryRun": false,
   "moviesFound": 31,
   "moviesDiscarded": 25,
@@ -44,7 +44,7 @@
     },
     {
       "tmdbId": 1384216,
-      "title": "La constelación del Perro",
+      "title": "La constelación del perro",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -128,13 +128,13 @@
       "reason": "Votos 27 por debajo del mínimo (50)"
     },
     {
-      "tmdbId": 1228834,
-      "title": "Operación Teherán",
+      "tmdbId": 354912,
+      "title": "Coco",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1561726,
-      "title": "Masterplan",
+      "tmdbId": 1228834,
+      "title": "Operación Teherán",
       "reason": "Sin fuente autorizada configurada"
     }
   ]
