@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-30T23:23:52.590Z",
-  "durationMs": 3132,
+  "generatedAt": "2026-10-31T02:35:27.017Z",
+  "durationMs": 2666,
   "dryRun": false,
   "moviesFound": 30,
   "moviesDiscarded": 25,
@@ -28,13 +28,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1400940,
-      "title": "Clayface",
+      "tmdbId": 1283515,
+      "title": "Verity. La sombra de un engaño",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1283515,
-      "title": "Verity. La sombra de un engaño",
+      "tmdbId": 1400940,
+      "title": "Clayface",
       "reason": "Sin fuente autorizada configurada"
     },
     {

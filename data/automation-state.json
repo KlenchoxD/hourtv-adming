@@ -1,13 +1,13 @@
 {
-  "lastRunAt": "2026-10-30T23:23:55.717Z",
+  "lastRunAt": "2026-10-31T02:35:29.679Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     791523,
     1058424,
     969681,
     1101412,
-    1400940,
     1283515,
+    1400940,
     1657630,
     1384216,
     1291595,
@@ -53,13 +53,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1400940,
-      "title": "Clayface",
+      "tmdbId": 1283515,
+      "title": "Verity. La sombra de un engaño",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1283515,
-      "title": "Verity. La sombra de un engaño",
+      "tmdbId": 1400940,
+      "title": "Clayface",
       "reason": "Sin fuente autorizada configurada"
     },
     {
