@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-31T14:55:12.712Z",
-  "durationMs": 2153,
+  "generatedAt": "2026-10-31T18:57:07.909Z",
+  "durationMs": 2827,
   "dryRun": false,
   "moviesFound": 31,
   "moviesDiscarded": 25,
@@ -89,7 +89,7 @@
     },
     {
       "tmdbId": 1503762,
-      "title": "Sentido y Sensibilidad",
+      "title": "Sentido y sensibilidad",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -105,7 +105,7 @@
     {
       "tmdbId": 1596275,
       "title": "Drive: Los farsantes",
-      "reason": "Votos 48 por debajo del mínimo (50)"
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1514026,
@@ -120,12 +120,12 @@
     {
       "tmdbId": 1294189,
       "title": "The Mongoose",
-      "reason": "Votos 8 por debajo del mínimo (50)"
+      "reason": "Votos 7 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1507696,
       "title": "Apocalipsis Z: Nuevo mundo",
-      "reason": "Votos 22 por debajo del mínimo (50)"
+      "reason": "Votos 27 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1228834,
