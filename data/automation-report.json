@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-31T22:09:51.709Z",
-  "durationMs": 2601,
+  "generatedAt": "2026-11-01T01:06:45.621Z",
+  "durationMs": 2786,
   "dryRun": false,
   "moviesFound": 31,
   "moviesDiscarded": 25,
@@ -120,7 +120,7 @@
     {
       "tmdbId": 1294189,
       "title": "The Mongoose",
-      "reason": "Votos 7 por debajo del mínimo (50)"
+      "reason": "Votos 9 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1507696,
