@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-11-01T19:01:36.944Z",
+  "lastRunAt": "2026-11-01T22:46:32.381Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     791523,
@@ -162,7 +162,7 @@
     {
       "tmdbId": 1571955,
       "title": "Colisión",
-      "reason": "Votos 17 por debajo del mínimo (50)"
+      "reason": "Votos 25 por debajo del mínimo (50)"
     }
   ]
 }
