@@ -1,13 +1,13 @@
 {
-  "lastRunAt": "2026-11-01T07:29:20.937Z",
+  "lastRunAt": "2026-11-01T14:25:59.531Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     791523,
     1058424,
     969681,
     1101412,
-    1283515,
     1657630,
+    1283515,
     1384216,
     1400940,
     1291595,
@@ -18,10 +18,10 @@
     1302904,
     1153576,
     1236045,
-    1377237,
     1503762,
-    1400837,
     1288445,
+    1377237,
+    1400837,
     155,
     1596275,
     1507696,
@@ -54,14 +54,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1283515,
-      "title": "Verity. La sombra de un engaño",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1657630,
       "title": "El despertar",
       "reason": "Sin sinopsis"
+    },
+    {
+      "tmdbId": 1283515,
+      "title": "Verity. La sombra de un engaño",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1384216,
@@ -109,23 +109,23 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1377237,
-      "title": "Entrega al límite",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1503762,
       "title": "Sentido y sensibilidad",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1400837,
-      "title": "La otra madre",
+      "tmdbId": 1288445,
+      "title": "El motín",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1288445,
-      "title": "El motín",
+      "tmdbId": 1377237,
+      "title": "Entrega al límite",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1400837,
+      "title": "La otra madre",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -136,7 +136,7 @@
     {
       "tmdbId": 1507696,
       "title": "Apocalipsis Z: Nuevo mundo",
-      "reason": "Votos 42 por debajo del mínimo (50)"
+      "reason": "Votos 46 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1514026,
@@ -151,7 +151,7 @@
     {
       "tmdbId": 1294189,
       "title": "The Mongoose",
-      "reason": "Votos 9 por debajo del mínimo (50)"
+      "reason": "Votos 11 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 354912,
@@ -161,7 +161,7 @@
     {
       "tmdbId": 1571955,
       "title": "Colisión",
-      "reason": "Votos 13 por debajo del mínimo (50)"
+      "reason": "Votos 17 por debajo del mínimo (50)"
     }
   ]
 }

@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-01T07:29:18.805Z",
-  "durationMs": 2135,
+  "generatedAt": "2026-11-01T14:25:57.195Z",
+  "durationMs": 2340,
   "dryRun": false,
   "moviesFound": 31,
   "moviesDiscarded": 25,
@@ -28,14 +28,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1283515,
-      "title": "Verity. La sombra de un engaño",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1657630,
       "title": "El despertar",
       "reason": "Sin sinopsis"
+    },
+    {
+      "tmdbId": 1283515,
+      "title": "Verity. La sombra de un engaño",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1384216,
@@ -83,23 +83,23 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1377237,
-      "title": "Entrega al límite",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1503762,
       "title": "Sentido y sensibilidad",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1400837,
-      "title": "La otra madre",
+      "tmdbId": 1288445,
+      "title": "El motín",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1288445,
-      "title": "El motín",
+      "tmdbId": 1377237,
+      "title": "Entrega al límite",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1400837,
+      "title": "La otra madre",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -110,7 +110,7 @@
     {
       "tmdbId": 1507696,
       "title": "Apocalipsis Z: Nuevo mundo",
-      "reason": "Votos 42 por debajo del mínimo (50)"
+      "reason": "Votos 46 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1514026,
@@ -125,7 +125,7 @@
     {
       "tmdbId": 1294189,
       "title": "The Mongoose",
-      "reason": "Votos 9 por debajo del mínimo (50)"
+      "reason": "Votos 11 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 354912,
@@ -135,7 +135,7 @@
     {
       "tmdbId": 1571955,
       "title": "Colisión",
-      "reason": "Votos 13 por debajo del mínimo (50)"
+      "reason": "Votos 17 por debajo del mínimo (50)"
     }
   ]
 }
