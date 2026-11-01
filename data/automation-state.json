@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-11-01T01:06:48.403Z",
+  "lastRunAt": "2026-11-01T07:29:20.937Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     791523,
@@ -8,8 +8,8 @@
     1101412,
     1283515,
     1657630,
-    1400940,
     1384216,
+    1400940,
     1291595,
     1148365,
     1465063,
@@ -24,13 +24,13 @@
     1288445,
     155,
     1596275,
+    1507696,
     1368337,
     1514026,
     1232569,
     1294189,
-    1507696,
     354912,
-    1228834,
+    1571955,
     1335666,
     1083381
   ],
@@ -64,13 +64,13 @@
       "reason": "Sin sinopsis"
     },
     {
-      "tmdbId": 1400940,
-      "title": "Clayface",
+      "tmdbId": 1384216,
+      "title": "La constelación del perro",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1384216,
-      "title": "La constelación del perro",
+      "tmdbId": 1400940,
+      "title": "Clayface",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -134,6 +134,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1507696,
+      "title": "Apocalipsis Z: Nuevo mundo",
+      "reason": "Votos 42 por debajo del mínimo (50)"
+    },
+    {
       "tmdbId": 1514026,
       "title": "Buddy",
       "reason": "Sin fuente autorizada configurada"
@@ -149,19 +154,14 @@
       "reason": "Votos 9 por debajo del mínimo (50)"
     },
     {
-      "tmdbId": 1507696,
-      "title": "Apocalipsis Z: Nuevo mundo",
-      "reason": "Votos 27 por debajo del mínimo (50)"
-    },
-    {
       "tmdbId": 354912,
       "title": "Coco",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1228834,
-      "title": "Operación Teherán",
-      "reason": "Sin fuente autorizada configurada"
+      "tmdbId": 1571955,
+      "title": "Colisión",
+      "reason": "Votos 13 por debajo del mínimo (50)"
     }
   ]
 }
