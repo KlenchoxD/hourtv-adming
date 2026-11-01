@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-11-01T14:25:57.195Z",
-  "durationMs": 2340,
+  "generatedAt": "2026-11-01T19:01:34.462Z",
+  "durationMs": 2486,
   "dryRun": false,
-  "moviesFound": 31,
+  "moviesFound": 32,
   "moviesDiscarded": 25,
   "moviesAdded": 0,
   "moviesEnriched": 0,
-  "duplicates": 6,
+  "duplicates": 7,
   "tmdbErrors": 0,
   "providerErrors": 0,
   "invalidSources": 0,
@@ -110,7 +110,7 @@
     {
       "tmdbId": 1507696,
       "title": "Apocalipsis Z: Nuevo mundo",
-      "reason": "Votos 46 por debajo del mínimo (50)"
+      "reason": "Votos 47 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1514026,
@@ -123,14 +123,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1294189,
-      "title": "The Mongoose",
-      "reason": "Votos 11 por debajo del mínimo (50)"
-    },
-    {
       "tmdbId": 354912,
       "title": "Coco",
       "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1294189,
+      "title": "The Mongoose",
+      "reason": "Votos 11 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1571955,

@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-11-01T14:25:59.531Z",
+  "lastRunAt": "2026-11-01T19:01:36.944Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     791523,
@@ -28,8 +28,9 @@
     1368337,
     1514026,
     1232569,
-    1294189,
     354912,
+    1294189,
+    755898,
     1571955,
     1335666,
     1083381
@@ -136,7 +137,7 @@
     {
       "tmdbId": 1507696,
       "title": "Apocalipsis Z: Nuevo mundo",
-      "reason": "Votos 46 por debajo del mínimo (50)"
+      "reason": "Votos 47 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1514026,
@@ -149,14 +150,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1294189,
-      "title": "The Mongoose",
-      "reason": "Votos 11 por debajo del mínimo (50)"
-    },
-    {
       "tmdbId": 354912,
       "title": "Coco",
       "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1294189,
+      "title": "The Mongoose",
+      "reason": "Votos 11 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1571955,
