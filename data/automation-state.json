@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-11-01T22:46:32.381Z",
+  "lastRunAt": "2026-11-02T01:59:29.827Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     791523,
@@ -18,8 +18,8 @@
     1302904,
     1153576,
     1236045,
-    1503762,
     1288445,
+    1503762,
     1377237,
     1400837,
     155,
@@ -110,13 +110,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1503762,
-      "title": "Sentido y sensibilidad",
+      "tmdbId": 1288445,
+      "title": "El motín",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1288445,
-      "title": "El motín",
+      "tmdbId": 1503762,
+      "title": "Sentido y sensibilidad",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -137,7 +137,7 @@
     {
       "tmdbId": 1507696,
       "title": "Apocalipsis Z: Nuevo mundo",
-      "reason": "Votos 47 por debajo del mínimo (50)"
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1514026,
@@ -157,12 +157,12 @@
     {
       "tmdbId": 1294189,
       "title": "The Mongoose",
-      "reason": "Votos 11 por debajo del mínimo (50)"
+      "reason": "Votos 12 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1571955,
       "title": "Colisión",
-      "reason": "Votos 25 por debajo del mínimo (50)"
+      "reason": "Votos 28 por debajo del mínimo (50)"
     }
   ]
 }
