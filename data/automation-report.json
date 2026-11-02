@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-11-02T01:59:28.199Z",
-  "durationMs": 1633,
+  "generatedAt": "2026-11-02T09:03:21.376Z",
+  "durationMs": 3273,
   "dryRun": false,
-  "moviesFound": 32,
-  "moviesDiscarded": 25,
+  "moviesFound": 33,
+  "moviesDiscarded": 26,
   "moviesAdded": 0,
   "moviesEnriched": 0,
   "duplicates": 7,
@@ -28,14 +28,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1657630,
-      "title": "El despertar",
-      "reason": "Sin sinopsis"
-    },
-    {
       "tmdbId": 1283515,
       "title": "Verity. La sombra de un engaño",
       "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1657630,
+      "title": "El despertar",
+      "reason": "Sin sinopsis"
     },
     {
       "tmdbId": 1384216,
@@ -43,13 +43,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1400940,
-      "title": "Clayface",
+      "tmdbId": 1291595,
+      "title": "Insidious: Fuera del más allá",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1291595,
-      "title": "Insidious: Fuera del más allá",
+      "tmdbId": 1400940,
+      "title": "Clayface",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -123,6 +123,16 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1813355,
+      "title": "La historia de Derry",
+      "reason": "Votos 33 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 1571955,
+      "title": "Colisión",
+      "reason": "Votos 30 por debajo del mínimo (50)"
+    },
+    {
       "tmdbId": 354912,
       "title": "Coco",
       "reason": "Sin fuente autorizada configurada"
@@ -131,11 +141,6 @@
       "tmdbId": 1294189,
       "title": "The Mongoose",
       "reason": "Votos 12 por debajo del mínimo (50)"
-    },
-    {
-      "tmdbId": 1571955,
-      "title": "Colisión",
-      "reason": "Votos 28 por debajo del mínimo (50)"
     }
   ]
 }
