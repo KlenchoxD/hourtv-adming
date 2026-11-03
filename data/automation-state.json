@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-11-03T16:31:23.246Z",
+  "lastRunAt": "2026-11-03T22:00:00.374Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     791523,
@@ -167,7 +167,7 @@
     {
       "tmdbId": 1294189,
       "title": "The Mongoose",
-      "reason": "Votos 11 por debajo del mínimo (50)"
+      "reason": "Votos 12 por debajo del mínimo (50)"
     }
   ]
 }
