@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-11-03T08:35:01.269Z",
+  "lastRunAt": "2026-11-03T16:31:23.246Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     791523,
@@ -8,6 +8,7 @@
     1101412,
     1657630,
     1283515,
+    1423191,
     1384216,
     1291595,
     1400940,
@@ -15,24 +16,22 @@
     1465063,
     1204680,
     1302904,
-    1423191,
     1288445,
-    1236045,
-    1153576,
     1503762,
-    1377237,
     1400837,
+    1153576,
+    1236045,
+    1377237,
     155,
-    1596275,
     1507696,
+    1596275,
+    354912,
     1368337,
     1514026,
-    354912,
     1232569,
-    1294189,
     1813355,
     1571955,
-    1228834,
+    1294189,
     1335666,
     1083381
   ],
@@ -66,6 +65,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1423191,
+      "title": "Resident Evil",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1384216,
       "title": "La constelación del perro",
       "reason": "Sin fuente autorizada configurada"
@@ -96,23 +100,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1423191,
-      "title": "Resident Evil",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1288445,
       "title": "El motín",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1236045,
-      "title": "Animales",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1153576,
-      "title": "Street Fighter",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -121,18 +110,23 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1377237,
-      "title": "Entrega al límite",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1400837,
       "title": "La otra madre",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1596275,
-      "title": "Drive: Los farsantes",
+      "tmdbId": 1153576,
+      "title": "Street Fighter",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1236045,
+      "title": "Animales",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1377237,
+      "title": "Entrega al límite",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -141,8 +135,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1514026,
-      "title": "Buddy",
+      "tmdbId": 1596275,
+      "title": "Drive: Los farsantes",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -151,14 +145,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1232569,
-      "title": "Pinocho: Desatado",
+      "tmdbId": 1514026,
+      "title": "Buddy",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1294189,
-      "title": "The Mongoose",
-      "reason": "Votos 11 por debajo del mínimo (50)"
+      "tmdbId": 1232569,
+      "title": "Pinocho: Desatado",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1813355,
@@ -168,12 +162,12 @@
     {
       "tmdbId": 1571955,
       "title": "Colisión",
-      "reason": "Votos 42 por debajo del mínimo (50)"
+      "reason": "Votos 45 por debajo del mínimo (50)"
     },
     {
-      "tmdbId": 1228834,
-      "title": "Operación Teherán",
-      "reason": "Sin fuente autorizada configurada"
+      "tmdbId": 1294189,
+      "title": "The Mongoose",
+      "reason": "Votos 11 por debajo del mínimo (50)"
     }
   ]
 }
