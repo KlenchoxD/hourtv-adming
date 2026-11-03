@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-11-02T19:26:45.511Z",
-  "durationMs": 3496,
+  "generatedAt": "2026-11-03T01:42:56.919Z",
+  "durationMs": 2939,
   "dryRun": false,
   "moviesFound": 33,
-  "moviesDiscarded": 26,
+  "moviesDiscarded": 27,
   "moviesAdded": 0,
   "moviesEnriched": 0,
-  "duplicates": 7,
+  "duplicates": 6,
   "tmdbErrors": 0,
   "providerErrors": 0,
   "invalidSources": 0,
@@ -118,6 +118,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 354912,
+      "title": "Coco",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1232569,
       "title": "Pinocho: Desatado",
       "reason": "Sin fuente autorizada configurada"
@@ -130,16 +135,16 @@
     {
       "tmdbId": 1813355,
       "title": "La historia de Derry",
-      "reason": "Votos 39 por debajo del mínimo (50)"
+      "reason": "Votos 46 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1571955,
       "title": "Colisión",
-      "reason": "Votos 33 por debajo del mínimo (50)"
+      "reason": "Votos 41 por debajo del mínimo (50)"
     },
     {
-      "tmdbId": 354912,
-      "title": "Coco",
+      "tmdbId": 1228834,
+      "title": "Operación Teherán",
       "reason": "Sin fuente autorizada configurada"
     }
   ]

@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-11-02T19:26:49.002Z",
+  "lastRunAt": "2026-11-03T01:42:59.853Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     791523,
@@ -27,12 +27,12 @@
     1507696,
     1368337,
     1514026,
+    354912,
     1232569,
     1294189,
     1813355,
     1571955,
-    354912,
-    755898,
+    1228834,
     1335666,
     1083381
   ],
@@ -146,6 +146,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 354912,
+      "title": "Coco",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1232569,
       "title": "Pinocho: Desatado",
       "reason": "Sin fuente autorizada configurada"
@@ -158,16 +163,16 @@
     {
       "tmdbId": 1813355,
       "title": "La historia de Derry",
-      "reason": "Votos 39 por debajo del mínimo (50)"
+      "reason": "Votos 46 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1571955,
       "title": "Colisión",
-      "reason": "Votos 33 por debajo del mínimo (50)"
+      "reason": "Votos 41 por debajo del mínimo (50)"
     },
     {
-      "tmdbId": 354912,
-      "title": "Coco",
+      "tmdbId": 1228834,
+      "title": "Operación Teherán",
       "reason": "Sin fuente autorizada configurada"
     }
   ]
