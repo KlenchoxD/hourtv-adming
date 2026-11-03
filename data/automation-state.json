@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-11-03T01:42:59.853Z",
+  "lastRunAt": "2026-11-03T08:35:01.269Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     791523,
@@ -163,12 +163,12 @@
     {
       "tmdbId": 1813355,
       "title": "La historia de Derry",
-      "reason": "Votos 46 por debajo del mínimo (50)"
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1571955,
       "title": "Colisión",
-      "reason": "Votos 41 por debajo del mínimo (50)"
+      "reason": "Votos 42 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1228834,
