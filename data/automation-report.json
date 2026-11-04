@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-04T01:59:12.814Z",
-  "durationMs": 1930,
+  "generatedAt": "2026-11-04T08:46:20.968Z",
+  "durationMs": 2745,
   "dryRun": false,
   "moviesFound": 32,
   "moviesDiscarded": 26,
@@ -123,11 +123,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1232569,
-      "title": "Pinocho: Desatado",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1813355,
       "title": "La historia de Derry",
       "reason": "Sin fuente autorizada configurada"
@@ -135,12 +130,17 @@
     {
       "tmdbId": 1571955,
       "title": "Colisión",
-      "reason": "Votos 47 por debajo del mínimo (50)"
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1294189,
       "title": "The Mongoose",
-      "reason": "Votos 12 por debajo del mínimo (50)"
+      "reason": "Votos 14 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 1232569,
+      "title": "Pinocho: Desatado",
+      "reason": "Sin fuente autorizada configurada"
     }
   ]
 }

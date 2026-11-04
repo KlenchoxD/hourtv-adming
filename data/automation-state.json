@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-11-04T01:59:14.739Z",
+  "lastRunAt": "2026-11-04T08:46:23.709Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     791523,
@@ -28,10 +28,10 @@
     354912,
     1368337,
     1514026,
-    1232569,
     1813355,
     1571955,
     1294189,
+    1232569,
     1335666,
     1083381
   ],
@@ -150,11 +150,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1232569,
-      "title": "Pinocho: Desatado",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1813355,
       "title": "La historia de Derry",
       "reason": "Sin fuente autorizada configurada"
@@ -162,12 +157,17 @@
     {
       "tmdbId": 1571955,
       "title": "Colisión",
-      "reason": "Votos 47 por debajo del mínimo (50)"
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1294189,
       "title": "The Mongoose",
-      "reason": "Votos 12 por debajo del mínimo (50)"
+      "reason": "Votos 14 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 1232569,
+      "title": "Pinocho: Desatado",
+      "reason": "Sin fuente autorizada configurada"
     }
   ]
 }
