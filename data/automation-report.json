@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-04T08:46:20.968Z",
-  "durationMs": 2745,
+  "generatedAt": "2026-11-04T16:41:48.686Z",
+  "durationMs": 3067,
   "dryRun": false,
   "moviesFound": 32,
   "moviesDiscarded": 26,
@@ -28,11 +28,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1101412,
-      "title": "Fall 2: Deadpoint",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1657630,
       "title": "El despertar",
       "reason": "Sin sinopsis"
@@ -40,6 +35,11 @@
     {
       "tmdbId": 1283515,
       "title": "Verity. La sombra de un engaño",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1101412,
+      "title": "Fall 2: Deadpoint",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -88,18 +88,18 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1236045,
-      "title": "Animales",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1187326,
-      "title": "Tadeo Jones y La Lámpara Maravillosa",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1377237,
       "title": "Entrega al límite",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1153576,
+      "title": "Street Fighter",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1236045,
+      "title": "Animales",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -133,14 +133,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1294189,
-      "title": "The Mongoose",
-      "reason": "Votos 14 por debajo del mínimo (50)"
-    },
-    {
       "tmdbId": 1232569,
       "title": "Pinocho: Desatado",
       "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1294189,
+      "title": "La mangosta",
+      "reason": "Votos 15 por debajo del mínimo (50)"
     }
   ]
 }
