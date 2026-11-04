@@ -1,14 +1,14 @@
 {
-  "lastRunAt": "2026-11-03T22:00:00.374Z",
+  "lastRunAt": "2026-11-04T01:59:14.739Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     791523,
     1058424,
     969681,
+    1423191,
     1101412,
     1657630,
     1283515,
-    1423191,
     1384216,
     1291595,
     1400940,
@@ -19,8 +19,8 @@
     1288445,
     1503762,
     1400837,
-    1153576,
     1236045,
+    1187326,
     1377237,
     155,
     1507696,
@@ -50,6 +50,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1423191,
+      "title": "Resident Evil",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1101412,
       "title": "Fall 2: Deadpoint",
       "reason": "Sin fuente autorizada configurada"
@@ -62,11 +67,6 @@
     {
       "tmdbId": 1283515,
       "title": "Verity. La sombra de un engaño",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1423191,
-      "title": "Resident Evil",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -115,13 +115,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1153576,
-      "title": "Street Fighter",
+      "tmdbId": 1236045,
+      "title": "Animales",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1236045,
-      "title": "Animales",
+      "tmdbId": 1187326,
+      "title": "Tadeo Jones y La Lámpara Maravillosa",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -162,7 +162,7 @@
     {
       "tmdbId": 1571955,
       "title": "Colisión",
-      "reason": "Votos 45 por debajo del mínimo (50)"
+      "reason": "Votos 47 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1294189,

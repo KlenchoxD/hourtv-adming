@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-03T21:59:57.222Z",
-  "durationMs": 3157,
+  "generatedAt": "2026-11-04T01:59:12.814Z",
+  "durationMs": 1930,
   "dryRun": false,
   "moviesFound": 32,
   "moviesDiscarded": 26,
@@ -23,6 +23,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1423191,
+      "title": "Resident Evil",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1101412,
       "title": "Fall 2: Deadpoint",
       "reason": "Sin fuente autorizada configurada"
@@ -35,11 +40,6 @@
     {
       "tmdbId": 1283515,
       "title": "Verity. La sombra de un engaño",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1423191,
-      "title": "Resident Evil",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -88,13 +88,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1153576,
-      "title": "Street Fighter",
+      "tmdbId": 1236045,
+      "title": "Animales",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1236045,
-      "title": "Animales",
+      "tmdbId": 1187326,
+      "title": "Tadeo Jones y La Lámpara Maravillosa",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -135,7 +135,7 @@
     {
       "tmdbId": 1571955,
       "title": "Colisión",
-      "reason": "Votos 45 por debajo del mínimo (50)"
+      "reason": "Votos 47 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1294189,
