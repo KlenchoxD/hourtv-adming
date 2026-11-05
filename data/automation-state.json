@@ -1,11 +1,11 @@
 {
-  "lastRunAt": "2026-11-04T22:12:17.634Z",
+  "lastRunAt": "2026-11-05T02:26:58.892Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     791523,
     1058424,
-    969681,
     1423191,
+    969681,
     1657630,
     1283515,
     1101412,
@@ -14,8 +14,8 @@
     1400940,
     1204680,
     1148365,
-    1465063,
     1302904,
+    1465063,
     1288445,
     1503762,
     1400837,
@@ -90,13 +90,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1465063,
-      "title": "La isla olvidada",
+      "tmdbId": 1302904,
+      "title": "Prácticamente magia 2",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1302904,
-      "title": "Prácticamente magia 2",
+      "tmdbId": 1465063,
+      "title": "La isla olvidada",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -167,7 +167,7 @@
     {
       "tmdbId": 1294189,
       "title": "La mangosta",
-      "reason": "Votos 15 por debajo del mínimo (50)"
+      "reason": "Votos 26 por debajo del mínimo (50)"
     }
   ]
 }
