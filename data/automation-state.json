@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-11-05T02:26:58.892Z",
+  "lastRunAt": "2026-11-05T09:43:33.221Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     791523,
@@ -167,7 +167,7 @@
     {
       "tmdbId": 1294189,
       "title": "La mangosta",
-      "reason": "Votos 26 por debajo del mínimo (50)"
+      "reason": "Votos 28 por debajo del mínimo (50)"
     }
   ]
 }

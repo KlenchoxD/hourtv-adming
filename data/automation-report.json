@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-05T02:26:55.536Z",
-  "durationMs": 3360,
+  "generatedAt": "2026-11-05T09:43:29.837Z",
+  "durationMs": 3389,
   "dryRun": false,
   "moviesFound": 32,
   "moviesDiscarded": 26,
@@ -140,7 +140,7 @@
     {
       "tmdbId": 1294189,
       "title": "La mangosta",
-      "reason": "Votos 26 por debajo del mínimo (50)"
+      "reason": "Votos 28 por debajo del mínimo (50)"
     }
   ]
 }
