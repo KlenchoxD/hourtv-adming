@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-05T09:43:29.837Z",
-  "durationMs": 3389,
+  "generatedAt": "2026-11-05T17:39:50.490Z",
+  "durationMs": 3294,
   "dryRun": false,
   "moviesFound": 32,
   "moviesDiscarded": 26,
@@ -18,13 +18,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1058424,
-      "title": "Hope",
+      "tmdbId": 1423191,
+      "title": "Resident Evil",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1423191,
-      "title": "Resident Evil",
+      "tmdbId": 1058424,
+      "title": "Hope",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -43,11 +43,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1384216,
-      "title": "La constelación del perro",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1291595,
       "title": "Insidious: Fuera del más allá",
       "reason": "Sin fuente autorizada configurada"
@@ -58,14 +53,19 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1384216,
+      "title": "La constelación del perro",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1148365,
       "title": "Matchbox: La película",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1302904,
-      "title": "Prácticamente magia 2",
-      "reason": "Sin fuente autorizada configurada"
+      "tmdbId": 1381071,
+      "title": "Godzilla Minus Zero",
+      "reason": "Votos 29 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1465063,
@@ -78,8 +78,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1503762,
-      "title": "Sentido y sensibilidad",
+      "tmdbId": 1302904,
+      "title": "Prácticamente magia 2",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -88,18 +88,18 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1377237,
-      "title": "Entrega al límite",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1153576,
       "title": "Street Fighter",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1236045,
-      "title": "Animales",
+      "tmdbId": 1244523,
+      "title": "Boiuna: La leyenda del Amazonas",
+      "reason": "Votos 34 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 1377237,
+      "title": "Entrega al límite",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -118,13 +118,18 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1514026,
-      "title": "Buddy",
+      "tmdbId": 1813355,
+      "title": "La historia de Derry",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1813355,
-      "title": "La historia de Derry",
+      "tmdbId": 1294189,
+      "title": "La mangosta",
+      "reason": "Votos 32 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 1514026,
+      "title": "Buddy",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -136,11 +141,6 @@
       "tmdbId": 1232569,
       "title": "Pinocho: Desatado",
       "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1294189,
-      "title": "La mangosta",
-      "reason": "Votos 28 por debajo del mínimo (50)"
     }
   ]
 }
