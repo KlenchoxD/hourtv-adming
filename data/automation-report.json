@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-11-05T17:39:50.490Z",
-  "durationMs": 3294,
+  "generatedAt": "2026-11-05T22:50:56.409Z",
+  "durationMs": 2401,
   "dryRun": false,
-  "moviesFound": 32,
-  "moviesDiscarded": 26,
+  "moviesFound": 34,
+  "moviesDiscarded": 28,
   "moviesAdded": 0,
   "moviesEnriched": 0,
   "duplicates": 6,
@@ -65,7 +65,7 @@
     {
       "tmdbId": 1381071,
       "title": "Godzilla Minus Zero",
-      "reason": "Votos 29 por debajo del mínimo (50)"
+      "reason": "Votos 34 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1465063,
@@ -108,13 +108,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1596275,
-      "title": "Drive: Los farsantes",
+      "tmdbId": 354912,
+      "title": "Coco",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 354912,
-      "title": "Coco",
+      "tmdbId": 1596275,
+      "title": "Drive: Los farsantes",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -125,7 +125,7 @@
     {
       "tmdbId": 1294189,
       "title": "La mangosta",
-      "reason": "Votos 32 por debajo del mínimo (50)"
+      "reason": "Votos 35 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1514026,
@@ -140,6 +140,16 @@
     {
       "tmdbId": 1232569,
       "title": "Pinocho: Desatado",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1422041,
+      "title": "La bola negra",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1375441,
+      "title": "Primetime",
       "reason": "Sin fuente autorizada configurada"
     }
   ]

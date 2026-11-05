@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-11-05T17:39:53.779Z",
+  "lastRunAt": "2026-11-05T22:50:58.805Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     791523,
@@ -24,14 +24,16 @@
     1377237,
     155,
     1507696,
-    1596275,
     354912,
+    1596275,
     1813355,
     1294189,
     1368337,
     1514026,
     1571955,
     1232569,
+    1422041,
+    1375441,
     1335666,
     1083381
   ],
@@ -92,7 +94,7 @@
     {
       "tmdbId": 1381071,
       "title": "Godzilla Minus Zero",
-      "reason": "Votos 29 por debajo del mínimo (50)"
+      "reason": "Votos 34 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1465063,
@@ -135,13 +137,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1596275,
-      "title": "Drive: Los farsantes",
+      "tmdbId": 354912,
+      "title": "Coco",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 354912,
-      "title": "Coco",
+      "tmdbId": 1596275,
+      "title": "Drive: Los farsantes",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -152,7 +154,7 @@
     {
       "tmdbId": 1294189,
       "title": "La mangosta",
-      "reason": "Votos 32 por debajo del mínimo (50)"
+      "reason": "Votos 35 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1514026,
@@ -167,6 +169,16 @@
     {
       "tmdbId": 1232569,
       "title": "Pinocho: Desatado",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1422041,
+      "title": "La bola negra",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1375441,
+      "title": "Primetime",
       "reason": "Sin fuente autorizada configurada"
     }
   ]
