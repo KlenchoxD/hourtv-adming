@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-11-06T17:40:24.460Z",
-  "durationMs": 2049,
+  "generatedAt": "2026-11-06T22:22:49.302Z",
+  "durationMs": 1713,
   "dryRun": false,
-  "moviesFound": 34,
-  "moviesDiscarded": 28,
+  "moviesFound": 35,
+  "moviesDiscarded": 29,
   "moviesAdded": 0,
   "moviesEnriched": 0,
   "duplicates": 6,
@@ -50,7 +50,7 @@
     {
       "tmdbId": 1381071,
       "title": "Godzilla Minus Zero",
-      "reason": "Votos 42 por debajo del mínimo (50)"
+      "reason": "Votos 48 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1400940,
@@ -70,7 +70,7 @@
     {
       "tmdbId": 1244523,
       "title": "Boiuna: La leyenda del Amazonas",
-      "reason": "Votos 35 por debajo del mínimo (50)"
+      "reason": "Votos 36 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1288445,
@@ -113,13 +113,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 354912,
-      "title": "Coco",
+      "tmdbId": 11308,
+      "title": "El Hotel New Hampshire",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1596275,
-      "title": "Drive: Los farsantes",
+      "tmdbId": 354912,
+      "title": "Coco",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -133,8 +133,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1514026,
-      "title": "Buddy",
+      "tmdbId": 1596275,
+      "title": "Drive: Los farsantes",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -143,13 +143,18 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1232569,
-      "title": "Pinocho: Desatado",
+      "tmdbId": 1514026,
+      "title": "Buddy",
       "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1422041,
       "title": "La bola negra",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1232569,
+      "title": "Pinocho: Desatado",
       "reason": "Sin fuente autorizada configurada"
     }
   ]
