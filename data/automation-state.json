@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-11-06T02:59:47.358Z",
+  "lastRunAt": "2026-11-06T10:36:04.250Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     791523,
@@ -12,17 +12,18 @@
     1291595,
     1400940,
     1384216,
+    1381071,
     1148365,
     1204680,
-    1381071,
     1465063,
     1288445,
     1302904,
     1400837,
     1153576,
     1244523,
-    1377237,
+    1236045,
     155,
+    687163,
     1507696,
     354912,
     1596275,
@@ -33,7 +34,6 @@
     1571955,
     1232569,
     1422041,
-    1375441,
     1335666,
     1083381
   ],
@@ -87,14 +87,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1381071,
+      "title": "Godzilla Minus Zero",
+      "reason": "Votos 41 por debajo del mínimo (50)"
+    },
+    {
       "tmdbId": 1148365,
       "title": "Matchbox: La película",
       "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1381071,
-      "title": "Godzilla Minus Zero",
-      "reason": "Votos 37 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1465063,
@@ -127,8 +127,13 @@
       "reason": "Votos 34 por debajo del mínimo (50)"
     },
     {
-      "tmdbId": 1377237,
-      "title": "Entrega al límite",
+      "tmdbId": 1236045,
+      "title": "Animales",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 687163,
+      "title": "Proyecto Salvación",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -154,7 +159,7 @@
     {
       "tmdbId": 1294189,
       "title": "La mangosta",
-      "reason": "Votos 47 por debajo del mínimo (50)"
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1514026,
@@ -174,11 +179,6 @@
     {
       "tmdbId": 1422041,
       "title": "La bola negra",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1375441,
-      "title": "Primetime",
       "reason": "Sin fuente autorizada configurada"
     }
   ]

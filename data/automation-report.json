@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-06T02:59:43.956Z",
-  "durationMs": 3407,
+  "generatedAt": "2026-11-06T10:36:01.181Z",
+  "durationMs": 3074,
   "dryRun": false,
   "moviesFound": 34,
   "moviesDiscarded": 28,
@@ -58,14 +58,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1381071,
+      "title": "Godzilla Minus Zero",
+      "reason": "Votos 41 por debajo del mínimo (50)"
+    },
+    {
       "tmdbId": 1148365,
       "title": "Matchbox: La película",
       "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1381071,
-      "title": "Godzilla Minus Zero",
-      "reason": "Votos 37 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1465063,
@@ -98,8 +98,13 @@
       "reason": "Votos 34 por debajo del mínimo (50)"
     },
     {
-      "tmdbId": 1377237,
-      "title": "Entrega al límite",
+      "tmdbId": 1236045,
+      "title": "Animales",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 687163,
+      "title": "Proyecto Salvación",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -125,7 +130,7 @@
     {
       "tmdbId": 1294189,
       "title": "La mangosta",
-      "reason": "Votos 47 por debajo del mínimo (50)"
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1514026,
@@ -145,11 +150,6 @@
     {
       "tmdbId": 1422041,
       "title": "La bola negra",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1375441,
-      "title": "Primetime",
       "reason": "Sin fuente autorizada configurada"
     }
   ]
