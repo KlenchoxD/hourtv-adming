@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-05T22:50:56.409Z",
-  "durationMs": 2401,
+  "generatedAt": "2026-11-06T02:59:43.956Z",
+  "durationMs": 3407,
   "dryRun": false,
   "moviesFound": 34,
   "moviesDiscarded": 28,
@@ -65,7 +65,7 @@
     {
       "tmdbId": 1381071,
       "title": "Godzilla Minus Zero",
-      "reason": "Votos 34 por debajo del mínimo (50)"
+      "reason": "Votos 37 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1465063,
@@ -125,7 +125,7 @@
     {
       "tmdbId": 1294189,
       "title": "La mangosta",
-      "reason": "Votos 35 por debajo del mínimo (50)"
+      "reason": "Votos 47 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1514026,
