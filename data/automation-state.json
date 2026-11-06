@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-11-06T10:36:04.250Z",
+  "lastRunAt": "2026-11-06T17:40:26.504Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     791523,
@@ -10,18 +10,18 @@
     1283515,
     1101412,
     1291595,
+    1381071,
     1400940,
     1384216,
-    1381071,
     1148365,
     1204680,
-    1465063,
+    1244523,
     1288445,
+    1465063,
     1302904,
     1400837,
     1153576,
-    1244523,
-    1236045,
+    1503762,
     155,
     687163,
     1507696,
@@ -77,6 +77,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1381071,
+      "title": "Godzilla Minus Zero",
+      "reason": "Votos 42 por debajo del mínimo (50)"
+    },
+    {
       "tmdbId": 1400940,
       "title": "Clayface",
       "reason": "Sin fuente autorizada configurada"
@@ -87,23 +92,23 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1381071,
-      "title": "Godzilla Minus Zero",
-      "reason": "Votos 41 por debajo del mínimo (50)"
-    },
-    {
       "tmdbId": 1148365,
       "title": "Matchbox: La película",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1465063,
-      "title": "La isla olvidada",
-      "reason": "Sin fuente autorizada configurada"
+      "tmdbId": 1244523,
+      "title": "Boiuna: La leyenda del Amazonas",
+      "reason": "Votos 35 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1288445,
       "title": "El motín",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1465063,
+      "title": "La isla olvidada",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -122,13 +127,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1244523,
-      "title": "Boiuna: La leyenda del Amazonas",
-      "reason": "Votos 34 por debajo del mínimo (50)"
-    },
-    {
-      "tmdbId": 1236045,
-      "title": "Animales",
+      "tmdbId": 1503762,
+      "title": "Sentido y sensibilidad",
       "reason": "Sin fuente autorizada configurada"
     },
     {
