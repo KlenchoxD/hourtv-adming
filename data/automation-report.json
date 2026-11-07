@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-11-07T02:07:16.603Z",
-  "durationMs": 2720,
+  "generatedAt": "2026-11-07T08:43:09.510Z",
+  "durationMs": 2536,
   "dryRun": false,
-  "moviesFound": 35,
-  "moviesDiscarded": 29,
+  "moviesFound": 34,
+  "moviesDiscarded": 28,
   "moviesAdded": 0,
   "moviesEnriched": 0,
   "duplicates": 6,
@@ -50,7 +50,7 @@
     {
       "tmdbId": 1381071,
       "title": "Godzilla Minus Zero",
-      "reason": "Votos 48 por debajo del mínimo (50)"
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1400940,
@@ -70,7 +70,7 @@
     {
       "tmdbId": 1244523,
       "title": "Boiuna: La leyenda del Amazonas",
-      "reason": "Votos 36 por debajo del mínimo (50)"
+      "reason": "Votos 39 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1288445,
@@ -128,6 +128,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1263337,
+      "title": "En el corazón de la bestia",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1294189,
       "title": "La mangosta",
       "reason": "Sin fuente autorizada configurada"
@@ -145,16 +150,6 @@
     {
       "tmdbId": 1514026,
       "title": "Buddy",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1422041,
-      "title": "La bola negra",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1232569,
-      "title": "Pinocho: Desatado",
       "reason": "Sin fuente autorizada configurada"
     }
   ]
