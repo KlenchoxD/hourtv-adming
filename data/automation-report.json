@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-11-07T08:43:09.510Z",
-  "durationMs": 2536,
+  "generatedAt": "2026-11-07T15:10:32.078Z",
+  "durationMs": 2295,
   "dryRun": false,
-  "moviesFound": 34,
-  "moviesDiscarded": 28,
+  "moviesFound": 33,
+  "moviesDiscarded": 27,
   "moviesAdded": 0,
   "moviesEnriched": 0,
   "duplicates": 6,
@@ -13,18 +13,23 @@
   "addedTitles": [],
   "skipped": [
     {
-      "tmdbId": 791523,
-      "title": "Wildwood: El Bosque Salvaje",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1423191,
       "title": "Resident Evil",
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 791523,
+      "title": "Wildwood: El Bosque Salvaje",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1058424,
       "title": "Hope",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1263337,
+      "title": "En el corazón de la bestia",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -43,13 +48,18 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1291595,
-      "title": "Insidious: Fuera del más allá",
+      "tmdbId": 1381071,
+      "title": "Godzilla Minus Zero",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1381071,
-      "title": "Godzilla Minus Zero",
+      "tmdbId": 1244523,
+      "title": "Boiuna: La leyenda del Amazonas",
+      "reason": "Votos 42 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 1291595,
+      "title": "Insidious: Fuera del más allá",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -66,11 +76,6 @@
       "tmdbId": 1148365,
       "title": "Matchbox: La película",
       "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1244523,
-      "title": "Boiuna: La leyenda del Amazonas",
-      "reason": "Votos 39 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1288445,
@@ -98,11 +103,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1503762,
-      "title": "Sentido y sensibilidad",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 687163,
       "title": "Proyecto Salvación",
       "reason": "Sin fuente autorizada configurada"
@@ -118,18 +118,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 354912,
-      "title": "Coco",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1813355,
       "title": "La historia de Derry",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1263337,
-      "title": "En el corazón de la bestia",
+      "tmdbId": 354912,
+      "title": "Coco",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -143,13 +138,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1571955,
-      "title": "Colisión",
+      "tmdbId": 1514026,
+      "title": "Buddy",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1514026,
-      "title": "Buddy",
+      "tmdbId": 1571955,
+      "title": "Colisión",
       "reason": "Sin fuente autorizada configurada"
     }
   ]
