@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-08T19:57:24.906Z",
-  "durationMs": 3292,
+  "generatedAt": "2026-11-08T23:25:01.811Z",
+  "durationMs": 2403,
   "dryRun": false,
   "moviesFound": 33,
   "moviesDiscarded": 27,
@@ -145,7 +145,7 @@
     {
       "tmdbId": 656908,
       "title": "Ramayana: El Nacimiento de una Leyenda",
-      "reason": "Votos 20 por debajo del mínimo (50)"
+      "reason": "Votos 21 por debajo del mínimo (50)"
     }
   ]
 }

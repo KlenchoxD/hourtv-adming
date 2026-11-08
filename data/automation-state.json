@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-11-08T19:57:28.193Z",
+  "lastRunAt": "2026-11-08T23:25:04.210Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     1423191,
@@ -173,7 +173,7 @@
     {
       "tmdbId": 656908,
       "title": "Ramayana: El Nacimiento de una Leyenda",
-      "reason": "Votos 20 por debajo del mínimo (50)"
+      "reason": "Votos 21 por debajo del mínimo (50)"
     }
   ]
 }
