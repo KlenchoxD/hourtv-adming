@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-08T01:57:45.887Z",
-  "durationMs": 3682,
+  "generatedAt": "2026-11-08T08:37:50.171Z",
+  "durationMs": 3134,
   "dryRun": false,
   "moviesFound": 33,
   "moviesDiscarded": 27,
@@ -138,13 +138,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1514026,
-      "title": "Buddy",
+      "tmdbId": 1422041,
+      "title": "La bola negra",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1571955,
-      "title": "Colisión",
+      "tmdbId": 1514026,
+      "title": "Buddy",
       "reason": "Sin fuente autorizada configurada"
     }
   ]

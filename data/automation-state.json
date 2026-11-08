@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-11-08T01:57:49.566Z",
+  "lastRunAt": "2026-11-08T08:37:53.300Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     1423191,
@@ -26,13 +26,13 @@
     155,
     1507696,
     11308,
+    1368337,
     1813355,
     354912,
     1294189,
-    1368337,
     1596275,
+    1422041,
     1514026,
-    1571955,
     1335666,
     1083381
   ],
@@ -166,13 +166,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1514026,
-      "title": "Buddy",
+      "tmdbId": 1422041,
+      "title": "La bola negra",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1571955,
-      "title": "Colisión",
+      "tmdbId": 1514026,
+      "title": "Buddy",
       "reason": "Sin fuente autorizada configurada"
     }
   ]
