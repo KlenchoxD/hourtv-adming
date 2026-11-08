@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-08T15:34:58.938Z",
-  "durationMs": 2616,
+  "generatedAt": "2026-11-08T19:57:24.906Z",
+  "durationMs": 3292,
   "dryRun": false,
   "moviesFound": 33,
   "moviesDiscarded": 27,
@@ -55,7 +55,7 @@
     {
       "tmdbId": 1244523,
       "title": "Boiuna: La leyenda del Amazonas",
-      "reason": "Votos 42 por debajo del mínimo (50)"
+      "reason": "Votos 44 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1291595,
