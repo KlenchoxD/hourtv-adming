@@ -1,15 +1,15 @@
 {
-  "lastRunAt": "2026-11-09T02:50:42.777Z",
+  "lastRunAt": "2026-11-09T10:42:05.795Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     1423191,
     1263337,
     1058424,
     969681,
-    791523,
     1381071,
     1283515,
     1657630,
+    791523,
     1101412,
     1244523,
     1291595,
@@ -21,7 +21,7 @@
     1465063,
     1400837,
     1302904,
-    1117898,
+    891621,
     687163,
     155,
     1507696,
@@ -31,8 +31,8 @@
     354912,
     1294189,
     1596275,
-    1422041,
     656908,
+    1422041,
     1335666,
     1083381
   ],
@@ -56,11 +56,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 791523,
-      "title": "Wildwood: El Bosque Salvaje",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1381071,
       "title": "Godzilla Minus Zero",
       "reason": "Sin fuente autorizada configurada"
@@ -74,6 +69,11 @@
       "tmdbId": 1657630,
       "title": "El despertar",
       "reason": "Sin sinopsis"
+    },
+    {
+      "tmdbId": 791523,
+      "title": "Wildwood: El Bosque Salvaje",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1101412,
@@ -126,9 +126,9 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1117898,
-      "title": "El gato con sombrero",
-      "reason": "Votos 15 por debajo del mínimo (50)"
+      "tmdbId": 891621,
+      "title": "Wild Horse Nine",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 687163,
@@ -166,14 +166,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 656908,
+      "title": "Ramayana: El Nacimiento de una Leyenda",
+      "reason": "Votos 22 por debajo del mínimo (50)"
+    },
+    {
       "tmdbId": 1422041,
       "title": "La bola negra",
       "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 656908,
-      "title": "Ramayana: El Nacimiento de una Leyenda",
-      "reason": "Votos 21 por debajo del mínimo (50)"
     }
   ]
 }

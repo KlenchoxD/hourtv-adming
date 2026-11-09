@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-09T02:50:39.363Z",
-  "durationMs": 3419,
+  "generatedAt": "2026-11-09T10:42:03.360Z",
+  "durationMs": 2440,
   "dryRun": false,
   "moviesFound": 33,
   "moviesDiscarded": 27,
@@ -28,11 +28,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 791523,
-      "title": "Wildwood: El Bosque Salvaje",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1381071,
       "title": "Godzilla Minus Zero",
       "reason": "Sin fuente autorizada configurada"
@@ -46,6 +41,11 @@
       "tmdbId": 1657630,
       "title": "El despertar",
       "reason": "Sin sinopsis"
+    },
+    {
+      "tmdbId": 791523,
+      "title": "Wildwood: El Bosque Salvaje",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1101412,
@@ -98,9 +98,9 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1117898,
-      "title": "El gato con sombrero",
-      "reason": "Votos 15 por debajo del mínimo (50)"
+      "tmdbId": 891621,
+      "title": "Wild Horse Nine",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 687163,
@@ -138,14 +138,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 656908,
+      "title": "Ramayana: El Nacimiento de una Leyenda",
+      "reason": "Votos 22 por debajo del mínimo (50)"
+    },
+    {
       "tmdbId": 1422041,
       "title": "La bola negra",
       "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 656908,
-      "title": "Ramayana: El Nacimiento de una Leyenda",
-      "reason": "Votos 21 por debajo del mínimo (50)"
     }
   ]
 }
