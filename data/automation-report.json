@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-11-09T10:42:03.360Z",
-  "durationMs": 2440,
+  "generatedAt": "2026-11-09T21:05:19.196Z",
+  "durationMs": 3658,
   "dryRun": false,
-  "moviesFound": 33,
-  "moviesDiscarded": 27,
+  "moviesFound": 32,
+  "moviesDiscarded": 26,
   "moviesAdded": 0,
   "moviesEnriched": 0,
   "duplicates": 6,
@@ -43,13 +43,13 @@
       "reason": "Sin sinopsis"
     },
     {
-      "tmdbId": 791523,
-      "title": "Wildwood: El Bosque Salvaje",
+      "tmdbId": 1101412,
+      "title": "Fall 2: Deadpoint",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1101412,
-      "title": "Fall 2: Deadpoint",
+      "tmdbId": 791523,
+      "title": "Wildwood: El Bosque Salvaje",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -88,8 +88,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1400837,
-      "title": "La otra madre",
+      "tmdbId": 891621,
+      "title": "Wild Horse Nine",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -98,8 +98,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 891621,
-      "title": "Wild Horse Nine",
+      "tmdbId": 1400837,
+      "title": "La otra madre",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -141,11 +141,6 @@
       "tmdbId": 656908,
       "title": "Ramayana: El Nacimiento de una Leyenda",
       "reason": "Votos 22 por debajo del mínimo (50)"
-    },
-    {
-      "tmdbId": 1422041,
-      "title": "La bola negra",
-      "reason": "Sin fuente autorizada configurada"
     }
   ]
 }
