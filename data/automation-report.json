@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-08T23:25:01.811Z",
-  "durationMs": 2403,
+  "generatedAt": "2026-11-09T02:50:39.363Z",
+  "durationMs": 3419,
   "dryRun": false,
   "moviesFound": 33,
   "moviesDiscarded": 27,
@@ -18,6 +18,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1263337,
+      "title": "En el corazón de la bestia",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1058424,
       "title": "Hope",
       "reason": "Sin fuente autorizada configurada"
@@ -25,11 +30,6 @@
     {
       "tmdbId": 791523,
       "title": "Wildwood: El Bosque Salvaje",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1263337,
-      "title": "En el corazón de la bestia",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -55,7 +55,7 @@
     {
       "tmdbId": 1244523,
       "title": "Boiuna: La leyenda del Amazonas",
-      "reason": "Votos 44 por debajo del mínimo (50)"
+      "reason": "Votos 46 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1291595,
@@ -98,9 +98,9 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1153576,
-      "title": "Street Fighter",
-      "reason": "Sin fuente autorizada configurada"
+      "tmdbId": 1117898,
+      "title": "El gato con sombrero",
+      "reason": "Votos 15 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 687163,

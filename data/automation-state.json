@@ -1,12 +1,12 @@
 {
-  "lastRunAt": "2026-11-08T23:25:04.210Z",
+  "lastRunAt": "2026-11-09T02:50:42.777Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     1423191,
+    1263337,
     1058424,
     969681,
     791523,
-    1263337,
     1381071,
     1283515,
     1657630,
@@ -21,7 +21,7 @@
     1465063,
     1400837,
     1302904,
-    1153576,
+    1117898,
     687163,
     155,
     1507696,
@@ -46,6 +46,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1263337,
+      "title": "En el corazón de la bestia",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1058424,
       "title": "Hope",
       "reason": "Sin fuente autorizada configurada"
@@ -53,11 +58,6 @@
     {
       "tmdbId": 791523,
       "title": "Wildwood: El Bosque Salvaje",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1263337,
-      "title": "En el corazón de la bestia",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -83,7 +83,7 @@
     {
       "tmdbId": 1244523,
       "title": "Boiuna: La leyenda del Amazonas",
-      "reason": "Votos 44 por debajo del mínimo (50)"
+      "reason": "Votos 46 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1291595,
@@ -126,9 +126,9 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1153576,
-      "title": "Street Fighter",
-      "reason": "Sin fuente autorizada configurada"
+      "tmdbId": 1117898,
+      "title": "El gato con sombrero",
+      "reason": "Votos 15 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 687163,
