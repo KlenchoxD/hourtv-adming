@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-11-10T03:31:31.630Z",
+  "lastRunAt": "2026-11-10T11:46:18.774Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     1423191,
@@ -11,15 +11,15 @@
     1657630,
     1101412,
     1244523,
-    1291595,
     791523,
+    1291595,
     1148365,
     1400940,
     1288445,
     1384216,
-    1465063,
     1204680,
     891621,
+    1465063,
     1117898,
     1302904,
     687163,
@@ -30,8 +30,8 @@
     11308,
     354912,
     1294189,
-    1596275,
     656908,
+    1596275,
     1422041,
     1335666,
     1083381
@@ -78,16 +78,16 @@
     {
       "tmdbId": 1244523,
       "title": "Boiuna: La leyenda del Amazonas",
-      "reason": "Votos 46 por debajo del mínimo (50)"
-    },
-    {
-      "tmdbId": 1291595,
-      "title": "Insidious: Fuera del más allá",
-      "reason": "Sin fuente autorizada configurada"
+      "reason": "Votos 47 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 791523,
       "title": "Wildwood: El Bosque Salvaje",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1291595,
+      "title": "Insidious: Fuera del más allá",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -111,13 +111,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1465063,
-      "title": "La isla olvidada",
+      "tmdbId": 891621,
+      "title": "Wild Horse Nine",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 891621,
-      "title": "Wild Horse Nine",
+      "tmdbId": 1465063,
+      "title": "La isla olvidada",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -161,14 +161,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 656908,
+      "title": "Ramayana: El Nacimiento de una Leyenda",
+      "reason": "Votos 28 por debajo del mínimo (50)"
+    },
+    {
       "tmdbId": 1596275,
       "title": "Drive: Los farsantes",
       "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 656908,
-      "title": "Ramayana: El Nacimiento de una Leyenda",
-      "reason": "Votos 27 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1422041,

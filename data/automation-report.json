@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-10T03:31:29.443Z",
-  "durationMs": 2192,
+  "generatedAt": "2026-11-10T11:46:16.156Z",
+  "durationMs": 2622,
   "dryRun": false,
   "moviesFound": 33,
   "moviesDiscarded": 27,
@@ -50,16 +50,16 @@
     {
       "tmdbId": 1244523,
       "title": "Boiuna: La leyenda del Amazonas",
-      "reason": "Votos 46 por debajo del mínimo (50)"
-    },
-    {
-      "tmdbId": 1291595,
-      "title": "Insidious: Fuera del más allá",
-      "reason": "Sin fuente autorizada configurada"
+      "reason": "Votos 47 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 791523,
       "title": "Wildwood: El Bosque Salvaje",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1291595,
+      "title": "Insidious: Fuera del más allá",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -83,13 +83,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1465063,
-      "title": "La isla olvidada",
+      "tmdbId": 891621,
+      "title": "Wild Horse Nine",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 891621,
-      "title": "Wild Horse Nine",
+      "tmdbId": 1465063,
+      "title": "La isla olvidada",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -133,14 +133,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 656908,
+      "title": "Ramayana: El Nacimiento de una Leyenda",
+      "reason": "Votos 28 por debajo del mínimo (50)"
+    },
+    {
       "tmdbId": 1596275,
       "title": "Drive: Los farsantes",
       "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 656908,
-      "title": "Ramayana: El Nacimiento de una Leyenda",
-      "reason": "Votos 27 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1422041,
