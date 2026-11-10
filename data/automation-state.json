@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-11-09T21:05:22.850Z",
+  "lastRunAt": "2026-11-10T03:31:31.630Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     1423191,
@@ -10,18 +10,18 @@
     1283515,
     1657630,
     1101412,
-    791523,
     1244523,
     1291595,
-    1400940,
+    791523,
     1148365,
+    1400940,
     1288445,
     1384216,
     1465063,
     1204680,
     891621,
+    1117898,
     1302904,
-    1400837,
     687163,
     155,
     1368337,
@@ -32,6 +32,7 @@
     1294189,
     1596275,
     656908,
+    1422041,
     1335666,
     1083381
   ],
@@ -75,11 +76,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 791523,
-      "title": "Wildwood: El Bosque Salvaje",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1244523,
       "title": "Boiuna: La leyenda del Amazonas",
       "reason": "Votos 46 por debajo del mínimo (50)"
@@ -90,13 +86,18 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1400940,
-      "title": "Clayface",
+      "tmdbId": 791523,
+      "title": "Wildwood: El Bosque Salvaje",
       "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1148365,
       "title": "Matchbox: La película",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1400940,
+      "title": "Clayface",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -120,13 +121,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1302904,
-      "title": "Prácticamente magia 2",
-      "reason": "Sin fuente autorizada configurada"
+      "tmdbId": 1117898,
+      "title": "El gato con sombrero",
+      "reason": "Votos 18 por debajo del mínimo (50)"
     },
     {
-      "tmdbId": 1400837,
-      "title": "La otra madre",
+      "tmdbId": 1302904,
+      "title": "Prácticamente magia 2",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -167,7 +168,12 @@
     {
       "tmdbId": 656908,
       "title": "Ramayana: El Nacimiento de una Leyenda",
-      "reason": "Votos 22 por debajo del mínimo (50)"
+      "reason": "Votos 27 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 1422041,
+      "title": "La bola negra",
+      "reason": "Sin fuente autorizada configurada"
     }
   ]
 }
