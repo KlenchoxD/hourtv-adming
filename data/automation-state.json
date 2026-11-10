@@ -1,27 +1,27 @@
 {
-  "lastRunAt": "2026-11-10T11:46:18.774Z",
+  "lastRunAt": "2026-11-10T19:07:29.290Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     1423191,
     1263337,
-    1058424,
     969681,
+    1058424,
     1381071,
     1283515,
+    1244523,
     1657630,
     1101412,
-    1244523,
     791523,
     1291595,
-    1148365,
     1400940,
+    1148365,
     1288445,
-    1384216,
-    1204680,
     891621,
+    1384216,
     1465063,
+    1204680,
     1117898,
-    1302904,
+    1400837,
     687163,
     155,
     1368337,
@@ -31,8 +31,8 @@
     354912,
     1294189,
     656908,
-    1596275,
     1422041,
+    1596275,
     1335666,
     1083381
   ],
@@ -66,6 +66,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1244523,
+      "title": "Boiuna: La leyenda del Amazonas",
+      "reason": "Votos 48 por debajo del mínimo (50)"
+    },
+    {
       "tmdbId": 1657630,
       "title": "El despertar",
       "reason": "Sin sinopsis"
@@ -74,11 +79,6 @@
       "tmdbId": 1101412,
       "title": "Fall 2: Deadpoint",
       "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1244523,
-      "title": "Boiuna: La leyenda del Amazonas",
-      "reason": "Votos 47 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 791523,
@@ -91,13 +91,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1148365,
-      "title": "Matchbox: La película",
+      "tmdbId": 1400940,
+      "title": "Clayface",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1400940,
-      "title": "Clayface",
+      "tmdbId": 1148365,
+      "title": "Matchbox: La película",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -106,13 +106,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1384216,
-      "title": "La constelación del perro",
+      "tmdbId": 891621,
+      "title": "Wild Horse Nine",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 891621,
-      "title": "Wild Horse Nine",
+      "tmdbId": 1384216,
+      "title": "La constelación del perro",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -126,8 +126,8 @@
       "reason": "Votos 18 por debajo del mínimo (50)"
     },
     {
-      "tmdbId": 1302904,
-      "title": "Prácticamente magia 2",
+      "tmdbId": 1400837,
+      "title": "La otra madre",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -163,16 +163,16 @@
     {
       "tmdbId": 656908,
       "title": "Ramayana: El Nacimiento de una Leyenda",
-      "reason": "Votos 28 por debajo del mínimo (50)"
-    },
-    {
-      "tmdbId": 1596275,
-      "title": "Drive: Los farsantes",
-      "reason": "Sin fuente autorizada configurada"
+      "reason": "Votos 30 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1422041,
       "title": "La bola negra",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1596275,
+      "title": "Drive: Los farsantes",
       "reason": "Sin fuente autorizada configurada"
     }
   ]
