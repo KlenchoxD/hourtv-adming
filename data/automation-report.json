@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-10T19:07:26.068Z",
-  "durationMs": 3225,
+  "generatedAt": "2026-11-11T00:01:27.592Z",
+  "durationMs": 2423,
   "dryRun": false,
   "moviesFound": 33,
   "moviesDiscarded": 27,
@@ -40,7 +40,7 @@
     {
       "tmdbId": 1244523,
       "title": "Boiuna: La leyenda del Amazonas",
-      "reason": "Votos 48 por debajo del mínimo (50)"
+      "reason": "Votos 49 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1657630,
@@ -95,7 +95,7 @@
     {
       "tmdbId": 1117898,
       "title": "El gato con sombrero",
-      "reason": "Votos 18 por debajo del mínimo (50)"
+      "reason": "Votos 19 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1400837,
@@ -135,7 +135,7 @@
     {
       "tmdbId": 656908,
       "title": "Ramayana: El Nacimiento de una Leyenda",
-      "reason": "Votos 30 por debajo del mínimo (50)"
+      "reason": "Votos 31 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1422041,
