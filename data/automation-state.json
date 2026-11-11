@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-11-11T14:12:28.930Z",
+  "lastRunAt": "2026-11-11T21:24:49.316Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     1423191,
@@ -10,18 +10,18 @@
     1283515,
     1244523,
     1400837,
-    1101412,
     1422041,
     1657630,
+    1101412,
     791523,
-    1291595,
     1400940,
-    1148365,
+    1291595,
     1288445,
     891621,
-    1384216,
+    1148365,
     1465063,
-    1204680,
+    1384216,
+    1117898,
     687163,
     155,
     1368337,
@@ -29,8 +29,8 @@
     1813355,
     11308,
     354912,
-    1294189,
     656908,
+    1294189,
     1596275,
     1335666,
     1083381
@@ -67,16 +67,11 @@
     {
       "tmdbId": 1244523,
       "title": "Boiuna: La leyenda del Amazonas",
-      "reason": "Votos 49 por debajo del mínimo (50)"
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1400837,
       "title": "La otra madre",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1101412,
-      "title": "Fall 2: Deadpoint",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -90,13 +85,13 @@
       "reason": "Sin sinopsis"
     },
     {
-      "tmdbId": 791523,
-      "title": "Wildwood: El Bosque Salvaje",
+      "tmdbId": 1101412,
+      "title": "Fall 2: Deadpoint",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1291595,
-      "title": "Insidious: Fuera del más allá",
+      "tmdbId": 791523,
+      "title": "Wildwood: El Bosque Salvaje",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -105,8 +100,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1148365,
-      "title": "Matchbox: La película",
+      "tmdbId": 1291595,
+      "title": "Insidious: Fuera del más allá",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -120,14 +115,24 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1384216,
-      "title": "La constelación del perro",
+      "tmdbId": 1148365,
+      "title": "Matchbox: La película",
       "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1465063,
       "title": "La isla olvidada",
       "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1384216,
+      "title": "La constelación del perro",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1117898,
+      "title": "El gato con sombrero",
+      "reason": "Votos 21 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 687163,
@@ -155,14 +160,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 656908,
+      "title": "Ramayana: El Nacimiento de una Leyenda",
+      "reason": "Votos 34 por debajo del mínimo (50)"
+    },
+    {
       "tmdbId": 1294189,
       "title": "La mangosta",
       "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 656908,
-      "title": "Ramayana: El Nacimiento de una Leyenda",
-      "reason": "Votos 33 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1596275,
