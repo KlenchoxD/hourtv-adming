@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-11-11T06:06:14.176Z",
-  "durationMs": 2511,
+  "generatedAt": "2026-11-11T14:12:26.232Z",
+  "durationMs": 2701,
   "dryRun": false,
-  "moviesFound": 33,
-  "moviesDiscarded": 27,
+  "moviesFound": 32,
+  "moviesDiscarded": 26,
   "moviesAdded": 0,
   "moviesEnriched": 0,
   "duplicates": 6,
@@ -53,6 +53,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1422041,
+      "title": "La bola negra",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1657630,
       "title": "El despertar",
       "reason": "Sin sinopsis"
@@ -98,11 +103,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1117898,
-      "title": "El gato con sombrero",
-      "reason": "Votos 19 por debajo del mínimo (50)"
-    },
-    {
       "tmdbId": 687163,
       "title": "Proyecto Salvación",
       "reason": "Sin fuente autorizada configurada"
@@ -135,12 +135,7 @@
     {
       "tmdbId": 656908,
       "title": "Ramayana: El Nacimiento de una Leyenda",
-      "reason": "Votos 31 por debajo del mínimo (50)"
-    },
-    {
-      "tmdbId": 1422041,
-      "title": "La bola negra",
-      "reason": "Sin fuente autorizada configurada"
+      "reason": "Votos 33 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1596275,

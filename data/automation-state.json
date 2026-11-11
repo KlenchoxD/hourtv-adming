@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-11-11T06:06:16.684Z",
+  "lastRunAt": "2026-11-11T14:12:28.930Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     1423191,
@@ -11,6 +11,7 @@
     1244523,
     1400837,
     1101412,
+    1422041,
     1657630,
     791523,
     1291595,
@@ -21,7 +22,6 @@
     1384216,
     1465063,
     1204680,
-    1117898,
     687163,
     155,
     1368337,
@@ -31,7 +31,6 @@
     354912,
     1294189,
     656908,
-    1422041,
     1596275,
     1335666,
     1083381
@@ -81,6 +80,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1422041,
+      "title": "La bola negra",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1657630,
       "title": "El despertar",
       "reason": "Sin sinopsis"
@@ -126,11 +130,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1117898,
-      "title": "El gato con sombrero",
-      "reason": "Votos 19 por debajo del mínimo (50)"
-    },
-    {
       "tmdbId": 687163,
       "title": "Proyecto Salvación",
       "reason": "Sin fuente autorizada configurada"
@@ -163,12 +162,7 @@
     {
       "tmdbId": 656908,
       "title": "Ramayana: El Nacimiento de una Leyenda",
-      "reason": "Votos 31 por debajo del mínimo (50)"
-    },
-    {
-      "tmdbId": 1422041,
-      "title": "La bola negra",
-      "reason": "Sin fuente autorizada configurada"
+      "reason": "Votos 33 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1596275,
