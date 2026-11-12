@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-12T18:01:15.022Z",
-  "durationMs": 2418,
+  "generatedAt": "2026-11-12T23:33:25.910Z",
+  "durationMs": 1530,
   "dryRun": false,
   "moviesFound": 32,
   "moviesDiscarded": 27,
@@ -85,7 +85,7 @@
     {
       "tmdbId": 1567605,
       "title": "Scrooge y los fantasmas de la Navidad",
-      "reason": "Votos 15 por debajo del mínimo (50)"
+      "reason": "Votos 21 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1148365,
@@ -130,7 +130,7 @@
     {
       "tmdbId": 656908,
       "title": "Ramayana: El Nacimiento de una Leyenda",
-      "reason": "Votos 36 por debajo del mínimo (50)"
+      "reason": "Votos 40 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 11308,
