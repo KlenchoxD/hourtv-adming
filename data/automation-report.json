@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-12T02:21:22.273Z",
-  "durationMs": 2121,
+  "generatedAt": "2026-11-12T10:00:11.973Z",
+  "durationMs": 2458,
   "dryRun": false,
   "moviesFound": 32,
   "moviesDiscarded": 27,
@@ -105,7 +105,7 @@
     {
       "tmdbId": 1117898,
       "title": "El gato con sombrero",
-      "reason": "Votos 21 por debajo del mínimo (50)"
+      "reason": "Votos 22 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 687163,
@@ -135,7 +135,7 @@
     {
       "tmdbId": 656908,
       "title": "Ramayana: El Nacimiento de una Leyenda",
-      "reason": "Votos 34 por debajo del mínimo (50)"
+      "reason": "Votos 36 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1294189,
