@@ -1,35 +1,35 @@
 {
-  "lastRunAt": "2026-11-12T10:00:14.426Z",
+  "lastRunAt": "2026-11-12T18:01:17.435Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     1423191,
     1263337,
     969681,
     1058424,
-    1381071,
-    1283515,
-    1244523,
     1400837,
+    1381071,
+    1244523,
+    1283515,
     1422041,
-    1657630,
     1101412,
+    1657630,
     791523,
     1400940,
     1291595,
     1288445,
-    891621,
+    1567605,
     1148365,
+    891621,
     1465063,
-    1384216,
     1117898,
     687163,
-    155,
     1368337,
+    155,
     1507696,
     1813355,
-    11308,
     354912,
     656908,
+    11308,
     1294189,
     1596275,
     1335666,
@@ -55,13 +55,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1381071,
-      "title": "Godzilla Minus Zero",
+      "tmdbId": 1400837,
+      "title": "La otra madre",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1283515,
-      "title": "Verity. La sombra de un engaño",
+      "tmdbId": 1381071,
+      "title": "Godzilla Minus Zero",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -70,8 +70,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1400837,
-      "title": "La otra madre",
+      "tmdbId": 1283515,
+      "title": "Verity. La sombra de un engaño",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -80,14 +80,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1657630,
-      "title": "El despertar",
-      "reason": "Sin sinopsis"
-    },
-    {
       "tmdbId": 1101412,
       "title": "Fall 2: Deadpoint",
       "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1657630,
+      "title": "El despertar",
+      "reason": "Sin sinopsis"
     },
     {
       "tmdbId": 791523,
@@ -110,9 +110,9 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 891621,
-      "title": "Wild Horse Nine",
-      "reason": "Sin fuente autorizada configurada"
+      "tmdbId": 1567605,
+      "title": "Scrooge y los fantasmas de la Navidad",
+      "reason": "Votos 15 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1148365,
@@ -120,13 +120,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1465063,
-      "title": "La isla olvidada",
+      "tmdbId": 891621,
+      "title": "Wild Horse Nine",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1384216,
-      "title": "La constelación del perro",
+      "tmdbId": 1465063,
+      "title": "La isla olvidada",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -150,11 +150,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 11308,
-      "title": "El Hotel New Hampshire",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 354912,
       "title": "Coco",
       "reason": "Sin fuente autorizada configurada"
@@ -163,6 +158,11 @@
       "tmdbId": 656908,
       "title": "Ramayana: El Nacimiento de una Leyenda",
       "reason": "Votos 36 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 11308,
+      "title": "El Hotel New Hampshire",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1294189,
