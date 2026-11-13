@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-11-12T23:33:27.436Z",
+  "lastRunAt": "2026-11-13T03:35:00.152Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     1423191,
@@ -20,8 +20,8 @@
     1567605,
     1148365,
     891621,
+    1153576,
     1465063,
-    1117898,
     687163,
     1368337,
     155,
@@ -29,7 +29,6 @@
     1813355,
     354912,
     656908,
-    11308,
     1294189,
     1596275,
     1335666,
@@ -125,14 +124,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1465063,
-      "title": "La isla olvidada",
+      "tmdbId": 1153576,
+      "title": "Street Fighter",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1117898,
-      "title": "El gato con sombrero",
-      "reason": "Votos 22 por debajo del mínimo (50)"
+      "tmdbId": 1465063,
+      "title": "La isla olvidada",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 687163,
@@ -158,11 +157,6 @@
       "tmdbId": 656908,
       "title": "Ramayana: El Nacimiento de una Leyenda",
       "reason": "Votos 40 por debajo del mínimo (50)"
-    },
-    {
-      "tmdbId": 11308,
-      "title": "El Hotel New Hampshire",
-      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1294189,

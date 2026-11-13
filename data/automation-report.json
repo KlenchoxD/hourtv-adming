@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-11-12T23:33:25.910Z",
-  "durationMs": 1530,
+  "generatedAt": "2026-11-13T03:34:57.465Z",
+  "durationMs": 2690,
   "dryRun": false,
-  "moviesFound": 32,
-  "moviesDiscarded": 27,
+  "moviesFound": 31,
+  "moviesDiscarded": 26,
   "moviesAdded": 0,
   "moviesEnriched": 0,
   "duplicates": 5,
@@ -98,14 +98,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1465063,
-      "title": "La isla olvidada",
+      "tmdbId": 1153576,
+      "title": "Street Fighter",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1117898,
-      "title": "El gato con sombrero",
-      "reason": "Votos 22 por debajo del mínimo (50)"
+      "tmdbId": 1465063,
+      "title": "La isla olvidada",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 687163,
@@ -131,11 +131,6 @@
       "tmdbId": 656908,
       "title": "Ramayana: El Nacimiento de una Leyenda",
       "reason": "Votos 40 por debajo del mínimo (50)"
-    },
-    {
-      "tmdbId": 11308,
-      "title": "El Hotel New Hampshire",
-      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1294189,
