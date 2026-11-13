@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-11-13T11:32:02.391Z",
-  "durationMs": 2766,
+  "generatedAt": "2026-11-13T18:45:13.969Z",
+  "durationMs": 2971,
   "dryRun": false,
-  "moviesFound": 31,
-  "moviesDiscarded": 26,
+  "moviesFound": 32,
+  "moviesDiscarded": 27,
   "moviesAdded": 0,
   "moviesEnriched": 0,
   "duplicates": 5,
@@ -65,7 +65,7 @@
     {
       "tmdbId": 1567605,
       "title": "Scrooge y los fantasmas de la Navidad",
-      "reason": "Votos 28 por debajo del mínimo (50)"
+      "reason": "Votos 33 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 791523,
@@ -83,23 +83,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1288445,
-      "title": "El motín",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1148365,
-      "title": "Matchbox: La película",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1153576,
       "title": "Street Fighter",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 891621,
-      "title": "Wild Horse Nine",
+      "tmdbId": 1288445,
+      "title": "El motín",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -108,13 +98,18 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 687163,
-      "title": "Proyecto Salvación",
+      "tmdbId": 891621,
+      "title": "Wild Horse Nine",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1507696,
-      "title": "Apocalipsis Z: Nuevo mundo",
+      "tmdbId": 1148365,
+      "title": "Matchbox: La película",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 687163,
+      "title": "Proyecto Salvación",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -123,14 +118,19 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 354912,
-      "title": "Coco",
+      "tmdbId": 1507696,
+      "title": "Apocalipsis Z: Nuevo mundo",
       "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 656908,
       "title": "Ramayana: El Nacimiento de una Leyenda",
       "reason": "Votos 41 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 354912,
+      "title": "Coco",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1294189,
@@ -141,6 +141,11 @@
       "tmdbId": 1596275,
       "title": "Drive: Los farsantes",
       "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1562642,
+      "title": "El Ángel Guardián",
+      "reason": "Votos 9 por debajo del mínimo (50)"
     }
   ]
 }
