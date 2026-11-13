@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-13T03:34:57.465Z",
-  "durationMs": 2690,
+  "generatedAt": "2026-11-13T11:32:02.391Z",
+  "durationMs": 2766,
   "dryRun": false,
   "moviesFound": 31,
   "moviesDiscarded": 26,
@@ -63,6 +63,11 @@
       "reason": "Sin sinopsis"
     },
     {
+      "tmdbId": 1567605,
+      "title": "Scrooge y los fantasmas de la Navidad",
+      "reason": "Votos 28 por debajo del mínimo (50)"
+    },
+    {
       "tmdbId": 791523,
       "title": "Wildwood: El Bosque Salvaje",
       "reason": "Sin fuente autorizada configurada"
@@ -83,23 +88,18 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1567605,
-      "title": "Scrooge y los fantasmas de la Navidad",
-      "reason": "Votos 21 por debajo del mínimo (50)"
-    },
-    {
       "tmdbId": 1148365,
       "title": "Matchbox: La película",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 891621,
-      "title": "Wild Horse Nine",
+      "tmdbId": 1153576,
+      "title": "Street Fighter",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1153576,
-      "title": "Street Fighter",
+      "tmdbId": 891621,
+      "title": "Wild Horse Nine",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -130,7 +130,7 @@
     {
       "tmdbId": 656908,
       "title": "Ramayana: El Nacimiento de una Leyenda",
-      "reason": "Votos 40 por debajo del mínimo (50)"
+      "reason": "Votos 41 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1294189,
