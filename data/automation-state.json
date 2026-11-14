@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-11-14T11:39:27.379Z",
+  "lastRunAt": "2026-11-14T17:18:05.483Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     1423191,
@@ -72,7 +72,7 @@
     {
       "tmdbId": 1616687,
       "title": "No nos rendimos",
-      "reason": "Votos 16 por debajo del mínimo (50)"
+      "reason": "Votos 19 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1283515,
@@ -92,7 +92,7 @@
     {
       "tmdbId": 1567605,
       "title": "Scrooge y los fantasmas de la Navidad",
-      "reason": "Votos 44 por debajo del mínimo (50)"
+      "reason": "Votos 48 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1657630,
@@ -152,7 +152,7 @@
     {
       "tmdbId": 656908,
       "title": "Ramayana: El Nacimiento de una Leyenda",
-      "reason": "Votos 42 por debajo del mínimo (50)"
+      "reason": "Votos 44 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1294189,
@@ -172,7 +172,7 @@
     {
       "tmdbId": 1562642,
       "title": "El Ángel Guardián",
-      "reason": "Votos 11 por debajo del mínimo (50)"
+      "reason": "Votos 12 por debajo del mínimo (50)"
     }
   ]
 }
