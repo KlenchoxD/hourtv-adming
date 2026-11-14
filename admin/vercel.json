@@ -1,9 +1,11 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": null,
-  "installCommand": "",
+  "installCommand": "npm install --no-audit --no-fund",
   "buildCommand": "",
   "rewrites": [
-    { "source": "/lista.m3u", "destination": "/api/playlist" }
+    { "source": "/lista.m3u", "destination": "/api/playlist" },
+    { "source": "/api/v1/anime/:endpoint", "destination": "/api/anime?endpoint=:endpoint" },
+    { "source": "/api/anime1v/:endpoint", "destination": "/api/anime?endpoint=:endpoint" }
   ]
 }
