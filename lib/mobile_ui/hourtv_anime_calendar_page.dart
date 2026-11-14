@@ -216,7 +216,10 @@ class _HourTvAnimeCalendarPageState extends State<HourTvAnimeCalendarPage> {
                     );
                   }
                   final result = snapshot.data!;
-                  final index = AnimeCatalogIndex(widget.store.visibleSeries);
+                  final index = AnimeCatalogIndex([
+                    ...widget.store.visibleAllAnimeApiSeries,
+                    ...widget.store.visibleSeries,
+                  ]);
                   final entries = result.entries.where((entry) {
                     final match = index.match(entry.media);
                     if ((ParentalControlService.kidsOnly ||

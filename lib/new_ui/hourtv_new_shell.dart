@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../models/channel.dart';
+import '../services/anime1v_service.dart';
 import '../services/content_store.dart';
 import '../services/device_type.dart';
 
@@ -380,10 +381,17 @@ class _HourTvNewShellState extends State<HourTvNewShell> {
           catalogRepository: repo,
         );
       case _Section.search:
+        final baseSearch = [...movies, ...series];
+        final seenTitles = {
+          for (final c in baseSearch) c.displayName.trim().toLowerCase(),
+        };
+        final extraAnimes = store.anime
+            .where((a) => seenTitles.add(a.displayName.trim().toLowerCase()))
+            .toList(growable: false);
         return _CatalogPage(
           title: 'Buscar',
           subtitle: 'Películas, series o géneros',
-          items: [...movies, ...series],
+          items: [...baseSearch, ...extraAnimes],
           store: store,
           preview: showingPreview,
           phone: phone,
@@ -859,6 +867,19 @@ class _HomePageState extends State<_HomePage> {
             catalogRepository: widget.catalogRepository,
           ),
         ),
+        if (widget.store.anime.isNotEmpty)
+          SliverToBoxAdapter(
+            child: _MediaRow(
+              title: 'Animes',
+              items: widget.store.anime.take(20).toList(),
+              store: widget.store,
+              preview: false,
+              phone: widget.phone,
+              tablet: widget.tablet,
+              tv: widget.tv,
+              catalogRepository: widget.catalogRepository,
+            ),
+          ),
         // Regla de oro HourTV: Inicio es SOLO VOD. Los canales en vivo viven
         // exclusivamente en la seccion "TV en vivo", nunca en Home.
         const SliverToBoxAdapter(child: SizedBox(height: 48)),
@@ -1302,6 +1323,10 @@ class _CatalogPage extends StatefulWidget {
 class _CatalogPageState extends State<_CatalogPage> {
   String query = '';
   final FocusNode _searchFocus = FocusNode();
+  Timer? _animeDebounce;
+  int _animeTicket = 0;
+  String _liveAnimeQuery = '';
+  List<Channel> _liveAnimeResults = const [];
 
   @override
   void initState() {
@@ -1320,8 +1345,50 @@ class _CatalogPageState extends State<_CatalogPage> {
 
   @override
   void dispose() {
+    _animeDebounce?.cancel();
     _searchFocus.dispose();
     super.dispose();
+  }
+
+  void _onQueryChanged(String value, {bool immediate = false}) {
+    setState(() => query = value);
+    if (widget.title != 'Buscar') return;
+    _animeDebounce?.cancel();
+    final trimmed = value.trim();
+    if (trimmed.length < 2) {
+      if (_liveAnimeQuery.isNotEmpty || _liveAnimeResults.isNotEmpty) {
+        setState(() {
+          _animeTicket++;
+          _liveAnimeQuery = '';
+          _liveAnimeResults = const [];
+        });
+      }
+      return;
+    }
+    final normalized = trimmed.toLowerCase();
+    if (_liveAnimeQuery == normalized) return;
+    final ticket = ++_animeTicket;
+    Future<void> run() async {
+      try {
+        final raw = await Anime1vService.instance.searchAnime(trimmed);
+        final allowed = ParentalControlService.filterSeries(raw);
+        for (final item in allowed) {
+          widget.store.rememberAnimeApiSeries(item);
+        }
+        final channels = [for (final s in allowed) hourTvSeriesChannel(s)];
+        if (!mounted || ticket != _animeTicket) return;
+        setState(() {
+          _liveAnimeQuery = normalized;
+          _liveAnimeResults = channels;
+        });
+      } catch (_) {}
+    }
+
+    if (immediate) {
+      unawaited(run());
+    } else {
+      _animeDebounce = Timer(const Duration(milliseconds: 280), run);
+    }
   }
 
   /// Layout de búsqueda para TV: teclado a la izquierda y resultados a la
@@ -1354,7 +1421,7 @@ class _CatalogPageState extends State<_CatalogPage> {
                 const SizedBox(height: 16),
                 TvSearchKeyboard(
                   query: query,
-                  onChanged: (value) => setState(() => query = value),
+                  onChanged: (value) => _onQueryChanged(value),
                 ),
               ],
             ),
@@ -1428,9 +1495,27 @@ class _CatalogPageState extends State<_CatalogPage> {
 
   @override
   Widget build(BuildContext context) {
-    final filtered = widget.items
+    final trimmedLower = query.trim().toLowerCase();
+    final filteredBase = widget.items
         .where((item) => matchesTvSearch(item.displayName, query))
         .toList();
+    final List<Channel> filtered;
+    if (widget.title == 'Buscar' &&
+        trimmedLower.length >= 2 &&
+        _liveAnimeQuery == trimmedLower &&
+        _liveAnimeResults.isNotEmpty) {
+      final seen = {
+        for (final c in filteredBase) c.displayName.trim().toLowerCase(),
+      };
+      filtered = [
+        ...filteredBase,
+        ..._liveAnimeResults.where(
+          (a) => seen.add(a.displayName.trim().toLowerCase()),
+        ),
+      ];
+    } else {
+      filtered = filteredBase;
+    }
     // Búsqueda en TV: teclado a la izquierda + pósters a la derecha (estilo
     // Netflix), ambos visibles sin tener que bajar.
     if (widget.title == 'Buscar' && widget.tv) {
@@ -1494,8 +1579,9 @@ class _CatalogPageState extends State<_CatalogPage> {
                     child: TextField(
                       focusNode: _searchFocus,
                       textInputAction: TextInputAction.search,
-                      onChanged: (value) => setState(() => query = value),
-                      onSubmitted: (value) => setState(() => query = value),
+                      onChanged: (value) => _onQueryChanged(value),
+                      onSubmitted: (value) =>
+                          _onQueryChanged(value, immediate: true),
                       style: const TextStyle(color: Colors.white),
                       decoration: InputDecoration(
                         hintText: 'Títulos, géneros o categorías…',

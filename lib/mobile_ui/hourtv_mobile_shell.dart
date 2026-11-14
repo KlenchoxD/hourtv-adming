@@ -24,6 +24,7 @@ import '../new_ui/hourtv_settings_language_page.dart';
 import '../new_ui/hourtv_settings_page.dart';
 import '../new_ui/hourtv_settings_parental_page.dart';
 import '../new_ui/hourtv_settings_playback_page.dart';
+import '../services/anime1v_service.dart';
 import '../services/catalog_presentation_index.dart';
 import '../services/content_store.dart';
 import '../services/device_type.dart';
@@ -401,6 +402,9 @@ class _HourTvMobileShellState extends State<HourTvMobileShell>
         listenable: Listenable.merge([store, _indexRevision]),
         builder: (context, _) => HourTvMobileSearch(
           content: _allContent,
+          animeContent: [
+            for (final s in store.visibleAnimeApiSeries) hourTvSeriesChannel(s),
+          ],
           presentationIndex: _memoizedIndex,
           indexPending: _memoizedIndex == null && _indexBuildTicket != null,
           onOpen: _openDetails,
@@ -969,8 +973,9 @@ class _HourTvMobileHomeState extends State<HourTvMobileHome> {
       ('Lo que más gusta', _mostLiked(effectiveMovies, effectiveSeries)),
       ('Películas', effectiveMovies),
       ('Series', effectiveSeries),
-      if (genreRowsReady) ...[
+      if (genreRowsReady || widget.store.anime.isNotEmpty)
         ('Animes', widget.store.anime),
+      if (genreRowsReady) ...[
         ('K-Drama', widget.store.kDramas),
         ('Tendencia', widget.store.trending),
       ],
@@ -1755,6 +1760,7 @@ class HourTvMobileSearch extends StatefulWidget {
     super.key,
     required this.content,
     required this.onOpen,
+    this.animeContent = const [],
     this.presentationIndex,
     this.indexPending = false,
     this.historyStore,
@@ -1763,6 +1769,7 @@ class HourTvMobileSearch extends StatefulWidget {
     this.authoritativeCatalog = false,
   });
   final List<Channel> content;
+  final List<Channel> animeContent;
   final ValueChanged<Channel> onOpen;
   final CatalogPresentationIndex? presentationIndex;
   final bool indexPending;
@@ -1788,6 +1795,11 @@ class _HourTvMobileSearchState extends State<HourTvMobileSearch> {
   List<Channel> _currentResults = const [];
   int _queryGeneration = 0;
   Timer? _debounce;
+  Timer? _animeSearchDebounce;
+  int _animeSearchTicket = 0;
+  String _liveAnimeQuery = '';
+  List<Channel> _liveAnimeResults = const [];
+  bool _liveAnimeSearching = false;
   List<String> _history = const <String>[];
   var _query = '';
   var _type = 'Todo';
@@ -1893,6 +1905,8 @@ class _HourTvMobileSearchState extends State<HourTvMobileSearch> {
       }
       _query = controller.text.trim();
       _executeSearchSync();
+    } else if (!identical(widget.animeContent, oldWidget.animeContent)) {
+      _cachedGenres = _availableGenresForType(_type);
     }
   }
 
@@ -1925,6 +1939,7 @@ class _HourTvMobileSearchState extends State<HourTvMobileSearch> {
   @override
   void dispose() {
     _debounce?.cancel();
+    _animeSearchDebounce?.cancel();
     controller.dispose();
     _scrollController
       ..removeListener(_onScroll)
@@ -1963,6 +1978,142 @@ class _HourTvMobileSearchState extends State<HourTvMobileSearch> {
     sort: _toCatalogSort(_sort),
   );
 
+  bool get _allowsAnimeApi => _type == 'Todo' || _type == 'Anime';
+
+  void _scheduleLiveAnimeSearch(String queryText, {bool immediate = false}) {
+    _animeSearchDebounce?.cancel();
+    final trimmed = queryText.trim();
+    if (!_allowsAnimeApi || trimmed.length < 2) {
+      if (_liveAnimeSearching ||
+          _liveAnimeResults.isNotEmpty ||
+          _liveAnimeQuery.isNotEmpty) {
+        setState(() {
+          _animeSearchTicket++;
+          _liveAnimeSearching = false;
+          _liveAnimeQuery = '';
+          _liveAnimeResults = const [];
+        });
+      }
+      return;
+    }
+
+    final normalized = trimmed.toLowerCase();
+    if (_liveAnimeQuery == normalized && !_liveAnimeSearching) return;
+
+    final ticket = ++_animeSearchTicket;
+    setState(() {
+      _liveAnimeSearching = true;
+    });
+
+    Future<void> runSearch() async {
+      try {
+        final raw = await Anime1vService.instance.searchAnime(trimmed);
+        final filteredSeries = ParentalControlService.filterSeries(raw);
+        for (final item in filteredSeries) {
+          ContentStore.instance.rememberAnimeApiSeries(item);
+        }
+        final channels = [
+          for (final s in filteredSeries) hourTvSeriesChannel(s),
+        ];
+        if (!mounted || ticket != _animeSearchTicket) return;
+        setState(() {
+          _liveAnimeQuery = normalized;
+          _liveAnimeResults = channels;
+          _liveAnimeSearching = false;
+        });
+      } catch (_) {
+        if (!mounted || ticket != _animeSearchTicket) return;
+        setState(() {
+          _liveAnimeSearching = false;
+        });
+      }
+    }
+
+    if (immediate) {
+      unawaited(runSearch());
+    } else {
+      _animeSearchDebounce = Timer(
+        const Duration(milliseconds: 280),
+        runSearch,
+      );
+    }
+  }
+
+  static String _normalizedTitleKey(Channel channel) =>
+      HourTvGenreService.normalize(channel.displayName);
+
+  bool _matchesQueryAndGenre(Channel channel, String queryLower) {
+    if (queryLower.isNotEmpty) {
+      final hay = '${channel.displayName} ${channel.genre ?? ''}'.toLowerCase();
+      final tokens = queryLower
+          .split(RegExp(r'\s+'))
+          .where((t) => t.isNotEmpty);
+      for (final token in tokens) {
+        if (!hay.contains(token)) return false;
+      }
+    }
+    if (_genre != HourTvGenreService.defaultGenre) {
+      final selectedNorm = HourTvGenreService.normalize(_genre);
+      final genres = [
+        ...?channel.genre?.split(','),
+        ...channel.categories,
+      ].map(HourTvGenreService.normalize);
+      if (!genres.contains(selectedNorm)) return false;
+    }
+    return true;
+  }
+
+  List<Channel> _mergeWithAnimeResults(List<Channel> baseResults) {
+    if (!_allowsAnimeApi) return baseResults;
+    final queryLower = _query.trim().toLowerCase();
+    final includeCatalogAnime = _type == 'Anime' || queryLower.isNotEmpty;
+    final liveMatches = _liveAnimeQuery == queryLower && queryLower.length >= 2
+        ? _liveAnimeResults
+              .where((c) => _matchesQueryAndGenre(c, queryLower))
+              .toList(growable: false)
+        : const <Channel>[];
+    final catalogAnimeMatches = includeCatalogAnime
+        ? widget.animeContent
+              .where((c) => _matchesQueryAndGenre(c, queryLower))
+              .toList(growable: false)
+        : const <Channel>[];
+
+    if (liveMatches.isEmpty && catalogAnimeMatches.isEmpty) {
+      return baseResults;
+    }
+
+    final merged = <Channel>[];
+    final seen = <String>{};
+    void addUnique(Channel ch) {
+      if (seen.add(_normalizedTitleKey(ch))) {
+        merged.add(ch);
+      }
+    }
+
+    if (_type == 'Anime') {
+      for (final ch in liveMatches) {
+        addUnique(ch);
+      }
+      for (final ch in catalogAnimeMatches) {
+        addUnique(ch);
+      }
+      for (final ch in baseResults) {
+        addUnique(ch);
+      }
+    } else {
+      for (final ch in baseResults) {
+        addUnique(ch);
+      }
+      for (final ch in liveMatches) {
+        addUnique(ch);
+      }
+      for (final ch in catalogAnimeMatches) {
+        addUnique(ch);
+      }
+    }
+    return merged;
+  }
+
   void _executeSearchSync() {
     final currentGen = ++_queryGeneration;
     final results = _index?.search(_currentQuery()) ?? const <Channel>[];
@@ -1981,6 +2132,7 @@ class _HourTvMobileSearchState extends State<HourTvMobileSearch> {
       if (!mounted || currentGen != _queryGeneration) return;
       _query = value.trim();
       _visibleCount = _initialVisible;
+      _scheduleLiveAnimeSearch(_query);
       if (_driftPageSource != null) _executeDriftSearch();
       final index = _index;
       if (index == null) {
@@ -2029,6 +2181,7 @@ class _HourTvMobileSearchState extends State<HourTvMobileSearch> {
         _executeDriftSearch();
       }
     });
+    _scheduleLiveAnimeSearch(queryText, immediate: true);
     debugPrint(
       '[PERF_SEARCH] QUERY_SUBMITTED: "$queryText" time=${DateTime.now().millisecondsSinceEpoch}',
     );
@@ -2054,7 +2207,7 @@ class _HourTvMobileSearchState extends State<HourTvMobileSearch> {
       }
       return;
     }
-    final total = _currentResults.length;
+    final total = _mergeWithAnimeResults(_currentResults).length;
     if (_visibleCount >= total) return;
     setState(() {
       _visibleCount = math.min(_visibleCount + _revealStep, total);
@@ -2080,6 +2233,7 @@ class _HourTvMobileSearchState extends State<HourTvMobileSearch> {
         _executeDriftSearch();
       }
     });
+    _scheduleLiveAnimeSearch(_query, immediate: true);
   }
 
   void _onGenreChanged(String newGenre) {
@@ -2130,7 +2284,7 @@ class _HourTvMobileSearchState extends State<HourTvMobileSearch> {
     final bool useDrift = _useDriftForVisibleResults;
     final List<Channel> resultsList = useDrift
         ? _cachedDriftResults
-        : _currentResults;
+        : _mergeWithAnimeResults(_currentResults);
     final visible = useDrift
         ? resultsList
         : resultsList.take(_visibleCount).toList(growable: false);
@@ -2337,7 +2491,7 @@ class _HourTvMobileSearchState extends State<HourTvMobileSearch> {
             ),
           ),
         ),
-        if (_index == null && !useDrift)
+        if (_index == null && !useDrift && resultsList.isEmpty)
           SliverFillRemaining(
             hasScrollBody: false,
             child: Center(
@@ -2361,7 +2515,9 @@ class _HourTvMobileSearchState extends State<HourTvMobileSearch> {
               ),
             ),
           )
-        else if (useDrift && _driftPageSource!.isLoading && resultsList.isEmpty)
+        else if (((useDrift && _driftPageSource!.isLoading) ||
+                _liveAnimeSearching) &&
+            resultsList.isEmpty)
           const SliverFillRemaining(
             hasScrollBody: false,
             child: Center(

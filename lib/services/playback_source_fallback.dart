@@ -26,7 +26,7 @@ class PlaybackSourcePlan {
     final sources = <String>[];
     void add(String? url) {
       final trimmed = url?.trim() ?? '';
-      if (trimmed.isEmpty) return;
+      if (trimmed.isEmpty || trimmed.startsWith('anime1v://')) return;
       if (seen.add(trimmed)) sources.add(trimmed);
     }
 

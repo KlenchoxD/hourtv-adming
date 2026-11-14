@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../models/channel.dart';
 import '../../new_ui/hourtv_detail_page.dart';
 import '../../new_ui/hourtv_series_detail_page.dart';
+import '../anime1v_service.dart';
 import '../content_store.dart';
 import 'catalog_repository.dart';
 
@@ -36,9 +37,13 @@ class CatalogDetailNavigator {
 
     // El catálogo publicado es la fuente completa actual; Drift puede conservar
     // una tarjeta antigua sin temporadas mientras termina su sincronización.
+    final isAnimeApiEntry = Anime1vService.isAnime1vChannel(channel);
+    final candidateSeries = isAnimeApiEntry
+        ? effectiveStore.visibleAllAnimeApiSeries
+        : effectiveStore.visibleSeries;
     final publishedSeries = hourTvResolveSeries(
       channel,
-      effectiveStore.visibleSeries,
+      candidateSeries,
       allowSynthetic: false,
     );
     if (publishedSeries != null &&
@@ -55,7 +60,7 @@ class CatalogDetailNavigator {
     if (!channel.isDriftCatalog || effectiveRepo == null) {
       final legacySeries = hourTvResolveSeries(
         channel,
-        effectiveStore.visibleSeries,
+        candidateSeries,
       );
       if (legacySeries != null) {
         Navigator.of(context).push(

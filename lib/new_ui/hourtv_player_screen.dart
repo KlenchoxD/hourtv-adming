@@ -6,6 +6,7 @@ import 'package:video_player/video_player.dart';
 import 'package:chewie/chewie.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../models/channel.dart';
+import '../services/anime1v_service.dart';
 import '../services/storage_service.dart';
 import '../services/ad_service.dart';
 import '../services/archive_service.dart';
@@ -82,6 +83,8 @@ class PlayerScreen extends StatefulWidget {
   /// shared extraction registry; callers can supply another registered source.
   final Future<EmbedResolution> Function(String, ExtractionRequest)?
   resolveEmbed;
+  final Future<Channel> Function(Channel)? hydrateAnimeEpisode;
+  final Future<ResolvedStream?> Function(String)? resolveAnimeEmbed;
   const PlayerScreen({
     super.key,
     required this.channel,
@@ -91,6 +94,8 @@ class PlayerScreen extends StatefulWidget {
     this.forceLandscape = false,
     this.resumePlayback = false,
     this.resolveEmbed,
+    this.hydrateAnimeEpisode,
+    this.resolveAnimeEmbed,
   });
   @override
   // En el navegador el reproductor es el iframe del servidor (ver
@@ -193,7 +198,34 @@ class _PlayerScreenState extends State<PlayerScreen>
   int _resumePositionMs = 0;
   bool _resumeApplied = false;
 
-  Channel get _currentChannel => widget.allChannels[_idx];
+  final Map<int, Channel> _hydratedAnimeChannels = {};
+
+  Channel get _currentChannel =>
+      _hydratedAnimeChannels[_idx] ?? widget.allChannels[_idx];
+
+  Future<Channel> _ensureAnime1vEpisodeHydrated(Channel ch) async {
+    final cached = _hydratedAnimeChannels[_idx];
+    if (cached != null && cached.url == ch.url && cached.servers.isNotEmpty) {
+      return cached;
+    }
+    if (!Anime1vService.isAnime1vEpisodeUrl(ch.url) || ch.servers.isNotEmpty) {
+      return ch;
+    }
+    if (mounted) {
+      setState(() {
+        _loading = true;
+        _err = null;
+      });
+    }
+    final hydrated = await (widget.hydrateAnimeEpisode?.call(ch) ??
+        Anime1vService.instance.hydrateEpisodeChannel(ch));
+    if (hydrated.servers.isNotEmpty &&
+        _idx < widget.allChannels.length &&
+        widget.allChannels[_idx].url == hydrated.url) {
+      _hydratedAnimeChannels[_idx] = hydrated;
+    }
+    return hydrated;
+  }
   bool get _isLive => _currentChannel.type == MediaType.live;
   bool get _isSeriesEpisode => _currentChannel.type == MediaType.series;
   bool get _hasNextEpisode =>
@@ -647,6 +679,16 @@ class _PlayerScreenState extends State<PlayerScreen>
     _handoffStartPosition = Duration.zero;
     bool current() => mounted && generation == _playbackGeneration;
     if (!isFallbackAttempt) {
+      ch = await _ensureAnime1vEpisodeHydrated(ch);
+      if (!current()) return;
+      if (Anime1vService.isAnime1vEpisodeUrl(ch.url) && ch.servers.isEmpty) {
+        setState(() {
+          _loading = false;
+          _err =
+              'No se encontraron servidores disponibles para este episodio.';
+        });
+        return;
+      }
       _sourcePlan = PlaybackSourcePlan.forChannel(
         ch,
         preferredUrl: direct == null ? streamUrl : _activeServerUrl,
@@ -667,7 +709,9 @@ class _PlayerScreenState extends State<PlayerScreen>
     debugPrint(
       '[PLAYER] init$sourcePosition host=${Uri.tryParse(targetUrl)?.host}',
     );
-    if (targetUrl.startsWith('catalog://') || ch.url.startsWith('catalog://')) {
+    if (targetUrl.startsWith('catalog://') ||
+        ch.url.startsWith('catalog://') ||
+        targetUrl.startsWith('anime1v://')) {
       setState(() {
         _loading = false;
         _err =
@@ -752,41 +796,71 @@ class _PlayerScreenState extends State<PlayerScreen>
         resolvedFormatHint = ticket.format == 'hls' ? VideoFormat.hls : null;
       } else if (direct == null &&
           ch.type != MediaType.live &&
-          isEmbedStreamUrl(targetUrl)) {
-        final resolution =
-            await (widget.resolveEmbed?.call(targetUrl, extractionRequest) ??
-                EmbedResolver.resolveForPlayback(
-                  targetUrl,
-                  request: extractionRequest,
-                ));
-        final resolved = resolution.stream;
-        if (!current()) {
-          await resolved?.release?.call();
-          return;
-        }
-        if (resolved != null) {
-          _releaseResolvedStream = resolved.release;
-          playUrl = resolved.url;
-          playHeaders = resolved.headers;
-          resolvedFormatHint = resolved.formatHint;
-          resolvedSubtitleTracks = resolved.subtitleTracks;
-        } else {
-          // Preserve automatic mirror fallback, always with native playback.
-          if (await _tryFallback(ch, targetUrl)) return;
-          // A transient resolver/network failure may recover automatically.
-          // A recognized provider with no native stream is terminal for this
-          // source: don't poll the same embed forever while the network is up.
-          _resolvedPlaybackUrl = null;
-          if (resolution.retryableFailure) {
-            _schedulePlaybackRecovery(ch);
-          } else {
-            debugPrint('[PLAYER] source_unavailable reason=embed_unresolved');
-            _recoveringFromPlaybackError = false;
-            setState(() {
-              _loading = false;
-              _err = 'No se pudo iniciar esta fuente. Prueba otro servidor.';
-            });
+          (Anime1vService.isAnime1vChannel(ch) ||
+              isEmbedStreamUrl(targetUrl))) {
+        ResolvedStream? animeResolved;
+        if (Anime1vService.isAnime1vChannel(ch)) {
+          animeResolved =
+              await (widget.resolveAnimeEmbed?.call(targetUrl) ??
+                  Anime1vService.instance.resolveEmbed(targetUrl));
+          if (!current()) {
+            await animeResolved?.release?.call();
+            return;
           }
+        }
+        if (animeResolved != null) {
+          _releaseResolvedStream = animeResolved.release;
+          playUrl = animeResolved.url;
+          playHeaders = animeResolved.headers;
+          resolvedFormatHint = animeResolved.formatHint;
+          resolvedSubtitleTracks = animeResolved.subtitleTracks;
+        } else if (isEmbedStreamUrl(targetUrl)) {
+          final resolution =
+              await (widget.resolveEmbed?.call(targetUrl, extractionRequest) ??
+                  EmbedResolver.resolveForPlayback(
+                    targetUrl,
+                    request: extractionRequest,
+                  ));
+          final resolved = resolution.stream;
+          if (!current()) {
+            await resolved?.release?.call();
+            return;
+          }
+          if (resolved != null) {
+            _releaseResolvedStream = resolved.release;
+            playUrl = resolved.url;
+            playHeaders = resolved.headers;
+            resolvedFormatHint = resolved.formatHint;
+            resolvedSubtitleTracks = resolved.subtitleTracks;
+          } else {
+            // Preserve automatic mirror fallback, always with native playback.
+            if (await _tryFallback(ch, targetUrl)) return;
+            // A transient resolver/network failure may recover automatically.
+            // A recognized provider with no native stream is terminal for this
+            // source: don't poll the same embed forever while the network is up.
+            _resolvedPlaybackUrl = null;
+            if (resolution.retryableFailure) {
+              _schedulePlaybackRecovery(ch);
+            } else {
+              debugPrint(
+                '[PLAYER] source_unavailable reason=embed_unresolved',
+              );
+              _recoveringFromPlaybackError = false;
+              setState(() {
+                _loading = false;
+                _err = 'No se pudo iniciar esta fuente. Prueba otro servidor.';
+              });
+            }
+            return;
+          }
+        } else {
+          if (await _tryFallback(ch, targetUrl)) return;
+          _resolvedPlaybackUrl = null;
+          _recoveringFromPlaybackError = false;
+          setState(() {
+            _loading = false;
+            _err = 'No se pudo iniciar esta fuente. Prueba otro servidor.';
+          });
           return;
         }
       }
@@ -1549,7 +1623,7 @@ class _PlayerScreenState extends State<PlayerScreen>
   /// saca al usuario de HourTV. Y mientras se buscaba, no parecia hacer nada.
   /// Ahora siempre abre la hoja propia, que ya muestra el estado "buscando".
   Future<void> _openRealCast() async {
-    final channel = widget.allChannels[_idx];
+    final channel = _currentChannel;
     final playback = await showCastSheet(
       context,
       title: channel.displayName,
@@ -1970,7 +2044,7 @@ class _PlayerScreenState extends State<PlayerScreen>
     _persistFinalProgress();
     _qualityHeight = variant?.height;
     await _init(
-      widget.allChannels[_idx],
+      _currentChannel,
       streamUrl: _activeServerUrl,
       isFallbackAttempt: true,
       direct: (url: variant?.url ?? master, headers: _playHeaders),
@@ -2038,7 +2112,7 @@ class _PlayerScreenState extends State<PlayerScreen>
   }
 
   Future<void> _showServerSelector() async {
-    final channel = widget.allChannels[_idx];
+    final channel = _currentChannel;
     final servers = channel.servers;
     if (servers.length < 2) return;
     final selected = await showHourTvPlayerDialog<ChannelServer>(
@@ -2062,7 +2136,7 @@ class _PlayerScreenState extends State<PlayerScreen>
 
   Future<void> _showPlayerOptions() async {
     if (!DeviceProfile.isTv(context) && !DeviceProfile.isDesktop(context)) {
-      final channel = widget.allChannels[_idx];
+      final channel = _currentChannel;
       await showModalBottomSheet<void>(
         context: context,
         backgroundColor: Colors.transparent,
@@ -2202,7 +2276,7 @@ class _PlayerScreenState extends State<PlayerScreen>
                 ),
               ),
             ),
-          if (widget.allChannels[_idx].servers.length > 1)
+          if (_currentChannel.servers.length > 1)
             SimpleDialogOption(
               onPressed: () {
                 Navigator.pop(dialogContext);
@@ -3502,7 +3576,7 @@ class _PlayerScreenState extends State<PlayerScreen>
       const SizedBox(height: 24),
       ElevatedButton.icon(
         onPressed: () =>
-            _init(widget.allChannels[_idx], streamUrl: _activeServerUrl),
+            _init(_currentChannel, streamUrl: _activeServerUrl),
         icon: const Icon(Icons.refresh),
         label: const Text('Reintentar'),
       ),
@@ -3718,7 +3792,7 @@ class _PlayerScreenState extends State<PlayerScreen>
   }
 
   Widget _tb() {
-    final ch = widget.allChannels[_idx];
+    final ch = _currentChannel;
     if (!_isLive &&
         !DeviceProfile.isTv(context) &&
         !DeviceProfile.isDesktop(context)) {

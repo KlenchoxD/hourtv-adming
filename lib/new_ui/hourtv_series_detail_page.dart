@@ -27,6 +27,7 @@ import 'hourtv_play_button.dart';
 import 'hourtv_episode_tiles.dart';
 import 'hourtv_focusable.dart';
 import 'hourtv_anime_status_badge.dart';
+import '../services/anime1v_service.dart';
 import '../services/anime_schedule_service.dart';
 import 'hourtv_parental_gate.dart';
 import 'hourtv_player_screen.dart';
@@ -156,6 +157,9 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
   String? season;
   bool _opening = false;
   List<Channel>? _publishedEpisodes;
+  XtreamSeries? _detailedSeries;
+
+  XtreamSeries get _series => _detailedSeries ?? widget.series;
 
   /// Resultado de RelatedContentEngine, precalculado fuera de build().
   /// Se invalida cuando cambia la serie, el control parental o el catálogo.
@@ -291,11 +295,16 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
 
   void _refresh() {
     if (mounted) {
-      final published = hourTvResolveSeries(
+      final isAnimeApi = Anime1vService.isAnime1vSeries(widget.series);
+      final publishedSeries = hourTvResolveSeries(
         hourTvSeriesChannel(widget.series),
-        store.visibleSeries,
+        isAnimeApi ? store.visibleAllAnimeApiSeries : store.visibleSeries,
         allowSynthetic: false,
-      )?.episodes;
+      );
+      final published = publishedSeries?.episodes;
+      if (isAnimeApi && publishedSeries != null) {
+        _detailedSeries = publishedSeries;
+      }
       if (published != null &&
           published.isNotEmpty &&
           !identical(published, _publishedEpisodes)) {
@@ -313,16 +322,26 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
   /// Clave de invalidación: serie actual + perfil infantil + tamaño del catálogo.
   void _rebuildRelated() {
     final isKids = ParentalControlService.isEnabled;
-    final seriesKey = widget.series.seriesId;
-    final catalogRevision = store.visibleAll.length;
+    final currentSeries = _series;
+    final seriesKey = currentSeries.seriesId;
+    final isAnimeApi = Anime1vService.isAnime1vSeries(currentSeries);
+    final catalogRevision =
+        store.visibleAll.length + (isAnimeApi ? store.anime.length : 0);
     final newKey = '$seriesKey|$isKids|$catalogRevision';
     if (newKey == _relatedCacheKey) return;
     _relatedCacheKey = newKey;
 
-    final target = hourTvSeriesChannel(widget.series);
-    final candidates = store.visibleAll
-        .where((c) => c.type == MediaType.series || c.forcedType == 'series')
-        .toList();
+    final target = hourTvSeriesChannel(currentSeries);
+    final candidates = isAnimeApi
+        ? [
+            ...store.anime,
+            ...store.visibleAll.where(
+              (c) => c.type == MediaType.series || c.forcedType == 'series',
+            ),
+          ]
+        : store.visibleAll
+              .where((c) => c.type == MediaType.series || c.forcedType == 'series')
+              .toList();
 
     _relatedChannels = RelatedContentEngine.instance.getRelated(
       target: target,
@@ -334,27 +353,50 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
 
   Future<void> _load() async {
     try {
-      final published = hourTvResolveSeries(
+      final isAnimeApi = Anime1vService.isAnime1vSeries(widget.series);
+      final resolvedSeries = hourTvResolveSeries(
         hourTvSeriesChannel(widget.series),
-        store.visibleSeries,
+        isAnimeApi ? store.visibleAllAnimeApiSeries : store.visibleSeries,
         allowSynthetic: false,
-      )?.episodes;
+      );
+      final published = resolvedSeries?.episodes;
       _publishedEpisodes = published;
       final existingEpisodes = published?.isNotEmpty == true
           ? published
           : widget.series.episodes;
-      final result = (existingEpisodes != null && existingEpisodes.isNotEmpty)
-          ? existingEpisodes
-          : (widget.series.host.isNotEmpty
-                ? await XtreamService.fetchEpisodes(
-                    widget.series.host,
-                    widget.series.username,
-                    widget.series.password,
-                    widget.series.seriesId,
-                  )
-                : const <Channel>[]);
+      XtreamSeries? loadedDetails = isAnimeApi ? resolvedSeries : null;
+      List<Channel> result;
+      if (isAnimeApi) {
+        final needsDetails =
+            existingEpisodes == null ||
+            existingEpisodes.isEmpty ||
+            ((loadedDetails ?? widget.series).plot?.trim().isEmpty ?? true);
+        if (needsDetails) {
+          final detailed = await Anime1vService.instance.fetchSeriesDetails(
+            loadedDetails ?? widget.series,
+          );
+          if (detailed != null) {
+            store.rememberAnimeApiSeries(detailed);
+            loadedDetails = detailed;
+          }
+        }
+        result = loadedDetails?.episodes?.isNotEmpty == true
+            ? loadedDetails!.episodes!
+            : (existingEpisodes ?? const <Channel>[]);
+      } else {
+        result = (existingEpisodes != null && existingEpisodes.isNotEmpty)
+            ? existingEpisodes
+            : (widget.series.host.isNotEmpty
+                  ? await XtreamService.fetchEpisodes(
+                      widget.series.host,
+                      widget.series.username,
+                      widget.series.password,
+                      widget.series.seriesId,
+                    )
+                  : const <Channel>[]);
+      }
       var finalEpisodes = List<Channel>.from(result);
-      if (finalEpisodes.isEmpty) {
+      if (!isAnimeApi && finalEpisodes.isEmpty) {
         final matching = store.visibleAll
             .where(
               (item) =>
@@ -372,13 +414,18 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
       }
       if (!mounted) return;
       setState(() {
+        if (loadedDetails != null) {
+          _detailedSeries = loadedDetails;
+          _relatedCacheKey = null;
+        }
         // Una actualización del catálogo pudo llegar durante fetchEpisodes.
-        episodes = _publishedEpisodes?.isNotEmpty == true
+        episodes = (!isAnimeApi && _publishedEpisodes?.isNotEmpty == true)
             ? List<Channel>.from(_publishedEpisodes!)
             : finalEpisodes;
         loading = false;
         season = seasons.keys.isEmpty ? null : seasons.keys.first;
       });
+      if (loadedDetails != null) _rebuildRelated();
     } catch (_) {
       if (!mounted) return;
       setState(() {
@@ -461,16 +508,16 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
         slivers: [
           SliverToBoxAdapter(
             child: HourTvDetailPhoneHeader(
-              title: SeriesTitleSanitizer.sanitize(widget.series.name),
+              title: SeriesTitleSanitizer.sanitize(_series.name),
               meta: HourTvDetailMeta(
-                rating: widget.series.rating,
-                year: widget.series.year,
+                rating: _series.rating,
+                year: _series.year,
                 extra: seasonCount == 0
                     ? null
                     : '$seasonCount temporada${seasonCount == 1 ? '' : 's'}',
               ),
-              backdropUrl: widget.series.backdrop,
-              posterUrl: widget.series.cover,
+              backdropUrl: _series.backdrop,
+              posterUrl: _series.cover,
             ),
           ),
           SliverToBoxAdapter(
@@ -491,13 +538,13 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
                   ),
                   const SizedBox(height: 20),
                   HourTvDetailInfo(
-                    plot: widget.series.plot,
-                    director: widget.series.director,
-                    writer: widget.series.writer,
-                    genre: widget.series.genre,
-                    releaseDate: widget.series.releaseDate,
-                    year: widget.series.year,
-                    rating: widget.series.rating,
+                    plot: _series.plot,
+                    director: _series.director,
+                    writer: _series.writer,
+                    genre: _series.genre,
+                    releaseDate: _series.releaseDate,
+                    year: _series.year,
+                    rating: _series.rating,
                     duration: seasonCount == 0 ? null : '$seasonCount',
                     durationLabel: 'Temporadas',
                   ),
@@ -1117,9 +1164,9 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
   // HERO: Backdrop cinematográfico
   // ─────────────────────────────────────────────────────────────────────────
   Widget _heroBackdrop() {
-    final backdrop = widget.series.backdrop;
+    final backdrop = _series.backdrop;
     final hasBackdrop = backdrop != null && backdrop.isNotEmpty;
-    final cover = widget.series.cover;
+    final cover = _series.cover;
     final url = hasBackdrop ? backdrop : cover;
 
     if (url == null || url.trim().isEmpty) {
@@ -1223,7 +1270,7 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
                   child: ConstrainedBox(
                     constraints: BoxConstraints(maxWidth: tablet ? 700 : 900),
                     child: hourTvWideHeroWithPoster(
-                      posterUrl: widget.series.cover,
+                      posterUrl: _series.cover,
                       width: tablet ? 110 : 150,
                       info: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -1255,13 +1302,13 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     HourTvDetailInfo(
-                      plot: widget.series.plot,
-                      director: widget.series.director,
-                      writer: widget.series.writer,
-                      genre: widget.series.genre,
-                      releaseDate: widget.series.releaseDate,
-                      year: widget.series.year,
-                      rating: widget.series.rating,
+                      plot: _series.plot,
+                      director: _series.director,
+                      writer: _series.writer,
+                      genre: _series.genre,
+                      releaseDate: _series.releaseDate,
+                      year: _series.year,
+                      rating: _series.rating,
                       duration: seasons.isEmpty ? null : '${seasons.length}',
                       durationLabel: 'Temporadas',
                     ),
@@ -1402,10 +1449,10 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
         _heroTitle(52),
         const SizedBox(height: 10),
         _heroMeta(),
-        if ((widget.series.plot ?? '').trim().isNotEmpty) ...[
+        if ((_series.plot ?? '').trim().isNotEmpty) ...[
           const SizedBox(height: 12),
           Text(
-            widget.series.plot!,
+            _series.plot!,
             maxLines: 3,
             overflow: TextOverflow.ellipsis,
             style: const TextStyle(color: _textSecondary, height: 1.45),
@@ -1571,7 +1618,7 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
   }
 
   Widget _heroTitle(double size) => Text(
-    SeriesTitleSanitizer.sanitize(widget.series.name),
+    SeriesTitleSanitizer.sanitize(_series.name),
     maxLines: 2,
     overflow: TextOverflow.ellipsis,
     style: TextStyle(
@@ -1587,8 +1634,8 @@ class _HourTvSeriesDetailPageState extends State<HourTvSeriesDetailPage> {
   );
 
   Widget _heroMeta() {
-    final rating = widget.series.rating?.trim();
-    final year = widget.series.year?.trim();
+    final rating = _series.rating?.trim();
+    final year = _series.year?.trim();
     final parts = <Widget>[
       if (rating != null && rating.isNotEmpty)
         Row(

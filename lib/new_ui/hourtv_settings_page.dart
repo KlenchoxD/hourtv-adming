@@ -1,8 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
+import '../services/anime1v_service.dart';
+import '../services/content_store.dart';
 import '../services/iptv_server_service.dart';
 import '../services/storage_service.dart';
 import 'hourtv_settings_kit.dart';
@@ -108,6 +112,109 @@ class _HourTvSettingsPageState extends State<HourTvSettingsPage> {
     ).showSnackBar(const SnackBar(content: Text('Caché de imágenes vaciada.')));
   }
 
+  Future<void> _editAnimeApi() async {
+    final savedUrl =
+        StorageService.getSetting(Anime1vService.settingBaseUrlKey)
+            ?.toString() ??
+        '';
+    final savedKey =
+        StorageService.getSetting(Anime1vService.settingApiKeyKey)
+            ?.toString() ??
+        '';
+    final urlCtrl = TextEditingController(text: savedUrl);
+    final keyCtrl = TextEditingController(text: savedKey);
+    String? validationError;
+
+    final action = await showDialog<String>(
+      context: context,
+      builder: (dialogContext) => StatefulBuilder(
+        builder: (dialogContext, setDialogState) => AlertDialog(
+          backgroundColor: kSetSurface,
+          title: const Text('Servidor API de anime'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'URL base de anime1v-api (déjalo vacío para usar el servidor '
+                'predeterminado de HourTV).',
+              ),
+              const SizedBox(height: 12),
+              TextField(
+                controller: urlCtrl,
+                keyboardType: TextInputType.url,
+                decoration: InputDecoration(
+                  labelText: 'URL de anime1v-api',
+                  hintText: Anime1vService.defaultBaseUrl,
+                  errorText: validationError,
+                ),
+              ),
+              const SizedBox(height: 12),
+              TextField(
+                controller: keyCtrl,
+                decoration: const InputDecoration(
+                  labelText: 'API Key (opcional)',
+                  hintText: 'x-api-key',
+                ),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(dialogContext, 'reset'),
+              child: const Text('Restaurar'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.pop(dialogContext, 'cancel'),
+              child: const Text('Cancelar'),
+            ),
+            FilledButton(
+              onPressed: () {
+                final raw = urlCtrl.text.trim();
+                if (raw.isNotEmpty &&
+                    Anime1vService.normalizeBaseUrl(raw) == null) {
+                  setDialogState(() {
+                    validationError = 'Usa una URL http:// o https:// válida';
+                  });
+                  return;
+                }
+                Navigator.pop(dialogContext, 'save');
+              },
+              child: const Text('Guardar'),
+            ),
+          ],
+        ),
+      ),
+    );
+
+    final nextUrl = urlCtrl.text;
+    final nextKey = keyCtrl.text;
+    urlCtrl.dispose();
+    keyCtrl.dispose();
+
+    if (action == null || action == 'cancel' || !mounted) return;
+    if (action == 'reset') {
+      await Anime1vService.instance.saveConfig(baseUrl: '', apiKey: '');
+    } else {
+      await Anime1vService.instance.saveConfig(
+        baseUrl: nextUrl,
+        apiKey: nextKey,
+      );
+    }
+    unawaited(ContentStore.instance.loadAnimeCatalog(refresh: true));
+    if (!mounted) return;
+    setState(() {});
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          action == 'reset'
+              ? 'Servidor de anime restaurado al predeterminado.'
+              : 'Servidor de anime actualizado.',
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return HourTvSettingsScaffold(
@@ -159,6 +266,13 @@ class _HourTvSettingsPageState extends State<HourTvSettingsPage> {
               );
             },
           ),
+        const SettingsSectionLabel('Anime'),
+        SettingsChoiceRow(
+          icon: Icons.live_tv_rounded,
+          title: 'Servidor API de anime',
+          subtitle: Anime1vService.instance.config.baseUrl,
+          onTap: _editAnimeApi,
+        ),
         const SettingsSectionLabel('Almacenamiento'),
         SettingsChoiceRow(
           icon: Icons.cleaning_services_outlined,

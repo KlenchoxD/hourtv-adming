@@ -21,6 +21,7 @@ import 'epg_service.dart';
 import 'content_fingerprint.dart';
 import 'tmdb_service.dart';
 import 'supabase_bootstrap.dart';
+import 'anime1v_service.dart';
 import '../new_ui/hourtv_web_live_policy.dart';
 
 /// Agrupacion de canales por país (para el selector EN VIVO).
@@ -74,6 +75,13 @@ class ContentStore extends ChangeNotifier {
 
   List<Channel> all = [];
   List<XtreamSeries> series = [];
+  List<XtreamSeries> animeApiSeries = [];
+  final Map<String, XtreamSeries> _extraAnimeApiSeries = {};
+  List<XtreamSeries>? _visibleAnimeApiCache;
+  Object? _visibleAnimeApiSource;
+  int _visibleAnimeApiLength = -1;
+  int _visibleAnimeApiMode = -1;
+  Future<void>? _animeApiLoadInFlight;
   List<CountryBucket> countries = [];
   bool _legacyLoading = false;
   // Web-only readiness: a cached movie catalogue does not mean TV lists
@@ -120,6 +128,8 @@ class ContentStore extends ChangeNotifier {
     _readiness = const CatalogReadiness(CatalogLoadPhase.restoringSession);
     all = [];
     series = [];
+    animeApiSeries = [];
+    _extraAnimeApiSeries.clear();
     countries = [];
     _started = false;
     _refreshing = false;
@@ -131,7 +141,14 @@ class ContentStore extends ChangeNotifier {
     error = null;
     failedSourceNames = {};
     _visibleSeriesCache = null;
+    _visibleAnimeApiCache = null;
+    _visibleAnimeApiSource = null;
+    _visibleAnimeApiLength = -1;
+    _visibleAnimeApiMode = -1;
+    _animeApiLoadInFlight = null;
     _genreCategoryCache.clear();
+    _genreAnimeSource = null;
+    _genreAnimeLength = -1;
     _trendingCache = null;
     _catalogFromSnapshot = false;
     _snapshotFingerprint = null;
@@ -155,7 +172,7 @@ class ContentStore extends ChangeNotifier {
 
   Future<void> reload() async {
     _started = true;
-    await load();
+    await load(refreshAnime: true);
   }
 
   Future<void> retry({
@@ -201,6 +218,7 @@ class ContentStore extends ChangeNotifier {
     Future<List<Channel>> Function()? remoteLoader,
     Future<CatalogPayload> Function()? startupSnapshotLoader,
     Duration remoteTimeout = const Duration(seconds: 10),
+    bool refreshAnime = false,
   }) async {
     error = null;
     if (kIsWeb) _webLiveLoading = true;
@@ -471,6 +489,9 @@ class ContentStore extends ChangeNotifier {
     // recién abierta espera a que el usuario suelte la pantalla.
     final isTestEnv =
         !kIsWeb && Platform.environment.containsKey('FLUTTER_TEST');
+    if (!isTestEnv) {
+      unawaited(loadAnimeCatalog(refresh: refreshAnime));
+    }
     unawaited(() async {
       if (!isTestEnv) {
         await _waitForTouchIdle();
@@ -1320,6 +1341,94 @@ class ContentStore extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Animes cargados en vivo desde `anime1v-api`. Se mantienen separados de
+  /// [series] / [visibleSeries] para no alterar Películas, Series o Tendencias.
+  List<XtreamSeries> get visibleAnimeApiSeries {
+    final mode = ParentalControlService.filterMode;
+    final cached = _visibleAnimeApiCache;
+    if (cached != null &&
+        identical(_visibleAnimeApiSource, animeApiSeries) &&
+        _visibleAnimeApiLength == animeApiSeries.length &&
+        _visibleAnimeApiMode == mode) {
+      return cached;
+    }
+    final filtered = ParentalControlService.filterSeries(animeApiSeries);
+    _visibleAnimeApiSource = animeApiSeries;
+    _visibleAnimeApiLength = animeApiSeries.length;
+    _visibleAnimeApiMode = mode;
+    _visibleAnimeApiCache = filtered;
+    return filtered;
+  }
+
+  /// Incluye también animes resueltos por búsqueda o detalles para navegación y
+  /// calendario sin mezclarse con [visibleSeries].
+  List<XtreamSeries> get visibleAllAnimeApiSeries {
+    final primary = visibleAnimeApiSeries;
+    if (_extraAnimeApiSeries.isEmpty) return primary;
+    final seen = {for (final s in primary) s.seriesId};
+    final extraVisible = ParentalControlService.filterSeries(
+      _extraAnimeApiSeries.values
+          .where((s) => !seen.contains(s.seriesId))
+          .toList(growable: false),
+    );
+    if (extraVisible.isEmpty) return primary;
+    return List.of([...primary, ...extraVisible], growable: false);
+  }
+
+  void rememberAnimeApiSeries(XtreamSeries item) {
+    if (!Anime1vService.isAnime1vSeries(item)) return;
+    _extraAnimeApiSeries[item.seriesId] = item;
+    final idx = animeApiSeries.indexWhere((s) => s.seriesId == item.seriesId);
+    if (idx >= 0) {
+      final updated = List<XtreamSeries>.of(animeApiSeries);
+      updated[idx] = item;
+      animeApiSeries = updated;
+      _visibleAnimeApiCache = null;
+    }
+  }
+
+  Future<void> loadAnimeCatalog({
+    bool refresh = false,
+    Anime1vService? service,
+  }) {
+    final active = _animeApiLoadInFlight;
+    if (!refresh && active != null) return active;
+    final future = () async {
+      try {
+        final items = await (service ?? Anime1vService.instance)
+            .fetchInitialCatalog(forceRefresh: refresh);
+        if (items.isEmpty && animeApiSeries.isNotEmpty) return;
+        animeApiSeries = List.of(items, growable: false);
+        _visibleAnimeApiCache = null;
+        notifyListeners();
+      } catch (e) {
+        debugPrint('[Anime1v] Error cargando catálogo de anime: $e');
+      } finally {
+        _animeApiLoadInFlight = null;
+      }
+    }();
+    _animeApiLoadInFlight = future;
+    return future;
+  }
+
+  List<Channel> _mergeAnimeApiWith(List<Channel> catalogAnime) {
+    final apiSeries = visibleAnimeApiSeries;
+    if (apiSeries.isEmpty) return catalogAnime;
+    final merged = <Channel>[];
+    final seenNames = <String>{};
+    for (final s in apiSeries) {
+      final ch = hourTvSeriesChannel(s);
+      seenNames.add(_normalizedTitle(ch.displayName));
+      merged.add(ch);
+    }
+    for (final ch in catalogAnime) {
+      if (seenNames.add(_normalizedTitle(ch.displayName))) {
+        merged.add(ch);
+      }
+    }
+    return List.of(merged, growable: false);
+  }
+
   void refreshProfileData() {
     final favoriteUrls = StorageService.loadFavorites()
         .map((item) => item.url)
@@ -1493,8 +1602,10 @@ class ContentStore extends ChangeNotifier {
   List<Channel>? _trendingCache;
   Object? _genreCategorySource;
   Object? _genreCategorySeriesSource;
+  Object? _genreAnimeSource;
   int _genreCategoryLength = -1;
   int _genreCategorySeriesLength = -1;
+  int _genreAnimeLength = -1;
   int _genreCategoryFilterMode = -1;
   int _trendingTitlesCount = -1;
 
@@ -1507,6 +1618,8 @@ class ContentStore extends ChangeNotifier {
         _genreCategoryFilterMode != filterMode ||
         _trendingTitlesCount != _trendingTitles.length) {
       _genreCategoryCache.clear();
+      _genreAnimeSource = null;
+      _genreAnimeLength = -1;
       _trendingCache = null;
       _genreCategorySource = all;
       _genreCategorySeriesSource = series;
@@ -1579,7 +1692,13 @@ class ContentStore extends ChangeNotifier {
         filterMode != ParentalControlService.filterMode) {
       return;
     }
-    _genreCategoryCache['Anime'] ??= List.of(anime, growable: false);
+    if (!_genreCategoryCache.containsKey('Anime')) {
+      _genreCategoryCache['Anime'] = _mergeAnimeApiWith(
+        List.of(anime, growable: false),
+      );
+      _genreAnimeSource = animeApiSeries;
+      _genreAnimeLength = animeApiSeries.length;
+    }
     _genreCategoryCache['K-Drama'] ??= List.of(kDramas, growable: false);
     if (_trendingCache == null &&
         identical(_trendingTitles, trendingTitlesSnapshot)) {
@@ -1611,7 +1730,27 @@ class ContentStore extends ChangeNotifier {
   /// Anime y K-Drama pueden venir como película o como serie: a diferencia
   /// de `moviesByGenre` (solo películas), estas dos filas del Inicio buscan
   /// en todo el catálogo VOD.
-  List<Channel> get anime => _nonLiveByCanonicalGenre('Anime');
+  List<Channel> get anime {
+    _checkAndInvalidateGenreCache();
+    final cached = _genreCategoryCache['Anime'];
+    if (cached != null &&
+        identical(_genreAnimeSource, animeApiSeries) &&
+        _genreAnimeLength == animeApiSeries.length) {
+      return cached;
+    }
+    final catalogOnly = cached != null
+        ? cached
+              .where((c) => !Anime1vService.isAnime1vChannel(c))
+              .toList(growable: false)
+        : _homeGenreContent()
+              .where((c) => _genresForMovie(c).contains('Anime'))
+              .toList(growable: false);
+    final merged = _mergeAnimeApiWith(catalogOnly);
+    _genreAnimeSource = animeApiSeries;
+    _genreAnimeLength = animeApiSeries.length;
+    _genreCategoryCache['Anime'] = merged;
+    return merged;
+  }
 
   List<Channel> get kDramas => _nonLiveByCanonicalGenre('K-Drama');
 
@@ -1668,10 +1807,18 @@ class ContentStore extends ChangeNotifier {
         add(episode);
       }
     }
+    for (final item in [...animeApiSeries, ..._extraAnimeApiSeries.values]) {
+      references.add('id:${item.seriesId}');
+      references.add('url:${hourTvSeriesKey(item)}');
+      for (final episode in item.episodes ?? const <Channel>[]) {
+        add(episode);
+      }
+    }
     return references;
   }
 
   bool _matchesPublishedCatalog(Channel item, Set<String> references) =>
+      Anime1vService.isAnime1vChannel(item) ||
       (item.url.isNotEmpty && references.contains('url:${item.url}')) ||
       ((item.tvgId?.isNotEmpty ?? false) &&
           references.contains('id:${item.tvgId}'));
@@ -1770,7 +1917,11 @@ class ContentStore extends ChangeNotifier {
       String? seriesPoster;
       if (item.type == MediaType.series) {
         final id = item.stableTitleId ?? '';
-        for (final parent in series) {
+        for (final parent in [
+          ...series,
+          ...animeApiSeries,
+          ..._extraAnimeApiSeries.values,
+        ]) {
           if ((id.isNotEmpty &&
                   (id == parent.seriesId ||
                       id.startsWith('${parent.seriesId}:'))) ||
