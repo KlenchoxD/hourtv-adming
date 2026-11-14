@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-11-13T23:54:54.655Z",
+  "lastRunAt": "2026-11-14T04:18:03.776Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     1423191,
@@ -20,14 +20,15 @@
     1153576,
     1288445,
     1465063,
-    891621,
     1148365,
+    891621,
     687163,
     1368337,
     1813355,
     1507696,
     656908,
     354912,
+    1616687,
     1294189,
     155,
     1596275,
@@ -92,7 +93,7 @@
     {
       "tmdbId": 1567605,
       "title": "Scrooge y los fantasmas de la Navidad",
-      "reason": "Votos 33 por debajo del mínimo (50)"
+      "reason": "Votos 39 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 791523,
@@ -125,13 +126,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 891621,
-      "title": "Wild Horse Nine",
+      "tmdbId": 1148365,
+      "title": "Matchbox: La película",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1148365,
-      "title": "Matchbox: La película",
+      "tmdbId": 891621,
+      "title": "Wild Horse Nine",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -160,6 +161,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1616687,
+      "title": "No nos rendimos",
+      "reason": "Votos 14 por debajo del mínimo (50)"
+    },
+    {
       "tmdbId": 1294189,
       "title": "La mangosta",
       "reason": "Sin fuente autorizada configurada"
@@ -172,7 +178,7 @@
     {
       "tmdbId": 1562642,
       "title": "El Ángel Guardián",
-      "reason": "Votos 9 por debajo del mínimo (50)"
+      "reason": "Votos 11 por debajo del mínimo (50)"
     }
   ]
 }
