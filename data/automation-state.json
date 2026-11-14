@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-11-14T17:18:05.483Z",
+  "lastRunAt": "2026-11-14T21:37:39.015Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     1423191,
@@ -7,31 +7,31 @@
     969681,
     1058424,
     1400837,
-    1381071,
     1244523,
+    1381071,
     1616687,
     1283515,
     1422041,
     1101412,
     1567605,
     1657630,
+    1153576,
     791523,
     1400940,
-    1291595,
-    1153576,
-    1288445,
     1465063,
-    1148365,
-    687163,
+    1288445,
+    1291595,
+    891621,
     1368337,
+    687163,
     1813355,
     1507696,
     656908,
     1294189,
-    155,
+    1003596,
     354912,
-    1596275,
     1562642,
+    1596275,
     1335666,
     1083381
   ],
@@ -60,13 +60,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1381071,
-      "title": "Godzilla Minus Zero",
+      "tmdbId": 1244523,
+      "title": "Boiuna: La leyenda del Amazonas",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1244523,
-      "title": "Boiuna: La leyenda del Amazonas",
+      "tmdbId": 1381071,
+      "title": "Godzilla Minus Zero",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -100,6 +100,11 @@
       "reason": "Sin sinopsis"
     },
     {
+      "tmdbId": 1153576,
+      "title": "Street Fighter",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 791523,
       "title": "Wildwood: El Bosque Salvaje",
       "reason": "Sin fuente autorizada configurada"
@@ -110,13 +115,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1291595,
-      "title": "Insidious: Fuera del más allá",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1153576,
-      "title": "Street Fighter",
+      "tmdbId": 1465063,
+      "title": "La isla olvidada",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -125,13 +125,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1465063,
-      "title": "La isla olvidada",
+      "tmdbId": 1291595,
+      "title": "Insidious: Fuera del más allá",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1148365,
-      "title": "Matchbox: La película",
+      "tmdbId": 891621,
+      "title": "Wild Horse Nine",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -152,7 +152,7 @@
     {
       "tmdbId": 656908,
       "title": "Ramayana: El Nacimiento de una Leyenda",
-      "reason": "Votos 44 por debajo del mínimo (50)"
+      "reason": "Votos 45 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1294189,
@@ -160,19 +160,24 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 354912,
-      "title": "Coco",
-      "reason": "Sin fuente autorizada configurada"
+      "tmdbId": 1003596,
+      "title": "Vengadores: Doomsday",
+      "reason": "Rating 0 por debajo del mínimo (5.5)"
     },
     {
-      "tmdbId": 1596275,
-      "title": "Drive: Los farsantes",
+      "tmdbId": 354912,
+      "title": "Coco",
       "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1562642,
       "title": "El Ángel Guardián",
       "reason": "Votos 12 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 1596275,
+      "title": "Drive: Los farsantes",
+      "reason": "Sin fuente autorizada configurada"
     }
   ]
 }
