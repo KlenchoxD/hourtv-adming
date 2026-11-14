@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-11-14T04:18:03.776Z",
+  "lastRunAt": "2026-11-14T11:39:27.379Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     1423191,
@@ -9,11 +9,12 @@
     1400837,
     1381071,
     1244523,
+    1616687,
     1283515,
     1422041,
     1101412,
-    1657630,
     1567605,
+    1657630,
     791523,
     1400940,
     1291595,
@@ -21,16 +22,14 @@
     1288445,
     1465063,
     1148365,
-    891621,
     687163,
     1368337,
     1813355,
     1507696,
     656908,
-    354912,
-    1616687,
     1294189,
     155,
+    354912,
     1596275,
     1562642,
     1335666,
@@ -71,6 +70,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1616687,
+      "title": "No nos rendimos",
+      "reason": "Votos 16 por debajo del mínimo (50)"
+    },
+    {
       "tmdbId": 1283515,
       "title": "Verity. La sombra de un engaño",
       "reason": "Sin fuente autorizada configurada"
@@ -86,14 +90,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1567605,
+      "title": "Scrooge y los fantasmas de la Navidad",
+      "reason": "Votos 44 por debajo del mínimo (50)"
+    },
+    {
       "tmdbId": 1657630,
       "title": "El despertar",
       "reason": "Sin sinopsis"
-    },
-    {
-      "tmdbId": 1567605,
-      "title": "Scrooge y los fantasmas de la Navidad",
-      "reason": "Votos 39 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 791523,
@@ -131,11 +135,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 891621,
-      "title": "Wild Horse Nine",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 687163,
       "title": "Proyecto Salvación",
       "reason": "Sin fuente autorizada configurada"
@@ -156,18 +155,13 @@
       "reason": "Votos 42 por debajo del mínimo (50)"
     },
     {
-      "tmdbId": 354912,
-      "title": "Coco",
+      "tmdbId": 1294189,
+      "title": "La mangosta",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1616687,
-      "title": "No nos rendimos",
-      "reason": "Votos 14 por debajo del mínimo (50)"
-    },
-    {
-      "tmdbId": 1294189,
-      "title": "La mangosta",
+      "tmdbId": 354912,
+      "title": "Coco",
       "reason": "Sin fuente autorizada configurada"
     },
     {
