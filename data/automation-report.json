@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-15T01:18:19.198Z",
-  "durationMs": 3465,
+  "generatedAt": "2026-11-15T08:03:08.180Z",
+  "durationMs": 2467,
   "dryRun": false,
   "moviesFound": 32,
   "moviesDiscarded": 28,
@@ -23,13 +23,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1058424,
-      "title": "Hope",
+      "tmdbId": 1400837,
+      "title": "La otra madre",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1400837,
-      "title": "La otra madre",
+      "tmdbId": 1058424,
+      "title": "Hope",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -58,13 +58,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1101412,
-      "title": "Fall 2: Deadpoint",
+      "tmdbId": 1567605,
+      "title": "Scrooge y los fantasmas de la Navidad",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1567605,
-      "title": "Scrooge y los fantasmas de la Navidad",
+      "tmdbId": 1101412,
+      "title": "Fall 2: Deadpoint",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -73,13 +73,18 @@
       "reason": "Sin sinopsis"
     },
     {
-      "tmdbId": 1153576,
-      "title": "Street Fighter",
+      "tmdbId": 791523,
+      "title": "Wildwood: El Bosque Salvaje",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 791523,
-      "title": "Wildwood: El Bosque Salvaje",
+      "tmdbId": 1291595,
+      "title": "Insidious: Fuera del más allá",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1153576,
+      "title": "Street Fighter",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -95,11 +100,6 @@
     {
       "tmdbId": 1288445,
       "title": "El motín",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1291595,
-      "title": "Insidious: Fuera del más allá",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -123,19 +123,19 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1003596,
+      "title": "Vengadores: Doomsday",
+      "reason": "Rating 0 por debajo del mínimo (5.5)"
+    },
+    {
       "tmdbId": 656908,
       "title": "Ramayana: El Nacimiento de una Leyenda",
-      "reason": "Votos 45 por debajo del mínimo (50)"
+      "reason": "Votos 46 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1294189,
       "title": "La mangosta",
       "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1003596,
-      "title": "Vengadores: Doomsday",
-      "reason": "Rating 0 por debajo del mínimo (5.5)"
     },
     {
       "tmdbId": 354912,
@@ -145,7 +145,7 @@
     {
       "tmdbId": 1562642,
       "title": "El Ángel Guardián",
-      "reason": "Votos 13 por debajo del mínimo (50)"
+      "reason": "Votos 14 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1596275,
