@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-15T15:37:57.563Z",
-  "durationMs": 2788,
+  "generatedAt": "2026-11-15T20:33:52.693Z",
+  "durationMs": 730,
   "dryRun": false,
   "moviesFound": 31,
   "moviesDiscarded": 26,
@@ -123,24 +123,24 @@
       "reason": "Rating 0 por debajo del mínimo (5.5)"
     },
     {
-      "tmdbId": 656908,
-      "title": "Ramayana: El Nacimiento de una Leyenda",
-      "reason": "Votos 47 por debajo del mínimo (50)"
-    },
-    {
       "tmdbId": 1294189,
       "title": "La mangosta",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 354912,
-      "title": "Coco",
+      "tmdbId": 656908,
+      "title": "Ramayana: El Nacimiento de una Leyenda",
       "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1562642,
       "title": "El Ángel Guardián",
-      "reason": "Votos 15 por debajo del mínimo (50)"
+      "reason": "Votos 17 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 354912,
+      "title": "Coco",
+      "reason": "Sin fuente autorizada configurada"
     }
   ]
 }

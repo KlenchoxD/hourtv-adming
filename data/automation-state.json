@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-11-15T15:38:00.348Z",
+  "lastRunAt": "2026-11-15T20:33:53.420Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     1263337,
@@ -27,10 +27,10 @@
     1813355,
     1507696,
     1003596,
-    656908,
     1294189,
-    354912,
+    656908,
     1562642,
+    354912,
     1335666,
     1083381
   ],
@@ -149,24 +149,24 @@
       "reason": "Rating 0 por debajo del mínimo (5.5)"
     },
     {
-      "tmdbId": 656908,
-      "title": "Ramayana: El Nacimiento de una Leyenda",
-      "reason": "Votos 47 por debajo del mínimo (50)"
-    },
-    {
       "tmdbId": 1294189,
       "title": "La mangosta",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 354912,
-      "title": "Coco",
+      "tmdbId": 656908,
+      "title": "Ramayana: El Nacimiento de una Leyenda",
       "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1562642,
       "title": "El Ángel Guardián",
-      "reason": "Votos 15 por debajo del mínimo (50)"
+      "reason": "Votos 17 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 354912,
+      "title": "Coco",
+      "reason": "Sin fuente autorizada configurada"
     }
   ]
 }
