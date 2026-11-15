@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-14T21:37:37.140Z",
-  "durationMs": 1877,
+  "generatedAt": "2026-11-15T01:18:19.198Z",
+  "durationMs": 3465,
   "dryRun": false,
   "moviesFound": 32,
   "moviesDiscarded": 28,
@@ -45,7 +45,7 @@
     {
       "tmdbId": 1616687,
       "title": "No nos rendimos",
-      "reason": "Votos 19 por debajo del mínimo (50)"
+      "reason": "Votos 22 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1283515,
@@ -65,7 +65,7 @@
     {
       "tmdbId": 1567605,
       "title": "Scrooge y los fantasmas de la Navidad",
-      "reason": "Votos 48 por debajo del mínimo (50)"
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1657630,
@@ -145,7 +145,7 @@
     {
       "tmdbId": 1562642,
       "title": "El Ángel Guardián",
-      "reason": "Votos 12 por debajo del mínimo (50)"
+      "reason": "Votos 13 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1596275,
