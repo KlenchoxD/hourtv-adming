@@ -1,11 +1,11 @@
 {
-  "lastRunAt": "2026-11-16T00:22:05.662Z",
+  "lastRunAt": "2026-11-16T06:57:46.879Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     1263337,
     1423191,
-    969681,
     1400837,
+    969681,
     1058424,
     1616687,
     1244523,
@@ -15,8 +15,8 @@
     1101412,
     1567605,
     1657630,
-    791523,
     299534,
+    791523,
     1291595,
     1153576,
     1288445,
@@ -28,8 +28,8 @@
     1507696,
     1003596,
     1294189,
-    656908,
     1562642,
+    656908,
     354912,
     1335666,
     1083381
@@ -61,7 +61,7 @@
     {
       "tmdbId": 1616687,
       "title": "No nos rendimos",
-      "reason": "Votos 28 por debajo del mínimo (50)"
+      "reason": "Votos 32 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1244523,
@@ -154,14 +154,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1562642,
+      "title": "El Ángel Guardián",
+      "reason": "Votos 20 por debajo del mínimo (50)"
+    },
+    {
       "tmdbId": 656908,
       "title": "Ramayana: El Nacimiento de una Leyenda",
       "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1562642,
-      "title": "El Ángel Guardián",
-      "reason": "Votos 17 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 354912,

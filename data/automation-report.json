@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-16T00:22:02.255Z",
-  "durationMs": 3412,
+  "generatedAt": "2026-11-16T06:57:44.365Z",
+  "durationMs": 2517,
   "dryRun": false,
   "moviesFound": 31,
   "moviesDiscarded": 26,
@@ -35,7 +35,7 @@
     {
       "tmdbId": 1616687,
       "title": "No nos rendimos",
-      "reason": "Votos 28 por debajo del mínimo (50)"
+      "reason": "Votos 32 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1244523,
@@ -128,14 +128,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1562642,
+      "title": "El Ángel Guardián",
+      "reason": "Votos 20 por debajo del mínimo (50)"
+    },
+    {
       "tmdbId": 656908,
       "title": "Ramayana: El Nacimiento de una Leyenda",
       "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1562642,
-      "title": "El Ángel Guardián",
-      "reason": "Votos 17 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 354912,
