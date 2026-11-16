@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-15T20:33:52.693Z",
-  "durationMs": 730,
+  "generatedAt": "2026-11-16T00:22:02.255Z",
+  "durationMs": 3412,
   "dryRun": false,
   "moviesFound": 31,
   "moviesDiscarded": 26,
@@ -35,7 +35,7 @@
     {
       "tmdbId": 1616687,
       "title": "No nos rendimos",
-      "reason": "Votos 25 por debajo del mínimo (50)"
+      "reason": "Votos 28 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1244523,
