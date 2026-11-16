@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-11-16T06:57:46.879Z",
+  "lastRunAt": "2026-11-16T16:45:34.165Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     1263337,
@@ -11,17 +11,17 @@
     1244523,
     1381071,
     1422041,
-    1283515,
     1101412,
     1567605,
+    1283515,
     1657630,
     299534,
     791523,
     1291595,
     1153576,
     1288445,
-    1400940,
     1465063,
+    1400940,
     1368337,
     687163,
     1813355,
@@ -61,7 +61,7 @@
     {
       "tmdbId": 1616687,
       "title": "No nos rendimos",
-      "reason": "Votos 32 por debajo del mínimo (50)"
+      "reason": "Votos 35 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1244523,
@@ -79,11 +79,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1283515,
-      "title": "Verity. La sombra de un engaño",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1101412,
       "title": "Fall 2: Deadpoint",
       "reason": "Sin fuente autorizada configurada"
@@ -91,6 +86,11 @@
     {
       "tmdbId": 1567605,
       "title": "Scrooge y los fantasmas de la Navidad",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1283515,
+      "title": "Verity. La sombra de un engaño",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -119,13 +119,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1400940,
-      "title": "Clayface",
+      "tmdbId": 1465063,
+      "title": "La isla olvidada",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1465063,
-      "title": "La isla olvidada",
+      "tmdbId": 1400940,
+      "title": "Clayface",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -156,7 +156,7 @@
     {
       "tmdbId": 1562642,
       "title": "El Ángel Guardián",
-      "reason": "Votos 20 por debajo del mínimo (50)"
+      "reason": "Votos 23 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 656908,
