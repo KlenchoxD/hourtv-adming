@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-11-16T16:45:34.165Z",
+  "lastRunAt": "2026-11-17T00:35:07.264Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     1263337,
@@ -30,7 +30,6 @@
     1294189,
     1562642,
     656908,
-    354912,
     1335666,
     1083381
   ],
@@ -61,7 +60,7 @@
     {
       "tmdbId": 1616687,
       "title": "No nos rendimos",
-      "reason": "Votos 35 por debajo del mínimo (50)"
+      "reason": "Votos 38 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1244523,
@@ -161,11 +160,6 @@
     {
       "tmdbId": 656908,
       "title": "Ramayana: El Nacimiento de una Leyenda",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 354912,
-      "title": "Coco",
       "reason": "Sin fuente autorizada configurada"
     }
   ]
