@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-11-17T00:35:07.264Z",
+  "lastRunAt": "2026-11-17T08:28:26.467Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     1263337,
@@ -10,18 +10,18 @@
     1616687,
     1244523,
     1381071,
+    1567605,
     1422041,
     1101412,
-    1567605,
     1283515,
     1657630,
     299534,
-    791523,
-    1291595,
     1153576,
     1288445,
+    1291595,
+    791523,
     1465063,
-    1400940,
+    1384216,
     1368337,
     687163,
     1813355,
@@ -60,7 +60,7 @@
     {
       "tmdbId": 1616687,
       "title": "No nos rendimos",
-      "reason": "Votos 38 por debajo del mínimo (50)"
+      "reason": "Votos 42 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1244523,
@@ -70,6 +70,11 @@
     {
       "tmdbId": 1381071,
       "title": "Godzilla Minus Zero",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1567605,
+      "title": "Scrooge y los fantasmas de la Navidad",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -83,11 +88,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1567605,
-      "title": "Scrooge y los fantasmas de la Navidad",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1283515,
       "title": "Verity. La sombra de un engaño",
       "reason": "Sin fuente autorizada configurada"
@@ -96,16 +96,6 @@
       "tmdbId": 1657630,
       "title": "El despertar",
       "reason": "Sin sinopsis"
-    },
-    {
-      "tmdbId": 791523,
-      "title": "Wildwood: El Bosque Salvaje",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1291595,
-      "title": "Insidious: Fuera del más allá",
-      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1153576,
@@ -118,13 +108,23 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1291595,
+      "title": "Insidious: Fuera del más allá",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 791523,
+      "title": "Wildwood: El Bosque Salvaje",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1465063,
       "title": "La isla olvidada",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1400940,
-      "title": "Clayface",
+      "tmdbId": 1384216,
+      "title": "La constelación del perro",
       "reason": "Sin fuente autorizada configurada"
     },
     {
