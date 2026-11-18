@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-11-18T16:50:44.526Z",
+  "lastRunAt": "2026-11-18T23:13:20.500Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     1263337,
@@ -61,7 +61,7 @@
     {
       "tmdbId": 1616687,
       "title": "No nos rendimos",
-      "reason": "Votos 49 por debajo del mínimo (50)"
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1244523,
@@ -86,7 +86,7 @@
     {
       "tmdbId": 1300968,
       "title": "Los Juegos del Hambre: Amanecer en la cosecha",
-      "reason": "Votos 21 por debajo del mínimo (50)"
+      "reason": "Votos 29 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1101412,
@@ -111,7 +111,7 @@
     {
       "tmdbId": 1437511,
       "title": "Como robar un banco",
-      "reason": "Votos 39 por debajo del mínimo (50)"
+      "reason": "Votos 42 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1400940,
