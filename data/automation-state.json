@@ -1,35 +1,36 @@
 {
-  "lastRunAt": "2026-11-18T07:47:26.190Z",
+  "lastRunAt": "2026-11-18T16:50:44.526Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     1263337,
-    1423191,
     1400837,
+    1423191,
     969681,
     1058424,
     1616687,
     1244523,
-    1567605,
     1381071,
+    1567605,
     1422041,
     1300968,
-    1283515,
     1101412,
+    1283515,
     299534,
     1153576,
     791523,
-    1291595,
-    1288445,
+    1437511,
     1400940,
-    1465063,
+    1288445,
+    1291595,
     1368337,
     687163,
     1813355,
     1507696,
     1003596,
     1294189,
-    1562642,
     656908,
+    1562642,
+    1543469,
     1335666,
     1083381
   ],
@@ -43,13 +44,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1423191,
-      "title": "Resident Evil",
+      "tmdbId": 1400837,
+      "title": "La otra madre",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1400837,
-      "title": "La otra madre",
+      "tmdbId": 1423191,
+      "title": "Resident Evil",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -60,7 +61,7 @@
     {
       "tmdbId": 1616687,
       "title": "No nos rendimos",
-      "reason": "Votos 48 por debajo del mínimo (50)"
+      "reason": "Votos 49 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1244523,
@@ -68,13 +69,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1567605,
-      "title": "Scrooge y los fantasmas de la Navidad",
+      "tmdbId": 1381071,
+      "title": "Godzilla Minus Zero",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1381071,
-      "title": "Godzilla Minus Zero",
+      "tmdbId": 1567605,
+      "title": "Scrooge y los fantasmas de la Navidad",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -85,16 +86,16 @@
     {
       "tmdbId": 1300968,
       "title": "Los Juegos del Hambre: Amanecer en la cosecha",
-      "reason": "Votos 19 por debajo del mínimo (50)"
-    },
-    {
-      "tmdbId": 1283515,
-      "title": "Verity. La sombra de un engaño",
-      "reason": "Sin fuente autorizada configurada"
+      "reason": "Votos 21 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1101412,
       "title": "Fall 2: Deadpoint",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1283515,
+      "title": "Verity. La sombra de un engaño",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -108,8 +109,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1291595,
-      "title": "Insidious: Fuera del más allá",
+      "tmdbId": 1437511,
+      "title": "Como robar un banco",
+      "reason": "Votos 39 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 1400940,
+      "title": "Clayface",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -118,13 +124,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1400940,
-      "title": "Clayface",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1465063,
-      "title": "La isla olvidada",
+      "tmdbId": 1291595,
+      "title": "Insidious: Fuera del más allá",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -153,13 +154,18 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1562642,
-      "title": "El Ángel Guardián",
-      "reason": "Votos 25 por debajo del mínimo (50)"
-    },
-    {
       "tmdbId": 656908,
       "title": "Ramayana: El Nacimiento de una Leyenda",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1562642,
+      "title": "El Ángel Guardián",
+      "reason": "Votos 26 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 1543469,
+      "title": "Heartland",
       "reason": "Sin fuente autorizada configurada"
     }
   ]
