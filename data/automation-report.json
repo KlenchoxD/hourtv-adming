@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-17T17:46:13.645Z",
-  "durationMs": 2643,
+  "generatedAt": "2026-11-18T00:17:16.775Z",
+  "durationMs": 2947,
   "dryRun": false,
   "moviesFound": 30,
   "moviesDiscarded": 25,
@@ -35,7 +35,7 @@
     {
       "tmdbId": 1616687,
       "title": "No nos rendimos",
-      "reason": "Votos 45 por debajo del mínimo (50)"
+      "reason": "Votos 48 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1244523,
@@ -68,6 +68,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1300968,
+      "title": "Los Juegos del Hambre: Amanecer en la cosecha",
+      "reason": "Votos 17 por debajo del mínimo (50)"
+    },
+    {
       "tmdbId": 1153576,
       "title": "Street Fighter",
       "reason": "Sin fuente autorizada configurada"
@@ -98,11 +103,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1437511,
-      "title": "Como robar un banco",
-      "reason": "Votos 35 por debajo del mínimo (50)"
-    },
-    {
       "tmdbId": 687163,
       "title": "Proyecto Salvación",
       "reason": "Sin fuente autorizada configurada"
@@ -130,7 +130,7 @@
     {
       "tmdbId": 1562642,
       "title": "El Ángel Guardián",
-      "reason": "Votos 24 por debajo del mínimo (50)"
+      "reason": "Votos 25 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 656908,
