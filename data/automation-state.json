@@ -1,32 +1,32 @@
 {
-  "lastRunAt": "2026-11-19T04:11:43.322Z",
+  "lastRunAt": "2026-11-19T13:00:27.812Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     1263337,
-    1423191,
     1400837,
+    1423191,
     969681,
     1058424,
     1616687,
     1244523,
     1300968,
-    1381071,
     1567605,
+    1381071,
     1422041,
     1101412,
     1283515,
-    299534,
     1153576,
+    299534,
     791523,
+    891621,
     1437511,
     1400940,
     1288445,
-    1291595,
     1368337,
     687163,
     1813355,
-    1507696,
     1003596,
+    1507696,
     1294189,
     656908,
     1562642,
@@ -44,13 +44,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1423191,
-      "title": "Resident Evil",
+      "tmdbId": 1400837,
+      "title": "La otra madre",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1400837,
-      "title": "La otra madre",
+      "tmdbId": 1423191,
+      "title": "Resident Evil",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -71,16 +71,16 @@
     {
       "tmdbId": 1300968,
       "title": "Los Juegos del Hambre: Amanecer en la cosecha",
-      "reason": "Votos 29 por debajo del mínimo (50)"
-    },
-    {
-      "tmdbId": 1381071,
-      "title": "Godzilla Minus Zero",
-      "reason": "Sin fuente autorizada configurada"
+      "reason": "Votos 38 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1567605,
       "title": "Scrooge y los fantasmas de la Navidad",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1381071,
+      "title": "Godzilla Minus Zero",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -109,9 +109,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 891621,
+      "title": "Wild Horse Nine",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1437511,
       "title": "Como robar un banco",
-      "reason": "Votos 42 por debajo del mínimo (50)"
+      "reason": "Votos 46 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1400940,
@@ -121,11 +126,6 @@
     {
       "tmdbId": 1288445,
       "title": "El motín",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1291595,
-      "title": "Insidious: Fuera del más allá",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -139,14 +139,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1507696,
-      "title": "Apocalipsis Z: Nuevo mundo",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1003596,
       "title": "Vengadores: Doomsday",
       "reason": "Rating 0 por debajo del mínimo (5.5)"
+    },
+    {
+      "tmdbId": 1507696,
+      "title": "Apocalipsis Z: Nuevo mundo",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1294189,
@@ -161,7 +161,7 @@
     {
       "tmdbId": 1562642,
       "title": "El Ángel Guardián",
-      "reason": "Votos 27 por debajo del mínimo (50)"
+      "reason": "Votos 26 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1543469,
