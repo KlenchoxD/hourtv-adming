@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-19T13:00:24.958Z",
-  "durationMs": 2859,
+  "generatedAt": "2026-11-19T21:27:50.561Z",
+  "durationMs": 3082,
   "dryRun": false,
   "moviesFound": 31,
   "moviesDiscarded": 26,
@@ -28,24 +28,24 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1058424,
-      "title": "Hope",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1616687,
       "title": "No nos rendimos",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1244523,
-      "title": "Boiuna: La leyenda del Amazonas",
+      "tmdbId": 1058424,
+      "title": "Hope",
       "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1300968,
       "title": "Los Juegos del Hambre: Amanecer en la cosecha",
-      "reason": "Votos 38 por debajo del mínimo (50)"
+      "reason": "Votos 43 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 1244523,
+      "title": "Boiuna: La leyenda del Amazonas",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1567605,
@@ -83,11 +83,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 891621,
-      "title": "Wild Horse Nine",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1437511,
       "title": "Como robar un banco",
       "reason": "Votos 46 por debajo del mínimo (50)"
@@ -95,6 +90,11 @@
     {
       "tmdbId": 1400940,
       "title": "Clayface",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 891621,
+      "title": "Wild Horse Nine",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -135,7 +135,7 @@
     {
       "tmdbId": 1562642,
       "title": "El Ángel Guardián",
-      "reason": "Votos 26 por debajo del mínimo (50)"
+      "reason": "Votos 28 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1543469,
