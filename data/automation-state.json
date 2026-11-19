@@ -1,18 +1,18 @@
 {
-  "lastRunAt": "2026-11-18T23:13:20.500Z",
+  "lastRunAt": "2026-11-19T04:11:43.322Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     1263337,
-    1400837,
     1423191,
+    1400837,
     969681,
     1058424,
     1616687,
     1244523,
+    1300968,
     1381071,
     1567605,
     1422041,
-    1300968,
     1101412,
     1283515,
     299534,
@@ -44,13 +44,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1400837,
-      "title": "La otra madre",
+      "tmdbId": 1423191,
+      "title": "Resident Evil",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1423191,
-      "title": "Resident Evil",
+      "tmdbId": 1400837,
+      "title": "La otra madre",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -69,6 +69,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1300968,
+      "title": "Los Juegos del Hambre: Amanecer en la cosecha",
+      "reason": "Votos 29 por debajo del mínimo (50)"
+    },
+    {
       "tmdbId": 1381071,
       "title": "Godzilla Minus Zero",
       "reason": "Sin fuente autorizada configurada"
@@ -82,11 +87,6 @@
       "tmdbId": 1422041,
       "title": "La bola negra",
       "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1300968,
-      "title": "Los Juegos del Hambre: Amanecer en la cosecha",
-      "reason": "Votos 29 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1101412,
@@ -161,7 +161,7 @@
     {
       "tmdbId": 1562642,
       "title": "El Ángel Guardián",
-      "reason": "Votos 26 por debajo del mínimo (50)"
+      "reason": "Votos 27 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1543469,

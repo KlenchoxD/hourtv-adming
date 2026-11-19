@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-18T23:13:18.040Z",
-  "durationMs": 2464,
+  "generatedAt": "2026-11-19T04:11:40.676Z",
+  "durationMs": 2650,
   "dryRun": false,
   "moviesFound": 31,
   "moviesDiscarded": 26,
@@ -18,13 +18,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1400837,
-      "title": "La otra madre",
+      "tmdbId": 1423191,
+      "title": "Resident Evil",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1423191,
-      "title": "Resident Evil",
+      "tmdbId": 1400837,
+      "title": "La otra madre",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -43,6 +43,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1300968,
+      "title": "Los Juegos del Hambre: Amanecer en la cosecha",
+      "reason": "Votos 29 por debajo del mínimo (50)"
+    },
+    {
       "tmdbId": 1381071,
       "title": "Godzilla Minus Zero",
       "reason": "Sin fuente autorizada configurada"
@@ -56,11 +61,6 @@
       "tmdbId": 1422041,
       "title": "La bola negra",
       "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1300968,
-      "title": "Los Juegos del Hambre: Amanecer en la cosecha",
-      "reason": "Votos 29 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1101412,
@@ -135,7 +135,7 @@
     {
       "tmdbId": 1562642,
       "title": "El Ángel Guardián",
-      "reason": "Votos 26 por debajo del mínimo (50)"
+      "reason": "Votos 27 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1543469,
