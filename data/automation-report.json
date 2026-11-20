@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-19T21:27:50.561Z",
-  "durationMs": 3082,
+  "generatedAt": "2026-11-20T02:29:05.041Z",
+  "durationMs": 2350,
   "dryRun": false,
   "moviesFound": 31,
   "moviesDiscarded": 26,
@@ -40,7 +40,7 @@
     {
       "tmdbId": 1300968,
       "title": "Los Juegos del Hambre: Amanecer en la cosecha",
-      "reason": "Votos 43 por debajo del mínimo (50)"
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1244523,
@@ -48,13 +48,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1567605,
-      "title": "Scrooge y los fantasmas de la Navidad",
+      "tmdbId": 1381071,
+      "title": "Godzilla Minus Zero",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1381071,
-      "title": "Godzilla Minus Zero",
+      "tmdbId": 1567605,
+      "title": "Scrooge y los fantasmas de la Navidad",
       "reason": "Sin fuente autorizada configurada"
     },
     {
