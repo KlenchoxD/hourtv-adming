@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-11-20T10:19:12.259Z",
+  "lastRunAt": "2026-11-20T18:41:16.547Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     1263337,
@@ -17,20 +17,20 @@
     1283515,
     1153576,
     791523,
+    1400940,
     299534,
     1437511,
-    1400940,
     891621,
     1288445,
     1368337,
-    687163,
+    1726,
     1813355,
     1003596,
+    687163,
     1507696,
-    1294189,
     656908,
+    1294189,
     1562642,
-    1543469,
     1335666,
     1083381
   ],
@@ -109,14 +109,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1437511,
-      "title": "Como robar un banco",
-      "reason": "Votos 46 por debajo del mínimo (50)"
-    },
-    {
       "tmdbId": 1400940,
       "title": "Clayface",
       "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1437511,
+      "title": "Como robar un banco",
+      "reason": "Votos 46 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 891621,
@@ -126,11 +126,6 @@
     {
       "tmdbId": 1288445,
       "title": "El motín",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 687163,
-      "title": "Proyecto Salvación",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -144,13 +139,13 @@
       "reason": "Rating 0 por debajo del mínimo (5.5)"
     },
     {
-      "tmdbId": 1507696,
-      "title": "Apocalipsis Z: Nuevo mundo",
+      "tmdbId": 687163,
+      "title": "Proyecto Salvación",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1294189,
-      "title": "La mangosta",
+      "tmdbId": 1507696,
+      "title": "Apocalipsis Z: Nuevo mundo",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -159,14 +154,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1562642,
-      "title": "El Ángel Guardián",
-      "reason": "Votos 28 por debajo del mínimo (50)"
+      "tmdbId": 1294189,
+      "title": "La mangosta",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1543469,
-      "title": "Heartland",
-      "reason": "Sin fuente autorizada configurada"
+      "tmdbId": 1562642,
+      "title": "El Ángel Guardián",
+      "reason": "Votos 30 por debajo del mínimo (50)"
     }
   ]
 }
