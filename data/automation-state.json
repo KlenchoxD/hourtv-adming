@@ -1,36 +1,37 @@
 {
-  "lastRunAt": "2026-11-21T07:12:52.510Z",
+  "lastRunAt": "2026-11-21T15:21:34.298Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     1263337,
     1400837,
-    1423191,
     969681,
+    1423191,
     1300968,
-    1616687,
     1058424,
+    1616687,
     1244523,
     1381071,
     1567605,
     1422041,
     1101412,
     1283515,
-    1153576,
-    791523,
-    1400940,
-    299534,
-    1437511,
     1288445,
-    891621,
-    1368337,
+    299534,
+    791523,
+    1153576,
+    1101383,
+    1400940,
+    1437511,
     1726,
+    1368337,
     1813355,
     1003596,
     687163,
     1507696,
-    656908,
     1294189,
+    656908,
     1562642,
+    1551025,
     1335666,
     1083381
   ],
@@ -59,13 +60,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1616687,
-      "title": "No nos rendimos",
+      "tmdbId": 1058424,
+      "title": "Hope",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1058424,
-      "title": "Hope",
+      "tmdbId": 1616687,
+      "title": "No nos rendimos",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -99,13 +100,23 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1153576,
-      "title": "Street Fighter",
+      "tmdbId": 1288445,
+      "title": "El motín",
       "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 791523,
       "title": "Wildwood: El Bosque Salvaje",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1153576,
+      "title": "Street Fighter",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1101383,
+      "title": "El final de Oak Street",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -116,17 +127,7 @@
     {
       "tmdbId": 1437511,
       "title": "Como robar un banco",
-      "reason": "Votos 46 por debajo del mínimo (50)"
-    },
-    {
-      "tmdbId": 1288445,
-      "title": "El motín",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 891621,
-      "title": "Wild Horse Nine",
-      "reason": "Sin fuente autorizada configurada"
+      "reason": "Votos 48 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1813355,
@@ -149,19 +150,24 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 656908,
-      "title": "Ramayana: El Nacimiento de una Leyenda",
+      "tmdbId": 1294189,
+      "title": "La mangosta",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1294189,
-      "title": "La mangosta",
+      "tmdbId": 656908,
+      "title": "Ramayana: El Nacimiento de una Leyenda",
       "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1562642,
       "title": "El Ángel Guardián",
       "reason": "Votos 33 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 1551025,
+      "title": "Guardaespaldas por navidad",
+      "reason": "Sin fuente autorizada configurada"
     }
   ]
 }
