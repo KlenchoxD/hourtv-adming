@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-11-20T18:41:16.547Z",
+  "lastRunAt": "2026-11-21T00:14:52.815Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     1263337,
@@ -161,7 +161,7 @@
     {
       "tmdbId": 1562642,
       "title": "El Ángel Guardián",
-      "reason": "Votos 30 por debajo del mínimo (50)"
+      "reason": "Votos 33 por debajo del mínimo (50)"
     }
   ]
 }

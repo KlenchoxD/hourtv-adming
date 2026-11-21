@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-20T18:41:14.085Z",
-  "durationMs": 2465,
+  "generatedAt": "2026-11-21T00:14:49.998Z",
+  "durationMs": 2821,
   "dryRun": false,
   "moviesFound": 31,
   "moviesDiscarded": 25,
@@ -135,7 +135,7 @@
     {
       "tmdbId": 1562642,
       "title": "El Ángel Guardián",
-      "reason": "Votos 30 por debajo del mínimo (50)"
+      "reason": "Votos 33 por debajo del mínimo (50)"
     }
   ]
 }
