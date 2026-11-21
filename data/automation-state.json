@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-11-21T15:21:34.298Z",
+  "lastRunAt": "2026-11-21T20:57:56.576Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     1263337,
@@ -26,10 +26,10 @@
     1368337,
     1813355,
     1003596,
-    687163,
     1507696,
-    1294189,
+    687163,
     656908,
+    1294189,
     1562642,
     1551025,
     1335666,
@@ -127,7 +127,7 @@
     {
       "tmdbId": 1437511,
       "title": "Como robar un banco",
-      "reason": "Votos 48 por debajo del mínimo (50)"
+      "reason": "Votos 49 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1813355,
@@ -140,23 +140,23 @@
       "reason": "Rating 0 por debajo del mínimo (5.5)"
     },
     {
-      "tmdbId": 687163,
-      "title": "Proyecto Salvación",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1507696,
       "title": "Apocalipsis Z: Nuevo mundo",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1294189,
-      "title": "La mangosta",
+      "tmdbId": 687163,
+      "title": "Proyecto Salvación",
       "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 656908,
       "title": "Ramayana: El Nacimiento de una Leyenda",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1294189,
+      "title": "La mangosta",
       "reason": "Sin fuente autorizada configurada"
     },
     {

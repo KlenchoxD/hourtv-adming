@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-21T15:21:31.111Z",
-  "durationMs": 3191,
+  "generatedAt": "2026-11-21T20:57:54.266Z",
+  "durationMs": 2315,
   "dryRun": false,
   "moviesFound": 32,
   "moviesDiscarded": 26,
@@ -100,7 +100,7 @@
     {
       "tmdbId": 1437511,
       "title": "Como robar un banco",
-      "reason": "Votos 48 por debajo del mínimo (50)"
+      "reason": "Votos 49 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1813355,
@@ -113,23 +113,23 @@
       "reason": "Rating 0 por debajo del mínimo (5.5)"
     },
     {
-      "tmdbId": 687163,
-      "title": "Proyecto Salvación",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1507696,
       "title": "Apocalipsis Z: Nuevo mundo",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1294189,
-      "title": "La mangosta",
+      "tmdbId": 687163,
+      "title": "Proyecto Salvación",
       "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 656908,
       "title": "Ramayana: El Nacimiento de una Leyenda",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1294189,
+      "title": "La mangosta",
       "reason": "Sin fuente autorizada configurada"
     },
     {
