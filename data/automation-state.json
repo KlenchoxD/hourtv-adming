@@ -1,14 +1,14 @@
 {
-  "lastRunAt": "2026-11-21T00:14:52.815Z",
+  "lastRunAt": "2026-11-21T07:12:52.510Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     1263337,
     1400837,
     1423191,
     969681,
+    1300968,
     1616687,
     1058424,
-    1300968,
     1244523,
     1381071,
     1567605,
@@ -20,8 +20,8 @@
     1400940,
     299534,
     1437511,
-    891621,
     1288445,
+    891621,
     1368337,
     1726,
     1813355,
@@ -54,6 +54,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1300968,
+      "title": "Los Juegos del Hambre: Amanecer en la cosecha",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1616687,
       "title": "No nos rendimos",
       "reason": "Sin fuente autorizada configurada"
@@ -61,11 +66,6 @@
     {
       "tmdbId": 1058424,
       "title": "Hope",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1300968,
-      "title": "Los Juegos del Hambre: Amanecer en la cosecha",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -119,13 +119,13 @@
       "reason": "Votos 46 por debajo del mínimo (50)"
     },
     {
-      "tmdbId": 891621,
-      "title": "Wild Horse Nine",
+      "tmdbId": 1288445,
+      "title": "El motín",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1288445,
-      "title": "El motín",
+      "tmdbId": 891621,
+      "title": "Wild Horse Nine",
       "reason": "Sin fuente autorizada configurada"
     },
     {

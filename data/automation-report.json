@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-21T00:14:49.998Z",
-  "durationMs": 2821,
+  "generatedAt": "2026-11-21T07:12:50.091Z",
+  "durationMs": 2422,
   "dryRun": false,
   "moviesFound": 31,
   "moviesDiscarded": 25,
@@ -28,6 +28,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1300968,
+      "title": "Los Juegos del Hambre: Amanecer en la cosecha",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1616687,
       "title": "No nos rendimos",
       "reason": "Sin fuente autorizada configurada"
@@ -35,11 +40,6 @@
     {
       "tmdbId": 1058424,
       "title": "Hope",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1300968,
-      "title": "Los Juegos del Hambre: Amanecer en la cosecha",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -93,13 +93,13 @@
       "reason": "Votos 46 por debajo del mínimo (50)"
     },
     {
-      "tmdbId": 891621,
-      "title": "Wild Horse Nine",
+      "tmdbId": 1288445,
+      "title": "El motín",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1288445,
-      "title": "El motín",
+      "tmdbId": 891621,
+      "title": "Wild Horse Nine",
       "reason": "Sin fuente autorizada configurada"
     },
     {
