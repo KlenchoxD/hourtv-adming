@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-22T07:47:45.237Z",
-  "durationMs": 2665,
+  "generatedAt": "2026-11-22T15:48:34.474Z",
+  "durationMs": 3049,
   "dryRun": false,
   "moviesFound": 32,
   "moviesDiscarded": 26,
@@ -18,6 +18,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1300968,
+      "title": "Los Juegos del Hambre: Amanecer en la cosecha",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1400837,
       "title": "La otra madre",
       "reason": "Sin fuente autorizada configurada"
@@ -25,11 +30,6 @@
     {
       "tmdbId": 1423191,
       "title": "Resident Evil",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1300968,
-      "title": "Los Juegos del Hambre: Amanecer en la cosecha",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -53,13 +53,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1567605,
-      "title": "Scrooge y los fantasmas de la Navidad",
+      "tmdbId": 1422041,
+      "title": "La bola negra",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1422041,
-      "title": "La bola negra",
+      "tmdbId": 1567605,
+      "title": "Scrooge y los fantasmas de la Navidad",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -78,8 +78,18 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1101383,
+      "title": "El final de Oak Street",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 791523,
       "title": "Wildwood: El Bosque Salvaje",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1291595,
+      "title": "Insidious: Fuera del más allá",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -88,18 +98,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1101383,
-      "title": "El final de Oak Street",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1400940,
-      "title": "Clayface",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1437511,
-      "title": "Como robar un banco",
+      "tmdbId": 1384216,
+      "title": "La constelación del perro",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -108,14 +108,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1003596,
-      "title": "Vengadores: Doomsday",
-      "reason": "Rating 0 por debajo del mínimo (5.5)"
-    },
-    {
       "tmdbId": 1507696,
       "title": "Apocalipsis Z: Nuevo mundo",
       "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1003596,
+      "title": "Vengadores: Doomsday",
+      "reason": "Rating 0 por debajo del mínimo (5.5)"
     },
     {
       "tmdbId": 687163,
