@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-22T15:48:34.474Z",
-  "durationMs": 3049,
+  "generatedAt": "2026-11-22T21:25:29.913Z",
+  "durationMs": 2800,
   "dryRun": false,
   "moviesFound": 32,
   "moviesDiscarded": 26,
@@ -103,13 +103,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1813355,
-      "title": "La historia de Derry",
+      "tmdbId": 1507696,
+      "title": "Apocalipsis Z: Nuevo mundo",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1507696,
-      "title": "Apocalipsis Z: Nuevo mundo",
+      "tmdbId": 1813355,
+      "title": "La historia de Derry",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -118,8 +118,8 @@
       "reason": "Rating 0 por debajo del mínimo (5.5)"
     },
     {
-      "tmdbId": 687163,
-      "title": "Proyecto Salvación",
+      "tmdbId": 1551025,
+      "title": "Guardaespaldas por navidad",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -128,18 +128,18 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1562642,
+      "title": "El Ángel Guardián",
+      "reason": "Votos 35 por debajo del mínimo (50)"
+    },
+    {
       "tmdbId": 1294189,
       "title": "La mangosta",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1562642,
-      "title": "El Ángel Guardián",
-      "reason": "Votos 34 por debajo del mínimo (50)"
-    },
-    {
-      "tmdbId": 1551025,
-      "title": "Guardaespaldas por navidad",
+      "tmdbId": 687163,
+      "title": "Proyecto Salvación",
       "reason": "Sin fuente autorizada configurada"
     }
   ]
