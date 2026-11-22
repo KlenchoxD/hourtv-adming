@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-11-22T00:58:07.073Z",
+  "lastRunAt": "2026-11-22T07:47:47.897Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     1263337,
@@ -127,7 +127,7 @@
     {
       "tmdbId": 1437511,
       "title": "Como robar un banco",
-      "reason": "Votos 49 por debajo del mínimo (50)"
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1813355,
@@ -162,7 +162,7 @@
     {
       "tmdbId": 1562642,
       "title": "El Ángel Guardián",
-      "reason": "Votos 33 por debajo del mínimo (50)"
+      "reason": "Votos 34 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1551025,
