@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-23T10:02:24.960Z",
-  "durationMs": 3366,
+  "generatedAt": "2026-11-23T22:01:05.798Z",
+  "durationMs": 3210,
   "dryRun": false,
   "moviesFound": 33,
   "moviesDiscarded": 27,
@@ -48,6 +48,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1101412,
+      "title": "Fall 2: Deadpoint",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1381071,
       "title": "Godzilla Minus Zero",
       "reason": "Sin fuente autorizada configurada"
@@ -63,8 +68,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1101412,
-      "title": "Fall 2: Deadpoint",
+      "tmdbId": 1288445,
+      "title": "El motín",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -73,18 +78,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1288445,
-      "title": "El motín",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1101383,
       "title": "El final de Oak Street",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 791523,
-      "title": "Wildwood: El Bosque Salvaje",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -93,23 +88,28 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1153576,
-      "title": "Street Fighter",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1384216,
       "title": "La constelación del perro",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1551025,
-      "title": "Guardaespaldas por navidad",
+      "tmdbId": 1375646,
+      "title": "Zona cero",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1465063,
+      "title": "La isla olvidada",
       "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1507696,
       "title": "Apocalipsis Z: Nuevo mundo",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1551025,
+      "title": "Guardaespaldas por navidad",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -125,12 +125,17 @@
     {
       "tmdbId": 1599184,
       "title": "斗破苍穹剧场版：双帝之战",
-      "reason": "Votos 5 por debajo del mínimo (50)"
+      "reason": "Votos 6 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1562642,
       "title": "El Ángel Guardián",
       "reason": "Votos 35 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 1741617,
+      "title": "Hansel & Gretel's Halloween",
+      "reason": "Votos 7 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 656908,
@@ -140,11 +145,6 @@
     {
       "tmdbId": 1294189,
       "title": "La mangosta",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 687163,
-      "title": "Proyecto Salvación",
       "reason": "Sin fuente autorizada configurada"
     }
   ]
