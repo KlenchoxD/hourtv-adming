@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-11-23T01:52:42.787Z",
+  "lastRunAt": "2026-11-23T10:02:28.322Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     1263337,
@@ -24,12 +24,13 @@
     1384216,
     1726,
     1368337,
+    1551025,
     1507696,
     1813355,
     1003596,
-    1551025,
-    656908,
+    1599184,
     1562642,
+    656908,
     1294189,
     687163,
     1335666,
@@ -130,6 +131,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1551025,
+      "title": "Guardaespaldas por navidad",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1507696,
       "title": "Apocalipsis Z: Nuevo mundo",
       "reason": "Sin fuente autorizada configurada"
@@ -145,19 +151,19 @@
       "reason": "Rating 0 por debajo del mínimo (5.5)"
     },
     {
-      "tmdbId": 1551025,
-      "title": "Guardaespaldas por navidad",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 656908,
-      "title": "Ramayana: El Nacimiento de una Leyenda",
-      "reason": "Sin fuente autorizada configurada"
+      "tmdbId": 1599184,
+      "title": "斗破苍穹剧场版：双帝之战",
+      "reason": "Votos 5 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1562642,
       "title": "El Ángel Guardián",
       "reason": "Votos 35 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 656908,
+      "title": "Ramayana: El Nacimiento de una Leyenda",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1294189,
