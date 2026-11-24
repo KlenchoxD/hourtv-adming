@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-11-24T05:58:13.199Z",
-  "durationMs": 3062,
+  "generatedAt": "2026-11-24T17:02:57.558Z",
+  "durationMs": 3017,
   "dryRun": false,
-  "moviesFound": 33,
-  "moviesDiscarded": 27,
+  "moviesFound": 34,
+  "moviesDiscarded": 28,
   "moviesAdded": 0,
   "moviesEnriched": 0,
   "duplicates": 6,
@@ -13,23 +13,23 @@
   "addedTitles": [],
   "skipped": [
     {
-      "tmdbId": 1263337,
-      "title": "En el corazón de la bestia",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1300968,
       "title": "Los Juegos del Hambre: Amanecer en la cosecha",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1423191,
-      "title": "Resident Evil",
+      "tmdbId": 1263337,
+      "title": "En el corazón de la bestia",
       "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1400837,
       "title": "La otra madre",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1423191,
+      "title": "Resident Evil",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -88,18 +88,18 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1384216,
-      "title": "La constelación del perro",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1375646,
       "title": "Zona cero",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1465063,
-      "title": "La isla olvidada",
+      "tmdbId": 1384216,
+      "title": "La constelación del perro",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 791523,
+      "title": "Wildwood: El Bosque Salvaje",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -108,8 +108,8 @@
       "reason": "Rating 0 por debajo del mínimo (5.5)"
     },
     {
-      "tmdbId": 1507696,
-      "title": "Apocalipsis Z: Nuevo mundo",
+      "tmdbId": 801688,
+      "title": "Kalki 2898-AD",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -118,24 +118,24 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1507696,
+      "title": "Apocalipsis Z: Nuevo mundo",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1813355,
       "title": "La historia de Derry",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1599184,
-      "title": "斗破苍穹剧场版：双帝之战",
-      "reason": "Votos 6 por debajo del mínimo (50)"
+      "tmdbId": 1741617,
+      "title": "Hansel & Gretel's Halloween",
+      "reason": "Votos 8 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1562642,
       "title": "El Ángel Guardián",
       "reason": "Votos 35 por debajo del mínimo (50)"
-    },
-    {
-      "tmdbId": 1741617,
-      "title": "Hansel & Gretel's Halloween",
-      "reason": "Votos 8 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 656908,
@@ -145,6 +145,11 @@
     {
       "tmdbId": 1294189,
       "title": "La mangosta",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1595124,
+      "title": "Hermanastras",
       "reason": "Sin fuente autorizada configurada"
     }
   ]
