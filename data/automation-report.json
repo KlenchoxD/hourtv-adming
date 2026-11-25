@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-25T01:24:39.567Z",
-  "durationMs": 3610,
+  "generatedAt": "2026-11-25T10:01:40.733Z",
+  "durationMs": 3422,
   "dryRun": false,
   "moviesFound": 34,
   "moviesDiscarded": 28,
@@ -23,13 +23,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1400837,
-      "title": "La otra madre",
+      "tmdbId": 1423191,
+      "title": "Resident Evil",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1423191,
-      "title": "Resident Evil",
+      "tmdbId": 1400837,
+      "title": "La otra madre",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -73,13 +73,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1283515,
-      "title": "Verity. La sombra de un engaño",
+      "tmdbId": 1101383,
+      "title": "El final de Oak Street",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1101383,
-      "title": "El final de Oak Street",
+      "tmdbId": 1283515,
+      "title": "Verity. La sombra de un engaño",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -98,8 +98,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 791523,
-      "title": "Wildwood: El Bosque Salvaje",
+      "tmdbId": 1465063,
+      "title": "La isla olvidada",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -133,6 +133,11 @@
       "reason": "Votos 9 por debajo del mínimo (50)"
     },
     {
+      "tmdbId": 1595124,
+      "title": "Hermanastras",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1562642,
       "title": "El Ángel Guardián",
       "reason": "Votos 35 por debajo del mínimo (50)"
@@ -145,11 +150,6 @@
     {
       "tmdbId": 1294189,
       "title": "La mangosta",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1595124,
-      "title": "Hermanastras",
       "reason": "Sin fuente autorizada configurada"
     }
   ]
