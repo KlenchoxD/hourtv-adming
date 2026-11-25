@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-24T17:02:57.558Z",
-  "durationMs": 3017,
+  "generatedAt": "2026-11-25T01:24:39.567Z",
+  "durationMs": 3610,
   "dryRun": false,
   "moviesFound": 34,
   "moviesDiscarded": 28,
@@ -130,7 +130,7 @@
     {
       "tmdbId": 1741617,
       "title": "Hansel & Gretel's Halloween",
-      "reason": "Votos 8 por debajo del mínimo (50)"
+      "reason": "Votos 9 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1562642,
