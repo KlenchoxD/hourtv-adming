@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-26T02:34:04.833Z",
-  "durationMs": 2639,
+  "generatedAt": "2026-11-26T11:28:47.055Z",
+  "durationMs": 3144,
   "dryRun": false,
   "moviesFound": 34,
   "moviesDiscarded": 28,
@@ -38,13 +38,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1616687,
-      "title": "No nos rendimos",
+      "tmdbId": 1244523,
+      "title": "Boiuna: La leyenda del Amazonas",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1244523,
-      "title": "Boiuna: La leyenda del Amazonas",
+      "tmdbId": 1616687,
+      "title": "No nos rendimos",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -138,11 +138,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1562642,
-      "title": "El Ángel Guardián",
-      "reason": "Votos 35 por debajo del mínimo (50)"
-    },
-    {
       "tmdbId": 1496696,
       "title": "Breeder",
       "reason": "Votos 27 por debajo del mínimo (50)"
@@ -150,6 +145,11 @@
     {
       "tmdbId": 656908,
       "title": "Ramayana: El Nacimiento de una Leyenda",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1294189,
+      "title": "La mangosta",
       "reason": "Sin fuente autorizada configurada"
     }
   ]

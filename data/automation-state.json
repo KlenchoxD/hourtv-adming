@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-11-26T02:34:07.467Z",
+  "lastRunAt": "2026-11-26T11:28:50.195Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     1300968,
@@ -8,8 +8,8 @@
     1400837,
     1423191,
     1058424,
-    1616687,
     1244523,
+    1616687,
     1101412,
     1381071,
     1288445,
@@ -31,9 +31,9 @@
     1741617,
     1813355,
     1595124,
-    1562642,
     1496696,
     656908,
+    1294189,
     1335666,
     1083381
   ],
@@ -67,13 +67,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1616687,
-      "title": "No nos rendimos",
+      "tmdbId": 1244523,
+      "title": "Boiuna: La leyenda del Amazonas",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1244523,
-      "title": "Boiuna: La leyenda del Amazonas",
+      "tmdbId": 1616687,
+      "title": "No nos rendimos",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -167,11 +167,6 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1562642,
-      "title": "El Ángel Guardián",
-      "reason": "Votos 35 por debajo del mínimo (50)"
-    },
-    {
       "tmdbId": 1496696,
       "title": "Breeder",
       "reason": "Votos 27 por debajo del mínimo (50)"
@@ -179,6 +174,11 @@
     {
       "tmdbId": 656908,
       "title": "Ramayana: El Nacimiento de una Leyenda",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1294189,
+      "title": "La mangosta",
       "reason": "Sin fuente autorizada configurada"
     }
   ]
