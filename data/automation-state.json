@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-11-26T11:28:50.195Z",
+  "lastRunAt": "2026-11-26T20:25:27.156Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     1300968,
@@ -10,30 +10,30 @@
     1058424,
     1244523,
     1616687,
+    656908,
     1101412,
-    1381071,
     1288445,
-    1422041,
     1281331,
+    1381071,
+    1422041,
     1567605,
+    1538497,
     1283515,
-    1101383,
     1375646,
+    1101383,
     1291595,
-    1384216,
-    299534,
     1726,
     801688,
     1368337,
     1003596,
-    1551025,
     1507696,
+    1551025,
     1741617,
-    1813355,
     1595124,
+    1813355,
+    1765072,
     1496696,
-    656908,
-    1294189,
+    1492566,
     1335666,
     1083381
   ],
@@ -77,13 +77,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1101412,
-      "title": "Fall 2: Deadpoint",
+      "tmdbId": 656908,
+      "title": "Ramayana: El Nacimiento de una Leyenda",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1381071,
-      "title": "Godzilla Minus Zero",
+      "tmdbId": 1101412,
+      "title": "Fall 2: Deadpoint",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -92,13 +92,18 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1422041,
-      "title": "La bola negra",
+      "tmdbId": 1281331,
+      "title": "El Precio de la Red",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1281331,
-      "title": "El Precio de la Red",
+      "tmdbId": 1381071,
+      "title": "Godzilla Minus Zero",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1422041,
+      "title": "La bola negra",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -107,13 +112,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1283515,
-      "title": "Verity. La sombra de un engaño",
-      "reason": "Sin fuente autorizada configurada"
+      "tmdbId": 1538497,
+      "title": "Hechizo: Bienvenidos a Hexe",
+      "reason": "Votos 20 por debajo del mínimo (50)"
     },
     {
-      "tmdbId": 1101383,
-      "title": "El final de Oak Street",
+      "tmdbId": 1283515,
+      "title": "Verity. La sombra de un engaño",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -122,13 +127,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1291595,
-      "title": "Insidious: Fuera del más allá",
+      "tmdbId": 1101383,
+      "title": "El final de Oak Street",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1384216,
-      "title": "La constelación del perro",
+      "tmdbId": 1291595,
+      "title": "Insidious: Fuera del más allá",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -142,13 +147,13 @@
       "reason": "Rating 0 por debajo del mínimo (5.5)"
     },
     {
-      "tmdbId": 1551025,
-      "title": "Guardaespaldas por navidad",
+      "tmdbId": 1507696,
+      "title": "Apocalipsis Z: Nuevo mundo",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1507696,
-      "title": "Apocalipsis Z: Nuevo mundo",
+      "tmdbId": 1551025,
+      "title": "Guardaespaldas por navidad",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -157,29 +162,29 @@
       "reason": "Votos 9 por debajo del mínimo (50)"
     },
     {
-      "tmdbId": 1813355,
-      "title": "La historia de Derry",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1595124,
       "title": "Hermanastras",
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1813355,
+      "title": "La historia de Derry",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1765072,
+      "title": "Puedes verlo todo",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
       "tmdbId": 1496696,
       "title": "Breeder",
-      "reason": "Votos 27 por debajo del mínimo (50)"
+      "reason": "Votos 29 por debajo del mínimo (50)"
     },
     {
-      "tmdbId": 656908,
-      "title": "Ramayana: El Nacimiento de una Leyenda",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1294189,
-      "title": "La mangosta",
-      "reason": "Sin fuente autorizada configurada"
+      "tmdbId": 1492566,
+      "title": "Dracula Eternal",
+      "reason": "Rating 2.2 por debajo del mínimo (5.5)"
     }
   ]
 }
