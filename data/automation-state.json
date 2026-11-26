@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-11-25T19:54:12.915Z",
+  "lastRunAt": "2026-11-26T02:34:07.467Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     1300968,
@@ -43,7 +43,7 @@
   "skipped": [
     {
       "tmdbId": 1300968,
-      "title": "Los Juegos del Hambre: Amanecer en la cosecha",
+      "title": "Los juegos del hambre: Amanecer en la cosecha",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -174,7 +174,7 @@
     {
       "tmdbId": 1496696,
       "title": "Breeder",
-      "reason": "Votos 22 por debajo del mínimo (50)"
+      "reason": "Votos 27 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 656908,
