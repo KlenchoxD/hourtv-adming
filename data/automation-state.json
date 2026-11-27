@@ -1,5 +1,5 @@
 {
-  "lastRunAt": "2026-11-27T03:00:06.396Z",
+  "lastRunAt": "2026-11-27T11:55:43.723Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     1300968,
@@ -13,13 +13,13 @@
     656908,
     1101412,
     1288445,
+    1280115,
     1281331,
     1381071,
     1422041,
     1567605,
     1538497,
     1283515,
-    1375646,
     1101383,
     1291595,
     1726,
@@ -31,8 +31,8 @@
     1741617,
     1595124,
     1813355,
-    1765072,
     1496696,
+    1765072,
     1492566,
     1335666,
     1083381
@@ -92,6 +92,11 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1280115,
+      "title": "El camino del pequeño guerrero",
+      "reason": "Votos 40 por debajo del mínimo (50)"
+    },
+    {
       "tmdbId": 1281331,
       "title": "El Precio de la Red",
       "reason": "Sin fuente autorizada configurada"
@@ -114,16 +119,11 @@
     {
       "tmdbId": 1538497,
       "title": "Hechizo: Bienvenidos a Hexe",
-      "reason": "Votos 20 por debajo del mínimo (50)"
+      "reason": "Votos 25 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1283515,
       "title": "Verity. La sombra de un engaño",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1375646,
-      "title": "Zona cero",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -172,14 +172,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
+      "tmdbId": 1496696,
+      "title": "Breeder",
+      "reason": "Votos 37 por debajo del mínimo (50)"
+    },
+    {
       "tmdbId": 1765072,
       "title": "Puedes verlo todo",
       "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1496696,
-      "title": "Breeder",
-      "reason": "Votos 34 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1492566,
