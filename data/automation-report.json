@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-26T20:25:24.471Z",
-  "durationMs": 2688,
+  "generatedAt": "2026-11-27T03:00:03.768Z",
+  "durationMs": 2632,
   "dryRun": false,
   "moviesFound": 34,
   "moviesDiscarded": 29,
@@ -150,7 +150,7 @@
     {
       "tmdbId": 1496696,
       "title": "Breeder",
-      "reason": "Votos 29 por debajo del mínimo (50)"
+      "reason": "Votos 34 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1492566,
