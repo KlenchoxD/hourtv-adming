@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-11-27T11:55:40.277Z",
-  "durationMs": 3451,
+  "generatedAt": "2026-11-27T20:32:09.239Z",
+  "durationMs": 2779,
   "dryRun": false,
   "moviesFound": 34,
-  "moviesDiscarded": 29,
+  "moviesDiscarded": 28,
   "moviesAdded": 0,
   "moviesEnriched": 0,
-  "duplicates": 5,
+  "duplicates": 6,
   "tmdbErrors": 0,
   "providerErrors": 0,
   "invalidSources": 0,
@@ -48,13 +48,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 656908,
-      "title": "Ramayana: El Nacimiento de una Leyenda",
+      "tmdbId": 1101412,
+      "title": "Fall 2: Deadpoint",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1101412,
-      "title": "Fall 2: Deadpoint",
+      "tmdbId": 656908,
+      "title": "Ramayana: El Nacimiento de una Leyenda",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -65,7 +65,12 @@
     {
       "tmdbId": 1280115,
       "title": "El camino del pequeño guerrero",
-      "reason": "Votos 40 por debajo del mínimo (50)"
+      "reason": "Votos 44 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 1538497,
+      "title": "Hechizo: Bienvenidos a Hexe",
+      "reason": "Votos 25 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1281331,
@@ -78,33 +83,23 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1422041,
-      "title": "La bola negra",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1567605,
       "title": "Scrooge y los fantasmas de la Navidad",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1538497,
-      "title": "Hechizo: Bienvenidos a Hexe",
-      "reason": "Votos 25 por debajo del mínimo (50)"
+      "tmdbId": 1375646,
+      "title": "Zona cero",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1422041,
+      "title": "La bola negra",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1283515,
       "title": "Verity. La sombra de un engaño",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1101383,
-      "title": "El final de Oak Street",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1291595,
-      "title": "Insidious: Fuera del más allá",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -118,6 +113,11 @@
       "reason": "Rating 0 por debajo del mínimo (5.5)"
     },
     {
+      "tmdbId": 1741617,
+      "title": "Hansel & Gretel's Halloween",
+      "reason": "Votos 9 por debajo del mínimo (50)"
+    },
+    {
       "tmdbId": 1507696,
       "title": "Apocalipsis Z: Nuevo mundo",
       "reason": "Sin fuente autorizada configurada"
@@ -128,18 +128,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1741617,
-      "title": "Hansel & Gretel's Halloween",
-      "reason": "Votos 9 por debajo del mínimo (50)"
-    },
-    {
       "tmdbId": 1595124,
       "title": "Hermanastras",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1813355,
-      "title": "La historia de Derry",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -153,9 +143,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1492566,
-      "title": "Dracula Eternal",
-      "reason": "Rating 2.2 por debajo del mínimo (5.5)"
+      "tmdbId": 1813355,
+      "title": "La historia de Derry",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1458300,
+      "title": "Mosquito Bowl: Un partido en plena guerra",
+      "reason": "Votos 44 por debajo del mínimo (50)"
     }
   ]
 }

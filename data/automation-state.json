@@ -1,39 +1,39 @@
 {
-  "lastRunAt": "2026-11-27T11:55:43.723Z",
+  "lastRunAt": "2026-11-27T20:32:12.014Z",
   "lastRunStatus": "ok",
   "tmdbIdsReviewed": [
     1300968,
-    1263337,
     969681,
+    1263337,
     1400837,
     1423191,
     1058424,
     1244523,
     1616687,
-    656908,
     1101412,
+    656908,
     1288445,
     1280115,
+    1538497,
     1281331,
     1381071,
-    1422041,
     1567605,
-    1538497,
+    1375646,
+    1422041,
     1283515,
-    1101383,
-    1291595,
+    299534,
     1726,
     801688,
     1368337,
     1003596,
+    1741617,
     1507696,
     1551025,
-    1741617,
     1595124,
-    1813355,
     1496696,
     1765072,
-    1492566,
+    1813355,
+    1458300,
     1335666,
     1083381
   ],
@@ -77,13 +77,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 656908,
-      "title": "Ramayana: El Nacimiento de una Leyenda",
+      "tmdbId": 1101412,
+      "title": "Fall 2: Deadpoint",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1101412,
-      "title": "Fall 2: Deadpoint",
+      "tmdbId": 656908,
+      "title": "Ramayana: El Nacimiento de una Leyenda",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -94,7 +94,12 @@
     {
       "tmdbId": 1280115,
       "title": "El camino del pequeño guerrero",
-      "reason": "Votos 40 por debajo del mínimo (50)"
+      "reason": "Votos 44 por debajo del mínimo (50)"
+    },
+    {
+      "tmdbId": 1538497,
+      "title": "Hechizo: Bienvenidos a Hexe",
+      "reason": "Votos 25 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1281331,
@@ -107,33 +112,23 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1422041,
-      "title": "La bola negra",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
       "tmdbId": 1567605,
       "title": "Scrooge y los fantasmas de la Navidad",
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1538497,
-      "title": "Hechizo: Bienvenidos a Hexe",
-      "reason": "Votos 25 por debajo del mínimo (50)"
+      "tmdbId": 1375646,
+      "title": "Zona cero",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1422041,
+      "title": "La bola negra",
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1283515,
       "title": "Verity. La sombra de un engaño",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1101383,
-      "title": "El final de Oak Street",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1291595,
-      "title": "Insidious: Fuera del más allá",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -147,6 +142,11 @@
       "reason": "Rating 0 por debajo del mínimo (5.5)"
     },
     {
+      "tmdbId": 1741617,
+      "title": "Hansel & Gretel's Halloween",
+      "reason": "Votos 9 por debajo del mínimo (50)"
+    },
+    {
       "tmdbId": 1507696,
       "title": "Apocalipsis Z: Nuevo mundo",
       "reason": "Sin fuente autorizada configurada"
@@ -157,18 +157,8 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1741617,
-      "title": "Hansel & Gretel's Halloween",
-      "reason": "Votos 9 por debajo del mínimo (50)"
-    },
-    {
       "tmdbId": 1595124,
       "title": "Hermanastras",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1813355,
-      "title": "La historia de Derry",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -182,9 +172,14 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1492566,
-      "title": "Dracula Eternal",
-      "reason": "Rating 2.2 por debajo del mínimo (5.5)"
+      "tmdbId": 1813355,
+      "title": "La historia de Derry",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1458300,
+      "title": "Mosquito Bowl: Un partido en plena guerra",
+      "reason": "Votos 44 por debajo del mínimo (50)"
     }
   ]
 }
