@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-11-28T02:57:03.369Z",
-  "durationMs": 2939,
+  "generatedAt": "2026-11-28T11:19:47.939Z",
+  "durationMs": 3363,
   "dryRun": false,
-  "moviesFound": 35,
+  "moviesFound": 34,
   "moviesDiscarded": 29,
   "moviesAdded": 0,
   "moviesEnriched": 0,
-  "duplicates": 6,
+  "duplicates": 5,
   "tmdbErrors": 0,
   "providerErrors": 0,
   "invalidSources": 0,
@@ -35,6 +35,11 @@
     {
       "tmdbId": 1058424,
       "title": "Hope",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1153576,
+      "title": "Street Fighter",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -70,7 +75,7 @@
     {
       "tmdbId": 1538497,
       "title": "Hechizo: Bienvenidos a Hexe",
-      "reason": "Votos 30 por debajo del mínimo (50)"
+      "reason": "Votos 32 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1281331,
@@ -98,13 +103,13 @@
       "reason": "Sin fuente autorizada configurada"
     },
     {
-      "tmdbId": 1283515,
-      "title": "Verity. La sombra de un engaño",
-      "reason": "Sin fuente autorizada configurada"
+      "tmdbId": 1400336,
+      "title": "Ahora los suegros son ellos",
+      "reason": "Votos 26 por debajo del mínimo (50)"
     },
     {
-      "tmdbId": 1101383,
-      "title": "El final de Oak Street",
+      "tmdbId": 1283515,
+      "title": "Verity. La sombra de un engaño",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -140,7 +145,7 @@
     {
       "tmdbId": 1496696,
       "title": "Breeder",
-      "reason": "Votos 41 por debajo del mínimo (50)"
+      "reason": "Votos 45 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1765072,
@@ -150,11 +155,6 @@
     {
       "tmdbId": 1813355,
       "title": "La historia de Derry",
-      "reason": "Sin fuente autorizada configurada"
-    },
-    {
-      "tmdbId": 1458300,
-      "title": "Mosquito Bowl: Un partido en plena guerra",
       "reason": "Sin fuente autorizada configurada"
     }
   ]
