@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-11-27T20:32:09.239Z",
-  "durationMs": 2779,
+  "generatedAt": "2026-11-28T02:57:03.369Z",
+  "durationMs": 2939,
   "dryRun": false,
-  "moviesFound": 34,
-  "moviesDiscarded": 28,
+  "moviesFound": 35,
+  "moviesDiscarded": 29,
   "moviesAdded": 0,
   "moviesEnriched": 0,
   "duplicates": 6,
@@ -65,12 +65,12 @@
     {
       "tmdbId": 1280115,
       "title": "El camino del pequeño guerrero",
-      "reason": "Votos 44 por debajo del mínimo (50)"
+      "reason": "Sin fuente autorizada configurada"
     },
     {
       "tmdbId": 1538497,
       "title": "Hechizo: Bienvenidos a Hexe",
-      "reason": "Votos 25 por debajo del mínimo (50)"
+      "reason": "Votos 30 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1281331,
@@ -100,6 +100,11 @@
     {
       "tmdbId": 1283515,
       "title": "Verity. La sombra de un engaño",
+      "reason": "Sin fuente autorizada configurada"
+    },
+    {
+      "tmdbId": 1101383,
+      "title": "El final de Oak Street",
       "reason": "Sin fuente autorizada configurada"
     },
     {
@@ -135,7 +140,7 @@
     {
       "tmdbId": 1496696,
       "title": "Breeder",
-      "reason": "Votos 37 por debajo del mínimo (50)"
+      "reason": "Votos 41 por debajo del mínimo (50)"
     },
     {
       "tmdbId": 1765072,
@@ -150,7 +155,7 @@
     {
       "tmdbId": 1458300,
       "title": "Mosquito Bowl: Un partido en plena guerra",
-      "reason": "Votos 44 por debajo del mínimo (50)"
+      "reason": "Sin fuente autorizada configurada"
     }
   ]
 }
